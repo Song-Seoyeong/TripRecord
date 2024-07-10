@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>'여기'가 추천하는 여행장소 :)</title>
 <link type="text/css" href='../../css/recommendPlace.css' rel="stylesheet">
 </head>
 <body>
