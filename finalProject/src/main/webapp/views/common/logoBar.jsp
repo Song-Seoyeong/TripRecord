@@ -11,9 +11,6 @@
 
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- **필수** 글꼴 : 나눔 스퀘어 라운드 **필수** -->
-<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-round.css" rel="stylesheet">
-
 <style>
 	.memberLink{color: black; text-decoration: none;}
 	body{font-family: 'NanumSquareRound'; margin:0px;}

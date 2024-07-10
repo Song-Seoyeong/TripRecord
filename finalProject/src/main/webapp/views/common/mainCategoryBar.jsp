@@ -46,12 +46,12 @@
 			<div class='col'></div>
 		    <div class="col">
 		    	<div class='hoverDiv' style='width: 190px;'>
-		    		<a href='${ contextPath }/views/zooInfo/greeting.jsp' class='mainCateName' id='plannerMatching'>플래너 1:1 매칭</a>
+		    		<a href='#' class='mainCateName' id='plannerMatching'>플래너 1:1 매칭</a>
 		    	</div>
 		    </div>
 		    <div class="col">
 		    	<div style='width: 80px;' class='hoverDiv'>
-		    		<a href='${ contextPath }/views/animalInfo/family.jsp' class='mainCateName' id='schedule'>일정</a>
+		    		<a href='#' class='mainCateName' id='schedule'>일정</a>
 		    	</div>
 		    </div>
 		    <div class="col">
@@ -61,7 +61,7 @@
 			</div>
 		    <div class="col">
 		    	<div class='hoverDiv' style='width: 120px;'>
-					<a href='${ contextPath }/views/cs/FAQ.jsp' class='mainCateName' id='community'>커뮤니티</a>
+					<a href='#' class='mainCateName' id='community'>커뮤니티</a>
 				</div>
 			</div>
 			<div class='col'></div>
