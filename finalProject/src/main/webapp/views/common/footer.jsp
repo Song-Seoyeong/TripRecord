@@ -67,7 +67,7 @@
 </head>
 <body>
     <footer>
-        <img class="logo" src="resources/Logo-white.png" alt="Logo" />
+        <img class="logo" src="${ contextPath }/resources/Logo-white.png" alt="Logo" />
         <div class="column-container">
             <div class="column">
                 <div class="column-title">Info</div>

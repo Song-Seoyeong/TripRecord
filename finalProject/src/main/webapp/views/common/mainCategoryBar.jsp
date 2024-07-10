@@ -56,7 +56,7 @@
 		    </div>
 		    <div class="col">
 		    	<div class='hoverDiv' style='width: 125px;'>
-					<a href='${ contextPath }/views/community/review.jsp' class='mainCateName' id='recommendedPlace'>추천 장소</a>
+					<a href='${ contextPath }/views/place/recommendPlace.jsp' class='mainCateName' id='recommendedPlace'>추천 장소</a>
 				</div>
 			</div>
 		    <div class="col">
