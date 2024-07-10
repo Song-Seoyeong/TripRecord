@@ -36,7 +36,7 @@
 		  </div>
 	      <div class="col-4 text-center">
         	<a href="${ contextPath }">
-				<img alt="logo" src="resources/Logo-skyblue.png" id='headerLogo'>
+				<img alt="logo" src="${ contextPath }/resources/Logo-skyblue.png" id='headerLogo'>
 			</a>
 		  </div>
 		  
