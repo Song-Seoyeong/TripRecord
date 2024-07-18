@@ -8,12 +8,12 @@
 
 <!-- jQuerylib -->
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
 	.memberLink{color: black; text-decoration: none;}
-	body{font-family: 'NanumSquareRound'; margin:0px;}
+	body{font-family: 'NanumBarunGothic'; margin:0px;}
 	#headerLogo{width: 134px; height: 57px;}
 	#loginUserName{font-weight: bold; font-size: 1.3em;}
 </style>

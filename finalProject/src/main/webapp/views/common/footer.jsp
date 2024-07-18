@@ -10,11 +10,12 @@
         width: 100%;
         height: 230px;
         display: flex;
-        justify-content: flex-end; /* Right-align the column-container */
-        align-items: center; /* Center vertically */
+        justify-content: flex-end;
+        align-items: center;
         background: #2F6598;
         position: relative;
-        padding-right: 15px; /* Optional: add some padding to the right */
+        padding-right: 15px;
+        margin-top: 100px;
     }
     .logo {
         width: 145px;
