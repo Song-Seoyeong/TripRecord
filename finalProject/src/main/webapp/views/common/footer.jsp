@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -16,6 +17,7 @@
         position: relative;
         padding-right: 15px;
         margin-top: 100px;
+        bottom: 0;
     }
     .logo {
         width: 145px;
@@ -64,6 +66,14 @@
         line-height: 22.4px;
         word-wrap: break-word;
     }
+    #topButton{
+    	display: none;
+    	position: fixed;
+    	display: flex;
+    	bottom: 50px;
+    	right: 50px;
+    	width: 5%;
+    }
 </style>
 </head>
 <body>
@@ -85,6 +95,27 @@
         </div>
     </footer>
     
+    <a href="#headerLogo">
+    	<img alt="topButton" src="${ contextPath }/resources/topButton.png" id='topButton'>
+    </a>
+    
+    <script>
+    	// 일정 스크롤 내렸을 때만 top 버튼 활성화
+	    window.onscroll = function() {scrollFunction()};
+	
+		function scrollFunction() {
+		    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+		        document.getElementById("topButton").style.display = "block";
+		    } else {
+		        document.getElementById("topButton").style.display = "none";
+		    }
+		}
+		
+		function topFunction() {
+		    document.body.scrollTop = 0; // For Safari
+		    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		}
+</script>
     <!-- 부트스트랩 필수 링크 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

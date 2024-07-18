@@ -97,14 +97,6 @@
 		</div>
 		<!-- 필터 메뉴 -->
 		
-		<!-- <script>
-			document.getElementById('location').addEvenetListner('click', ()=>{
-				
-			})
-			
-		</script> -->
-		
-		
 		<!-- 컨텐츠 카드 -->
 		<div class="section-product-grid">
 			<!-- 검색바 -->
@@ -128,7 +120,7 @@
 			</div>
 			<!-- 검색바 -->
 			<div class="card-grid row">
-				<div class='col'>
+				<div class='col clickCard' id='place1'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -142,7 +134,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col'>
+				<div class='col clickCard' id='place2'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -156,7 +148,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col'>
+				<div class='col clickCard' id='place3'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -170,7 +162,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col'>
+				<div class='col clickCard' id='place4'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -184,7 +176,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col'>
+				<div class='col clickCard'  id='place5'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -198,7 +190,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col'>
+				<div class='col clickCard' id='place6'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -212,7 +204,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col'>
+				<div class='col clickCard' id='place7'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -226,7 +218,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col'>
+				<div class='col clickCard' id='place8'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -240,7 +232,7 @@
 						</div>
 					</div>
 				</div>
-				<div class='col'>
+				<div class='col clickCard' id='place9'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="${ contextPath }/resources/Image.png">
 						<div class="body">
@@ -291,17 +283,30 @@
 		    updateTags("local", 'selected-locations', 'locations-section');
 		    updateTags('keyword', 'selected-keywords', 'keywords-section');
 		    
+		    // 지역 필터 선택시 함수 호출
 			localCheckboxes.forEach(checkbox => {
 			    checkbox.addEventListener('change', () => {
 			        updateTags('local', 'selected-locations', 'locations-section');
 			    });
 			});
-		
+			
+			// 키워드 필터 선택시 함수 호출
 			keywordCheckboxes.forEach(checkbox => {
 			    checkbox.addEventListener('change', () => {
 			        updateTags('keyword', 'selected-keywords', 'keywords-section');
 			    });
 			});
+			
+			// 카드 클릭시 상세 페이지 이동
+			const cards = document.getElementsByClassName('clickCard');
+			
+			for(const card of cards){
+				card.addEventListener('click', function(){
+					const placeId = this.id;
+					//console.log(placeId)
+					location.href = 'placeDetail.jsp'
+				})
+			}
 		})
 		
 		function updateTags(name, targetId, sectionId){
@@ -319,7 +324,7 @@
 		    }
 		    
 		   	const paramName = sectionDiv.id.split("s")[0];
-		   	console.log(paramName);
+		   	//console.log(paramName);
 		    
 		    targetDiv.innerHTML = '';
 			
