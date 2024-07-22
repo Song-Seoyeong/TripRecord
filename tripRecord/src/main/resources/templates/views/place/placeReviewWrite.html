@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>후기 남기기</title>
+<link type='text/css' href='css/placeReviewWrite.css'
+	rel='stylesheet'>
+</head>
+<body>
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+
+	<!-- 타이틀 영역 -->
+	<div class="div"
+		style='background-image: url("image/insadong.jpg");'>
+		<div class="text-content-title">
+			<b class="title">인사동 후기 남기기</b>
+			<div class="subtitle">도심 속에서 낡지만 귀중한 전통의 물건들이 교류되는 소중한 공간</div>
+		</div>
+	</div>
+	<!-- 타이틀 영역 -->
+
+	<!-- form 영역 -->
+	<form action="">
+		<div id='inputDiv'>
+			<div id='reviewTitle'>
+				<h3>리뷰 제목</h3>
+				<input type='text' name='reviewTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
+			</div>
+			<div id='starReview'>
+				<input type='hidden' name='reviewStar' value='0' id='reviewStar' >
+				<div id='starDiv'>
+					<img src="image/noStar.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+				</div>
+			</div>
+			<div id='reviewContent'>
+				<h3>리뷰 내용</h3>
+				<textArea name='reviewContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required></textArea>
+			</div>
+			<div id='imgReview'>
+				<h3>리뷰 사진</h3>
+				<input type='file' accept="image/*" multiple id="files" name='files' class="form-control">
+			</div>
+			<div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+				<button type="button" class="btn btn-primary" id='insert'>등록</button>
+			</div>
+		</div>
+	</form>
+	<!-- form 영역 -->
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			// 제목/내용 미입력시 폼제출 안됌
+			
+			document.getElementById('insert').addEventListener('click', ()=>{
+				const title = document.getElementById('title');
+				const content = document.getElementById('content');
+				const reviewStar = document.getElementsByName('reviewStar')[0];
+				
+				if(title.value == ""){
+					alert("제목을 입력해주세요.");
+					title.focus();
+				}else if(content.value == ""){
+					alert("내용을 입력해주세요.");
+					content.focus();
+				}else if(reviewStar.value == 0){
+					alert("별점을 등록해주세요.");
+				}
+			})
+			
+			// 별점 등록하기
+			function addStarClickListeners() {
+				// 별 이미지
+				const stars = document.querySelectorAll('.star');
+				
+				// hidden 파라미터
+				const paramStar = document.getElementById('reviewStar');
+				//console.log(paramStar.value);
+				
+				stars.forEach((star, index) => {
+					star.addEventListener('click', e =>{
+						paramStar.value = index +1;
+						changeStarDiv(index);
+					})
+				})
+			}
+			
+			// 초기 이벤트 리스너 추가
+            addStarClickListeners();
+			
+			// 별점 이미지변경 함수
+			function changeStarDiv (index){
+				// 별 div
+				const starDiv = document.getElementById('starDiv');
+				starDiv.innerHTML = "";
+				
+				const contextPath = '<%= request.getContextPath() %>';
+				
+				let starHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    if (i <= index) {
+                        starHTML += "<img src='image/star.png' class='star'/>";
+                    } else {
+                        starHTML += "<img src='image/noStar.png' class='star'/>";
+                    }
+                }
+                starDiv.innerHTML = starHTML;
+                
+				// 새로운 별 요소들에 이벤트 리스너 다시 추가
+	            addStarClickListeners();
+			}
+			
+		})
+		
+	</script>
+
+
+
+	<div th:replace="~{ common/footer.html :: footer }"></div>
+</body>
+</html>
