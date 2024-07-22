@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>후기 상세 페이지</title>
+<link type="text/css" href='css/placeReviewDetail.css' rel="stylesheet">
+</head>
+<body>
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+
+	<!-- 타이틀 영역 -->
+	<div class="div"
+		style='background-image: url("image/insadong.jpg");'>
+		<div class="text-content-title">
+			<b class="title">인사동 후기 남기기</b>
+			<div class="subtitle">도심 속에서 낡지만 귀중한 전통의 물건들이 교류되는 소중한 공간</div>
+		</div>
+	</div>
+	<!-- 타이틀 영역 -->
+	
+	<!-- 글 출력 영역 -->
+	<div id='outputDiv'>
+		<div id='reviewTitle'>
+			<input type='hidden' name='replyNo' value=''>
+			<h2>서울 가면 꼭 가보고싶던 인사동~</h2>
+		</div>
+		<div id='starAndProfile' class='container row'>
+			<div id='starReview' class='col-6 text-start'>
+				<input type='hidden' name='reviewStar' value='0' id='reviewStar' >
+				<div id='starDiv'>
+					<img src="image/star.png" class='star'/>
+					<img src="image/star.png" class='star'/>
+					<img src="image/star.png" class='star'/>
+					<img src="image/star.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+				</div>
+			</div>
+			<div id='profile' class='col-6 text-end justify-content-end'>
+				<div id='profileImg'>
+					<img src='image/profile.png'/>
+				</div>
+				<div>nickname</div>
+			</div>
+		</div>
+		<hr>
+		<div id='imgReview'>
+			<div id="placeImg" class="container">
+				<h3>&#x1F4F8;</h3>
+			    <div class="image-gallery" id="image-gallery">
+			        <div class="image-container"><img src="image/insadong1.jpg" alt="Image 1"></div>
+			        <div class="image-container"><img src="image/insadong2.jpg" alt="Image 2"></div>
+			        <div class="image-container"><img src="image/insadong3.jpg" alt="Image 3"></div>
+			        <div class="image-container"><img src="image/insadong4.jpg" alt="Image 4"></div>
+			    </div>
+			</div>
+		</div>
+		<div id='reviewContent'>
+			<p>주말에 서울로 여행을 갔다 오면서 꼭 가보고싶던 인사동을 방문하였습니다. 전통 찻집과 다양한 복합 문화 공간이 많아 반나절정도 재밌게 돌아다닌것 같습니다</p>
+		</div>
+		<hr>
+		<div class='d-grid gap-2 d-md-flex justify-content-md-center' id='listButton'>
+			<button type="button" class="btn btn-primary" id='backButton'>뒤로 가기</button>
+		</div>
+	</div>
+	
+	<!-- 이미지 모달 -->
+	<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-lg modal-dialog-centered">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="imageModalLabel">사진</h5>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	            </div>
+	            <div class="modal-body">
+	                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+	                    <div class="carousel-indicators">
+	                        <!-- Indicators will be inserted here by JavaScript -->
+	                    </div>
+	                    <div class="carousel-inner">
+	                        <!-- Carousel items will be inserted here by JavaScript -->
+	                    </div>
+	                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+	                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	                        <span class="visually-hidden">Previous</span>
+	                    </button>
+	                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+	                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	                        <span class="visually-hidden">Next</span>
+	                    </button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+	        const gallery = document.getElementById('image-gallery');
+	        const images = gallery.querySelectorAll('.image-container img');
+	        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+	        const carouselIndicators = document.querySelector('.carousel-indicators');
+	        const carouselInner = document.querySelector('.carousel-inner');
+	
+	        images.forEach((img, index) => {
+	            const indicator = document.createElement('button');
+	            indicator.type = 'button';
+	            indicator.setAttribute('data-bs-target', '#carouselExampleIndicators');
+	            indicator.setAttribute('data-bs-slide-to', index);
+	            if (index === 0) indicator.classList.add('active');
+	            carouselIndicators.appendChild(indicator);
+	
+	            const carouselItem = document.createElement('div');
+	            carouselItem.classList.add('carousel-item');
+	            if (index === 0) carouselItem.classList.add('active');
+	
+	            const carouselImage = document.createElement('img');
+	            carouselImage.src = img.src;
+	            carouselImage.classList.add('d-block', 'w-100');
+	            carouselItem.appendChild(carouselImage);
+	
+	            carouselInner.appendChild(carouselItem);
+	
+	            img.addEventListener('click', () => {
+	                modal.show();
+	                $('#carouselExampleIndicators').carousel(index);
+	            });
+	        });
+	
+	        if (images.length > 2) {
+	            for (let i = 2; i < images.length; i++) {
+	                images[i].parentElement.style.display = 'none';
+	            }
+	
+	            const moreImages = document.createElement('div');
+	            moreImages.classList.add('more-images');
+	            moreImages.innerText = `더보기`;
+	            gallery.appendChild(moreImages);
+	
+	            moreImages.addEventListener('click', () => {
+	                modal.show();
+	                $('#carouselExampleIndicators').carousel(2);
+	            });
+	        }
+	        
+	        document.getElementById('backButton').addEventListener('click', ()=>{
+	        	location.href='placeDetail.pla'
+	        })
+	        
+	    });
+	</script>
+	
+	
+	<div th:replace="~{ common/footer.html :: footer }"></div>
+</body>
+</html>

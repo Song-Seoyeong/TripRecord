@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>insert title here</title>
+</head>
+<body>
+   <div th:replace="~{ common/logoBar :: logoBar }"></div>
+   <div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+      <div class="contationer row row-cols-1 row-cols-md-6 d-flex justify-content-center">
+         <!-- foreach -->
+         <div class="d-flex">
+            <img class="shadow img-thumbmx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
+         </div>
+         <!-- foreach끝 -->
+         <div>
+            <img class="shadow mx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
+         </div>
+         
+         <div>
+            <img class="shadow mx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
+         </div>
+         <div>
+            <img class="shadow mx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
+         </div>
+         <div>
+            <img class="shadow mx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
+         </div>
+      </div>
+      <hr/>
+      <div class="d-flex justify-content-center my-3">
+         <div class="list-group w-75">
+            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
+            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
+            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
+            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3"  src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
+            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
+         </div>
+      </div>
+      
+   <div th:replace="~{ common/footer.html :: footer }"></div>
+</body>
+</html>
