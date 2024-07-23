@@ -8,7 +8,7 @@
 	font-weight: 700;
 }
 
-#enrollDiv {
+#searchPwdDiv {
 	width: 60%;
 	min-width: 1000px;
 	margin: 100px auto;
@@ -21,43 +21,37 @@ input{
 	height: 35px;
 	padding-left: 10px;
 }
+.inputDiv{
+	margin: 30px;
+}
+#searchPwd:hover {
+	cursor: pointer;
+}
+
+#searchId:hover {
+	cursor: pointer;
+}
+
 .loginText {
 	font-size: 25px;
 	font-weight: 600;
 }
-#memEmail{
-	width: 30%;
-}
-.inputDiv{
-	margin: 30px;
-}
-#atSign{
-	width: 10%;
-	background: #B7B7B7;
-	border-radius: 10px;
-	display: inline-block;
-	height: 80%;
-	padding: 0;
-}
-#enrollPlaner{
-	color: black;
-	text-decoration: none;
-	margin-left: 10px;
-	margin-top: 20px;
-}
-#enrollButton {
+#searchButton {
 	background: none;
 	border: 2px solid #96CAF0;
 	color: #96CAF0;
-	width: 100px;
-	font-weight: bold;
-	margin: 10px 0;
-	margin-top: 30px;
+	width: 120px;
+	font-weight: blod;
+	margin: 30px 0;
 }
 
-#enrollButton:hover {
+#searchButton:hover {
 	background: #96CAF0;
 	border: 2px solid #96CAF0;
 	color: #fff;
 	font-weight: 600;
+}
+.aTag{
+	color: black;
+	text-decoration: none;
 }

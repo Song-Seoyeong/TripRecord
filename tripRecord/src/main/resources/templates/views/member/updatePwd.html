@@ -2,11 +2,56 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>새 비밀번호 변경</title>
+<link type="text/css" href='css/member/updatePwd.css' rel="stylesheet">
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	<!-- 완전 큰 로그인 글자 -->
+	<div id="bigTitle" class='text-center'>비밀번호 변경</div>
+
+	<!-- 아이디찾기 폼 -->
+	<form action="" >
+		<div id='updatePwdDiv'>
+			<div class="pwdInputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">새 비밀번호</label>
+				</div>
+				<div  class='col-4'>
+					<input type="password" name='memPwd' placeholder="비밀번호를 입력하세요">
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="row pwdInputDiv">
+				<div class='col-5'></div>
+				<div class='col-7'>
+					<div id='pwdText'>영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요</div>
+				</div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">새 비밀번호 확인</label>
+				</div>
+				<div  class='col-4'>
+					<input type="password" id='pwdconfirm' placeholder="비밀번호를 한번 더 입력하세요">
+					<div id='pwdConfirmText'>비밀번호가 일치합니다</div>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
+				<button type="button" class="btn btn-primary" id='searchButton'>아이디 찾기</button>
+			</div>
+	
+			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
+				<a class='aTag' id='searchId' href="enrollView.me">회원가입</a> | <a class='aTag' id='searchId' href="loginView.me">로그인</a> | <a class='aTag' id='searchPwd' href="searchPwdView.me">비밀번호 찾기</a>
+			</div>
+		</div>
+	</form>
+	<!-- 아이디찾기 폼 -->
 	
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 </body>

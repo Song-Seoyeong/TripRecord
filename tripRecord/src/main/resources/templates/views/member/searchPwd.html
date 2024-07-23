@@ -2,11 +2,61 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link type="text/css" href='css/member/searchPwd.css' rel="stylesheet">
+<title>비밀번호 찾기</title>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	<!-- 완전 큰 로그인 글자 -->
+	<div id="bigTitle" class='text-center'>비밀번호 찾기</div>
+
+	<!-- 비밀번호찾기 폼 -->
+	<form action="" >
+		<div id='searchPwdDiv'>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">아이디</label>
+				</div>
+				<div  class='col-4'>
+					<input type="text" name='memId' placeholder="아이디를 입력하세요">
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">이름</label>
+				</div>
+				<div  class='col-4'>
+					<input type="text" name='memName' placeholder="이름를 입력하세요">
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">전화번호</label>
+				</div>
+				<div  class='col-4'>
+					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요">
+					<div id='phoneText'>(-)를 제외하고 입력해주세요</div>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
+				<button type="button" class="btn btn-primary" id='searchButton' onclick='location.href="updatePwdView.me"'>비밀번호 찾기</button>
+			</div>
+	
+			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
+				<a class='aTag' id='searchId' href="enrollView.me">회원가입</a> | <a class='aTag' id='searchId' href="loginView.me">로그인</a> | <a class='aTag' id='searchPwd' href="searchPwdView.me">비밀번호 찾기</a>
+			</div>
+		</div>
+	</form>
+	<!-- 비밀번호찾기 폼 -->
+	
 	
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 </body>
