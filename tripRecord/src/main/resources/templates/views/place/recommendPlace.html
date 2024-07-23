@@ -38,19 +38,19 @@
 				<div class="checkbox-group collapse" id='localDiv'>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='seoul' value='seoul' name='local'>
+							<input type='checkbox' id='seoul' value='1' name='local'>
 							<label for='seoul'>서울</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='busan' value='busan'  name='local'>
+							<input type='checkbox' id='busan' value='6'  name='local'>
 							<label for='busan'>부산</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='gangwondo' value='gangwondo'  name='local'>
+							<input type='checkbox' id='gangwondo' value='32'  name='local'>
 							<label for='gangwondo'>강원도</label>
 						</div>
 					</div>
@@ -113,8 +113,8 @@
            	 	</div>
 			</div>
 			<!-- 검색바 -->
-			<div class="card-grid row">
-				<div class='col clickCard' id='place1'>
+			<div class="card-grid row" id='contentCardList'>
+				<!-- <div class='col clickCard' id='place1'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="image/insadong.jpg">
 						<div class="body">
@@ -126,111 +126,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class='col clickCard' id='place2'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place3'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place4'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard'  id='place5'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place6'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place7'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place8'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place9'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				</div> -->
 			</div>
 			<div class='row' style='margin-bottom: 100px;'>
 				<div class='col-4'></div>
@@ -347,6 +243,67 @@
 		        tagDiv.appendChild(closeButton);
 		        targetDiv.appendChild(tagDiv);
 		    });
+			
+		    const contentCardList = document.getElementById('contentCardList');
+		    $.ajax({
+		    	url:"http://apis.data.go.kr/B551011/KorService1/areaBasedList1?numOfRows=9&pageNo=1&MobileOS=ETC&MobileApp=AppTest&ServiceKey=BLrXOBbtbM7aAzBv8Cw6JpcKbQICvl4WGca4%2F4EXvcBWkVtqqtW4UgPuJgEBE4BkaIQcO0OjCqWmVo5gO8KGVQ%3D%3D&listYN=Y&arrange=A&contentTypeId=&areaCode=&sigunguCode=&cat1=&cat2=&cat3=&_type=json",
+		   		type: "GET",
+		   		success: function(data){
+		   			console.log(data)
+		   			console.log(data.response.body.items.item)
+		   			console.log(data.response.body.items.item[7].firstimage)
+		   			contentCardList.innerHTML = "";
+		   			
+		   			for(const i of data.response.body.items.item){
+			   			const clickCardDiv = document.createElement('div');
+			   			clickCardDiv.className = 'col clickCard';
+			   			const infoCardDiv = document.createElement('div');
+			   			infoCardDiv.className = 'product-info-card';
+			   			const img = document.createElement('img');
+			   			img.className = 'image-icon';
+			   			if(i.fistimage.isEmpty){
+			   				img.src = 'image/Image.png'
+			   			}else{
+				   			img.src = i.firstimage;
+			   			}
+			   			const body = document.createElement('div');
+			   			body.className = 'body';
+			   			const text6 = document.createElement('div');
+			   			text6.className = 'text6';
+			   			const text7 = document.createElement('div');
+			   			text7.className = 'text7';
+			   			text7.innerText = i.title;
+			   			text6.append(text7);
+			   			const contentBox = document.createElement('div');
+			   			contentBox.className = 'placeContent';
+			   			const content = document.createElement('div');
+			   			content.className = 'text-strong1';
+			   			content.innerText = i.addr1;
+			   			contentBox.append(content);
+			   			body.append(text6);
+			   			body.append(contentBox);
+			   			infoCardDiv.append(img);
+			   			infoCardDiv.append(body);
+			   			clickCardDiv.append(infoCardDiv);
+			   			contentCardList.append(clickCardDiv);
+		   			}
+		   		/* <div class='col clickCard' id='place7'>
+					<div class="product-info-card">
+						<img class="image-icon" alt="" src="image/Image.png">
+						<div class="body">
+							<div class="text6">
+								<div class="text7">Text</div>
+							</div>
+							<div class="placeContent">
+								<div class="text-strong1">content</div>
+							</div>
+						</div>
+					</div>
+				</div> */
+		   		},
+		   		error: data => console.log(data)
+		    	
+		    })
 		}
 	</script>
 </body>
