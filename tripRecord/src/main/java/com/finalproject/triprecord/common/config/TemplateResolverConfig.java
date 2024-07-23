@@ -23,4 +23,19 @@ public class TemplateResolverConfig {
 		
 		return dotPla;
 	}
+	
+	@Bean
+	public ClassLoaderTemplateResolver dotMeResolver() {
+		// prefix suffix 역할을 하는 클래스 메소드
+		
+		ClassLoaderTemplateResolver dotMe = new ClassLoaderTemplateResolver();
+		dotMe.setPrefix("templates/views/member/");
+		dotMe.setSuffix(".html");
+		dotMe.setTemplateMode(TemplateMode.HTML);
+		dotMe.setCharacterEncoding("UTF-8");
+		dotMe.setCacheable(false);
+		dotMe.setCheckExistence(true);
+		
+		return dotMe;
+	}
 }
