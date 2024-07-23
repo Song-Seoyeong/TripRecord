@@ -2,11 +2,149 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>플래너 회원가입</title>
+<link type="text/css" href='css/member/enrollPlanner.css' rel="stylesheet">
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	<!-- 완전 큰 로그인 글자 -->
+	<div id="bigTitle" class='text-center'>플래너 회원가입</div>
+	
+	<!-- 회원가입 폼 -->
+	<form action="" >
+		<div id='enrollDiv'>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">아이디</label>
+				</div>
+				<div  class='col-4'>
+					<input type="text" name='memId' placeholder="아이디를 입력하세요">
+					<div id='idText'>존재하는 아이디입니다</div>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="row pwdInputDiv">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">비밀번호</label>
+				</div>
+				<div  class='col-4'>
+					<input type="password" name='memPwd' placeholder="비밀번호를 입력하세요">
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="row pwdInputDiv">
+				<div class='col-5'></div>
+				<div class='col-7'>
+					<div id='pwdText'>영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요</div>
+				</div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">비밀번호 확인</label>
+				</div>
+				<div  class='col-4'>
+					<input type="password" id='pwdconfirm' placeholder="비밀번호를 한번 더 입력하세요">
+					<div id='pwdConfirmText'>비밀번호가 일치합니다</div>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">이름</label>
+				</div>
+				<div  class='col-4'>
+					<input type="text" name='memName' placeholder="이름를 입력하세요">
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">닉네임</label>
+				</div>
+				<div  class='col-4'>
+					<input type="text" name='memNinkName' placeholder="닉네임를 입력하세요">
+					<div id='nickNameText'>중복된 닉네임입니다</div>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">전화번호</label>
+				</div>
+				<div  class='col-4'>
+					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요">
+					<div id='phoneText'>(-)를 제외하고 입력해주세요</div>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">이메일</label>
+				</div>
+				<div  class='col-4 d-flex align-items-center'>
+					<input type="text" name='memEmail' id='memEmail' placeholder="이메일">
+					<span id='atSign' class='text-center align-text-center'>@</span>
+					<select name='emailDomain' id='emailDomain' class="form-select">
+						<option selected>naver.com</option>
+						<option>gmail.com</option>
+						<option>nate.com</option>
+						<option>hanmail.net</option>
+					</select>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">활동지역</label>
+				</div>
+				<div  class='col-4'>
+					<select name='local' id='local' class="form-select">
+						<option selected>==================</option>
+						<option>서울</option>
+						<option>부산</option>
+						<option>강원도</option>
+					</select>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">프로필 소개글</label>
+				</div>
+				<div  class='col-4'>
+					<textArea class='textArea' placeholder='플래너 리스트에 보여질 간단한 소개글을 작성해주세요'></textArea>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class='col-3'></div>
+				<div class='col-2'>
+					<label class="loginText">신청글</label>
+				</div>
+				<div  class='col-4'>
+					<textArea class='textArea' placeholder='관리자에게 보여질(?) 신청글을 작성해주세요'></textArea>
+				</div>
+				<div class='col-3'></div>
+			</div>
+			<div class='d-grid gap-2 d-md-flex justify-content-md-center align-items-center'>
+				<button type="button" class="btn btn-primary" id='enrollButton'>회원가입</button>
+				<a id='enrollPlaner' href="enrollView.me">플래너 회원가입</a>
+			</div>
+	
+		</div>
+	</form>
+	<!-- 회원가입 폼 -->
 	
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 </body>

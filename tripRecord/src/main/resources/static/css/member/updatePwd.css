@@ -1,0 +1,65 @@
+@charset "UTF-8";
+#bigTitle {
+	width: 50%;
+	min-width: 900px;
+	margin: 60px auto;
+	font-size: 40px;
+	color: #317DB5;
+	font-weight: 700;
+}
+
+#updatePwdDiv {
+	width: 70%;
+	min-width: 1000px;
+	margin: 100px auto;
+	margin-bottom: 170px;
+}
+input{
+	border: 1px solid #B7B7B7;
+	border-radius: 10px;
+	width: 100%;
+	height: 35px;
+	padding-left: 10px;
+}
+.inputDiv{
+	margin: 30px;
+}
+#searchPwd:hover {
+	cursor: pointer;
+}
+.pwdInputDiv{
+	margin:5px;
+}
+#searchId:hover {
+	cursor: pointer;
+}
+
+.loginText {
+	font-size: 25px;
+	font-weight: 600;
+}
+#searchButton {
+	background: none;
+	border: 2px solid #96CAF0;
+	color: #96CAF0;
+	width: 120px;
+	font-weight: blod;
+	margin: 30px 0;
+}
+
+#searchButton:hover {
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
+}
+.aTag{
+	color: black;
+	text-decoration: none;
+}
+#pwdText{
+	color: #4E4848;
+}
+#pwdConfirmText{
+	color: #16890C;
+}
