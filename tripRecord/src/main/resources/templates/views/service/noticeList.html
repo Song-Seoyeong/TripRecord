@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="logoBar">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+#offcanvasWithBothOptions{
+					width:100%; height:500px;
+					position:relative;
+					left:-7px; top: 20px;
+					border:5px solid #2F6598;
+}
+</style>
+</head>
+<body>
+
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	<div style="width: 200px; height: 51px; left: 33px; top: 336px; position: fixed; border: 7px #96CAF0 solid">
+		<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Side</button>
+
+		<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+		  <div class="offcanvas-header">
+		    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">고객센터</h5>
+		    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		  </div>
+		  <div class="offcanvas-body">
+		    <p>- 문의사항</p>
+		    <p>- 공지사항</p>
+		  </div>
+		</div>
+  
+  </div>
+</body>
+</html>
