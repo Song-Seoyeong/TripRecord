@@ -11,6 +11,8 @@ public class PlaceController {
 		return "recommendPlace";
 	}
 	
+	
+	
 	@GetMapping("placeDetail.pla")
 	public String placeDetail() {
 		return "placeDetail";

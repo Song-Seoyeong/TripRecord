@@ -38,19 +38,19 @@
 				<div class="checkbox-group collapse" id='localDiv'>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='seoul' value='seoul' name='local'>
+							<input type='checkbox' id='seoul' value='1' name='local'>
 							<label for='seoul'>서울</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='busan' value='busan'  name='local'>
+							<input type='checkbox' id='busan' value='6'  name='local'>
 							<label for='busan'>부산</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='gangwondo' value='gangwondo'  name='local'>
+							<input type='checkbox' id='gangwondo' value='32'  name='local'>
 							<label for='gangwondo'>강원도</label>
 						</div>
 					</div>
@@ -63,26 +63,32 @@
 				<div class="checkbox-group collapse" id='filter'>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='ticket' value='ticket'  name='keyword'>
-							<label for='ticket'>티켓</label>
+							<input type='checkbox' id='ticket' value='14'  name='keyword'>
+							<label for='ticket'>문화시설</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='lodging' value='lodging' name='keyword'>
+							<input type='checkbox' id='lodging' value='32' name='keyword'>
 							<label for='lodging'>숙소</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='place' value='place' name='keyword'>
+							<input type='checkbox' id='place' value='12' name='keyword'>
 							<label for='place'>관광지</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='rastaurant' value='rastaurant' name='keyword'>
-							<label for='rastaurant'>맛집</label>
+							<input type='checkbox' id='rastaurant' value='15' name='keyword'>
+							<label for='rastaurant'>행사/공연/축제</label>
+						</div>
+					</div>
+					<div class="checkbox-field">
+						<div class="checkbox-and-label">
+							<input type='checkbox' id='rastaurant' value='28' name='keyword'>
+							<label for='rastaurant'>레포츠</label>
 						</div>
 					</div>
 				</div>
@@ -113,8 +119,8 @@
            	 	</div>
 			</div>
 			<!-- 검색바 -->
-			<div class="card-grid row">
-				<div class='col clickCard' id='place1'>
+			<div class="card-grid row" id='contentCardList'>
+				<!-- <div class='col clickCard' id='place1'>
 					<div class="product-info-card">
 						<img class="image-icon" alt="" src="image/insadong.jpg">
 						<div class="body">
@@ -126,111 +132,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class='col clickCard' id='place2'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place3'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place4'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard'  id='place5'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place6'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place7'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place8'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='col clickCard' id='place9'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/Image.png">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">Text</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">content</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				</div> -->
 			</div>
 			<div class='row' style='margin-bottom: 100px;'>
 				<div class='col-4'></div>
@@ -239,6 +141,7 @@
 				    <li class="page-item">
 				      <a class="page-link" href="#" aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
+				        <input type='hidden' value='1' name="page">
 				      </a>
 				    </li>
 				    <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -259,7 +162,15 @@
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 	
 	<script>
+		// 장소 리스트 담을 Div
+		const contentCardList = document.getElementById('contentCardList');
+		
+		placeApi();
+		clickCard();
+		
 		document.addEventListener('DOMContentLoaded', ()=> {
+			
+			
 			const localCheckboxes = document.querySelectorAll('input[name="local"]');
 			const keywordCheckboxes = document.querySelectorAll('input[name="keyword"]');
 		
@@ -281,16 +192,7 @@
 			    });
 			});
 			
-			// 카드 클릭시 상세 페이지 이동
-			const cards = document.getElementsByClassName('clickCard');
 			
-			for(const card of cards){
-				card.addEventListener('click', function(){
-					const placeId = this.id;
-					//console.log(placeId)
-					location.href = 'placeDetail.pla'
-				})
-			}
 		})
 		
 		function updateTags(name, targetId, sectionId){
@@ -347,6 +249,81 @@
 		        tagDiv.appendChild(closeButton);
 		        targetDiv.appendChild(tagDiv);
 		    });
+		    
+		};
+		
+		function placeApi(){
+		    $.ajax({
+		    	url:"recoPlaceList.pla",
+		   		type: "GET",
+		   		/* data: {"page": page}, */
+		   		success: function(data){
+		   			console.log(data)
+		   			contentCardList.innerHTML = "";
+		   			
+		   			for(const i of data.response.body.items.item){
+			   			const clickCardDiv = document.createElement('div');
+			   			clickCardDiv.className = 'col clickCard';
+			   			const infoCardDiv = document.createElement('div');
+			   			infoCardDiv.className = 'product-info-card';
+			   			const img = document.createElement('img');
+			   			img.className = 'image-icon';
+			   			if(i.firstimage === ""){
+			   				img.src = 'image/noimage.png'
+			   			}else{
+				   			img.src = i.firstimage;
+			   			}
+			   			const body = document.createElement('div');
+			   			body.className = 'body';
+			   			const text6 = document.createElement('div');
+			   			text6.className = 'text6';
+			   			const text7 = document.createElement('div');
+			   			text7.className = 'text7';
+			   			text7.innerText = i.title;
+			   			text6.append(text7);
+			   			const contentBox = document.createElement('div');
+			   			contentBox.className = 'placeContent';
+			   			const content = document.createElement('div');
+			   			content.className = 'text-strong1';
+			   			content.innerText = i.addr1;
+			   			contentBox.append(content);
+			   			body.append(text6);
+			   			body.append(contentBox);
+			   			infoCardDiv.append(img);
+			   			infoCardDiv.append(body);
+			   			clickCardDiv.append(infoCardDiv);
+			   			contentCardList.append(clickCardDiv);
+		   			}
+		   		/* <div class='col clickCard' id='place7'>
+					<div class="product-info-card">
+						<img class="image-icon" alt="" src="image/Image.png">
+						<div class="body">
+							<div class="text6">
+								<div class="text7">Text</div>
+							</div>
+							<div class="placeContent">
+								<div class="text-strong1">content</div>
+							</div>
+						</div>
+					</div>
+				</div> */
+		   		},
+		   		error: data => console.log(data)
+		    	
+		    })
+		}
+		
+		function clickCard(){
+			// 카드 클릭시 상세 페이지 이동
+			const cards = document.getElementsByClassName('clickCard');
+			
+			for(const card of cards){
+				card.addEventListener('click', function(){
+					const placeId = this.id;
+					//console.log(placeId)
+					location.href = 'placeDetail.pla'
+				})
+			}
 		}
 	</script>
 </body>
