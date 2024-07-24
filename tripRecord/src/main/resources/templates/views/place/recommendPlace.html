@@ -63,26 +63,32 @@
 				<div class="checkbox-group collapse" id='filter'>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='ticket' value='ticket'  name='keyword'>
-							<label for='ticket'>티켓</label>
+							<input type='checkbox' id='ticket' value='14'  name='keyword'>
+							<label for='ticket'>문화시설</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='lodging' value='lodging' name='keyword'>
+							<input type='checkbox' id='lodging' value='32' name='keyword'>
 							<label for='lodging'>숙소</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='place' value='place' name='keyword'>
+							<input type='checkbox' id='place' value='12' name='keyword'>
 							<label for='place'>관광지</label>
 						</div>
 					</div>
 					<div class="checkbox-field">
 						<div class="checkbox-and-label">
-							<input type='checkbox' id='rastaurant' value='rastaurant' name='keyword'>
-							<label for='rastaurant'>맛집</label>
+							<input type='checkbox' id='rastaurant' value='15' name='keyword'>
+							<label for='rastaurant'>행사/공연/축제</label>
+						</div>
+					</div>
+					<div class="checkbox-field">
+						<div class="checkbox-and-label">
+							<input type='checkbox' id='rastaurant' value='28' name='keyword'>
+							<label for='rastaurant'>레포츠</label>
 						</div>
 					</div>
 				</div>
@@ -135,6 +141,7 @@
 				    <li class="page-item">
 				      <a class="page-link" href="#" aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
+				        <input type='hidden' value='1' name="page">
 				      </a>
 				    </li>
 				    <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -155,7 +162,15 @@
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 	
 	<script>
+		// 장소 리스트 담을 Div
+		const contentCardList = document.getElementById('contentCardList');
+		
+		placeApi();
+		clickCard();
+		
 		document.addEventListener('DOMContentLoaded', ()=> {
+			
+			
 			const localCheckboxes = document.querySelectorAll('input[name="local"]');
 			const keywordCheckboxes = document.querySelectorAll('input[name="keyword"]');
 		
@@ -177,16 +192,7 @@
 			    });
 			});
 			
-			// 카드 클릭시 상세 페이지 이동
-			const cards = document.getElementsByClassName('clickCard');
 			
-			for(const card of cards){
-				card.addEventListener('click', function(){
-					const placeId = this.id;
-					//console.log(placeId)
-					location.href = 'placeDetail.pla'
-				})
-			}
 		})
 		
 		function updateTags(name, targetId, sectionId){
@@ -243,15 +249,16 @@
 		        tagDiv.appendChild(closeButton);
 		        targetDiv.appendChild(tagDiv);
 		    });
-			
-		    const contentCardList = document.getElementById('contentCardList');
+		    
+		};
+		
+		function placeApi(){
 		    $.ajax({
-		    	url:"http://apis.data.go.kr/B551011/KorService1/areaBasedList1?numOfRows=9&pageNo=1&MobileOS=ETC&MobileApp=AppTest&ServiceKey=BLrXOBbtbM7aAzBv8Cw6JpcKbQICvl4WGca4%2F4EXvcBWkVtqqtW4UgPuJgEBE4BkaIQcO0OjCqWmVo5gO8KGVQ%3D%3D&listYN=Y&arrange=A&contentTypeId=&areaCode=&sigunguCode=&cat1=&cat2=&cat3=&_type=json",
+		    	url:"recoPlaceList.pla",
 		   		type: "GET",
+		   		/* data: {"page": page}, */
 		   		success: function(data){
 		   			console.log(data)
-		   			console.log(data.response.body.items.item)
-		   			console.log(data.response.body.items.item[7].firstimage)
 		   			contentCardList.innerHTML = "";
 		   			
 		   			for(const i of data.response.body.items.item){
@@ -261,8 +268,8 @@
 			   			infoCardDiv.className = 'product-info-card';
 			   			const img = document.createElement('img');
 			   			img.className = 'image-icon';
-			   			if(i.fistimage.isEmpty){
-			   				img.src = 'image/Image.png'
+			   			if(i.firstimage === ""){
+			   				img.src = 'image/noimage.png'
 			   			}else{
 				   			img.src = i.firstimage;
 			   			}
@@ -304,6 +311,19 @@
 		   		error: data => console.log(data)
 		    	
 		    })
+		}
+		
+		function clickCard(){
+			// 카드 클릭시 상세 페이지 이동
+			const cards = document.getElementsByClassName('clickCard');
+			
+			for(const card of cards){
+				card.addEventListener('click', function(){
+					const placeId = this.id;
+					//console.log(placeId)
+					location.href = 'placeDetail.pla'
+				})
+			}
 		}
 	</script>
 </body>
