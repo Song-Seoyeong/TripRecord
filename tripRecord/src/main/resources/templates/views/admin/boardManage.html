@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>게시판 관리</title>
+<link href="css/admin/boardManage.css" rel="stylesheet" type="text/css">
+<link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
+</head>
+<body style="min-width: 1820px;">
+	<div th:replace="~{common/adminHeader :: header}"></div>
+	<div th:replace="~{common/adminBox :: box}"></div>
+	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
+		<div class="board-list">
+			<ul class="board-list-ul">
+				<li><a href="dashBoard.ad">대시보드</a></li>
+				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="questManage.ad">문의사항 관리</a></li>
+				<li><a href="gradeManage.ad">등급 관리</a></li>
+				<li><a href="noticeManage.ad">공지사항 관리</a></li>
+				<li><a href="pointManage.ad">포인트 관리</a></li>
+				<li  class="select-board"><a>게시판 관리</a></li>
+				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+			</ul>
+			<div class="out-adminPage">
+				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+  <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
+  <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
+</svg>&nbsp; 관리자 페이지 나가기</a>
+			</div>
+		</div>
+		<div class="board-main">
+			<div class="title-board display-4">
+				<h1 style="display: inline; font-size: 2.5rem !important;">게시판 관리</h1>
+			</div>
+			<div class="container-all display-flex">
+				<div class="sum-board">
+					<div class="title-div">
+						<span class="title-text">게시글 수</span>
+					</div>
+					<div class="board-table rounded-2">
+						<table class="table-user table">
+						  	<tbody>
+						  		<tr>
+						      		<td class="td-user" style="width: 40%;">전체 게시글</td>
+						      		<td> 408,307 </td>
+						  		</tr>
+						    	<tr class="tr-user">
+						      		<td class="td-user">동행 게시글</td>
+						      		<td> 107,324 </td>
+						  		</tr>
+						  		<tr class="tr-user">
+						      		<td class="td-user">양도 게시글</td>
+						      		<td> 258,031 </td>
+						  		</tr>
+						  		<tr class="tr-user">
+						      		<td class="td-user">후기 게시글</td>
+						      		<td> 43,011 </td>
+						  		</tr>
+						  	</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="list-board">
+					<div class="title-div">
+						<span class="title-text">게시판 목록</span>
+					</div>
+					<div class="content-list">
+						<div class="search-div">
+							<div class="search-div-keyword display-inline-block">
+								<div class="input-group mb-3">
+								  	<input type="text" class="form-control box-shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
+								</div>
+							</div>
+						</div>
+						<div class="board-list-table rounded-2 list-table">
+							<table class="table-user table">
+								<thead>
+									<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+										<th style="width: 8%;">번호</th>
+										<th style="width: 40%;">제목</th>
+										<th style="width: 10%;">작성자</th>
+										<th style="width: 15%;">날짜</th>
+										<th style="width: 8%;">삭제</th>
+									</tr>
+								</thead>
+							  	<tbody>
+							  		<tr class="tr-user">
+							      		<td>3</td>
+							      		<td><span class="overflow-ell">커뮤니티 게시판 작성 글 목록 입니다.</span></td>
+							      		<td>나나나</td>
+										<td>2024.07.24</td>
+										<td><span class="button-border box-size">삭제</span></td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>2</td>
+							      		<td><span class="overflow-ell">커뮤니티 게시판 작성</span></td>
+							      		<td>다다다</td>
+										<td>2024.07.21</td>
+										<td><span class="button-border box-size">삭제</span></td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td><span class="overflow-ell">커뮤니티</span></td>
+							      		<td>가가가</td>
+										<td>2024.07.18</td>
+										<td><span class="button-border box-size">삭제</span></td>
+							  		</tr>
+							  	</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

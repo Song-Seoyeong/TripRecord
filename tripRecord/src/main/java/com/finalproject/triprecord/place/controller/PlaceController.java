@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalproject.triprecord.common.model.vo.Local;
+import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.place.model.exception.PlaceException;
 import com.finalproject.triprecord.place.model.service.PlaceService;
 import com.finalproject.triprecord.place.model.vo.Place;
@@ -47,8 +48,10 @@ public class PlaceController {
 		
 		// db 저장 여부에 따라 다름
 		Place p = new Place();
+		ArrayList<Review> list = new ArrayList<Review>();
 		if(checkPlace > 0){
 			p = pService.selectPlace(map);
+			list = pService.selectReviewList(contentid);
 		}else {
 			int result = pService.insertPlace(map);
 			if(result > 0) {
@@ -60,8 +63,13 @@ public class PlaceController {
 				throw new PlaceException("장소 조회 중 에러 발생");
 			}
 		}
-		
-		return "placeDetail";
+		if(p != null) {
+			model.addAttribute("p", p);
+			model.addAttribute("list", list);
+			return "placeDetail";
+		}else {
+			throw new PlaceException("장소 조회 중 에러 발생");
+		}
 	}
 	
 	@GetMapping("placeReviewWrite.pla")

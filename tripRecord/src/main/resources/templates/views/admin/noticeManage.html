@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>공지사항 관리</title>
+<link href="css/admin/noticeManage.css" rel="stylesheet" type="text/css">
+<link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
+</head>
+<body style="min-width: 1820px;">
+	<div th:replace="~{common/adminHeader :: header}"></div>
+	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
+		<div class="board-list">
+			<ul class="board-list-ul">
+				<li><a href="dashBoard.ad">대시보드</a></li>
+				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="questManage.ad">문의사항 관리</a></li>
+				<li><a href="gradeManage.ad">등급 관리</a></li>
+				<li class="select-board"><a>공지사항 관리</a></li>
+				<li><a href="pointManage.ad">포인트 관리</a></li>
+				<li><a href="boardManage.ad">게시판 관리</a></li>
+				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+			</ul>
+			<div class="out-adminPage">
+				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+  <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
+  <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
+</svg>&nbsp; 관리자 페이지 나가기</a>
+			</div>
+		</div>
+		<div class="board-main">
+			<div class="title-board display-4">
+				<h1 style="display: inline; font-size: 2.5rem !important;">공지사항 관리</h1>
+			</div>
+			<div class="notice-container display-flex">
+				<div class="notice-list">
+					<div class="title-div">
+						<span class="title-text">공지사항 목록</span>
+					</div>
+					<div class="content-notice">
+						<div class="search-div">
+							<div class="button-div display-inline-block">
+								<button type="button" class="btn btn-outline-secondary content-add">작성</button>
+							</div>
+							<div class="search-div-keyword display-inline-block">
+								<div class="input-group mb-3">
+								  	<input type="text" class="form-control box-shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
+								</div>
+							</div>
+						</div>
+						<div class="notice-table rounded-2 list-table">
+							<table class="table-user table table-hover">
+								<thead>
+									<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+										<th style="width:10%;">번호</th>
+										<th style="width:60%;">제목</th>
+										<th style="width:10%;">이름</th>
+										<th style="width:8%;">수정</th>
+										<th style="width:8%;">삭제</th>
+									</tr>
+								</thead>
+							  	<tbody class="table_hover">
+							  		<tr class="tr-user">
+							      		<td>2</td>
+							      		<td><span class="overflow-ell">스크립트 고쳐야 됨</span></td>
+							      		<td>관리자</td>
+										<td><span class="button-border box-size">수정</span></td>
+										<td><span class="button-border box-size">삭제</span></td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td><span class="overflow-ell">공지사항을 작성할 때 길이 범위가 넘어가면 뒤쪽은 ...처리가 돼서 줄여지게 된다.</span></td>
+							      		<td>관리자</td>
+										<td><span class="button-border box-size">수정</span></td>
+										<td><span class="button-border box-size">삭제</span></td>
+							  		</tr>
+							  	</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="detail-notice">
+					<div class="title-div">
+						<span class="title-text">공지사항 작성</span>
+						<span class="title-text-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+								<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+							</svg>
+						</span>
+					</div>
+					<form>
+						<div class="notice-detail">
+							<div class="title-div-title">
+								<span class="title-text-title">제목</span>
+							</div>
+							<div class="form-floating title-detail-div">
+						  		<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
+							</div>
+							<div class="title-div-content">
+								<span class="title-text-content">내용</span>
+							</div>
+							<div class="form-floating content-detail-div">
+							  	<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%;"></textarea>
+							</div>
+							<div class="reg-div">
+								<button type="button" class="btn btn-outline-secondary content-reg">등록</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				
+				<div class="detail-notice">
+					<div class="title-div">
+						<span class="title-text">공지사항 수정</span>
+						<span class="title-text-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+								<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+							</svg>
+						</span>
+					</div>
+					<form>
+						<div class="notice-detail">
+							<div class="title-div-title">
+								<span class="title-text-title">제목</span>
+							</div>
+							<div class="form-floating title-detail-div">
+						  		<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
+							</div>
+							<div class="title-div-content">
+								<span class="title-text-content">내용</span>
+							</div>
+							<div class="form-floating content-detail-div">
+							  	<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%;"></textarea>
+							</div>
+							<div class="reg-div">
+								<button type="button" class="btn btn-outline-secondary content-reg">수정하기</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				
+				<div class="detail-notice">
+					<div class="title-div">
+						<span class="title-text">공지사항</span>
+						<span class="title-text-icon">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+								<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+							</svg>
+						</span>
+					</div>
+					<form>
+						<div class="notice-detail">
+							<div class="title-div-title">
+								<span class="title-text-title">제목</span>
+							</div>
+							<div class="form-floating title-detail-div">
+						  		<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;" readonly>공지사항 제목을 작성하였습니다.</textarea>
+							</div>
+							<div class="title-div-content">
+								<span class="title-text-content">내용</span>
+							</div>
+							<div class="form-floating content-detail-div">
+							  	<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%;" readonly>공지사항 내용을 작성하였습니다.</textarea>
+							</div>
+							<div class="reg-div">
+								<button type="button" class="btn btn-outline-secondary content-reg" id="go-edit">수정하기</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script th:inline="javascript">
+		window.onload = () => {
+			const forms = document.getElementsByClassName('detail-notice');
+			for(const form of forms){
+				form.style.display = 'none';
+			}
+			
+			const tds = document.querySelectorAll('td');
+			const boxs = document.getElementsByClassName('button-border');
+					console.log(boxs);
+			for(const td of tds){
+				td.addEventListener('click', function(){
+					const tr = this.parentElement;
+					const num = tr.children[0].innerText;
+					console.log(this);
+					const children = this.children[0];
+					if(this.className != 'button-border box-size'){
+						forms[0].style.display = 'none';
+						forms[1].style.display = 'none';
+						forms[2].style.display = 'block';
+					}
+					
+				});
+			}
+			
+			const goEdit = document.getElementById('go-edit');
+			goEdit.addEventListener('click', function(){
+			});
+			
+			const iconDiv = document.getElementsByClassName('title-text-icon');
+			
+			for(const div of iconDiv){
+				const svgs = div.children;
+				for(const svg of svgs){
+					svg.addEventListener('click', function(){
+						const box = this.parentElement.parentElement.parentElement;
+						box.style.display = 'none';
+					});
+				}
+			}
+			
+			
+			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
+			const current = document.getElementsByClassName('select-board')[0];
+			
+			for(const li of listLi){
+				const a = li.children[0];
+				li.addEventListener('mouseenter', function() {
+					current.style.transitionDuration = '300ms';
+					li.style.transitionDuration = '300ms';
+					if(li.className != 'select-board'){
+						current.className = '';
+						this.className = 'select-board';
+						
+					}
+				});
+				
+				li.addEventListener('mouseleave', function(){
+					li.style.transitionDuration = '300ms';
+					if(li.className == 'select-board' && li != current){
+						current.className = 'select-board';
+						this.className = '';
+					}
+				});
+				
+			}
+			
+		}
+	</script>
+</body>
+</html>

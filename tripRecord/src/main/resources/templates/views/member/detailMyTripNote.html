@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>내 여행노트 상세보기</title>
+<style>
+	#back_button{color:white; background-color: #2C707E; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#revision_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#delete_button{color:white; background-color: #FF203A; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+</style>
+</head>
+<body>
+	<!-- 헤더 -->
+	<div th:replace="~{common/logoBar :: logoBar }"></div>
+	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	<!--마이페이지 어퍼바-->
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	<!-- 사이드바 -->
+	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
+	
+	<div class="flex-container" style="text-align:center; margin-left:auto; margin-top:-240px;">
+		<div style="height:80px;"></div>
+		<div style="color: black; font-size: 36px; font-weight: 900;">내 여행노트</div>
+		<div style="height:40px;"></div>
+		<!-- 내 여행 일정 -->
+		<div style="margin:auto; width:1200px; height:700px; border:1px solid #b9b9b9; border-radius:10px;">
+			<div style="margin-left:600px; width: 500px; transform: rotate(90deg); transform-origin: 0 0; border: 2px black solid"></div>
+		</div>
+		<div style="height:40px;"></div>
+		<!-- 제출버튼 -->
+		<div>
+			<button id="back_button" onclick="back()">뒤로가기</button>
+			<button id="revision_button" onclick="#">수정</button>
+			<button id="delete_button" onclick="#">삭제</button>
+		</div>
+	</div>
+		
+	<div style="margin-bottom: 400px"></div>
+	
+	<!-- 푸터 -->
+	<div th:replace="~{common/footer :: footer}" ></div>
+	
+	<script>
+		//클릭시 피드백 페이지로 이동
+		function back(){
+			location.href="myTripNote.me"
+		}
+		
+	</script>
+</body>
+</html>

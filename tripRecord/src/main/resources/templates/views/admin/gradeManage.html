@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>등급 관리</title>
+<link href="css/admin/gradeManage.css" rel="stylesheet" type="text/css">
+<link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
+</head>
+<body style="min-width: 1820px;">
+	<div th:replace="~{common/adminHeader :: header}"></div>
+	<div th:replace="~{common/adminBox :: box}"></div>
+	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
+		<div class="board-list">
+			<ul class="board-list-ul">
+				<li><a href="dashBoard.ad">대시보드</a></li>
+				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="questManage.ad">문의사항 관리</a></li>
+				<li class="select-board"><a>등급 관리</a></li>
+				<li><a href="noticeManage.ad">공지사항 관리</a></li>
+				<li><a href="pointManage.ad">포인트 관리</a></li>
+				<li><a href="boardManage.ad">게시판 관리</a></li>
+				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+			</ul>
+			<div class="out-adminPage">
+				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+  <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
+  <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
+</svg>&nbsp; 관리자 페이지 나가기</a>
+			</div>
+		</div>
+		<div class="board-main">
+			<div class="title-board display-4">
+				<h1 style="display: inline; font-size: 2.5rem !important;">등급 관리</h1>
+			</div>
+			<div class="container-top display-flex">
+				<div class="request-container">
+					<div class="title-div">
+						<span class="title-text">등급 요청</span>
+					</div>
+					<div class="content-request">
+						<ul class="request-list">
+							<li>
+								<div class="request-list-detail display-inline-block">
+									<ul class="request-list-ul">
+										<li style="width: 10%;">나나나</li>
+										<li style="width: 10%;">플래너</li>
+										<li style="width: 10%;">부산</li>
+										<li class="overflow-ell" style="width: 50%;">저는 부산에서 살고 있습니다. 눈이 내리는 걸 본 적이 손에 꼽을 정도입니다.</li>
+										<li style="width: 10%;">2024.07.15</li>
+										<li style="width: 5%;">
+											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+										  		<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+										  		<path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+											</svg>
+										</li>
+										<li style="width: 5%;">
+											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+											  	<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+											  	<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+											</svg>
+										</li>
+									</ul>
+								</div>
+							</li>
+							<li>
+								<div class="request-list-detail display-inline-block">
+									<ul class="request-list-ul">
+										<li style="width: 10%;">강고은</li>
+										<li style="width: 10%;">관리자</li>
+										<li style="width: 10%;"></li>
+										<li class="overflow-ell" style="width: 50%;">관리자를 내놓아라</li>
+										<li style="width: 10%;">2024.07.12</li>
+										<li style="width: 5%;">
+											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+										  		<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+										  		<path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
+											</svg>
+										</li>
+										<li style="width: 5%;">
+											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+											  	<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+											  	<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+											</svg>
+										</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="container-bottom display-flex">
+				<div class="plan-container">
+					<div class="title-div">
+						<span class="title-text">플래너</span>
+					</div>
+					<div class="plan-table rounded-2 list-table">
+						<table class="table-user table">
+							<thead>
+								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+									<th>번호</th>
+									<th>이름</th>
+									<th>아이디</th>
+									<th>활동 지역</th>
+									<th>취소</th>
+								</tr>
+							</thead>
+						  	<tbody>
+						  		<tr class="tr-user">
+						      		<td>1</td>
+						      		<td>플래너</td>
+						      		<td>planner</td>
+									<td>대구</td>
+									<td><div class="cancel-border" style="width: 70%; margin: 0 auto;">취소</div></td>
+						  		</tr>
+						  	</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="manage-container">
+					<div class="title-div">
+						<span class="title-text">관리자</span>
+					</div>
+					<div class="manage-table rounded-2 list-table">
+						<table class="table-user table">
+							<thead>
+								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+									<th>번호</th>
+									<th>이름</th>
+									<th>아이디</th>
+									<th>취소</th>
+								</tr>
+							</thead>
+						  	<tbody>
+						  		<tr class="tr-user">
+						      		<td>1</td>
+						      		<td>관리자</td>
+						      		<td>admin</td>
+									<td><div class="cancel-border" style="width: 70%; margin: 0 auto;">취소</div></td>
+						  		</tr>
+						  	</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -11,4 +11,27 @@
 		from reco_place
 		where place_no = #{contentid} and local_no = #{areaCode}
 	</select>
+	
+	<select id="selectPlace" resultType='Place'>
+		select *
+		from place
+		where place_no = #{contentid} and local_no = #{areaCode}
+	</select>
+	
+	<insert id="insertPlace">
+		insert into place
+			values(#{contentid}, #{areaCode}, default, default);
+	</insert>
+	
+	<update id="updatePlaceCount">
+		update place
+			set place_count = place_count + 1
+			where place_no = #{contentid} and local_no = #{areaCode}
+	</update>
+	
+	<select id="selectReviewList" resultType='Review'>
+		select *
+		from review
+		where REV_REF_TYPE = 'PLACE' and REV_REF_NO = #{contentid}
+	</select>
 </mapper>

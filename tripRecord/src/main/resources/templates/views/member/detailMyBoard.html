@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>내 커뮤니티 글 상세보기</title>
+<style>
+	#revision_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#list_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#delete_button{color:white; background-color: #FF203A; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#submit_button{color:white; background-color: #96CAF0; width: 60px; height:30px; border: none; border-radius:5px; margin-right: 5px;}
+	
+	table{width:80%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
+	th{font-size:20px;}
+	td{padding:10px;}
+	
+	.image-gallery {display: flex; flex-wrap: wrap; margin-left:230px;}
+	.image-container {position: relative; width:270px; margin: 5px;}
+	.image-container img {display: block; max-width: 270px; cursor: pointer; }
+	.more-images {display: flex; align-items: center; justify-content: center; width: 270px; height: 200px; background: rgba(0, 0, 0, 0.5); color: white; font-size: 24px; cursor: pointer;}
+	.modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;}
+	.modal img {max-width: 80%; max-height: 80%;}
+	#imgReview{margin: 50px auto;}
+	#placeImg{width:100%; margin: 20px auto;}
+	
+</style>
+</head>
+<body>
+	<!-- 헤더 -->
+	<div th:replace="~{common/logoBar :: logoBar }"></div>
+	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	<!--마이페이지 어퍼바-->
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	
+	<div class="flex-container" style="text-align:center; margin-left:auto;">
+		<div style="height:80px;"></div>
+		<!-- 커뮤니티 -->	
+		<div style="margin:auto; width:900px; height:600px; border:1px solid #b9b9b9; border-radius:10px;">
+			<!-- 커뮤니티 타이틀 -->
+			<div id="inquiryTitle" style="margin-top:20px; color: black; font-size: 30px; font-weight: 800; text-align:center;">
+				커뮤니티 타이틀
+			</div>
+			<div id="nickname"style="float:left; margin-left:50px; color: black; font-size: 16px; font-weight: 800; line-height: 50px;">[닉넴]</div>
+			<div id="date"style="float:right; margin-right:50px; color: black; font-size: 16px; font-weight: 800; line-height: 50px;">[날짜]</div>
+			<div style="margin-top:60px; margin-left:auto; margin-right:auto; width:90%; border:2px solid #96CAF0"></div>
+			<!-- 커뮤니티 내용 -->
+			<div id="content" style="margin-left:40px; margin-top:10px; font-size:20px;">
+				<textarea style="width:95%; height:400px; resize:none; border:none;" readonly>
+					상추를 치료해줄 사람어디 없나
+				</textarea>
+			</div> 
+		</div>
+		
+		<!-- 사진자리 -->
+		<div id='imgReview'>
+			<h3>관련 사진&#x1F4F8;</h3>
+			<div id="placeImg" class="container">
+			    <div class="image-gallery" id="image-gallery">
+			        <div class="image-container"><img src="image/insadong1.jpg" alt="Image 1"></div>
+			        <div class="image-container"><img src="image/insadong2.jpg" alt="Image 2"></div>
+			        <div class="image-container"><img src="image/insadong3.jpg" alt="Image 3"></div>
+			        <div class="image-container"><img src="image/insadong4.jpg" alt="Image 4"></div>
+			    </div>
+			</div>
+		</div>
+		<!-- 이미지 모달 -->
+		<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+		    <div class="modal-dialog modal-lg modal-dialog-centered">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h5 class="modal-title" id="imageModalLabel">사진</h5>
+		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		            </div>
+		            <div class="modal-body">
+		                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+		                    <div class="carousel-indicators">
+		                        <!-- Indicators will be inserted here by JavaScript -->
+		                    </div>
+		                    <div class="carousel-inner">
+		                        <!-- Carousel items will be inserted here by JavaScript -->
+		                    </div>
+		                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+		                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		                        <span class="visually-hidden">Previous</span>
+		                    </button>
+		                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+		                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+		                        <span class="visually-hidden">Next</span>
+		                    </button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+		<div style="height:40px;"></div>
+		<!-- 제출버튼 -->
+		<div>
+			<button id="revision_button" onclick="revision()">수정</button>
+			<button id="list_button" onclick="list()">목록</button>
+			<button id="delete_button" onclick="#">삭제</button>
+		</div>
+		<div style="height:40px;"></div>
+		<!-- 댓글 -->
+		<div style="margin:auto; width:800px;">
+			<div style="border:2px solid #96CAF0"></div>
+			<table>
+				<thead>
+					<tr>
+						<th>댓글</th>
+						<th>내용</th>
+						<th>작성자</th>
+						<th>작성일자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td id="place">1</td>
+						<td id="date">새는 알에서 나오려고 투쟁한다</td>
+						<td id="planner">헤르만 헤세</td>
+						<td id="status">2099.12.31</td>
+					</tr>
+					<tr>
+						<td id="place">2</td>
+						<td id="date">태어나려나는 자는 하나의 세상을 깨뜨려야 한다.</td>
+						<td id="planner">헤르만 헤세</td>
+						<td id="status">2099.12.31</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- 댓글 등록칸 -->
+			<textarea style="margin-left:150px; margin-top:30px; width:500px; height:100px; resize:none;"></textarea>
+			<div style="float:right; margin-top:30px; margin-right:60px;">
+				<button id="submit_button">작성</button>
+			</div>
+			<div style="float:left; margin-top:-100px; margin-left:100px; width:100px;">
+				<div style="width:50px; height:50px; border-radius: 9999px; overflow: hidden; justify-content: center; align-items: center; border:1px solid">
+					<img style="width:100%; height:100%;" src="${contextPath}\resources\SeoHyungyu.JPG"/>
+				</div>
+				<div style="margin-left:-40px; color: black; font-size: 16px; font-weight: 800; line-height: 50px;">닉넴</div>
+			</div>
+		</div>
+	</div>
+		
+	<div style="margin-bottom: 300px"></div>
+	
+	<!-- 푸터 -->
+	<div th:replace="~{common/footer :: footer}" ></div>
+	<script>
+		//목록 돌아가기
+		function list(){
+			location.href="myBoard.me"
+		}
+		//수정
+		function revision(){
+			location.href="updateMyBoard.me"
+		}
+		//이미지
+		document.addEventListener('DOMContentLoaded', function() {
+	        const gallery = document.getElementById('image-gallery');
+	        const images = gallery.querySelectorAll('.image-container img');
+	        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+	        const carouselIndicators = document.querySelector('.carousel-indicators');
+	        const carouselInner = document.querySelector('.carousel-inner');
+	
+	        images.forEach((img, index) => {
+	            const indicator = document.createElement('button');
+	            indicator.type = 'button';
+	            indicator.setAttribute('data-bs-target', '#carouselExampleIndicators');
+	            indicator.setAttribute('data-bs-slide-to', index);
+	            if (index === 0) indicator.classList.add('active');
+	            carouselIndicators.appendChild(indicator);
+	
+	            const carouselItem = document.createElement('div');
+	            carouselItem.classList.add('carousel-item');
+	            if (index === 0) carouselItem.classList.add('active');
+	
+	            const carouselImage = document.createElement('img');
+	            carouselImage.src = img.src;
+	            carouselImage.classList.add('d-block', 'w-100');
+	            carouselItem.appendChild(carouselImage);
+	
+	            carouselInner.appendChild(carouselItem);
+	
+	            img.addEventListener('click', () => {
+	                modal.show();
+	                $('#carouselExampleIndicators').carousel(index);
+	            });
+	        });
+	
+	        if (images.length > 2) {
+	            for (let i = 2; i < images.length; i++) {
+	                images[i].parentElement.style.display = 'none';
+	            }
+	
+	            const moreImages = document.createElement('div');
+	            moreImages.classList.add('more-images');
+	            moreImages.innerText = `더보기`;
+	            gallery.appendChild(moreImages);
+	
+	            moreImages.addEventListener('click', () => {
+	                modal.show();
+	                $('#carouselExampleIndicators').carousel(2);
+	            });
+	        }
+	        
+	        document.getElementById('backButton').addEventListener('click', ()=>{
+	        	location.href='placeDetail.pla'
+	        })
+	        
+	    });
+		
+	</script>
+</body>
+</html>

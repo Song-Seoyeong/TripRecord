@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>판매내역</title>
+<style>
+    table{width:90%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
+    
+    ul{font-weight:900;}
+    .pageNumber{margin-left:5px; margin-right:5px;}
+    th{font-size:24px;}
+    td{padding:10px;}
+</style>
+</head>
+<body>
+	<!-- 헤더 -->
+	<div th:replace="~{common/logoBar :: logoBar }"></div>
+	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	<!-- 플래너페이지 어퍼바 -->
+	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
+	
+	<div class="flex-container" style="text-align:center; margin-left:auto;">
+		<div style="height:160px;"></div>
+		<div style="margin:auto; width:900px; height:650px; border: 1px solid" >
+		<table>
+			<thead>
+			 	<tr style="border-bottom:2px solid #96CAF0;">
+					<th>요청번호</th>
+					<th>포인트</th>
+					<th>정산금액</th>
+					<th>확정일자</th>
+					<th>정산일자</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+				<tr style="border-bottom:2px solid #b9b9b9">
+					<td id="reqNumber">1</td>
+					<td id="myPoint">15억p</td>
+					<td id="payoff">10억</td>
+					<td id="confirmDate">2099.11.31</td>
+					<td id="patoffDate">2099.12.31</td>
+				</tr>
+			</tbody>
+		</table>
+			<!-- 페이지네이션 -->
+			<div class="text-center" style="margin-top:50px; text-align:center;">
+				<ul class="pagination">
+					<!-- 이전링크 -->
+					<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
+					<!-- 번호 이동 -->
+					<li class="pageNumber"><a href='#'>1</a></li>
+					<li class="pageNumber"><a href='#'>2</a></li>
+					<li class="pageNumber"><a href='#'>3</a></li>
+					<li class="pageNumber"><a href='#'>4</a></li>
+					<li class="pageNumber"><a href='#'>5</a></li>
+					<!-- 다음링크 -->
+					<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div style="margin-bottom: 300px"></div>
+	
+	<!-- 푸터 -->
+	<div th:replace="~{common/footer :: footer}" ></div>
+</body>
+</html>

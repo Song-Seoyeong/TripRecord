@@ -2,25 +2,70 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>플래너 정보</title>
-
+<title>플래너페이지</title>
 <style>
-#mainContainer {
-	width: 1400px;
-}
+    #revision_button {
+	  background: transparent;
+	  position: relative;
+	  padding: 5px 15px;
+	  display: flex;
+	  align-items: center;
+	  font-size: 17px;
+	  font-weight: 600;
+	  text-decoration: none;
+	  cursor: pointer;
+	  border: 1px solid #96CAF0;
+	  border-radius: 25px;
+	  outline: none;
+	  overflow: hidden;
+	  color: #96CAF0;
+	  transition: color 0.3s 0.1s ease-out;
+	  text-align: center;
+	}
+	#revision_button span {margin: 10px;}
+	#revision_button::before {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  margin: auto;
+	  content: '';
+	  border-radius: 50%;
+	  display: block;
+	  width: 20em;
+	  height: 20em;
+	  left: -5em;
+	  text-align: center;
+	  transition: box-shadow 0.5s ease-out;
+	  z-index: -1;
+	}
+	#revision_button:hover { color: #fff; border: 1px solid #96CAF0;}
+	#revision_button:hover::before { box-shadow: inset 0 0 0 10em #96CAF0;}
+	
+	 ul{font-weight:900;}
+    .pageNumber{margin-left:5px; margin-right:5px;}
+    #submitAdmin:hover{color:skyblue}
+    
+    #mainContainer{width:1400px;}
 </style>
-
-
 </head>
 <body>
-	<div th:replace="~{ common/logoBar :: logoBar }"></div>
-	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
-	
-	<div id="mainContainer" class="container-fluid justify-content-center">
+	<!-- 헤더 -->
+	<div th:replace="~{common/logoBar :: logoBar }"></div>
+	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	<!-- 플래너페이지 어퍼바 -->
+	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
+	<!--  -->
+	<div style="height:80px;"></div>
+	<div id="mainContainer" class="w-75 container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">	
-			<div class="fs-2 my-3 ms-5">플래너 정보</div>
+			<div class="fs-2 my-3 ms-5">
+				<button id="submitAdmin" style="font-size:20px; border:none; background:white;"onclick="submitAdmin()">일반회원 전환 요청하기</button>
+			</div>
 			<div>
-				<button class="btn btn-secondary me-5" onclick="location.href='matchingMain.ma'">목록으로</button>
+				<div style="height:20px;"></div>
+				<button class="btn btn-secondary me-5" id="revision_button" onclick="location.href='updatePlanner.me'"><span>수정</span></button>
 			</div>
 		</div>
 		<!-- 상단 정보 탭 전체 -->
@@ -29,7 +74,7 @@
 			<div id="plannerInfo" class="m-3">
 				<div class="d-flex align-items-center shadow shadow border bg-light rounded-3">
 					<div class="d-flex justify-content-center p-3">
-						<img class="rounded-circle mx-3" src="resources/profile-basic.jpg" width="150px" height="150px"/>
+						<img class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
 					</div>
 					<div class="p-3">
 						<div class="mx-3 fs-1">황병찬 플래너</div>
@@ -57,14 +102,6 @@
 					</div>
 				</div>
 			</div> 
-			<div id="RequestForm" class="p-3">
-				<div class="d-inline-block text-center shadow border bg-light rounded-3">
-					<h3 class="d-inline-block m-3">플래너에게 지금 견적을<br/>
-													신청해보세요</h3><br/>
-					<button class="btn btn-primary m-3" onclick="location.href='matchingRequest.ma'">일정 신청</button>
-				</div>
-				<br/><br/><a href="matchingReview.ma">>> 후기 작성하러 가기</a>
-			</div>
 		</div>
 		
 		<!-- 가로줄 -->
@@ -73,7 +110,7 @@
 		</div>
 		
 		<div id="reviewSumTab" class="d-flex justify-content-center">
-			<div class="container shadow border bg-light rounded-3 m-3 w-75" >
+			<div class="container shadow border bg-light rounded-3 m-3 w-75">
 				<h2 class="m-5 text-center">리뷰(523) | 별점 ★ 5.0</h2>
 			</div>
 		</div>
@@ -87,9 +124,9 @@
 		<div id="content" class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column shadow border bg-light rounded-3 w-75" >
 				<div class="d-flex justify-content-center">
-					<img class="m-5 w-100" width="800px" src="/resources/goSchedule.jpg"/><br/>
+					<img class="m-5" width="800px" src="image/insadong.jpg"/><br/>
 				</div>
-				<div class="mx-5 mb-5">
+				<div class="mx-5">
 					<p>안녕하세요! 여행을 사랑하는 모든 분들을 환영합니다. 이 가이드는 여러분의 여행이 더욱 특별하고 잊지 못할 경험이 될 수 있도록 다양한 정보를 제공합니다. 전 세계의 숨겨진 명소, 현지인만 아는 맛집, 독특한 문화 체험까지, 여행지에 대한 상세한 정보와 유용한 팁을 담고 있습니다. 혼자 떠나는 자유 여행이든 가족과 함께하는 휴가든, 각 여행 스타일에 맞춘 맞춤형 정보를 제공합니다. 또한, 여행 중 유의해야 할 안전 수칙과 에티켓, 현지 언어 표현 등도 포함되어 있어 처음 방문하는 곳에서도 자신감을 가질 수 있습니다. 여러분의 여행 준비부터 현지에서의 활동까지 이 가이드가 든든한 동반자가 되길 바랍니다. 새로운 곳에서의 멋진 추억을 만들어 보세요!</p>
 				</div>
 			</div>
@@ -107,15 +144,48 @@
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
 				<div class="list-group shadow w-100">
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기1</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기2</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기3</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기4</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기5</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기1</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기2</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기3</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기4</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기5</a>
+					<!-- 페이지네이션 -->
+					<div class="text-center" style="margin-top:25px; text-align:center;">
+						<ul class="pagination">
+							<!-- 이전링크 -->
+							<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
+							<!-- 번호 이동 -->
+							<li class="pageNumber"><a href='#'>1</a></li>
+							<li class="pageNumber"><a href='#'>2</a></li>
+							<li class="pageNumber"><a href='#'>3</a></li>
+							<li class="pageNumber"><a href='#'>4</a></li>
+							<li class="pageNumber"><a href='#'>5</a></li>
+							<!-- 다음링크 -->
+							<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div th:replace="~{ common/footer.html :: footer }"></div>
+	
+	<div style="margin-bottom: 300px"></div>
+	<!-- 푸터 -->
+	<div th:replace="~{common/footer :: footer}" ></div>
+	
+	<script>
+		function revision(){
+			location.href="updatePlanner.me"
+		}
+	
+		function submitAdmin(){
+			let result = confirm("요청하시겠습니까");
+			if(result == 'true'){
+				location.href="submitAdmin.me"
+			}else{
+				return;
+			}
+		}
+	</script>
 </body>
 </html>

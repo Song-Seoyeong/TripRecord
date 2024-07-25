@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="myPageUpperBar">
+<head>
+<meta charset="UTF-8">
+<title>마이페이지 어퍼바</title>
+<style>
+	a{text-decoration-line: none; color:black;}
+	a:hover{color:#96CAF0;}
+</style>
+</head>
+<body>
+	<!-- 어퍼바 -->
+	<div class="container-fluid text-center" style="margin: auto; display:grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr;">
+		<!-- 프로필 -->
+		<div class="container-fluid text-center" id="profileCon" style="margin:Auto; display:grid" >
+			<div style="border:1px solid blue; margin-top:100px; margin-left:20px; width: 180px; height: 180px; border:2px solid black; border-radius: 9999px; overflow: hidden; justify-content: center; align-items: center;">
+				<img style="width:100%; height:100%; ;" src="image/profile.png"/>
+			</div>
+			<!-- 닉네임 및 내정보 이동 -->
+			<div id="nickMove" class="container-fluid text-center" style=" margin-top:-130px;">
+				<div style="margin-top:-40px; margin-left:160px; color: black; font-size: 40px; font-weight: 800; line-height: 64px;">서현규</div>
+				<div style="margin-top: 50px; margin-left:200px; color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+					<a href="myPage.me">내 정보</a>
+				</div>
+				<!-- 프로필 사진 교체 창 팝업 -->
+				<div style="margin-left:20px; margin-top:30px;">
+					<button  style="border:none; background:white;" onclick="changeImage()">
+						<svg id="svgImage" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-camera-fill" viewBox="0 0 16 16">
+		  					<path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+		  					<path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0"/>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div style="margin-top:220px; color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a href="myPoint.me">포인트</a>
+		</div>
+		<div style="margin-top:220px; ;color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a href="myPlan.me">내 일정 보기</a>
+		</div>
+		<div style="margin-top:220px; color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a href="myInquiry.me">내 문의글 보기</a>
+		</div>
+		<div style="margin-top:220px; color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a href="myBoard.me">내 커뮤니티글 보기</a>
+		</div>
+	</div>
+	
+	<!-- 이미지 교체 모달 -->
+	<div id="profileModal" class="modal" tabindex="1">
+	   <div class="modal-dialog">
+	       <div class="modal-content">
+	           <div class="modal-header">
+	               <h5 class="modal-title">프로필 사진 교체</h5>
+	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	           </div>
+	           <div class="modal-body">
+	               <!-- 교체할 이미지 미리보기 -->
+	               <img id="previewImage" width="120px" height="120px"  src="image/profile.png" alt="프로필 사진">
+	               <!-- 파일 선택 -->
+	               <input type="file" accept="image/*" id="imageInput" onchange="previewImage(this)">
+	           </div>
+	           <div class="modal-footer">
+	               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	               <button type="button" class="btn btn-primary" onclick="replaceImage()">교체</button>
+	           </div>
+	       </div>
+	   </div>
+	</div>
+	
+	
+	<script>
+		//프로필 사진 모달 팝업
+		function changeImage(){
+			//모달 객체 생성
+			const imageModal = new bootstrap.Modal(document.getElementById('profileModal'));
+		    // 모달 열기
+		    imageModal.show()
+		}
+		//프로필 사진 교체
+		function replaceImage(){
+	    	location.href="replaceImage.me"
+	    }
+		
+	</script>
+</body>
+</html>

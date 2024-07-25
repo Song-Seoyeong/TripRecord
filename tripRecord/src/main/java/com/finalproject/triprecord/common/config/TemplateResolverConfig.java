@@ -10,8 +10,6 @@ public class TemplateResolverConfig {
 
 	@Bean
 	public ClassLoaderTemplateResolver dotResolver() {
-		// prefix suffix 역할을 하는 클래스 메소드
-		
 		ClassLoaderTemplateResolver dot = new ClassLoaderTemplateResolver();
 		dot.setPrefix("templates/views/");
 		dot.setSuffix(".html");
@@ -25,7 +23,6 @@ public class TemplateResolverConfig {
 	
 	@Bean
 	public ClassLoaderTemplateResolver dotPlaResolver() {
-		
 		ClassLoaderTemplateResolver dotPla = new ClassLoaderTemplateResolver();
 		dotPla.setPrefix("templates/views/place/");
 		dotPla.setSuffix(".html");
@@ -39,7 +36,6 @@ public class TemplateResolverConfig {
 	
 	@Bean
 	public ClassLoaderTemplateResolver dotMeResolver() {
-		
 		ClassLoaderTemplateResolver dotMe = new ClassLoaderTemplateResolver();
 		dotMe.setPrefix("templates/views/member/");
 		dotMe.setSuffix(".html");
@@ -53,7 +49,6 @@ public class TemplateResolverConfig {
 	
 	@Bean
 	public ClassLoaderTemplateResolver dotBoResolver() {
-		
 		ClassLoaderTemplateResolver dotBo = new ClassLoaderTemplateResolver();
 		dotBo.setPrefix("templates/views/community/");
 		dotBo.setSuffix(".html");
@@ -67,7 +62,6 @@ public class TemplateResolverConfig {
 	
 	@Bean
 	public ClassLoaderTemplateResolver dotNoResolver() {
-		
 		ClassLoaderTemplateResolver dotNo = new ClassLoaderTemplateResolver();
 		dotNo.setPrefix("templates/views/service/");
 		dotNo.setSuffix(".html");
@@ -81,7 +75,6 @@ public class TemplateResolverConfig {
 	
 	@Bean
 	public ClassLoaderTemplateResolver dotMaResolver() {
-		
 		ClassLoaderTemplateResolver dotMa = new ClassLoaderTemplateResolver();
 		dotMa.setPrefix("templates/views/matching/");
 		dotMa.setSuffix(".html");
@@ -91,5 +84,18 @@ public class TemplateResolverConfig {
 		dotMa.setCheckExistence(true);
 		
 		return dotMa;
+	}
+	
+	@Bean
+	public ClassLoaderTemplateResolver dotAdResolver() {
+		ClassLoaderTemplateResolver dotAd = new ClassLoaderTemplateResolver();
+		dotAd.setPrefix("templates/views/admin/");
+		dotAd.setSuffix(".html");
+		dotAd.setTemplateMode(TemplateMode.HTML);
+		dotAd.setCharacterEncoding("UTF-8");
+		dotAd.setCacheable(false);
+		dotAd.setCheckExistence(true);
+		
+		return dotAd;
 	}
 }

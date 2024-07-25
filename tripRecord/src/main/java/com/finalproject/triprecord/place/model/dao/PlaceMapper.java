@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.finalproject.triprecord.common.model.vo.Local;
+import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.place.model.vo.Place;
 
 @Mapper
@@ -18,5 +19,9 @@ public interface PlaceMapper {
 	Place selectPlace(HashMap<String, Integer> map);
 
 	int insertPlace(HashMap<String, Integer> map);
+
+	void updatePlaceCount(HashMap<String, Integer> map);
+
+	ArrayList<Review> selectReviewList(int contentid);
 
 }
