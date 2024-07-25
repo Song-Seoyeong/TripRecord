@@ -330,7 +330,7 @@
 		   		type: "GET",
 		   		data: {page: page, arrange: arrange, selectedKeyword : selectedKeyword, areaCode:areaCode},
 		   		success: function(data){
-		   			console.log(data)
+		   			//console.log(data)
 		   			
 		   			contentCardList.innerHTML = "";
 		   			pagination.innerHTML = "";
@@ -338,6 +338,7 @@
 		   			for(const i of data.response.body.items.item){
 			   			const clickCardDiv = document.createElement('div');
 			   			clickCardDiv.className = 'col clickCard';
+			   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + data.areaCode;
 			   			const infoCardDiv = document.createElement('div');
 			   			infoCardDiv.className = 'product-info-card';
 			   			const img = document.createElement('img');
@@ -349,7 +350,6 @@
 			   			}
 			   			const body = document.createElement('div');
 			   			body.className = 'body';
-			   			body.innerHTML = "<input type='hidden' name='contentid' id='contentid' value='" + i.contentid + "'/><input type='hidden' name='contenttypeid' id='contenttypeid' value='" + i.contenttypeid + "'/>"
 			   			const text6 = document.createElement('div');
 			   			text6.className = 'text6';
 			   			const text7 = document.createElement('div');
@@ -370,7 +370,7 @@
 			   			contentCardList.append(clickCardDiv);
 			   			
 		   			}
-		   			contentCardList.innerHTML += '<input type="hidden" name="arrange" id="arrange" value="' + data.arrange + '"/><input type="hidden" id="areaCode" name="areaCode" value="' + data.areaCode + '"/><input type="hidden" id="selectedKeyword" name="selectedKeyword" value="' + data.selectedKeyword + '"/>'
+		   			contentCardList.innerHTML += '<input type="hidden" name="arrange" id="arrange" value="' + data.arrange + '"/><input type="hidden" id="areaCode" name="areaCode" value="' + data.areaCode + '"/><input type="hidden" id="selectedKeyword" name="selectedKeyword" value="' + data.selectedKeyword + '"/><input type="hidden" id="page" name="page" value="' + data.pi.currentPage + '"/>'
 
 		   			// 페이지 네이션 부분
 		   			const ul = document.createElement('ul');
@@ -431,12 +431,16 @@
 		function clickCard(){
 			// 카드 클릭시 상세 페이지 이동
 			const cards = document.getElementsByClassName('clickCard');
-			
+			const page = document.getElementById('page').value;
 			for(const card of cards){
 				card.addEventListener('click', function(){
 					const placeId = this.id;
-					//console.log(placeId)
-					location.href = 'placeDetail.pla'
+					const contentid = placeId.split('/')[0];
+					const contenttypeid = placeId.split('/')[1];
+					const areaCode = placeId.split('/')[2];
+					/* console.log(contentid)
+					console.log(contenttypeid) */
+					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areaCode=" + areaCode;
 				})
 			}
 		}

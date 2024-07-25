@@ -2,42 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>insert title here</title>
+<title>Insert title here</title>
+<style>
+#mainContainer {
+	width: 1400px;
+}
+</style>
 </head>
 <body>
-   <div th:replace="~{ common/logoBar :: logoBar }"></div>
-   <div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
-      <div class="contationer row row-cols-1 row-cols-md-6 d-flex justify-content-center">
-         <!-- foreach -->
-         <div class="d-flex">
-            <img class="shadow img-thumbmx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
-         </div>
-         <!-- foreach끝 -->
-         <div>
-            <img class="shadow mx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
-         </div>
-         
-         <div>
-            <img class="shadow mx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
-         </div>
-         <div>
-            <img class="shadow mx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
-         </div>
-         <div>
-            <img class="shadow mx-1 my-3 rounded-3" height="300px" width="220px" src="/resources/black.jpg" alt="사진1">
-         </div>
-      </div>
-      <hr/>
-      <div class="d-flex justify-content-center my-3">
-         <div class="list-group w-75">
-            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
-            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
-            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
-            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3"  src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
-            <a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" height="100px" width="100px">플래너 정보</a>
-         </div>
-      </div>
-      
-   <div th:replace="~{ common/footer.html :: footer }"></div>
+	<div th:replace="~{ common/logoBar.html :: logoBar}"></div>
+	<div th:replace="~{ common/mainCategoryBar.html :: mainCategoryBar }"></div>
+	<div id="mainContainer" class="container-fluid justify-content-center">
+		
+		<div class="fs-2 my-3 ms-5">국내 여행 지역</div>
+		<div class="contationer row-cols-1 row-cols-md-6 d-flex justify-content-center">
+			<img class="shadow mx-1 my-3 rounded-3" height="250px" src="/resources/black.jpg" alt="사진1">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진2">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진3">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진4">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진5">
+		</div>
+		<br/>
+		<hr/>
+		<div class="contatiner d-flex justify-content-center">
+			<div class="card" style="width: 800px;">
+				<img class="img-fluid" src="/resources/goSchedule.jpg" alt="사진1">
+			</div>
+		</div>
+		<hr/>
+		<h2 class="mx-5">TOP 5 플래너</h2>
+		<!-- TOP N1 -->
+		<div class="contationer row-cols-1 row-cols-md-6 d-flex justify-content-center">
+			<img class="shadow mx-1 my-3 rounded-3" height="250px" src="/resources/black.jpg" alt="사진1">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진2">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진3">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진4">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진5">
+		</div>
+		<!-- TOP N1 끝 -->
+		<br/>
+		<hr/>
+		<!-- TOP N2 -->
+		<h2 class="mx-5">TOP 5 여행지</h2>
+		<div class="contationer row-cols-1 row-cols-md-6 d-flex justify-content-center">
+			<img class="shadow mx-1 my-3 rounded-3" height="250px" src="/resources/black.jpg" alt="사진1">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진2">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진3">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진4">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진5">
+		</div>
+		<!-- TOP N2 끝 -->
+		<br/>
+		</div>
+	</div>
+	<div th:replace="~{ common/footer.html :: footer }"></div>
 </body>
 </html>

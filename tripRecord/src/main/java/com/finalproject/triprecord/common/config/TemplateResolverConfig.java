@@ -78,4 +78,18 @@ public class TemplateResolverConfig {
 		
 		return dotNo;
 	}
+	
+	@Bean
+	public ClassLoaderTemplateResolver dotMaResolver() {
+		
+		ClassLoaderTemplateResolver dotMa = new ClassLoaderTemplateResolver();
+		dotMa.setPrefix("templates/views/matching/");
+		dotMa.setSuffix(".html");
+		dotMa.setTemplateMode(TemplateMode.HTML);
+		dotMa.setCharacterEncoding("UTF-8");
+		dotMa.setCacheable(false);
+		dotMa.setCheckExistence(true);
+		
+		return dotMa;
+	}
 }

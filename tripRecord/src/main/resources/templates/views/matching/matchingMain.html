@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>insert title here</title>
+
+<style>
+#mainContainer {
+	width: 1400px;
+}
+</style>
+
+</head>
+<body>
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	<div id="mainContainer" class="container-fluid justify-content-center">
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="fs-2 my-3 ms-5">플래너 정보</div>
+			<div class="dropdown dropend my-3">
+				<button class="btn btn-secondary dropdown-toggle me-5" type="button" id="selectLocation" data-bs-toggle="dropdown" aria-expanded="false">지역 선택</button>
+				<ul class="dropdown-menu px-3" aria-labelledby="selectLocation">
+					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="서울" id="selectLocCheck"> 서울</li>
+					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="인천" id="selectLocCheck"> 인천</li>
+					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="대전" id="selectLocCheck"> 대전</li>
+					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="광주" id="selectLocCheck"> 광주</li>
+					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="대구" id="selectLocCheck"> 대구</li>
+					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="울산" id="selectLocCheck"> 울산</li>
+					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="부산" id="selectLocCheck"> 부산</li>
+					<button class="btn btn-primary">찾아보기</button>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="contationerrow row-cols-1 row-cols-md-6 d-flex justify-content-center">
+			<img class="shadow mx-1 my-3 rounded-3" height="250px" src="/resources/black.jpg" alt="사진1">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진2">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진3">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진4">
+			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진5">
+		</div>
+	
+	
+		<hr/>
+		<div class="d-flex justify-content-center my-3">
+			<div class="list-group w-75">
+				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
+				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
+				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
+				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
+				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
+			</div>
+		</div>
+				
+				
+		<div class="text-center">
+		~~~ 페이지네이션 들어갈 자리 ~~~
+		</div>
+	</div>
+	<div th:replace="~{ common/footer.html :: footer }"></div>
+</body>
+</html>

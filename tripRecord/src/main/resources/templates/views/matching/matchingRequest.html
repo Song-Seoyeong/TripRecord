@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>insert title here</title>
+
+<style>
+#mainContainer {
+	width: 1400px;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+
+<body>
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	<div id="mainContainer" class="container-fluid justify-content-center">
+	<!-- 플래너 정보 -->
+		<div class="d-flex justify-content-center m-3">
+			<div id="plannerInfo" class="m-3">
+				<div class="d-flex align-items-center shadow shadow border bg-light rounded-3">
+					<div class="d-flex justify-content-center p-3">
+						<img class="rounded-circle mx-3" src="resources/profile-basic.jpg" width="150px" height="150px"/>
+					</div>
+					<div class="p-3">
+						<div class="mx-3 fs-1">황병찬 플래너</div>
+						<div class="mx-3 mt-2"> 서울살이 30년 / 가이드 경력 있음</div>
+						<div class="mx-3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+								<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+								<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+							</svg> 서울
+						</div>
+						<div class="mx-3 mt-2">
+							<button id="likeButton" class="btn btn-outline-danger">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+								</svg>
+								좋아요 124
+							</button>
+						</div>
+						<div class="mx-3 mt-2">
+							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+						</div>
+					</div>
+				</div>
+			</div> 
+		</div>
+		
+				
+		
+		
+		<!-- 날짜 입력 -->
+		<div class="d-flex justify-content-center align-items-center">
+			<div class="shadow bg-light rounded-3 mb-3 my-3 w-75">
+				<div>
+					<div class="d-flex justify-content-center align-items-center my-3">
+						<div class="fs-3">황병찬 플래너님께 부산으로 가는 일정을 신청합니다.</div>
+					</div>
+				</div>
+				<div class="d-flex m-3">
+					<label for="dates" class="col-4 col-form-label text-center fs-4 fw-bold">일정을 선택하세요 : </label>
+					<input class="form-control fs-4 text-center" type="text" id="dates" name="dates"/>
+				</div>
+				<div class="d-flex justify-content-center fs-1 text-center" id="calendar">
+					<div class="shadow bg-white w-75 h-100 mb-3 rounded-3">달력<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+				</div>
+				<div class="d-flex justify-content-center m-3">
+					<div class="w-75">
+						<label for="dates" class="col-form-label text-center fs-4 fw-bold mb-3"> (선택) 플래너가 고려할 세부사항을 자유롭게 작성해주세요.</label>
+						<textarea class="form-control shadow" id="ReviewContent" placeholder="ex) 힐링 여행을 선호해요, 해산물은 못먹어요 등" rows="10"></textarea>
+					</div>
+					
+				</div>
+				<div class="d-flex justify-content-center m-3">
+					<div class="d-flex justify-content-end mb-3 w-75">
+						<button class="btn btn-primary">제출하기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div th:replace="~{ common/footer.html :: footer }"></div>
+</body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script>
+$('input[name="dates"]').daterangepicker({
+	locale: {
+		"separator": " ~ ",
+		"format": 'YYYY-MM-DD',
+		"applyLabel": "선택",
+		"cancelLabel": "취소",
+		"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+		"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+		"startDate" : new Date(),
+		"selectBackward" : false
+	},
+	showDropdowns: true,                     // 년월 수동 설정 여부
+	autoApply: true,                     // 확인/취소 버튼 사용여부
+	minDate: new Date(),
+	selectBackward : false
+});
+
+
+$("#dates").on('show.daterangepicker', isCustomDate);
+function isCustomDate() {
+	setInterval(function() {
+		$(".yearselect").css("float", "left");
+		$(".monthselect").css("float", "right");
+		$(".cancelBtn").css("float", "right");
+	},100);
+}
+set
+
+</script>
+
+</html>
