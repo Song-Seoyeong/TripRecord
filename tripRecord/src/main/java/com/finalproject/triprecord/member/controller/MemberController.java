@@ -2,6 +2,7 @@ package com.finalproject.triprecord.member.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MemberController {
@@ -16,23 +17,28 @@ public class MemberController {
 		return "enrollMember";
 	}
 	
-	@GetMapping("enrollPlannerView.me")
-	public String enrollPlannerView() {
-		return "enrollPlanner";
-	}
-	
 	@GetMapping("searchIdView.me")
-	public String searchIdView() {
+	public String searchId() {
 		return "searchId";
 	}
 	
 	@GetMapping("searchPwdView.me")
-	public String searchPwdView() {
+	public String searchPwd() {
 		return "searchPwd";
 	}
-	
+	@PostMapping("login.me")
+	public String login() {
+		
+		
+		return "redirect:/";
+	}
 	@GetMapping("updatePwdView.me")
-	public String updatePwdView() {
+	public String updatePwd() {
 		return "updatePwd";
+	}
+	
+	@GetMapping("enrollPlannerView.me")
+	public String enrollPlanner() {
+		return "enrollPlanner";
 	}
 }

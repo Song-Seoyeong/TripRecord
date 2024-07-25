@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- <link type="text/css" href="css/placeDetail.css" rel="stylesheet"> -->
+<style>
+.offcanvas-body>p:hover{cursor:pointer;}
+#content{text-align:center;width:50%
+		min-width:1000px;
+		margin:30px auto;}
+
+#commu-select{padding-top:20px; padding-bottom:20px;
+			  width:500px; margin-left:auto; margin-right:auto;
+			  display:flex; text-align:center;}
+.search {
+  	flex: 1;
+  	border-radius: 9999px;
+  	background-color: #fff;
+  	border: 1px solid #d9d9d9;
+  	overflow: hidden;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 12px 16px;
+  	gap: 8px;
+}
+.search-filter {
+  	width: 327px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	gap: 24px;
+}
+#search-com{flex: 1;
+  	border-radius: 9999px;
+  	background-color: #fff;
+  	border: 1px solid #d9d9d9;
+  	overflow: hidden;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 12px 16px;
+  	gap: 8px;
+  	}
+.filter-bar {
+  	align-self: stretch;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: center;
+  	display: flex;
+  	margin-bottom: 16px;
+}
+#search{border:none;outline:none;}
+.col-3:hover{cursor:pointer;}
+#text-test>tr{height:50px;}
+.x-icon:hover{cursor:pointer}
+</style>
+</head>
+<body>
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	
+	<div class="text-center" style="padding-top:60px;">
+		<b style="font-size:70px;">공지사항</b>
+	</div>
+	
+	<div id='content'>
+		<div class="container" style="display:flex;width:35%;border-radius:9999px; border:0.5px solid lightgray; align-items:center;">
+			<input id="search-com" type="text" placeholder="검색어를 입력해주세요" style="width:80%;border:none; outline:none;">
+			<img class="x-icon" alt="" src="image/Search.png">
+		</div>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	<!-- 왼쪽 사이드 바 -->
+	<div style="width:51px; height: 51px; left: 33px; top: 260px; position: fixed; border: 7px #96CAF0 solid; z-index: 50;">
+		<button style="border:none; background-color:white;" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+			<svg style="width:25px; height:31px; color: #2f6589;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+				<path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+				<path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+			</svg>
+		</button>
+		<div style="height:400px; top:320px; left:33px; width:250px; border:5px solid #2f6598" class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+			<div class="offcanvas-header">
+				<h5 class="offcanvas-title" id="staticBackdropLabel">고객센터</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+			<div class="offcanvas-body">
+				<p>- 문의사항</p>
+				<p>- 공지사항</p>
+			</div>
+		</div>
+	</div> 
+	
+	
+	
+	
+	<div style="height:50px;"></div>
+	
+	
+	
+	
+	
+	
+	<div class="container py-4">
+		<div class="bd-example-snippet bd-code-snippet">
+			<div class="bd-example">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th width="80px">글 번호</th>
+							<th>글 제목</th>
+							<th width="130px">작성자</th>
+							<th width="130px">작성일자</th>
+							<th width="80px">조회수</th>
+	          			</tr>
+	          		</thead>
+	         		<tbody id="text-test">
+	         		<!-- 이거 반복 -->
+	          			<tr th:each=" b : ${bList}">
+	            			<td>[[${ b.boardId }]]</td>
+	            			<td>[[${ b.boardTitle }]]</td>
+	            			<td>[[${ b.nickName }]]</td>
+	            			<td>[[${ b.boardModifyDate }]]</td>
+	            			<td>[[${ b.boardCount }]]</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td><a href="noticeSelect.no">notice 상세보기 임시링크</a></td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          			<tr>
+	          				<td>1</td>
+	          				<td>2</td>
+	          				<td>3</td>
+	          				<td>4</td>
+	          				<td>5</td>
+	          			</tr>
+	          		</tbody>
+	        	</table>
+	       	</div>
+		</div>
+        <br>
+		<div class="text-center">페이징 1 2 3 4 5</div>
+		<!-- 페이징 -->
+		<a href="ask.no">ask 이동 임시</a>
+
+
+		<div th:if="${ session.loginUser != null}">
+	       	<button class="btn btn-outline-success" type="button" onclick="location.href='writeBoard.bo'">WRITE BOARD</button>
+	    </div>
+	</div>
+	
+	<div th:replace="~{common/footer :: footer}"></div>
+	
+	
+	
+	<script>
+		window.onload=()=>{
+			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
+			for(const sideP of sideMenus){
+				sideP.addEventListener('mouseover',function(){
+					sideP.style.fontSize = 'large';
+					sideP.style.textDecoration = 'underline';
+				});
+			}
+			for(const sideP of sideMenus){
+				sideP.addEventListener('mouseout',function(){
+					sideP.style.fontSize = 'medium';
+					sideP.style.textDecoration = 'none';
+				});
+			}
+			for(const sideP of sideMenus){
+				sideP.addEventListener('click',function(){
+					console.log(this.innerText.split(' ')[1]);
+					//location.href= 클릭한 것으로 구분
+				});
+			}
+		}
+	
+	</script>
+	
+	
+</body>
+</html>
