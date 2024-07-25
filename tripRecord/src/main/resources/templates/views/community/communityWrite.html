@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+
+#content{text-align:center;width:50%
+		min-width:1000px;
+		margin:30px auto;}
+
+#commu-select{padding-top:20px; padding-bottom:20px;
+			  width:500px; margin-left:auto; margin-right:auto;
+			  display:flex; text-align:center;}
+.search {
+  	flex: 1;
+  	border-radius: 9999px;
+  	background-color: #fff;
+  	border: 1px solid #d9d9d9;
+  	overflow: hidden;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 12px 16px;
+  	gap: 8px;
+}
+.search-filter {
+  	width: 327px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	gap: 24px;
+}
+#search-com{flex: 1;
+  	border-radius: 9999px;
+  	background-color: #fff;
+  	border: 1px solid #d9d9d9;
+  	overflow: hidden;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 12px 16px;
+  	gap: 8px;
+  	}
+.filter-bar {
+  	align-self: stretch;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: center;
+  	display: flex;
+  	margin-bottom: 16px;
+}
+#search{border:none;outline:none;}
+#inputDiv{
+	width: 50%;
+	min-width: 900px;
+	margin: 15px auto;
+	padding: 0px;
+}
+#reviewTitle{
+	width: 100%;
+	padding-left:20px;
+}
+.reviewInput{
+	border: 1px solid #CECECE;
+	background: FCFCFC;
+	border-radius: 10px;
+	height: 40px;
+	width: 100%;
+	min-width: 400px;
+	padding:20px;
+}
+#reviewContent{
+	width: 100%;
+	padding-left:20px;
+	margin: 20px 0px;
+}
+textArea{
+	resize: none;
+	min-height:400px;
+	height: 50%; 
+}
+#imgReview{
+	width: 100%;
+	padding-left:20px;
+	margin: 30px 0px;
+}
+#insert{
+	background:none;
+	border: 2px solid #2F6598;
+	color: #2F6598;
+	width:70px;
+	font-weight: blod;
+}
+#insert:hover{
+	background: #2F6598;
+	border: 2px solid #2F6598;
+	color: #fff;
+}
+</style>
+</head>
+<body>
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	
+	<div style="width:51px; height: 51px; left: 33px; top: 260px; position: fixed; border: 7px #96CAF0 solid; z-index: 50;">
+	<button style="border:none; background-color:white;" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
+		<svg style="width:25px; height:31px; color: #2f6589;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+			<path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
+			<path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
+		</svg>
+	</button>
+	<div style="height:400px; top:320px; left:33px; width:250px; border:5px solid #2f6598" class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body">
+			<p>- 서울</p>
+			<p>- 경기도</p>
+			<p>- 충청남도</p>
+			<p>- 강원도</p>
+			<p>- 부산</p>
+			<p>- 경상남도</p>
+		</div>
+	</div>
+</div> 
+	
+	
+	
+	
+	
+	
+	<div class="text-center" style="padding-top:60px; padding-bottom:100px;">
+		<b style="font-size:70px;">글 쓰기</b>
+	</div>
+	
+	<div class="row filter-bar">
+		<div class="col-4"></div>
+		<div class="col-3"></div>
+		<div class='col-1'>
+			<select class="form-select" aria-label="Sort by" style="width:100px;">
+	               <option selected>지역</option>
+	               <option value="1">서울1</option>
+	               <option value="2">서울2</option>
+	               <option value="3">서울3</option>
+	               <option value="4">서울4</option>
+	               <option value="5">서울5</option>
+	               <option value="6">서울6</option>
+	               <option value="7">서울7</option>
+	               <option value="8">서울8</option>
+			</select>
+		</div>
+		<div class='col-1'>
+			<select class="form-select" aria-label="Sort by" style="width:100px;">
+	               <option selected>말머리</option>
+	               <option value="1">동행</option>
+	               <option value="2">양도</option>
+	               <option value="3">후기</option>
+			</select>
+		</div>
+		<div class="col-3"></div>
+	</div>
+	<br><br>
+	<form action="">
+		<div id='inputDiv'>
+			<div id='reviewTitle'>
+				<h3>리뷰 제목</h3>
+				<input type='text' name='reviewTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
+			</div>
+			<div id='reviewContent'>
+				<h3>리뷰 내용</h3>
+				<textArea name='reviewContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required></textArea>
+			</div>
+			<div id='imgReview'>
+				<h3>리뷰 사진</h3>
+				<input type='file' accept="image/*" multiple id="files" name='files' class="form-control">
+			</div>
+			<div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+				<a href="community.bo">
+					<button type="button" class="btn btn-primary" id='insert'>등록</button>
+				</a>
+			</div>
+		</div>
+	</form>
+	
+	
+	<div th:replace="~{common/footer :: footer}"></div>
+	
+	
+	
+	
+	
+	
+	<script>
+		window.onload=()=>{
+			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
+			for(const sideP of sideMenus){
+				sideP.addEventListener('mouseover',function(){
+					sideP.style.fontSize = 'large';
+					sideP.style.textDecoration = 'underline';
+				});
+			}
+			for(const sideP of sideMenus){
+				sideP.addEventListener('mouseout',function(){
+					sideP.style.fontSize = 'medium';
+					sideP.style.textDecoration = 'none';
+				});
+			}
+			for(const sideP of sideMenus){
+				sideP.addEventListener('click',function(){
+					console.log(this.innerText.split(' ')[1]);
+					//location.href= 클릭한 것으로 구분
+				});
+			}
+		}
+	</script>
+	
+	
+</body>
+</html>

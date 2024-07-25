@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finalproject.triprecord.common.Pagination;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
 
 @RestController
 public class PlaceRestController {
@@ -24,17 +27,22 @@ public class PlaceRestController {
 	
 	@GetMapping("recoPlaceList.pla")
 	@ResponseBody
-	public Map<String, Object> recoPlaceList(@RequestParam(value="page", defaultValue="1", required=false) int page) {
+	public Map<String, Object> recoPlaceList(@RequestParam(value="page") int page,
+											 @RequestParam(value="arrange", defaultValue = "A") String arrange,
+											 @RequestParam(value="selectedKeyword", required=false) String selectedKeyword,
+											 @RequestParam(value="areaCode", required=false) String areaCode) {
 		String parameter = "";
 		
-		parameter += "?numOfRows=" + 9;
+		parameter += "?numOfRows=" + 12;
 		parameter += "&pageNo=" + page;
 		parameter += "&MobileOS=ETC&MobileApp=AppTest";
 		parameter += "&ServiceKey=" + SERVICEKEY;
-		parameter += "&arrange=A&contentTypeId=&areaCode=&_type=json";
-		
+		parameter += "&arrange=" + arrange;
+		parameter += "&contentTypeId=" + selectedKeyword;
+		parameter += "&areaCode=" + areaCode;
+		parameter += "&_type=json";
 		String adrr = basicUrl + parameter;
-		
+		System.out.println(adrr);
 		StringBuffer sb = new StringBuffer();
 		
 		try {
@@ -60,12 +68,24 @@ public class PlaceRestController {
 		// JSON 문자열을 Map으로 변환
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> jsonMap = null;
+        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
         try {
             jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+//        System.out.println(jsonMap);
+//       System.out.println(jsonMap.get("response"));
+        Map<String, Object> responseMap = (Map<String, Object>) jsonMap.get("response");
+        Map<String, Object> bodyMap = (Map<String, Object>) responseMap.get("body");
+        int totalCount = (Integer) bodyMap.get("totalCount");
+        
+        PageInfo pi = Pagination.getPageInfo(page, totalCount, 12);
+        jsonMap.put("pi", pi);
+        jsonMap.put("arrange", arrange);
+        jsonMap.put("selectedKeyword", selectedKeyword);
+        jsonMap.put("areaCode", areaCode);
+        
         return jsonMap;
 	}
 }
