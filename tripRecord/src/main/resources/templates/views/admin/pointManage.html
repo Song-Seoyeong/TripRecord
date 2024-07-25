@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>포인트 관리</title>
+<link href="css/admin/pointManage.css" rel="stylesheet" type="text/css">
+<link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
+<style>
+	.selectState{
+		display: inline-block;
+		background: lightgray;
+		width: 40%;
+		border: 1px solid #2F6598;
+	}
+	
+	.unselectState{
+		display: inline-block;
+		background: none;
+		width: 40%;
+		border: 1px solid #2F6598;
+	}
+</style>
+</head>
+<body style="min-width: 1820px;">
+	<div th:replace="~{common/adminHeader :: header}"></div>
+	<div th:replace="~{common/adminBox :: box}"></div>
+	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
+		<div class="board-list">
+			<ul class="board-list-ul">
+				<li><a href="dashBoard.ad">대시보드</a></li>
+				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="questManage.ad">문의사항 관리</a></li>
+				<li><a href="gradeManage.ad">등급 관리</a></li>
+				<li><a href="noticeManage.ad">공지사항 관리</a></li>
+				<li class="select-board"><a>포인트 관리</a></li>
+				<li><a href="boardManage.ad">게시판 관리</a></li>
+				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+			</ul>
+			<div class="out-adminPage">
+				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+  <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
+  <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
+</svg>&nbsp; 관리자 페이지 나가기</a>
+			</div>
+		</div>
+		<div class="board-main">
+			<div class="title-board display-4">
+				<h1 style="display: inline; font-size: 2.5rem !important;">포인트 관리</h1>
+			</div>
+			<div class="main-container display-flex">
+				<div class="container-left">
+					<div class="list-container">
+						<div class="title-div">
+							<span class="title-text">포인트 목록</span>
+						</div>
+						<div class="content-list">
+							<div class="point-list-table rounded-2 list-table">
+								<table class="table-user table">
+									<thead>
+										<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+											<th>포인트</th>
+											<th>결제 금액(원)</th>
+											<th>수정</th>
+											<th>상태</th>
+										</tr>
+									</thead>
+								  	<tbody>
+								  		<tr class="tr-user">
+								      		<td>1,000p</td>
+								      		<td>1,000</td>
+											<td><span class="button-border box-size">수정</span></td>
+											<td>
+								      			<div class='selectState'>Y</div>
+								      			<div class='unselectState'>N</div>		<!-- ${ l.status == "Y" ? "selectState" : "unselectState" } -->
+											</td>
+								  		</tr>
+								  	</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="add-container">
+						<div class="title-div">
+							<span class="title-text">포인트 추가</span>
+						</div>
+						<div class="content-add">
+							<div class="form-add">
+								<form>
+									<table class="table-user table point-table">
+										<thead>
+											<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+												<th style="width: 40%;">포인트</th>
+												<th style="width: 40%;">결제 금액(원)</th>
+												<th style="width: 20%;">추가</th>
+											</tr>
+										</thead>
+									  	<tbody>
+									  		<tr class="tr-user">
+									      		<td><input type="text" name="point" id="point" placeholder="포인트"></td>
+									      		<td><input type="text" name="price" id="price" placeholder="결제 금액"></td>
+												<td><button class="button-border" style="background: white;">추가</button></td>
+									  		</tr>
+									  	</tbody>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container-mid">
+					<div class="sum-container">
+						<div class="title-div">
+							<span class="title-text">총 결제 포인트</span>
+						</div>
+						<div class="sum-table rounded-2">
+							<table class="table-user table">
+							  	<tbody>
+							  		<tr>
+							      		<td class="td-user" style="width: 40%;">포인트</td>
+							      		<td> 1,243,000 p </td>
+							  		</tr>
+							    	<tr class="tr-user">
+							      		<td class="td-user">금액</td>
+							      		<td> 1,320,980 원 </td>
+							  		</tr>
+							  	</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="top-container">
+						<div class="title-div">
+							<span class="title-text">구매 회원 Top 10</span>
+						</div>
+						<div class="top-table rounded-2">
+							<table class="table-user table">
+								<thead>
+									<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+										<th>순위</th>
+										<th>이름</th>
+										<th>누적 포인트</th>
+									</tr>
+								</thead>
+							  	<tbody>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>나나나</td>
+							      		<td>304,200 p</td>
+							  		</tr>
+							  	</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="container-right">
+					<div class="sum-list-container">
+						<div class="title-div">
+							<span class="title-text">결제 내역 조회(최근15개만)</span>
+						</div>
+						<div class="content-sum-list">
+							<div class="sum-list-table rounded-2">
+							<table class="table-user table">
+								<thead>
+									<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+										<th>이름</th>
+										<th>포인트</th>
+										<th>금액</th>
+										<th>날짜</th>
+									</tr>
+								</thead>
+							  	<tbody>
+							  		<tr class="tr-user">
+							      		<td>가가가</td>
+							      		<td>10,000 p</td>
+							      		<td>9,900 원</td>
+										<td>2024.07.24</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>나나나</td>
+							      		<td>5,000 p</td>
+							      		<td>5,000 원</td>
+										<td>2024.07.20</td>
+							  		</tr>
+							  	</tbody>
+							</table>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</html>

@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+body{
+	margin: 0;
+}
+
+.container-top{
+	height: 45%;
+	margin-top: 30px;
+	margin-left: 55px;
+	min-width: 1450px;
+}
+
+.enter-container{
+	width: 60%;
+	height: 90%;
+	align-items: center;
+}
+
+
+.content-enter{
+	margin: 10px auto 0;
+	width: 95%;
+	height: 300px;
+	border: 1px solid lightgray;
+}
+
+.user-container{
+	margin-left: 100px;
+	align-items: flex-center;
+	width: 20%;
+}
+
+.content-user{
+	width: 95%;
+	margin: 5px auto 0;
+}
+
+.container-bottom{
+	height: 45%;
+	margin-top: 5px;
+	margin-left: 55px;
+	min-width: 1450px;
+}
+
+.contents-container{
+	width: 25%;
+}
+
+.money-container{
+	width: 60%;
+	margin-left: 100px;
+}
+
+.money-box{
+	width: 95%;
+	margin: 10px auto 0;
+	height: 280px;
+}
+
+.money-total{
+	width: 80%;
+	height: 60px;
+	display: flex;
+	border: 1px solid #96caf0;
+	border-width: medium;
+}
+
+.total-text{
+	width: 30%;
+	border-right: 1px solid #96caf0 !important;
+	font-size: 25px;
+	text-align: center;
+	line-height: 55px;
+}
+
+.total-sum{
+	width: 70%;
+	line-height: 55px;
+	font-size: 23px;
+	padding-left: 35px;
+	letter-spacing: 1px;
+}
+
+.money-month-day{
+	margin-top: 15px;
+	display: flex;
+	width: 100%;
+}
+
+.money-month, .money-day{
+	border: 1px solid lightgray;
+	width: 48%;
+	height: 200px;
+	margin: 0 auto;
+}

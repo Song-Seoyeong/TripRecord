@@ -58,25 +58,28 @@ body {
 
 		<!-- 로그인 유무에 따라 변경 -->
 		<div class="col-4 text-end" th:if="${ session.loginUser == null }">
+			<a href="dashBoard.ad" class="memberLink">관리자페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+			<a href="myPage.me" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
+			<a href="plannerPage.me" class="memberLink">플래너페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
 			<a href="enrollView.me" class="memberLink">회원가입</a>
 			&nbsp;&nbsp;|&nbsp;&nbsp; <a href="loginView.me" class="memberLink">로그인</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 		<div class="col-4 text-end"
 			th:if="${ session.loginUser != null and session.loginUser == 'GENERAL' }">
-			<a href="#" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a
-				href="#" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="myPage.me" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
+			<a href="#" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 		<div class="col-4 text-end"
 			th:if="${ session.loginUser != null and session.loginUser == 'PLANNER' }">
-			<a href="#" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a
-				href="#" class="memberLink">플래너페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a
-				href="#" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="myPage.me" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
+			<a href="plannerPage.me" class="memberLink">플래너페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
+			<a href="#" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 		<div class="col-4 text-end"
 			th:if="${ session.loginUser != null and session.loginUser == 'ADMIN' }">
-			<a href="#" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a
-				href="#" class="memberLink">관리자페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a
-				href="#" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="myPage.me" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+			<a href="dashBoard.ad" class="memberLink">관리자페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
+			<a href="#" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 	</div>
 </body>

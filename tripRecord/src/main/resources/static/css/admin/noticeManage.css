@@ -1,0 +1,175 @@
+@charset "UTF-8";
+
+.notice-container{
+	margin-top: 20px;
+	margin-left: 55px;
+	height: 700px;
+}
+
+.notice-list{
+	width: 60%;
+}
+
+.search-div{
+	margin-top: 15px;
+	margin-right: 15px;
+	text-align: right;
+}
+
+.search-div-keyword{
+	margin-right: 10px;
+}
+
+.button-div{
+	float: left;
+	width: 100px;
+}
+
+.content-add{
+	margin-top: 5px;
+	margin-left: 50px;
+	width: 100%;
+}
+
+.content-add:hover{
+	background: white !important;
+	color: black !important;
+	font-weight: bold;
+}
+
+.list-table{
+	max-height:600px;
+	overflow-y: auto;
+	scrollbar-width: thin;
+}
+
+
+
+.detail-notice{
+	width: 45%;
+	margin-left: 40px;
+	margin-right: 15px;
+}
+
+.notice-detail{
+	width: 95%;
+	margin: 5px auto 0;
+	height: 650px;
+}
+
+.title-div-title{
+	width: 90%;
+	margin: 20px auto 0;
+	font-size: 20px;
+	border-bottom: 3px solid #96caf0;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+.title-detail-div{
+	width: 87%;
+	margin: 5px auto 0;
+	height: 65px;
+	border: 1px solid #2F6598;
+}
+
+.title-textarea{
+	border: none;
+	resize: none;
+	border-radius: 0 !important;
+	padding: 10px !important;
+	min-height: 0 !important;
+}
+
+.title-div-content{
+	width: 90%;
+	margin: 20px auto 0;
+	font-size: 20px;
+	border-bottom: 3px solid #96caf0;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+.content-detail-div{
+	width: 87%;
+	margin: 5px auto 0;
+	height: 400px;
+	border: 1px solid #2F6598;
+}
+
+.reg-div{
+	text-align: center;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.content-reg{
+	background: white !important;
+	margin-top: 15px;
+}
+
+.content-reg:hover{
+	background: #2F6598 !important;
+	color: white !important;
+}
+
+.box-size{
+	padding: 3px;
+}
+
+.box-size:hover{
+	background: #2F6598 !important;
+	color: white !important;
+}
+
+
+
+
+.board-list{
+	float: left;
+	background-color: #657C8D;
+	width: 15%;
+	height: 845px;
+	min-width: 282px;
+}
+
+.board-list-ul{
+	list-style-type: none;
+	width: 70%;
+}
+
+.board-list-ul>li{
+	margin-top: 3px;
+	margin-bottom: 3px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.board-list-ul a{
+	color: black;
+	text-decoration: none;
+}
+
+.select-board{
+	font-size: 25px;
+	font-weight: bold;
+	margin: 17px 0 !important;
+	padding: 0 !important;
+}
+
+.select-board:hover{
+		cursor: pointer;
+	}
+
+.out-adminPage{
+	margin-top: 430px;
+}
+
+.out-text{
+	margin-left: 33px;
+	color: white;
+	text-decoration: none;
+}
+.out-text:hover{
+	text-decoration: underline;
+}

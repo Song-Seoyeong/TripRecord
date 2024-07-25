@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.finalproject.triprecord.common.model.vo.Local;
+import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.place.model.vo.Place;
 
 public interface PlaceService {
@@ -15,5 +16,7 @@ public interface PlaceService {
 	Place selectPlace(HashMap<String, Integer> map);
 
 	int insertPlace(HashMap<String, Integer> map);
+
+	ArrayList<Review> selectReviewList(int contentid);
 
 }

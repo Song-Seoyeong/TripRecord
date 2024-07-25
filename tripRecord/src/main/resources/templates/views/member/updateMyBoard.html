@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>내 커뮤니티 수정</title>
+<style>
+	#submit_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#cancle_button{color:white; background-color: #FF203A; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+</style>
+</head>
+<body>
+	<!-- 헤더 -->
+	<div th:replace="~{common/logoBar :: logoBar }"></div>
+	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	<!--마이페이지 어퍼바-->
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	
+	<div class="flex-container" style="text-align:center; margin-left:auto;">
+		<div style="height:80px;"></div>
+		<!-- 커뮤니티 -->	
+		<div style="margin:auto; width:900px; height:600px; border:1px solid #b9b9b9; border-radius:10px;">
+			<!-- 커뮤니티 타이틀 -->
+			<div id="inquiryTitle" style="margin-top:20px; color: black; font-size: 30px; font-weight: 800; text-align:center;">
+				<input id="boardTitle" type="text" style="text-align:center; "value="커뮤니티 타이틀"/>
+			</div>
+			<div id="nickname"style="float:left; margin-left:50px; color: black; font-size: 16px; font-weight: 800; line-height: 50px;">[닉넴]</div>
+			<div id="date"style="float:right; margin-right:50px; color: black; font-size: 16px; font-weight: 800; line-height: 50px;">[날짜]</div>
+			<div style="margin-top:60px; margin-left:auto; margin-right:auto; width:90%; border:2px solid #96CAF0"></div>
+			<!-- 커뮤니티 내용 -->
+			<div id="content" style="margin-left:40px; margin-top:10px; font-size:20px;">
+				<textarea style="width:95%; height:400px; resize:none; border:none;">
+					상추를 치료해줄 사람어디 없나
+				</textarea>
+			</div> 
+		</div>
+		
+		<!-- 사진자리 -->
+		
+		<!-- 제출버튼 -->
+		<div >
+			<button id="submit_button" onclick="confirm()">확인</button>
+			<button id="cancle_button" onclick="cancle()">취소</button>
+		</div>
+	</div>
+		
+	<div style="margin-bottom: 1200px"></div>
+	<!-- 푸터 -->
+	<div th:replace="~{common/footer :: footer}" ></div>
+	
+	<script>
+		function confirm(){
+			location.href="detailMyBoard.me"
+		}
+		
+		function cancle(){
+			location.href="detailMyBoard.me"
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>해시태그 관리</title>
+<link href="css/admin/hashTagManage.css" rel="stylesheet" type="text/css">
+<link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
+</head>
+<body style="min-width: 1820px;">
+	<div th:replace="~{common/adminHeader :: header}"></div>
+	<div th:replace="~{common/adminBox :: box}"></div>
+	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
+		<div class="board-list">
+			<ul class="board-list-ul">
+				<li><a href="dashBoard.ad">대시보드</a></li>
+				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="questManage.ad">문의사항 관리</a></li>
+				<li><a href="gradeManage.ad">등급 관리</a></li>
+				<li><a href="noticeManage.ad">공지사항 관리</a></li>
+				<li><a href="pointManage.ad">포인트 관리</a></li>
+				<li><a href="boardManage.ad">게시판 관리</a></li>
+				<li class="select-board"><a>해시태그 관리</a></li>
+			</ul>
+			<div class="out-adminPage">
+				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+  <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
+  <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
+</svg>&nbsp; 관리자 페이지 나가기</a>
+			</div>
+		</div>
+		<div class="board-main">
+			<div class="title-board display-4">
+				<h1 style="display: inline; font-size: 2.5rem !important;">해시태그 관리</h1>
+			</div>
+			<div class="container-all display-flex">
+				<div class="list-content">
+					<div class="title-div">
+						<span class="title-text">해시태그 목록</span>
+					</div>
+					<div class="content-list">
+						<div class="list-table rounded-2 list-table">
+							<table class="table-user table">
+								<thead>
+									<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+										<th style="width: 15%;">번호</th>
+										<th style="width: 52%;">이름</th>
+										<th style="width: 18%;">분류</th>
+										<th style="width: 15%;">삭제</th>
+									</tr>
+								</thead>
+							  	<tbody>
+							  		<tr class="tr-user">
+							      		<td>2</td>
+							      		<td>액티비티</td>
+							      		<td>일반</td>
+										<td><div class="button-border box-size">삭제</div></td>
+							  		</tr>
+							  		<tr class="tr-user">
+							      		<td>1</td>
+							      		<td>혼자서</td>
+							      		<td>인원</td>
+										<td><div class="button-border box-size">삭제</div></td>
+							  		</tr>
+							  	</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="more-content">
+					<div class="more-top-content display-flex">
+						<div class="more-top-general-content">
+							<div class="title-div">
+								<span class="title-text">일반 해시태그 사용 Top 3</span>
+							</div>
+							<div class="top-table rounded-2">
+								<table class="table-user table">
+									<thead>
+										<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+											<th style="width: 20%;">순위</th>
+											<th style="width: 40%;">이름</th>
+											<th style="width: 25%;">사용 횟수</th>
+										</tr>
+									</thead>
+								  	<tbody>
+								  		<tr class="tr-user">
+								      		<td>1</td>
+								      		<td>액티비티</td>
+								      		<td>723</td>
+								  		</tr>
+								  		<tr class="tr-user">
+								      		<td>2</td>
+								      		<td>자연</td>
+								      		<td>423</td>
+								  		</tr>
+								  	</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="more-top-person-content">
+							<div class="title-div">
+								<span class="title-text">인원 해시태그 사용 Top 3</span>
+							</div>
+							<div class="top-table rounded-2">
+								<table class="table-user table">
+									<thead>
+										<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+											<th style="width: 20%;">순위</th>
+											<th style="width: 40%;">이름</th>
+											<th style="width: 25%;">사용 횟수</th>
+										</tr>
+									</thead>
+								  	<tbody>
+								  		<tr class="tr-user">
+								      		<td>1</td>
+								      		<td>혼자서</td>
+								      		<td>1,892</td>
+								  		</tr>
+								  		<tr class="tr-user">
+								      		<td>2</td>
+								      		<td>둘이서</td>
+								      		<td>1,812</td>
+								  		</tr>
+								  		<tr class="tr-user">
+								      		<td>3</td>
+								      		<td>셋이서</td>
+								      		<td>725</td>
+								  		</tr>
+								  	</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="more-add-content">
+						<div class="title-div">
+							<span class="title-text">해시태그 추가</span>
+						</div>
+						<div class="hashtag-add">
+							<div class="form-add">
+								<form>
+									<table class="table-user table point-table">
+										<thead>
+											<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+												<th style="width: 40%;">해시태그 명</th>
+												<th style="width: 30%;">분류</th>
+												<th style="width: 30%;">추가</th>
+											</tr>
+										</thead>
+									  	<tbody>
+									  		<tr class="tr-user">
+									      		<td><input type="text" name="point" id="point" placeholder="해시태그"></td>
+									      		<td>
+									      			<div class="add-div-select display-inline-block">
+														<select class="form-select add-select box-shadow-none" aria-label="Default select example">
+															<option value="-" id="none" selected disabled>분류</option>
+															<option value="1">티켓</option>
+															<option value="2">숙소</option>
+															<option value="3">관광지</option>
+														</select>
+													</div>
+									      		</td>
+												<td><button class="button-border select-button">추가</button></td>
+									  		</tr>
+									  	</tbody>
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

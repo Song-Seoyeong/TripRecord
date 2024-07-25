@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="plannerUpperBar">
+<head>
+<meta charset="UTF-8">
+<title>플래너페이지 어퍼태그</title>
+<style>
+	a{text-decoration-line: none; color:black;}
+	a:hover{color:#96CAF0;}
+</style>
+</head>
+<body>
+	<!-- 어퍼바 -->
+	<div style="height:80px;"></div>
+	<div class="container-fluid text-center" style="margin: Auto; display:grid; grid-template-columns: 9fr 1fr 9fr;">
+		<div style="margin-left:180px; color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a href="plannerPage.me">내 플래너 프로필 보기</a>
+		</div>
+		<div style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a href="request.me">요청보기</a>
+		</div>
+		<div style="margin-right:180px; color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a href="sales.me">판매내역</a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="myPageSideBar">
+<head>
+<meta charset="UTF-8">
+<title>마이페이지 사이드바</title>
+<style>
+	#submitAdmin:hover{color:skyblue}
+</style>
+</head>
+<body>
+	<!-- 사이드바 -->
+	<div style="left: 65px; margin-top:290px; position: absolute; color: black; line-height: 16px;"><button id="submitAdmin" style="font-size:20px; border:none; background:white;"onclick="submitAdmin()">관리자 전환 요청하기</button></div>
+	<div style="padding: 16px; border: 1px lightgray solid; border-radius: 8px; margin-top:70px;  margin-left: 50px;  display: inline-flex;">
+		<ul class="nav flex-column" style="float: left;">
+			<li style="border-bottom: 2px lightgray solid; width:200px;"><h4>내 정보</h4></li>
+			<li class="nav-item"><a class="nav-link" href="myPage.me" style="color: black;">내 정보 수정</a></li>
+			<li class="nav-item"><a class="nav-link" href="updateMyPwd.me" style="color: black;">비밀번호 변경</a></li>
+			<li class="nav-item"><a class="nav-link" href="promoteToPlanner.me" style="color: black;">플래너 전환하기</a></li>
+		</ul>
+	</div>
+	
+	<script>
+		function submitAdmin(){
+			let result = confirm("요청하시겠습니까");
+			if(result == 'true'){
+				location.href="submitAdmin.me"
+			}else{
+				return;
+			}
+		}
+	</script>	
+</body>
+</html>

@@ -14,9 +14,9 @@ import lombok.ToString;
 public class Review {
 	private int replyNo;
 	private int boardNo;
-	private int replyWriterNo;
-	private String replyContent;
-	private Date replyCreateDate;
-	private Date replyModifyDate;
-	private String replyStatus;
+	private int reviewWriterNo;
+	private String reviewontent;
+	private Date reviewCreateDate;
+	private Date reviewModifyDate;
+	private String reviewyStatus;
 }

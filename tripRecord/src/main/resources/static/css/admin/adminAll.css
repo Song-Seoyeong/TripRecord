@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+.table-user{
+	border: none !important;
+	width: 95% !important;
+	height: 98%;
+	margin: 0 auto !important;
+	text-align: center;
+}
+
+.table-user td, .table-user th{
+	border: none;
+}
+
+.tr-user{
+	border-top: 1px solid #96caf0;
+}
+
+.td-user{
+	border-right: 1px solid #96caf0 !important;
+}
+
+.td-user-bold{
+	border-left: thick solid #96caf0 !important;
+	border-right: 1px solid #96caf0 !important;
+}
+
+.table_hover{
+	cursor: pointer;
+}
+
+.overflow-ell{
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+
+.title-div{
+	font-weight: bold;
+	border-bottom: 1px solid #2F6598;
+}
+
+.title-text{
+	padding-left: 10px;
+	font-size: 25px;
+	color: #2F6598;
+}
+
+.display-flex{
+	display: flex;	
+}
+
+.board-main{
+	float: left;
+	width: 85%;
+}
+.title-board{
+	margin-top: 10px;
+	margin-left: 50px;
+	font-size: 3.5rem !important;
+}
+
+.container-box{
+	margin: 0;
+	width:100%;
+	display: flex;
+}
+
+.display-inline-block{
+	display: inline-block;
+}
+
+.box-shadow-none:focus{
+	box-shadow: none !important;
+	border: 1px solid #dee2e6 !important;
+	border-radius: 0;
+}
+
+.button-border{
+	border: var(--bs-border-width) solid #2F6598;
+	border-radius: var(--bs-border-radius) !important;
+}
+
+.button-border:hover{
+	cursor: pointer;
+}
+
+.select-button{
+	 background: white; 
+	 width: 80%; 
+	 height: 90%; 
+	 margin-top: 2px;
+}
+
+.title-text-icon{
+	float: right; 
+	margin-right: 20px;
+	cursor: pointer;
+}
+
+.board-list{
+	float: left;
+	background-color: #657C8D;
+	width: 15%;
+	height: 845px;
+	min-width: 282px;
+	display: flex;
+   	flex-direction: column;
+  	justify-content: space-between;
+}
+
+.board-list-ul{
+	list-style-type: none;
+	width: 70%;
+}
+
+.board-list-ul>li{
+	margin-top: 3px;
+	margin-bottom: 3px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.board-list-ul a{
+	color: black;
+	text-decoration: none;
+}
+
+.select-board{
+	font-size: 25px;
+	font-weight: bold;
+	margin: 17px 0 !important;
+	padding: 0 !important;
+}
+
+.select-board:hover{
+	cursor: pointer;
+}
+
+.out-adminPage{
+	margin-bottom: 20px;
+}
+
+.out-text{
+	margin-left: 33px;
+	color: white;
+	text-decoration: none;
+}
+.out-text:hover{
+	text-decoration: underline;
+}
