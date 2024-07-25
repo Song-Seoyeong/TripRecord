@@ -42,7 +42,7 @@ public class PlaceRestController {
 		parameter += "&areaCode=" + areaCode;
 		parameter += "&_type=json";
 		String adrr = basicUrl + parameter;
-		System.out.println(adrr);
+		//System.out.println(adrr);
 		StringBuffer sb = new StringBuffer();
 		
 		try {

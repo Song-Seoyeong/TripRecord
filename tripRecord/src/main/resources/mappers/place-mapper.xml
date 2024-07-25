@@ -5,4 +5,10 @@
 		select * 
 		from local
 	</select>
+	
+	<select id="checkPlace">
+		select count(*)
+		from reco_place
+		where place_no = #{contentid} and local_no = #{areaCode}
+	</select>
 </mapper>

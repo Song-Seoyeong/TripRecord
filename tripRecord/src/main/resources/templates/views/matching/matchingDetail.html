@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>insert title here</title>
+
+<style>
+#mainContainer {
+	width: 1400px;
+}
+</style>
+
+
+</head>
+<body>
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	<div id="mainContainer" class="container-fluid justify-content-center">
+		<div class="d-flex justify-content-between align-items-center">	
+			<div class="fs-2 my-3 ms-5">플래너 정보</div>
+			<div>
+				<button class="btn btn-secondary me-5" onclick="location.href='matchingMain.ma'">목록으로</button>
+			</div>
+		</div>
+		<!-- 상단 정보 탭 전체 -->
+		<div class="d-flex container-fluid justify-content-center m-3">
+		<!-- 플래너 정보 -->
+			<div id="plannerInfo" class="m-3">
+				<div class="d-flex align-items-center shadow shadow border bg-light rounded-3">
+					<div class="d-flex justify-content-center p-3">
+						<img class="rounded-circle mx-3" src="resources/profile-basic.jpg" width="150px" height="150px"/>
+					</div>
+					<div class="p-3">
+						<div class="mx-3 fs-1">황병찬 플래너</div>
+						<div class="mx-3 mt-2"> 서울살이 30년 / 가이드 경력 있음</div>
+						<div class="mx-3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+								<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+								<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+							</svg> 서울
+						</div>
+						<div class="mx-3 mt-2">
+							<button id="likeButton" class="btn btn-outline-danger">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+								</svg>
+								좋아요 124
+							</button>
+						</div>
+						<div class="mx-3 mt-2">
+							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+						</div>
+					</div>
+				</div>
+			</div> 
+			<div id="RequestForm" class="p-3">
+				<div class="d-inline-block text-center shadow border bg-light rounded-3">
+					<h3 class="d-inline-block m-3">플래너에게 지금 견적을<br/>
+													신청해보세요</h3><br/>
+					<button class="btn btn-primary m-3" onclick="location.href='matchingRequest.ma'">일정 신청</button>
+				</div>
+				<br/><br/><a href="matchingReview.ma">>> 후기 작성하러 가기</a>
+			</div>
+		</div>
+		
+		<!-- 가로줄 -->
+		<div class="d-flex justify-content-center">
+			<hr class="border border-secondary border-1 opacity-75 w-100"/>
+		</div>
+		
+		<div id="reviewSumTab" class="d-flex justify-content-center">
+			<div class="container shadow border bg-light rounded-3 m-3 w-75" >
+				<h2 class="m-5 text-center">리뷰(523) | 별점 ★ 5.0</h2>
+			</div>
+		</div>
+		
+		<!-- 가로줄 -->
+		<div class="d-flex justify-content-center">
+			<hr class="border border-secondary border-1 opacity-75 w-100"/>
+		</div>
+		
+		
+		<div id="content" class="d-flex justify-content-center my-3">
+			<div class="d-flex flex-column shadow border bg-light rounded-3 w-75" >
+				<div class="d-flex justify-content-center">
+					<img class="m-5 w-100" width="800px" src="/resources/goSchedule.jpg"/><br/>
+				</div>
+				<div class="mx-5 mb-5">
+					<p>안녕하세요! 여행을 사랑하는 모든 분들을 환영합니다. 이 가이드는 여러분의 여행이 더욱 특별하고 잊지 못할 경험이 될 수 있도록 다양한 정보를 제공합니다. 전 세계의 숨겨진 명소, 현지인만 아는 맛집, 독특한 문화 체험까지, 여행지에 대한 상세한 정보와 유용한 팁을 담고 있습니다. 혼자 떠나는 자유 여행이든 가족과 함께하는 휴가든, 각 여행 스타일에 맞춘 맞춤형 정보를 제공합니다. 또한, 여행 중 유의해야 할 안전 수칙과 에티켓, 현지 언어 표현 등도 포함되어 있어 처음 방문하는 곳에서도 자신감을 가질 수 있습니다. 여러분의 여행 준비부터 현지에서의 활동까지 이 가이드가 든든한 동반자가 되길 바랍니다. 새로운 곳에서의 멋진 추억을 만들어 보세요!</p>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 가로줄 -->
+		<div class="d-flex justify-content-center">
+			<hr class="border border-secondary border-1 opacity-75 w-100"/>
+		</div>
+		
+		
+		<!-- 후기 -->
+			
+		<div class="d-flex text-start mb-3 fs-3">후기 ★★★★★</div>
+		<div class="d-flex justify-content-center my-3">
+			<div class="d-flex flex-column w-75">
+				<div class="list-group shadow w-100">
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기1</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기2</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기3</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기4</a>
+					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기5</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{ common/footer.html :: footer }"></div>
+</body>
+</html>
