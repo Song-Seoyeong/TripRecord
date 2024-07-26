@@ -22,14 +22,14 @@ input{
 	padding-left: 10px;
 }
 .loginText {
-	font-size: 25px;
+	font-size: 23px;
 	font-weight: 600;
 }
 #emailDomain{
 	width: 40%;
 }
 #memEmail{
-	width: 50%;
+	width: 40%;
 	border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-top-right-radius: 0;
@@ -89,6 +89,9 @@ input{
 	border: 1px solid #B7B7B7;
 	border-radius: 10px;
 	width: 100%;
-	height: 50px;
+	height: 90px;
 	resize: none;
 }
+#domain{width:35%;}
+#selectDomain{width:35%;}
+.alert-div{height:25px;}

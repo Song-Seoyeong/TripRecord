@@ -42,7 +42,7 @@ input{
 	background: none;
 	border: 2px solid #96CAF0;
 	color: #96CAF0;
-	width: 70px;
+	width: 80px;
 	font-weight: blod;
 	margin: 10px 0;
 	margin-top: 30px;
@@ -57,4 +57,9 @@ input{
 .aTag{
 	color: black;
 	text-decoration: none;
+}
+#id-write{
+		width:500px;
+		position:relative;
+		color:red;
 }
