@@ -5,7 +5,7 @@ body{
 }
 
 .container-top{
-	height: 45%;
+	height: 40%;
 	margin-top: 30px;
 	margin-left: 55px;
 	min-width: 1450px;
@@ -45,11 +45,13 @@ body{
 
 .contents-container{
 	width: 25%;
+	height: 250px;
 }
 
 .money-container{
 	width: 60%;
 	margin-left: 100px;
+	height: 330px;
 }
 
 .money-box{
