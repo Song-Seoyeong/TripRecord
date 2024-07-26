@@ -10,10 +10,10 @@
    <div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
 	<!-- 타이틀 영역 -->
-	<div class="div" style='background-image: url("image/insadong.jpg");'>
+	<div class="div" id='imageTitle'>
 		<div class="text-content-title">
-			<b class="title">인사동</b>
-			<div class="subtitle">도심 속에서 낡지만 귀중한 전통의 물건들이 교류되는 소중한 공간</div>
+			<span><b class="title" id='title'></b></span>
+			<div class="subtitle" id='subTitle'></div>
 		</div>
 	</div>
 	<!-- 타이틀 영역 -->
@@ -22,15 +22,47 @@
 	<div id='content'>
 		<div class='row container'>
 			<div class='col-6 text-start placeInfo'>
-				별점 : ★★★★★
+				<th:bolck th:if='${p.placeStar == 0}'>
+					별점 : 
+					<img src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 4)}' class='star'>
+					&nbsp;&nbsp;[[${p.placeStar}]]
+				</th:bolck>
+				<th:bolck th:if='${p.placeStar > 0 && p.placeStar < 1.5}'>
+					별점 : 
+					<img src="image/star.png" class='star'>
+					<img src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 3)}'class='star'>
+					&nbsp;&nbsp;[[${p.placeStar}]]
+				</th:bolck>
+				<th:bolck th:if='${p.placeStar >= 1.5 && p.placeStar < 2.5}'>
+					별점 : 
+					<img src="image/star.png" class='star' th:each='i : ${#numbers.sequence(0, 1)}'>
+					<img src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 2)}' class='star'>
+					&nbsp;&nbsp;[[${p.placeStar}]]
+				</th:bolck>
+				<th:bolck th:if='${p.placeStar >= 2.5 && p.placeStar < 3.5}'>
+					별점 : 
+					<img src="image/star.png" class='star' th:each='i : ${#numbers.sequence(0, 2)}'>
+					<img src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 1)}' class='star'>
+					&nbsp;&nbsp;[[${p.placeStar}]]
+				</th:bolck>
+				<th:bolck th:if='${p.placeStar >= 3.5 && p.placeStar < 4.5}'>
+					별점 : 
+					<img src="image/star.png" class='star' th:each='i : ${#numbers.sequence(0, 3)}'>
+					<img src="image/noStar.png" class='star'>
+					&nbsp;&nbsp;[[${p.placeStar}]]
+				</th:bolck>
+				<th:bolck th:if='${p.placeStar >= 4.5 && p.placeStar <= 5}'>
+					별점 : 
+					<img src="image/star.png" class='star' th:each='i : ${#numbers.sequence(0, 4)}'>
+					&nbsp;&nbsp;[[${p.placeStar}]]
+				</th:bolck>
 			</div>
-			<div class='col-6 text-start placeInfo'>조회수 : 2,331</div>
+			<div class='col-6 text-start placeInfo'>조회수 : [[${p.placeCount}]]</div>
 		</div>
+		<div class='row contatiner' id='extraInfo'></div>
 		<div id='address' class='placeInfo text-start'>
-			서울특별시 종로구 인사동길 62(관훈동) 일대
 		</div>
 		<div class='text-start' id='placeContent'>
-			인사동은 도심 속에서 낡지만 귀중한 전통의 물건들이 교류되는 소중한 공간이다. 인사동에는 큰 대로를 중심으로 사이사이 골목들이 미로처럼 얽혀 있다. 이 미로 속에는 화랑, 전통공예점, 고미술점, 전통찻집, 전통음식점, 카페 등이 밀집되어 있다. 특히 인사동의 가게들은 저마다의 독특한 멋으로 젊은이들은 물론 중년층에게까지 매우 인기가 많다. 그 중에서도 화랑은 인사동의 맥을 이어온 중심이다. 이 곳에는 100여 개의 화랑이 밀집되어 있는데 한국화에서 판화, 조각전까지 다양한 전시회를 감상할 수 있다. 대표적인 화랑으로는 민중미술의 중심역할을 했던 학고재, 재능있는 작가들의 터전이 되었던 가나화랑, 가나아트센터 등이 있다. 만약 인사동의 유명한 화랑만을 골라서 편하게 구경하고 싶다면 미술관 순화버스 를 이용해보자. 저렴한 가격으로 유명 화랑 10여곳을 둘러볼 수 있다. <br />화랑과 함께 인사동 거리를 메우고 있는 것은 바로 전통 찻집과 음식점이다. 처음에는 찾기가 힘들지만, 산책하듯이 천천히 골목골목을 둘러보면 매우 재미있다. 그 중에서 대표적인 명소를 꼽는다면 전통찻집 귀천이 있다. 귀천(歸天)은 고 천상병(千祥炳) 시인의 부인이 운영하는 전통찻집으로 내부는 매우 작지만 당시 시인의 책과 사진을 접할 수 있는 곳이다. 이곳은 모과차가 가장 향기가 좋아 인기인데, 지금도 가끔 유명 인사들이 다녀가는 곳이다.인사동은 매주 토/일요일마다 차 없는 거리로 지정되어 시민과 함께 하는 문화공간으로 다시 태어났다. 이날은 기존 가게는 물론 거리에는 전통공연과 전시는 물론 엿장수, 사주와 궁합을 보는 할아버지가 함께 한다. 이 속에서 즐거움을 찾는 이들은 바로 각국에서 몰려든 외국인들이다. 한국의 전통문화를 보기 위해 찾아든 외국인 관광객들은 전통가게에서 고물건을 보거나 고미술을 산다. 그리고 거리에 있는 엿을 사고 전통 파전을 먹는다. 도심에서 느끼는 전통의 멋에 빠진 외국인들의 모습도 많이 볼 수 있다.<br>
 		</div>
 		
 		<div id="placeImg" class="container">
@@ -81,83 +113,32 @@
 	<div class="line-div"></div>
 
 	<!-- 후기 영역 -->
-	<div class='review-text' id='title'>'인사동' 후기 &#x1F4DD;</div>
-	<div class='review-text' id='goReview' onclick='location.href="placeReviewWrite.pla"'>
-		후기 작성 하러 가기 >>
+	<div class='review-text' id='retitle'>'인사동' 후기 &#x1F4DD;</div>
+	<div class='review-text' id='reviewDiv'>
+		<button onclick='location.href="placeReviewWrite.pla"' id='goReview'>
+		  <p>후기 작성</p>
+		  <svg  xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4" >
+		    <path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+		  </svg>
+		</button>
 	</div>
 	
 	<div class="card-grid">
-		<div class="testimonial-card">
+		<div class="testimonial-card" th:each='r : ${list}' th:if='${list != null && !list.isEmpty()}'>
 			<div class="text-heading">
-				<div class="reviewTitle">서울 가면 꼭 가보고싶던 인사동~</div>
+				<div class="reviewTitle">[[${r.reviewTitle}]]</div>
 			</div>
 			<div class="avatar-block">
 				<img class="avatar-icon" alt="" src="image/noProfile.png">
 				<div class="info">
-					<div class="card-title">주말에 서울로 여행을 갔다 오면서 꼭 가보고싶던 인사동을 방문하였습니다. 전통 찻집과 다양한 복합 문화 공간이 많아 반나절정도 재밌게 돌아다닌것 같습니다</div>
-					<div class="starReview">★★★★★</div>
+					<div class="card-title">[[${r.reivewContent}]]</div>
+					<div class="starReview">★[[${r.reviewStar}]]</div>
 				</div>
 			</div>
 		</div>
-		<div class="testimonial-card">
-			<div class="text-heading">
-				<div class="reviewTitle">“Quote”</div>
-			</div>
-			<div class="avatar-block">
-				<img class="avatar-icon" alt="" src="image/noProfile.png">
-				<div class="info">
-					<div class="card-title">Title</div>
-					<div class="starReview">Description</div>
-				</div>
-			</div>
-		</div>
-		<div class="testimonial-card">
-			<div class="text-heading">
-				<div class="reviewTitle">“Quote”</div>
-			</div>
-			<div class="avatar-block">
-				<img class="avatar-icon" alt="" src="image/noProfile.png">
-				<div class="info">
-					<div class="card-title">Title</div>
-					<div class="starReview">Description</div>
-				</div>
-			</div>
-		</div>
-		<div class="testimonial-card">
-			<div class="text-heading">
-				<div class="reviewTitle">“Quote”</div>
-			</div>
-			<div class="avatar-block">
-				<img class="avatar-icon" alt="" src="image/noProfile.png">
-				<div class="info">
-					<div class="card-title">Title</div>
-					<div class="starReview">Description</div>
-				</div>
-			</div>
-		</div>
-		<div class="testimonial-card">
-			<div class="text-heading">
-				<div class="reviewTitle">“Quote”</div>
-			</div>
-			<div class="avatar-block">
-				<img class="avatar-icon" alt="" src="image/noProfile.png">
-				<div class="info">
-					<div class="card-title">Title</div>
-					<div class="starReview">Description</div>
-				</div>
-			</div>
-		</div>
-		<div class="testimonial-card">
-			<div class="text-heading">
-				<div class="reviewTitle">“Quote”</div>
-			</div>
-			<div class="avatar-block">
-				<img class="avatar-icon" alt="" src="image/noProfile.png">
-				<div class="info">
-					<div class="card-title">Title</div>
-					<div class="starReview">Description</div>
-				</div>
-			</div>
+		<div th:if='${list == null} or ${list.isEmpty()}' id='rText'>
+			<hr>
+			<p>아직 작성된 후기가 없어요. 소중한 경험을 공유해주세요 :)</p>
 		</div>
 	</div>
 	<!-- 후기 영역 -->
@@ -189,7 +170,93 @@
 	
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-	        const gallery = document.getElementById('image-gallery');
+			const params = new URLSearchParams(window.location.search);
+			const contentid = params.get('contentid');
+			const contenttypeid = params.get('contenttypeid');
+			const areaCode = params.get('areacode');
+	        
+	        /* document.getElementById('goReview').addEventListener('click', ()=>{
+	        	const reviewModal = document.getElementById('Modal');
+	        	$('#Modal').modal('show');
+	        }); */
+	        
+	       /*  document.getElementById('loginView').addEventListener('click', ()=>{
+	        	location.href = 'placeReviewWrite.pla';
+	        }) */
+	        
+	        detailInfo(contentid, contenttypeid);
+	        
+	    });
+		
+		// 추가 정보 영역
+		const extraInfo = document.getElementById('extraInfo');
+		
+		
+		
+		// 컨텐츠 상세 조회 함수
+		function detailInfo(contentid, contenttypeid){
+			$.ajax({
+				url:'placeInfo.pla',
+				type: 'GET',
+				data: {contentid : contentid, contenttypeid : contenttypeid},
+				success: data =>{
+					//console.log(data);
+					const item = data.response.body.items.item[0];
+					
+					const title = document.getElementById('title');
+					title.innerHTML = item.title;
+					
+					/* const subTitle = document.getElementById('subTitle');
+					subTitle.innerHTML = item.overview.split(".")[0]; */
+					
+					const imageTitle = document.getElementById('imageTitle');
+					if(item.firstimage === ""){
+						imageTitle.style.backgroundImage = 'url(image/noimageBackground.png)'
+					}else{
+						imageTitle.style.backgroundImage = 'url(' + item.firstimage + ')';
+					}
+					
+					const address = document.getElementById('address');
+					address.innerHTML = item.addr1 + item.addr2 + " / 우편번호 : " + item.zipcode;
+					
+					const placeContent = document.getElementById('placeContent');
+					placeContent.innerHTML = item.overview;
+					
+					// 추가 정보
+					// 홈페이지
+					if(item.homepage !== ""){
+						const homepage = document.createElement('div');
+						homepage.className = 'col-6 text-start placeInfo'
+						homepage.innerHTML = '홈페이지 : ' + item.homepage;
+						extraInfo.append(homepage);
+					}
+					
+					// 전화번호
+					if(item.tel !== ""){
+						const tel = document.createElement('div');
+						tel.className = 'col-6 text-start placeInfo'
+						tel.innerHTML = '전화번호 : ' + item.tel;
+						extraInfo.append(tel);
+					}
+				},
+				error: data => console.log(data)
+			})
+		}
+		
+		// 후기 상세 함수
+		function clickReviewCard(){
+			const reviewCard = document.getElementsByClassName('testimonial-card');
+		       Array.from(reviewCard).forEach(card =>{
+		    	   card.addEventListener('click', () =>{
+			    	   location.href = 'placeReviewDetail.pla'
+			       })
+		       })
+		}
+		
+		
+		// 이미지 모달 함수
+		function imageModal(){
+			const gallery = document.getElementById('image-gallery');
 	        const images = gallery.querySelectorAll('.image-container img');
 	        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
 	        const carouselIndicators = document.querySelector('.carousel-indicators');
@@ -235,24 +302,7 @@
 	                $('#carouselExampleIndicators').carousel(2);
 	            });
 	        }
-	        
-	        /* document.getElementById('goReview').addEventListener('click', ()=>{
-	        	const reviewModal = document.getElementById('Modal');
-	        	$('#Modal').modal('show');
-	        }); */
-	        
-	       /*  document.getElementById('loginView').addEventListener('click', ()=>{
-	        	location.href = 'placeReviewWrite.pla';
-	        }) */
-	        
-	        
-	       const reviewCard = document.getElementsByClassName('testimonial-card');
-	       Array.from(reviewCard).forEach(card =>{
-	    	   card.addEventListener('click', () =>{
-		    	   location.href = 'placeReviewDetail.pla'
-		       })
-	       })
-	    });
+		}
 	</script>
 	
 </body>

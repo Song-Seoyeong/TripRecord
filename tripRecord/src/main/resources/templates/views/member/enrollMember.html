@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <title>일반회원가입</title>
 <link type="text/css" href='css/member/enrollMember.css' rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<style>
+
+</style>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
@@ -22,25 +28,20 @@
 				</div>
 				<div  class='col-4'>
 					<input type="text" name='memId' placeholder="아이디를 입력하세요">
-					<div id='idText'>존재하는 아이디입니다</div>
+					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
-			<div class="row pwdInputDiv">
+			<div class="inputDiv row">
 				<div class='col-3'></div>
 				<div class='col-2'>
 					<label class="loginText">비밀번호</label>
 				</div>
 				<div  class='col-4'>
 					<input type="password" name='memPwd' placeholder="비밀번호를 입력하세요">
+					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
-			</div>
-			<div class="row pwdInputDiv">
-				<div class='col-5'></div>
-				<div class='col-7'>
-					<div id='pwdText'>영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요</div>
-				</div>
 			</div>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -49,7 +50,7 @@
 				</div>
 				<div  class='col-4'>
 					<input type="password" id='pwdconfirm' placeholder="비밀번호를 한번 더 입력하세요">
-					<div id='pwdConfirmText'>비밀번호가 일치합니다</div>
+					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -60,6 +61,7 @@
 				</div>
 				<div  class='col-4'>
 					<input type="text" name='memName' placeholder="이름를 입력하세요">
+					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -69,8 +71,8 @@
 					<label class="loginText">닉네임</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memNinkName' placeholder="닉네임를 입력하세요">
-					<div id='nickNameText'>중복된 닉네임입니다</div>
+					<input type="text" name='memNickname' placeholder="닉네임를 입력하세요">
+					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -80,27 +82,35 @@
 					<label class="loginText">전화번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요">
-					<div id='phoneText'>(-)를 제외하고 입력해주세요</div>
+					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
-			<div class="inputDiv row">
+			<div class="inputDiv row" style="margin:0;">
 				<div class='col-3'></div>
 				<div class='col-2'>
 					<label class="loginText">이메일</label>
 				</div>
-				<div  class='col-4 d-flex align-items-center'>
+				<div class='col-6' style="display:flex">
 					<input type="text" name='memEmail' id='memEmail' placeholder="이메일">
-					<span id='atSign' class='text-center align-text-center'>@</span>
-					<select name='emailDomain' id='emailDomain' class="form-select">
-						<option selected>naver.com</option>
-						<option>gmail.com</option>
-						<option>nate.com</option>
-						<option>hanmail.net</option>
+					<div id='atSign' class='text-center'>@</div>
+					<input id="domain" type="text" class="form-control" aria-lavel="Text input with dropdown button" value="naver.com">
+					<select id="selectDomain" class="form-select">
+						<option class="dropdown-item">naver.com</option>
+						<option class="dropdown-item">google.com</option>
+						<option class="dropdown-item">yahoo.com</option>
+						<option class="dropdown-item">직접 입력</option>
 					</select>
 				</div>
-				<div class='col-3'></div>
+				<div class='col-1'></div>
+			</div>
+			<div class="inputDiv row">
+				<div class="col-5"></div>
+				<div class="col-7">
+					<div class=" alert-div"></div>
+					
+				</div>
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center align-items-center'>
 				<button type="button" class="btn btn-primary" id='enrollButton'>회원가입</button>
@@ -112,5 +122,174 @@
 	<!-- 회원가입 폼 -->
 	
 	<div th:replace="~{ common/footer.html :: footer }"></div>
+	
+	<script>
+		window.onload=()=>{
+			const selectDomain = document.getElementById("selectDomain");
+			const domain = document.getElementById("domain");
+			selectDomain.addEventListener('change', function(){
+				if(this.value != "직접 입력"){
+					domain.value = this.value;
+				} else{
+					domain.value = "";
+				}
+			});
+			
+			
+			const enrollbtn = document.getElementById("enrollButton");
+			const inputId = document.getElementsByName("memId")[0];
+			const inputPwd = document.getElementsByName("memPwd")[0];
+			const inputName = document.getElementsByName("memName")[0];
+			const inputNickname = document.getElementsByName("memNickname")[0];
+			const inputPhone = document.getElementsByName("memPhone")[0];
+			const firstEmail = document.getElementById("memEmail");
+			const alertDivs = document.getElementsByClassName("alert-div");
+			enrollbtn.onclick = e =>{
+				if(inputId.value.trim() == ''){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[0].innerText = "아이디를 입력해주세요";
+					alertDivs[0].style.color = 'red';
+					inputId.focus();
+					e.preventDefault();
+				} else if(inputPwd.value.trim() == ''){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[1].innerText = "비밀번호를 입력해주세요";
+					alertDivs[1].style.color = 'red';
+					inputPwd.focus();
+					e.preventDefault();
+				} else if(inputName.value.trim() == ''){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[3].innerText = "이름을 입력해주세요";
+					alertDivs[3].style.color = 'red';
+					inputName.focus();
+					e.preventDefault();
+				} else if(inputNickname.value.trim() == ''){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[4].innerText = "닉네임을 입력해주세요";
+					alertDivs[4].style.color = 'red';
+					inputNickname.focus();
+					e.preventDefault();
+				} else if(inputPhone.value.trim() == ''){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[5].innerText = "전화번호를 입력해주세요";
+					alertDivs[5].style.color = 'red';
+					inputPhone.focus();
+					e.preventDefault();
+				} else if(firstEmail.value.trim() == '' || domain.value.trim() == ''){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[6].innerText = "이메일을 입력해주세요";
+					alertDivs[6].style.color = 'red';
+					if(firstEmail.value.trim() == ''){
+						firstEmail.focus();
+						e.preventDefault();
+					}else{
+						domain.focus();
+						e.preventDefault();
+					}
+				} else if(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[2].style.color = 'green';
+					alertDivs[2].innerText = "비밀번호가 일치합니다";
+				} else if(pwdconfirm.value.trim() != ''){
+					alertDivs[2].style.color = 'red';
+					alertDivs[2].innerText = "비밀번호가 일치하지 않습니다";
+					e.preventDefault();
+					// 비밀번호가 다르거나, 둘중 하나가 빈칸이면
+				}
+			}
+			
+			const pwdconfirm = document.getElementById("pwdconfirm");
+			
+			pwdconfirm.addEventListener('focusout',()=>{
+				if(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){
+					alertDivs[2].style.color = 'green';
+					alertDivs[2].innerText = "비밀번호가 일치합니다";
+					return true;
+				} else{
+					alertDivs[2].style.color = 'red';
+					alertDivs[2].innerText = "비밀번호가 일치하지 않습니다";
+					pwdconfirm.focus();
+					return false;
+				}
+			});
+			
+			const regId = /^[A-Za-z0-9]{4,10}$/;
+			inputId.addEventListener('focusout',()=>{
+				let id = inputId.value;
+				if(id.trim() != ''){
+					$.ajax({
+						url: 'checkId.me',
+						data: {id:id},
+						success: (data) => {
+							if(data == 0 && regId.test(id)){
+								alertDivs[0].innerText = '사용 가능한 아이디입니다';
+								alertDivs[0].style.color = 'green'
+								return true;
+							} else {
+								alertDivs[0].innerText = '사용 불가한 아이디입니다';
+								alertDivs[0].style.color = 'red';
+								return false;
+							}
+						},
+						error: data => console.log(data)
+					});
+				}
+			});
+			
+			
+			
+			
+		}
+		// window.onload 끝
+		
+		
+		
+		
+		// 비밀번호 체크
+//		const regPwd = /^[A-Za-z0-9@.]{8,15}$/;
+		const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+		const pwd = document.getElementsByName("memPwd")[0];
+		const alertDivs = document.getElementsByClassName("alert-div");
+		
+		pwd.addEventListener('focusout',()=>{
+			if(!regPwd.test(pwd.value)){
+				alertDivs[1].innerText = '영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요';
+				alertDivs[1].style.color = 'red';
+				console.log("얼른 제대로 바꿔주세요");
+				pwd.focus();
+				
+				return false;
+			} else {
+				alertDivs[1].innerText = '사용 가능한 비밀번호입니다';
+				alertDivs[1].style.color = 'green';
+				return true;
+			}
+		});
+		
+		
+		
+		
+	</script>
 </body>
 </html>

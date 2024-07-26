@@ -330,7 +330,7 @@
 		   		type: "GET",
 		   		data: {page: page, arrange: arrange, selectedKeyword : selectedKeyword, areaCode:areaCode},
 		   		success: function(data){
-		   			//console.log(data)
+		   			console.log(data)
 		   			
 		   			contentCardList.innerHTML = "";
 		   			pagination.innerHTML = "";
@@ -338,7 +338,7 @@
 		   			for(const i of data.response.body.items.item){
 			   			const clickCardDiv = document.createElement('div');
 			   			clickCardDiv.className = 'col clickCard';
-			   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + data.areaCode;
+			   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + i.areacode;
 			   			const infoCardDiv = document.createElement('div');
 			   			infoCardDiv.className = 'product-info-card';
 			   			const img = document.createElement('img');

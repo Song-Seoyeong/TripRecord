@@ -14,19 +14,19 @@
 	
 	<select id="selectPlace" resultType='Place'>
 		select *
-		from place
+		from reco_place
 		where place_no = #{contentid} and local_no = #{areaCode}
 	</select>
 	
 	<insert id="insertPlace">
-		insert into place
-			values(#{contentid}, #{areaCode}, default, default);
+		insert into reco_place
+			values(#{contentid}, #{areaCode}, #{contenttypeid}, default, default)
 	</insert>
 	
 	<update id="updatePlaceCount">
-		update place
+		update reco_place
 			set place_count = place_count + 1
-			where place_no = #{contentid} and local_no = #{areaCode}
+			where place_no = #{contentid} and local_no = #{areaCode} and content_type_id = #{contenttypeid}
 	</update>
 	
 	<select id="selectReviewList" resultType='Review'>

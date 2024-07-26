@@ -3,61 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<!-- <link type="text/css" href="css/placeDetail.css" rel="stylesheet"> -->
+<link type="text/css" href="css/service/askList.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <style>
-.offcanvas-body>p:hover{cursor:pointer;}
-#content{text-align:center;width:50%
-		min-width:1000px;
-		margin:30px auto;}
 
-#commu-select{padding-top:20px; padding-bottom:20px;
-			  width:500px; margin-left:auto; margin-right:auto;
-			  display:flex; text-align:center;}
-.search {
-  	flex: 1;
-  	border-radius: 9999px;
-  	background-color: #fff;
-  	border: 1px solid #d9d9d9;
-  	overflow: hidden;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: flex-start;
-  	padding: 12px 16px;
-  	gap: 8px;
-}
-.search-filter {
-  	width: 327px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: flex-start;
-  	gap: 24px;
-}
-#search-com{flex: 1;
-  	border-radius: 9999px;
-  	background-color: #fff;
-  	border: 1px solid #d9d9d9;
-  	overflow: hidden;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: flex-start;
-  	padding: 12px 16px;
-  	gap: 8px;
-  	}
-.filter-bar {
-  	align-self: stretch;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: center;
-  	display: flex;
-  	margin-bottom: 16px;
-}
-#search{border:none;outline:none;}
-.col-3:hover{cursor:pointer;}
-#text-test>tr{height:50px;}
-.x-icon:hover{cursor:pointer}
 </style>
 </head>
 <body>
@@ -70,8 +19,8 @@
 	</div>
 	
 	<div id='content'>
-		<div class="container" style="display:flex;width:35%;border-radius:9999px; border:0.5px solid lightgray; align-items:center;">
-			<input id="search-com" type="text" placeholder="검색어를 입력해주세요" style="width:80%;border:none; outline:none;">
+		<div id="content1-div" class="container">
+			<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
 			<img class="x-icon" alt="" src="image/Search.png">
 		</div>
 		
@@ -83,14 +32,14 @@
 	
 	
 	<!-- 왼쪽 사이드 바 -->
-	<div style="width:51px; height: 51px; left: 33px; top: 260px; position: fixed; border: 7px #96CAF0 solid; z-index: 50;">
+	<div id="sidebar">
 		<button style="border:none; background-color:white;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
 			<svg style="width:25px; height:31px; color: #2f6589;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
 				<path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
 				<path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
 			</svg>
 		</button>
-		<div style="height:220px; top:320px; left:33px; width:250px; border:5px solid #2f6598" class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+		<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">고객센터</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -108,15 +57,15 @@
 	
 	
 	
-	<div id="commu-select" class="row" style="padding-top:20px; max-width:500px;">
+	<div id="commu-select" class="row">
 		<div class="col-3">
-			<div style="border-radius:9999px; background-color:#96caf0; font-size:25px;">
+			<div style="border-radius:9999px; background-color:#96caf0;">
 				전체
 			</div>
 		</div>
-		<div class="col-3"><div style="font-size:25px;">결제</div></div>
-		<div class="col-3"><div style="font-size:25px;">플래너</div></div>
-		<div class="col-3"><div style="font-size:25px;">기타</div></div>
+		<div class="col-3"><div>결제</div></div>
+		<div class="col-3"><div>플래너</div></div>
+		<div class="col-3"><div>기타</div></div>
 	</div>
 	
 	
@@ -208,7 +157,7 @@
 	          				<td>5</td>
 	          			</tr>
 	          			<tr>
-	          				<td>1</td>
+	          				<td>5</td>
 	          				<td>2</td>
 	          				<td>3</td>
 	          				<td>4</td>
@@ -222,7 +171,33 @@
 		<div class="text-center">페이징 1 2 3 4 5</div>
 		<!-- 페이징 -->
 		<a href="notice.no">공지사항 이동 임시</a>
-
+		
+		
+		
+		<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+			<div class="modal-dialog" role="document">
+	    		<div class="modal-content rounded-3 shadow">
+	      			<div class="modal-body p-4 text-center">
+	        			<h3 class="mb-0">비밀번호를 입력하세요.</h3>
+	        			<div style="height:10px;"></div>
+	        			<input type="password" id="modalInput">
+	      			</div>
+	      			<div class="modal-footer flex-nowrap p-0">
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="ask-submit">
+	        				<strong>확인</strong>
+	        			</button>
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">취소</button>
+	      			</div>
+	    		</div>
+	  		</div>
+		</div>
+		
+		
+		
+		
+		
+		
+		
 
 		<div th:if="${ session.loginUser != null}">
 	       	<button class="btn btn-outline-success" type="button" onclick="location.href='writeBoard.bo'">WRITE BOARD</button>
@@ -231,7 +206,7 @@
 	
 	<div th:replace="~{common/footer :: footer}"></div>
 	
-	<script>
+	<script th:inline="javascript">
 		window.onload=()=>{
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			for(const sideP of sideMenus){
@@ -274,6 +249,46 @@
 					}
 				} */
 			}
+			
+			let boardNo = null; 
+			
+			const trs = document.getElementById("text-test").children;
+			for(const tr of trs){
+				tr.addEventListener('click', function(){
+					//$('#modalChoice').modal('show');
+					boardNo = tr.children[0].innerText;
+					
+					$('#modalChoice').modal('show');
+				});
+			}
+			
+			//let askList = ${bList}]];
+			
+			document.getElementById("ask-submit").addEventListener('click',()=>{
+				if($('#modalInput').val() == ''){
+					alert("비밀번호를 적어주세요");
+				} else{
+					for(const a of askList){
+						if(boardNo == a.boardNo){
+							if($('#modalInput').val() == a.questionPwd){
+								// location.href="selectAsk.no?bId=" + boardNo + "&page=" + ${pi.currentPage}]];
+							}else{
+								alert("비밀번호가 다릅니다");
+							}
+						}
+					}
+				}
+				//bList 에 있는 문의 목록에 있는 놈들 중 선택한 boardNo와 일치하는 녀석의 비밀번호와 비교
+				//location.href= "selectAsk.no?bId=" + boardNo + "&page=" + ${pi.currentPage}]];
+				
+				console.log("어렵다");
+			});
+			
+			
+			 
+			
+			
+			
 			
 		}
 	</script>

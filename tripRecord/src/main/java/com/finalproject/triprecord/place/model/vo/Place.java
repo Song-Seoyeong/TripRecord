@@ -12,6 +12,7 @@ import lombok.ToString;
 public class Place {
 	private int placeNo;
 	private int localNo;
+	private int contentTypeId;
 	private int placeStar;
 	private int placeCount;
 }
