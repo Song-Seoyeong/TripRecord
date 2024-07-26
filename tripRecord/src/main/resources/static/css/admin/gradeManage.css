@@ -73,4 +73,6 @@
 
 .cancel-border{
 	border: var(--bs-border-width) solid #2F6598;
+	cursor: pointer;
 }
+

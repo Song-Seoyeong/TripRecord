@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+td{
+	text-align: center;
+}
+
 .table-user{
 	border: none !important;
 	width: 95% !important;
@@ -150,4 +154,8 @@
 }
 .out-text:hover{
 	text-decoration: underline;
+}
+
+.bi{
+	cursor: pointer;
 }

@@ -8,7 +8,6 @@
 </head>
 <body style="min-width: 1820px;">
 	<div th:replace="~{common/adminHeader :: header}"></div>
-	<div th:replace="~{common/adminBox :: box}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">
 			<ul class="board-list-ul">
@@ -145,5 +144,122 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modal-check">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">회원 등급을 변경하였습니다.</h3>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="ok">
+        				<strong>확인</strong>
+        			</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modal-cancel">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">일반 회원으로 전환하시겠습니까?</h3>
+        			<p class="mb-0">'네' 클릭 시 선택한 회원의 등급이 일반으로 변경됩니다.</p>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="cancel-ok">
+        				<strong>네</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	<script th:inline="javascript">
+		window.onload = () => {
+			
+			/* 등급 요청 */
+			const checkIcons = document.getElementsByClassName('bi-check-circle');
+			const xIcons = document.getElementsByClassName('bi-x-circle');
+			
+			for(const check of checkIcons){
+				check.addEventListener('click', function(){
+					
+					const ul = check.parentElement.parentElement;
+					
+					$.ajax({
+						url: 'gradeSuccess.ad',
+						data: {
+							name: ul.children[0].innerText
+						},
+						success: data => {
+							$('#modal-check').modal('show');
+						},
+						error: data => console.log('error')
+					});
+				});
+			}
+			
+			for(const x of xIcons){
+				x.addEventListener('click', function(){
+					const ul = x.parentElement.parentElement;
+					console.log('click');
+					location.href="gradeFail.ad?name=" + ul.children[0].innerText;
+					
+				});
+			}
+			
+			document.getElementById('ok').addEventListener('click', function(){
+				location.href='gradeManage.ad';
+			});
+			
+			
+			/* 등급 취소 */
+			const divs = document.getElementsByClassName('cancel-border');
+			let myId;
+			for(const div of divs){
+				div.addEventListener('click', function(){
+					tr = this.parentElement.parentElement;
+					
+					myId = tr.children[2].innerText;
+					console.log(myId);
+					$('#modal-cancel').modal('show');
+				});
+			}
+			
+			document.getElementById('cancel-ok').addEventListener('click', function(){
+				location.href="updateGrade.ad?mId=" + myId;
+			});
+			
+			
+			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
+			const current = document.getElementsByClassName('select-board')[0];
+			
+			for(const li of listLi){
+				const a = li.children[0];
+				li.addEventListener('mouseenter', function() {
+					current.style.transitionDuration = '300ms';
+					li.style.transitionDuration = '300ms';
+					if(li.className != 'select-board'){
+						current.className = '';
+						this.className = 'select-board';
+						
+					}
+				});
+				
+				li.addEventListener('mouseleave', function(){
+					li.style.transitionDuration = '300ms';
+					if(li.className == 'select-board' && li != current){
+						current.className = 'select-board';
+						this.className = '';
+					}
+				});
+				
+			}
+			
+		} 
+	</script>
 </body>
 </html>
