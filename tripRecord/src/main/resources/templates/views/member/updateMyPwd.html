@@ -17,7 +17,7 @@
 	<!-- 사이드바 -->
 	<div th:replace="~{common/myPageSideBar :: myPageSideBar}"></div> 
 	
-	
+	<div style="height:20px;"></div>
 	<div class="flex-container" style="text-align:center; margin-left:auto; margin-top:-240px;">
 		<div style="color: black; font-size: 36px; font-weight: 900;">비밀번호 변경</div>
 		<div style="height:40px;"></div>
@@ -25,13 +25,13 @@
 			<!-- 현 비밀번호 -->
 			<div>
 				<a style="font-size:25px; font-weight: 700; ">현재 비밀번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				<input type="text" style="width:300px; height:40px; border-radius: 8px;" placeholder="현재 사용중인 비밀번호를 입력하세요">
+				<input type="text" style="width:300px; height:40px; border-radius: 8px; border:1px solid black" placeholder="현재 사용중인 비밀번호를 입력하세요">
 			</div>
 			<div style="height:20px;"></div>
 			<!-- 새 비밀번호 -->
 			<div>
 				<a style="font-size:25px; font-weight: 700; ">새 비밀번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				<input type="text" style="width:300px; height:40px; border-radius: 8px;" placeholder="비밀번호를 입력하세요">
+				<input type="text" style="width:300px; height:40px; border-radius: 8px; border:1px solid black" placeholder="비밀번호를 입력하세요">
 			</div>
 			<div>
 				<button style="margin-left:110px; border:none; background:white;" title="비밀번호는 숫자, 영어, 특수문자 포함 8자 이상 15자 미만으로 생성해주세요" disabled>비밀번호 유의사항</button>
@@ -40,10 +40,10 @@
 			<!-- 새 비밀번호 확인 -->
 			<div>
 				<a style="font-size:25px; font-weight: 700; ">새 비밀번호 확인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-				<input type="text" style="width:300px; height:40px; border-radius: 8px;"placeholder="확인을 위한 비밀번호 입력">
+				<input type="text" style="width:300px; height:40px; border-radius: 8px; border:1px solid black"placeholder="확인을 위한 비밀번호 입력">
 			</div>
 			<div>
-				<div id="checkPwd" style="margin-left:140px">비밀번호를 입력하세요</div>
+				<div id="checkPwd" style="margin-left:140px;">비밀번호를 입력하세요</div>
 			</div>
 			<div style="height:50px;"></div>
 			<!-- 수정버튼 -->

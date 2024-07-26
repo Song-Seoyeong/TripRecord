@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>제일 설레는 여행 계획짜기</title>
+<link rel="stylesheet" href="css/plan/planMain.css" type="text/css" />
+<meta name="viewport" content="width=device-width,initial-scale=0.9,minimum-scale=0.9,maximum-scale=0.9,user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="format-detection" content="telephone=no">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="css/plan/datepicker.css" type="text/css" />
+</head>
+<body>
+	<div th:replace="~{ ../common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ ../common/mainCategoryBar :: mainCategoryBar }"></div>
+	<div class="main-title">
+		<p>일정 기록하기</p>
+	</div>
+	<div class="main-div">
+		<form id="planMainForm" action="planCreate.pl" method="post">
+			<div id="calender-spot-checkbox-div">
+				<div class="contain-div" id="p-calender-div">
+					<p class="middle-title">여행 기간</p>
+					<div class="contain-in-div" id="calender-div">
+						<div class="datepicker" id="sdate">
+							<span>여행 출발 날짜</span> <input type="hidden" style="display:none" name="startDate" id="startDate" value="" class="datepicker">
+						</div>
+						<div class="datepicker" id="edate">
+							<span>여행 마지막 날짜</span> <input type="hidden" style="display:none" name="endDate" id="endDate" value="" class="datepicker">
+							<input type="hidden" name="dayDiff" id="dayDiff" value="" />
+						</div>
+					</div>
+				</div>
+				<div class="contain-div">
+					<p class="middle-title">여행 지역</p>
+					<div class="contain-in-div">
+						<select name="spot" id="selectSpot" class="form-select">
+							<option class="select_opt" value="" selected>여행지 선택</option>
+							<option class="select_opt" value="서울">서울</option>
+							<option class="select_opt" value="경기">경기</option>
+							<option class="select_opt" value="강원">강원</option>
+							<option class="select_opt" value="인천">인천</option>
+							<option class="select_opt" value="충북">충북</option>
+							<option class="select_opt" value="충남">충남</option>
+							<option class="select_opt" value="경북">경북</option>
+							<option class="select_opt" value="경남">경남</option>
+							<option class="select_opt" value="전북">전북</option>
+							<option class="select_opt" value="전남">전남</option>
+							<option class="select_opt" value="제주">제주</option>
+						</select>
+					</div>
+				</div>
+				<div class="contain-div" id="select-contain-div">
+					<p class="middle-title">해시태그(선택)</p>
+					<div id="inforDiv"></div>
+					<div id="hashtag-all-div">
+						<div id="checkbox-left-all">
+							<div class="checkbox-div">
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="alone" type="checkbox" value="혼자서" name="together">
+									<label class="cbx" for="alone"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 혼자서</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="lover" type="checkbox" value="애인이랑" name="together">
+									<label class="cbx" for="lover"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 애인이랑</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="family" type="checkbox" value="가족이랑" name="together">
+									<label class="cbx" for="family"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 가족이랑</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="friend" type="checkbox" value="친구들이랑" name="together">
+									<label class="cbx" for="friend"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 친구들이랑</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div id="checkbox-right-all">
+							<div class="checkbox-div">
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="맛집투어" type="checkbox" value="맛집투어" name="hashtag">
+									<label class="cbx" for="맛집투어"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 맛집투어</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="사진맛집" type="checkbox" value="사진맛집" name="hashtag">
+									<label class="cbx" for="사진맛집"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 사진맛집</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="힐링" type="checkbox" value="힐링" name="hashtag">
+									<label class="cbx" for="힐링"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 힐링</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="호화롭게" type="checkbox" value="호화롭게" name="hashtag">
+									<label class="cbx" for="호화롭게"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 호화롭게</span>
+									</label>
+								</div>
+							</div>
+							<div class="checkbox-div">
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="감성" type="checkbox" value="감성" name="hashtag">
+									<label class="cbx" for="감성"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 감성</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="액티비티" type="checkbox" value="액티비티" name="hashtag">
+									<label class="cbx" for="액티비티"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 액티비티</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="휴양지" type="checkbox" value="휴양지" name="hashtag">
+									<label class="cbx" for="휴양지"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 휴양지</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="자연" type="checkbox" value="자연" name="hashtag">
+									<label class="cbx" for="자연"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 자연</span>
+									</label>
+								</div>
+							</div>
+							<div class="checkbox-div">
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="카페투어" type="checkbox" value="카페투어" name="hashtag">
+									<label class="cbx" for="카페투어"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 카페투어</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="여행" type="checkbox" value="여행" name="hashtag">
+									<label class="cbx" for="여행"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 여행</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="이거" type="checkbox" value="이거" name="hashtag">
+									<label class="cbx" for="이거"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 이거</span>
+									</label>
+								</div>
+								<div class="checkbox-wrapper-4 checkbox-parent-div">
+									<input class="inp-cbx checkbox check_input" id="저거" type="checkbox" value="저거" name="hashtag">
+									<label class="cbx" for="저거"> 
+										<span> <svg style="width:12px; height:10px;"></svg></span>
+										<span># 저거</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button id="createButton" type="button">일정 생성</button>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="~{ ../common/footer :: footer }"></div>
+
+<!-- 	<script src="external/jquery/jquery.js"></script> -->
+<!-- 	<script src="jquery-ui.js"></script> -->
+	<script>
+		window.onload = ()=> {
+			
+			const togetherCheck = document.querySelectorAll('[name="together"]');
+			togetherCheck.forEach(function leftHashtag(checkbox) {
+				checkbox.addEventListener('click', function() {
+					togetherCheck.forEach(function(cb) {
+		            	if (cb !== checkbox) { 
+		                	cb.checked = false;
+						}
+					});
+				});
+			});
+	        
+			const checkboxes = document.querySelectorAll('[name="hashtag"]');
+			const inforDiv = document.getElementById('inforDiv');
+			checkboxes.forEach(function rightHashtag(checkbox) {
+				if(checkbox.type === 'checkbox'){
+					checkbox.addEventListener('click', function() {
+						let checkedCount = 0;
+						checkboxes.forEach(function(cb) {
+							if (cb.checked) {
+								checkedCount++;
+							}
+						});
+						if(checkedCount > 4) {
+							checkbox.checked = false;
+							inforDiv.innerText = '해시태그는 4개까지만 선택이 가능합니다.';
+						} else {
+							inforDiv.innerText = '';
+						}
+					});
+				}
+				
+			});
+			
+			function calculateDateRange() {
+				let startDate = new Date(document.getElementById('startDate').value);
+				let endDate = new Date(document.getElementById('endDate').value);
+
+				let timeDiff = endDate.getTime() - startDate.getTime();
+
+				let dayDiff = timeDiff / (1000 * 3600 * 24);
+				
+				document.getElementById('dayDiff').value = dayDiff + 1;
+			}
+			
+			const selectSpot = document.getElementById('selectSpot');
+			const startDate = document.getElementById('startDate');
+			const endDate = document.getElementById('endDate');
+			const dayDiff = document.getElementById('dayDiff');
+			
+			document.getElementById('createButton').addEventListener('click', function() {
+				
+// 				console.log(dayDiff);
+				
+				if(startDate.value == ''){
+					alert('여행 출발 날짜를 선택해 주세요');
+				} else if(endDate.value == ""){
+					alert('여행 마지막 날짜를 선택해 주세요');
+				} else if(selectSpot.value == ""){
+					alert('여행지를 선택해 주세요');
+				} else if(!inforDiv.innerText.includes('4개') && !selectSpot.value == "" && startDate.value != '' && endDate.value != '' && dayDiff.value > 0){
+					alert('일정을 생성합니다');
+					document.getElementById('planMainForm').submit();
+				}
+				
+			});
+			
+			
+			document.getElementById('createButton').addEventListener('click', calculateDateRange);
+			
+			$.datepicker.setDefaults({
+				dateFormat: 'yy/mm/dd',
+				prevText: '이전 달',
+				nextText: '다음 달',
+				monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+				monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+				dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+				dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+				dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+				showMonthAfterYear: true,
+				yearSuffix: '년',
+				
+			});
+
+			$( ".datepicker" ).datepicker({
+				inline: true
+			});
+			
+			$(document).ready(function(){ 
+				
+				$('#sdate').datepicker("option", "onSelect", function (selectedDate){
+					$("#edate").datepicker( "option", "minDate", selectedDate );
+					$('#startDate').val(selectedDate);
+			    });
+			       
+				$('#edate').datepicker("option", "minDate", $("#sdate").val());
+				$('#edate').datepicker("option", "onSelect", function (selectedDate){
+			    	$('#endDate').val(selectedDate);
+				});
+
+			});
+		
+		
+		}
+	</script>
+</body>
+</html>

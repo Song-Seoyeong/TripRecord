@@ -64,10 +64,18 @@ body {
 	padding: 10px;
 /* 	align-content: center; */
 }
+.placeDetail{
+	font-size: 14px;
+	border-left: 5px solid #96caf0;
+	margin-bottom:10px;
+	padding: 10px;
+/* 	align-content: center; */
+}
 #placeContent{
-	font-size: 15px;
+	font-size: 17px;
 	border-left: 5px solid #96caf0;
 	margin-bottom:50px;
+	margin-top:20px;
 	padding: 10px;
 }
 #extraInfo{

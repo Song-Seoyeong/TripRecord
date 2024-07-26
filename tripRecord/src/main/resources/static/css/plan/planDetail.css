@@ -1,0 +1,187 @@
+@charset "UTF-8";
+
+/* 일정 기록하기 */
+.main-title {
+	font-family: 'NanumBarunGothic';
+	text-align: center;
+	font-weight: bold;
+	font-size: 30px;
+	margin-top: 30px;
+}
+
+form{
+	font-family: 'NanumBarunGothic';
+}
+
+/* 각 날짜+지역, 선택한 해시태그, 계획 감싸는 div */
+.contain-div{
+	width: 70%;
+	margin-left: auto; margin-right: auto;
+	margin-top: 30px;
+}
+
+/* 일자별 계획 전체 감싸는 div */
+#planAll{
+	display: flex;
+	justify-content: space-evenly;
+	margin-top: 20px;
+}
+
+/* 한 날짜당 계획 */
+.dayPlan{
+	display: inline-block;
+}
+
+/* 날짜, 지역 각각을 감싸는 div */
+.inline-contain-div{
+	margin: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 22px;
+}
+#editButton-div{
+	text-align: right;
+	margin-right: 30px;
+	top: 30px;
+}
+/* 날짜, 지역 등 모든 텍스트 span */
+.textSpan{
+	margin: 5px;
+}
+
+.buttonsDiv{
+	margin-top: 60px;
+	margin-bottom: 60px;
+}
+
+.planDetailButton{
+	border-radius: 18px;
+	border: none;
+	font-weight: bold;
+	font-size: 14px;
+	padding: 10px;
+}
+
+#saveButton{
+	background-color: #96caf0;
+	color: white;
+	margin-left: 50%;
+}
+
+#saveButton:hover{
+	background-color: #58aae7;
+}
+
+#deleteButton{
+	background-color: gray;
+	float: inline-end;
+	
+}
+
+/* 수정 버튼 */
+#editButton{
+	border-radius: 8px;
+	border: none;
+	background-color: #96caf0;
+	font-weight: bold;
+	color: white;
+	padding: 8px;
+}
+
+/* 해시태그 전체 감싸는 div */
+.navigation-pill-list {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	border: 1px solid lightgray;
+	border-radius: 2px;
+	height: 55px;
+	margin-top: 15px;
+}
+/* 각 해시태그 감싸는 div */
+.navigation-pill {
+	padding: 8px;
+}
+
+/* 넘어온 해시태그 값 */
+.hashtag{
+	font-size: 15px;
+}
+/* n일차(하루) 감싸는 div*/
+.planDiv{
+	border: 1px solid black;
+	width: 220px;
+	margin-bottom: 30px;
+	text-align: center;
+}
+/* n일차 텍스트 div */
+.dayText {
+  	font-size: 32px;
+  	line-height: 100%;
+  	font-weight: 900;
+}
+/* 날짜 div */
+.date {
+  	font-size: 15px;
+  	line-height: 100%;
+  	margin-top: 10px;
+  	margin-bottom: 10px;
+}
+/* 라인 */
+.lineSpan{
+	border-right: 2px solid #000;
+	display: inline-block;
+    width: 1px;
+    height: 130px;
+    margin-left: 10px;
+}
+
+/* 장소, 시간, 메모 입력창 */
+.plan-text {
+/*   	text-align: left; */
+	border: 1px solid lightgray;
+	border-radius: 8px;
+	width: 135px;
+	margin: 3px;
+	margin-left: 18px;
+}
+
+.plan-label{
+	text-align : left;
+	margin-left: 18px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+/* 장소 입력 input */
+.placeInput{
+	height: 22px;
+	font-size: 14px;
+}
+/* 시간 입력 input */
+.timeInput{
+	height: 22px;
+	font-size: 14px;
+}
+
+
+/* 메모 입력 input */
+.memoInput{
+	height: 50px;
+	font-size: 14px;
+}
+
+/* 장소 추가 버튼 */
+.placeAddButton{
+	margin-top: 30px;
+	margin-bottom: 30px;
+    border: none;
+    border-radius: 20px;
+    background: #96CAF0;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 8px;
+	
+}
