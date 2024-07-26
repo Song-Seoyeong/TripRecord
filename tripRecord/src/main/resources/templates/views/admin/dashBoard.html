@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" style="height:100%">
 <head>
 <meta charset="UTF-8">
 <title>DashBoard</title>
 <link href="css/admin/dashBoard.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="min-width: 1820px;">
+<body style="min-width: 1820px; height:100vh;">
 	<div th:replace="~{common/adminHeader :: header}"></div>
-	<div th:replace="~{common/adminBox :: box}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
-		<div class="board-list">
+		<div class="board-list">	
 			<ul class="board-list-ul">
 				<li class="select-board"><a>대시보드</a></li>
 				<li><a href="userManage.ad">회원 관리</a></li>
@@ -127,5 +126,35 @@
 			</div>
 		</div>
 	</div>
+	
+	<script th:inline="javascript">
+		window.onload = () => {
+			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
+			const current = document.getElementsByClassName('select-board')[0];
+			
+			for(const li of listLi){
+				const a = li.children[0];
+				li.addEventListener('mouseenter', function() {
+					current.style.transitionDuration = '300ms';
+					li.style.transitionDuration = '300ms';
+					if(li.className != 'select-board'){
+						current.className = '';
+						this.className = 'select-board';
+						
+					}
+				});
+				
+				li.addEventListener('mouseleave', function(){
+					li.style.transitionDuration = '300ms';
+					if(li.className == 'select-board' && li != current){
+						current.className = 'select-board';
+						this.className = '';
+					}
+				});
+				
+			}
+			
+		}
+	</script>
 </body>
 </html>
