@@ -98,4 +98,17 @@ public class TemplateResolverConfig {
 		
 		return dotAd;
 	}
+	
+	@Bean
+	public ClassLoaderTemplateResolver dotplResolver() {
+		ClassLoaderTemplateResolver dotpl = new ClassLoaderTemplateResolver();
+		dotpl.setPrefix("templates/views/plan/");
+		dotpl.setSuffix(".html");
+		dotpl.setTemplateMode(TemplateMode.HTML);
+		dotpl.setCharacterEncoding("UTF-8");
+		dotpl.setCacheable(false);
+		dotpl.setCheckExistence(true);
+		
+		return dotpl;
+	}
 }

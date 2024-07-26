@@ -4,24 +4,53 @@
 <meta charset="UTF-8">
 <title>내 커뮤니티 글 상세보기</title>
 <style>
-	#revision_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
-	#list_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
-	#delete_button{color:white; background-color: #FF203A; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
-	#submit_button{color:white; background-color: #96CAF0; width: 60px; height:30px; border: none; border-radius:5px; margin-right: 5px;}
-	
-	table{width:80%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
-	th{font-size:20px;}
-	td{padding:10px;}
-	
-	.image-gallery {display: flex; flex-wrap: wrap; margin-left:230px;}
-	.image-container {position: relative; width:270px; margin: 5px;}
-	.image-container img {display: block; max-width: 270px; cursor: pointer; }
-	.more-images {display: flex; align-items: center; justify-content: center; width: 270px; height: 200px; background: rgba(0, 0, 0, 0.5); color: white; font-size: 24px; cursor: pointer;}
-	.modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;}
-	.modal img {max-width: 80%; max-height: 80%;}
-	#imgReview{margin: 50px auto;}
-	#placeImg{width:100%; margin: 20px auto;}
-	
+#content {text-align: center; width: 50%; min-width: 1000px; margin: 30px auto;}
+
+#content2 {text-align: center; width: 50%; min-width: 1000px; margin: 30px auto;}
+
+#content3 {height: 70px; width: 70%; min-width: 1000px; resize: none;}
+
+#commu-select {padding-top: 20px; padding-bottom: 20px; width: 500px; margin-left: auto; margin-right: auto; display: flex;	text-align: center;}
+
+.col-3:hover {cursor: pointer;}
+
+#placeContent {font-size: 15px;	border-bottom: 5px solid #96caf0; margin-bottom: 50px; padding: 10px;}
+
+#placeImg {width: 100%;	}
+
+.image-gallery {display: flex; flex-wrap: wrap;	margin: 0px auto;}
+
+.image-container {position: relative; width: 270px;	margin: 5px;}
+
+.image-container img {display: block; max-width: 270px;	cursor: pointer;}
+
+.more-images {display: flex; align-items: center; justify-content: center; width: 270px; height: 200px; background: rgba(0, 0, 0, 0.5);	color: white; font-size: 24px; cursor: pointer;}
+
+/* #reviewContent {width: 100%;} */
+
+.reviewInput {border: 1px solid #CECECE; background: FCFCFC; border-radius: 10px; height: 40px; width: 100%; min-width: 400px; padding: 20px;}
+
+#content {text-align: center; width: 50% min-width:1000px; margin: 30px auto;}
+
+.modal {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center;}
+
+.modal img {max-width: 80%;	max-height: 80%;}
+
+#profile {display: flex; align-items: center; text-align: end;}
+
+#profileImg img {width: 70%; height: 70%; object-fit: cover;}
+
+#profileImg {display: flex;	align-items: center; justify-content: center; border: 2px solid #2F6598; border-radius: 50%; height: 40px; width: 40px; overflow: hidden; margin-right: 10px;}
+
+#insert {background: none; border: 2px solid #2F6598; color: #2F6598; width: 70px; font-weight: blod; margin-left: 20px;}
+
+#insert:hover {background: #2F6598;	border: 2px solid #2F6598; color: #fff;}
+
+#list_button{color:white; background-color: #2C707E; width: 160px; height:40px; border: none; border-radius:20px; margin-left:5px;}
+
+#revision_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-left:5px;}
+
+#delete_button{color:white; background-color: #FF203A; width: 160px; height:40px; border: none; border-radius:20px; margin-left:5px;}
 </style>
 </head>
 <body>
@@ -31,119 +60,194 @@
 	<!--마이페이지 어퍼바-->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
 	
-	<div class="flex-container" style="text-align:center; margin-left:auto;">
-		<div style="height:80px;"></div>
-		<!-- 커뮤니티 -->	
-		<div style="margin:auto; width:900px; height:600px; border:1px solid #b9b9b9; border-radius:10px;">
-			<!-- 커뮤니티 타이틀 -->
-			<div id="inquiryTitle" style="margin-top:20px; color: black; font-size: 30px; font-weight: 800; text-align:center;">
-				커뮤니티 타이틀
+	<div style="height:80px;"></div>
+	<div class="flex-container"	style="text-align: center; margin-left: auto;">
+		<div style="margin: auto; width: 1000px;">
+			<div class="text-center" style="padding: 30px;">
+				<b style="font-size: 40px;">글 제목</b>
 			</div>
-			<div id="nickname"style="float:left; margin-left:50px; color: black; font-size: 16px; font-weight: 800; line-height: 50px;">[닉넴]</div>
-			<div id="date"style="float:right; margin-right:50px; color: black; font-size: 16px; font-weight: 800; line-height: 50px;">[날짜]</div>
-			<div style="margin-top:60px; margin-left:auto; margin-right:auto; width:90%; border:2px solid #96CAF0"></div>
-			<!-- 커뮤니티 내용 -->
-			<div id="content" style="margin-left:40px; margin-top:10px; font-size:20px;">
-				<textarea style="width:95%; height:400px; resize:none; border:none;" readonly>
-					상추를 치료해줄 사람어디 없나
-				</textarea>
-			</div> 
-		</div>
-		
-		<!-- 사진자리 -->
-		<div id='imgReview'>
-			<h3>관련 사진&#x1F4F8;</h3>
-			<div id="placeImg" class="container">
-			    <div class="image-gallery" id="image-gallery">
-			        <div class="image-container"><img src="image/insadong1.jpg" alt="Image 1"></div>
-			        <div class="image-container"><img src="image/insadong2.jpg" alt="Image 2"></div>
-			        <div class="image-container"><img src="image/insadong3.jpg" alt="Image 3"></div>
-			        <div class="image-container"><img src="image/insadong4.jpg" alt="Image 4"></div>
-			    </div>
-			</div>
-		</div>
-		<!-- 이미지 모달 -->
-		<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-		    <div class="modal-dialog modal-lg modal-dialog-centered">
-		        <div class="modal-content">
-		            <div class="modal-header">
-		                <h5 class="modal-title" id="imageModalLabel">사진</h5>
-		                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		            </div>
-		            <div class="modal-body">
-		                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-		                    <div class="carousel-indicators">
-		                        <!-- Indicators will be inserted here by JavaScript -->
-		                    </div>
-		                    <div class="carousel-inner">
-		                        <!-- Carousel items will be inserted here by JavaScript -->
-		                    </div>
-		                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-		                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		                        <span class="visually-hidden">Previous</span>
-		                    </button>
-		                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-		                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-		                        <span class="visually-hidden">Next</span>
-		                    </button>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-		<div style="height:40px;"></div>
-		<!-- 제출버튼 -->
-		<div>
-			<button id="revision_button" onclick="revision()">수정</button>
-			<button id="list_button" onclick="list()">목록</button>
-			<button id="delete_button" onclick="#">삭제</button>
-		</div>
-		<div style="height:40px;"></div>
-		<!-- 댓글 -->
-		<div style="margin:auto; width:800px;">
-			<div style="border:2px solid #96CAF0"></div>
-			<table>
-				<thead>
-					<tr>
-						<th>댓글</th>
-						<th>내용</th>
-						<th>작성자</th>
-						<th>작성일자</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td id="place">1</td>
-						<td id="date">새는 알에서 나오려고 투쟁한다</td>
-						<td id="planner">헤르만 헤세</td>
-						<td id="status">2099.12.31</td>
-					</tr>
-					<tr>
-						<td id="place">2</td>
-						<td id="date">태어나려나는 자는 하나의 세상을 깨뜨려야 한다.</td>
-						<td id="planner">헤르만 헤세</td>
-						<td id="status">2099.12.31</td>
-					</tr>
-				</tbody>
-			</table>
-			<!-- 댓글 등록칸 -->
-			<textarea style="margin-left:150px; margin-top:30px; width:500px; height:100px; resize:none;"></textarea>
-			<div style="float:right; margin-top:30px; margin-right:60px;">
-				<button id="submit_button">작성</button>
-			</div>
-			<div style="float:left; margin-top:-100px; margin-left:100px; width:100px;">
-				<div style="width:50px; height:50px; border-radius: 9999px; overflow: hidden; justify-content: center; align-items: center; border:1px solid">
-					<img style="width:100%; height:100%;" src="${contextPath}\resources\SeoHyungyu.JPG"/>
+			<div class='row' style="padding: 30px; border-bottom: 5px solid #96caf0;">
+				<div class="col-2">
+					<img src="#"> 작성자
 				</div>
-				<div style="margin-left:-40px; color: black; font-size: 16px; font-weight: 800; line-height: 50px;">닉넴</div>
+				<div class="col-9"></div>
+				<div class="col-1">작성일</div>
+			</div>
+			<div class='text-start' id='placeContent'>
+				안녕하세요, 여행을 사랑하는 여러분! 최근에 제주도를 다녀왔는데, 정말 기억에 남는 여행이었어요. 날씨도 좋고, 경치도
+				너무 아름다웠습니다. 그래서 오늘은 제주도에서의 멋진 경험을 나누고자 해요! 첫째로, 성산일출봉의 일출은 정말
+				감동적이었어요. 새벽 일찍 일어나서 산을 오르는 것이 힘들긴 했지만, 정상에서 보는 일출은 그 어떤 것과도 비교할 수 없을
+				정도로 환상적이었어요. 그리고 성산일출봉 주변의 해산물 시장에서 먹었던 신선한 회도 정말 최고였어요! 둘째로, 만장굴이라는
+				용암 동굴 탐험도 재미있었어요. 어두운 동굴 속을 걸어 다니면서 자연의 신비로움을 느낄 수 있었고, 동굴 내부의 다양한
+				형태의 용암석들을 보는 것도 흥미로웠습니다. 셋째로, 한라산 등반도 빼놓을 수 없는 경험이었어요. 한라산 정상에서 내려다본
+				제주도의 경치는 정말 압도적이었어요. 다만, 고산병에 유의하면서 천천히 걸어가는 것이 좋더라고요. 그리고 제주도의 카페
+				문화도 정말 인상적이었어요. 유명한 카페들이 많아서, 제주도 여행 중에는 커피 한 잔과 함께 여유를 즐기는 것도 좋을 것
+				같아요. 특히, 바다를 바라보면서 마시는 커피는 정말 힐링이었답니다. 마무리하자면, 제주도는 정말 다양한 볼거리와 먹거리가
+				가득한 여행지인 것 같아요. 자연을 사랑하는 분들께는 특히 추천하고 싶어요. 혹시 제주도 여행 계획이 있으신 분들이나 이미
+				다녀오신 분들이 계시다면, 여러분의 추천 명소나 꿀팁도 함께 공유해 주세요! 모두의 여행 이야기를 듣는 것도 기대됩니다.
+				여러분의 여행 이야기도 들려주세요! 어떤 곳이든, 여행의 좋은 팁과 경험담을 공유해 주시면 서로에게 많은 도움이 될
+				거예요. 즐거운 여행 되세요!<br>
+
+			</div>
+
+			<div id="placeImg" class="container">
+				<h2>관련 사진 &#x1F4F8;</h2>
+				<div class="image-gallery" id="image-gallery">
+					<div class="image-container">
+						<img src="image/insadong1.jpg" alt="Image 1">
+					</div>
+					<div class="image-container">
+						<img src="image/insadong2.jpg" alt="Image 2">
+					</div>
+					<div class="image-container">
+						<img src="image/insadong3.jpg" alt="Image 3">
+					</div>
+					<div class="image-container">
+						<img src="image/insadong4.jpg" alt="Image 4">
+					</div>
+				</div>
+			</div>
+			<hr>
+			<div>
+				<div style="display: flex; justify-content: center;">
+					<div >
+						<a href="#">
+							<button id="revision_button">수정</button>
+						</a>
+					</div>
+					<div >
+						<a href="#">
+							<button id="list_button">목록</button>
+						</a>
+					</div>
+					<div>
+						<button id="delete_button">삭제</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- 이미지 모달 -->
+			<div class="modal fade" id="imageModal" tabindex="-1"
+				aria-labelledby="imageModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="imageModalLabel">사진</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div id="carouselExampleIndicators" class="carousel slide"
+								data-bs-ride="carousel">
+								<div class="carousel-indicators">
+									<!-- Indicators will be inserted here by JavaScript -->
+								</div>
+								<div class="carousel-inner">
+									<!-- Carousel items will be inserted here by JavaScript -->
+								</div>
+								<button class="carousel-control-prev" type="button"
+									data-bs-target="#carouselExampleIndicators"
+									data-bs-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Previous</span>
+								</button>
+								<button class="carousel-control-next" type="button"
+									data-bs-target="#carouselExampleIndicators"
+									data-bs-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Next</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 댓글 -->
+			<div class="container py-4">
+				<div class="bd-example-snippet bd-code-snippet">
+					<div class="bd-example" style="border: none;">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th width="80px">번호</th>
+									<th width="600px">댓글 내용</th>
+									<th width="130px">작성자</th>
+									<th width="130px">작성일자</th>
+									<th width="25px" style="border: none;">수</th>
+									<th width="25px" style="border: none;">삭</th>
+								</tr>
+							</thead>
+							<tbody id="text-test">
+								<!-- 이거 반복 -->
+								<tr th:each=" b : ${bList}">
+									<td>[[${ b.boardId }]]</td>
+									<td>[[${ b.boardTitle }]]</td>
+									<td>[[${ b.nickName }]]</td>
+									<td>[[${ b.boardModifyDate }]]</td>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+									<td style="border: none;"><img src="#" width="20px">
+									</td>
+									<td style="border: none;"><img src="#" width="20px">
+									</td>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+								</tr>
+								<tr>
+									<td>1</td>
+									<td>2</td>
+									<td>3</td>
+									<td>4</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- 댓글 -->
+
+				<br>
+				<div id='reviewContent'>
+					<h3>댓글 작성</h3>
+					<br>
+					<div id='profile' class='text-start' style="margin-left:-100px;">
+						<div id='profileImg' class="col-1">
+							<img src='image/profile.png' />
+						</div>
+						<div>nickname&nbsp;&nbsp;&nbsp;</div>
+						<textArea name='reviewContent' id='content3'
+							placeholder='내용을 입력하세요' class='reviewInput' required></textArea>
+						<button type="button" class="btn btn-primary" id='insert'>등록</button>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-		
+
 	<div style="margin-bottom: 300px"></div>
-	
+
 	<!-- 푸터 -->
-	<div th:replace="~{common/footer :: footer}" ></div>
+	<div th:replace="~{common/footer :: footer}"></div>
 	<script>
 		//목록 돌아가기
 		function list(){
@@ -205,9 +309,7 @@
 	        document.getElementById('backButton').addEventListener('click', ()=>{
 	        	location.href='placeDetail.pla'
 	        })
-	        
 	    });
-		
 	</script>
 </body>
 </html>

@@ -1,0 +1,277 @@
+@charset "UTF-8";
+
+/* 일정 기록하기 */
+.main-title {
+	font-family: 'NanumBarunGothic';
+	text-align: center;
+	font-weight: bold;
+	font-size: 30px;
+	margin-top: 30px;
+}
+/* 폼 감싸는 div */
+.main-div {
+	text-align: center;
+	font-family: 'NanumBarunGothic';
+}
+/* 각 선택 구역 감싸는 div */
+.contain-div {
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 10px;
+	width: 45%;
+	text-align: left;
+}
+/* 여행기간과 날짜 감싸는 div */
+#p-calender-div {
+	height: 530px;
+}
+
+/* 달력 api div */
+.datepicker {
+	display: inline-block;
+}
+/* 여행 출발 날짜, 여행 마지막 날짜 */
+.datepicker>span {
+	display: block;
+	margin-top: 10px;
+	padding: 10px;
+	font-size: large;
+	font-weight: 700;
+}
+/* 각 선택 구역의 타이틀 */
+.middle-title {
+	font-weight: bold;
+	font-size: 25px;
+	margin-left: 10px;
+}
+/* 선택 폼 감싸는 div */
+.contain-in-div {
+	margin-top: 30px;
+}
+/* input 달력 감싸는 div */
+#calender-div {
+	margin-left: auto;
+	margin-right: auto;
+	border: 3px solid gray;
+	border-radius: 10px;
+	height: 430px;
+	text-align: center;
+	display: flex;
+	justify-content: space-around;
+}
+
+/* 해시태그 구역 div */
+#select-contain-div {
+	position: relative;
+}
+
+/* select 옵션 */
+#selectSpot {
+	box-shadow: none;
+}
+
+#selectSpot:hover {
+	cursor: pointer;
+}
+
+/* 각 input들 감싸는 div */
+.checkbox-parent-div {
+	display: flex;
+	align-items: center;
+	margin-left: 15px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+/* 해시태그 label */
+.tag_label {
+	margin-left: 5px;
+}
+
+/* 해시태그들 감싸는 div */
+#hashtag-all-div {
+	margin-top: 0px;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 30px;
+}
+
+/* 해시태그 왼쪽 전체 div */
+#checkbox-left-all {
+	border: 3px solid gray;
+	border-radius: 10px;
+	width: 200px;
+	display: flex;
+	flex-direction: column;
+	height: 262px;
+	flex-wrap: wrap;
+}
+
+/* 해시태그 각 칸을 감싸는 div */
+.checkbox-div {
+	width: 150px;
+	display: flex;
+	flex-direction: column;
+}
+
+/* 우측 해시태그 전체 감싸는 div */
+#checkbox-right-all {
+	border: 3px solid gray;
+	border-radius: 10px;
+	width: 560px;
+	height: 262px;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.tag_label:hover, .check_input:hover {
+	cursor: pointer;
+}
+
+.checkbox-wrapper-4 * {
+	box-sizing: border-box;
+	color: black;
+}
+
+.checkbox-wrapper-4 .cbx {
+	-webkit-user-select: none;
+	user-select: none;
+	cursor: pointer;
+	padding: 8px 8px;
+	border-radius: 6px;
+	overflow: hidden;
+	transition: all 0.2s ease;
+	display: inline-block;
+}
+
+.checkbox-wrapper-4 .cbx:not(:last-child) {
+	margin-right: 6px;
+}
+
+.checkbox-wrapper-4 .cbx:hover {
+	background: rgba(0, 119, 255, 0.06);
+}
+
+.checkbox-wrapper-4 .cbx span {
+	float: left;
+	vertical-align: middle;
+	transform: translate3d(0, 0, 0);
+}
+
+.checkbox-wrapper-4 .cbx span:first-child {
+	position: relative;
+	width: 16px;
+	height: 16px;
+	border-radius: 4px;
+	transform: scale(1);
+	border: 1px solid #cccfdb;
+	transition: all 0.2s ease;
+	box-shadow: 0 1px 1px rgba(0, 16, 75, 0.05);
+}
+
+.checkbox-wrapper-4 .cbx span:first-child svg {
+	position: absolute;
+	top: 3px;
+	left: 2px;
+	fill: none;
+	stroke: #fff;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-dasharray: 16px;
+	stroke-dashoffset: 16px;
+	transition: all 0.3s ease;
+	transition-delay: 0.1s;
+	transform: translate3d(0, 0, 0);
+}
+
+.checkbox-wrapper-4 .cbx span:last-child {
+	padding-left: 8px;
+	line-height: 18px;
+}
+
+.checkbox-wrapper-4 .cbx:hover span:first-child {
+	border-color: #07f;
+}
+
+.checkbox-wrapper-4 .inp-cbx {
+	position: absolute;
+	visibility: hidden;
+}
+
+.checkbox-wrapper-4 .inp-cbx:checked+.cbx span:first-child {
+	background: #96CAF0;
+	border-color: #96CAF0;
+	animation: wave-4 0.4s ease;
+}
+
+.checkbox-wrapper-4 .inp-cbx:checked+.cbx span:first-child svg {
+	stroke-dashoffset: 0;
+}
+
+.checkbox-wrapper-4 .inline-svg {
+	position: absolute;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+	user-select: none;
+}
+
+@media screen and (max-width: 640px) {
+	.checkbox-wrapper-4 .cbx {
+		width: 100%;
+		display: inline-block;
+	}
+}
+
+@
+-moz-keyframes wave-4 { 50% {
+	transform: scale(0.9);
+}
+
+}
+@
+-webkit-keyframes wave-4 { 50% {
+	transform: scale(0.9);
+}
+
+}
+@
+-o-keyframes wave-4 { 50% {
+	transform: scale(0.9);
+}
+
+}
+@
+keyframes wave-4 { 50% {
+	transform: scale(0.9);
+}
+
+}
+
+/* 해시태그 4개 초과 선택할 때 나오는 문구 div */
+#inforDiv {
+	height: 25px;
+	font-size: small;
+	text-align: right;
+	margin-right: 10px;
+}
+
+/* 일정 생성 버튼 */
+#createButton {
+	margin-top: 30px;
+	background: #96CAF0;
+	border: none;
+	border-radius: 20px;
+	color: white;
+	font-weight: bold;
+	font-size: 15px;
+	padding: 12px;
+	margin-bottom: 60px;
+}
+
+#createButton:hover {
+	cursor: pointer;
+	background: #58aae7;
+}

@@ -380,7 +380,7 @@
 		   			li1.className='page-item';
 		   			const beforeA = document.createElement('a');
 		   			beforeA.className = 'page-link';
-		   			beforeA.href = 'recoPlace.pla?page=' + (data.pi.currentPage - 1) + "&arrange=" + data.arrange + "&selectedKeyword=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
+		   			beforeA.href = 'recoPlace.pla?page=' + (data.pi.currentPage - 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
 		   			beforeA.ariaLabel = "Previous";
 		   			const span1 = document.createElement('span');
 		   			span1.ariaHidden = "true";
@@ -395,7 +395,7 @@
 			   			li.className='page-item';
 		   				const a = document.createElement('a');
 		   				a.className='page-link';
-		   				a.href = 'recoPlace.pla?page=' + i + "&arrange=" + data.arrange + "&selectedKeyword=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
+		   				a.href = 'recoPlace.pla?page=' + i + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
 		   				a.innerText = i;
 		   				if(i == data.pi.currentPage){
 		   					a.style.fontWeight = "bold";
@@ -410,7 +410,7 @@
 		   			li3.className='page-item';
 		   			const afterA = document.createElement('a');
 		   			afterA.className = 'page-link';
-		   			afterA.href = 'recoPlace.pla?page=' + (data.pi.currentPage + 1) + "&arrange=" + data.arrange + "&selectedKeyword=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
+		   			afterA.href = 'recoPlace.pla?page=' + (data.pi.currentPage + 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
 		   			afterA.ariaLabel = "Next";
 		   			const span2 = document.createElement('span');
 		   			span2.ariaHidden = "true";

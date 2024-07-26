@@ -60,10 +60,8 @@
 			<div class='col-6 text-start placeInfo'>조회수 : [[${p.placeCount}]]</div>
 		</div>
 		<div class='row contatiner' id='extraInfo'></div>
-		<div id='address' class='placeInfo text-start'>
-		</div>
-		<div class='text-start' id='placeContent'>
-		</div>
+		<div id='address' class='placeDetail text-start'></div>
+		<div class='text-start' id='placeContent'></div>
 		
 		<div id="placeImg" class="container">
 			<h2>관련 사진 &#x1F4F8;</h2>
@@ -226,7 +224,7 @@
 					// 홈페이지
 					if(item.homepage !== ""){
 						const homepage = document.createElement('div');
-						homepage.className = 'col-6 text-start placeInfo'
+						homepage.className = 'col-4 text-start placeDetail'
 						homepage.innerHTML = '홈페이지 : ' + item.homepage;
 						extraInfo.append(homepage);
 					}
@@ -234,7 +232,7 @@
 					// 전화번호
 					if(item.tel !== ""){
 						const tel = document.createElement('div');
-						tel.className = 'col-6 text-start placeInfo'
+						tel.className = 'col-4 text-start placeDetail'
 						tel.innerHTML = '전화번호 : ' + item.tel;
 						extraInfo.append(tel);
 					}
