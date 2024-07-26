@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BoardController {
 
 	@GetMapping("community.bo")
-	public String community() {
+	public String community() { // 단순 이동
 		return "commuList";
 	}
 	
