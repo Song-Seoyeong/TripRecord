@@ -3,179 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link type="text/css" href="css/service/askSelect.css" rel="stylesheet">
 <style>
-.offcanvas-body>p:hover{cursor:pointer;}
-#content{text-align:center;width:50%;
-		min-width:1000px;
-		margin:30px auto;}
-#content2{text-align:center;width:50%;
-		min-width:1000px;
-		margin:30px auto;}
-#content4{text-align:center;width:50%;
-		min-width:1000px;
-		margin:30px auto;}
-#content3{
-			height:70px; width:70%;
-			min-width:1000px;
-			resize:none;
-}
-#commu-select{padding-top:20px; padding-bottom:20px;
-			  width:500px; margin-left:auto; margin-right:auto;
-			  display:flex; text-align:center;}
-.search {
-  	flex: 1;
-  	border-radius: 9999px;
-  	background-color: #fff;
-  	border: 1px solid #d9d9d9;
-  	overflow: hidden;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: flex-start;
-  	padding: 12px 16px;
-  	gap: 8px;
-}
-.search-filter {
-  	width: 327px;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: flex-start;
-  	gap: 24px;
-}
-#search-com{flex: 1;
-  	border-radius: 9999px;
-  	background-color: #fff;
-  	border: 1px solid #d9d9d9;
-  	overflow: hidden;
-  	display: flex;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: flex-start;
-  	padding: 12px 16px;
-  	gap: 8px;
-  	}
-.filter-bar {
-  	align-self: stretch;
-  	flex-direction: row;
-  	align-items: center;
-  	justify-content: center;
-  	display: flex;
-  	margin-bottom: 16px;
-}
-#search{border:none;outline:none;}
-.col-3:hover{cursor:pointer;}
 
-#placeContent{
-	font-size: 15px;
-	border-bottom: 5px solid #96caf0;
-	margin-bottom:50px;
-	padding: 10px;
-	min-height:300px;
-}
-#placeContent2{
-	font-size: 15px;
-	border-bottom: 5px solid #96caf0;
-	margin-bottom:50px;
-	padding: 10px;
-	min-height:300px;
-}
-#placeImg{
-	width:100%;
-	margin: 20px auto;
-}
-.image-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0px auto;
-}
-.image-container {
-    position: relative;
-    width:270px;
-    margin: 5px;
-}
-.image-container img {
-    display: block;
-    max-width: 270px;
-    cursor: pointer;
-}
-.more-images {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 270px;
-    height: 200px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-}
-#reviewContent{
-	width: 100%;
-	padding-left:20px;
-	margin: 20px 0px;
-}
-.reviewInput{
-	border: 1px solid #CECECE;
-	background: FCFCFC;
-	border-radius: 10px;
-	height: 40px;
-	width: 100%;
-	min-width: 400px;
-	padding:20px;
-}
-#content{text-align:center;width:50%
-		min-width:1000px;
-		margin:30px auto;}
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    justify-content: center;
-    align-items: center;
-}
-.modal img {
-    max-width: 80%;
-    max-height: 80%;
-}
-#profile {
-    display: flex;
-    align-items: center;
-    text-align: end;
-}
-#profileImg img{
-	width: 70%;
-    height: 70%;
-    object-fit: cover;
-}
-#profileImg{
-	display: flex; 
-    align-items: center;
-    justify-content: center;
-	border: 2px solid #2F6598;
-	border-radius: 50%;
-	height: 40px;
-    width: 40px;
-    overflow: hidden;
-    margin-right: 10px;
-}
-#insert{
-	background:none;
-	border: 2px solid #2F6598;
-	color: #2F6598;
-	width:70px;
-	font-weight: blod;
-	margin-left:20px;
-}
-#insert:hover{
-	background: #2F6598;
-	border: 2px solid #2F6598;
-	color: #fff;
-}
 
 </style>
 </head>
@@ -188,22 +18,22 @@
 	</div>
 	
 	<div id='content'>
-		<div class="container" style="display:flex;width:35%;border-radius:9999px; border:0.5px solid lightgray; align-items:center;">
-			<input id="search-com" type="text" placeholder="검색어를 입력해주세요" style="width:80%;border:none; outline:none;">
+		<div id="content1-div" class="container">
+			<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
 			<img class="x-icon" alt="" src="image/Search.png">
 		</div>
 	</div>
 	
 	
 
-	<div style="width:51px; height: 51px; left: 33px; top: 260px; position: fixed; border: 7px #96CAF0 solid; z-index: 50;">
+	<div id="sidebar">
 		<button style="border:none; background-color:white;" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
 			<svg style="width:25px; height:31px; color: #2f6589;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
 				<path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
 				<path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
 			</svg>
 		</button>
-		<div style="height:400px; top:320px; left:33px; width:250px; border:5px solid #2f6598" class="offcanvas offcanvas-start" data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBackdropLabel">
+		<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title" id="staticBackdropLabel">고객센터</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -219,15 +49,15 @@
 
 	
 	
-	<div id="commu-select" class="row" style="padding-top:20px; max-width:500px;">
+	<div id="commu-select" class="row">
 		<div class="col-3">
-			<div style="border-radius:9999px; background-color:#96caf0; font-size:25px;">
+			<div style="border-radius:9999px; background-color:#96caf0;">
 				전체
 			</div>
 		</div>
-		<div class="col-3"><div style="font-size:25px;">결제</div></div>
-		<div class="col-3"><div style="font-size:25px;">플래너</div></div>
-		<div class="col-3"><div style="font-size:25px;">기타</div></div>
+		<div class="col-3"><div>결제</div></div>
+		<div class="col-3"><div>플래너</div></div>
+		<div class="col-3"><div>기타</div></div>
 	</div>
 	
 	

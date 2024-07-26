@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,7 @@ public class PlaceRestController {
 	
 	public static final String SERVICEKEY = "BLrXOBbtbM7aAzBv8Cw6JpcKbQICvl4WGca4%2F4EXvcBWkVtqqtW4UgPuJgEBE4BkaIQcO0OjCqWmVo5gO8KGVQ%3D%3D";
 	
-	public static String basicUrl = "http://apis.data.go.kr/B551011/KorService1/areaBasedList1";
+	public static String basicUrl = "http://apis.data.go.kr/B551011/KorService1/";
 	
 	@GetMapping("recoPlaceList.pla")
 	@ResponseBody
@@ -41,7 +40,10 @@ public class PlaceRestController {
 		parameter += "&contentTypeId=" + selectedKeyword;
 		parameter += "&areaCode=" + areaCode;
 		parameter += "&_type=json";
-		String adrr = basicUrl + parameter;
+		
+		String operation = "areaBasedList1";
+		
+		String adrr = basicUrl + operation + parameter;
 		//System.out.println(adrr);
 		StringBuffer sb = new StringBuffer();
 		
@@ -85,6 +87,66 @@ public class PlaceRestController {
         jsonMap.put("arrange", arrange);
         jsonMap.put("selectedKeyword", selectedKeyword);
         jsonMap.put("areaCode", areaCode);
+        
+        return jsonMap;
+	}
+	
+	@GetMapping("placeInfo.pla")
+	public Map<String, Object> placeInfo(@RequestParam("contentid")int contentid,
+										 @RequestParam("contenttypeid") int contenttypeid){
+		String operation = "detailCommon1";
+		
+		String parameter = "";
+		
+		parameter += "?MobileOS=ETC&MobileApp=AppTest";
+		parameter += "&ServiceKey=" + SERVICEKEY;
+		parameter += "&contentId=" + contentid;
+		parameter += "&contentTypeId=" + contenttypeid;
+		parameter += "&defaultYN=Y";
+		parameter += "&firstImageYN=Y";
+		parameter += "&addrinfoYN=Y";
+		parameter += "&overviewYN=Y";
+		parameter += "&_type=json";
+		
+		String adrr = basicUrl + operation + parameter;
+		
+		//System.out.println(adrr);
+		
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			URL url = new URL(adrr);
+			
+			HttpURLConnection urlCon = (HttpURLConnection)url.openConnection(); 
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlCon.getInputStream(), "UTF-8"));
+			
+			String resultStr;
+			
+			while((resultStr = br.readLine()) != null) {
+				sb.append(resultStr);
+			}
+			
+			urlCon.disconnect();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// JSON 문자열을 Map으로 변환
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> jsonMap = null;
+        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
+        try {
+            jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       // System.out.println(jsonMap);
+//       System.out.println(jsonMap.get("response"));
+        Map<String, Object> responseMap = (Map<String, Object>) jsonMap.get("response");
+        Map<String, Object> bodyMap = (Map<String, Object>) responseMap.get("body");
         
         return jsonMap;
 	}

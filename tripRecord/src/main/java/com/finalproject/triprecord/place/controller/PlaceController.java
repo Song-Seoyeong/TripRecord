@@ -41,6 +41,7 @@ public class PlaceController {
 							  Model model) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("contentid", contentid);
+		map.put("contenttypeid", contenttypeid);
 		map.put("areaCode", areaCode);
 		
 		// 장소 db에 저장되어있는지 확인

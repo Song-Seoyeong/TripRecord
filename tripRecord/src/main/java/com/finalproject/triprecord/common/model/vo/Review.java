@@ -1,7 +1,5 @@
 package com.finalproject.triprecord.common.model.vo;
 
-import java.sql.Date;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,11 +10,20 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Review {
-	private int replyNo;
-	private int boardNo;
-	private int reviewWriterNo;
-	private String reviewontent;
-	private Date reviewCreateDate;
-	private Date reviewModifyDate;
-	private String reviewyStatus;
+	private int reviewNo;
+	private int memberNo;
+	private String reviewTitle;
+	private String reviewContent;
+	private int reviewStar;
+	private String revRefType;
+	private int revRefno;
 }
+
+
+//REVIEW_NO	NUMBER	PRIMARY KEY,
+//MEMBER_NO	NUMBER		NOT NULL,
+//REVIEW_TITLE	VARCHAR2(60)	NOT NULL,
+//REVIEW_CONTENT	VARCHAR2(4000)	NOT NULL,
+//REVIEW_STAR	NUMBER	NOT NULL,
+//REV_REF_TYPE	VARCHAR2(10)	NOT NULL CHECK (REV_REF_TYPE IN ('PLANNER', 'PLACE')),
+//REV_REF_NO

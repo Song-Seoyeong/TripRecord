@@ -22,14 +22,14 @@ input{
 	padding-left: 10px;
 }
 .loginText {
-	font-size: 25px;
+	font-size: 23px;
 	font-weight: 600;
 }
 #emailDomain{
 	width: 40%;
 }
 #memEmail{
-	width: 50%;
+	width: 40%;
 	border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     border-top-right-radius: 0;
@@ -37,6 +37,7 @@ input{
 }
 .inputDiv{
 	margin: 10px;
+	margin-bottom:20px;
 }
 .pwdInputDiv{
 	margin:5px;
@@ -84,4 +85,13 @@ input{
 }
 #phoneText{
 	color: #4E4848;
+}
+#domain{
+	width:35%;
+}
+#selectDomain{
+	width:35%;
+}
+.alert-div{
+	height:25px;
 }
