@@ -39,11 +39,12 @@
 					<div class="content-notice">
 						<div class="search-div">
 							<div class="button-div display-inline-block">
-								<button type="button" class="btn btn-outline-secondary content-add">작성</button>
+								<button type="button" class="btn btn-outline-secondary content-add" id="content-add">작성하기</button>
 							</div>
 							<div class="search-div-keyword display-inline-block">
 								<div class="input-group mb-3">
-								  	<input type="text" class="form-control box-shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
+								  	<input type="text" class="form-control box-shadow-none search-input" id="keyword" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
+								  	<button class="btn btn-outline-secondary box-shadow-none search-box" type="button" id="search">검색</button>
 								</div>
 							</div>
 						</div>
@@ -52,10 +53,9 @@
 								<thead>
 									<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
 										<th style="width:10%;">번호</th>
-										<th style="width:60%;">제목</th>
+										<th style="width:50%;">제목</th>
 										<th style="width:10%;">이름</th>
-										<th style="width:8%;">수정</th>
-										<th style="width:8%;">삭제</th>
+										<th style="width:15%;">날짜</th>
 									</tr>
 								</thead>
 							  	<tbody class="table_hover">
@@ -63,15 +63,13 @@
 							      		<td>2</td>
 							      		<td><span class="overflow-ell">스크립트 고쳐야 됨</span></td>
 							      		<td>관리자</td>
-										<td><span class="button-border box-size">수정</span></td>
-										<td><span class="button-border box-size">삭제</span></td>
+							      		<td>2024.07.22</td>
 							  		</tr>
 							  		<tr class="tr-user">
 							      		<td>1</td>
 							      		<td><span class="overflow-ell">공지사항을 작성할 때 길이 범위가 넘어가면 뒤쪽은 ...처리가 돼서 줄여지게 된다.</span></td>
 							      		<td>관리자</td>
-										<td><span class="button-border box-size">수정</span></td>
-										<td><span class="button-border box-size">삭제</span></td>
+							      		<td>2024.07.18</td>
 							  		</tr>
 							  	</tbody>
 							</table>
@@ -87,22 +85,22 @@
 							</svg>
 						</span>
 					</div>
-					<form>
+					<form action="insertNotice.ad" method="POST">
 						<div class="notice-detail">
 							<div class="title-div-title">
 								<span class="title-text-title">제목</span>
 							</div>
 							<div class="form-floating title-detail-div">
-						  		<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
+						  		<textarea class="form-control box-shadow-none title-textarea" id="write-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;" placeholder="제목을 작성하세요."></textarea>
 							</div>
 							<div class="title-div-content">
 								<span class="title-text-content">내용</span>
 							</div>
 							<div class="form-floating content-detail-div">
-							  	<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%;"></textarea>
+							  	<textarea class="form-control box-shadow-none title-textarea" id="write-content" style="width:100%; height: 100%;" placeholder="내용을 작성하세요."></textarea>
 							</div>
 							<div class="reg-div">
-								<button type="button" class="btn btn-outline-secondary content-reg">등록</button>
+								<button class="btn btn-outline-secondary content-reg">등록</button>
 							</div>
 						</div>
 					</form>
@@ -117,22 +115,22 @@
 							</svg>
 						</span>
 					</div>
-					<form>
+					<form action="updateNotice.ad" method="POST">
 						<div class="notice-detail">
 							<div class="title-div-title">
 								<span class="title-text-title">제목</span>
 							</div>
 							<div class="form-floating title-detail-div">
-						  		<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
+						  		<textarea class="form-control box-shadow-none title-textarea" id="modify-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
 							</div>
 							<div class="title-div-content">
 								<span class="title-text-content">내용</span>
 							</div>
 							<div class="form-floating content-detail-div">
-							  	<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%;"></textarea>
+							  	<textarea class="form-control box-shadow-none title-textarea" id="modify-content" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
 							</div>
 							<div class="reg-div">
-								<button type="button" class="btn btn-outline-secondary content-reg">수정하기</button>
+								<button class="btn btn-outline-secondary content-reg">수정하기</button>
 							</div>
 						</div>
 					</form>
@@ -147,47 +145,68 @@
 							</svg>
 						</span>
 					</div>
-					<form>
-						<div class="notice-detail">
-							<div class="title-div-title">
-								<span class="title-text-title">제목</span>
-							</div>
-							<div class="form-floating title-detail-div">
-						  		<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;" readonly>공지사항 제목을 작성하였습니다.</textarea>
-							</div>
-							<div class="title-div-content">
-								<span class="title-text-content">내용</span>
-							</div>
-							<div class="form-floating content-detail-div">
-							  	<textarea class="form-control box-shadow-none title-textarea" id="floatingTextarea2" style="width:100%; height: 100%;" readonly>공지사항 내용을 작성하였습니다.</textarea>
-							</div>
-							<div class="reg-div">
-								<button type="button" class="btn btn-outline-secondary content-reg" id="go-edit">수정하기</button>
-							</div>
+					<div class="notice-detail">
+						<div class="title-div-title">
+							<span class="title-text-title">제목</span>
 						</div>
-					</form>
+						<div class="form-floating title-detail-div">
+					  		<textarea class="form-control box-shadow-none title-textarea" id="notice-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;" readonly>공지사항 제목을 작성하였습니다.</textarea>
+						</div>
+						<div class="title-div-content">
+							<span class="title-text-content">내용</span>
+						</div>
+						<div class="form-floating content-detail-div">
+						  	<textarea class="form-control box-shadow-none title-textarea" id="notice-content" style="width:100%; height: 100%;" readonly>공지사항 내용을 작성하였습니다.</textarea>
+						</div>
+						<div class="reg-div">
+							<button type="button" class="btn btn-outline-secondary content-reg" id="go-edit">수정하기</button>
+							<div style="width: 40px;" class="display-inline-block"></div>
+							<button type="button" class="btn btn-outline-secondary content-reg" id="go-del">삭제하기</button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">공지사항 게시글을 삭제하겠습니까?</h3>
+        			<p class="mb-0">확인 클릭 시 선택한 공지사항 게시글이 삭제됩니다.</p>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="ok">
+        				<strong>네</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
 	<script th:inline="javascript">
 		window.onload = () => {
+			/* 작성/수정 폼 안보이게 */
 			const forms = document.getElementsByClassName('detail-notice');
 			for(const form of forms){
 				form.style.display = 'none';
 			}
 			
+			
+			/* 상세 폼 보이게 */
 			const tds = document.querySelectorAll('td');
 			const boxs = document.getElementsByClassName('button-border');
-					console.log(boxs);
+			let boardNo;
 			for(const td of tds){
 				td.addEventListener('click', function(){
 					const tr = this.parentElement;
-					const num = tr.children[0].innerText;
+					boardNo = tr.children[0].innerText;
 					console.log(this);
 					const children = this.children[0];
-					if(this.className != 'button-border box-size'){
+					console.log(children);
+					if(children != 'button-border' || children == null){
 						forms[0].style.display = 'none';
 						forms[1].style.display = 'none';
 						forms[2].style.display = 'block';
@@ -196,10 +215,41 @@
 				});
 			}
 			
-			const goEdit = document.getElementById('go-edit');
-			goEdit.addEventListener('click', function(){
+			
+			/* 공지사항 작성 폼 */
+			document.getElementById('content-add').addEventListener('click', function(){
+				forms[0].style.display = 'block';
+				forms[1].style.display = 'none';
+				forms[2].style.display = 'none';
 			});
 			
+			
+			/* 공지사항 수정 폼 */
+			const goEdit = document.getElementById('go-edit');
+			const title = document.getElementById('notice-title').innerText;
+			const content = document.getElementById('notice-content').innerText;
+			goEdit.addEventListener('click', function(){
+				document.getElementById('modify-title').innerText = title;
+				document.getElementById('modify-content').innerText = content;
+				
+				forms[0].style.display = 'none';
+				forms[1].style.display = 'block';
+				forms[2].style.display = 'none';
+				
+			});
+			
+			/* 공지사항 삭제 */
+			const del = document.getElementById('go-del');
+			del.addEventListener('click', function(){
+				$('#modal').modal('show');
+			});
+			
+			document.getElementById('ok').addEventListener('click', function(){
+				location.href="deleteNotice.ad?bId=" + boardNo;
+			});
+			
+			
+			/* 폼 닫기 */			
 			const iconDiv = document.getElementsByClassName('title-text-icon');
 			
 			for(const div of iconDiv){
@@ -211,6 +261,17 @@
 					});
 				}
 			}
+			
+			
+			/* 글 검색 */
+			const search = document.getElementById('search');
+			const keyword = document.getElementById('keyword');
+			search.addEventListener('click', function(){
+				if(keyword.value != ''){
+					location.href="searchNotice.ad?search=" + keyword.value;					
+				}
+			});
+		
 			
 			
 			const listLi = document.getElementsByClassName('board-list-ul')[0].children;

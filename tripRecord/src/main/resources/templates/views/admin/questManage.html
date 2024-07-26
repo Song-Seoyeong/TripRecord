@@ -98,7 +98,7 @@
 							</svg>
 						</span>
 					</div>
-					<form action="insertAnswer.admin" method="POST">
+					<form action="insertAnswer.ad" method="POST">
 						<div class="quest-detail">
 							<div class="title-div-quest">
 								<span class="title-text-quest">결제 관련 문의</span>
@@ -110,9 +110,9 @@
 								<span class="title-text-answer">답변 작성</span>
 							</div>
 							<div class="form-floating answer-detail-div">
-							  	<textarea class="form-control box-shadow-none quest-textarea" id="detail-answer" style="width:100%; height: 100%;" readonly></textarea>
+							  	<textarea class="form-control box-shadow-none quest-textarea" id="detail-answer" style="width:100%; height: 100%;"></textarea>
 							</div>
-							<button type="button" class="btn btn-outline-secondary answer-reg">등록</button>
+							<button class="btn btn-outline-secondary answer-reg" id="button">등록</button>
 						</div>
 					</form>
 				</div>
@@ -122,6 +122,7 @@
 	<script>
 	window.onload = () => {
 		
+		/* 문의사항 폼 나오게 */
 		const detail = document.getElementsByClassName('detail-quest')[0];
 		detail.style.display = 'none';
 		
@@ -132,7 +133,7 @@
 				const questNum = tr.children[0].innerText;
 				
 				$.ajax({
-					url: 'selectQuest.admin',
+					url: 'selectQuest.ad',
 					data: {
 						qNo: questNum
 					},
@@ -140,11 +141,14 @@
 						if(data != null){
 							document.getElementById('detail-quest').innerText = data.boardContent;
 							
-							if(data.questionAnswer != null){
+							if(tr.children[4].innerText == '응답'){
 								document.getElementById('detail-answer').innerText = data.questionAnswer;
-								$("#deatil-answer").attr("readonly",true);
+								document.getElementById('detail-answer').readOnly = true;
+								document.getElementById('button').disabled = true;
 							} else{
-								$("#test").removeAttr("readonly");
+								document.getElementById('detail-answer').innerText = '';
+								document.getElementById('detail-answer').readOnly = false;
+								document.getElementById('button').disabled = false;
 							}
 						}
 					},
@@ -159,6 +163,10 @@
 		xIcon.addEventListener('click', function(){
 			detail.style.display = 'none';
 		});
+		
+		
+		
+		
 		
 		
 		const listLi = document.getElementsByClassName('board-list-ul')[0].children;
