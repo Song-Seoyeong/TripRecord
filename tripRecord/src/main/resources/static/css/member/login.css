@@ -62,4 +62,11 @@ input{
 		width:500px;
 		position:relative;
 		color:red;
+		height:20px;
+}
+#pwd-write{
+		width:500px;
+		position:relative;
+		color:red;
+		height:20px;
 }
