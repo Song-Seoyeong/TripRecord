@@ -3,15 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-<link type="text/css" href='css/login.css' rel="stylesheet">
+<link type="text/css" href='css/member/login.css' rel="stylesheet">
 <style>
 
-#id-write{
-		left:429px;
-		width:500px;
-		position:relative;
-		color:red;
-}
+
 </style>
 </head>
 <body>
@@ -31,10 +26,10 @@
 				</div>
 				<div  class='col-4'>
 					<input id="memId" type="text" name='memId' placeholder="아이디를 입력하세요">
+					<div id="id-write"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
-			<div id="id-write">&nbsp;</div>
 			<input type="hidden" id="login-fail" th:value="${fail}">
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -43,6 +38,7 @@
 				</div>
 				<div  class='col-4'>
 					<input id="memPwd" type="password" name='memPwd' placeholder="비밀번호를 입력하세요">
+					<div id="pwd-write"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -51,7 +47,7 @@
 			</div>
 	
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
-				<a class='aTag' id='searchId' href="searchId.me">아이디 찾기</a> | <a class='aTag' id='searchPwd' href="searchPwd.me">비밀번호 찾기</a>
+				<a class='aTag' id='searchId' href="searchIdView.me">아이디 찾기</a> | <a class='aTag' id='searchPwd' href="searchPwdView.me">비밀번호 찾기</a>
 			</div>
 		</div>
 	</form>
@@ -65,15 +61,18 @@
 			const inputId = document.getElementById("memId");
 			const inputPwd = document.getElementById("memPwd");
 			const alertDiv = document.getElementById("id-write");
-			console.log("hi");
+			const pwdDiv = document.getElementById("pwd-write");
+			
 			console.log(document.getElementById('login-fail').value);
 			loginbtn.onclick = e =>{
 				if(inputId.value.trim() == ''){
 					alertDiv.innerText = "아이디를 입력해주세요";
+					pwdDiv.innerText = " ";
 					inputId.focus();
 					e.preventDefault();
 				} else if(inputPwd.value.trim() == ''){
-					alertDiv.innerText = "비밀번호를 입력해주세요";
+					alertDiv.innerText = " ";
+					pwdDiv.innerText = "비밀번호를 입력해주세요";
 					inputPwd.focus();
 					e.preventDefault();
 				}

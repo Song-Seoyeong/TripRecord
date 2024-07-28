@@ -2,12 +2,10 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link type="text/css" href='css/searchPwd.css' rel="stylesheet">
+<link type="text/css" href='css/member/searchPwd.css' rel="stylesheet">
 <title>비밀번호 찾기</title>
 <style>
-#id-div{left:429px; witdh:500px;position:relative;height:20px;}
-#name-div{left:429px; width:500px; position:relative;height:20px;}
-#phone-div{left:429px; width:500px; position:relative;height:20px;}
+
 </style>
 </head>
 <!-- .inputDiv margin:30px 삭제 -->
@@ -19,7 +17,7 @@
 	<div id="bigTitle" class='text-center'>비밀번호 찾기</div>
 
 	<!-- 비밀번호찾기 폼 -->
-	<form action="" >
+	
 		<div id='searchPwdDiv'>
 			<div class="row">
 				<div class='col-3'></div>
@@ -49,7 +47,7 @@
 					<label class="loginText">전화번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요">
+					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 					<div id='phoneText'>(-)를 제외하고 입력해주세요</div>
 				</div>
 				<div class='col-3'></div>
@@ -60,11 +58,15 @@
 			</div>
 	
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
-				<a class='aTag' id='searchId' href="enrollView.me">회원가입</a> | <a class='aTag' id='searchId' href="loginView.me">로그인</a> | <a class='aTag' id='searchPwd' href="searchPwdView.me">비밀번호 찾기</a>
+				<a class='aTag' id='searchId' href="enrollView.me">회원가입</a> | <a class='aTag' id='searchId' href="loginView.me">로그인</a> | <a class='aTag' id='searchPwd' href="searchIdView.me">아이디 찾기</a>
 			</div>
 		</div>
-	</form>
+	
 	<!-- 비밀번호찾기 폼 -->
+	<a href="updatePwdView.me">비밀번호 수정페이지 임시</a>
+	
+	
+	
 	
 	
 	<div th:replace="~{ common/footer.html :: footer }"></div>
@@ -106,7 +108,7 @@
 					inputPhone.focus();
 					e.preventDefault();
 				} 
-			}
+			};
 			
 			
 		

@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>플래너 회원가입</title>
-<link type="text/css" href='css/enrollPlanner.css' rel="stylesheet">
+<link type="text/css" href='css/member/enrollPlanner.css' rel="stylesheet">
+<style>
+
+</style>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
@@ -22,7 +25,7 @@
 				</div>
 				<div  class='col-4'>
 					<input type="text" name='memId' placeholder="아이디를 입력하세요">
-					<div id='idText' class="alert-div">존재하는 아이디입니다</div>
+					<div id='idText' class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -39,7 +42,7 @@
 			<div class="row pwdInputDiv">
 				<div class='col-5'></div>
 				<div class='col-7'>
-					<div id='pwdText' class="alert-div">영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요</div>
+					<div id='pwdText' class="alert-div"></div>
 				</div>
 			</div>
 			<div class="inputDiv row">
@@ -49,7 +52,7 @@
 				</div>
 				<div  class='col-4'>
 					<input type="password" id='pwdconfirm' placeholder="비밀번호를 한번 더 입력하세요">
-					<div id='pwdConfirmText' class="alert-div">비밀번호가 일치합니다</div>
+					<div id='pwdConfirmText' class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -60,6 +63,7 @@
 				</div>
 				<div  class='col-4'>
 					<input type="text" name='memName' placeholder="이름를 입력하세요">
+					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -70,7 +74,7 @@
 				</div>
 				<div  class='col-4'>
 					<input type="text" name='memNickname' placeholder="닉네임를 입력하세요">
-					<div id='nicknameText' class="alert-div">중복된 닉네임입니다</div>
+					<div id='nicknameText' class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -80,8 +84,8 @@
 					<label class="loginText">전화번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="number" name='memPhone' placeholder="전화번호를 입력하세요">
-					<div id='phoneText' class="alert-div">(-)를 제외하고 입력해주세요</div>
+					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+					<div id='phoneText' class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -100,9 +104,15 @@
 						<option class="dropdown-item">yahoo.com</option>
 						<option class="dropdown-item">직접 입력</option>
 					</select>
-					<div class="alert-div">이메일 체크</div>
 				</div>
-				<div class='col-1'></div>
+				<div class="col-1"></div>
+			</div>
+			<div class="inputDiv row">
+				<div class="col-3"></div>
+				<div class="col-2"></div>
+				<div class="col-4">
+					<div class="alert-div"></div>
+				</div>
 			</div>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -111,7 +121,7 @@
 				</div>
 				<div  class='col-4'>
 					<select name='local' id='local' class="form-select">
-						<option selected>==========</option>
+						<option selected>활동 지역 선택</option>
 						<option>서울</option>
 						<option>부산</option>
 						<option>강원도</option>
@@ -204,10 +214,11 @@
 				}
 			});
 			
-			
+			const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
 			const enrollbtn = document.getElementById("enrollButton");
 			const inputId = document.getElementsByName("memId")[0];
 			const inputPwd = document.getElementsByName("memPwd")[0];
+			const pwdconfirm = document.getElementById("pwdconfirm");
 			const inputName = document.getElementsByName("memName")[0];
 			const inputNickname = document.getElementsByName("memNickname")[0];
 			const inputPhone = document.getElementsByName("memPhone")[0];
@@ -237,13 +248,31 @@
 					alertDivs[1].style.color = 'red';
 					inputPwd.focus();
 					e.preventDefault();
+				} else if(!regPwd.test(pwd.value)){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[1].innerText = '영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요';
+					alertDivs[1].style.color = 'red';
+					inputPwd.focus();
+					e.preventDefault();
+				} else if(!(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != ''))){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[2].style.color = 'red';
+					alertDivs[2].innerText = "비밀번호가 일치하지 않습니다";
+					pwdconfirm.focus();
+					e.preventDefault();
 				} else if(inputName.value.trim() == ''){
 					for(const a of alertDivs){
 						a.innerText = "";
 						a.style.color = 'white';
 					}
-					alertDivs[2].innerText = "이름을 입력해주세요";
-					alertDivs[2].style.color = 'red';
+					alertDivs[3].innerText = "이름을 입력해주세요";
+					alertDivs[3].style.color = 'red';
 					inputName.focus();
 					e.preventDefault();
 				} else if(inputNickname.value.trim() == ''){
@@ -251,8 +280,8 @@
 						a.innerText = "";
 						a.style.color = 'white';
 					}
-					alertDivs[3].innerText = "닉네임을 입력해주세요";
-					alertDivs[3].style.color = 'red';
+					alertDivs[4].innerText = "닉네임을 입력해주세요";
+					alertDivs[4].style.color = 'red';
 					inputNickname.focus();
 					e.preventDefault();
 				} else if(inputPhone.value.trim() == ''){
@@ -260,8 +289,8 @@
 						a.innerText = "";
 						a.style.color = 'white';
 					}
-					alertDivs[4].innerText = "전화번호를 입력해주세요";
-					alertDivs[4].style.color = 'red';
+					alertDivs[5].innerText = "전화번호를 입력해주세요";
+					alertDivs[5].style.color = 'red';
 					inputPhone.focus();
 					e.preventDefault();
 				} else if(firstEmail.value.trim() == '' || domain.value.trim() == ''){
@@ -269,8 +298,8 @@
 						a.innerText = "";
 						a.style.color = 'white';
 					}
-					alertDivs[5].innerText = "이메일을 입력해주세요";
-					alertDivs[5].style.color = 'red';
+					alertDivs[6].innerText = "이메일을 입력해주세요";
+					alertDivs[6].style.color = 'red';
 					if(firstEmail.value.trim() == ''){
 						firstEmail.focus();
 						e.preventDefault();
@@ -278,7 +307,7 @@
 						domain.focus();
 						e.preventDefault();
 					}
-				} else if(local.value == '=========='){
+				} else if(local.value == '활동 지역 선택'){
 					for(const a of alertDivs){
 						a.innerText = "";
 						a.style.color = 'white';
@@ -292,6 +321,7 @@
 					}
 					// 여기에 모달 하고싶었는데
 					alert("소개글을 빈칸으로 제출을 원하시면 '없음' 을 적어주세요");
+					e.preventDefault();
 				} else if(apply.value.trim() == ''){
 					for(const a of alertDivs){
 						a.innerText = "";
@@ -299,32 +329,112 @@
 					}
 					// 여기에 모달 하고싶었는데
 					alert("신청글을 빈칸으로 제출을 원하시면 '없음' 을 적어주세요");
+					e.preventDefault();
+				} else if(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[2].style.color = 'green';
+					alertDivs[2].innerText = "비밀번호가 일치합니다";
+				} else if(!pwdconfirm.value === inputPwd.value || !(pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[2].style.color = 'red';
+					alertDivs[2].innerText = "비밀번호가 일치하지 않습니다";
+					pwdconfirm.focus();
+					e.preventDefault();
 				}
 			}
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			pwdconfirm.addEventListener('focusout',()=>{
+				if(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){
+					alertDivs[2].style.color = 'green';
+					alertDivs[2].innerText = "비밀번호가 일치합니다";
+					return true;
+				} else{
+					alertDivs[2].style.color = 'red';
+					alertDivs[2].innerText = "비밀번호가 일치하지 않습니다";
+					return false;
+				}
+			});
 			
 			
 		}
+		
+		
+		// window.onload 밖
+		
+		
+		// 비밀번호 체크
+//		const regPwd = /^[A-Za-z0-9@.]{8,15}$/;
+		const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+		const pwd = document.getElementsByName("memPwd")[0];
+		const alertDivs = document.getElementsByClassName("alert-div");
+		
+		pwd.addEventListener('focusout',()=>{
+			if(!regPwd.test(pwd.value)){
+				alertDivs[1].innerText = '영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요';
+				alertDivs[1].style.color = 'red';
+				
+				return false;
+			} else {
+				alertDivs[1].innerText = '사용 가능한 비밀번호입니다';
+				alertDivs[1].style.color = 'green';
+				return true;
+			}
+		});
+		
+		
+		
+		// 아이디 체크 (넣을예정)
+		const regId = /^[A-Za-z0-9]{4,10}$/;
+		const inputId = document.getElementsByName("memId")[0];
+		const alertDiv = document.getElementsByClassName("alert-div")[0];
+		
+		inputId.addEventListener('focusout', checkId);
+		
+		function checkId(){
+			let id = inputId.value;
+			if(id.trim() != ''){
+				$.ajax({
+					url: 'checkId.me',
+					data: {id:id},
+					success: (data) => {
+						if(data == 0 && regId.test(id)){
+							alertDiv.innerText = '사용 가능한 아이디입니다';
+							alertDiv.style.color = 'green'
+							return true;
+						} else {
+							alertDiv.innerText = '사용 불가한 아이디입니다';
+							alertDiv.style.color = 'red';
+							return false;
+						}
+					},
+					error: data => console.log(data)
+				});
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	</script>
 	
 	

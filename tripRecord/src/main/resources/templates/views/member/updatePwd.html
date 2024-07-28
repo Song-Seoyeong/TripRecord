@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>새 비밀번호 변경</title>
-<link type="text/css" href='css/updatePwd.css' rel="stylesheet">
+<link type="text/css" href='css/member/updatePwd.css' rel="stylesheet">
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
@@ -38,12 +38,12 @@
 				</div>
 				<div  class='col-4'>
 					<input type="password" id='pwdconfirm' placeholder="비밀번호를 한번 더 입력하세요">
-					<div id='pwdConfirmText'>비밀번호가 일치합니다</div>
+					<div id='pwdConfirmText'>&nbsp;</div>
 				</div>
 				<div class='col-3'></div>
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
-				<button type="button" class="btn btn-primary" id='searchButton'>아이디 찾기</button>
+				<button type="button" class="btn btn-primary" id='searchButton'>비밀번호 변경</button>
 			</div>
 	
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
@@ -58,40 +58,66 @@
 	
 	<script>
 		window.onload=()=>{
-			const newPwd = document.getElementByName("memPwd")[0];
+			const searchBtn = document.getElementById("searchButton");
+			const newPwd = document.getElementsByName("memPwd")[0];
 			const pwdconfirm = document.getElementById('pwdconfirm');
 			const pwdconfirmCheck = document.getElementById('pwdConfirmText');
 			const pwdText = document.getElementById('pwdText');
-			const regPwd = /^[A-Za-z0-9@.]{8,15}$/;
 			
-			newPwd.addEventListener('focusout',()=>{
-				if(!regPwd.test(newpwd.value)){
-					pwdText.innerText = '비밀번호는 8~15자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요';
-					return false;
-				} else {
-					pwdText.innerText = '사용 가능한 비밀번호입니다';
-					return true;
-				}
-			});
-			
-			pwdconfirm.addEventListener('focusout',()=>{
-				if(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){
-					pwdconfirmCheck.style.color = 'green';
-					pwdconfirmCheck.innerText = "비밀번호가 일치합니다";
-					return true;
-				} else{
+			searchBtn.onclick = e =>{
+				if(newPwd.value.trim() == ''){
+					pwdText.innerText = "비밀번호를 입력해주세요";
+					pwdText.style.color = 'red';
+					newPwd.focus();
+					e.preventDefault();
+				} else if(pwdconfirm.value.trim() == ''){
+					pwdconfirmCheck.innerText = "비밀번호 확인을 입력해주세요";
 					pwdconfirmCheck.style.color = 'red';
-					pwdconfirmCheck.innerText = "비밀번호가 일치하지 않습니다";
-					return false;
+					pwdconfirm.focus();
+					e.preventDefault();
 				}
-			});
-			
-			
-			
-			
+			}
 			
 			
 		}
+		
+		
+		
+		
+		const newPwd = document.getElementsByName("memPwd")[0];
+		const pwdconfirm = document.getElementById('pwdconfirm');
+		const pwdconfirmCheck = document.getElementById('pwdConfirmText');
+		const pwdText = document.getElementById('pwdText');
+		const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+		
+		newPwd.addEventListener('focusout',()=>{
+			if(!regPwd.test(newPwd.value)){
+				pwdText.innerText = '비밀번호는 8~15자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요';
+				pwdText.style.color = 'red';
+				return false;
+			} else {
+				pwdText.innerText = '사용 가능한 비밀번호입니다';
+				pwdText.style.color = 'green';
+				return true;
+			}
+		});
+		
+		pwdconfirm.addEventListener('focusout',()=>{
+			if(pwdconfirm.value === newPwd.value && (pwdconfirm.value.trim() != '' || newPwd.value.trim() != '')){
+				pwdconfirmCheck.style.color = 'green';
+				pwdconfirmCheck.innerText = "비밀번호가 일치합니다";
+				return true;
+			} else{
+				pwdconfirmCheck.style.color = 'red';
+				pwdconfirmCheck.innerText = "비밀번호가 일치하지 않습니다";
+				return false;
+			}
+		});
+		
+		
+		
+		
+		
 	</script>
 	
 </body>

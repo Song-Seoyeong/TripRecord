@@ -3,15 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>일반회원가입</title>
-<link type="text/css" href='css/enrollMember.css' rel="stylesheet">
+<link type="text/css" href='css/member/enrollMember.css' rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <style>
-.inputDiv{margin-bottom:20px;}
-.loginText{font-size:23px;}
-#memEmail{width:40%;}
-#domain{width:35%;}
-#selectDomain{width:35%;}
+
 </style>
 </head>
 <body>
@@ -31,9 +28,9 @@
 				</div>
 				<div  class='col-4'>
 					<input type="text" name='memId' placeholder="아이디를 입력하세요">
-					<div ></div>
+					<div class="alert-div"></div>
 				</div>
-				<div class='col-3 alert-div'>아이디 체크</div>
+				<div class='col-3'></div>
 			</div>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -42,8 +39,9 @@
 				</div>
 				<div  class='col-4'>
 					<input type="password" name='memPwd' placeholder="비밀번호를 입력하세요">
+					<div class="alert-div"></div>
 				</div>
-				<div class='col-3 alert-div'>비밀번호 체크, 8~15자 영 수 특문 그 긴거</div>
+				<div class='col-3'></div>
 			</div>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -52,8 +50,9 @@
 				</div>
 				<div  class='col-4'>
 					<input type="password" id='pwdconfirm' placeholder="비밀번호를 한번 더 입력하세요">
+					<div class="alert-div"></div>
 				</div>
-				<div class='col-3 alert-div'>비밀번호 일치 체크</div>
+				<div class='col-3'></div>
 			</div>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -62,8 +61,9 @@
 				</div>
 				<div  class='col-4'>
 					<input type="text" name='memName' placeholder="이름를 입력하세요">
+					<div class="alert-div"></div>
 				</div>
-				<div class='col-3 alert-div'>이름 체크</div>
+				<div class='col-3'></div>
 			</div>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -72,8 +72,9 @@
 				</div>
 				<div  class='col-4'>
 					<input type="text" name='memNickname' placeholder="닉네임를 입력하세요">
+					<div class="alert-div"></div>
 				</div>
-				<div class='col-3 alert-div'>닉네임 체크</div>
+				<div class='col-3'></div>
 			</div>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -81,11 +82,12 @@
 					<label class="loginText">전화번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요">
+					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+					<div class="alert-div"></div>
 				</div>
-				<div class='col-3 alert-div'>전화번호 체크</div>
+				<div class='col-3'></div>
 			</div>
-			<div class="inputDiv row">
+			<div class="inputDiv row" style="margin:0;">
 				<div class='col-3'></div>
 				<div class='col-2'>
 					<label class="loginText">이메일</label>
@@ -103,7 +105,13 @@
 				</div>
 				<div class='col-1'></div>
 			</div>
-			<div class=" alert-div">이메일 체크</div>
+			<div class="inputDiv row">
+				<div class="col-5"></div>
+				<div class="col-7">
+					<div class=" alert-div"></div>
+					
+				</div>
+			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center align-items-center'>
 				<button type="button" class="btn btn-primary" id='enrollButton'>회원가입</button>
 				<a id='enrollPlaner' href="enrollPlannerView.me">플래너 회원가입</a>
@@ -127,7 +135,7 @@
 				}
 			});
 			
-			
+			const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
 			const enrollbtn = document.getElementById("enrollButton");
 			const inputId = document.getElementsByName("memId")[0];
 			const inputPwd = document.getElementsByName("memPwd")[0];
@@ -196,6 +204,23 @@
 						domain.focus();
 						e.preventDefault();
 					}
+				} else if(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[2].style.color = 'green';
+					alertDivs[2].innerText = "비밀번호가 일치합니다";
+				} else if(pwdconfirm.value.trim() != ''){
+					alertDivs[2].style.color = 'red';
+					alertDivs[2].innerText = "비밀번호가 일치하지 않습니다";
+					e.preventDefault();
+					// 비밀번호가 다르거나, 둘중 하나가 빈칸이면
+				} else if(!regPwd.test(pwd.value)){
+					alertDivs[1].innerText = '영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요';
+					alertDivs[1].style.color = 'red';
+					console.log("얼른 제대로 바꿔주세요");
+					e.preventDefault();
 				}
 			}
 			
@@ -213,6 +238,10 @@
 				}
 			});
 			
+			
+			
+			
+			// 아이디 체크
 			const regId = /^[A-Za-z0-9]{4,10}$/;
 			inputId.addEventListener('focusout',()=>{
 				let id = inputId.value;
@@ -239,24 +268,32 @@
 			
 			
 			
-			// 비밀번호 체크
-			const regPwd = /^[A-Za-z0-9@.]{8,15}$/;
-			inputPwd.addEventListener('focusout',()=>{
-				if(!regPwd.test(pwd.value)){
-					alertDivs[1].innerText = '비밀번호는 8~15자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요';
-					alertDivs[1].style.color = 'red';
-					return false;
-				} else {
-					alertDivs[1].innerText = '사용 가능한 비밀번호입니다';
-					return true;
-				}
-			});
-			
-			
-			
-			
-			
 		}
+		// window.onload 끝
+		
+		
+		
+		
+		// 비밀번호 체크
+//		const regPwd = /^[A-Za-z0-9@.]{8,15}$/;
+		const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+		const pwd = document.getElementsByName("memPwd")[0];
+		const alertDivs = document.getElementsByClassName("alert-div");
+		
+		pwd.addEventListener('focusout',()=>{
+			if(!regPwd.test(pwd.value)){
+				alertDivs[1].innerText = '영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요';
+				alertDivs[1].style.color = 'red';
+				console.log("얼른 제대로 바꿔주세요");
+				
+				return false;
+			} else {
+				alertDivs[1].innerText = '사용 가능한 비밀번호입니다';
+				alertDivs[1].style.color = 'green';
+				return true;
+			}
+		});
+		
 		
 		
 		

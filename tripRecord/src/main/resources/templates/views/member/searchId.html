@@ -2,15 +2,10 @@
 <html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<link type="text/css" href='css/searchId.css' rel="stylesheet">
+<link type="text/css" href='css/member/searchId.css' rel="stylesheet">
 <title>아이디 찾기</title>
 <style>
-#alert-div{
-		left:429px;
-		width:500px;
-		position:relative;
-		
-}
+
 </style>
 <!-- .inputDiv 에서 margin:30px 지우기 -->
 </head>
@@ -22,41 +17,59 @@
 	<div id="bigTitle" class='text-center'>아이디 찾기</div>
 
 	<!-- 아이디찾기 폼 -->
-	<form action="" >
-		<div id='searchIdDiv'>
-			<div class="inputDiv row">
-				<div class='col-3'></div>
-				<div class='col-2'>
-					<label class="loginText">이름</label>
-				</div>
-				<div  class='col-4'>
-					<input type="text" name='memName' placeholder="이름를 입력하세요"/>
-				</div>
-				<div class='col-3'></div>
+	<div id='searchIdDiv'>
+		<div class="inputDiv row">
+			<div class='col-3'></div>
+			<div class='col-2'>
+				<label class="loginText">이름</label>
 			</div>
-			<div id="alert-div">&nbsp;</div>
-			
-			<div class="inputDiv row">
-				<div class='col-3'></div>
-				<div class='col-2'>
-					<label class="loginText">전화번호</label>
-				</div>
-				<div  class='col-4'>
-					<input type="password" name='memPhone' placeholder="전화번호를 입력하세요"/>
-					<div id='text'>(-)를 제외하고 입력해주세요</div>
-				</div>
-				<div class='col-3'></div>
+			<div  class='col-4'>
+				<input type="text" name='memName' placeholder="이름를 입력하세요"/>
+				<div id="alert-div">&nbsp;</div>
 			</div>
-			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
-				<button type="button" class="btn btn-primary" id='searchButton'>아이디 찾기</button>
-			</div>
-	
-			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
-				<a class='aTag' id='searchId' href="enrollView.me">회원가입</a> | <a class='aTag' id='searchId' href="loginView.me">로그인</a> | <a class='aTag' id='searchPwd' href="searchPwdView.me">비밀번호 찾기</a>
-			</div>
+			<div class='col-3'></div>
 		</div>
-	</form>
-	<!-- 아이디찾기 폼 -->
+		
+		<div class="inputDiv row">
+			<div class='col-3'></div>
+			<div class='col-2'>
+				<label class="loginText">전화번호</label>
+			</div>
+			<div  class='col-4'>
+				<input type="text" name='memPhone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+				<div id='text'>(-)를 제외하고 입력해주세요</div>
+			</div>
+			<div class='col-3'></div>
+		</div>
+		<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
+			<button type="button" class="btn btn-primary" id='searchButton'>아이디 찾기</button>
+		</div>
+
+		<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
+			<a class='aTag' id='searchId' href="enrollView.me">회원가입</a> | <a class='aTag' id='searchId' href="loginView.me">로그인</a> | <a class='aTag' id='searchPwd' href="searchPwdView.me">비밀번호 찾기</a>
+		</div>
+	</div>
+	<!-- 아이디찾기 폼 ajax 로 만들꺼같아서 폼 없어질듯? -->
+	
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+		<div class="modal-dialog" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">${loginUser.name}님의 아이디는</h3>
+        			<div style="height:10px;"></div>
+        			<h4 id="id-space" class="mb-0">'${oooooo}'입니다.</h4>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0" style="justify-content:center;">
+        			<button type="button" onclick="findId();" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">확인</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	
+	
+	
 	
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 	
@@ -66,26 +79,58 @@
 			const inputName = document.getElementsByName("memName")[0];
 			const inputPhone = document.getElementsByName("memPhone")[0];
 			const alertDiv = document.getElementById("alert-div");
-			console.log(inputName);
+			const phoneDiv = document.getElementById("text");
+			const idSpace = document.getElementById("id-space");
 			searchbtn.onclick = e =>{
 				if(inputName.value.trim() == ''){
 					alertDiv.innerText = "이름을 입력해주세요";
 					alertDiv.style.color = 'red';
 					inputName.focus();
-					e.preventDefault();
+					
 				} else if(inputPhone.value.trim() == ''){
-					alertDiv.innerText = "전화번호를 입력해주세요";
-					alertDiv.style.color = 'red';
+					phoneDiv.innerText = "전화번호를 입력해주세요";
+					phoneDiv.style.color = 'red';
 					inputPhone.focus();
-					e.preventDefault();
+					
+				} else{
+					$('#modalChoice').modal('show');
 				}
 			};
 			
+			/* searchbtn.addEventListener('click',()=>{
+				$('#modalChoice').modal('show');
+			}); */
 			
 			
 		}	
+		
+		
+		function findId(){
+			var name = $('#inputName').val();
+			var phone = $('#inputPhone').val();
+			
+			$.ajax({
+					url: 'findId.me',
+					data: {'name':name, 'phone':phone},
+					success: function(data) {
+						if(data == 0){
+							$('id-space').text("존재하지 않습니다.");
+						} else{
+							$('id-space')>text("'"+data+"'입니다.");
+						}
+					},
+					error: data => console.log(data)
+			});
 			
 			
+			//되는지 모르겠네
+			
+			
+			
+		}
+		
+		
+		
 			
 	</script>
 </body>
