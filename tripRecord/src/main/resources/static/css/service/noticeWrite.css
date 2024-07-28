@@ -3,7 +3,7 @@
 #sidebar{width:51px; height: 51px; left: 33px; top: 260px; position: fixed; border: 7px #96CAF0 solid; z-index: 50;}
 #sideMenu{height:220px; top:320px; left:33px; width:250px; border:5px solid #2f6598;}
 .offcanvas-body>p:hover{cursor:pointer;}
-#content{text-align:center;width:50%
+#content{text-align:center;width:50%;
 		min-width:1000px;
 		margin:30px auto;}
 

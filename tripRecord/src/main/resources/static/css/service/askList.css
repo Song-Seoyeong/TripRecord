@@ -1,9 +1,10 @@
 @charset "UTF-8";
 .offcanvas-body>p:hover{cursor:pointer;}
-#content{text-align:center;width:50%
+#content{text-align:center;width:50%;
 		min-width:1000px;
 		margin:30px auto;}
-
+.bd-example-snippet{display:flex; justify-content:center;}
+.bd-example{width:80%;}
 #commu-select{padding-top:20px; padding-bottom:20px;
 			  width:500px; margin-left:auto; margin-right:auto;
 			  display:flex; text-align:center;
