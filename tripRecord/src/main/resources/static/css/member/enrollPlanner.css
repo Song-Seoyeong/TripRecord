@@ -94,6 +94,7 @@ input{
 	width:35%;
 	border-top-left-radius:0;
 	border-bottom-left-radius:0;
+	height:35px;
 }
 #selectDomain{width:35%;}
 .alert-div{height:25px;}
