@@ -3,8 +3,10 @@ package com.finalproject.triprecord.place.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +31,8 @@ public class PlaceRestController {
 	public Map<String, Object> recoPlaceList(@RequestParam(value="page") int page,
 											 @RequestParam(value="arrange", defaultValue = "A") String arrange,
 											 @RequestParam(value="selectedKeyword", required=false) String selectedKeyword,
-											 @RequestParam(value="areaCode", required=false) String areaCode) {
+											 @RequestParam(value="areaCode", required=false) String areaCode,
+											 @RequestParam(value="keyword", required=false) String keyword) {
 		String parameter = "";
 		
 		parameter += "?numOfRows=" + 12;
@@ -41,7 +44,20 @@ public class PlaceRestController {
 		parameter += "&areaCode=" + areaCode;
 		parameter += "&_type=json";
 		
-		String operation = "areaBasedList1";
+		String operation = "";
+		//System.out.println(keyword);
+		
+		if(keyword == null || keyword.isEmpty()){
+			operation = "areaBasedList1";
+		}else {
+			operation = "searchKeyword1";
+			try {
+				parameter += "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		String adrr = basicUrl + operation + parameter;
 		//System.out.println(adrr);
@@ -87,6 +103,8 @@ public class PlaceRestController {
         jsonMap.put("arrange", arrange);
         jsonMap.put("selectedKeyword", selectedKeyword);
         jsonMap.put("areaCode", areaCode);
+        jsonMap.put("keyword", keyword);
+        //System.out.println(jsonMap);
         
         return jsonMap;
 	}

@@ -30,24 +30,25 @@
 	
 	
 	<!-- 왼쪽 사이드 바 -->
-	<div id="sidebar">
-		<button style="border:none; background-color:white;" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
-			<svg style="width:25px; height:31px; color: #2f6589;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-				<path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
-				<path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
-			</svg>
-		</button>
-		<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-			<div class="offcanvas-header">
-				<h5 class="offcanvas-title" id="staticBackdropLabel">고객센터</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		<div id="sidebar">
+			<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+				<div class="arrow-top"></div>
+				<div class="arrow-bottom"></div>
 			</div>
-			<div class="offcanvas-body">
-				<p>- 문의사항</p>
-				<p>- 공지사항</p>
+	<!-- > 모양 -->
+	
+			<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+				<div class="offcanvas-header">
+					<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				</div>
+				<div class="offcanvas-body">
+					<p>- 문의사항</p>
+					<p>- 공지사항</p>
+				</div>
 			</div>
 		</div>
-	</div> 
+<!-- 사이드 바 -->
 	
 	
 	

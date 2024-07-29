@@ -117,7 +117,7 @@
            	 	</div>
 			</div>
 			<!-- 검색바 -->
-			<div class="card-grid row" id='contentCardList'>
+			<div class="card-grid row row-cols-3" id='contentCardList'>
 			</div>
 			<div class='row' style='margin-bottom: 100px;'>
 				<div class='col-4'></div>
@@ -143,11 +143,11 @@
 		const arrange = params.get('arrange') || 'A';
 		const contentTypeId = params.get('contentTypeId') || '';
 		const areaCode = params.get('areaCode') || '';
-		const keyword = param.get('keyword') || "";
+		const keyword = params.get('keyword') || "";
 		let selectedKeyword = "";
 		
 		// 페이지 첫 로딩시 함수 호출
-		placeApi(page, arrange, contentTypeId, areaCode);
+		placeApi(page, arrange, contentTypeId, areaCode, keyword);
 		
 		
 		//window.onload 비슷
@@ -165,8 +165,9 @@
 			    checkbox.addEventListener('change', function() {
 		    		arr = updateInArrange();
 		    		key = updateInSelectKeyword();
-		    		//console.log(key)
+		    		word = updateInKeyword();
 			    	if (this.checked) {
+			    		//console.log(word)
 			    		localCheckboxes.forEach(cb => {
 	                        if (cb !== this && cb.checked) {
 	                        	alert("하나만 선택해주세요");
@@ -174,9 +175,9 @@
 	                        }
 	                    });
 			        	updateTags('local', 'selected-locations', 'locations-section');
-                        placeApi(1, arr, key, this.value);
+                        placeApi(1, arr, key, this.value, word);
 			    	}else{
-				    	placeApi(1, arr, key, "");
+				    	placeApi(1, arr, key, "", word);
 				    	updateTags('local', 'selected-locations', 'locations-section');
 			    	}
 			    });
@@ -187,8 +188,10 @@
 			    checkbox.addEventListener('change', function(){
 		    		arr = updateInArrange();
 		    		area = updateInAreaCode();
-		    		//console.log(area)
+		    		word = updateInKeyword();
+		    		
 			    	if (this.checked) {
+			    		//console.log(word)
 			    		keywordCheckboxes.forEach(cb => {
 	                        if (cb !== this && cb.checked) {
 	                        	alert("하나만 선택해주세요");
@@ -196,9 +199,9 @@
 	                        }
 	                    });
 				        updateTags('keyword', 'selected-keywords', 'keywords-section');
-				        placeApi(1, arr, this.value, area);
+				        placeApi(1, arr, this.value, area, word);
 	                }else{
-				    	 placeApi(1, arr, "", area);
+				    	 placeApi(1, arr, "", area, word);
 				    	 updateTags('keyword', 'selected-keywords', 'keywords-section');
 	                }
 			    	//console.log(selectedKeywords);
@@ -210,10 +213,31 @@
 				const arrange = this.value;
 				key = updateInSelectKeyword();
 				area = updateInAreaCode();
-				placeApi(1, arrange, key, area);
+				word = updateInKeyword();
+				
+				placeApi(1, arrange, key, area, word);
 			})
 			
+			const searchKeyword = document.getElementById('search');
+			searchKeyword.addEventListener('keyup', e =>{
+				//console.log(e.key)
+				if(e.key == "Enter"){
+					search(searchKeyword)
+				}
+			})
+			
+			document.getElementById('searchIcon').addEventListener('click', ()=>{
+				search(searchKeyword);
+			});
+			
 		})
+		
+		function search(searchKeyword){
+			key = updateInSelectKeyword();
+			area = updateInAreaCode();
+			arr = updateInArrange();
+			placeApi(1, arrange, key, area, searchKeyword.value);
+		}
 		
 		function updateInArrange(){
 			//input 태그속 파라미터값
@@ -240,6 +264,15 @@
 				inAreaCode = document.getElementById('areaCode').value;
 			}
 			return inAreaCode;
+		}
+		
+		function updateInKeyword(){
+			//input 태그속 파라미터값
+			let inKeyword = "";
+			if(document.getElementById('keyword') != null){
+				inKeyword = document.getElementById('keyword').value;
+			}
+			return inKeyword;
 		}
 		
 		function updateTags(name, targetId, sectionId){
@@ -291,14 +324,15 @@
 		            checkbox.checked = false;
 		            updateTags(name, targetId, sectionId);
 	            	arr = updateInArrange();
+	            	word = updateInKeyword();
 		            if(name == "local"){
 		            	key = updateInSelectKeyword();
-		            	placeApi(1, arr, key, "")
+		            	placeApi(1, arr, key, "", word)
 		            }else{
 		            	area = updateInAreaCode();
-			            placeApi(1, arr, "", area);
+			            placeApi(1, arr, "", area, word);
 		            }
-		            console.log(checkbox.value);
+		            //console.log(checkbox.value);
 		        });
 	
 		        tagDiv.appendChild(tagText);
@@ -308,105 +342,21 @@
 		    
 		};
 		
-		function placeApi(page, arrange, selectedKeyword, areaCode){
+		function placeApi(page, arrange, selectedKeyword, areaCode, keyword){
 			// console.log(page)
 			// console.log(arrange)
 		    $.ajax({
 		    	url:"recoPlaceList.pla",
 		   		type: "GET",
-		   		data: {page: page, arrange: arrange, selectedKeyword : selectedKeyword, areaCode:areaCode},
+		   		data: {page: page, arrange: arrange, selectedKeyword : selectedKeyword, areaCode:areaCode, keyword:keyword},
 		   		success: function(data){
-		   			console.log(data)
+		   			//console.log(data)
 		   			
 		   			contentCardList.innerHTML = "";
 		   			pagination.innerHTML = "";
 		   			
-		   			for(const i of data.response.body.items.item){
-			   			const clickCardDiv = document.createElement('div');
-			   			clickCardDiv.className = 'col clickCard';
-			   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + i.areacode;
-			   			const infoCardDiv = document.createElement('div');
-			   			infoCardDiv.className = 'product-info-card';
-			   			const img = document.createElement('img');
-			   			img.className = 'image-icon';
-			   			if(i.firstimage === ""){
-			   				img.src = 'image/noimage.png'
-			   			}else{
-				   			img.src = i.firstimage;
-			   			}
-			   			const body = document.createElement('div');
-			   			body.className = 'body';
-			   			const text6 = document.createElement('div');
-			   			text6.className = 'text6';
-			   			const text7 = document.createElement('div');
-			   			text7.className = 'text7';
-			   			text7.innerText = i.title;
-			   			text6.append(text7);
-			   			const contentBox = document.createElement('div');
-			   			contentBox.className = 'placeContent';
-			   			const content = document.createElement('div');
-			   			content.className = 'text-strong1';
-			   			content.innerText = i.addr1;
-			   			contentBox.append(content);
-			   			body.append(text6);
-			   			body.append(contentBox);
-			   			infoCardDiv.append(img);
-			   			infoCardDiv.append(body);
-			   			clickCardDiv.append(infoCardDiv);
-			   			contentCardList.append(clickCardDiv);
-			   			
-		   			}
-		   			contentCardList.innerHTML += '<input type="hidden" name="arrange" id="arrange" value="' + data.arrange + '"/><input type="hidden" id="areaCode" name="areaCode" value="' + data.areaCode + '"/><input type="hidden" id="selectedKeyword" name="selectedKeyword" value="' + data.selectedKeyword + '"/><input type="hidden" id="page" name="page" value="' + data.pi.currentPage + '"/>'
-
-		   			// 페이지 네이션 부분
-		   			const ul = document.createElement('ul');
-		   			ul.className='pagination';
+		   			changeDiv(data);
 		   			
-		   			const li1 = document.createElement('li');
-		   			li1.className='page-item';
-		   			const beforeA = document.createElement('a');
-		   			beforeA.className = 'page-link';
-		   			beforeA.href = 'recoPlace.pla?page=' + (data.pi.currentPage - 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
-		   			beforeA.ariaLabel = "Previous";
-		   			const span1 = document.createElement('span');
-		   			span1.ariaHidden = "true";
-		   			span1.innerHTML = "&laquo;";
-		   			
-		   			beforeA.append(span1);
-		   			li1.append(beforeA);
-		   			ul.append(li1);
-		   			
-		   			for(let i = data.pi.startPage ; i <= data.pi.endPage ; i++){
-			   			const li = document.createElement('li');
-			   			li.className='page-item';
-		   				const a = document.createElement('a');
-		   				a.className='page-link';
-		   				a.href = 'recoPlace.pla?page=' + i + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
-		   				a.innerText = i;
-		   				if(i == data.pi.currentPage){
-		   					a.style.fontWeight = "bold";
-		   					a.style.fontSize = '1.1em'
-		   					a.style.color = "#96caf0";
-		   				}
-		   				li.append(a);
-		   				ul.append(li);
-		   			}
-		   			
-		   			const li3 = document.createElement('li');
-		   			li3.className='page-item';
-		   			const afterA = document.createElement('a');
-		   			afterA.className = 'page-link';
-		   			afterA.href = 'recoPlace.pla?page=' + (data.pi.currentPage + 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode;
-		   			afterA.ariaLabel = "Next";
-		   			const span2 = document.createElement('span');
-		   			span2.ariaHidden = "true";
-		   			span2.innerHTML = "&raquo;";
-		   			
-		   			afterA.append(span2);
-		   			li3.append(afterA);
-		   			ul.append(li3);
-		   			
-		   			pagination.append(ul);
 		   			clickCard();
 		   		},
 		   		error: data => console.log(data)
@@ -431,16 +381,93 @@
 			}
 		}
 		
-		function searchKeyword(contenttype, arrange, keyword){
-			$.ajax({
-				url: "searchKeyword.pla",
-				type: "GET",
-				data: {contenttype:contenttype, arrange:arrange, keyword:keyword},
-				success: data =>{
-					console.log(data);
-				},
-				error: data => console.log(data)
-			})
+		function changeDiv(data){
+			for(const i of data.response.body.items.item){
+	   			const clickCardDiv = document.createElement('div');
+	   			clickCardDiv.className = 'col-4 clickCard';
+	   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + i.areacode;
+	   			const infoCardDiv = document.createElement('div');
+	   			infoCardDiv.className = 'product-info-card';
+	   			const img = document.createElement('img');
+	   			img.className = 'image-icon';
+	   			if(i.firstimage === ""){
+	   				img.src = 'image/noimage.png'
+	   			}else{
+		   			img.src = i.firstimage;
+	   			}
+	   			const body = document.createElement('div');
+	   			body.className = 'body';
+	   			const text6 = document.createElement('div');
+	   			text6.className = 'text6';
+	   			const text7 = document.createElement('div');
+	   			text7.className = 'text7';
+	   			text7.innerText = i.title;
+	   			text6.append(text7);
+	   			const contentBox = document.createElement('div');
+	   			contentBox.className = 'placeContent';
+	   			const content = document.createElement('div');
+	   			content.className = 'text-strong1';
+	   			content.innerText = i.addr1;
+	   			contentBox.append(content);
+	   			body.append(text6);
+	   			body.append(contentBox);
+	   			infoCardDiv.append(img);
+	   			infoCardDiv.append(body);
+	   			clickCardDiv.append(infoCardDiv);
+	   			contentCardList.append(clickCardDiv);
+	   			
+   			}
+   			contentCardList.innerHTML += '<input type="hidden" name="arrange" id="arrange" value="' + data.arrange + '"/><input type="hidden" id="areaCode" name="areaCode" value="' + data.areaCode + '"/><input type="hidden" id="selectedKeyword" name="selectedKeyword" value="' + data.selectedKeyword + '"/><input type="hidden" id="page" name="page" value="' + data.pi.currentPage + '"/><input type="hidden" id="keyword" name="keyword" value="' + data.keyword + '"/>';
+
+   			// 페이지 네이션 부분
+   			const ul = document.createElement('ul');
+   			ul.className='pagination';
+   			
+   			const li1 = document.createElement('li');
+   			li1.className='page-item';
+   			const beforeA = document.createElement('a');
+   			beforeA.className = 'page-link';
+   			beforeA.href = 'recoPlace.pla?page=' + (data.pi.currentPage - 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode + "&keyword=" + data.keyword;
+   			beforeA.ariaLabel = "Previous";
+   			const span1 = document.createElement('span');
+   			span1.ariaHidden = "true";
+   			span1.innerHTML = "&laquo;";
+   			
+   			beforeA.append(span1);
+   			li1.append(beforeA);
+   			ul.append(li1);
+   			
+   			for(let i = data.pi.startPage ; i <= data.pi.endPage ; i++){
+	   			const li = document.createElement('li');
+	   			li.className='page-item';
+   				const a = document.createElement('a');
+   				a.className='page-link';
+   				a.href = 'recoPlace.pla?page=' + i + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode + "&keyword=" + data.keyword;
+   				a.innerText = i;
+   				if(i == data.pi.currentPage){
+   					a.style.fontWeight = "bold";
+   					a.style.fontSize = '1.1em'
+   					a.style.color = "#96caf0";
+   				}
+   				li.append(a);
+   				ul.append(li);
+   			}
+   			
+   			const li3 = document.createElement('li');
+   			li3.className='page-item';
+   			const afterA = document.createElement('a');
+   			afterA.className = 'page-link';
+   			afterA.href = 'recoPlace.pla?page=' + (data.pi.currentPage + 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode + "&keyword=" + data.keyword;
+   			afterA.ariaLabel = "Next";
+   			const span2 = document.createElement('span');
+   			span2.ariaHidden = "true";
+   			span2.innerHTML = "&raquo;";
+   			
+   			afterA.append(span2);
+   			li3.append(afterA);
+   			ul.append(li3);
+   			
+   			pagination.append(ul);
 		}
 		
 		/*]]>*/
