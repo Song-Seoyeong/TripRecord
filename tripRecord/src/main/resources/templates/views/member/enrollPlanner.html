@@ -16,7 +16,7 @@
 	<div id="bigTitle" class='text-center'>플래너 회원가입</div>
 	
 	<!-- 회원가입 폼 -->
-	<form id="enrollPlanner" method="POST">
+	<form action="enrollPlanner.me" id="enrollPlanner" method="POST">
 		<div id='enrollDiv'>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -24,7 +24,7 @@
 					<label class="loginText">아이디</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memId' placeholder="아이디를 입력하세요">
+					<input type="text" name='memberId' placeholder="아이디를 입력하세요">
 					<div id='idText' class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -35,7 +35,7 @@
 					<label class="loginText">비밀번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="password" name='memPwd' placeholder="비밀번호를 입력하세요">
+					<input type="password" name='memberPwd' placeholder="비밀번호를 입력하세요">
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -62,7 +62,7 @@
 					<label class="loginText">이름</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memName' placeholder="이름를 입력하세요">
+					<input type="text" name='memberName' placeholder="이름를 입력하세요">
 					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -73,7 +73,7 @@
 					<label class="loginText">닉네임</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memNickname' placeholder="닉네임를 입력하세요">
+					<input type="text" name='nickname' placeholder="닉네임를 입력하세요">
 					<div id='nicknameText' class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -84,7 +84,7 @@
 					<label class="loginText">전화번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+					<input type="text" name='phone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 					<div id='phoneText' class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -97,7 +97,7 @@
 				<div class='col-6' style="display:flex">
 					<input type="text" name='memEmail' id='memEmail' placeholder="이메일">
 					<div id='atSign' class='text-center'>@</div>
-					<input id="domain" type="text" aria-lavel="Text input with dropdown button" value="naver.com">
+					<input id="domain" name="domain" type="text" aria-lavel="Text input with dropdown button" value="naver.com">
 					<select id="selectDomain" class="form-select">
 						<option class="dropdown-item">naver.com</option>
 						<option class="dropdown-item">google.com</option>
@@ -120,11 +120,11 @@
 					<label class="loginText">활동지역</label>
 				</div>
 				<div  class='col-4'>
-					<select name='local' id='local' class="form-select">
+					<select name='localNo' id='local' class="form-select">
 						<option selected>활동 지역 선택</option>
-						<option>서울</option>
-						<option>부산</option>
-						<option>강원도</option>
+						<option value='1'>서울</option>
+						<option value='2'>부산</option>
+						<option value='3'>강원도</option>
 					</select>
 				</div>
 				<div class='col-3'></div>
@@ -135,7 +135,7 @@
 					<label class="loginText">프로필 소개글</label>
 				</div>
 				<div  class='col-4'>
-					<textArea id="short-intro" class='textArea' placeholder='플래너 리스트에 보여질 간단한 소개글을 작성해주세요'></textArea>
+					<textArea id="short-intro" class='textArea' name="sIntroContent" placeholder='플래너 리스트에 보여질 간단한 소개글을 작성해주세요'></textArea>
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -145,12 +145,12 @@
 					<label class="loginText">신청글</label>
 				</div>
 				<div  class='col-4'>
-					<textArea id="to-admin" class='textArea' placeholder='관리자에게 보여질(?) 신청글을 작성해주세요'></textArea>
+					<textArea id="to-admin" class='textArea' name="plaReqContent" placeholder='관리자에게 보여질(?) 신청글을 작성해주세요'></textArea>
 				</div>
 				<div class='col-3'></div>
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center align-items-center'>
-				<button type="button" class="btn btn-primary" id='enrollButton'>회원가입</button>
+				<button class="btn btn-primary" id='enrollButton'>회원가입</button>
 				<a id='enrollPlaner' href="enrollView.me">일반 회원가입</a>
 			</div>
 	
@@ -216,12 +216,12 @@
 			
 			const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
 			const enrollbtn = document.getElementById("enrollButton");
-			const inputId = document.getElementsByName("memId")[0];
-			const inputPwd = document.getElementsByName("memPwd")[0];
+			const inputId = document.getElementsByName("memberId")[0];
+			const inputPwd = document.getElementsByName("memberPwd")[0];
 			const pwdconfirm = document.getElementById("pwdconfirm");
-			const inputName = document.getElementsByName("memName")[0];
-			const inputNickname = document.getElementsByName("memNickname")[0];
-			const inputPhone = document.getElementsByName("memPhone")[0];
+			const inputName = document.getElementsByName("memberName")[0];
+			const inputNickname = document.getElementsByName("nickname")[0];
+			const inputPhone = document.getElementsByName("phone")[0];
 			const firstEmail = document.getElementById("memEmail");
 			const alertDivs = document.getElementsByClassName("alert-div");
 			const local = document.getElementById("local");
@@ -373,7 +373,7 @@
 		// 비밀번호 체크
 //		const regPwd = /^[A-Za-z0-9@.]{8,15}$/;
 		const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
-		const pwd = document.getElementsByName("memPwd")[0];
+		const pwd = document.getElementsByName("memberPwd")[0];
 		const alertDivs = document.getElementsByClassName("alert-div");
 		
 		pwd.addEventListener('focusout',()=>{
