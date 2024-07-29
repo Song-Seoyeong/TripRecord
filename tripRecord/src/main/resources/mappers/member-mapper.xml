@@ -1,0 +1,49 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace='com.finalproject.triprecord.member.model.dao.MemberMapper'>
+
+	<select id="login" resultType="Member">
+		select *
+	  	from member
+	  	where member_drop = 'N' and member_id = #{memberId}
+	
+	</select>
+	
+	
+	<insert id="enrollMember">
+		insert into member
+		values(seq_member.nextval, #{memberId}, #{memberPwd}, #{memberName}, #{nickname}, #{phone}, #{email}, sysdate, default, default, default, default)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>
