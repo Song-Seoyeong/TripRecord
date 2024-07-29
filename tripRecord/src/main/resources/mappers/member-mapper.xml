@@ -14,7 +14,10 @@
 		values(seq_member.nextval, #{memberId}, #{memberPwd}, #{memberName}, #{nickname}, #{phone}, #{email}, sysdate, default, default, default, default)
 	</insert>
 	
-	
+	<insert id="enrollPlanner">
+		insert into planner
+		values(#{memberNo}, #{localNo}, null, #{plaReqContent}, #{sIntroContent})
+	</insert>
 	
 	
 	
