@@ -96,7 +96,7 @@ input{
 	border-bottom-left-radius:0;
 	height:35px;
 }
-#selectDomain{width:35%;}
+#selectDomain{width:35%; height:35px;}
 .alert-div{height:25px;}
 #short-intro{
 	padding:5px;
