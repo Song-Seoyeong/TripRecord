@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.finalproject.triprecord.member.model.dao.MemberMapper;
 import com.finalproject.triprecord.member.model.vo.Member;
+import com.finalproject.triprecord.member.model.vo.Planner;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -20,6 +21,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member login(Member m) {
 		return mMapper.login(m);
+	}
+
+	@Override
+	public int enrollPlanner(Planner p) {
+		return mMapper.enrollPlanner(p);
 	}
 
 }

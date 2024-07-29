@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalproject.triprecord.member.model.service.MemberService;
 import com.finalproject.triprecord.member.model.vo.Member;
+import com.finalproject.triprecord.member.model.vo.Planner;
 
-import ch.qos.logback.core.model.Model;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -42,6 +43,7 @@ public class MemberController {
 	public String searchPwd() {
 		return "searchPwd";
 	}
+	
 	@PostMapping("login.me")
 	public String login(@RequestParam("memberId") String id, @RequestParam("memberPwd") String pwd, HttpSession session) {
 		Member m = new Member();
@@ -57,6 +59,16 @@ public class MemberController {
 			return "에러페이지";
 		}
 	}
+	
+	@GetMapping("logout.me")
+	public String logout(HttpServletRequest req) {
+		HttpSession session = req.getSession(false);
+		if(session != null) {
+			session.invalidate();
+		}
+		return "index";
+	}
+	
 	@GetMapping("updatePwdView.me")
 	public String updatePwd() {
 		return "updatePwd";
@@ -68,7 +80,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("enrollMember.me")
-	public String enrollMember(@ModelAttribute Member m, Model model,
+	public String enrollMember(@ModelAttribute Member m, 
 						@RequestParam("memEmail") String frontEmail, @RequestParam("domain") String backEmail) {
 		String email = null;
 		if(!frontEmail.equals("")) {
@@ -86,7 +98,33 @@ public class MemberController {
 		}
 	}
 	
-	
+	@PostMapping("enrollPlanner.me")
+	public String enrollPlanner(@ModelAttribute Member m, @ModelAttribute Planner p, @RequestParam("memEmail") String frontEmail, @RequestParam("domain") String backEmail) {
+		
+		String email = null;
+		if(!frontEmail.equals("")) {
+			email = frontEmail + "@" + backEmail;
+		}
+		m.setEmail(email);
+		String encPwd = bcrypt.encode(m.getMemberPwd());
+		m.setMemberPwd(encPwd);
+		m.setGrade("PLANNER");
+		int result = mService.enrollMember(m); // 플래너회원가입 시키기
+		if(result>0) {
+			Member mem = mService.login(m); 
+			p.setMemberNo(mem.getMemberNo()); // 로그인 정보에서 memberNo 가져오기
+			int result2 = mService.enrollPlanner(p); // 플래너 추가정보 입력하기
+			if(result2>0) {
+				return "redirect:loginView.me";
+			} else {
+				return "에러페이지";
+			}
+		} else {
+			return "에러페이지";
+		}
+		
+		
+	}
 	
 	
 	
