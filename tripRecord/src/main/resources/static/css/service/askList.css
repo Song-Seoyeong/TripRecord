@@ -1,9 +1,10 @@
 @charset "UTF-8";
 .offcanvas-body>p:hover{cursor:pointer;}
-#content{text-align:center;width:50%
+#content{text-align:center;width:50%;
 		min-width:1000px;
 		margin:30px auto;}
-
+.bd-example-snippet{display:flex; justify-content:center;}
+.bd-example{width:80%;}
 #commu-select{padding-top:20px; padding-bottom:20px;
 			  width:500px; margin-left:auto; margin-right:auto;
 			  display:flex; text-align:center;
@@ -66,5 +67,69 @@
 }
 .col-3>div{font-size:25px;}
 #content1-div{display:flex;width:35%;border-radius:9999px; border:0.5px solid lightgray; align-items:center;}
-#sidebar{width:51px; height: 51px; left: 33px; top: 260px; position: fixed; border: 7px #96CAF0 solid; z-index: 50;}
-#offcanvasWithBothOptions{height:220px; top:320px; left:33px; width:250px; border:5px solid #2f6598;}
+#sidebar{width:51px; height: 51px; left: 33px; top: 260px; position: fixed; z-index: 50;}
+#offcanvasWithBothOptions{height:220px; top:340px; left:33px; width:250px; border:5px solid #2f6598;}
+.arrow {
+  cursor: pointer;
+  height: 60px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  transition: transform 0.1s;
+  width: 50px;
+}
+
+.arrow-top, .arrow-bottom {
+  background-color: #96caf0;
+  height: 4px;
+  left: -5px;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+}
+
+.arrow-top:after, .arrow-bottom:after {
+  background-color: #2f6598;
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  transition: all 0.15s;
+}
+
+.arrow-top {
+  transform: rotate(45deg);
+  transform-origin: bottom right;
+}
+
+.arrow-top:after {
+  left: 100%;
+  right: 0;
+  transition-delay: 0s;
+}
+
+.arrow-bottom {
+  transform: rotate(-45deg);
+  transform-origin: top right;
+}
+
+.arrow-bottom:after {
+  left: 0;
+  right: 100%;
+  transition-delay: 0.15s;
+}
+
+.arrow:hover .arrow-top:after {
+  left: 0;
+  transition-delay: 0.15s;
+}
+
+.arrow:hover .arrow-bottom:after {
+  right: 0;
+  transition-delay: 0s;
+}
+
+.arrow:active {
+  transform: translateX(-50%) translateY(-50%) scale(0.9);
+}
