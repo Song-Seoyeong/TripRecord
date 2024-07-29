@@ -5,17 +5,16 @@
 <title>후기 남기기</title>
 <link type='text/css' href='css/recoPlace/placeReviewWrite.css'
 	rel='stylesheet'>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
 	<!-- 타이틀 영역 -->
-	<div class="div"
-		style='background-image: url("image/insadong.jpg");'>
-		<div class="text-content-title">
-			<b class="title">인사동 후기 남기기</b>
-			<div class="subtitle">도심 속에서 낡지만 귀중한 전통의 물건들이 교류되는 소중한 공간</div>
+	<div class="div" id='imageTitle'>
+		<div class="text-content-title"  id='placeName'>
+			<b class="title"></b>
 		</div>
 	</div>
 	<!-- 타이틀 영역 -->
@@ -54,8 +53,13 @@
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-			// 제목/내용 미입력시 폼제출 안됌
+			const params = new URLSearchParams(window.location.search);
+			const contentid = params.get('contentid');
+			const contenttypeid = params.get('contenttypeid');
 			
+			 detailInfo(contentid, contenttypeid);
+			 
+			// 제목/내용 미입력시 폼제출 안됌
 			document.getElementById('insert').addEventListener('click', ()=>{
 				const title = document.getElementById('title');
 				const content = document.getElementById('content');
@@ -98,8 +102,6 @@
 				const starDiv = document.getElementById('starDiv');
 				starDiv.innerHTML = "";
 				
-				const contextPath = '<%= request.getContextPath() %>';
-				
 				let starHTML = '';
                 for (let i = 0; i < 5; i++) {
                     if (i <= index) {
@@ -115,6 +117,33 @@
 			}
 			
 		})
+		
+		// 컨텐츠 기본 정보 조회 함수
+		function detailInfo(contentid, contenttypeid){
+			$.ajax({
+				url:'placeInfo.pla',
+				type: 'GET',
+				data: {contentid : contentid, contenttypeid : contenttypeid},
+				success: data =>{
+					//console.log(data);
+					const item = data.response.body.items.item[0];
+					
+					const title = document.getElementById('placeName');
+					title.innerHTML = "'" + item.title + "' 후기 남기기";
+					
+					/* const subTitle = document.getElementById('subTitle');
+					subTitle.innerHTML = item.overview.split(".")[0]; */
+					
+					const imageTitle = document.getElementById('imageTitle');
+					if(item.firstimage === ""){
+						imageTitle.style.backgroundImage = 'url(image/noimageBackground.png)'
+					}else{
+						imageTitle.style.backgroundImage = 'url(' + item.firstimage + ')';
+					}
+				},
+				error: data => console.log(data)
+			})
+		}
 		
 	</script>
 

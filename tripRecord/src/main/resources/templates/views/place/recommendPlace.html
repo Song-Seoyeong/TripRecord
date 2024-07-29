@@ -118,19 +118,6 @@
 			</div>
 			<!-- 검색바 -->
 			<div class="card-grid row" id='contentCardList'>
-				<!-- <div class='col clickCard' id='place1'>
-					<div class="product-info-card">
-						<img class="image-icon" alt="" src="image/insadong.jpg">
-						<div class="body">
-							<div class="text6">
-								<div class="text7">인사동</div>
-							</div>
-							<div class="placeContent">
-								<div class="text-strong1">도심 속에서 낡지만 귀중한 전통의 물건들이 교류되는 소중한 공간</div>
-							</div>
-						</div>
-					</div>
-				</div> -->
 			</div>
 			<div class='row' style='margin-bottom: 100px;'>
 				<div class='col-4'></div>
@@ -156,6 +143,7 @@
 		const arrange = params.get('arrange') || 'A';
 		const contentTypeId = params.get('contentTypeId') || '';
 		const areaCode = params.get('areaCode') || '';
+		const keyword = param.get('keyword') || "";
 		let selectedKeyword = "";
 		
 		// 페이지 첫 로딩시 함수 호출
@@ -441,6 +429,18 @@
 					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areaCode=" + areaCode;
 				})
 			}
+		}
+		
+		function searchKeyword(contenttype, arrange, keyword){
+			$.ajax({
+				url: "searchKeyword.pla",
+				type: "GET",
+				data: {contenttype:contenttype, arrange:arrange, keyword:keyword},
+				success: data =>{
+					console.log(data);
+				},
+				error: data => console.log(data)
+			})
 		}
 		
 		/*]]>*/

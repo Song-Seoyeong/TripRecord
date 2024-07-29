@@ -30,6 +30,7 @@ body {
   	/* mix-blend-mode: difference; */
   	/* -webkit-text-stroke: 0.2px black; */
   	background: #96caf0;
+  	opacity: 0.9;
   	border-radius: 10px;
   	padding:5px;
   	padding-left: 15px;
@@ -63,6 +64,7 @@ body {
 	margin-bottom:20px;
 	padding: 10px;
 /* 	align-content: center; */
+	overflow: auto;
 }
 .placeDetail{
 	font-size: 14px;
@@ -326,4 +328,58 @@ body {
 	height: 100%;
 	max-height: 30px;
 	align-content: center;
+}
+
+
+.button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  font-weight: 600;
+  display: flex;
+  padding:0;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 0px 4px #2F6598;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+}
+
+.backIcon {
+	width: 70px;
+  	transition-duration: 0.1s;
+}
+
+.button:hover {
+  width: 120px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: #2F6598;
+  align-items: center;
+}
+
+.button:hover .backIcon {
+  /* width: 20px; */
+  transition-duration: 0.1s;
+  transform: translateY(-200%);
+}
+
+.button::before {
+  position: absolute;
+  bottom: -20px;
+  content: "뒤로 가기";
+  color: white;
+  /* transition-duration: .3s; */
+  font-size: 0px;
+}
+
+.button:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  bottom: unset;
+  /* transform: translateY(-30px); */
+  transition-duration: 0.3s;
 }

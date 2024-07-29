@@ -150,4 +150,115 @@ public class PlaceRestController {
         
         return jsonMap;
 	}
+	
+	@GetMapping("detailImg.pla")
+	public Map<String, Object> detailImg(@RequestParam("contentid")int contentid,
+										 @RequestParam("contenttypeid") int contenttypeid){
+		String operation = "detailImage1";
+		
+		String parameter = "";
+		
+		parameter += "?MobileOS=ETC&MobileApp=AppTest";
+		parameter += "&ServiceKey=" + SERVICEKEY;
+		parameter += "&contentId=" + contentid;
+		if(contenttypeid == 39) {
+			parameter += "&imageYN=N";
+		}else {
+			parameter += "&imageYN=Y";
+		}
+		parameter += "&subImageYN=Y";
+		parameter += "&_type=json";
+		
+		String adrr = basicUrl + operation + parameter;
+		
+		//System.out.println(adrr);
+		
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			URL url = new URL(adrr);
+			
+			HttpURLConnection urlCon = (HttpURLConnection)url.openConnection(); 
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlCon.getInputStream(), "UTF-8"));
+			
+			String resultStr;
+			
+			while((resultStr = br.readLine()) != null) {
+				sb.append(resultStr);
+			}
+			
+			urlCon.disconnect();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// JSON 문자열을 Map으로 변환
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> jsonMap = null;
+        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
+        try {
+            jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       //System.out.println(jsonMap);
+        
+        return jsonMap;
+	}
+	
+	@GetMapping("detailTypeInfo.pla")
+	public Map<String, Object> detailTypeInfo(@RequestParam("contentid") int contentId,
+											  @RequestParam("contenttypeid") int contentTypeId){
+		String operation = "detailIntro1";
+		
+		String parameter = "";
+		
+		parameter += "?MobileOS=ETC&MobileApp=AppTest";
+		parameter += "&ServiceKey=" + SERVICEKEY;
+		parameter += "&contentId=" + contentId;
+		parameter += "&contentTypeId=" + contentTypeId;
+		parameter += "&_type=json";
+		
+		String adrr = basicUrl + operation + parameter;
+		
+		// System.out.println(adrr);
+		
+		StringBuffer sb = new StringBuffer();
+		
+		try {
+			URL url = new URL(adrr);
+			
+			HttpURLConnection urlCon = (HttpURLConnection)url.openConnection(); 
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlCon.getInputStream(), "UTF-8"));
+			
+			String resultStr;
+			
+			while((resultStr = br.readLine()) != null) {
+				sb.append(resultStr);
+			}
+			
+			urlCon.disconnect();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// JSON 문자열을 Map으로 변환
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> jsonMap = null;
+        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
+        try {
+            jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       //System.out.println(jsonMap);
+//       System.out.println(jsonMap.get("response"));
+        return jsonMap;
+	}
 }
