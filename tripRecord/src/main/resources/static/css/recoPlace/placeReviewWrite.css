@@ -30,13 +30,6 @@ body {
   	line-height: 120%;
   	/* mix-blend-mode: difference; */
 }
-.subtitle {
-  	align-self: stretch;
-  	position: relative;
-  	font-size: 27px;
-  	line-height: 120%;
-  	margin-top:20px;
-}
 .text-content-title {
   	display: flex;
   	flex-direction: column;
@@ -45,6 +38,19 @@ body {
   	gap: 8px;
 }
 
+#placeName{
+	align-self: stretch;
+  	position: relative;
+  	letter-spacing: -0.05em;
+  	/* mix-blend-mode: difference; */
+  	/* -webkit-text-stroke: 0.2px black; */
+  	background: #96caf0;
+  	opacity: 0.9;
+  	border-radius: 10px;
+  	padding:5px;
+  	padding-left: 15px;
+  	padding-right: 15px;
+}
 
 #inputDiv{
 	width: 50%;
@@ -96,4 +102,7 @@ textArea{
 	background: #2F6598;
 	border: 2px solid #2F6598;
 	color: #fff;
+}
+.star{
+	max-width: 30px;
 }

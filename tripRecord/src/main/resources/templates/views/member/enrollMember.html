@@ -19,7 +19,7 @@
 	<div id="bigTitle" class='text-center'>회원가입</div>
 	
 	<!-- 회원가입 폼 -->
-	<form action="" >
+	<form action="enrollMember.me" method="post">
 		<div id='enrollDiv'>
 			<div class="inputDiv row">
 				<div class='col-3'></div>
@@ -27,7 +27,7 @@
 					<label class="loginText">아이디</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memId' placeholder="아이디를 입력하세요">
+					<input type="text" name='memberId' placeholder="아이디를 입력하세요">
 					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -38,7 +38,7 @@
 					<label class="loginText">비밀번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="password" name='memPwd' placeholder="비밀번호를 입력하세요">
+					<input type="password" name='memberPwd' placeholder="비밀번호를 입력하세요">
 					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -60,7 +60,7 @@
 					<label class="loginText">이름</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memName' placeholder="이름를 입력하세요">
+					<input type="text" name='memberName' placeholder="이름를 입력하세요">
 					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -71,7 +71,7 @@
 					<label class="loginText">닉네임</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memNickname' placeholder="닉네임를 입력하세요">
+					<input type="text" name='nickname' placeholder="닉네임를 입력하세요">
 					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -82,7 +82,7 @@
 					<label class="loginText">전화번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memPhone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+					<input type="text" name='phone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -95,7 +95,7 @@
 				<div class='col-6' style="display:flex">
 					<input type="text" name='memEmail' id='memEmail' placeholder="이메일">
 					<div id='atSign' class='text-center'>@</div>
-					<input id="domain" type="text" class="form-control" aria-lavel="Text input with dropdown button" value="naver.com">
+					<input id="domain" type="text" name="domain" aria-lavel="Text input with dropdown button" value="naver.com">
 					<select id="selectDomain" class="form-select">
 						<option class="dropdown-item">naver.com</option>
 						<option class="dropdown-item">google.com</option>
@@ -113,7 +113,7 @@
 				</div>
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center align-items-center'>
-				<button type="button" class="btn btn-primary" id='enrollButton'>회원가입</button>
+				<button class="btn btn-primary" id='enrollButton'>회원가입</button>
 				<a id='enrollPlaner' href="enrollPlannerView.me">플래너 회원가입</a>
 			</div>
 	
@@ -135,13 +135,13 @@
 				}
 			});
 			
-			
+			const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
 			const enrollbtn = document.getElementById("enrollButton");
-			const inputId = document.getElementsByName("memId")[0];
-			const inputPwd = document.getElementsByName("memPwd")[0];
-			const inputName = document.getElementsByName("memName")[0];
-			const inputNickname = document.getElementsByName("memNickname")[0];
-			const inputPhone = document.getElementsByName("memPhone")[0];
+			const inputId = document.getElementsByName("memberId")[0];
+			const inputPwd = document.getElementsByName("memberPwd")[0];
+			const inputName = document.getElementsByName("memberName")[0];
+			const inputNickname = document.getElementsByName("nickname")[0];
+			const inputPhone = document.getElementsByName("phone")[0];
 			const firstEmail = document.getElementById("memEmail");
 			const alertDivs = document.getElementsByClassName("alert-div");
 			enrollbtn.onclick = e =>{
@@ -216,6 +216,11 @@
 					alertDivs[2].innerText = "비밀번호가 일치하지 않습니다";
 					e.preventDefault();
 					// 비밀번호가 다르거나, 둘중 하나가 빈칸이면
+				} else if(!regPwd.test(pwd.value)){
+					alertDivs[1].innerText = '영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요';
+					alertDivs[1].style.color = 'red';
+					//console.log("얼른 제대로 바꿔주세요");
+					e.preventDefault();
 				}
 			}
 			
@@ -229,19 +234,24 @@
 				} else{
 					alertDivs[2].style.color = 'red';
 					alertDivs[2].innerText = "비밀번호가 일치하지 않습니다";
-					pwdconfirm.focus();
 					return false;
 				}
 			});
 			
+			
+			
+			
+			// 아이디 체크
 			const regId = /^[A-Za-z0-9]{4,10}$/;
 			inputId.addEventListener('focusout',()=>{
 				let id = inputId.value;
 				if(id.trim() != ''){
 					$.ajax({
 						url: 'checkId.me',
+						type: "post",
 						data: {id:id},
 						success: (data) => {
+							//console.log(data);
 							if(data == 0 && regId.test(id)){
 								alertDivs[0].innerText = '사용 가능한 아이디입니다';
 								alertDivs[0].style.color = 'green'
@@ -269,7 +279,7 @@
 		// 비밀번호 체크
 //		const regPwd = /^[A-Za-z0-9@.]{8,15}$/;
 		const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
-		const pwd = document.getElementsByName("memPwd")[0];
+		const pwd = document.getElementsByName("memberPwd")[0];
 		const alertDivs = document.getElementsByClassName("alert-div");
 		
 		pwd.addEventListener('focusout',()=>{
@@ -277,7 +287,6 @@
 				alertDivs[1].innerText = '영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요';
 				alertDivs[1].style.color = 'red';
 				console.log("얼른 제대로 바꿔주세요");
-				pwd.focus();
 				
 				return false;
 			} else {

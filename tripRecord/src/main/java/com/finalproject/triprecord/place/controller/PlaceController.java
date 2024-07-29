@@ -74,7 +74,11 @@ public class PlaceController {
 	}
 	
 	@GetMapping("placeReviewWrite.pla")
-	public String placeReviewWrite() {
+	public String placeReviewWrite(@RequestParam("contentid") int contentid,
+								   @RequestParam("contenttypeid") int contenttypeid,
+								   Model model) {
+		model.addAttribute("contentid", contentid);
+		model.addAttribute("contenttypeid", contenttypeid);
 		return "placeReviewWrite";
 	}
 	

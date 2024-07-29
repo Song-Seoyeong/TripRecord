@@ -66,15 +66,16 @@
 		
 		<div id="placeImg" class="container">
 			<h2>관련 사진 &#x1F4F8;</h2>
-		    <div class="image-gallery" id="image-gallery">
-		        <div class="image-container"><img src="image/insadong1.jpg" alt="Image 1"></div>
-		        <div class="image-container"><img src="image/insadong2.jpg" alt="Image 2"></div>
-		        <div class="image-container"><img src="image/insadong3.jpg" alt="Image 3"></div>
-		        <div class="image-container"><img src="image/insadong4.jpg" alt="Image 4"></div>
-		    </div>
+		    <div class="image-gallery" id="image-gallery"></div>
 		</div>
-		
-		
+		<div>
+			<button class="button" onclick='history.back()' style='margin: 0px auto; margin-top: 20px;'>
+			  <!-- <svg class="svgIcon" viewBox="0 0 384 512">
+			    <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"></path>
+			  </svg> -->
+			  <img src='image/arrow.png' class='backIcon'/>
+			</button>
+		</div>
 	</div>
 	<!-- 내용 출력 -->
 	
@@ -112,9 +113,9 @@
 	<div class="line-div"></div>
 
 	<!-- 후기 영역 -->
-	<div class='review-text' id='retitle'>'인사동' 후기 &#x1F4DD;</div>
+	<div class='review-text' id='retitle'></div>
 	<div class='review-text' id='reviewDiv'>
-		<button onclick='location.href="placeReviewWrite.pla"' id='goReview'>
+		<button id='goReview'>
 		  <p>후기 작성</p>
 		  <svg  xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4" >
 		    <path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
@@ -135,12 +136,14 @@
 				</div>
 			</div>
 		</div>
-		<div th:if='${list == null} or ${list.isEmpty()}' id='rText'>
+		<div th:if='${list == null} or ${list.isEmpty()}' id='rText' style='margin-bottom: 50px;'>
 			<hr>
 			<p>아직 작성된 후기가 없어요. 소중한 경험을 공유해주세요 :)</p>
 		</div>
 	</div>
 	<!-- 후기 영역 -->
+	
+	
 	
 	<!-- 후기 작성 로그인 확인 모달 -->
 	<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
@@ -174,16 +177,20 @@
 			const contenttypeid = params.get('contenttypeid');
 			const areaCode = params.get('areacode');
 	        
-	        /* document.getElementById('goReview').addEventListener('click', ()=>{
+			
+	      	document.getElementById('goReview').addEventListener('click', ()=>{
 	        	const reviewModal = document.getElementById('Modal');
 	        	$('#Modal').modal('show');
-	        }); */
+	        });
 	        
-	       /*  document.getElementById('loginView').addEventListener('click', ()=>{
-	        	location.href = 'placeReviewWrite.pla';
-	        }) */
+	       document.getElementById('loginView').addEventListener('click', ()=>{
+	        	location.href = 'placeReviewWrite.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid;
+	        })
 	        
 	        detailInfo(contentid, contenttypeid);
+	        detailImg(contentid,contenttypeid);
+	        detailTypeInfo(contentid,contenttypeid);
+	       	
 	        
 	    });
 		
@@ -192,7 +199,7 @@
 		
 		
 		
-		// 컨텐츠 상세 조회 함수
+		// 컨텐츠 기본 정보 조회 함수
 		function detailInfo(contentid, contenttypeid){
 			$.ajax({
 				url:'placeInfo.pla',
@@ -216,7 +223,7 @@
 					}
 					
 					const address = document.getElementById('address');
-					address.innerHTML = item.addr1 + item.addr2 + " / 우편번호 : " + item.zipcode;
+					address.innerHTML = "<b>주소</b> : " + item.addr1 + item.addr2 + " / <b>우편번호</b> : " + item.zipcode;
 					
 					const placeContent = document.getElementById('placeContent');
 					placeContent.innerHTML = item.overview;
@@ -226,7 +233,7 @@
 					if(item.homepage !== ""){
 						const homepage = document.createElement('div');
 						homepage.className = 'col-4 text-start placeDetail'
-						homepage.innerHTML = '홈페이지 : ' + item.homepage;
+						homepage.innerHTML = '<b>홈페이지</b> : ' + item.homepage;
 						extraInfo.append(homepage);
 					}
 					
@@ -234,9 +241,406 @@
 					if(item.tel !== ""){
 						const tel = document.createElement('div');
 						tel.className = 'col-4 text-start placeDetail'
-						tel.innerHTML = '전화번호 : ' + item.tel;
+						tel.innerHTML = '<b>전화번호</b> : ' + item.tel;
 						extraInfo.append(tel);
 					}
+					document.getElementById('retitle').innerHTML = "'" + item.title + "' 후기 &#x1F4DD;"
+				},
+				error: data => console.log(data)
+			})
+		}
+		
+		// 컨텐츠 타입별 정보 조회 함수
+		function detailTypeInfo(contentid, contenttypeid){
+			$.ajax({
+				url: "detailTypeInfo.pla",
+				data:{contentid:contentid, contenttypeid:contenttypeid},
+				type: "GET",
+				success: data =>{
+					//console.log(data);
+					const item = data.response.body.items.item[0];
+					//console.log(item.contenttypeid);
+					
+					if(item.contenttypeid == 12){ //관광지
+						if(item.chkpet != ""){
+							const pet = document.createElement("div");
+							pet.className = "col-4 text-start placeDetail";
+							pet.innerHTML = "<b>반려동물동반가능</b> : " + item.chkpet;
+							extraInfo.append(pet);
+						}
+						
+						if(item.expguide != ""){
+							const expguide = document.createElement("div");
+							expguide.className = "col-4 text-start placeDetail";
+							expguide.innerHTML = "<b>체험 안내</b> : " + item.expguide;
+							extraInfo.append(expquide);
+						}
+
+						if(item.restdate != ""){
+							const restdate = document.createElement("div");
+							restdate.className = "col-4 text-start placeDetail";
+							restdate.innerHTML = "<b>쉬는 날</b> : " + item.restdate;
+							extraInfo.append(restdate);
+						}
+
+						if(item.usetime != ""){
+							const usetime = document.createElement("div");
+							usetime.className = "col-4 text-start placeDetail";
+							usetime.innerHTML = "<b>이용 시간</b> : " + item.usetime;
+							extraInfo.append(usetime);
+						}
+						
+					}else if(item.contenttypeid == 14){ // 문화시설
+						if(item.chkpetculture != ""){
+							const chkpetculture = document.createElement("div");
+							chkpetculture.className = "col-4 text-start placeDetail";
+							chkpetculture.innerHTML = "<b>반려동물동반가능</b> : " + item.chkpetculture;
+							extraInfo.append(chkpetculture);
+						}
+
+						if(item.usetime != ""){
+							const usetime = document.createElement("div");
+							usetime.className = "col-4 text-start placeDetail";
+							usetime.innerHTML = "<b>이용 시간</b> : " + item.usetime;
+							extraInfo.append(usetime);
+						}
+						
+						if(item.usefee != ""){
+							const usefee = document.createElement("div");
+							usefee.className = "col-4 text-start placeDetail";
+							usefee.innerHTML = "<b>이용 요금</b> : " + item.usefee;
+							extraInfo.append(usefee);
+						}
+						
+						if(item.discountinfo != ""){
+							const discountinfo = document.createElement("div");
+							discountinfo.className = "col-4 text-start placeDetail";
+							discountinfo.innerHTML = "<b>할인정보</b> : " + item.discountinfo;
+							extraInfo.append(discountinfo);
+						}
+
+						if(item.restdateculture != ""){
+							const restdateculture = document.createElement("div");
+							restdateculture.className = "col-4 text-start placeDetail";
+							restdateculture.innerHTML = "<b>쉬는 날</b> : " + item.restdateculture;
+							extraInfo.append(restdateculture);
+						}
+
+					}else if(item.contenttypeid == 15){ // 행사/공연/축제
+						if(item.agelimit != ""){
+							const agelimit = document.createElement("div");
+							agelimit.className = "col-4 text-start placeDetail";
+							agelimit.innerHTML = "<b>관람 가능 연령</b> : " + item.agelimit;
+							extraInfo.append(agelimit);
+						}
+						
+						if(item.bookingplace != ""){
+							const bookingplace = document.createElement("div");
+							bookingplace.className = "col-4 text-start placeDetail";
+							bookingplace.innerHTML = "<b>예매처</b> : " + item.bookingplace;
+							extraInfo.append(bookingplace);
+						}
+						
+						if(item.placeinfo != ""){
+							const placeinfo = document.createElement("div");
+							placeinfo.className = "col-4 text-start placeDetail";
+							placeinfo.innerHTML = "<b>행사장 위치 안내</b> : " + item.placeinfo;
+							extraInfo.append(placeinfo);
+						}
+						
+						if(item.playtime != ""){
+							const playtime = document.createElement("div");
+							playtime.className = "col-4 text-start placeDetail";
+							playtime.innerHTML = "<b>공연 시간</b> : <br>" + item.playtime;
+							extraInfo.append(playtime);
+						}
+
+						if(item.eventenddate != ""){
+							const eventenddate = document.createElement("div");
+							eventenddate.className = "col-4 text-start placeDetail";
+							eventenddate.innerHTML = "<b>행사기간</b> : " + item.eventstartdate + " ~ " + item.eventenddate;
+							extraInfo.append(eventenddate);
+						}
+
+						if(item.eventplace != ""){
+							const eventplace = document.createElement("div");
+							eventplace.className = "col-4 text-start placeDetail";
+							eventplace.innerHTML = "<b>행사 장소</b> : " + item.eventplace;
+							extraInfo.append(eventplace);
+						}
+						
+						if(item.sponsor1 != ""){
+							const sponsor1 = document.createElement("div");
+							sponsor1.className = "col-4 text-start placeDetail";
+							sponsor1.innerHTML = "<b>주최</b> : " + item.sponsor1 + "(" + item.sponsor1tel + ")";
+							extraInfo.append(sponsor1);
+						}
+						
+						if(item.usetimefestival != ""){
+							const usetimefestival = document.createElement("div");
+							usetimefestival.className = "col-4 text-start placeDetail";
+							usetimefestival.innerHTML = "<b>이용요금</b> : " + item.usetimefestival;
+							extraInfo.append(usetimefestival);
+						}
+					}else if(item.contenttypeid == 28){ // 레포츠
+						if(item.chkpetleports != ""){
+							const chkpetleports = document.createElement("div");
+							chkpetleports.className = "col-4 text-start placeDetail";
+							chkpetleports.innerHTML = "<b>반려동물 동반 정보</b> : " + item.chkpetleports;
+							extraInfo.append(chkpetleports);
+						}
+						
+						if(item.expagerangeleports != ""){
+							const expagerangeleports = document.createElement("div");
+							expagerangeleports.className = "col-4 text-start placeDetail";
+							expagerangeleports.innerHTML = "<b>체험 가능 연령</b> : " + item.expagerangeleports;
+							extraInfo.append(expagerangeleports);
+						}
+
+						if(item.infocenterleports != ""){
+							const infocenterleports = document.createElement("div");
+							infocenterleports.className = "col-4 text-start placeDetail";
+							infocenterleports.innerHTML = "<b>문의 및 안내</b> : " + item.infocenterleports;
+							extraInfo.append(infocenterleports);
+						}
+						
+						if(item.openperiod != ""){
+							const openperiod = document.createElement("div");
+							openperiod.className = "col-4 text-start placeDetail";
+							openperiod.innerHTML = "<b>개장 기간</b> : " + item.openperiod;
+							extraInfo.append(openperiod);
+						}
+
+						if(item.reservation != ""){
+							const reservation = document.createElement("div");
+							reservation.className = "col-4 text-start placeDetail";
+							reservation.innerHTML = "<b>예약 안내</b> : " + item.reservation;
+							extraInfo.append(reservation);
+						}
+						
+						if(item.restdateleports != ""){
+							const restdateleports = document.createElement("div");
+							restdateleports.className = "col-4 text-start placeDetail";
+							restdateleports.innerHTML = "<b>쉬는 날</b> : " + item.restdateleports;
+							extraInfo.append(restdateleports);
+						}
+
+						if(item.usetimeleports != ""){
+							const usetimeleports = document.createElement("div");
+							usetimeleports.className = "col-4 text-start placeDetail";
+							usetimeleports.innerHTML = "<b>이용 시간</b> : " + item.usetimeleports;
+							extraInfo.append(usetimeleports);
+						}
+						
+						if(item.userfeeleports != ""){
+							const userfeeleports = document.createElement("div");
+							userfeeleports.className = "col-4 text-start placeDetail";
+							userfeeleports.innerHTML = "<b>이용 요금</b> : " + item.userfeeleports;
+							extraInfo.append(userfeeleports);
+						}
+					}else if(item.contenttypeid == 32){ // 숙박
+						if(item.accomcountlodging != ""){
+							const accomcountlodging = document.createElement("div");
+							accomcountlodging.className = "col-4 text-start placeDetail";
+							accomcountlodging.innerHTML = "<b>수용 가능 인원</b> : " + item.accomcountlodging;
+							extraInfo.append(accomcountlodging);
+						}
+						
+						if(item.checkintime != ""){
+							const checkintime = document.createElement("div");
+							checkintime.className = "col-4 text-start placeDetail";
+							checkintime.innerHTML = "<b>입실 - 퇴실</b> : " + item.checkintime + " - " + item.checkouttime;
+							extraInfo.append(checkintime);
+						}
+
+						if(item.chkcooking != ""){
+							const chkcooking = document.createElement("div");
+							chkcooking.className = "col-4 text-start placeDetail";
+							chkcooking.innerHTML = "<b>객실내 취사여부</b> : " + item.chkcooking;
+							extraInfo.append(chkcooking);
+						}
+						
+						if(item.hanok != ""){
+							const hanok = document.createElement("div");
+							hanok.className = "col-4 text-start placeDetail";
+							hanok.innerHTML = "<b>한옥 여부</b> : " + item.hanok;
+							extraInfo.append(hanok);
+						}
+						
+						if(item.parkinglodging != ""){
+							const parkinglodging = document.createElement("div");
+							parkinglodging.className = "col-4 text-start placeDetail";
+							parkinglodging.innerHTML = "<b>주차시설<.b> : " + item.parkinglodging;
+							extraInfo.append(parkinglodging);
+						}
+						
+						if(item.roomcount != ""){
+							const roomcount = document.createElement("div");
+							roomcount.className = "col-4 text-start placeDetail";
+							roomcount.innerHTML = "<b>객실 수</b> : " + item.roomcount;
+							extraInfo.append(roomcount);
+						}
+						
+						if(item.infocenterlodging != ""){
+							const infocenterlodging = document.createElement("div");
+							infocenterlodging.className = "col-4 text-start placeDetail";
+							infocenterlodging.innerHTML = "<b>문의 및 예약 안내</b> : " + item.infocenterlodging;
+							extraInfo.append(infocenterlodging);
+						}
+					}else if(item.contenttypeid == 38){ //쇼핑
+						if(item.chkbabycarriageshopping != ""){
+							const chkbabycarriageshopping = document.createElement("div");
+							chkbabycarriageshopping.className = "col-4 text-start placeDetail";
+							chkbabycarriageshopping.innerHTML = "<b>유모차 대여</b> : " + item.chkbabycarriageshopping;
+							extraInfo.append(chkbabycarriageshopping);
+						}
+						
+						if(item.chkpetshopping != ""){
+							const chkpetshopping = document.createElement("div");
+							chkpetshopping.className = "col-4 text-start placeDetail";
+							chkpetshopping.innerHTML = "<b>반려동물 동반 정보</b> : " + item.chkpetshopping;
+							extraInfo.append(chkpetshopping);
+						}
+						
+						if(item.fairday != ""){
+							const fairday = document.createElement("div");
+							fairday.className = "col-4 text-start placeDetail";
+							fairday.innerHTML = "<b>장서는 날</b> : " + item.fairday;
+							extraInfo.append(fairday);
+						}
+
+						if(item.opentime != ""){
+							const opentime = document.createElement("div");
+							opentime.className = "col-4 text-start placeDetail";
+							opentime.innerHTML = "<b>영업 시간</b> : " + item.opentime;
+							extraInfo.append(opentime);
+						}
+
+						if(item.parkingshopping != ""){
+							const parkingshopping = document.createElement("div");
+							parkingshopping.className = "col-4 text-start placeDetail";
+							parkingshopping.innerHTML = "<b>주차시설</b> : " + item.parkingshopping;
+							extraInfo.append(parkingshopping);
+						}
+
+						if(item.saleitem != ""){
+							const saleitem = document.createElement("div");
+							saleitem.className = "col-4 text-start placeDetail";
+							saleitem.innerHTML = "<b>판매 품목</b> : " + item.saleitem;
+							extraInfo.append(saleitem);
+						}
+
+						if(item.saleitemcost != ""){
+							const saleitemcost = document.createElement("div");
+							saleitemcost.className = "col-4 text-start placeDetail";
+							saleitemcost.innerHTML = "<b>판매품목별 가격</b> : " + item.saleitemcost;
+							extraInfo.append(saleitemcost);
+						}
+						
+						if(item.infocentershopping != ""){
+							const infocentershopping = document.createElement("div");
+							infocentershopping.className = "col-4 text-start placeDetail";
+							infocentershopping.innerHTML = "<b>문의 및 안내</b> : " + item.infocentershopping;
+							extraInfo.append(infocentershopping);
+						}
+						
+						if(item.culturecenter != ""){
+							const culturecenter = document.createElement("div");
+							culturecenter.className = "col-4 text-start placeDetail";
+							culturecenter.innerHTML = "<b>문화센터 바로가기</b> : " + item.culturecenter;
+							extraInfo.append(culturecenter);
+						}
+					}else{
+						if(item.firstmenu != ""){
+							const firstmenu = document.createElement("div");
+							firstmenu.className = "col-4 text-start placeDetail";
+							firstmenu.innerHTML = "<b>대표메뉴</b> : " + item.firstmenu;
+							extraInfo.append(firstmenu);
+						}
+						
+						if(item.treatmenu != ""){
+							const treatmenu = document.createElement("div");
+							treatmenu.className = "col-4 text-start placeDetail";
+							treatmenu.innerHTML = "<b>취급 메뉴</b> : " + item.treatmenu;
+							extraInfo.append(treatmenu);
+						}
+
+						if(item.discountinfofood != ""){
+							const discountinfofood = document.createElement("div");
+							discountinfofood.className = "col-4 text-start placeDetail";
+							discountinfofood.innerHTML = "<b>할인 정보</b> : " + item.discountinfofood;
+							extraInfo.append(discountinfofood);
+						}
+
+						if(item.opentimefood != ""){
+							const opentimefood = document.createElement("div");
+							opentimefood.className = "col-4 text-start placeDetail";
+							opentimefood.innerHTML = "<b>영업시간</b> : " + item.opentimefood;
+							extraInfo.append(opentimefood);
+						}
+
+						if(item.restdatefood != ""){
+							const restdatefood = document.createElement("div");
+							restdatefood.className = "col-4 text-start placeDetail";
+							restdatefood.innerHTML = "<b>쉬는 날</b> : " + item.restdatefood;
+							extraInfo.append(restdatefood);
+						}
+						
+						if(item.parkingfood != ""){
+							const parkingfood = document.createElement("div");
+							parkingfood.className = "col-4 text-start placeDetail";
+							parkingfood.innerHTML = "<b>주차 안내</b> : " + item.parkingfood;
+							extraInfo.append(parkingfood);
+						}
+						
+						if(item.reservationfood != ""){
+							const reservationfood = document.createElement("div");
+							reservationfood.className = "col-4 text-start placeDetail";
+							reservationfood.innerHTML = "<b>예약 안내</b> : " + item.reservationfood;
+							extraInfo.append(reservationfood);
+						}
+						
+						if(item.infocenterfood != ""){
+							const infocenterfood = document.createElement("div");
+							infocenterfood.className = "col-4 text-start placeDetail";
+							infocenterfood.innerHTML = "<b>문의 및 안내</b> : " + item.infocenterfood;
+							extraInfo.append(infocenterfood);
+						}
+						
+					}
+				},
+				error: data => console.log(data)
+			})
+		}
+		
+		
+		// 컨텐츠 이미지 정보 조회 함수
+		function detailImg(contentid,contenttypeid){
+			$.ajax({
+				url: 'detailImg.pla',
+				data: {contentid:contentid, contenttypeid:contenttypeid},
+				type: 'GET',
+				success: data =>{
+					//console.log(data);
+					const imageGallery = document.getElementById('image-gallery');
+					
+					for(const i of data.response.body.items.item){
+						const div = document.createElement('div');
+						div.className = 'image-container img';
+						
+						if(i.originimgurl === ""){
+							div.innerText = '등록된 이미지가 없습니다)'
+						}else{
+							const img = document.createElement('img');
+							img.src = i.originimgurl;
+							div.append(img);
+							imageGallery.append(div);
+						}
+						
+					}
+					imageModal();
+					
+					//<div class="image-container"><img src="image/insadong1.jpg" alt="Image 1"></div>
 				},
 				error: data => console.log(data)
 			})

@@ -2,21 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>제일 설레는 여행 계획짜기</title>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.9, minimum-scale=0.9, maximum-scale=0.9, user-scalable=no">
-    <meta name="HandheldFriendly" content="true">
-    <meta name="format-detection" content="telephone=no">
-    
-    <link rel="stylesheet" href="css/plan/planMain.css" type="text/css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="css/plan/datepicker.css" type="text/css">
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" type="text/css"> -->
+<title>설레는 여행 일정 짜기</title>
+<meta name="viewport" content="width=device-width, initial-scale=0.9, minimum-scale=0.9, maximum-scale=0.9, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="css/plan/planMain.css" type="text/css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
+<link rel="stylesheet" href="css/plan/datepicker.css" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{ ../common/logoBar :: logoBar }"></div>
@@ -197,6 +191,7 @@
 
 <!-- 	<script src="external/jquery/jquery.js"></script> -->
 <!-- 	<script src="jquery-ui.js"></script> -->
+	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 	<script>
 		window.onload = ()=> {
 			
@@ -266,28 +261,25 @@
 				
 			});
 			
-			
 			document.getElementById('createButton').addEventListener('click', calculateDateRange);
 			
-			$.datepicker.setDefaults({
-				dateFormat: 'yy/mm/dd',
-				prevText: '이전 달',
-				nextText: '다음 달',
-				monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-				monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-				dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-				dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-				dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-				showMonthAfterYear: true,
-				yearSuffix: '년',
-				
-			});
-
-			$( ".datepicker" ).datepicker({
-				inline: true
-			});
-			
 			$(document).ready(function(){ 
+				$( ".datepicker" ).datepicker({
+					inline: true,
+					dateFormat: 'yy/mm/dd',
+					prevText: '이전 달',
+					nextText: '다음 달',
+					monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+					dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+					dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+					showMonthAfterYear: true,
+					yearSuffix: '년'
+				});
+	// 			$.datepicker.setDefaults({
+					
+	// 			});
 				
 				$('#sdate').datepicker("option", "onSelect", function (selectedDate){
 					$("#edate").datepicker( "option", "minDate", selectedDate );
