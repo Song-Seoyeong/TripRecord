@@ -28,6 +28,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class BoardController {
 
+
 	@Autowired
 	private BoardService bService;
 	
@@ -105,6 +106,8 @@ public class BoardController {
 		} else {
 			model.addAttribute("nothing", "nothing");
 		}
+	
+
 		return "commuList";
 	}
 	
