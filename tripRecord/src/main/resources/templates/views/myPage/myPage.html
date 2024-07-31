@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>마이페이지</title>
+<style>
+    #revision_button {
+        color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+    #revision_button:hover {
+        background: #96CAF0;
+        border: 2px solid #96CAF0;
+        color: #fff;
+        font-weight: 600;
+    }
+    #delete_button {
+        color: #DD5353; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        border: 2px solid #DD5353;
+    }
+    #delete_button:hover {
+        background: #DD5353;
+        border: 2px solid #DD5353;
+        color: #fff;
+        font-weight: 600;
+    }
+    .col-1 {
+        float: right;
+    }
+    #atSign {
+        width: 5%;
+        background: lightgray;
+        display: inline-block;
+        height: 40px;
+        line-height: 35px;
+    }
+    input[type="text"]{
+    	width:300px; 
+    	height:40px; 
+    	border-radius: 8px; 
+    	
+    	border:1px solid lightgray
+    }
+    #memEmail{
+    	width:130px; 
+    	height:40px; 
+    	border-top-left-radius: 8px; 
+    	border-top-right-radius: 0; 
+    	border-bottom-left-radius: 8px; 
+    	border-bottom-right-radius: 0; 
+    	border:1px solid lightgray
+    }
+    #emailDomain{
+    	width:150px; 
+    	height:40px; 
+    	border-top-left-radius:0; 
+    	border-top-right-radius:8px; 
+    	border-bottom-left-radius:0; 
+    	border-bottom-right-radius:8px;	
+    }
+</style>
+</head>
+<body>
+    <!-- 헤더 -->
+    <div th:replace="~{common/logoBar :: logoBar }"></div>
+    <div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+    <!-- 마이페이지 어퍼바 -->
+    <div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+    <!-- 사이드바 -->
+    <div th:replace="~{common/myPageSideBar :: myPageSideBar}"></div> 
+
+    <div style="height:20px;"></div>
+    <div class="flex-container" style="margin-top:-240px;">
+	    <div class="text-center" style="color: black; font-size: 36px; font-weight: 900;">내 정보 수정</div>    
+        <div style="height:40px;"></div>
+        <form action="#" onsubmit="#">
+            <!-- 아이디 -->
+            <div class="id row" style="justify-content:center;">
+                <div class="col-2">
+                    <span style="float:right; font-size:25px; font-weight: 700;">아이디</span>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-3">
+                    <input type="text" value="아이시테룻!" readonly>
+                </div>
+            </div>
+            <div style="height:20px;"></div>
+            <!-- 이름 -->
+            <div class="name row" style="justify-content:center;">
+                <div class="col-2">
+                    <span style="float:right; font-size:25px; font-weight: 700;">이름</span>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-3">
+                    <input type="text" value="#" readonly>
+                </div>
+            </div>
+            <div style="height:20px;"></div>
+            <!-- 닉네임 -->
+            <div class="name row" style="justify-content:center;">
+                <div class="col-2">
+                    <span style="float:right; font-size:25px; font-weight: 700;">닉네임</span>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-3" >
+                    <input type="text" value="#" >
+                </div>
+            </div>
+            <div style="height:20px;"></div>
+            <!-- 전화번호 -->
+            <div class="phone row" style="justify-content:center;">
+                <div class="col-2">
+                    <span style="float:right; font-size:25px; font-weight: 700;">전화번호</span>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-3">
+                    <input id="phoneNo" type="text"  value="#" >
+                    <div id='phoneText'>(-)를 제외하고 입력해주세요</div>
+                </div>
+            </div>
+            <div style="height:20px;"></div>
+            <!-- 이메일 -->
+            <div class="email row" style="justify-content:center;">
+                <div class="col-2">
+                    <span style="float:right; font-size:25px; font-weight: 700;">이메일</span>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-3">
+                	<div style="justify-content:center;">
+	                    <div class='d-flex align-items-center'>
+	                        <input type="text" name='memEmail' id='memEmail' placeholder="이메일">
+	                        <span id='atSign' class='text-center align-text-center'>@</span>
+	                        <select name='emailDomain' id='emailDomain' class="form-select">
+	                            <option selected>naver.com</option>
+	                            <option>gmail.com</option>
+	                            <option>nate.com</option>
+	                            <option>hanmail.net</option>
+	                        </select>
+	                    </div>
+                	</div>
+                </div>
+            </div>
+            <div style="height:50px;"></div>
+            <!-- 수정/탈퇴 버튼 -->
+            <div class="text-center">
+                <button id="revision_button">수정</button>
+                <button id="delete_button">탈퇴</button>
+            </div>
+        </form>
+    </div>
+    
+    <div style="margin-bottom: 300px"></div>
+    
+    <!-- 푸터 -->
+    <div th:replace="~{common/footer :: footer}"></div>
+</body>
+</html>

@@ -4,17 +4,16 @@
 <meta charset="UTF-8">
 <title>후기 상세 페이지</title>
 <link type="text/css" href='css/recoPlace/placeReviewDetail.css' rel="stylesheet">
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
 	<!-- 타이틀 영역 -->
-	<div class="div"
-		style='background-image: url("image/insadong.jpg");'>
+	<div class="div" id='imageTitle'>
 		<div class="text-content-title">
-			<b class="title">인사동 후기 남기기</b>
-			<div class="subtitle">도심 속에서 낡지만 귀중한 전통의 물건들이 교류되는 소중한 공간</div>
+			<span><b class="title" id='title'></b></span>
 		</div>
 	</div>
 	<!-- 타이틀 영역 -->
@@ -23,7 +22,7 @@
 	<div id='outputDiv'>
 		<div id='reviewTitle'>
 			<input type='hidden' name='replyNo' value=''>
-			<h2>서울 가면 꼭 가보고싶던 인사동~</h2>
+			<h2>[[${r.reviewTitle}]]</h2>
 		</div>
 		<div id='starAndProfile' class='container row'>
 			<div id='starReview' class='col-6 text-start'>
@@ -40,27 +39,29 @@
 				<div id='profileImg'>
 					<img src='image/profile.png'/>
 				</div>
-				<div>nickname</div>
+				<div>[[${r.nickname}]]</div>
 			</div>
 		</div>
 		<hr>
-		<div id='imgReview'>
+		<div id='imgReview'  th:if="${list != null}">
 			<div id="placeImg" class="container">
 				<h3>&#x1F4F8;</h3>
-			    <div class="image-gallery" id="image-gallery">
-			        <div class="image-container"><img src="image/insadong1.jpg" alt="Image 1"></div>
-			        <div class="image-container"><img src="image/insadong2.jpg" alt="Image 2"></div>
-			        <div class="image-container"><img src="image/insadong3.jpg" alt="Image 3"></div>
-			        <div class="image-container"><img src="image/insadong4.jpg" alt="Image 4"></div>
+			    <div class="image-gallery" id="image-gallery" th:each='i:${list}'>
+			        <div class="image-container"><img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}|" alt="${i.imageOriginName}"></div>
 			    </div>
 			</div>
 		</div>
 		<div id='reviewContent'>
-			<p>주말에 서울로 여행을 갔다 오면서 꼭 가보고싶던 인사동을 방문하였습니다. 전통 찻집과 다양한 복합 문화 공간이 많아 반나절정도 재밌게 돌아다닌것 같습니다</p>
+			<p>[[${r.reviewContent}]]</p>
 		</div>
 		<hr>
 		<div class='d-grid gap-2 d-md-flex justify-content-md-center' id='listButton'>
-			<button type="button" class="btn btn-primary" id='backButton'>뒤로 가기</button>
+			<button class="button" th:onclick="|location.href='placeDetail.pla?page=${page}&contentid=${contentid}&contenttypeid=${contenttypeid}&areacode=${areaCode}'|" style='margin: 0px auto; margin-top: 20px;'>
+			  <!-- <svg class="svgIcon" viewBox="0 0 384 512">
+			    <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"></path>
+			  </svg> -->
+			  <img src='image/arrow.png' class='backIcon'/>
+			</button>
 		</div>
 	</div>
 	
@@ -96,7 +97,48 @@
 	
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-	        const gallery = document.getElementById('image-gallery');
+	        
+	        
+	        const params = new URLSearchParams(window.location.search);
+			const contentid = params.get('contentid');
+			const contenttypeid = params.get('contenttypeid');
+	        
+	        detailInfo(contentid, contenttypeid);
+	        if(document.getElementById('imgReview' != null)){
+	        	imageModal();
+	        }
+	    });
+		
+		// 컨텐츠 기본 정보 조회 함수
+		function detailInfo(contentid, contenttypeid){
+			$.ajax({
+				url:'placeInfo.pla',
+				type: 'GET',
+				data: {contentid : contentid, contenttypeid : contenttypeid},
+				success: data =>{
+					console.log(data);
+					const item = data.response.body.items.item[0];
+					
+					const title = document.getElementById('title');
+					title.innerHTML = "'" + item.title + "' 후기";
+					
+					/* const subTitle = document.getElementById('subTitle');
+					subTitle.innerHTML = item.overview.split(".")[0]; */
+					
+					const imageTitle = document.getElementById('imageTitle');
+					if(item.firstimage === ""){
+						imageTitle.style.backgroundImage = 'url(image/noimageBackground.png)'
+					}else{
+						imageTitle.style.backgroundImage = 'url(' + item.firstimage + ')';
+					}
+				},
+				error: data => console.log(data)
+			})
+		}
+		
+		// 이미지 모달 함수
+		function imageModal(){
+			const gallery = document.getElementById('image-gallery');
 	        const images = gallery.querySelectorAll('.image-container img');
 	        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
 	        const carouselIndicators = document.querySelector('.carousel-indicators');
@@ -142,12 +184,8 @@
 	                $('#carouselExampleIndicators').carousel(2);
 	            });
 	        }
-	        
-	        document.getElementById('backButton').addEventListener('click', ()=>{
-	        	location.href='placeDetail.pla'
-	        })
-	        
-	    });
+		}
+		
 	</script>
 	
 	

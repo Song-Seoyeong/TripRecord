@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.place.model.dao.PlaceMapper;
@@ -43,6 +44,26 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public ArrayList<Review> selectReviewList(int contentid) {
 		return pMapper.selectReviewList(contentid);
+	}
+
+	@Override
+	public int insertReview(Review r) {
+		return pMapper.insertMapper(r);
+	}
+
+	@Override
+	public int insertImage(ArrayList<Image> list) {
+		return pMapper.insertImage(list);
+	}
+
+	@Override
+	public Review selectReview(int rId) {
+		return pMapper.selectReview(rId);
+	}
+
+	@Override
+	public ArrayList<Image> selectImage(int rId) {
+		return pMapper.selectImage(rId);
 	}
 
 }

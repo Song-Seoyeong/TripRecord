@@ -5,7 +5,7 @@
 		select *
 	  	from member
 	  	where member_drop = 'N' and member_id = #{memberId}
-	
+		and status = 'Y'
 	</select>
 	
 	

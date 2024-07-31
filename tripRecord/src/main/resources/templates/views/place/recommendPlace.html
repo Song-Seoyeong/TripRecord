@@ -10,9 +10,9 @@
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
    <div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 	<!-- ------------------------------------------------------------------------------------ -->
-	
+	<div class="loader" id='loading-screen'></div>
 	<div id='menuTitle'><h1>여기가 추천하는 여행지 &#x1F5FA;</h1></div>
-	<div class="div">
+	<div class="div" id='div'>
 		<!-- 필터 메뉴 -->
 		<div class="filter-menu">
 			<div class="section" id="locations-section">
@@ -149,6 +149,14 @@
 		// 페이지 첫 로딩시 함수 호출
 		placeApi(page, arrange, contentTypeId, areaCode, keyword);
 		
+
+		window.addEventListener('load', function() {
+		    const loadingScreen = document.getElementById('loading-screen');
+		    const content = document.getElementById('div');
+
+		    loadingScreen.style.display = 'none'; // 로딩 화면 숨기기
+		    content.style.opacity = '1'; // 실제 콘텐츠 표시
+		});
 		
 		//window.onload 비슷
 		document.addEventListener('DOMContentLoaded', ()=> {
@@ -231,6 +239,7 @@
 			});
 			
 		})
+		
 		
 		function search(searchKeyword){
 			key = updateInSelectKeyword();

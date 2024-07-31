@@ -111,4 +111,17 @@ public class TemplateResolverConfig {
 		
 		return dotpl;
 	}
+	
+	@Bean
+   public ClassLoaderTemplateResolver dotMpResolver() {
+      ClassLoaderTemplateResolver dotMp = new ClassLoaderTemplateResolver();
+      dotMp.setPrefix("templates/views/myPage/");
+      dotMp.setSuffix(".html");
+      dotMp.setTemplateMode(TemplateMode.HTML);
+      dotMp.setCharacterEncoding("UTF-8");
+      dotMp.setCacheable(false);
+      dotMp.setCheckExistence(true);
+      
+      return dotMp;
+   }
 }

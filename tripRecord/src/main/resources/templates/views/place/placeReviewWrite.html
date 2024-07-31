@@ -20,11 +20,15 @@
 	<!-- 타이틀 영역 -->
 
 	<!-- form 영역 -->
-	<form action="">
+	<form action="insertPlaReview.pla" method='POST' enctype="multipart/form-data" id='reviewForm'>
 		<div id='inputDiv'>
 			<div id='reviewTitle'>
 				<h3>리뷰 제목</h3>
 				<input type='text' name='reviewTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
+				<input type='hidden' name='revRefNo' th:value='${contentid}'>
+				<input type='hidden' name='contenttypeid' th:value='${contenttypeid}'>
+				<input type='hidden' name='page' th:value='${page}'>
+				<input type='hidden' name='areacode' th:value='${areacode}'>
 			</div>
 			<div id='starReview'>
 				<input type='hidden' name='reviewStar' value='0' id='reviewStar' >
@@ -45,7 +49,7 @@
 				<input type='file' accept="image/*" multiple id="files" name='files' class="form-control">
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-end'>
-				<button type="button" class="btn btn-primary" id='insert'>등록</button>
+				<button type='button' class="btn btn-primary" id='insert'>등록</button>
 			</div>
 		</div>
 	</form>
@@ -73,6 +77,8 @@
 					content.focus();
 				}else if(reviewStar.value == 0){
 					alert("별점을 등록해주세요.");
+				}else{
+					document.getElementById('reviewForm').submit();
 				}
 			})
 			

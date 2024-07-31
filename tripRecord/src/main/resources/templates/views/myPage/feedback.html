@@ -4,7 +4,22 @@
 <meta charset="UTF-8">
 <title>피드백</title>
 <style>
-	#submit_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#submit_button {
+        color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+    #submit_button:hover {
+        background: #96CAF0;
+        border: 2px solid #96CAF0;
+        color: #fff;
+        font-weight: 600;
+    }
 </style>
 </head>
 <body>
@@ -60,7 +75,7 @@
 		</div>
 	</div>
 		
-	<div style="margin-bottom: 800px"></div>
+	<div style="margin-bottom: 300px"></div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 </body>

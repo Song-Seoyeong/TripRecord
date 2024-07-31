@@ -5,43 +5,21 @@
 <title>플래너페이지</title>
 <style>
     #revision_button {
-	  background: transparent;
-	  position: relative;
-	  padding: 5px 15px;
-	  display: flex;
-	  align-items: center;
-	  font-size: 17px;
-	  font-weight: 600;
-	  text-decoration: none;
-	  cursor: pointer;
-	  border: 1px solid #96CAF0;
-	  border-radius: 25px;
-	  outline: none;
-	  overflow: hidden;
-	  color: #96CAF0;
-	  transition: color 0.3s 0.1s ease-out;
-	  text-align: center;
-	}
-	#revision_button span {margin: 10px;}
-	#revision_button::before {
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  margin: auto;
-	  content: '';
-	  border-radius: 50%;
-	  display: block;
-	  width: 20em;
-	  height: 20em;
-	  left: -5em;
-	  text-align: center;
-	  transition: box-shadow 0.5s ease-out;
-	  z-index: -1;
-	}
-	#revision_button:hover { color: #fff; border: 1px solid #96CAF0;}
-	#revision_button:hover::before { box-shadow: inset 0 0 0 10em #96CAF0;}
+        color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+    #revision_button:hover {
+        background: #96CAF0;
+        border: 2px solid #96CAF0;
+        color: #fff;
+        font-weight: 600;
+    }
 	
 	 ul{font-weight:900;}
     .pageNumber{margin-left:5px; margin-right:5px;}
@@ -65,14 +43,14 @@
 			</div>
 			<div>
 				<div style="height:20px;"></div>
-				<button class="btn btn-secondary me-5" id="revision_button" onclick="location.href='updatePlanner.me'"><span>수정</span></button>
+				<button class="btn btn-secondary me-5" id="revision_button" onclick="location.href='updatePlanner.mp'"><span>수정</span></button>
 			</div>
 		</div>
 		<!-- 상단 정보 탭 전체 -->
-		<div class="d-flex container-fluid justify-content-center m-3">
+		<div class="d-flex justify-content-center">
 		<!-- 플래너 정보 -->
-			<div id="plannerInfo" class="m-3">
-				<div class="d-flex align-items-center shadow shadow border bg-light rounded-3">
+			<div id="plannerInfo" class="m-3 w-75 ">
+				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
 					<div class="d-flex justify-content-center p-3">
 						<img class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
 					</div>
@@ -174,10 +152,6 @@
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
 	<script>
-		function revision(){
-			location.href="updatePlanner.me"
-		}
-	
 		function submitAdmin(){
 			let result = confirm("요청하시겠습니까");
 			if(result == 'true'){

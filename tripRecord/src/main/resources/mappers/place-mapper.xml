@@ -33,5 +33,35 @@
 		select *
 		from review
 		where REV_REF_TYPE = 'PLACE' and REV_REF_NO = #{contentid}
+		order by review_no desc
+	</select>
+	
+	<insert id="insertMapper" useGeneratedKeys="true">
+		<selectKey keyProperty="reviewNo" order="BEFORE" resultType="_int">
+			select seq_review.nextval from dual
+		</selectKey>
+		insert into review
+			values(#{reviewNo}, #{memberNo}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{revRefType}, #{revRefNo}, default)
+	</insert>
+	
+	<insert id="insertImage">
+		insert all
+		<foreach collection="list" item="item" separator=" ">
+			into image values(new_image_id, #{item.imagePath}, #{item.imageOriginName}, #{item.imageRename}, #{item.imageThum}, #{item.imageRefType}, #{item.imageRefNo})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<select id="selectReview" resultType='Review'>
+		select *
+		from review
+			join member using(member_No)
+		where review_no = #{rId} and review_Status = 'Y'
+	</select>
+	
+	<select id="selectImage" resultType='Image'>
+		select *
+		from Image
+		where image_ref_type = 'RECOPLACE' and image_ref_no = #{rId}
 	</select>
 </mapper>
