@@ -13,7 +13,7 @@
 
 </style>
 </head>
-<body>
+<body id="commuBody">
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 	
@@ -30,6 +30,7 @@
 		
 	</div>
 	
+	<input type="hidden" name="boardType" value="GENERAL" id="general">
 	
 	<div id="sidebar">
 		<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
@@ -45,12 +46,25 @@
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 			</div>
 			<div class="offcanvas-body">
+				<p>- 전국</p>
 				<p>- 서울</p>
-				<p>- 경기도</p>
-				<p>- 충청남도</p>
-				<p>- 강원도</p>
 				<p>- 부산</p>
-				<p>- 경상남도</p>
+				<p>- 대구</p>
+				<p>- 인천</p>
+				<p>- 광주</p>
+				<p>- 대전</p>
+				<p>- 울산</p>
+				<p>- 세종</p>
+				<p>- 경기</p>
+				<p>- 강원</p>
+				<p>- 충북</p>
+				<p>- 충남</p>
+				<p>- 경북</p>
+				<p>- 경남</p>
+				<p>- 전북</p>
+				<p>- 전남</p>
+				<p>- 제주</p>
+				<input type="hidden" name="localName" id="localName" th:value="${localName}">
 			</div>
 		</div>
 	</div> 
@@ -65,13 +79,14 @@
 	
 	<div id="commu-select" class="row">
 		<div class="col-3">
-			<div style="border-radius:9999px; background-color:#96caf0;">
+			<div>
 				전체
 			</div>
 		</div>
 		<div class="col-3"><div>동행</div></div>
 		<div class="col-3"><div>양도</div></div>
 		<div class="col-3"><div>후기</div></div>
+		<input type="hidden" name="generalType" id="generalType" th:value="${generalType}">
 	</div>
 	
 	
@@ -91,80 +106,24 @@
 	          			</tr>
 	          		</thead>
 	         		<tbody id="text-test">
+	         			<tr th:if="${ #strings.isEmpty(cList)}">
+	         				<td></td>
+	         				<td>게시글이 아직 없어요.</td>
+	         				<td></td>
+	         				<td></td>
+	         				<td></td>
+	         			</tr>
 	         		<!-- 이거 반복 -->
-	          			<tr th:each=" b : ${bList}">
-	            			<td>[[${ b.boardId }]]</td>
+	          			<tr th:each=" b : ${cList}">
+	            			<td>[[${ b.boardNo }]]</td>
 	            			<td>[[${ b.boardTitle }]]</td>
-	            			<td>[[${ b.nickName }]]</td>
+	            			<td>[[${ b.nickname }]]</td>
 	            			<td>[[${ b.boardModifyDate }]]</td>
 	            			<td>[[${ b.boardCount }]]</td>
 	          			</tr>
 	          			<tr>
 	          				<td>1</td>
 	          				<td><a href="commuSelect.bo">커뮤 상세보기 임시링크</a></td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
 	          				<td>3</td>
 	          				<td>4</td>
 	          				<td>5</td>
@@ -181,7 +140,7 @@
 		<a href="notice.no">공지사항 이동 임시</a>
 
 		<div th:if="${ session.loginUser != null}">
-	       	<button class="btn btn-outline-success" type="button" onclick="location.href='writeBoard.bo'">WRITE BOARD</button>
+	       	<button class="btn btn-outline-success" type="button" onclick="location.href='commuWrite.bo'">WRITE BOARD</button>
 	    </div>
 	</div>
 	
@@ -189,9 +148,25 @@
 	<div th:replace="~{common/footer :: footer}"></div>
 	
 	
-	<script>
+	<script th:inline="javascript">
 		window.onload=()=>{
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
+			const localNameValue = document.getElementById("localName");
+			const generalTypeValue = document.getElementById("generalType");
+			const boardType = document.getElementById("general");
+			
+			/* 
+			
+			localNameValue.value = [[${localName}]];
+			console.log('지역선택 : ' + localNameValue.value);
+			
+			generalTypeValue.value =[[${generalType}]];
+			console.log('카테고리 : ' + generalTypeValue.value);
+			
+			 */
+			
+			
+			// 사이드 메뉴 클릭 시 이동
 			for(const sideP of sideMenus){
 				sideP.addEventListener('mouseover',function(){
 					sideP.style.fontSize = 'large';
@@ -206,12 +181,20 @@
 			}
 			for(const sideP of sideMenus){
 				sideP.addEventListener('click',function(){
-					console.log(this.innerText.split(' ')[1]);
-					//location.href= 클릭한 것으로 구분
+					
+					localNameValue.value = this.innerText.split(' ')[1];
+					if(this.innerText.split(' ')[1] == "전국") {
+						localNameValue.value = "ALL";
+					}
+					//console.log(localNameValue.value);
+					location.href="categorySelect.bo?localName=" + localNameValue.value + "&generalType=" + generalTypeValue.value + "&boardType=" + boardType.value + "&page=" + /*[[${pi?.currentPage}]]*/1;
 				});
 			}
 			
+			const comSelDiv = document.getElementById("commu-select");
 			const categories = document.getElementsByClassName("col-3");
+			
+			// 검색 아래에 카테고리 클릭 시 이동, 모양 변화 (동행, 양도, 후기)
 			for(const cate of categories){
 				cate.addEventListener('mouseover', function(){
 					cate.children[0].style.borderRadius = '9999px';
@@ -221,16 +204,70 @@
 					cate.children[0].style.borderRadius = '0';
 					cate.children[0].style.backgroundColor = 'white';
 				});
-/* 				if(${categorySelect} != null){
-					if(${categorySelect} == cate.children[0].innerText){
-						cate.children[0].style.borderRadius = '9999px';
-						cate.children[0].style.backgroundColor = '#96caf0';
-						
-						선택되있는 카테고리에 동그라미 표시해두려고
-						
+				cate.addEventListener('click', function(){
+					if(this.innerText == "동행") {
+						generalTypeValue.value = "WITH";
+					} else if(this.innerText == "양도") {
+						generalTypeValue.value = "GIVE";
+					} else if(this.innerText == "후기") {
+						generalTypeValue.value = "REVIEW";
+					} else if(this.innerText == "전체") {
+						generalTypeValue.value = "ALL";
 					}
-				} */
+					
+					//console.log(generalTypeValue.value);
+					
+					location.href="categorySelect.bo?localName=" + localNameValue.value + "&generalType=" + generalTypeValue.value + "&boardType=" + boardType.value + "&page=" + /*[[${pi?.currentPage}]]*/1;
+				})
 			}
+
+			if([[${categorySelect}]] == null){
+				generalTypeValue.value = "ALL";
+			}
+			
+			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
+				if([[${generalType}]] == "ALL"){
+					categories[0].children[0].style.borderRadius = '9999px';
+					categories[0].children[0].style.backgroundColor = '#96caf0';
+				} else if([[${generalType}]] == "WITH"){
+					categories[1].children[0].style.borderRadius = '9999px';
+					categories[1].children[0].style.backgroundColor = '#96caf0';
+				} else if([[${generalType}]] == "GIVE"){
+					categories[2].children[0].style.borderRadius = '9999px';
+					categories[2].children[0].style.backgroundColor = '#96caf0';
+				} else if([[${generalType}]] == "REVIEW"){
+					categories[3].children[0].style.borderRadius = '9999px';
+					categories[3].children[0].style.backgroundColor = '#96caf0';
+				}
+			});
+			
+			
+			
+			// 게시글 클릭 시 이동
+			const trs = document.getElementById("text-test").children;
+			for(const tr of trs){
+				tr.addEventListener('click', function(){
+					const boardNo = this.children[0].innerText;
+					location.href="commuSelect.bo?boardNo=" + boardNo + "&page=" + /*[[${pi?.currentPage}]]*/1; 
+					// 상세조회에서 동행 양도 후기 전체 는 필요없을거같지만 필요하다면 넣어보겠읍니다.
+				});
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			
 		}

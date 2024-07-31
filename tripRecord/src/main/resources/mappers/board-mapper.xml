@@ -1,0 +1,118 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace='com.finalproject.triprecord.board.model.dao.BoardMapper'>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from board
+		where board_status = 'N' and board_type = #{boardType}
+	</select>
+	
+	
+	<select id="getBoardList" resultType="Board">
+		select *
+		from board
+			left join member on(board_writer_no = member_no)
+		where board_status = 'N' and board_type = #{boardType}
+		order by board_no desc
+	</select>
+	
+	
+	<select id="getCategorySelectListCount" resultType="_int">
+		select count(*)
+		from board
+			left join member on(board_writer_no = member_no)
+			left join general_bo on(general_no = board_no)
+			left join local using(local_no)
+		where board_status = 'N' and board_type = #{boardType}
+		<if test="generalType != null">
+			and general_type = #{generalType}
+		</if>
+		<if test="localName != null">
+			and local_name = #{localName}
+		</if>
+	</select>
+	
+	<select id="getCategorySelectBoardList" resultType="Board">
+		select *
+		from board
+			left join member on(board_writer_no = member_no)
+			left join general_bo on(general_no = board_no)
+			left join local using(local_no)
+		where board_status = 'N' and board_type = #{boardType}
+		<if test="generalType != 'ALL'">
+			and general_type = #{generalType}
+		</if>
+		<if test="localName != 'ALL'">
+			and local_name = #{localName}
+		</if>
+		order by board_no desc
+	</select>
+	
+	<select id="selectBoard" resultType="Board">
+		select *
+		from board
+			left join member on(board_writer_no = member_no)
+			left join general_bo on(general_no = board_no)
+			left join local using(local_no)
+		where board_status = 'N' and board_no = #{boardNo}
+	</select>
+	
+	<update id="updateCount">
+		update board
+		set board_count = board_count + 1
+	</update>
+	
+	<select id="selectBoardNo" resultType="_int">
+		select seq_board.currval
+		from dual
+	</select>
+	
+	<select id="selectReply" resultType="Reply">
+		select *
+		from reply
+			left join board using(board_no)
+			left join member on(reply_writer_no = member_no)
+		where reply_status = 'N' and board_no = #{boardNo}
+	</select>
+	
+	<insert id="insertBoard">
+		insert into board
+		values(seq_board.nextval, #{boardType}, #{boardWriterNo}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default)
+	</insert>
+	
+	<insert id="insertGeneralBoard">
+		insert into general_bo
+		values(seq_board.currval, (select local_no from local where local_name = #{localName}), #{generalType})
+	</insert>
+	
+	<insert id="insertImage">
+		insert all
+		<foreach collection="list" item="item" separator=" ">
+			into image values(new_image_id, #{item.imagePath}, #{item.imageOriginName}, #{item.imageRename}, #{item.imageThum}, #{item.imageRefType}, #{item.imageRefNo})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<update id="deleteBoard">
+		update board
+		set board_status = 'Y'
+		where board_no = #{bNo}	
+	</update>
+	
+	<select id="selectImage">
+		select *
+		from image
+		where image_ref_type = 'BOARD' and image_ref_no = #{boardNo}
+		order by image_no asc
+	</select>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

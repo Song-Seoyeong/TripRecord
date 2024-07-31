@@ -33,4 +33,6 @@ public interface PlaceMapper {
 
 	ArrayList<Image> selectImage(int rId);
 
+	int deleteReview(int rId);
+
 }

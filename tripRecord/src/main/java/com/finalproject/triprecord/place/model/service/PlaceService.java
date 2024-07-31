@@ -28,4 +28,6 @@ public interface PlaceService {
 
 	ArrayList<Image> selectImage(int rId);
 
+	int deleteReview(int rId);
+
 }

@@ -66,4 +66,9 @@ public class PlaceServiceImpl implements PlaceService {
 		return pMapper.selectImage(rId);
 	}
 
+	@Override
+	public int deleteReview(int rId) {
+		return pMapper.deleteReview(rId);
+	}
+
 }

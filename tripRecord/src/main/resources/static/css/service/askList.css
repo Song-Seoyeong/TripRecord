@@ -33,7 +33,6 @@
 #search-com{flex: 1;
   	border-radius: 9999px;
   	background-color: #fff;
-  	border: 1px solid #d9d9d9;
   	overflow: hidden;
   	display: flex;
   	flex-direction: row;
