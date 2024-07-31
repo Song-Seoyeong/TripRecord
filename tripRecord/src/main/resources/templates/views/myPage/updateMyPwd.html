@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>마이페이지</title>
+<style>
+	#revision_button {
+        color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+    #revision_button:hover {
+        background: #96CAF0;
+        border: 2px solid #96CAF0;
+        color: #fff;
+        font-weight: 600;
+    }
+</style>
+</head>
+<body>
+	<!-- 헤더 -->
+	<div th:replace="~{common/logoBar :: logoBar }"></div>
+	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	
+	<!--마이페이지 어퍼바-->
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	<!-- 사이드바 -->
+	<div th:replace="~{common/myPageSideBar :: myPageSideBar}"></div> 
+	
+	<div style="height:20px;"></div>
+	<div class="flex-container" style="margin-top:-240px;">
+		<div class="text-center" style="color: black; font-size: 36px; font-weight: 900;">비밀번호 변경</div>
+		<div style="height:40px;"></div>
+		<form action="#" onsubmit="#">
+			<!-- 현 비밀번호 -->
+			<div class="currentPwd row" style="justify-content:center;">
+				<div class="col-2">
+					<span style="float:right; font-size:25px; font-weight: 700; ">현재 비밀번호</span>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<input type="text" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray" placeholder="현재 사용중인 비밀번호를 입력하세요">
+				</div>
+			</div>
+			<div style="height:20px;"></div>
+			<!-- 새 비밀번호 -->
+			<div class="newPwd row" style="justify-content:center;">
+				<div class="col-2">
+					<span style="float:right; font-size:25px; font-weight: 700; ">새 비밀번호</span>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<input type="text" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray" placeholder="비밀번호를 입력하세요">
+					<div><button style="border:none; background:white;" title="비밀번호는 숫자, 영어, 특수문자 포함 8자 이상 15자 미만으로 생성해주세요" disabled>비밀번호 유의사항</button></div>
+				</div>
+			</div>
+			<div style="height:20px;"></div>
+			<!-- 새 비밀번호 확인 -->
+			<div class="checkNewPwd row" style="justify-content:center;">
+				<div class="col-2">
+					<a style="float:right; font-size:25px; font-weight: 700; ">새 비밀번호 확인</a>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<input type="text" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray"placeholder="확인을 위한 비밀번호 입력">
+					<div id="checkPwdText">비밀번호를 입력하세요</div>
+				</div>
+			</div>
+			<div style="height:50px;"></div>
+			<!-- 수정버튼 -->
+			<div class="text-center">
+				<button id="revision_button">수정완료</button>
+			</div>
+		</form>
+	</div>
+	
+		
+		
+	<div style="margin-bottom: 300px"></div>
+	
+	<!-- 푸터 -->
+	<div th:replace="~{common/footer :: footer}" ></div>
+</body>
+</html>

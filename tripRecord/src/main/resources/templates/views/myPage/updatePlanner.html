@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>플래너 수정</title>
+<style>
+	#submit_button {
+        color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+    #submit_button:hover {
+        background: #96CAF0;
+        border: 2px solid #96CAF0;
+        color: #fff;
+        font-weight: 600;
+    }
+    #cancle_button {
+        color: #DD5353; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        border: 2px solid #DD5353;
+    }
+    #cancle_button:hover {
+        background: #DD5353;
+        border: 2px solid #DD5353;
+        color: #fff;
+        font-weight: 600;
+    }
+    #updateProfile{
+    	width:400px;
+    }
+</style>
+<link rel="stylesheet" href="css/plan/planMain.css" type="text/css">
+</head>
+<body>
+	<!-- 헤더 -->
+	<div th:replace="~{common/logoBar :: logoBar }"></div>
+	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	<!-- 플래너페이지 어퍼바 -->
+	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
+
+	<div class="flex-container"
+		style="text-align: center; margin-left: auto;">
+		<div style="height: 120px;"></div>
+		<!-- 지역 선택-->
+		<div class="location row" style="justify-content: center;">
+			<div class="col-1">
+				<a style="float:right; font-size: 25px; font-weight: 700;">활동지역</a>
+			</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<select style="width: 400px; height: 40px; border-radius: 8px;">
+					<option>지역을 선택해주세요</option>
+					<option value="seoul">서울</option>
+					<option value="busan">부산</option>
+					<option value="daegu">대구</option>
+					<option value="incheon">인천</option>
+					<option value="gwangju">광주</option>
+					<option value="daejeon">대전</option>
+					<option value="ulsan">울산</option>
+					<option value="saejong">세종</option>
+					<option value="gyeongi">경기</option>
+					<option value="ganwon">강원</option>
+					<option value="chunbuk">충북</option>
+					<option value="chunnam">충남</option>
+					<option value="jeonbuk">전북</option>
+					<option value="jeonnam">전남</option>
+					<option value="gyeonbuk">경북</option>
+					<option value="gyeonnam">경남</option>
+					<option value="jeju">제주</option>
+				</select>
+			</div>
+		</div>
+		<div style="height: 20px;"></div>
+		<!-- 프로필 소개글 -->
+		<div class="introProfile row" style="justify-content: center;">
+			<div class="col-1">
+				<p style="float:right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
+					프로필<br>소개글
+				</p>
+			</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<textarea style="width: 400px; height: 200px; resize: none"
+					placeholder="소개글을 작성해주세요"></textarea>
+			</div>
+
+		</div>
+		<div style="height: 20px;"></div>
+		<!-- 사진 -->
+		<div class="profileImage row" style="justify-content: center;">
+			<div class="col-1">
+				<p style="float:right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">프로필
+					사진</p>
+			</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<div style="display: inline-block;">
+					<input class="form-control" type="file" id="updateProfile"
+						accept='image/*'>
+				</div>
+			</div>
+		</div>
+		<div style="height:40px;"></div>
+		<!-- 해쉬태그 -->
+		<div class="hashtag row" id="select-contain-div" style="justify-content:center;">
+			<div id="hashtag-all-div" style="justify-content:center;">
+				<div id="checkbox-left-all">
+					<div class="checkbox-div">
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="alone"
+								type="checkbox" value="혼자서" name="together"> <label
+								class="cbx" for="alone"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 혼자서</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="lover"
+								type="checkbox" value="애인이랑" name="together"> <label
+								class="cbx" for="lover"> <span> <svg style="width: 12px; height: 10px;"></svg></span> <span># 애인이랑</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="family"
+								type="checkbox" value="가족이랑" name="together"> <label
+								class="cbx" for="family"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 가족이랑</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="friend"
+								type="checkbox" value="친구들이랑" name="together"> <label
+								class="cbx" for="friend"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 친구들이랑</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<div id="checkbox-right-all">
+					<div class="checkbox-div">
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="맛집투어"
+								type="checkbox" value="맛집투어" name="hashtag"> <label
+								class="cbx" for="맛집투어"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 맛집투어</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="사진맛집"
+								type="checkbox" value="사진맛집" name="hashtag"> <label
+								class="cbx" for="사진맛집"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 사진맛집</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="힐링"
+								type="checkbox" value="힐링" name="hashtag"> <label
+								class="cbx" for="힐링"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 힐링</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="호화롭게"
+								type="checkbox" value="호화롭게" name="hashtag"> <label
+								class="cbx" for="호화롭게"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 호화롭게</span>
+							</label>
+						</div>
+					</div>
+					<div class="checkbox-div">
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="감성"
+								type="checkbox" value="감성" name="hashtag"> <label
+								class="cbx" for="감성"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 감성</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="액티비티"
+								type="checkbox" value="액티비티" name="hashtag"> <label
+								class="cbx" for="액티비티"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 액티비티</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="휴양지"
+								type="checkbox" value="휴양지" name="hashtag"> <label
+								class="cbx" for="휴양지"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 휴양지</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="자연"
+								type="checkbox" value="자연" name="hashtag"> <label
+								class="cbx" for="자연"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 자연</span>
+							</label>
+						</div>
+					</div>
+					<div class="checkbox-div">
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="카페투어"
+								type="checkbox" value="카페투어" name="hashtag"> <label
+								class="cbx" for="카페투어"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 카페투어</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="여행"
+								type="checkbox" value="여행" name="hashtag"> <label
+								class="cbx" for="여행"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 여행</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="격투"
+								type="checkbox" value="격투" name="hashtag"> <label
+								class="cbx" for="격투"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 격투</span>
+							</label>
+						</div>
+						<div class="checkbox-wrapper-4 checkbox-parent-div">
+							<input class="inp-cbx checkbox check_input" id="낭만"
+								type="checkbox" value="낭만" name="hashtag"> <label
+								class="cbx" for="낭만"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span># 낭만</span>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="inforDiv" style="width:760px;"></div>
+		</div>
+		<!-- 제출버튼 -->
+		<div style="height:20px;"></div>
+		<div >
+			<button id="submit_button" onclick="#">수정</button>
+			<button id="cancle_button" onclick="cancle()">취소</button>
+		</div>
+	</div>
+
+	<div style="margin-bottom: 300px"></div>
+	
+	<!-- 푸터 -->
+	<div th:replace="~{common/footer :: footer}" ></div>
+	<script>
+		function cancle(){
+			location.href="plannerPage.mp"
+		}
+		//해쉬태그 
+		const togetherCheck = document.querySelectorAll('[name="together"]');
+		togetherCheck.forEach(function leftHashtag(checkbox) {
+			checkbox.addEventListener('click', function() {
+				togetherCheck.forEach(function(cb) {
+	            	if (cb !== checkbox) { 
+	                	cb.checked = false;
+					}
+				});
+			});
+		});
+        
+		const checkboxes = document.querySelectorAll('[name="hashtag"]');
+		const inforDiv = document.getElementById('inforDiv');
+		checkboxes.forEach(function rightHashtag(checkbox) {
+			if(checkbox.type === 'checkbox'){
+				checkbox.addEventListener('click', function() {
+					let checkedCount = 0;
+					checkboxes.forEach(function(cb) {
+						if (cb.checked) {
+							checkedCount++;
+						}
+					});
+					if(checkedCount > 4) {
+						checkbox.checked = false;
+						inforDiv.innerText = '해시태그는 4개까지만 선택이 가능합니다.';
+					} else {
+						inforDiv.innerText = '';
+					}
+				});
+			}
+			
+		});
+	</script>
+</body>
+</html>

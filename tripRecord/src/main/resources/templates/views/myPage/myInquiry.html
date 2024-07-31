@@ -2,99 +2,96 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>내 여행노트</title>
+<title>내 문의 글</title>
 <style>
     table{width:80%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
     ul{font-weight:900;}
     .pageNumber{margin-left:5px; margin-right:5px;}
    	th{font-size:24px;}
-   	td{padding:5px;}
+   	td{padding:15px;}
 </style>
 </head>
 <body>
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
-	
 	<!--마이페이지 어퍼바-->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	<!-- 사이드바 -->
-	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
 	
-	<div class="flex-container" style="text-align:center; margin-left:auto; margin-top:-240px;">
+	<div class="flex-container" style="text-align:center; margin-left:auto;">
 		<div style="height:80px;"></div>
-		<div style="color: black; font-size: 36px; font-weight: 900;">내 여행노트</div>
+		<div style="color: black; font-size: 36px; font-weight: 900;">내 문의글 보기</div>
 		<div style="height:40px;"></div>
-		<div style="margin:auto; width:900px; height:550px; border: 1px solid" >
+		<div style="display:inline-block; width:1200px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
 			<table>
 				<thead>
 				 	<tr style="border-bottom:2px solid #96CAF0;">
-						<th><p>여행지</p></th>
-						<th><p>여행기간</p></th>
-						<th><p>플래너</p></th>
-						<th><p>여행상태</p></th>
+						<th><p>글번 호</p></th>
+						<th><p>제목</p></th>
+						<th><p>작성일자</p></th>
+						<th><p>진행상태</p></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
+						<td id="place">1</td>
+						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
+						<td id="planner">2099.1.1</td>
+						<td id="status">진행 중</td>
 					</tr>
 				</tbody>
 			</table>
@@ -117,10 +114,9 @@
 		</div>
 	</div>
 	
-	<div style="margin-bottom: 500px"></div>
+	<div style="margin-bottom: 200px"></div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
-	
 	<script>
 		//상세글 보기
 		const tds = document.querySelectorAll('td');
@@ -140,7 +136,7 @@
 				const parent = td.parentElement;
 			 	//const boardNo = parent.children[0].children[0].value
 				//const cateNo = parent.children[1].children[0].value 
-				location.href='detailMyTripNote.me'
+				location.href='askSelect.no'
 					//'${contextPath}/boardView.me?bId=' + boardNo + '&page='+ ${pi.currentPage} + '&cateNo=' + cateNo;
 			})
 				

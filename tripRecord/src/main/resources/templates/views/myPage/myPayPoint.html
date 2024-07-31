@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>포인트 결제</title>
+<style>
+	.flex-container {
+            display: flex;
+            justify-content: center; 
+            gap: 30px; 
+        }
+        .pay-box {
+            display: inline-block;
+            width: 250px;
+            height: 180px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            padding: 10px;
+        }
+        .pay-box p {
+            margin: 0;
+        }
+        .pay-box .amount {
+            font-size: 36px;
+            font-weight: 900;
+        }
+        .pay-box .button-container {
+            margin-top: 10px;
+        }
+        .pay-box button {
+            color: #fff;
+            background-color: black;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .pay-box button:hover {
+            background-color: #96CAF0;
+        }
+	
+</style>
+</head>
+<body>
+	<!-- 헤더 -->
+	<div th:replace="~{common/logoBar :: logoBar }"></div>
+	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	<!-- 마이페이지 어퍼바 -->
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	<!-- 사이드바 -->
+	<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div> 
+	
+	<div class="flex-center" style="text-align:center;margin-top:-240px;">
+		<div style="height:80px;"></div>
+		<div style="color: black; font-size: 36px; font-weight: 900;">포인트 결제</div>
+		<!-- 현재 포인트 표시 -->
+		<div id="currentPoint" style="font-weight:900; margin-left:700px;"><p>현재 포인트 : [1000] p</p></div>
+		<!-- 결제 창 -->
+		<div style="height:50px;"></div>
+		<div class="flex-container">
+			<div class="pay-box">
+				<div>
+					<p>11,000p</p>
+				</div>
+				<div class="amount">
+					<p>10,000원</p>
+				</div>
+				<div class="button-container">
+					<button>포인트충전</button>
+				</div>
+			</div>
+			<div class="pay-box">
+				<div>
+					<p>25,000p</p>
+				</div>
+				<div class="amount">
+					<p>20,000원</p>
+				</div>
+				<div class="button-container">
+					<button>포인트충전</button>
+				</div>
+			</div>
+			<div class="pay-box">
+				<div>
+					<p>60,000p</p>
+				</div>
+				<div class="amount">
+					<p>50,000원</p>
+				</div>
+				<div class="button-container">
+					<button>포인트충전</button>
+				</div>
+			</div>
+		</div>
+		
+		<div style="width:900px; margin-left:1000px;">
+			<button style="border:none; background:white;" title="  10%추가" disabled>VAT 별도</button>
+		</div>
+	</div>
+		
+	<div style="margin-bottom: 300px"></div>
+	
+	<!-- 푸터 -->
+	<div th:replace="~{common/footer :: footer}" ></div>
+</body>
+</html>

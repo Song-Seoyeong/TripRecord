@@ -8,7 +8,7 @@
     ul{font-weight:900;}
     .pageNumber{margin-left:5px; margin-right:5px;}
    	th{font-size:24px;}
-   	td{padding:5px;}
+   	td{padding:15px;}
 </style>
 </head>
 <body>
@@ -20,14 +20,14 @@
 	
 	<div class="flex-container" style="text-align:center; margin-left:auto;">
 		<div style="height:160px;"></div>
-		<div style="margin:auto; width:900px; height:550px; border: 1px solid" >
+		<div style="display:inline-block; width:1200px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
 		<table>
 			<thead>
 			 	<tr style="border-bottom:2px solid #96CAF0;">
 					<th><p>요청번호</p></th>
 					<th><p>여행지</p></th>
 					<th><p>여행기간</p></th>
-					<th><p>플래너</p></th>
+					<th><p>요청자</p></th>
 					<th><p>진행상태</p></th>
 				</tr>
 			</thead>
@@ -145,7 +145,7 @@
 				const parent = td.parentElement;
 			 	//const boardNo = parent.children[0].children[0].value
 				//const cateNo = parent.children[1].children[0].value 
-				location.href='detailRequest.me'
+				location.href='detailRequest.mp'
 					//'${contextPath}/boardView.me?bId=' + boardNo + '&page='+ ${pi.currentPage} + '&cateNo=' + cateNo;
 			})
 				

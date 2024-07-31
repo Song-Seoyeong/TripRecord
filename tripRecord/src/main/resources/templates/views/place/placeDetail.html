@@ -9,12 +9,11 @@
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
    <div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
-
+	<div class="loader" id='loading-screen'></div>
 	<!-- 타이틀 영역 -->
 	<div class="div" id='imageTitle'>
 		<div class="text-content-title">
 			<span><b class="title" id='title'></b></span>
-			<div class="subtitle" id='subTitle'></div>
 		</div>
 	</div>
 	<!-- 타이틀 영역 -->
@@ -23,42 +22,32 @@
 	<div id='content'>
 		<div class='row container'>
 			<div class='col-6 text-start placeInfo'>
-				<th:bolck th:if='${p.placeStar == 0}'>
-					별점 : 
-					<img src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 4)}' class='star'>
-					&nbsp;&nbsp;[[${p.placeStar}]]
+				<b>별점 :</b> 
+				<th:bolck >
+					<img th:if='${p.placeStar == 0}' src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 4)}' class='star'>
 				</th:bolck>
 				<th:bolck th:if='${p.placeStar > 0 && p.placeStar < 1.5}'>
-					별점 : 
 					<img src="image/star.png" class='star'>
 					<img src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 3)}'class='star'>
-					&nbsp;&nbsp;[[${p.placeStar}]]
 				</th:bolck>
 				<th:bolck th:if='${p.placeStar >= 1.5 && p.placeStar < 2.5}'>
-					별점 : 
 					<img src="image/star.png" class='star' th:each='i : ${#numbers.sequence(0, 1)}'>
 					<img src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 2)}' class='star'>
-					&nbsp;&nbsp;[[${p.placeStar}]]
 				</th:bolck>
 				<th:bolck th:if='${p.placeStar >= 2.5 && p.placeStar < 3.5}'>
-					별점 : 
 					<img src="image/star.png" class='star' th:each='i : ${#numbers.sequence(0, 2)}'>
 					<img src="image/noStar.png" th:each='i : ${#numbers.sequence(0, 1)}' class='star'>
-					&nbsp;&nbsp;[[${p.placeStar}]]
 				</th:bolck>
 				<th:bolck th:if='${p.placeStar >= 3.5 && p.placeStar < 4.5}'>
-					별점 : 
 					<img src="image/star.png" class='star' th:each='i : ${#numbers.sequence(0, 3)}'>
 					<img src="image/noStar.png" class='star'>
-					&nbsp;&nbsp;[[${p.placeStar}]]
 				</th:bolck>
 				<th:bolck th:if='${p.placeStar >= 4.5 && p.placeStar <= 5}'>
-					별점 : 
 					<img src="image/star.png" class='star' th:each='i : ${#numbers.sequence(0, 4)}'>
-					&nbsp;&nbsp;[[${p.placeStar}]]
 				</th:bolck>
+				&nbsp;&nbsp;[[${p.placeStar}]]
 			</div>
-			<div class='col-6 text-start placeInfo'>조회수 : [[${p.placeCount}]]</div>
+			<div class='col-6 text-start placeInfo'><b>조회수</b> : [[${p.placeCount}]]</div>
 		</div>
 		<div class='row contatiner' id='extraInfo'></div>
 		<div id='address' class='placeDetail text-start'></div>
@@ -69,7 +58,7 @@
 		    <div class="image-gallery" id="image-gallery"></div>
 		</div>
 		<div>
-			<button class="button" onclick='history.back()' style='margin: 0px auto; margin-top: 20px;'>
+			<button class="button" th:onclick="|location.href='recoPlace.pla?page=${page}'|" style='margin: 0px auto; margin-top: 20px;'>
 			  <!-- <svg class="svgIcon" viewBox="0 0 384 512">
 			    <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"></path>
 			  </svg> -->
@@ -123,15 +112,16 @@
 		</button>
 	</div>
 	
-	<div class="card-grid">
-		<div class="testimonial-card" th:each='r : ${list}' th:if='${list != null && !list.isEmpty()}'>
+	<div class="card-grid row row-cols-3">
+		<div class="testimonial-card col" th:each='r : ${list}' th:if='${list != null && !list.isEmpty()}'>
+			<input type='hidden' name='reviewNo' th:value='${r.reviewNo}'>
 			<div class="text-heading">
 				<div class="reviewTitle">[[${r.reviewTitle}]]</div>
 			</div>
 			<div class="avatar-block">
 				<img class="avatar-icon" alt="" src="image/noProfile.png">
 				<div class="info">
-					<div class="card-title">[[${r.reivewContent}]]</div>
+					<div class="card-title">[[${r.reviewContent}]]</div>
 					<div class="starReview">★[[${r.reviewStar}]]</div>
 				</div>
 			</div>
@@ -166,31 +156,49 @@
 	<!-- 후기 작성 로그인 확인 모달 -->
 	
 	
-	<!-- 후기 영역 -->
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 	
 	
-	<script>
+	<script th:inline='javascript'>
 		document.addEventListener('DOMContentLoaded', function() {
 			const params = new URLSearchParams(window.location.search);
 			const contentid = params.get('contentid');
 			const contenttypeid = params.get('contenttypeid');
-			const areaCode = params.get('areacode');
+			const areaCode = params.get('areaCode');
+			const page = params.get('page');
 	        
-			
+			/*<![CDATA[*/
+			const loginUser = /*[[${session.loginUser}]]*/'아무값';
+			/*]]>*/
 	      	document.getElementById('goReview').addEventListener('click', ()=>{
-	        	const reviewModal = document.getElementById('Modal');
-	        	$('#Modal').modal('show');
+	      		console.log(loginUser)
+	      		if(!loginUser || loginUser === '아무값'){
+		        	const reviewModal = document.getElementById('Modal');
+		        	$('#Modal').modal('show');
+	      		}else{
+	      			location.href = 'placeReviewWrite.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&page=" + page;
+	      		}
 	        });
 	        
 	       document.getElementById('loginView').addEventListener('click', ()=>{
-	        	location.href = 'placeReviewWrite.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid;
+	        	location.href = 'loginView.me';
 	        })
 	        
 	        detailInfo(contentid, contenttypeid);
 	        detailImg(contentid,contenttypeid);
 	        detailTypeInfo(contentid,contenttypeid);
 	       	
+	        window.addEventListener('load', function() {
+			    const loadingScreen = document.getElementById('loading-screen');
+			    const imageTitle = document.getElementById('imageTitle');
+			    const content = document.getElementById('content');
+			    
+			    loadingScreen.style.display = 'none';
+			    imageTitle.style.opacity = '1';
+			    content.style.opacity = '1';
+			});
+	        
+	        clickReviewCard(contentid, contenttypeid, areaCode, page);
 	        
 	    });
 		
@@ -233,7 +241,7 @@
 					if(item.homepage !== ""){
 						const homepage = document.createElement('div');
 						homepage.className = 'col-4 text-start placeDetail'
-						homepage.innerHTML = '<b>홈페이지</b> : ' + item.homepage;
+						homepage.innerHTML = '<b>홈페이지</b> : <br>' + item.homepage;
 						extraInfo.append(homepage);
 					}
 					
@@ -257,7 +265,7 @@
 				data:{contentid:contentid, contenttypeid:contenttypeid},
 				type: "GET",
 				success: data =>{
-					//console.log(data);
+					console.log(data);
 					const item = data.response.body.items.item[0];
 					//console.log(item.contenttypeid);
 					
@@ -273,7 +281,7 @@
 							const expguide = document.createElement("div");
 							expguide.className = "col-4 text-start placeDetail";
 							expguide.innerHTML = "<b>체험 안내</b> : " + item.expguide;
-							extraInfo.append(expquide);
+							extraInfo.append(expguide);
 						}
 
 						if(item.restdate != ""){
@@ -298,10 +306,10 @@
 							extraInfo.append(chkpetculture);
 						}
 
-						if(item.usetime != ""){
+						if(item.usetimeculture != ""){
 							const usetime = document.createElement("div");
 							usetime.className = "col-4 text-start placeDetail";
-							usetime.innerHTML = "<b>이용 시간</b> : " + item.usetime;
+							usetime.innerHTML = "<b>이용 시간</b> : <br>" + item.usetimeculture;
 							extraInfo.append(usetime);
 						}
 						
@@ -624,19 +632,22 @@
 					//console.log(data);
 					const imageGallery = document.getElementById('image-gallery');
 					
-					for(const i of data.response.body.items.item){
-						const div = document.createElement('div');
-						div.className = 'image-container img';
-						
-						if(i.originimgurl === ""){
-							div.innerText = '등록된 이미지가 없습니다)'
-						}else{
+					
+					if(data.response.body.totalCount == "0"){
+						const text = document.createElement('div');
+						text.innerText = '등록된 이미지가 없습니다';
+						text.style.fontSize = '20px';
+						text.style.height = "50px";
+						imageGallery.append(text);
+					}else{
+						for(const i of data.response.body.items.item){
+							const div = document.createElement('div');
+							div.className = 'image-container img';
 							const img = document.createElement('img');
 							img.src = i.originimgurl;
 							div.append(img);
 							imageGallery.append(div);
 						}
-						
 					}
 					imageModal();
 					
@@ -647,11 +658,13 @@
 		}
 		
 		// 후기 상세 함수
-		function clickReviewCard(){
+		function clickReviewCard(contentid, contenttypeid, areaCode, page){
 			const reviewCard = document.getElementsByClassName('testimonial-card');
 		       Array.from(reviewCard).forEach(card =>{
 		    	   card.addEventListener('click', () =>{
-			    	   location.href = 'placeReviewDetail.pla'
+			    	  const reviewNo = card.children[0].value;
+			    	   //console.log(reviewNo)
+			    	   location.href = 'placeReviewDetail.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&page=" + page + "&reviewNo=" + reviewNo;
 			       })
 		       })
 		}

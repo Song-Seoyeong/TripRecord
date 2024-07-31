@@ -4,9 +4,53 @@
 <meta charset="UTF-8">
 <title>내 여행노트 상세보기</title>
 <style>
-	#back_button{color:white; background-color: #2C707E; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
-	#revision_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
-	#delete_button{color:white; background-color: #FF203A; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#back_button {
+        color: #2C707E; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #2C707E;
+    }
+    #back_button:hover {
+        background: #2C707E;
+        border: 2px solid #2C707E;
+        color: #fff;
+        font-weight: 600;
+    }
+	 #revision_button {
+        color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+    #revision_button:hover {
+        background: #96CAF0;
+        border: 2px solid #96CAF0;
+        color: #fff;
+        font-weight: 600;
+    }
+    #delete_button {
+        color: #DD5353; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        border: 2px solid #DD5353;
+    }
+    #delete_button:hover {
+        background: #DD5353;
+        border: 2px solid #DD5353;
+        color: #fff;
+        font-weight: 600;
+    }
 </style>
 </head>
 <body>
@@ -38,7 +82,7 @@
 	<div style="margin-bottom: 400px"></div>
 	
 	<!-- 푸터 -->
-	<div th:replace="~{common/footer :: footer}" ></div>
+	<div th:replace="~{common/footer :: footer}"></div>
 	
 	<script>
 		//클릭시 피드백 페이지로 이동

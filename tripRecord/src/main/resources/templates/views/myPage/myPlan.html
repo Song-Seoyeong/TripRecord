@@ -24,7 +24,7 @@
 		<div style="height:80px;"></div>
 		<div style="color: black; font-size: 36px; font-weight: 900;">플래너 일정 요청 리스트</div>
 		<div style="height:40px;"></div>
-		<div style="width:1000px; height:800px; border: 1px solid; margin:auto" >
+		<div style="display:inline-block; width:1000px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
 			<table>
 				<thead>
 				 	<tr style="border-bottom:2px solid #96CAF0;">
@@ -127,7 +127,7 @@
 		</div>
 	</div>
 	
-	<div style="margin-bottom: 200px"></div>
+	<div style="margin-bottom: 300px"></div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
@@ -150,7 +150,7 @@
 				const parent = td.parentElement;
 			 	//const boardNo = parent.children[0].children[0].value
 				//const cateNo = parent.children[1].children[0].value 
-				location.href='detailReqPlan.me'
+				location.href='detailReqPlan.mp'
 					//'${contextPath}/boardView.me?bId=' + boardNo + '&page='+ ${pi.currentPage} + '&cateNo=' + cateNo;
 			})
 				

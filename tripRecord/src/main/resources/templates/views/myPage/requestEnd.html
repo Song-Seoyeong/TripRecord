@@ -4,8 +4,22 @@
 <meta charset="UTF-8">
 <title>플래너일정 요청 자세히 보기</title>
 <style>
-	#submit_button{color:white; background-color: #96CAF0; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
-	#complete_button{color:white; background-color: blue; width: 160px; height:40px; border: none; border-radius:20px; margin-right: 5px;}
+	#submit_button {
+        color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+    #submit_button:hover {
+        background: #96CAF0;
+        border: 2px solid #96CAF0;
+        color: #fff;
+        font-weight: 600;
+    }
 </style>
 </head>
 <body>
@@ -40,7 +54,6 @@
 		<!-- 제출버튼 -->
 		<div>
 			<button id="submit_button" onclick="submit()">전달</button>
-			<button id="complete_button" onclick="#">완료</button>
 		</div>
 	</div>
 		
