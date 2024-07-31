@@ -13,6 +13,7 @@ public class Review {
 	private int reviewNo;
 	private int memberNo;
 	private String nickname;
+	private String imageRename; // 리뷰어의 프로필 사진 조회
 	private String reviewTitle;
 	private String reviewContent;
 	private int reviewStar;

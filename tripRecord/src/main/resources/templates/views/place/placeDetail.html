@@ -119,7 +119,8 @@
 				<div class="reviewTitle">[[${r.reviewTitle}]]</div>
 			</div>
 			<div class="avatar-block">
-				<img class="avatar-icon" alt="" src="image/noProfile.png">
+				<img th:if='${r.imageRename == null}' class="avatar-icon" alt="프로필 사진 없음" src="image/noProfile.png">
+				<img th:if='${r.imageRename != null}' class="avatar-icon" alt="프로필 사진" th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|">
 				<div class="info">
 					<div class="card-title">[[${r.reviewContent}]]</div>
 					<div class="starReview">★[[${r.reviewStar}]]</div>
@@ -440,11 +441,11 @@
 							extraInfo.append(usetimeleports);
 						}
 						
-						if(item.userfeeleports != ""){
-							const userfeeleports = document.createElement("div");
-							userfeeleports.className = "col-4 text-start placeDetail";
-							userfeeleports.innerHTML = "<b>이용 요금</b> : " + item.userfeeleports;
-							extraInfo.append(userfeeleports);
+						if(item.usefeeleports != ""){
+							const usefeeleports = document.createElement("div");
+							usefeeleports.className = "col-4 text-start placeDetail";
+							usefeeleports.innerHTML = "<b>이용 요금</b> : " + item.usefeeleports;
+							extraInfo.append(usefeeleports);
 						}
 					}else if(item.contenttypeid == 32){ // 숙박
 						if(item.accomcountlodging != ""){

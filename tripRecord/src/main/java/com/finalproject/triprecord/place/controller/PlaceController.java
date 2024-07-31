@@ -151,7 +151,7 @@ public class PlaceController {
 		if(result + iResult == 1 + list.size()) {
 			ra.addAttribute("contentid", r.getRevRefNo());
 			ra.addAttribute("contenttypeid", contenttypeid);
-			ra.addAttribute("areaCode", areacode);
+			ra.addAttribute("areacode", areacode);
 			ra.addAttribute("page", page);
 			return "redirect:placeDetail.pla";
 		} else {
@@ -180,12 +180,59 @@ public class PlaceController {
 		ArrayList<Image> list = pService.selectImage(rId);
 		
 		//System.out.println(list);
-		model.addAttribute("contentid", contentid);
-		model.addAttribute("contenttypeid", contenttypeid);
-		model.addAttribute("areacode", areaCode);
-		model.addAttribute("page", page);
-		model.addAttribute("r", r);
-		model.addAttribute("list", list);
-		return "placeReviewDetail";
+		if(r != null && list != null) {
+			model.addAttribute("contentid", contentid);
+			model.addAttribute("contenttypeid", contenttypeid);
+			model.addAttribute("areacode", areaCode);
+			model.addAttribute("page", page);
+			model.addAttribute("r", r);
+			model.addAttribute("list", list);
+			return "placeReviewDetail";
+		}else {
+			throw new PlaceException("리뷰 상세 보기 중 에러 발생");
+		}
+	}
+	
+	@PostMapping("deleteReview.pla")
+	public String deleteReview(@RequestParam("reviewNo") int rId,
+							   @RequestParam("contentid") int contentid,
+							   @RequestParam("contenttypeid") int contenttypeid,
+							   @RequestParam("areacode") int areacode,
+							   @RequestParam("page") int page,
+							   RedirectAttributes ra) {
+		int result = pService.deleteReview(rId);
+		
+		if(result > 0) {
+			ra.addAttribute("contentid", contentid);
+			ra.addAttribute("contenttypeid", contenttypeid);
+			ra.addAttribute("areaCode", areacode);
+			ra.addAttribute("page", page);
+			return "redirect:placeDetail.pla";
+		}else {
+			throw new PlaceException("리뷰 삭제 중 에러 발생");
+		}
+	}
+	
+	@PostMapping("updateReviewView.pla")
+	public String updateReviewView(@RequestParam("reviewNo") int rId,
+			   					   @RequestParam("contentid") int contentid,
+			   					   @RequestParam("contenttypeid") int contenttypeid,
+			   					   @RequestParam("areacode") int areacode,
+			   					   @RequestParam("page") int page,
+			   					   Model model) {
+		Review r = pService.selectReview(rId);
+		ArrayList<Image> list = pService.selectImage(rId);
+		
+		if(r != null && list != null) {
+			model.addAttribute("contentid", contentid);
+			model.addAttribute("contenttypeid", contenttypeid);
+			model.addAttribute("areacode", areacode);
+			model.addAttribute("page", page);
+			model.addAttribute("r", r);
+			model.addAttribute("list", list);
+			return "placeReviewUpdate";
+		}else {
+			throw new PlaceException("리뷰 상세 보기 중 에러 발생");
+		}
 	}
 }

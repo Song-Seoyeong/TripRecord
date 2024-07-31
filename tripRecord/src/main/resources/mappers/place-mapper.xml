@@ -30,10 +30,12 @@
 	</update>
 	
 	<select id="selectReviewList" resultType='Review'>
-		select *
-		from review
-		where REV_REF_TYPE = 'PLACE' and REV_REF_NO = #{contentid}
-		order by review_no desc
+		SELECT *
+		FROM review r
+		LEFT JOIN member m ON r.member_no = m.member_no
+		LEFT JOIN image i ON m.member_no = i.image_ref_no
+		WHERE r.REV_REF_TYPE = 'PLACE' AND r.REV_REF_NO = #{contentid} AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL)
+		ORDER BY r.review_no DESC
 	</select>
 	
 	<insert id="insertMapper" useGeneratedKeys="true">
@@ -53,10 +55,11 @@
 	</insert>
 	
 	<select id="selectReview" resultType='Review'>
-		select *
-		from review
-			join member using(member_No)
-		where review_no = #{rId} and review_Status = 'Y'
+		SELECT *
+		FROM review r
+		LEFT JOIN member m ON r.member_no = m.member_no
+		LEFT JOIN image i ON m.member_no = i.image_ref_no
+		WHERE review_no = #{rId} and review_Status = 'Y' AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL)
 	</select>
 	
 	<select id="selectImage" resultType='Image'>
@@ -64,4 +67,10 @@
 		from Image
 		where image_ref_type = 'RECOPLACE' and image_ref_no = #{rId}
 	</select>
+	
+	<update id="deleteReview">
+		update review
+		set review_status = 'N'
+		where rev_ref_no = #{rId} and rev_ref_type = 'PLACE'
+	</update>
 </mapper>

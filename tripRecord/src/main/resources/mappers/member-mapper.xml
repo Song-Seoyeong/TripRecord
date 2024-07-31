@@ -15,8 +15,8 @@
 	</insert>
 	
 	<insert id="enrollPlanner">
-		insert into planner
-		values(#{memberNo}, #{localNo}, null, #{plaReqContent}, #{sIntroContent})
+		insert into request_grade
+		values(#{memberNo}, #{localNo}, 'PLANNER', #{plaReqContent}, #{sIntroContent}, sysdate)
 	</insert>
 	
 	<select id="checkId" resultType="_int">

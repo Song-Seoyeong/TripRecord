@@ -1,0 +1,139 @@
+@charset "UTF-8";
+
+body {
+	margin: 0;
+	line-height: normal;
+}
+.div {
+  	width: 80%;
+  	position: relative;
+  	height: 336px;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
+  	justify-content: center;
+  	padding: 160px 24px;
+  	box-sizing: border-box;
+  	background-size: 100%;
+  	background-repeat: no-repeat;
+  	background-position: center;
+  	text-align: center;
+  	font-size: 60px;
+  	color: white;
+  	margin: 70px auto;
+  	border-radius: 30px;
+}
+.title {
+  	align-self: stretch;
+  	position: relative;
+  	letter-spacing: -0.05em;
+  	/* mix-blend-mode: difference; */
+  	/* -webkit-text-stroke: 0.2px black; */
+  	background: #96caf0;
+  	opacity: 0.9;
+  	border-radius: 10px;
+  	padding:5px;
+  	padding-left: 15px;
+  	padding-right: 15px;
+}
+.text-content-title {
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
+  	justify-content: flex-start;
+  	gap: 8px;
+}
+
+#placeName{
+	align-self: stretch;
+  	position: relative;
+  	letter-spacing: -0.05em;
+  	/* mix-blend-mode: difference; */
+  	/* -webkit-text-stroke: 0.2px black; */
+  	background: #96caf0;
+  	opacity: 0.9;
+  	border-radius: 10px;
+  	padding:5px;
+  	padding-left: 15px;
+  	padding-right: 15px;
+}
+
+#inputDiv{
+	width: 50%;
+	min-width: 900px;
+	margin: 15px auto;
+	padding: 0px;
+}
+
+#reviewTitle{
+	width: 100%;
+	padding-left:20px;
+}
+.reviewInput{
+	border: 1px solid #CECECE;
+	background: FCFCFC;
+	border-radius: 10px;
+	height: 40px;
+	width: 100%;
+	min-width: 400px;
+	padding:20px;
+}
+#starReview{
+	padding-left:20px;
+	margin: 40px 0px;
+}
+#reviewContent{
+	width: 100%;
+	padding-left:20px;
+	margin: 20px 0px;
+}
+textArea{
+	resize: none;
+	min-height:400px;
+	height: 50%; 
+}
+#imgReview{
+	width: 100%;
+	padding-left:20px;
+	margin: 30px 0px;
+}
+#insert{
+	background:none;
+	border: 2px solid #2F6598;
+	color: #2F6598;
+	width:70px;
+	font-weight: blod;
+}
+#insert:hover{
+	background: #2F6598;
+	border: 2px solid #2F6598;
+	color: #fff;
+}
+.star{
+	max-width: 30px;
+}
+.beforeDel, .afterDel{
+	float: left;
+}
+.afterDel{
+	display: none ;
+}
+.deleteButton:hover .afterDel{
+	display: inline-block ;
+}
+.deleteButton:hover .beforeDel{
+	display: none;
+}
+.deleteButton:hover .backDel{
+	transform: rotate(-90deg);
+}
+.backDel{
+    display: inline-block ;
+    transition: transform 0.5s ease-in-out;
+}
+#image{
+	margin: 20px 0px;
+}
+.reImg{
+	width: 200px;
+}
