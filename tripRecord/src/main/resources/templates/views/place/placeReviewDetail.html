@@ -46,8 +46,10 @@
 		<div id='imgReview'  th:if="${list != null}">
 			<div id="placeImg" class="container">
 				<h3>&#x1F4F8;</h3>
-			    <div class="image-gallery" id="image-gallery" th:each='i:${list}'>
-			        <div class="image-container"><img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}|" alt="${i.imageOriginName}"></div>
+			    <div class="image-gallery" id="image-gallery">
+			        <div class="image-container"  th:each='i:${list}'>
+			        	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" alt="${i.imageOriginName}">
+			        </div>
 			    </div>
 			</div>
 		</div>
@@ -104,7 +106,7 @@
 			const contenttypeid = params.get('contenttypeid');
 	        
 	        detailInfo(contentid, contenttypeid);
-	        if(document.getElementById('imgReview' != null)){
+	        if(document.getElementById('imgReview') != null){
 	        	imageModal();
 	        }
 	    });
@@ -116,7 +118,7 @@
 				type: 'GET',
 				data: {contentid : contentid, contenttypeid : contenttypeid},
 				success: data =>{
-					console.log(data);
+					//console.log(data);
 					const item = data.response.body.items.item[0];
 					
 					const title = document.getElementById('title');
@@ -143,7 +145,8 @@
 	        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
 	        const carouselIndicators = document.querySelector('.carousel-indicators');
 	        const carouselInner = document.querySelector('.carousel-inner');
-	
+			
+	        
 	        images.forEach((img, index) => {
 	            const indicator = document.createElement('button');
 	            indicator.type = 'button';

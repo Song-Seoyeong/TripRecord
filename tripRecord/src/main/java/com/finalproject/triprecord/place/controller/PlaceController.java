@@ -179,7 +179,7 @@ public class PlaceController {
 		Review r = pService.selectReview(rId);
 		ArrayList<Image> list = pService.selectImage(rId);
 		
-		System.out.println(list);
+		//System.out.println(list);
 		model.addAttribute("contentid", contentid);
 		model.addAttribute("contenttypeid", contenttypeid);
 		model.addAttribute("areacode", areaCode);
