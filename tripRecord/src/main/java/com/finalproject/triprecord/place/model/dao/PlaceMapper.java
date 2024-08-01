@@ -37,4 +37,6 @@ public interface PlaceMapper {
 
 	int updateReview(Review r);
 
+	int delImg(ArrayList<String> deleteImg);
+
 }

@@ -101,7 +101,7 @@
 						</div>
 					</div>
 					<div class="addButton-div">
-						<button class="placeAddButton" type="button" onclick="placeAdd()">장소 추가</button>
+						<button class="placeAddButton" type="button">장소 추가</button>
 					</div>
 				</div>
 			</div>
@@ -116,37 +116,43 @@
 	<div th:replace="~{ ../common/footer :: footer }"></div>
 	<script th:inline="javascript">
 		window.onload = () => {
-			function placeAdd(){
-				document.querySelectorAll('.placeAddButton').forEach(function(addButton) {
-					addButton.addEventListener('click', function(e){
-						
-						let planDiv = e.target.parentElement.previousElementSibling;
-	
-						const newOnePlan = document.createElement('div');
-						newOnePlan.classList.add('one-plan');
-						
-						const planSpans = document.createElement('div');
-						planSpans.classList.add('plan-spans');
-						planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
-						
-						const planInputs = document.createElement('div');
-						planInputs.classList.add('plan-inputs');
-						planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" placeholder="메모 입력창"></div>';
-						
-						const planImages = document.createElement('div');
-						planImages.classList.add('plan-images');
-						planImages.innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>'
-						+ ' <img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
-						
-						newOnePlan.appendChild(planSpans);
-						newOnePlan.appendChild(planInputs);
-						newOnePlan.appendChild(planImages);
-						
-						planDiv.appendChild(newOnePlan);
-					});
-				});
+			document.querySelectorAll('.placeAddButton').forEach(function(addButton) {
+				addButton.addEventListener('click', placeAddClick);
+			});
+			
+			document.addEventListener('click', function(e){
+				if(e.target.classList.contains('editB')){
+					placeAddClick(e);
+				}
+			});
+			
+			function placeAddClick(e){
+				let planDiv = e.target.parentElement.previousElementSibling;
+
+				const newOnePlan = document.createElement('div');
+				newOnePlan.classList.add('one-plan');
 				
+				const planSpans = document.createElement('div');
+				planSpans.classList.add('plan-spans');
+				planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
+				
+				const planInputs = document.createElement('div');
+				planInputs.classList.add('plan-inputs');
+				planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" placeholder="메모 입력창"></div>';
+				
+				const planImages = document.createElement('div');
+				planImages.classList.add('plan-images');
+				planImages.innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>'
+				+ ' <img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
+				
+				newOnePlan.appendChild(planSpans);
+				newOnePlan.appendChild(planInputs);
+				newOnePlan.appendChild(planImages);
+				
+				planDiv.appendChild(newOnePlan);
 			}
+					
+				
 			
 			let index = 0;
 			let labelDiv = '';
@@ -344,7 +350,7 @@
 							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
 						
 							// 버튼
-							let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton" type="button" onclick="placeAdd()">장소 추가</button> </div>';
+							let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
 							
 							// planDiv 안에 1개 계획 넣기
 							let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
@@ -361,6 +367,12 @@
 				
 				$('#spot').val(newSpot);
 			})
+			
+			document.getElementById('cancelButton').addEventListener('click', () => {
+				detailForm.style.display = 'block';
+				editForm.style.display = 'none';
+			});
+			
 		}
 	</script>
 </body>

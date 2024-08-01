@@ -78,8 +78,7 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public int delImg(ArrayList<String> deleteImg) {
-		// TODO Auto-generated method stub
-		return 0;
+		return pMapper.delImg(deleteImg);
 	}
 
 }
