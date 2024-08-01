@@ -49,7 +49,7 @@
 .contain-in-div {
 	margin-top: 30px;
 }
-/* input 달력 감싸는 div */
+/* 여행기간, 달력 감싸는 div */
 #calender-div {
 	margin-left: auto;
 	margin-right: auto;
@@ -275,3 +275,4 @@ keyframes wave-4 { 50% {
 	cursor: pointer;
 	background: #58aae7;
 }
+

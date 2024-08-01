@@ -35,4 +35,6 @@ public interface PlaceMapper {
 
 	int deleteReview(int rId);
 
+	int updateReview(Review r);
+
 }

@@ -15,21 +15,82 @@ form{
 
 /* 각 날짜+지역, 선택한 해시태그, 계획 감싸는 div */
 .contain-div{
-	width: 70%;
+	width: 60%;
 	margin-left: auto; margin-right: auto;
 	margin-top: 30px;
 }
 
+/* 계획 선 */
+.line{
+	position: relative;
+	display: inline-block;
+	width: 0;
+	height: 128px;
+	border: 1px solid black;
+	margin-left: 13px;
+}
+
+/* 계획 동그라미 */
+.round{
+	position: absolute;
+	display: inline-block;
+	z-index: 5;
+	background: #96CAF0;
+	width: 18px;
+	height: 18px;
+	border-radius: 50px;
+    top: 15px;
+    right: -9px;
+}
+/* 라인, 동그라미 감싸는 div */
+.plan-spans{
+	display: inline-block; 
+	position: absolute;
+}
+/* input 입력창 감싸는 div */
+.plan-inputs{ 
+	display: inline-block; 
+	position: relative;
+	top: 15px;
+	margin-left: 30px;
+	border-radius: 20px;
+}
+/* input 대체 label 전체 감싸는 div */
+.plan-labels{
+	display: inline-block; 
+	position: relative;
+	top: 15px;
+	margin-left: 38px;
+}
+/* 체크, 삭제 || 수정, 삭제 아이콘 감싸는 div */
+.plan-images{ 
+	display: inline-block; 
+	position: relative;
+	margin-left: 6px;
+}
+
+#plan-flex-div{
+	border: 1px solid blue;
+}
+
 /* 일자별 계획 전체 감싸는 div */
 #planAll{
+	margin-left: auto;
+	margin-right: auto;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: flex-start;
 	margin-top: 20px;
+	flex-wrap: wrap;
+	width: 80%;
 }
 
 /* 한 날짜당 계획 */
 .dayPlan{
 	display: inline-block;
+	margin-left: 25px;
+	margin-right: 25px;
+	margin-top: 20px;
+	width: 250px;
 }
 
 /* 날짜, 지역 각각을 감싸는 div */
@@ -39,21 +100,46 @@ form{
 	font-weight: bold;
 	font-size: 22px;
 }
-#editButton-div{
+/* 날짜, 지역 각각을 감싸는 div */
+.edit-div{
+	margin: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 수정 버튼 감싸는 div */
+.editButton-div{
 	text-align: right;
 	margin-right: 30px;
 	top: 30px;
 }
+
+#editButton:hover{
+	background-color: #58aae7;
+}
+
+/* 수정 완료 버튼 */
+#completeButton:hover{
+	background-color: #58aae7;
+}
+
+.check-icon:hover, .trash-icon:hover, .bi:hover{
+	cursor: pointer;
+}
+
 /* 날짜, 지역 등 모든 텍스트 span */
 .textSpan{
 	margin: 5px;
 }
 
+/* 일정 저장, 삭제 버튼 감싸는 div */
 .buttonsDiv{
 	margin-top: 60px;
 	margin-bottom: 60px;
 }
 
+/* 저장, 삭제 버튼 */
 .planDetailButton{
 	border-radius: 18px;
 	border: none;
@@ -62,6 +148,7 @@ form{
 	padding: 10px;
 }
 
+/* 일정 저장 버튼 */
 #saveButton{
 	background-color: #96caf0;
 	color: white;
@@ -72,20 +159,57 @@ form{
 	background-color: #58aae7;
 }
 
+/* 일정 삭제 버튼 */
 #deleteButton{
 	background-color: gray;
 	float: inline-end;
-	
 }
 
-/* 수정 버튼 */
-#editButton{
-	border-radius: 8px;
+/* 수정 버튼 누를 때 나오는 지역 select */
+#selectSpotHidden{
+	width: fit-content;
+    margin-right: 15px;
+}
+
+#selectSpotHidden:hover{
+	cursor: pointer;
+}
+
+/* 수정 버튼 클릭 시 나오는 날짜 선택 datepicker input */
+.datepicker{
+	width: 150px;
+	text-align: center;
+	font-size: smaller;
+	font-weight: bold;
+	border: 2px solid #2F6598;
+	border-radius: 5px;
+	color: midnightblue;
+}
+
+.datepicker:hover{
+	cursor: pointer;
+}
+
+/* 수정, 완료 버튼 */
+.runButton{
+	border-radius: 12px;
 	border: none;
 	background-color: #96caf0;
 	font-weight: bold;
 	color: white;
 	padding: 8px;
+	font-size: 15px;
+}
+
+/* 수정 버튼 눌렀을 때 나오는 취소 버튼 */
+.notButton{
+	border-radius: 12px;
+	border: none;
+	padding: 8px;
+	font-weight: bold;
+	background-color: gray;
+	margin-left: 10px;
+	font-size: 15px;
 }
 
 /* 해시태그 전체 감싸는 div */
@@ -110,10 +234,8 @@ form{
 }
 /* n일차(하루) 감싸는 div*/
 .planDiv{
-	border: 1px solid black;
 	width: 220px;
 	margin-bottom: 30px;
-	text-align: center;
 }
 /* n일차 텍스트 div */
 .dayText {
@@ -139,19 +261,136 @@ form{
 
 /* 장소, 시간, 메모 입력창 */
 .plan-text {
-/*   	text-align: left; */
 	border: 1px solid lightgray;
 	border-radius: 8px;
 	width: 135px;
 	margin: 3px;
-	margin-left: 18px;
 }
 
-.plan-label{
-	text-align : left;
-	margin-left: 18px;
-	margin-top: 3px;
-	margin-bottom: 3px;
+/* plan-inputs 대체 되는 label 감싼 div */
+.plan-labels{
+	position: relative;
+	margin-left: 30px;
+	border: none;
+	border-radius: 20px;
+}
+
+/* input 입력 후 체크 버튼 눌렀을 시 변경된 label 한 개 감싸는 div*/
+.label-div{
+	margin-left: 10px;
+}
+
+/* 체크 버튼 눌렀을 때의 장소 label */
+.placeLabel{
+	font-size: 16px;
+	font-weight: 800;
+}
+/* 체크 버튼 눌렀을 때의 시간 label */
+.timeLabel{
+	font-size: 13px;
+    font-weight: 700;
+    color: #727272;
+}
+/* 체크 버튼 눌렀을 때의 메모 label */
+.memoLabel{
+	font-size: 13px;
+    font-weight: 700;
+    color: #727272;
+}
+
+/* 예약 여부 */
+.checkbox-wrapper-46 input[type="checkbox"] {
+  display: none;
+  visibility: hidden;
+}
+/* 예약 여부 글자 span */
+.reserveText{
+	font-size: small;
+}
+
+.checkbox-wrapper-46 .cbx {
+  margin: auto;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+.checkbox-wrapper-46 .cbx span {
+  display: inline-block;
+  transform: translate3d(0, 0, 0);
+}
+.checkbox-wrapper-46 .cbx span:first-child {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  transform: scale(1);
+  vertical-align: middle;
+  border: 1px solid #9098a9;
+  transition: all 0.2s ease;
+}
+.checkbox-wrapper-46 .cbx span:first-child svg {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 13px;
+  stroke-dashoffset: 16px;
+  transition: all 0.3s ease;
+  transition-delay: 0.1s;
+  transform: translate3d(0, 0, 0);
+}
+.checkbox-wrapper-46 .cbx span:first-child:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #96CAF0;
+  display: block;
+  transform: scale(0);
+  opacity: 1;
+  border-radius: 50%;
+}
+.checkbox-wrapper-46 .cbx span:last-child {
+  padding-left: 8px;
+  font-size: 14px;
+}
+.checkbox-wrapper-46 .cbx:hover span:first-child {
+  border-color: black;
+}
+
+.checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child {
+  background: black;
+  border-color: black;
+  animation: wave-46 0.4s ease;
+}
+.checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child svg {
+  stroke-dashoffset: 0;
+}
+.checkbox-wrapper-46 .inp-cbx:checked + .cbx span:first-child:before {
+  transform: scale(3.5);
+  opacity: 0;
+  transition: all 0.6s ease;
+}
+
+@keyframes wave-46 {
+  50% {
+    transform: scale(0.9);
+  }
+}
+
+/* 예약 여부 */
+.plan-checks{
+	display: inline-block;
+	margin-left: 45px;
+	position: relative;
+}
+
+/* 계획 1개 전체 div */
+.one-plan{
+	height: 128px;
 }
 
 /* 장소 입력 input */
@@ -165,16 +404,18 @@ form{
 	font-size: 14px;
 }
 
-
 /* 메모 입력 input */
 .memoInput{
 	height: 50px;
 	font-size: 14px;
 }
 
+.addButton-div{
+	text-align: center;
+}
+
 /* 장소 추가 버튼 */
 .placeAddButton{
-	margin-top: 30px;
 	margin-bottom: 30px;
     border: none;
     border-radius: 20px;
@@ -183,5 +424,4 @@ form{
     font-weight: bold;
     font-size: 13px;
     padding: 8px;
-	
 }

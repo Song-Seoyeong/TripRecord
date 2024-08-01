@@ -235,4 +235,36 @@ public class PlaceController {
 			throw new PlaceException("리뷰 상세 보기 중 에러 발생");
 		}
 	}
+	
+	@PostMapping("updatePlaReview.pla")
+	public String updatePlaReview(@ModelAttribute Review r,
+								  @RequestParam(value="delImg", required=false) ArrayList<String> delImgs,
+								  @RequestParam(value="files", required=false) ArrayList<MultipartFile> files,
+							  	  @RequestParam("contenttypeid") int contenttypeid,
+							  	  @RequestParam("page") int page,
+							  	  @RequestParam("areacode") int areacode,
+							  	  HttpServletRequest request, RedirectAttributes ra) {
+		// 리뷰수정
+		int result = pService.updateReview(r);
+		
+		// 이미지 삭제 확인
+		ArrayList<String> deleteImg = new ArrayList<String>();
+		int delResult;
+		try {
+			if(delImgs != null && !delImgs.isEmpty()) {
+				for(String del : delImgs) {
+					if(!del.equals("none")) {
+						deleteImg.add(del);
+						// 구글 드라이브에서 삭제
+						gdService.deleteFile(del);
+					}
+				}
+			}
+			delResult = pService.delImg(deleteImg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

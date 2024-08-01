@@ -30,4 +30,8 @@ public interface PlaceService {
 
 	int deleteReview(int rId);
 
+	int updateReview(Review r);
+
+	int delImg(ArrayList<String> deleteImg);
+
 }
