@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.matching.model.dao.MatchingMapper;
-import com.finalproject.triprecord.matching.model.vo.Planner;
+import com.finalproject.triprecord.member.model.vo.Planner;
 
 @Service
 public class MatchingServiceImpl implements MatchingService {

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
-import com.finalproject.triprecord.matching.model.vo.Planner;
+import com.finalproject.triprecord.member.model.vo.Planner;
 
 @Mapper
 public interface MatchingMapper {

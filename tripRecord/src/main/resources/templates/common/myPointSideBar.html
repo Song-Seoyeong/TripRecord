@@ -4,17 +4,28 @@
 <meta charset="UTF-8">
 <title>포인트 사이드바</title>
 <style>
-	.nav-link:hover{font-weight:900;}
+.nav-link:hover {
+	font-weight: 900;
+}
+#pointsideBar {
+	display: inline-flex;
+	border: 1px lightgray solid;
+	border-radius: 8px;
+	padding: 16px;
+	float: left;
+	margin-top: 120px;
+	margin-left: 20px;
+}
 </style>
 </head>
 <body>
 	<div style="height:40px;"></div>
 	<!-- 사이드바 -->
-	<div style="padding: 16px; border: 1px lightgray solid; border-radius: 8px; margin-top:70px;  margin-left: 50px;  display: inline-flex;">
+	<div id="pointsideBar" class="flex-column">
 		<ul class="nav flex-column" style="float: left;">
-			<li style="border-bottom: 2px lightgray solid; width:200px;"><h4>포인트</h4></li>
-			<li class="nav-item"><a class="nav-link" href="myPoint.me" style="color: black;">결제 내역</a></li>
-			<li class="nav-item"><a class="nav-link" href="myPayPoint.me" style="color: black;">포인트 결제하기</a></li>
+			<li style="border-bottom: 2px lightgray solid; width:200px; text-align:center; "><h4>포인트</h4></li>
+			<li class="nav-item"><a class="nav-link" href="myPoint.mp" style="color: black; float:left">결제 내역</a></li>
+			<li class="nav-item"><a class="nav-link" href="myPayPoint.mp" style="color: black; float:left">포인트 결제하기</a></li>
 		</ul>
 	</div>	
 </body>

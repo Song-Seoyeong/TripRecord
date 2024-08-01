@@ -15,67 +15,69 @@
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
-	<!-- 마이페이지 어퍼바 -->
-	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	<!-- 사이드바 -->
-	<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div> 
 	
-	<div class="flex-container " style="text-align:center; margin-top:-240px;">
+	<div class="flex-container " style="text-align:center;">
+		<!-- 마이페이지 어퍼바 -->
+		<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+		<!-- 사이드바 -->
+		<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div> 
 		<div style="height:80px;"></div>
-		<div style="color: black; font-size: 36px; font-weight: 900;">포인트 결제내역</div>
-		<div style="height:40px;"></div>
-		<div style="display:inline-block; width:1000px; height:500px; border: 1px solid lightgray; border-radius:10px;" >
-			<table>
-				<thead>
-				 	<tr style="border-bottom:2px solid #96CAF0;">
-						<th><p>결제금액</p></th>
-						<th><p>포인트</p></th>
-						<th><p>결제일자</p></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="payment">10,000원</td>
-						<td id="myPoint">11,000p</td>
-						<td id="payDate">2099.12.31</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="payment">10,000원</td>
-						<td id="myPoint">11,000p</td>
-						<td id="payDate">2099.12.31</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="payment">10,000원</td>
-						<td id="myPoint">11,000p</td>
-						<td id="payDate">2099.12.31</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="payment">10,000원</td>
-						<td id="myPoint">11,000p</td>
-						<td id="payDate">2099.12.31</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="payment">10,000원</td>
-						<td id="myPoint">11,000p</td>
-						<td id="payDate">2099.12.31</td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<!-- 페이지네이션 -->
-			<div class="text-center" style="margin-top:50px; text-align:center;">
-				<ul class="pagination">
-					<!-- 이전링크 -->
-					<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
-					<!-- 번호 이동 -->
-					<li class="pageNumber"><a href='#'>1</a></li>
-					<li class="pageNumber"><a href='#'>2</a></li>
-					<li class="pageNumber"><a href='#'>3</a></li>
-					<li class="pageNumber"><a href='#'>4</a></li>
-					<li class="pageNumber"><a href='#'>5</a></li>
-					<!-- 다음링크 -->
-					<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
-				</ul>
+		<div style="display:inline-block; margin-right:250px;">
+			<div style="color: black; font-size: 36px; font-weight: 900;">포인트 결제내역</div>
+			<div style="height:40px;"></div>
+			<div style="display:inline-block; width:1000px; height:500px; border: 1px solid lightgray; border-radius:10px;" >
+				<table>
+					<thead>
+					 	<tr style="border-bottom:2px solid #96CAF0;">
+							<th><p>결제금액</p></th>
+							<th><p>포인트</p></th>
+							<th><p>결제일자</p></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="payment">10,000원</td>
+							<td id="myPoint">11,000p</td>
+							<td id="payDate">2099.12.31</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="payment">10,000원</td>
+							<td id="myPoint">11,000p</td>
+							<td id="payDate">2099.12.31</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="payment">10,000원</td>
+							<td id="myPoint">11,000p</td>
+							<td id="payDate">2099.12.31</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="payment">10,000원</td>
+							<td id="myPoint">11,000p</td>
+							<td id="payDate">2099.12.31</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="payment">10,000원</td>
+							<td id="myPoint">11,000p</td>
+							<td id="payDate">2099.12.31</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- 페이지네이션 -->
+				<div class="text-center" style="margin-top:50px; text-align:center;">
+					<ul class="pagination">
+						<!-- 이전링크 -->
+						<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
+						<!-- 번호 이동 -->
+						<li class="pageNumber"><a href='#'>1</a></li>
+						<li class="pageNumber"><a href='#'>2</a></li>
+						<li class="pageNumber"><a href='#'>3</a></li>
+						<li class="pageNumber"><a href='#'>4</a></li>
+						<li class="pageNumber"><a href='#'>5</a></li>
+						<!-- 다음링크 -->
+						<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>

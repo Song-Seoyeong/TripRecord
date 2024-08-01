@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.matching.model.service.MatchingService;
-import com.finalproject.triprecord.matching.model.vo.Planner;
 import com.finalproject.triprecord.member.model.vo.Member;
+import com.finalproject.triprecord.member.model.vo.Planner;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
