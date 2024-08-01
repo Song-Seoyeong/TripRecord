@@ -106,8 +106,6 @@ public class BoardController {
 		} else {
 			model.addAttribute("nothing", "nothing");
 		}
-		
-		
 	
 
 		return "commuList";
