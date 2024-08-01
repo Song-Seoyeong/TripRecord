@@ -1,0 +1,63 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace='com.finalproject.triprecord.matching.model.dao.MatchingMapper'>
+
+	<select id="getPlannerListCount" resultType="_int">
+		select count(*)
+		from planner
+        join member using(member_no)
+        where status = 'Y'
+        <if test="localNo != '0' and localNo !=null">
+			and local_No = #{localNo}
+		</if>
+	</select>
+
+	<select id="getPlannerList" resultType="planner">
+		select *
+		from planner
+        join member using(member_no)
+        where status = 'Y'
+		<if test="localNo != '0' and localNo !=null">
+			and local_No = #{localNo}
+		</if>
+	</select>
+	
+	<select id="countLikes" resultType="_int">
+		select count(*)
+		from planner_like
+		where planner_no = #{ pNo }
+	</select>
+	
+	<select id="checkLikes" resultType="_int">
+		select count(*)
+		from planner_like
+		where planner_no = #{ pNo } and member_no = #{ loginUserNo }
+	</select>
+	
+	<insert id="insertLikes">
+		insert into planner_like
+		values (seq_likes.nextval, #{ refPlannerNo }, #{ loginUserNo })
+	</insert >
+	
+	<delete id="deleteLikes">
+		delete from planner_like
+		where member_no = #{ loginUserNo } and planner_no = #{ refPlannerNo }
+	</delete>
+	
+	
+	<select id="selectLocalName" resultType="string">
+		select local_name
+		from local
+		join planner using (local_no)
+		where member_no = #{pNo}
+	</select>
+	
+	<select id="selectPlanner" resultType="planner">
+		select *
+		from planner
+		join member using(member_no)
+		where member_no = #{pNo} and status = 'Y'
+	</select>
+	
+	
+	
+</mapper>

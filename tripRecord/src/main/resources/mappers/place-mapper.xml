@@ -71,6 +71,12 @@
 	<update id="deleteReview">
 		update review
 		set review_status = 'N'
-		where rev_ref_no = #{rId} and rev_ref_type = 'PLACE'
+		where review_no = #{rId} and rev_ref_type = 'PLACE'
+	</update>
+	
+	<update id="updateReview">
+		update review
+		set review_title = #{r.reviewTitle}, review_content = #{reviewContent}, review_star = #{reviewStar}
+		where review_no = #{reviewNo}
 	</update>
 </mapper>

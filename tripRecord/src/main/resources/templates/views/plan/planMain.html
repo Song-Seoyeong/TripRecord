@@ -244,9 +244,8 @@
 			const endDate = document.getElementById('endDate');
 			const dayDiff = document.getElementById('dayDiff');
 			
+			document.getElementById('createButton').addEventListener('click', calculateDateRange);
 			document.getElementById('createButton').addEventListener('click', function() {
-				
-// 				console.log(dayDiff);
 				
 				if(startDate.value == ''){
 					alert('여행 출발 날짜를 선택해 주세요');
@@ -254,14 +253,13 @@
 					alert('여행 마지막 날짜를 선택해 주세요');
 				} else if(selectSpot.value == ""){
 					alert('여행지를 선택해 주세요');
-				} else if(!inforDiv.innerText.includes('4개') && !selectSpot.value == "" && startDate.value != '' && endDate.value != '' && dayDiff.value > 0){
+				} else if(dayDiff.value > 0){
 					alert('일정을 생성합니다');
 					document.getElementById('planMainForm').submit();
 				}
 				
 			});
 			
-			document.getElementById('createButton').addEventListener('click', calculateDateRange);
 			
 			$(document).ready(function(){ 
 				$( ".datepicker" ).datepicker({
@@ -277,20 +275,21 @@
 					showMonthAfterYear: true,
 					yearSuffix: '년'
 				});
-	// 			$.datepicker.setDefaults({
-					
-	// 			});
 				
+				$('#sdate').datepicker("option", "minDate", 0);
 				$('#sdate').datepicker("option", "onSelect", function (selectedDate){
-					$("#edate").datepicker( "option", "minDate", selectedDate );
 					$('#startDate').val(selectedDate);
+					
+					$("#edate").datepicker("option", "minDate", selectedDate);
+					
+					let maxDate = $.datepicker.parseDate('yy/mm/dd', selectedDate);
+					maxDate.setDate(maxDate.getDate() + 21);
+					$("#edate").datepicker("option", "maxDate", $.datepicker.formatDate('yy/mm/dd', maxDate));
 			    });
-			       
-				$('#edate').datepicker("option", "minDate", $("#sdate").val());
-				$('#edate').datepicker("option", "onSelect", function (selectedDate){
-			    	$('#endDate').val(selectedDate);
+				
+				$('#edate').datepicker("option", "onSelect", function(selectedDate){
+						$('#endDate').val(selectedDate);
 				});
-
 			});
 		
 		

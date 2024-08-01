@@ -142,7 +142,7 @@ tbody>tr{
 
 /* 이전, 이후 갈 수 있는 화살표 */
 .ui-widget-header .ui-icon {
-	background-image: url('../image/btns.png');
+	background-image: url('../../image/btns.png');
 }
 /* 화살표 기본 마진 없애기 */
 .ui-datepicker .ui-datepicker-prev span, .ui-datepicker .ui-datepicker-next span {
@@ -176,13 +176,13 @@ tbody>tr{
 }
 
 /* 오늘 날짜 */
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
-	border: 0px;
-	background: #f1f1f1;
-	border-radius: 35%;
-	padding-top: 4px;
-	padding-bottom: 4px;
-}
+/* .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight { */
+/* 	border: 0; */
+/* 	background: #f1f1f1; */
+/* 	border-radius: 35%; */
+/* 	padding-top: 4px; */
+/* 	padding-bottom: 4px; */
+/* } */
 
 .inp {
 	padding: 10px 10px;

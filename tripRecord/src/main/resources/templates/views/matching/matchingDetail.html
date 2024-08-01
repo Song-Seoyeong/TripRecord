@@ -24,28 +24,28 @@
 			</div>
 		</div>
 		<!-- 상단 정보 탭 전체 -->
-		<div class="d-flex container-fluid justify-content-center m-3">
+		<div class="d-flex justify-content-center px-3 m-3">
 		<!-- 플래너 정보 -->
 			<div id="plannerInfo" class="m-3">
-				<div class="d-flex align-items-center shadow shadow border bg-light rounded-3">
+				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
 					<div class="d-flex justify-content-center p-3">
 						<img class="rounded-circle mx-3" src="resources/profile-basic.jpg" width="150px" height="150px"/>
 					</div>
 					<div class="p-3">
-						<div class="mx-3 fs-1">황병찬 플래너</div>
-						<div class="mx-3 mt-2"> 서울살이 30년 / 가이드 경력 있음</div>
+						<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
+						<div class="mx-3 mt-2" style="width: 400px">[[${planner.sIntroContent}]]</div>
 						<div class="mx-3">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
 								<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
 								<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-							</svg> 서울
+							</svg> [[${localName}]]
 						</div>
 						<div class="mx-3 mt-2">
 							<button id="likeButton" class="btn btn-outline-danger">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
 									<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
 								</svg>
-								좋아요 124
+								좋아요 [[${likes}]]
 							</button>
 						</div>
 						<div class="mx-3 mt-2">
@@ -118,4 +118,34 @@
 	</div>
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 </body>
+<script>
+document.getElementById('likeButton').addEventListener('click', () => {
+	const likeButton = document.getElementById('likeButton');
+    const pNo = /*[[${ planner.memberNo }]]*/1;
+    let url = '';
+
+    if (likeButton.classList.contains('active')) {
+        url = 'deleteLikes.ma';
+    } else {
+        url = 'insertLikes.ma';
+    }
+    
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: { pNo: pNo },
+        dataType: 'json',
+        success: data => {
+            if(data.result == -1) {
+                alert('로그인 후에 [좋아요] 할 수 있습니다.');
+            } else if(data.result > 0) {
+                likeButton.classList.toggle('active');
+                alert(alertMessage);
+            } else {
+                alert('[좋아요]에 실패했습니다.');
+            }
+        }
+    });
+});
+</script>
 </html>

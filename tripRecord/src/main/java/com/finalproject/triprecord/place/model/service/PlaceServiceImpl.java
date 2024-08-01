@@ -71,4 +71,15 @@ public class PlaceServiceImpl implements PlaceService {
 		return pMapper.deleteReview(rId);
 	}
 
+	@Override
+	public int updateReview(Review r) {
+		return pMapper.updateReview(r);
+	}
+
+	@Override
+	public int delImg(ArrayList<String> deleteImg) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

@@ -3,13 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>'여기'에만 있는 전문 플래너</title>
-
-<style>
-#mainContainer {
-	width: 1400px;
-}
-</style>
-
+<link type="text/css" href="css/matching/matchingMain.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
@@ -17,46 +13,226 @@
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="fs-2 my-3 ms-5">플래너 정보</div>
-			<div class="dropdown dropend my-3">
-				<button class="btn btn-secondary dropdown-toggle me-5" type="button" id="selectLocation" data-bs-toggle="dropdown" aria-expanded="false">지역 선택</button>
-				<ul class="dropdown-menu px-3" aria-labelledby="selectLocation">
-					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="서울" id="selectLocCheck"> 서울</li>
-					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="인천" id="selectLocCheck"> 인천</li>
-					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="대전" id="selectLocCheck"> 대전</li>
-					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="광주" id="selectLocCheck"> 광주</li>
-					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="대구" id="selectLocCheck"> 대구</li>
-					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="울산" id="selectLocCheck"> 울산</li>
-					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="부산" id="selectLocCheck"> 부산</li>
-					<button class="btn btn-primary">찾아보기</button>
-				</ul>
+<!-- 			<div class="dropdown dropend my-3"> -->
+<!-- 				<button class="btn btn-secondary dropdown-toggle me-5" type="button" id="selectLocation" data-bs-toggle="dropdown" aria-expanded="false">지역 선택</button> -->
+<!-- 				<ul class="dropdown-menu px-3" aria-labelledby="selectLocation"> -->
+<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="1"> 서울</li> -->
+<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="2"> 인천</li> -->
+<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="3"> 대전</li> -->
+<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="4"> 광주</li> -->
+<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="5"> 대구</li> -->
+<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="6"> 울산</li> -->
+<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="7"> 부산</li> -->
+<!-- <!-- 					<button class="btn btn-primary">찾아보기</button> -->
+<!-- 				</ul> -->
 			</div>
+		</div>
+		<div class="d-flex justify-content-center">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide">
+						<div class="local-card position-relative">
+							<input type=hidden value=1>
+							<img class="local-img shadow position-absolute"  src="/image/seoul.jpg" alt="서울">
+							<span class="card-text position-absolute fs-1 px-3">서울
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=2>
+							<img class="local-img shadow"  src="/image/busan.jpg" alt="부산">
+							<span class="card-text position-absolute fs-1 px-3">부산
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=3>
+							<img class="local-img shadow"  src="/image/gwangju.jpg" alt="광주">
+							<span class="card-text position-absolute fs-1 px-3">광주
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=4>
+							<img class="local-img shadow"  src="/image/daejeon.jpg" alt="대전">
+							<span class="card-text position-absolute fs-1 px-3">대전
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=5>
+							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
+							<span class="card-text position-absolute fs-1 px-3">강원
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=5>
+							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
+							<span class="card-text position-absolute fs-1 px-3">강원
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=5>
+							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
+							<span class="card-text position-absolute fs-1 px-3">강원
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=5>
+							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
+							<span class="card-text position-absolute fs-1 px-3">강원
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=5>
+							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
+							<span class="card-text position-absolute fs-1 px-3">강원
+							</span>
+						</div>
+					</div>
+					<div class="swiper-slide">
+						<div class="swiper-slide local-card position-relative">
+							<input type=hidden value=5>
+							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
+							<span class="card-text position-absolute fs-1 px-3">강원
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-button-next"></div>
+	    		<div class="swiper-button-prev"></div>
+			</div>
+		</div>
+		<hr/>
+		<th:block th:if="${ pi.listCount != 0 }">
+		<div class="d-flex justify-content-center my-2">
+			<div class="w-75">
+				<div class="fs-3 p-3 w-100">
+					<div>
+		         		<div class="d-flex justify-content-center my-3">
+		         			<table class="text-center my-3">
+			         			<tr>
+				         			<th class="d-none">번호</th>
+		         					<th width="110px">사진</th>
+					         		<th width="200px">플래너닉네임</th>
+					         		<th width="150px">지역</th>
+					         		<th width="300px">플래너 소개</th>
+					         		<th width="200px">좋아요</th>
+				         		</tr>
+			         		</table>
+			         	</div>
+		         	</div>
+		         	<hr/>
+	         		<!-- 플래너 정보 -->
+	         		<div class="d-flex justify-content-center my-3">
+		         		<div>
+			         		<table class="plannerList text-center my-3" th:each="planner : ${ list }">
+				         		<tr>
+				         			<td class="d-none">[[${planner.memberNo}]]</td>
+		         					<td><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px"></td>
+					         		<td width="200px">[[${planner.Nickname}]]</td>
+					         		<td width="150px">[[${localName[planner.memberNo]}]]</td>
+					         		<td class="fs-5" width="300px">[[${planner.sIntroContent}]]</td>
+					         		<td width="200px">[[${likes[planner.memberNo]}]]</td>
+				         		<tr>
+			         		</table>
+		         		</div>
+		         	</div>
+		        </div>
+        	</div>
 		</div>
 		
-		<div class="contationerrow row-cols-1 row-cols-md-6 d-flex justify-content-center">
-			<img class="shadow mx-1 my-3 rounded-3" height="250px" src="/resources/black.jpg" alt="사진1">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진2">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진3">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진4">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진5">
+		<div class='row' style='margin-bottom: 100px;'>
+			<div class='col-4'></div>
+			<nav aria-label="Page navigation" class='col-4 d-flex justify-content-center' id='pagination'>
+			</nav>
+			<div class='col-4'></div>
 		</div>
-	
-	
-		<hr/>
-		<div class="d-flex justify-content-center my-3">
-			<div class="list-group w-75">
-				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
-				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
-				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
-				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
-				<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">플래너 정보</a>
+		
+				
+		<nav class="d-flex justify-content-center">
+        	<ul class="pagination" th:with="loc=${ loc }">
+        		 <!-- 이전 버튼 -->
+	            <li class="page-item">
+	            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+	            		<span aria-hidden="true">&laquo;</span>
+	              	</a>
+	            </li>
+	            
+	             <!-- 페이지 넘버링 버튼  -->
+	            	
+				<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+					<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+				</li>
+	           
+	             <!-- 다음 버튼  -->
+	            <li class="page-item">
+	            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+	            		<span aria-hidden="true">&raquo;</span>
+	            	</a>
+	            </li>
+	    	</ul>
+        </nav>
+		</th:block>
+		<th:block th:if="${ pi.listCount == 0 }">
+			<div style="height: 100px"></div>
+			<div class="d-flex justify-content-center m-3" style="height: 500px">
+				<h1> 등록된 플래너가 없습니다. </h1>
 			</div>
-		</div>
+		</th:block>
 				
-				
-		<div class="text-center">
-		~~~ 페이지네이션 들어갈 자리 ~~~
-		</div>
+
 	</div>
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 </body>
+<script th:inline='javascript'>
+window.onload = () => {
+	const plannerList = document.getElementsByClassName('plannerList');
+	for(const planner of plannerList){
+		planner.addEventListener('click', function(){
+			const pNo = planner.children[0].children[0].children[0].innerText;
+			/*<![CDATA[*/
+			location.href="selectPlanner.ma?pNo="+ pNo + "&page=" + /*${pi.currentPage}*/1;
+			/*]]>*/
+		});
+	}
+	
+	const cards = document.getElementsByClassName('local-card');
+	for(const card of cards){
+		card.addEventListener('click', function(){
+			 const localNo = this.children[0].value;
+			 location.href="matchingMain.ma?localNo=" + localNo
+		});
+	}
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    var mySwiper = new Swiper('.swiper-container', {
+        slidesPerView: 4,
+        slidesPerGroup: 1,
+        spaceBetween: 24,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+});
+
+
+</script>
+
+
 </html>
