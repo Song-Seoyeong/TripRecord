@@ -25,6 +25,25 @@
 		where member_id = #{id}
 	</select>
 	
+	<!-- 내 정보 수정 -->
+	<update id="updateMember">
+		update member
+		set PHONE=#{phoneNo}, NICKNAME=#{nickName}, EMAIL=#{email}
+		where MEMBER_ID=#{id}
+	</update>
+	
+	<!-- 내 비번 수정 -->
+	<update id="updatePwdOfMe">
+		update member
+		set MEMBER_PWD = #{newPwd}
+		where MEMBER_ID = #{id}
+	</update>
+	
+	<!-- 플래너 요청 -->
+	<insert id="reqPromote">
+		insert into REQUEST_GRADE
+		values(#{memberNo}, #{lNo}, #{grade}, #{intro}, #{content}, sysdate)
+	</insert>
 	
 	
 	

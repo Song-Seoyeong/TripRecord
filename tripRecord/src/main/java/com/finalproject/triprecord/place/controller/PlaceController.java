@@ -247,10 +247,13 @@ public class PlaceController {
 		// 리뷰수정
 		int result = pService.updateReview(r);
 		
-		// 이미지 삭제 확인
+		
 		ArrayList<String> deleteImg = new ArrayList<String>();
-		int delResult;
+		int delResult = 0;
+		int insertResult;
+		
 		try {
+			// 이미지 삭제
 			if(delImgs != null && !delImgs.isEmpty()) {
 				for(String del : delImgs) {
 					if(!del.equals("none")) {
@@ -261,10 +264,50 @@ public class PlaceController {
 				}
 			}
 			delResult = pService.delImg(deleteImg);
+			
+			// 이미지 추가
+			ArrayList<Image> list = new ArrayList<Image>();
+			for(int i = 0; i < files.size(); i++) {
+				MultipartFile upload = files.get(i);
+				
+				//if(!upload.getOriginalFilename().equals("")) {
+				if(upload != null && !upload.isEmpty()) {
+		            String fileId;
+		            
+					fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
+					Image a = new Image();
+					a.setImageOriginName(upload.getOriginalFilename());
+					a.setImageRename(fileId);
+					a.setImagePath("drive://files/" + fileId);
+					a.setImageThum(2);
+					a.setImageRefType("RECOPLACE");
+					a.setImageRefNo(r.getReviewNo());
+					
+					list.add(a);
+				}
+			}
+			
+			if(!list.isEmpty()) {
+				insertResult = pService.insertImage(list);
+				
+				if(insertResult < 0) {
+					for(Image i : list) {
+						gdService.deleteFile(i.getImageRename());
+					}
+				}
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		if(result + delResult == 1 + deleteImg.size()) {
+			ra.addAttribute("contentid", r.getRevRefNo());
+			ra.addAttribute("contenttypeid", contenttypeid);
+			ra.addAttribute("areacode", areacode);
+			ra.addAttribute("page", page);
+			ra.addAttribute("reviewNo", r.getReviewNo());
+			return "redirect:placeReviewDetail.pla";
+		}else {
+			throw new PlaceException("리뷰 수정 중 에러발생");
+		}
 	}
 }

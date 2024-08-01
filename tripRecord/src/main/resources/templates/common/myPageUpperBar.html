@@ -6,7 +6,6 @@
 <style>
 	a{text-decoration-line: none; color:black;}
 	a:hover{color:#96CAF0;}
-	.movePage{}
 </style>
 </head>
 <body>
@@ -26,8 +25,8 @@
 			</svg>
 			</button>
 			<span style="float:left; font-size:40px; font-weight:900">
-				서현규
-				<span style="font-size:20px; font-weight:100">[1000]p</span>
+				[[${session.loginUser.memberName}]]
+				<span style="font-size:20px; font-weight:100">&#91; [[${session.loginUser.memberPoint}]] &#93;p</span>
 			</span>
 			
 		</div>
@@ -36,19 +35,19 @@
 	<!-- 어퍼바 -->
 	<div class="container text-center" style="margin: auto; display:grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gao:-10px;" >
 		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myPage.me">내 정보</a>
+			<a href="myPage.mp">내 정보</a>
 		</div>
 		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myPoint.me">포인트</a>
+			<a href="myPoint.mp">포인트</a>
 		</div>
 		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myPlan.me">내 일정 보기</a>
+			<a href="myPlan.mp">내 일정 보기</a>
 		</div>
 		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myInquiry.me">내 문의글 보기</a>
+			<a href="myInquiry.mp">내 문의글 보기</a>
 		</div>
 		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myBoard.me">내 커뮤니티글 보기</a>
+			<a href="myBoard.mp">내 커뮤니티글 보기</a>
 		</div>
 	</div>
 	
@@ -89,7 +88,7 @@
 		}
 		//프로필 사진 교체
 		function replaceImage(){
-	    	location.href="replaceImage.me"
+	    	location.href="replaceImage.mp"
 	    }
 		
 	</script>

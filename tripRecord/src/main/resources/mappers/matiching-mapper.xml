@@ -11,7 +11,7 @@
 		</if>
 	</select>
 
-	<select id="getPlannerList" resultType="planner">
+	<select id="getPlannerList" resultType="Planner">
 		select *
 		from planner
         join member using(member_no)
@@ -51,7 +51,7 @@
 		where member_no = #{pNo}
 	</select>
 	
-	<select id="selectPlanner" resultType="planner">
+	<select id="selectPlanner" resultType="Planner">
 		select *
 		from planner
 		join member using(member_no)

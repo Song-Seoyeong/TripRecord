@@ -1,5 +1,7 @@
 package com.finalproject.triprecord.member.model.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,23 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int checkId(String id) {
 		return mMapper.checkId(id);
+	}
+	
+	//마이페이지
+	//내 정보 수정
+	@Override
+	public int updateMember(HashMap<String, String> map) {
+		return mMapper.updateMember(map);
+	}
+	//내 비번 수정
+	@Override
+	public int updatPwdOfMe(HashMap<String, String> map) {
+		return mMapper.updatePwdOfMe(map);
+	}
+	//플래너 요청
+	@Override
+	public int reqPromote(HashMap<String, Object> map) {
+		return mMapper.reqPromote(map);
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.finalproject.triprecord.common.model.vo.PageInfo;
-import com.finalproject.triprecord.matching.model.vo.Planner;
+import com.finalproject.triprecord.member.model.vo.Planner;
 
 public interface MatchingService {
 

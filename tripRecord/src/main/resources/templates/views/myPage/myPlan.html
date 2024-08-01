@@ -15,114 +15,116 @@
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
-	<!--마이페이지 어퍼바-->
-	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	<!-- 사이드바 -->
-	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
 	
-	<div class="flex-container" style="text-align:center; margin-left:auto; margin-top:-240px;">
+	<div class="flex-container" style="text-align:center;">
+		<!--마이페이지 어퍼바-->
+		<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+		<!-- 사이드바 -->
+		<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
 		<div style="height:80px;"></div>
-		<div style="color: black; font-size: 36px; font-weight: 900;">플래너 일정 요청 리스트</div>
-		<div style="height:40px;"></div>
-		<div style="display:inline-block; width:1000px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
-			<table>
-				<thead>
-				 	<tr style="border-bottom:2px solid #96CAF0;">
-						<th><p>요청번호</p></th>
-						<th><p>여행지</p></th>
-						<th><p>여행기간</p></th>
-						<th><p>플래너</p></th>
-						<th><p>진행상태</p></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">서울</td>
-						<td id="date">30일</td>
-						<td id="planner">서현규</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">광주</td>
-						<td id="date">10일</td>
-						<td id="planner">송서영</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">부산</td>
-						<td id="date">20일</td>
-						<td id="planner">권예린</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">경기</td>
-						<td id="date">40일</td>
-						<td id="planner">황병찬</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">대전</td>
-						<td id="date">50일</td>
-						<td id="planner">강고은</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">울산</td>
-						<td id="date">30일</td>
-						<td id="planner">김정민</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">제주</td>
-						<td id="date">70일</td>
-						<td id="planner">송서영</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">경북</td>
-						<td id="date">80일</td>
-						<td id="planner">권예린</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">경남</td>
-						<td id="date">90일</td>
-						<td id="planner">황병찬</td>
-						<td id="status">완료</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="requestNumber">1</td>
-						<td id="place">강원</td>
-						<td id="date">35일</td>
-						<td id="planner">강고은</td>
-						<td id="status">완료</td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<!-- 페이지네이션 -->
-			<div class="text-center" style="margin-top:25px; text-align:center;">
-				<ul class="pagination">
-					<!-- 이전링크 -->
-					<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
-					<!-- 번호 이동 -->
-					<li class="pageNumber"><a href='#'>1</a></li>
-					<li class="pageNumber"><a href='#'>2</a></li>
-					<li class="pageNumber"><a href='#'>3</a></li>
-					<li class="pageNumber"><a href='#'>4</a></li>
-					<li class="pageNumber"><a href='#'>5</a></li>
-					<!-- 다음링크 -->
-					<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
-				</ul>
+		<div style="display:inline-block; margin-right:250px;">
+			<div style="color: black; font-size: 36px; font-weight: 900;">플래너 일정 요청 리스트</div>
+			<div style="height:40px;"></div>
+			<div style="display:inline-block; width:1000px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
+				<table>
+					<thead>
+					 	<tr style="border-bottom:2px solid #96CAF0;">
+							<th><p>요청번호</p></th>
+							<th><p>여행지</p></th>
+							<th><p>여행기간</p></th>
+							<th><p>플래너</p></th>
+							<th><p>진행상태</p></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">서울</td>
+							<td id="date">30일</td>
+							<td id="planner">서현규</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">광주</td>
+							<td id="date">10일</td>
+							<td id="planner">송서영</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">부산</td>
+							<td id="date">20일</td>
+							<td id="planner">권예린</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">경기</td>
+							<td id="date">40일</td>
+							<td id="planner">황병찬</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">대전</td>
+							<td id="date">50일</td>
+							<td id="planner">강고은</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">울산</td>
+							<td id="date">30일</td>
+							<td id="planner">김정민</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">제주</td>
+							<td id="date">70일</td>
+							<td id="planner">송서영</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">경북</td>
+							<td id="date">80일</td>
+							<td id="planner">권예린</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">경남</td>
+							<td id="date">90일</td>
+							<td id="planner">황병찬</td>
+							<td id="status">완료</td>
+						</tr>
+						<tr style="border-bottom:2px solid #b9b9b9">
+							<td id="requestNumber">1</td>
+							<td id="place">강원</td>
+							<td id="date">35일</td>
+							<td id="planner">강고은</td>
+							<td id="status">완료</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- 페이지네이션 -->
+				<div class="text-center" style="margin-top:25px; text-align:center;">
+					<ul class="pagination">
+						<!-- 이전링크 -->
+						<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
+						<!-- 번호 이동 -->
+						<li class="pageNumber"><a href='#'>1</a></li>
+						<li class="pageNumber"><a href='#'>2</a></li>
+						<li class="pageNumber"><a href='#'>3</a></li>
+						<li class="pageNumber"><a href='#'>4</a></li>
+						<li class="pageNumber"><a href='#'>5</a></li>
+						<!-- 다음링크 -->
+						<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
