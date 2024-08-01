@@ -79,4 +79,11 @@
 		set review_title = #{r.reviewTitle}, review_content = #{reviewContent}, review_star = #{reviewStar}
 		where review_no = #{reviewNo}
 	</update>
+	
+	<delete id="delImg">
+		delete from Image
+		<foreach collection="list" item="i" separator=",">
+			where Image_rename = #{i.imageRename}
+		</foreach>
+	</delete>
 </mapper>
