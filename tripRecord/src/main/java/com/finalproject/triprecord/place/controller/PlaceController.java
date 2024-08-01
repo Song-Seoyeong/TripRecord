@@ -50,12 +50,13 @@ public class PlaceController {
 	public String placeDetail(@RequestParam("contentid") int contentid,
 							  @RequestParam("contenttypeid") int contenttypeid,
 							  @RequestParam("page") int page,
-							  @RequestParam("areaCode") int areaCode,
+							  @RequestParam("areacode") int areacode,
+							  @RequestParam("image") String image,
 							  Model model) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("contentid", contentid);
 		map.put("contenttypeid", contenttypeid);
-		map.put("areaCode", areaCode);
+		map.put("areacode", areacode);
 		
 		// 장소 db에 저장되어있는지 확인
 		int checkPlace = pService.checkPlace(map);
@@ -69,7 +70,7 @@ public class PlaceController {
 		}else {
 			int result = pService.insertPlace(map);
 			if(result > 0) {
-				p.setLocalNo(areaCode);
+				p.setLocalNo(areacode);
 				p.setPlaceNo(contentid);
 				p.setPlaceCount(1);
 				p.setPlaceStar(0);
@@ -77,6 +78,14 @@ public class PlaceController {
 				throw new PlaceException("장소 조회 중 에러 발생");
 			}
 		}
+		
+		// db에 이미지 정보 저장되어있는지 확인
+		int checkImage = pService.ckeckImage(contentid);
+		
+		if(checkImage == 0) {
+			
+		}
+		
 		if(p != null) {
 			model.addAttribute("p", p);
 			model.addAttribute("list", list);
@@ -132,7 +141,7 @@ public class PlaceController {
 					a.setImageRename(fileId);
 					a.setImagePath("drive://files/" + fileId);
 					a.setImageThum(2);
-					a.setImageRefType("RECOPLACE");
+					a.setImageRefType("REVIEW");
 					a.setImageRefNo(r.getReviewNo());
 					
 					list.add(a);
@@ -205,7 +214,7 @@ public class PlaceController {
 		if(result > 0) {
 			ra.addAttribute("contentid", contentid);
 			ra.addAttribute("contenttypeid", contenttypeid);
-			ra.addAttribute("areaCode", areacode);
+			ra.addAttribute("areacode", areacode);
 			ra.addAttribute("page", page);
 			return "redirect:placeDetail.pla";
 		}else {
