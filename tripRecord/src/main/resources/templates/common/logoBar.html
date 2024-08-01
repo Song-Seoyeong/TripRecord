@@ -64,18 +64,18 @@ body {
 		</div>
 		<div class="col-4 text-end"
 			th:if="${ session.loginUser != null and session.loginUser.grade == 'GENERAL' }">
-			<a href="myPage.me" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
+			<a href="myPage.mp" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
 			<a href="logout.me" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 		<div class="col-4 text-end"
 			th:if="${ session.loginUser != null and session.loginUser.grade == 'PLANNER' }">
-			<a href="myPage.me" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
+			<a href="myPage.mp" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
 			<a href="plannerPage.me" class="memberLink">플래너페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
 			<a href="logout.me" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 		<div class="col-4 text-end"
 			th:if="${ session.loginUser != null and session.loginUser.grade == 'ADMIN' }">
-			<a href="myPage.me" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp;
+			<a href="myPage.mp" class="memberLink">마이페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp;
 			<a href="dashBoard.ad" class="memberLink">관리자페이지</a> &nbsp;&nbsp;|&nbsp;&nbsp; 
 			<a href="logout.me" class="memberLink">로그아웃</a>&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>

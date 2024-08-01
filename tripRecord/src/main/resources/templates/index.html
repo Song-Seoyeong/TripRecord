@@ -79,13 +79,13 @@
 </body>
 
 <script>
-const cards = document.getElementsByClassName('local-card');
+	const cards = document.getElementsByClassName('local-card');
 	for(const card of cards){
 		card.addEventListener('click', function(){
 			 const localNo = this.children[0].value;
 			 location.href="matchingMain.ma?localNo=" + localNo
 		});
 	}
-}
+
 </script>
 </html>

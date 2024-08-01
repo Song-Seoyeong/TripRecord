@@ -9,24 +9,24 @@
 	<select id="checkPlace">
 		select count(*)
 		from reco_place
-		where place_no = #{contentid} and local_no = #{areaCode}
+		where place_no = #{contentid} and local_no = #{areacode}
 	</select>
 	
 	<select id="selectPlace" resultType='Place'>
 		select *
 		from reco_place
-		where place_no = #{contentid} and local_no = #{areaCode}
+		where place_no = #{contentid} and local_no = #{areacode}
 	</select>
 	
 	<insert id="insertPlace">
 		insert into reco_place
-			values(#{contentid}, #{areaCode}, #{contenttypeid}, default, default)
+			values(#{contentid}, #{areacode}, #{contenttypeid}, default, default)
 	</insert>
 	
 	<update id="updatePlaceCount">
 		update reco_place
 			set place_count = place_count + 1
-			where place_no = #{contentid} and local_no = #{areaCode} and content_type_id = #{contenttypeid}
+			where place_no = #{contentid} and local_no = #{areacode} and content_type_id = #{contenttypeid}
 	</update>
 	
 	<select id="selectReviewList" resultType='Review'>
@@ -65,7 +65,7 @@
 	<select id="selectImage" resultType='Image'>
 		select *
 		from Image
-		where image_ref_type = 'RECOPLACE' and image_ref_no = #{rId}
+		where image_ref_type = 'REVIEW' and image_ref_no = #{rId}
 	</select>
 	
 	<update id="deleteReview">
@@ -76,14 +76,20 @@
 	
 	<update id="updateReview">
 		update review
-		set review_title = #{r.reviewTitle}, review_content = #{reviewContent}, review_star = #{reviewStar}
+		set review_title = #{reviewTitle}, review_content = #{reviewContent}, review_star = #{reviewStar}
 		where review_no = #{reviewNo}
 	</update>
 	
 	<delete id="delImg">
 		delete from Image
 		<foreach collection="list" item="i" separator=",">
-			where Image_rename = #{i.imageRename}
+			where Image_rename = #{i.del}
 		</foreach>
 	</delete>
+	
+	<select id="ckeckImage" resultType='_int'>
+		select *
+			from image
+			where image_ref_no = #{contentid} and image_ref_type = 'RECOPLACE'
+	</select>
 </mapper>

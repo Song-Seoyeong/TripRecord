@@ -383,9 +383,10 @@
 					const contentid = placeId.split('/')[0];
 					const contenttypeid = placeId.split('/')[1];
 					const areaCode = placeId.split('/')[2];
+					const image = placeId.split('/')[3];
 					/* console.log(contentid)
 					console.log(contenttypeid) */
-					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areaCode=" + areaCode;
+					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&image=" + image;
 				})
 			}
 		}
@@ -394,7 +395,7 @@
 			for(const i of data.response.body.items.item){
 	   			const clickCardDiv = document.createElement('div');
 	   			clickCardDiv.className = 'col-4 clickCard';
-	   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + i.areacode;
+	   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + i.areacode + '/' + i.firstimage;
 	   			const infoCardDiv = document.createElement('div');
 	   			infoCardDiv.className = 'product-info-card';
 	   			const img = document.createElement('img');

@@ -112,8 +112,8 @@
 		</button>
 	</div>
 	
-	<div class="card-grid row row-cols-3">
-		<div class="testimonial-card col" th:each='r : ${list}' th:if='${list != null && !list.isEmpty()}'>
+	<div class="card-grid row row-cols-3" th:if='${list != null && !list.isEmpty()}'>
+		<div class="testimonial-card col" th:each='r : ${list}'>
 			<input type='hidden' name='reviewNo' th:value='${r.reviewNo}'>
 			<div class="text-heading">
 				<div class="reviewTitle">[[${r.reviewTitle}]]</div>
@@ -127,10 +127,10 @@
 				</div>
 			</div>
 		</div>
-		<div th:if='${list == null} or ${list.isEmpty()}' id='rText' style='margin-bottom: 50px;'>
-			<hr>
-			<p>아직 작성된 후기가 없어요. 소중한 경험을 공유해주세요 :)</p>
-		</div>
+	</div>
+	<div th:if='${list == null} or ${list.isEmpty()}' id='rText' style='margin-bottom: 50px;'>
+		<hr>
+		<p>아직 작성된 후기가 없어요. 소중한 경험을 공유해주세요 :)</p>
 	</div>
 	<!-- 후기 영역 -->
 	
@@ -165,7 +165,7 @@
 			const params = new URLSearchParams(window.location.search);
 			const contentid = params.get('contentid');
 			const contenttypeid = params.get('contenttypeid');
-			const areaCode = params.get('areaCode');
+			const areacode = params.get('areacode');
 			const page = params.get('page');
 	        
 			/*<![CDATA[*/
@@ -177,7 +177,7 @@
 		        	const reviewModal = document.getElementById('Modal');
 		        	$('#Modal').modal('show');
 	      		}else{
-	      			location.href = 'placeReviewWrite.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&page=" + page;
+	      			location.href = 'placeReviewWrite.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode + "&page=" + page;
 	      		}
 	        });
 	        
@@ -199,7 +199,7 @@
 			    content.style.opacity = '1';
 			});
 	        
-	        clickReviewCard(contentid, contenttypeid, areaCode, page);
+	        clickReviewCard(contentid, contenttypeid, areacode, page);
 	        
 	    });
 		
@@ -659,13 +659,13 @@
 		}
 		
 		// 후기 상세 함수
-		function clickReviewCard(contentid, contenttypeid, areaCode, page){
+		function clickReviewCard(contentid, contenttypeid, areacode, page){
 			const reviewCard = document.getElementsByClassName('testimonial-card');
 		       Array.from(reviewCard).forEach(card =>{
 		    	   card.addEventListener('click', () =>{
 			    	  const reviewNo = card.children[0].value;
 			    	   //console.log(reviewNo)
-			    	   location.href = 'placeReviewDetail.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&page=" + page + "&reviewNo=" + reviewNo;
+			    	   location.href = 'placeReviewDetail.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode + "&page=" + page + "&reviewNo=" + reviewNo;
 			       })
 		       })
 		}

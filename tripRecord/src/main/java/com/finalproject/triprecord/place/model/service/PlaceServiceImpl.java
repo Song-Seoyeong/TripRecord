@@ -81,4 +81,9 @@ public class PlaceServiceImpl implements PlaceService {
 		return pMapper.delImg(deleteImg);
 	}
 
+	@Override
+	public int ckeckImage(int contentid) {
+		return pMapper.ckeckImage(contentid);
+	}
+
 }

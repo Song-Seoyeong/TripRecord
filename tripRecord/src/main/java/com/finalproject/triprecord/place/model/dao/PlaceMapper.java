@@ -39,4 +39,6 @@ public interface PlaceMapper {
 
 	int delImg(ArrayList<String> deleteImg);
 
+	int ckeckImage(int contentid);
+
 }
