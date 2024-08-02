@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.finalproject.triprecord.admin.model.dao.AdminMapper">
+	<insert id="insertHashTag">
+		insert into hashtag values(seq_hashtag.nextval, #{tagName}, #{tagType})
+	</insert>
+	
+	<select id="selectHashTagList" resultType="HashTag">
+		select * 
+		from hashtag 
+		order by tag_no desc
+	</select>
+	
+	<select id="selectTopHashtagList" resultType="HashTag">
+		<![CDATA[
+	 	select hashtaglist.*, rownum
+	 	from (select tag_name, count(select_hashtag.tag_no) "count"
+			  from hashtag
+			  	join select_hashtag on(hashtag.tag_no = select_hashtag.tag_no)
+			  where tag_type = #{tagType}
+			  group by tag_name
+			  order by 2 desc) hashtaglist
+		where rownum <= 3
+		]]>
+	</select>
+	
+	<delete id="deleteHashTag">
+		delete from hashtag
+		where tag_no = #{tagNo}
+	</delete>
+	
+	<select id="getTotalCount" resultType="_int">
+		select count(*) from general_bo join board on (board_no = general_no) where board_status = 'N'
+	</select>
+	
+	<select id="getTypeCount" resultType="_int">
+		select count(*) from general_bo join board on (board_no = general_no) where general_type = #{generalType} and board_status = 'N'
+	</select>
+	
+	<select id="selectBoardList" resultType="Board">
+		select * 
+		from board 
+			join general_bo on (board_no = general_no) 
+			join member on (board_writer_no = member_no)
+		where board_status = 'N' and board_type = 'GENERAL'
+			<if test="search != null">
+				and board_title like '%${search}%'
+			</if>
+		order by board_no desc
+	</select>
+	
+	<update id="deleteBoard">
+		update board set board_status = 'Y' where board_no = #{boardNo}
+	</update>
+	
+	<select id="selectPointList" resultType="Point">
+		select * from point order by po_point desc
+	</select>
+	
+	<update id="updatePoint">
+		update point set po_point = #{poPoint}, po_price = #{poPrice} where po_point = #{oldPoint}
+	</update>
+	
+	<update id="changePointStatus">
+		update point set po_active = #{poActive} where po_point = #{poPoint}
+	</update>
+	
+	<insert id="insertPoint">
+		insert into point values(seq_point.nextval, #{poPoint}, #{poPrice}, default)
+	</insert>
+	
+	<select id="selectTotalPoint" resultType="Point">
+		select NVL(sum(po_point), 0) "PO_POINT" , NVL(sum(po_price), 0) "PO_PRICE"
+		from payment
+    		join point on (point_no = po_no)
+	</select>
+	
+	<select id="selectTopTen" resultType="Payment">
+	<![CDATA[
+		select rownum, topten.*
+		from (select member_name, NVL(sum(po_price), 0) "PO_PRICE"
+		    	from payment
+		       		join member using(member_no)
+		        	join point on (point_no = po_no) 
+		    	group by member_name
+		    	order by 2 desc) topten
+		where rownum <= 10
+	]]>
+	</select>
+	
+	<select id="selectPaymentList" resultType="Payment">
+		<![CDATA[
+			select *
+			from (select member_name, po_point, po_price, pay_date
+					from payment
+					    join member using(member_no)
+					    join point on (point_no = po_no)
+					order by po_no, pay_date)
+			where rownum <= 15
+		]]>
+	</select>
+	
+	<insert id="insertNotice">
+		insert into board values(seq_board.nextval, 'NOTICE', #{boardWriterNo}, #{boardTitle}, #{boardContent}, sysdate, sysdate, default, default)
+	</insert>
+	
+	<select id="selectNoticeList" resultType="Board">
+		select * 
+		from board 
+			join member on (board_writer_no = member_no) 
+		where board_status = 'N' and board_type = 'NOTICE'
+			<if test="search != null">
+				and board_title like '%${search}%'
+			</if>
+		order by board_no desc
+	</select>
+	
+	<select id="selectNotice">
+		select * from board where board_no = #{boardNo}
+	</select>
+	
+	<update id="updateNotice">
+		update board 
+		set board_title = #{boardTitle}, board_content = #{boardContent}, board_modify_date = sysdate
+		where board_no = #{boardNo}
+	</update>
+	
+	<update id="deleteNotice">
+		update board set board_status = 'Y' where board_no = #{boardNo}
+	</update>
+	
+	<select id="selectPlannerList" resultType="Member">
+		select *
+		from member
+		    join planner using(member_no)
+		    join local using(local_no)
+		where status = 'Y' and grade = 'PLANNER'
+	</select>
+	
+	<select id="selectAdminList" resultType="Member">
+		select *
+		from member
+		where status = 'Y' and grade = 'ADMIN'
+	</select>
+	
+	<select id="selectRequestGradeList" resultType="RequestGrade">
+		select * 
+		from request_grade
+		    join member using(member_no)
+		    left join local using(local_no)
+		where status = 'Y'
+	</select>
+	
+	<update id="updateGrade">
+		update member set grade = 'GENERAL' where member_no = #{mNo}
+	</update>
+
+	<delete id="deleteGrade">
+		delete from planner where member_no = #{mNo}
+	</delete>
+
+	<update id="gradeDownSuccess">
+		update member set grade = 'GENERAL' where member_no = #{mNo}
+	</update>	
+	
+	<delete id="deleteRequestGrade">
+		delete from request_grade where member_no = #{mNo}
+	</delete>
+	
+	<select id="selectRequestGrade" resultType="RequestGrade">
+		select * 
+		from request_grade
+		    join member using(member_no)
+		    left join local using(local_no)
+		where status = 'Y' and member_no = #{mNo}
+	</select>
+	
+	<update id="gradeSuccess">
+		update member set grade = #{grade} where member_no = #{memberNo}
+	</update>
+	
+	<insert id="insertPlanner">
+		insert into planner values(#{memberNo}, #{localNo}, null, #{plaReqContent}, #{sIntroContent})
+	</insert>
+	
+	<select id="selectQuestionList" resultType="Question">
+		select * 
+		from board
+		    join member on(board_writer_no = member_no)
+		    join question on(board_no = question_no)
+	</select>
+	
+	<select id="selectQuestionTotalCount" resultType="_int">
+		select count(*) 
+		from board
+		    join member on(board_writer_no = member_no)
+		    join question on(board_no = question_no)
+		where board_type = 'QUESTION'
+	</select>
+	
+	<select id="selectQuestionAnswerCount" resultType="_int">
+		select count(*) 
+		from board
+		    join member on(board_writer_no = member_no)
+		    join question on(board_no = question_no)
+		where board_type = 'QUESTION' and question_success = #{questionSuccess}
+	</select>
+	
+	<select id="selectQuestion" resultType="Question">
+		select *
+		from board
+		    join question on(board_no = question_no)
+		where board_type = 'QUESTION' and question_no = #{qNo}
+	</select>
+	
+	<update id="insertAnswer">
+		update question
+		set question_answer = #{questionAnswer}, question_success = 'Y'
+		where question_no = #{boardNo}
+	</update>
+	
+	<select id="selectMemberTotalCount" resultType="_int">
+		select count(*) from member
+	</select>
+	
+	<select id="selectMemberGradeCount" resultType="_int">
+		select count(*) from member where grade = #{grade}
+	</select>
+	
+	<select id="selectMemberList" resultType="Member">
+		select * from member
+	</select>
+	
+	<update id="changeMemberStatus">
+		update member 
+		set status = #{status}, member_drop = #{memberDrop}
+		where member_id = #{memberId}
+	</update>
+	
+	<select id="selectPlacesCount" resultType="Content">
+		SELECT COUNT(*) "COUNT", CONTENT_TYPE_NAME, CONTENT_TYPE_ID
+		FROM RECO_PLACE
+		    JOIN CONTENT USING(CONTENT_TYPE_ID)
+		GROUP BY CONTENT_TYPE_ID, CONTENT_TYPE_NAME
+	</select>
+	
+	<select id="selectMonthStats" resultType="Payment">
+		SELECT PAY_DATE, PO_PRICE
+		FROM PAYMENT 
+		    JOIN POINT ON(POINT_NO = PO_NO)
+	</select>
+</mapper>

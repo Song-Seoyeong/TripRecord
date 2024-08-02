@@ -4,6 +4,7 @@
   height: 44.8px;
   position: relative;
   transform: rotate(45deg);
+  margin: 200px auto;
 }
 
 .loader:before,
@@ -14,6 +15,8 @@
   border-radius: 50% 50% 0 50%;
   background: #0000;
   background-image: radial-gradient(circle 11.2px at 50% 50%,#0000 94%, #ff4747);
+  top: 50%;
+  left: 40%;
 }
 
 .loader:after {
@@ -32,7 +35,7 @@
   	position: relative;
   	overflow: hidden;
   	display: flex;
-  	min-height: 2000px;
+  	min-height: 2500px;
   	flex-direction: row;
   	align-items: flex-start;
   	justify-content: flex-start;
@@ -43,17 +46,19 @@
   	color: #1e1e1e;
   	opacity: 0.5;
 }
-#menuTitle{
+.menuTitle{
 	text-align: center;
 	margin-top:50px;
+	color: black;
 }
-
+.local-container
 .local-card{
 	width: 220px;
 	height: 250px;
 	margin: 3px 10px;
 	cursor: pointer;
 	overflow: hidden;
+	border: 1px solid #f5f5f5;
 }
 
 .card-text{
@@ -276,7 +281,6 @@
 .text-strong1 {
   	position: relative;
   	line-height: 140%;
-  	font-weight: 600;
   	overflow: hidden;
   	display: -webkit-box;
     -webkit-line-clamp: 2; /* 두 줄까지 허용 */
@@ -333,7 +337,7 @@
   	gap: 35px;
   	color: #b3b3b3;
   	position: absolute;
-  	top: 100px;
+  	top: 30px;
   	left: 50%;
   	transform: translateX(-40%);
 }

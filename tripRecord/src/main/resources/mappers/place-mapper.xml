@@ -110,4 +110,18 @@
 		set place_name = #{placeName}
 		where place_no = #{placeNo}
 	</update>
+	
+	<select id="getTopList" resultType='Local'>
+		<![CDATA[
+		select *
+		from(select *
+		        from ( select sum(place_count) local_count, local_no
+		                from reco_place
+		                group by local_no) c
+		                left join local l on (c.local_no = l.local_no)
+		                left join image on (c.local_no = image_ref_no) and image_ref_type = 'LOCAL'
+		                order by local_count desc)
+		    where rownum <= 5
+		]]>
+	</select>
 </mapper>

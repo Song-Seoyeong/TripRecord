@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" style="height:100%">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>DashBoard</title>
 <link href="css/admin/dashBoard.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body style="min-width: 1820px; height:100vh;">
+<body>
 	<div th:replace="~{common/adminHeader :: header}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">	
 			<ul class="board-list-ul">
-				<li class="select-board"><a>대시보드</a></li>
-				<li><a href="userManage.ad">회원 관리</a></li>
+				<li class="select-board"><a href="dashBoard.ad">대시보드</a></li>
+				<li><a href="memberManage.ad">회원 관리</a></li>
 				<li><a href="questManage.ad">문의사항 관리</a></li>
 				<li><a href="gradeManage.ad">등급 관리</a></li>
 				<li><a href="noticeManage.ad">공지사항 관리</a></li>
@@ -38,39 +39,10 @@
 					</div>
 					<div class="content-enter">
 						<div class="enter-box" style="text-align: center;">
-							아직 안 배움
+							<canvas class="w-100" id="enter-stats"></canvas>
 						</div>
 					</div>
 				</div>
-				<div class="user-container">
-					<div class="title-div">
-						<span class="title-text">사용자 통계</span>
-					</div>
-					<div class="content-user rounded-2">
-						<table class="table-user table">
-						  	<tbody>
-						    	<tr>
-						      		<td class="td-user" style="width: 40%;">전체 회원</td>
-						      		<td> 1231243 </td>
-						  		</tr>
-						  		<tr class="tr-user">
-						      		<td class="td-user">일반 회원</td>
-						      		<td> 3 </td>
-						  		</tr>
-						  		<tr class="tr-user">
-						      		<td class="td-user">플래너</td>
-						      		<td> 3 </td>
-						  		</tr>
-						  		<tr class="tr-user">
-						      		<td class="td-user">관리자</td>
-						      		<td> 3 </td>
-						  		</tr>
-						  	</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="container-bottom display-flex">
 				<div class="contents-container">
 					<div class="title-div">
 						<span class="title-text">컨텐츠 등록 통계</span>
@@ -84,17 +56,38 @@
 								</tr>
 							</thead>
 						  	<tbody>
+						  		<tr class="tr-user" th:each="p : ${placeCount}">
+					      			<td class="td-user" style="width: 40%;">[[${p.contentTypeName}]]</td>
+									<td> [[${p.count}]] </td>
+								</tr>
+						  	</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="container-bottom display-flex">
+				<div class="user-container">
+					<div class="title-div">
+						<span class="title-text">사용자 통계</span>
+					</div>
+					<div class="content-user rounded-2">
+						<table class="table-user table">
+						  	<tbody>
 						    	<tr>
-						      		<td class="td-user" style="width: 40%;">티켓</td>
-						      		<td> 1231243 </td>
+						      		<td class="td-user" style="width: 40%;">전체 회원</td>
+						      		<td> [[${totalCount}]] </td>
 						  		</tr>
 						  		<tr class="tr-user">
-						      		<td class="td-user">숙소</td>
-						      		<td> 3 </td>
+						      		<td class="td-user">일반 회원</td>
+						      		<td> [[${generalCount}]]</td>
 						  		</tr>
 						  		<tr class="tr-user">
-						      		<td class="td-user">관광지</td>
-						      		<td> 3 </td>
+						      		<td class="td-user">플래너</td>
+						      		<td> [[${plannerCount}]] </td>
+						  		</tr>
+						  		<tr class="tr-user">
+						      		<td class="td-user">관리자</td>
+						      		<td> [[${adminCount}]] </td>
 						  		</tr>
 						  	</tbody>
 						</table>
@@ -110,15 +103,17 @@
 								전체 매출
 							</div>
 							<div class="total-sum">
-								765,432,198
+								[[${#numbers.formatInteger(total.poPrice, 3, 'COMMA')}]]
 							</div>
 						</div>
 						<div class="money-month-day">
 							<div class="money-month">
-								월별 매출 그래프 (마우스 올리면 금액 보이게)
+								<span style="font-weight: normal; font-size: 20px; padding-left:20px;">월별 매출</span>
+								<canvas class=" w-100" id="month-stats"></canvas>
 							</div>
 							<div class="money-day">
-								일별 매출 그래프 (마우스 올리면 금액 보이게)
+								<span style="font-weight: normal; font-size: 20px; padding-left:20px;">일별 매출</span>
+								<canvas class="w-100" id="days-stats"></canvas>
 							</div>
 						</div>
 					</div>
@@ -127,8 +122,155 @@
 		</div>
 	</div>
 	
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js" integrity="sha384-gdQErvCNWvHQZj6XZM0dNsAoY4v+j5P1XDpNkcM3HJG1Yx04ecqIHk7+4VBOCHOG" crossorigin="anonymous"></script>
 	<script th:inline="javascript">
-		window.onload = () => {
+			/* <![CDATA[ */
+			const monthStats = /*[[${monthStats}]]*/null;
+			/* ]]> */
+			/* <![CDATA[ */
+			const dayStats = /*[[${dayStats}]]*/null;
+			/* ]]> */
+			
+			// 오늘 날짜를 불러오는 함수
+			const today = new Date();
+			
+			// 날짜를 yy-MM-dd로 나타나게 해주는 함수
+			const getDateFormat = date => {
+				const year = (date.getFullYear() + "").slice(-2);
+				const month = ('0' + (date.getMonth() + 1)).slice(-2);
+				const day = ('0' + date.getDate()).slice(-2);
+				
+				return year + '-' + month + '-' + day;
+			}
+			
+			// 날짜를 MM로 나타나게 해주는 함수
+			const getMonthFormat = date => {
+				const month = ('0' + (date.getMonth() + 1)).slice(-2);
+				
+				return month;
+			}
+			
+			// 날짜를 dd로 나타나게 해주는 함수
+			const getDayFormat = date => {
+				const day = ('0' + date.getDate()).slice(-2);
+				
+				return day;
+			}
+			
+			
+			console.log(getDayFormat(today));
+			// n일 전 날짜를 출력하는 코드
+			// 날짜와 며칠 전인지 전부 지정해서 넣으면 됨
+			const getDate = (date, days) => {
+				return new Date(new Date().setDate(date.getDate() - days));
+			}
+			
+			// n달 전 날짜를 출력하는 코드
+			const getMonth = (date, months) => {
+				return new Date(new Date().setMonth(date.getMonth() - months));
+			}
+			
+			// 어제 날짜를 출력하는 코드
+			// today.getDate() - n -> n일 전을 밀리세컨드(ms)로 표현
+			// console.log(getDateFormat(new Date(new Date().setDate(today.getDate() - 1))));
+			
+			const months = () => {
+				// Graphs
+				const ctx = document.getElementById('month-stats').getContext('2d');
+				
+				const getSafeMonthStats = (date) => {
+			        const monthFormat = getMonthFormat(date);
+			        return monthStats[monthFormat] || 0;
+			    };
+			    
+			 	// 데이터 준비
+			    const months = [];
+			    const dataPoints = [];
+			    for (let i = 11; i >= 0; i--) {
+			        const date = getMonth(today, i);
+			        months.push(getMonthFormat(date));
+			        dataPoints.push(getSafeMonthStats(date));
+			    }
+				
+				// eslint-disable-next-line no-unused-vars
+				const myChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: months,
+						datasets: [{
+							label: '월별 매출',
+							data: dataPoints,
+							backgroundColor: '#96caf0',
+							borderColor: '#96caf0',
+							borderWidth: 1,
+						}]
+					},
+					options: {
+						 responsive: true,
+						 plugins: {
+					            legend: {
+					                display: false // 범례를 표시하려면 true로 설정
+					            }
+					        },
+					     scales: {
+					     			y: {
+					                	beginAtZero: true // Y축이 0에서 시작하도록 설정
+					            	}
+					     }
+					}
+				});
+			}
+			
+			const days = () => {
+				// Graphs
+				const ctx = document.getElementById('days-stats').getContext('2d');
+				
+				const getSafeDayStats = (date) => {
+			        const dayFormat = getDayFormat(date);
+			        return dayStats[dayFormat] || 0;
+			    };
+			    
+			 	// 데이터 준비
+			    const days = [];
+			    const dataPoints = [];
+			    for (let i = 6; i >= 0; i--) {
+			        const date = getDate(today, i);
+			        days.push(getDayFormat(date));
+			        console.log(date);
+			        dataPoints.push(getSafeDayStats(date));
+			    }
+				
+				// eslint-disable-next-line no-unused-vars
+				const myChart = new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: days,
+						datasets: [{
+							label: '월별 매출',
+							data: dataPoints,
+							backgroundColor: '#96caf0',
+							borderColor: '#96caf0',
+							borderWidth: 1,
+						}]
+					},
+					options: {
+						 responsive: true,
+						 plugins: {
+					            legend: {
+					                display: false // 범례를 표시하려면 true로 설정
+					            }
+					        },
+					     scales: {
+					     			y: {
+					                	beginAtZero: true // Y축이 0에서 시작하도록 설정
+					            	}
+					     }
+					}
+				});
+			}
+			
+			
+		window.onload = () => {	
 			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
 			const current = document.getElementsByClassName('select-board')[0];
 			
@@ -153,6 +295,9 @@
 				});
 				
 			}
+			
+			months();
+			days();
 			
 		}
 	</script>

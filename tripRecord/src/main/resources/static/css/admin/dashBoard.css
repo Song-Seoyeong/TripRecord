@@ -5,16 +5,21 @@ body{
 }
 
 .container-top{
-	height: 40%;
 	margin-top: 30px;
 	margin-left: 55px;
 	min-width: 1450px;
+	min-height: 380px;
 }
 
 .enter-container{
 	width: 60%;
 	height: 90%;
 	align-items: center;
+}
+
+#enter-stats, #month-stats, #days-stats{
+	width: 98%;
+	height: 98%;
 }
 
 
@@ -26,9 +31,8 @@ body{
 }
 
 .user-container{
-	margin-left: 100px;
-	align-items: flex-center;
-	width: 20%;
+	width: 15%;
+	height: 250px;
 }
 
 .content-user{
@@ -37,15 +41,16 @@ body{
 }
 
 .container-bottom{
-	height: 45%;
-	margin-top: 5px;
+	margin-top: 10px;
 	margin-left: 55px;
 	min-width: 1450px;
+	min-height: 340px;
 }
 
 .contents-container{
+	margin-left: 100px;
+	align-items: flex-center;
 	width: 25%;
-	height: 250px;
 }
 
 .money-container{
@@ -91,7 +96,6 @@ body{
 }
 
 .money-month, .money-day{
-	border: 1px solid lightgray;
 	width: 48%;
 	height: 200px;
 	margin: 0 auto;

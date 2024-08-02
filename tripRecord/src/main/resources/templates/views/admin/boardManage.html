@@ -6,19 +6,18 @@
 <link href="css/admin/boardManage.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="min-width: 1820px;">
+<body>
 	<div th:replace="~{common/adminHeader :: header}"></div>
-	<div th:replace="~{common/adminBox :: box}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">
 			<ul class="board-list-ul">
 				<li><a href="dashBoard.ad">대시보드</a></li>
-				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="memberManage.ad">회원 관리</a></li>
 				<li><a href="questManage.ad">문의사항 관리</a></li>
 				<li><a href="gradeManage.ad">등급 관리</a></li>
 				<li><a href="noticeManage.ad">공지사항 관리</a></li>
 				<li><a href="pointManage.ad">포인트 관리</a></li>
-				<li  class="select-board"><a>게시판 관리</a></li>
+				<li class="select-board"><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
@@ -42,19 +41,31 @@
 						  	<tbody>
 						  		<tr>
 						      		<td class="td-user" style="width: 40%;">전체 게시글</td>
-						      		<td> 408,307 </td>
+						      		<td> 
+						      			<th:block th:if="${totalCount == null}"> 0 </th:block> 
+						      			<th:block th:nuless="${totalCount == null}"> [[${totalCount}]] </th:block> 
+						      		</td>
 						  		</tr>
 						    	<tr class="tr-user">
 						      		<td class="td-user">동행 게시글</td>
-						      		<td> 107,324 </td>
+						      		<td> 
+						      			<th:block th:if="${withCount == null}"> 0 </th:block> 
+						      			<th:block th:nuless="${withCount == null}"> [[${withCount}]] </th:block> 
+						      		</td>
 						  		</tr>
 						  		<tr class="tr-user">
 						      		<td class="td-user">양도 게시글</td>
-						      		<td> 258,031 </td>
+						      		<td> 
+						      			<th:block th:if="${giveCount == null}"> 0 </th:block> 
+						      			<th:block th:nuless="${giveCount == null}"> [[${giveCount}]] </th:block> 
+						      		</td>
 						  		</tr>
 						  		<tr class="tr-user">
 						      		<td class="td-user">후기 게시글</td>
-						      		<td> 43,011 </td>
+						      		<td> 
+						      			<th:block th:if="${reviewCount == null}"> 0 </th:block> 
+						      			<th:block th:nuless="${reviewCount == null}"> [[${reviewCount}]] </th:block> 
+						      		</td>
 						  		</tr>
 						  	</tbody>
 						</table>
@@ -68,7 +79,8 @@
 						<div class="search-div">
 							<div class="search-div-keyword display-inline-block">
 								<div class="input-group mb-3">
-								  	<input type="text" class="form-control box-shadow-none" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
+								  	<input type="text" class="form-control box-shadow-no search-input" id="keyword" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="제목 검색">
+								  	<button class="btn btn-outline-secondary box-shadow-non search-box" type="button" id="search">검색</button>
 								</div>
 							</div>
 						</div>
@@ -77,32 +89,29 @@
 								<thead>
 									<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
 										<th style="width: 8%;">번호</th>
-										<th style="width: 40%;">제목</th>
+										<th style="width: 8%">분류</th>
+										<th style="width: 42%;">제목</th>
 										<th style="width: 10%;">작성자</th>
 										<th style="width: 15%;">날짜</th>
 										<th style="width: 8%;">삭제</th>
 									</tr>
 								</thead>
 							  	<tbody>
-							  		<tr class="tr-user">
-							      		<td>3</td>
-							      		<td><span class="overflow-ell">커뮤니티 게시판 작성 글 목록 입니다.</span></td>
-							      		<td>나나나</td>
-										<td>2024.07.24</td>
-										<td><span class="button-border box-size">삭제</span></td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>2</td>
-							      		<td><span class="overflow-ell">커뮤니티 게시판 작성</span></td>
-							      		<td>다다다</td>
-										<td>2024.07.21</td>
-										<td><span class="button-border box-size">삭제</span></td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td><span class="overflow-ell">커뮤니티</span></td>
-							      		<td>가가가</td>
-										<td>2024.07.18</td>
+							  		<tr class="tr-user" th:each="list : ${list}">
+							      		<td>[[${list.boardNo}]]</td>
+							      		<td>
+							      			<th:block th:if="${list.generalType == 'WITH'}">
+							      				동행
+							      			</th:block>
+							      			<th:block th:if="${list.generalType == 'REVIEW'}">
+							      				후기
+							      			</th:block>
+							      			<th:block th:if="${list.generalType == 'GIVE'}">
+							      				양도
+							      			</th:block>
+							      		<td><span class="overflow-ell">[[${list.boardTitle}]]</span></td>
+							      		<td>[[${list.memberName}]]</td>
+										<td>[[${#strings.replace(list.boardModifyDate, '-', '.')}]]</td>
 										<td><span class="button-border box-size">삭제</span></td>
 							  		</tr>
 							  	</tbody>
@@ -113,5 +122,147 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modal-cancel">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">게시글을 삭제하시겠습니까?</h3>
+        			<p class="mb-0">비밀번호 입력 후 '확인' 클릭 시 선택한 게시글이 삭제됩니다.</p>
+        			<div style="height:10px;"></div>
+        			<input type="password" id="modalInput">
+        			<div style="width: 100%; height: 15px;" id="modalHide"></div>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="cancel-ok">
+        				<strong>확인</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal" id="cancel-no">취소</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modal-success">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h5 class="mb-0">게시글이 삭제되었습니다.</h5>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="margin-right: 20px; width:70px;" id="success-ok">확인</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	<script th:inline="javascript">
+		window.onload = () => {
+			
+			/* 글 검색 */
+			const search = document.getElementById('search');
+			const keyword = document.getElementById('keyword');
+			search.addEventListener('click', function(){
+				if(keyword.value != ''){
+					location.href="boardManage.ad?search=" + keyword.value;					
+				}
+			});
+			
+			
+			/* 글 삭제 */
+			const btns = document.getElementsByClassName('button-border');
+			let boardNo;
+			for(const btn of btns){
+				btn.addEventListener('click', function(){
+					const tr = this.parentElement.parentElement;
+					boardNo = tr.children[0].innerText;
+					
+					$('#modal-cancel').modal('show');
+					
+				});
+			}
+			
+			document.getElementById('cancel-ok').addEventListener('click', function(){
+				const modalId = document.getElementById('modalInput').value;
+				if(modalId != ''){
+					$.ajax({
+						url: 'matchPwd.ad',
+						data: {
+							pwd: modalId
+						},
+						success: data => {
+							if(data == 'success'){
+								$.ajax({
+									url: "deleteBoard.ad",
+									data: {
+										boardNo: boardNo,
+									},
+									success: data => {
+										if(data == "success"){
+											$('#modal-cancel').modal('hide');
+											$('#modal-success').modal('show');
+										} else{
+											alert('게시글 삭제를 실패하였습니다.');
+										}
+									},
+									error: data => console.log('error')
+								});
+							} else{
+								document.getElementById('modalHide').style.color = 'red';
+								document.getElementById('modalHide').style.paddingLeft = '5px';
+								document.getElementById('modalHide').style.fontSize = '15px';
+								document.getElementById('modalHide').innerText = '비밀번호가 일치하지 않습니다.';
+							}
+						}
+					});
+				} else{
+					document.getElementById('modalHide').style.color = 'red';
+					document.getElementById('modalHide').style.paddingLeft = '5px';
+					document.getElementById('modalHide').style.fontSize = '15px';
+					document.getElementById('modalHide').innerText = '비밀번호를 입력하세요.';
+				}
+			});
+			
+			document.getElementById('success-ok').addEventListener('click', function(){
+				location.reload();
+			});
+			
+			document.getElementById('modalInput').addEventListener('focus', function(){
+				document.getElementById('modalHide').innerText = '';
+			});
+			
+			document.getElementById('cancel-no').addEventListener('click', function(){
+				document.getElementById('modalInput').value = '';
+			});
+		
+			
+			
+			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
+			const current = document.getElementsByClassName('select-board')[0];
+			
+			for(const li of listLi){
+				const a = li.children[0];
+				li.addEventListener('mouseenter', function() {
+					current.style.transitionDuration = '300ms';
+					li.style.transitionDuration = '300ms';
+					if(li.className != 'select-board'){
+						current.className = '';
+						this.className = 'select-board';
+						
+					}
+				});
+				
+				li.addEventListener('mouseleave', function(){
+					li.style.transitionDuration = '300ms';
+					if(li.className == 'select-board' && li != current){
+						current.className = 'select-board';
+						this.className = '';
+					}
+				});
+				
+			}
+			
+		}
+	</script>
 </body>
 </html>

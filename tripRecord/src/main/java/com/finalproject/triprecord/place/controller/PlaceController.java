@@ -6,7 +6,6 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,11 +36,17 @@ public class PlaceController {
 	private GoogleDriveService gdService;
 	
 	@GetMapping("recoPlace.pla")
-	public String recoPlacelist(@RequestParam(value="page", defaultValue="1") int page, Model model) {
+	public String recoPlacelist(@RequestParam(value="page", defaultValue="1") int page,
+								@RequestParam(value="localNo", defaultValue="") String areacode, Model model) {
 		ArrayList<Local> list = pService.getLocalList();
+		
+		ArrayList<Local> topList = pService.getTopList();
+		//System.out.println(topList);
 		if(list != null) {
+			model.addAttribute("topList", topList);
 			model.addAttribute("list", list);
 			model.addAttribute("page", page);
+			model.addAttribute("areaCode", areacode);
 			return "recommendPlace";
 		}else {
 			return "fail";

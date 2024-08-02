@@ -12,4 +12,5 @@ import lombok.ToString;
 public class Local {
 	private int localNo;
 	private String localName;
+	private String imageRename;
 }

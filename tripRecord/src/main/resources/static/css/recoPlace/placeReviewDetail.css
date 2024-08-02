@@ -133,8 +133,7 @@ body {
 	width:25px;
 }
 #profileImg img{
-	width: 70%;
-    height: 70%;
+	width: 42px;
     object-fit: cover;
 }
 #profileImg{

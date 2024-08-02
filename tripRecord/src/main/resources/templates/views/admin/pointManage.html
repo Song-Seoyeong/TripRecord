@@ -9,30 +9,38 @@
 	.selectState{
 		display: inline-block;
 		background: lightgray;
-		width: 40%;
+		width: 30%;
 		border: 1px solid #2F6598;
 	}
 	
 	.unselectState{
 		display: inline-block;
 		background: none;
-		width: 40%;
+		width: 30%;
 		border: 1px solid #2F6598;
+	}
+	
+	.selectState:hover{
+		cursor: pointer;
+	}
+	
+	.unselectState:hover{
+		cursor: pointer;
 	}
 </style>
 </head>
-<body style="min-width: 1820px;">
+<body>
 	<div th:replace="~{common/adminHeader :: header}"></div>
 	<div th:replace="~{common/adminBox :: box}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">
 			<ul class="board-list-ul">
 				<li><a href="dashBoard.ad">대시보드</a></li>
-				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="memberManage.ad">회원 관리</a></li>
 				<li><a href="questManage.ad">문의사항 관리</a></li>
 				<li><a href="gradeManage.ad">등급 관리</a></li>
 				<li><a href="noticeManage.ad">공지사항 관리</a></li>
-				<li class="select-board"><a>포인트 관리</a></li>
+				<li class="select-board"><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
 			</ul>
@@ -58,20 +66,26 @@
 								<table class="table-user table">
 									<thead>
 										<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
-											<th>포인트</th>
-											<th>결제 금액(원)</th>
-											<th>수정</th>
-											<th>상태</th>
+											<th style="width: 20%;">포인트</th>
+											<th style="width: 20%;">결제 금액(원)</th>
+											<th style="width: 15%;">수정</th>
+											<th style="width: 15%;">상태</th>
 										</tr>
 									</thead>
-								  	<tbody>
-								  		<tr class="tr-user">
-								      		<td>1,000p</td>
-								      		<td>1,000</td>
-											<td><span class="button-border box-size">수정</span></td>
+								  	<tbody class="tbody">
+								  		<tr class="tr-user" th:each="p : ${pList}">
+								      		<td>[[${#numbers.formatInteger(p.poPoint, 3, 'COMMA')}]]</td>
+								      		<td>[[${#numbers.formatInteger(p.poPrice, 3, 'COMMA')}]]</td>
+											<td><div class="button-border box-size edit">수정</div></td>
 											<td>
-								      			<div class='selectState'>Y</div>
-								      			<div class='unselectState'>N</div>		<!-- ${ l.status == "Y" ? "selectState" : "unselectState" } -->
+												<th:block th:if="${p.poActive == 'Y'}">
+									      			<div class='selectState'>Y</div>
+									      			<div class='unselectState'>N</div>		
+												</th:block>
+												<th:block th:unless="${p.poActive == 'Y'}">
+									      			<div class='unselectState'>Y</div>
+									      			<div class='selectState'>N</div>		
+												</th:block>
 											</td>
 								  		</tr>
 								  	</tbody>
@@ -85,7 +99,7 @@
 						</div>
 						<div class="content-add">
 							<div class="form-add">
-								<form>
+								<form action="insertPoint.ad" method="POST">
 									<table class="table-user table point-table">
 										<thead>
 											<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
@@ -96,8 +110,8 @@
 										</thead>
 									  	<tbody>
 									  		<tr class="tr-user">
-									      		<td><input type="text" name="point" id="point" placeholder="포인트"></td>
-									      		<td><input type="text" name="price" id="price" placeholder="결제 금액"></td>
+									      		<td><input type="text" name="poPoint" id="point" placeholder="포인트" oninput="this.value = this.value.replace(/[^0-9]/g, '');"></td>
+									      		<td><input type="text" name="poPrice" id="price" placeholder="결제 금액" oninput="this.value = this.value.replace(/[^0-9]/g, '');"></td>
 												<td><button class="button-border" style="background: white;">추가</button></td>
 									  		</tr>
 									  	</tbody>
@@ -117,11 +131,11 @@
 							  	<tbody>
 							  		<tr>
 							      		<td class="td-user" style="width: 40%;">포인트</td>
-							      		<td> 1,243,000 p </td>
+							      		<td> [[${#numbers.formatInteger(total.poPoint, 3, 'COMMA')}]] p </td>
 							  		</tr>
 							    	<tr class="tr-user">
 							      		<td class="td-user">금액</td>
-							      		<td> 1,320,980 원 </td>
+							      		<td> [[${#numbers.formatInteger(total.poPrice, 3, 'COMMA')}]] 원 </td>
 							  		</tr>
 							  	</tbody>
 							</table>
@@ -141,55 +155,10 @@
 									</tr>
 								</thead>
 							  	<tbody>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>나나나</td>
-							      		<td>304,200 p</td>
+							  		<tr class="tr-user" th:each="t : ${topTen}">
+							      		<td>[[${t.rownum}]]</td>
+							      		<td>[[${t.memberName}]]</td>
+							      		<td>[[${#numbers.formatInteger(t.poPrice, 3, 'COMMA')}]] p</td>
 							  		</tr>
 							  	</tbody>
 							</table>
@@ -213,95 +182,11 @@
 									</tr>
 								</thead>
 							  	<tbody>
-							  		<tr class="tr-user">
-							      		<td>가가가</td>
-							      		<td>10,000 p</td>
-							      		<td>9,900 원</td>
-										<td>2024.07.24</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>나나나</td>
-							      		<td>5,000 p</td>
-							      		<td>5,000 원</td>
-										<td>2024.07.20</td>
+							  		<tr class="tr-user" th:each="r : ${rList}">
+							      		<td>[[${r.memberName}]]</td>
+							      		<td>[[${#numbers.formatInteger(r.poPoint, 3, 'COMMA')}]] p</td>
+							      		<td>[[${#numbers.formatInteger(r.poPrice, 3, 'COMMA')}]] 원</td>
+										<td>[[${#strings.replace(r.payDate, '-', '.')}]]</td>
 							  		</tr>
 							  	</tbody>
 							</table>
@@ -312,4 +197,232 @@
 			</div>
 		</div>
 	</div>
+	
+	 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">상태를 변경하시겠습니까?</h3>
+       				<p class="mb-0">비밀번호 입력 후 확인 클릭 시 상태가 변경됩니다.</p>
+        			<div style="height:10px;"></div>
+        			<input type="password" id="modalInput">
+        			<div style="width: 100%; height: 15px;" id="modalHide"></div>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="ok">
+        				<strong>확인</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">취소</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	<script th:inline="javascript">
+		let pointTd;
+		let priceTd;
+		let point;
+		let price;
+		let listTd;
+		window.onload = () => {
+			
+			const tbody = document.getElementsByClassName('tbody')[0];
+			
+			tbody.addEventListener('click', e => {
+				clickDivTarget = e.target;
+				
+				let clickDiv = '';
+				const clickDivTagName = clickDivTarget.tagName.toLowerCase();
+			 	switch(clickDivTagName){
+				case 'svg': clickDiv = clickDivTarget.parentElement; break;
+				case 'path': clickDiv = clickDivTarget.parentElement.parentElement; break;
+				case 'div': clickDiv = clickDivTarget; break;
+				}
+				console.log('클릭된 곳: ' + clickDiv.className);
+				if(clickDiv.classList.contains('box-size')){
+					if(document.getElementsByClassName('bi-pencil-square').length > 0){
+						rList();
+					}
+					listTd = clickDiv.parentElement;
+					const thisTd = clickDiv.parentElement;
+					const tr = thisTd.parentElement;
+					pointTd = tr.children[0];
+					priceTd = tr.children[1];
+					point = pointTd.innerText.replace(/,/g, '');
+					price = priceTd.innerText.replace(/,/g, '');
+					
+					pointTd.innerHTML = '<input type="text" name="point" id="point" value="' + point + '" style="width: 100%; height: 100%;" oninput="this.value = this.value.replace(/[^0-9]/g, \'\');">';
+					priceTd.innerHTML = '<input type="text" name="price" id="price" value="' + price + '" style="width: 100%; height: 100%;" oninput="this.value = this.value.replace(/[^0-9]/g, \'\');">';
+					
+					thisTd.removeChild(clickDiv);
+					
+					const checkDiv = document.createElement('div');
+					checkDiv.className = 'pencil-box';
+					checkDiv.style.display = 'inline-block';
+					checkDiv.style.marginRight = '10px';
+					checkDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-square edit" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"</svg>';
+					
+					const xDiv = document.createElement('div');
+					xDiv.className = 'x-box';
+					xDiv.style.display = 'inline-block';
+					xDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-square edit" viewBox="0 0 16 16"><path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/><path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/></svg>';
+					
+					thisTd.append(checkDiv);
+					thisTd.append(xDiv);
+				} else if (clickDiv.classList.contains('x-box')){
+					rList();
+				} else if (clickDiv.classList.contains('pencil-box')){
+					const newPoint = document.getElementById('point').value;
+					const newPrice = document.getElementById('price').value;
+					$.ajax({
+						url: 'updatePoint.ad',
+						data: {
+							oldPoint: point,
+							poPoint: newPoint,
+							poPrice: newPrice
+						},
+						success: data => {
+							if(data == 'success'){
+								pointTd.innerHTML = newPoint.toString()
+								  .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+								priceTd.innerHTML = newPrice.toString()
+								  .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+								
+								listTd.removeChild(listTd.children[1]);
+								listTd.removeChild(listTd.children[0]);
+								
+								const edit = document.createElement('div');
+								edit.className = 'button-border box-size edit';
+								edit.innerText = '수정';
+								
+								listTd.append(edit);
+							} else{
+								alert('실패하였습니다. 다시 시도하세요.');
+							}
+						},
+						error: data => {
+							alert('실패하였습니다. 처음부터 다시 시도하세요.');
+						}
+					});
+				}		
+			});
+			
+			
+			// 포인트 활성 상태 변경
+			const divs = document.getElementsByClassName('unselectState');
+			let myDiv;
+			let myTd;
+			let myPoint;
+			let status;
+			for(const div of divs){
+				div.addEventListener('click', function(){
+					myDiv = this;
+					myTd = this.parentElement;
+					const tr = myTd.parentElement;
+					myPoint = tr.children[0].innerText.replace(/,/g, '');
+					status = this.innerText;
+					
+					console.log(myPoint);
+					
+				    $('#modal').modal('show');
+				});
+			}
+			
+			document.getElementById('modalInput').addEventListener('focus', function(){
+				document.getElementById('modalHide').innerText = '';
+			});
+			
+			document.getElementById('ok').addEventListener('click', function(){
+				const modalId = document.getElementById('modalInput').value;
+				if(modalId != ''){
+					$.ajax({
+						url: 'matchPwd.ad',
+						data: {
+							pwd: modalId
+						},
+						success: data => {
+							if(data == 'success'){
+								$.ajax({
+									url: "changePointStatus.ad",
+									data: {
+										poPoint: myPoint,
+										poActive: status
+									},
+									success: data => {
+										if(data == "success"){
+											myDiv.className = 'selectState';
+											for(const siblings of myTd.children){
+												if(siblings != myDiv){
+													siblings.className = 'unselectState';
+												}
+												
+											}
+											$('#modal').modal('hide');
+										} else{
+											alert('상태 변경을 실패하였습니다.');
+										}
+									},
+									error: data => console.log('error')
+								});
+							} else{
+								document.getElementById('modalHide').style.color = 'red';
+								document.getElementById('modalHide').style.paddingLeft = '5px';
+								document.getElementById('modalHide').style.fontSize = '15px';
+								document.getElementById('modalHide').innerText = '비밀번호가 일치하지 않습니다.';
+							}
+						}
+					});
+				} else {
+					document.getElementById('modalHide').style.color = 'red';
+					document.getElementById('modalHide').style.paddingLeft = '5px';
+					document.getElementById('modalHide').style.fontSize = '15px';
+					document.getElementById('modalHide').innerText = '비밀번호를 입력하세요.';
+				}
+			});
+			
+			
+			
+			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
+			const current = document.getElementsByClassName('select-board')[0];
+			
+			for(const li of listLi){
+				const a = li.children[0];
+				li.addEventListener('mouseenter', function() {
+					current.style.transitionDuration = '300ms';
+					li.style.transitionDuration = '300ms';
+					if(li.className != 'select-board'){
+						current.className = '';
+						this.className = 'select-board';
+						
+					}
+				});
+				
+				li.addEventListener('mouseleave', function(){
+					li.style.transitionDuration = '300ms';
+					if(li.className == 'select-board' && li != current){
+						current.className = 'select-board';
+						this.className = '';
+					}
+				});
+			}
+		} 
+		
+		const rList = () => {
+			pointTd.innerHTML = point;
+			priceTd.innerHTML = price;
+			
+			listTd.removeChild(listTd.children[1]);
+			listTd.removeChild(listTd.children[0]);
+			
+			const edit = document.createElement('div');
+			edit.className = 'button-border box-size edit';
+			edit.innerText = '수정';
+			
+			listTd.append(edit);
+			
+			point = '';
+			price = '';
+		}
+	</script>
+</body>
 </html>

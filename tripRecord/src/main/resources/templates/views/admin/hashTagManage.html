@@ -6,20 +6,19 @@
 <link href="css/admin/hashTagManage.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="min-width: 1820px;">
+<body>
 	<div th:replace="~{common/adminHeader :: header}"></div>
-	<div th:replace="~{common/adminBox :: box}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">
 			<ul class="board-list-ul">
 				<li><a href="dashBoard.ad">대시보드</a></li>
-				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="memberManage.ad">회원 관리</a></li>
 				<li><a href="questManage.ad">문의사항 관리</a></li>
 				<li><a href="gradeManage.ad">등급 관리</a></li>
 				<li><a href="noticeManage.ad">공지사항 관리</a></li>
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
-				<li class="select-board"><a>해시태그 관리</a></li>
+				<li class="select-board"><a href="hashTagManage.ad">해시태그 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
 				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
@@ -49,17 +48,12 @@
 									</tr>
 								</thead>
 							  	<tbody>
-							  		<tr class="tr-user">
-							      		<td>2</td>
-							      		<td>액티비티</td>
-							      		<td>일반</td>
-										<td><div class="button-border box-size">삭제</div></td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td>혼자서</td>
-							      		<td>인원</td>
-										<td><div class="button-border box-size">삭제</div></td>
+							  		<tr class="tr-user" th:each="t : ${tList}">
+							      		<td>[[${t.tagNo}]]</td>
+							      		<td>[[${t.tagName}]]</td>
+							      		<td th:if="${t.tagType == 'GENERAL'}">일반</td>
+							      		<td th:if="${t.tagType == 'PERSON'}">인원</td>
+										<td><div class="button-border box-size del">삭제</div></td>
 							  		</tr>
 							  	</tbody>
 							</table>
@@ -82,15 +76,10 @@
 										</tr>
 									</thead>
 								  	<tbody>
-								  		<tr class="tr-user">
-								      		<td>1</td>
-								      		<td>액티비티</td>
-								      		<td>723</td>
-								  		</tr>
-								  		<tr class="tr-user">
-								      		<td>2</td>
-								      		<td>자연</td>
-								      		<td>423</td>
+								  		<tr class="tr-user" th:each="g : ${gList}">
+								      		<td>[[${g.rownum}]]</td>
+								      		<td>[[${g.tagName}]]</td>
+								      		<td>[[${g.count}]]</td>
 								  		</tr>
 								  	</tbody>
 								</table>
@@ -110,20 +99,10 @@
 										</tr>
 									</thead>
 								  	<tbody>
-								  		<tr class="tr-user">
-								      		<td>1</td>
-								      		<td>혼자서</td>
-								      		<td>1,892</td>
-								  		</tr>
-								  		<tr class="tr-user">
-								      		<td>2</td>
-								      		<td>둘이서</td>
-								      		<td>1,812</td>
-								  		</tr>
-								  		<tr class="tr-user">
-								      		<td>3</td>
-								      		<td>셋이서</td>
-								      		<td>725</td>
+								  		<tr class="tr-user" th:each="p : ${pList}">
+								      		<td>[[${p.rownum}]]</td>
+								      		<td>[[${p.tagName}]]</td>
+								      		<td>[[${p.count}]]</td>
 								  		</tr>
 								  	</tbody>
 								</table>
@@ -136,7 +115,7 @@
 						</div>
 						<div class="hashtag-add">
 							<div class="form-add">
-								<form>
+								<form action="insertHashTag.ad" method="POST">
 									<table class="table-user table point-table">
 										<thead>
 											<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
@@ -147,14 +126,13 @@
 										</thead>
 									  	<tbody>
 									  		<tr class="tr-user">
-									      		<td><input type="text" name="point" id="point" placeholder="해시태그"></td>
+									      		<td><input type="text" name="tagName" id="tagName" placeholder="해시태그"></td>
 									      		<td>
 									      			<div class="add-div-select display-inline-block">
-														<select class="form-select add-select box-shadow-none" aria-label="Default select example">
+														<select class="form-select add-select box-shadow-none" name="tagType" id="tagType" aria-label="Default select example">
 															<option value="-" id="none" selected disabled>분류</option>
-															<option value="1">티켓</option>
-															<option value="2">숙소</option>
-															<option value="3">관광지</option>
+															<option value="PERSON">인원</option>
+															<option value="GENERAL">일반</option>
 														</select>
 													</div>
 									      		</td>
@@ -170,5 +148,126 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modal-cancel">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">게시글을 삭제하시겠습니까?</h3>
+        			<p class="mb-0">'네' 클릭 시 선택한 게시글이 삭제됩니다.</p>
+        			<div style="height:10px;"></div>
+        			<input type="password" id="modalInput">
+        			<div style="width: 100%; height: 15px;" id="modalHide"></div>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="cancel-ok">
+        				<strong>확인</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal" id="cancel-no">취소</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	<form id="delHashTagForm" method="POST">
+		<input type="hidden" name="tagNo" id="tagNo"/>
+	</form>
+	
+	<script th:inline="javascript">
+		window.onload = () => {
+			
+			/* 해시태그 추가 전 분류 선택 - 로 할 시 */
+			const form = document.getElementsByClassName('select-button')[0];
+			form.addEventListener('click', e =>{
+				const type = document.getElementById('tagType');
+				
+				if(type.value == '-'){
+					alert('분류를 선택하세요.');
+					e.preventDefault();
+				}
+			});
+			
+			/* 해시태그 삭제 */
+			const btns = document.getElementsByClassName('del');
+			const delform = document.getElementById('delHashTagForm');
+			console.log(form);
+			let tagNo;
+			for(const btn of btns){
+				btn.addEventListener('click', function(){
+					const tr = this.parentElement.parentElement;
+					tagNo = tr.children[0].innerText;
+					
+					$('#modal-cancel').modal('show');
+					
+				});
+			}
+			
+			document.getElementById('cancel-ok').addEventListener('click', function(){
+				const modalId = document.getElementById('modalInput').value;
+				if(modalId != ''){
+					$.ajax({
+						url: 'matchPwd.ad',
+						data: {
+							pwd: modalId
+						},
+						success: data => {
+							if(data == 'success'){
+								document.getElementById('tagNo').value = tagNo;
+								console.log(document.getElementById('tagNo').value);
+								delform.action = "deleteHashTag.ad";
+								delform.submit();
+							} else{
+								document.getElementById('modalHide').style.color = 'red';
+								document.getElementById('modalHide').style.paddingLeft = '5px';
+								document.getElementById('modalHide').style.fontSize = '15px';
+								document.getElementById('modalHide').innerText = '비밀번호가 일치하지 않습니다.';
+							}
+						}
+					});
+				} else{
+					document.getElementById('modalHide').style.color = 'red';
+					document.getElementById('modalHide').style.paddingLeft = '5px';
+					document.getElementById('modalHide').style.fontSize = '15px';
+					document.getElementById('modalHide').innerText = '비밀번호를 입력하세요.';
+				}
+			});
+			
+			document.getElementById('modalInput').addEventListener('focus', function(){
+				document.getElementById('modalHide').innerText = '';
+			});
+			
+			document.getElementById('cancel-no').addEventListener('click', function(){
+				document.getElementById('modalInput').value = '';
+			});
+		
+			
+			
+			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
+			const current = document.getElementsByClassName('select-board')[0];
+			
+			for(const li of listLi){
+				const a = li.children[0];
+				li.addEventListener('mouseenter', function() {
+					current.style.transitionDuration = '300ms';
+					li.style.transitionDuration = '300ms';
+					if(li.className != 'select-board'){
+						current.className = '';
+						this.className = 'select-board';
+						
+					}
+				});
+				
+				li.addEventListener('mouseleave', function(){
+					li.style.transitionDuration = '300ms';
+					if(li.className == 'select-board' && li != current){
+						current.className = 'select-board';
+						this.className = '';
+					}
+				});
+				
+			}
+			
+		}
+	</script>
 </body>
 </html>

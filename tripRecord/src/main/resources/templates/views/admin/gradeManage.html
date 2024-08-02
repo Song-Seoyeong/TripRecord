@@ -6,15 +6,15 @@
 <link href="css/admin/gradeManage.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="min-width: 1820px;">
+<body>
 	<div th:replace="~{common/adminHeader :: header}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">
 			<ul class="board-list-ul">
 				<li><a href="dashBoard.ad">대시보드</a></li>
-				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="memberManage.ad">회원 관리</a></li>
 				<li><a href="questManage.ad">문의사항 관리</a></li>
-				<li class="select-board"><a>등급 관리</a></li>
+				<li class="select-board"><a href="gradeManage.ad">등급 관리</a></li>
 				<li><a href="noticeManage.ad">공지사항 관리</a></li>
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
@@ -38,37 +38,38 @@
 					</div>
 					<div class="content-request">
 						<ul class="request-list">
-							<li>
+							<li th:each="r : ${rList}">
 								<div class="request-list-detail display-inline-block">
 									<ul class="request-list-ul">
-										<li style="width: 10%;">나나나</li>
-										<li style="width: 10%;">플래너</li>
-										<li style="width: 10%;">부산</li>
-										<li class="overflow-ell" style="width: 50%;">저는 부산에서 살고 있습니다. 눈이 내리는 걸 본 적이 손에 꼽을 정도입니다.</li>
-										<li style="width: 10%;">2024.07.15</li>
-										<li style="width: 5%;">
-											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
-										  		<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-										  		<path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
-											</svg>
+										<li style="width: 5%;">[[${r.memberNo}]]</li>
+										<li style="width: 10%;">[[${r.memberName}]]</li>
+										<li style="width: 10%;">
+											<th:block th:if="${r.grade == 'PLANNER'}">
+												플래너
+											</th:block>
+											<th:block th:if="${r.grade == 'ADMIN'}">
+												관리자
+											</th:block>
+											<th:block th:if="${r.grade == 'PLANNER_CANCEL'}">
+												플래너 취소
+											</th:block>
+											<th:block th:if="${r.grade == 'ADMIN_CANCEL'}">
+												관리자 취소
+											</th:block>
 										</li>
-										<li style="width: 5%;">
-											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-											  	<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-											  	<path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-											</svg>
+										<li style="width: 10%;">
+											<th:block th:if="${r.localName == 'null'}"></th:block>
+											<th:block th:unless="${r.localName == 'null'}">
+												[[${r.localName}]]
+											</th:block>
 										</li>
-									</ul>
-								</div>
-							</li>
-							<li>
-								<div class="request-list-detail display-inline-block">
-									<ul class="request-list-ul">
-										<li style="width: 10%;">강고은</li>
-										<li style="width: 10%;">관리자</li>
-										<li style="width: 10%;"></li>
-										<li class="overflow-ell" style="width: 50%;">관리자를 내놓아라</li>
-										<li style="width: 10%;">2024.07.12</li>
+										<li class="overflow-ell" style="width: 50%;">
+											<th:block th:if="${r.plaReqContent == 'null'}"></th:block>
+											<th:block th:unless="${r.plaReqContent == 'null'}">
+												[[${r.plaReqContent}]]
+											</th:block>
+										</li>
+										<li style="width: 10%;">[[${#strings.replace(r.requestDate, '-', '.')}]]</li>
 										<li style="width: 5%;">
 											<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
 										  		<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -105,11 +106,11 @@
 								</tr>
 							</thead>
 						  	<tbody>
-						  		<tr class="tr-user">
-						      		<td>1</td>
-						      		<td>플래너</td>
-						      		<td>planner</td>
-									<td>대구</td>
+						  		<tr class="tr-user" th:each="p : ${pList}">
+						      		<td>[[${p.memberNo}]]</td>
+						      		<td>[[${p.memberName}]]</td>
+						      		<td>[[${p.memberId}]]</td>
+									<td>[[${p.localName}]]</td>
 									<td><div class="cancel-border" style="width: 70%; margin: 0 auto;">취소</div></td>
 						  		</tr>
 						  	</tbody>
@@ -131,10 +132,10 @@
 								</tr>
 							</thead>
 						  	<tbody>
-						  		<tr class="tr-user">
-						      		<td>1</td>
-						      		<td>관리자</td>
-						      		<td>admin</td>
+						  		<tr class="tr-user" th:each="a : ${aList}">
+						      		<td>[[${a.memberNo}]]</td>
+						      		<td>[[${a.memberName}]]</td>
+						      		<td>[[${a.memberId}]]</td>
 									<td><div class="cancel-border" style="width: 70%; margin: 0 auto;">취소</div></td>
 						  		</tr>
 						  	</tbody>
@@ -165,13 +166,36 @@
     		<div class="modal-content rounded-3 shadow">
       			<div class="modal-body p-4 text-center">
         			<h3 class="mb-0">일반 회원으로 전환하시겠습니까?</h3>
-        			<p class="mb-0">'네' 클릭 시 선택한 회원의 등급이 일반으로 변경됩니다.</p>
+        			<p class="mb-0">비밀번호를 입력 후 '확인' 클릭 시<br> 선택한 회원의 등급이 일반으로 변경됩니다.</p>
+        			<div style="height:10px;"></div>
+        			<input type="password" id="modalInput">
+        			<div style="width: 100%; height: 15px;" id="modalHide"></div>
       			</div>
       			<div class="modal-footer flex-nowrap p-0">
         			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="cancel-ok">
-        				<strong>네</strong>
+        				<strong>확인</strong>
         			</button>
-        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal" id="cancel-no">취소</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modal-x-cancel">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">요청을 거절하시겠습니까??</h3>
+        			<p class="mb-0">비밀번호를 입력 후 '확인' 클릭 시 요청이 거절됩니다.</p>
+        			<div style="height:10px;"></div>
+        			<input type="password" id="xModalInput">
+        			<div style="width: 100%; height: 15px;" id="xModalHide"></div>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="x-cancel-ok">
+        				<strong>확인</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal" id="cancel-no">취소</button>
       			</div>
     		</div>
   		</div>
@@ -188,28 +212,73 @@
 				check.addEventListener('click', function(){
 					
 					const ul = check.parentElement.parentElement;
+					const grade = ul.children[2].innerText;
+					console.log(ul.children[0].innerText);
 					
-					$.ajax({
-						url: 'gradeSuccess.ad',
-						data: {
-							name: ul.children[0].innerText
-						},
-						success: data => {
-							$('#modal-check').modal('show');
-						},
-						error: data => console.log('error')
-					});
+					if(grade.includes('취소')){
+						$.ajax({
+							url: 'gradeDownSuccess.ad',
+							data: {
+								mNo: ul.children[0].innerText
+							},
+							success: data => {
+								$('#modal-check').modal('show');
+							}
+						});
+					} else{
+						$.ajax({
+							url: 'gradeSuccess.ad',
+							data: {
+								mNo: ul.children[0].innerText
+							},
+							success: data => {
+								$('#modal-check').modal('show');
+							}
+						});
+					}
 				});
 			}
 			
+			let xMNo;
 			for(const x of xIcons){
 				x.addEventListener('click', function(){
 					const ul = x.parentElement.parentElement;
-					console.log('click');
-					location.href="gradeFail.ad?name=" + ul.children[0].innerText;
+					xMNo = ul.children[0].innerText;
+					
+					$('#modal-x-cancel').modal('show');
+					
+					
 					
 				});
 			}
+			
+			document.getElementById("x-cancel-ok").addEventListener('click', function(){
+				const xModalId = document.getElementById('xModalInput').value;
+				if(xModalId != ''){
+					$.ajax({
+						url: 'matchPwd.ad',
+						data: {
+							pwd: xModalId
+						},
+						success: data => {
+							if(data == 'success'){
+								location.href="gradeFail.ad?mNo=" + xMNo;
+							} else{
+								document.getElementById('xModalHide').style.color = 'red';
+								document.getElementById('xModalHide').style.paddingLeft = '5px';
+								document.getElementById('xModalHide').style.fontSize = '15px';
+								document.getElementById('xModalHide').innerText = '비밀번호가 일치하지 않습니다.';
+							}
+						}
+					});
+				} else {
+					document.getElementById('modalHide').style.color = 'red';
+					document.getElementById('modalHide').style.paddingLeft = '5px';
+					document.getElementById('modalHide').style.fontSize = '15px';
+					document.getElementById('modalHide').innerText = '비밀번호를 입력하세요.';
+				}
+			});
+			
 			
 			document.getElementById('ok').addEventListener('click', function(){
 				location.href='gradeManage.ad';
@@ -223,15 +292,47 @@
 				div.addEventListener('click', function(){
 					tr = this.parentElement.parentElement;
 					
-					myId = tr.children[2].innerText;
-					console.log(myId);
+					mNo = tr.children[0].innerText;
 					$('#modal-cancel').modal('show');
 				});
 			}
 			
-			document.getElementById('cancel-ok').addEventListener('click', function(){
-				location.href="updateGrade.ad?mId=" + myId;
+			document.getElementById('modalInput').addEventListener('focus', function(){
+				document.getElementById('modalHide').innerText = '';
 			});
+			
+			document.getElementById('cancel-ok').addEventListener('click', function(){
+				const modalId = document.getElementById('modalInput').value;
+				if(modalId != ''){
+					$.ajax({
+						url: 'matchPwd.ad',
+						data: {
+							pwd: modalId
+						},
+						success: data => {
+							if(data == 'success'){
+								location.href="updateGrade.ad?mNo=" + mNo;
+							} else{
+								document.getElementById('modalHide').style.color = 'red';
+								document.getElementById('modalHide').style.paddingLeft = '5px';
+								document.getElementById('modalHide').style.fontSize = '15px';
+								document.getElementById('modalHide').innerText = '비밀번호가 일치하지 않습니다.';
+							}
+						}
+					});
+				} else{
+					document.getElementById('modalHide').style.color = 'red';
+					document.getElementById('modalHide').style.paddingLeft = '5px';
+					document.getElementById('modalHide').style.fontSize = '15px';
+					document.getElementById('modalHide').innerText = '비밀번호를 입력하세요.';
+				}
+			});
+			
+			document.getElementById('cancel-no').addEventListener('click', function(){
+				document.getElementById('modalInput').value = '';
+			});
+			
+			
 			
 			
 			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
