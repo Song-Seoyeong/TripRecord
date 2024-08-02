@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.CategorySelect;
+import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.board.model.vo.Reply;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -33,6 +34,8 @@ public interface BoardService {
 	void deleteBoard(int bNo);
 
 	ArrayList<Image> selectImage(Integer boardNo);
+
+	ArrayList<Question> getQuestionList(int i);
 
 
 

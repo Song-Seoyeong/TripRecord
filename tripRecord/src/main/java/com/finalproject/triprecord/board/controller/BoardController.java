@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.finalproject.triprecord.board.model.service.BoardService;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.CategorySelect;
+import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -27,7 +28,6 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class BoardController {
-
 
 	@Autowired
 	private BoardService bService;
@@ -53,7 +53,7 @@ public class BoardController {
 		
 		if(!cList.isEmpty()) {
 			model.addAttribute("cList", cList);
-			model.addAttribute("pi",pi);
+			model.addAttribute("pi", pi);
 			model.addAttribute("loc", req.getRequestURI());
 			model.addAttribute("generalType","ALL");
 			model.addAttribute("boardType","GENERAL");
@@ -106,8 +106,6 @@ public class BoardController {
 		} else {
 			model.addAttribute("nothing", "nothing");
 		}
-	
-
 		return "commuList";
 	}
 	
@@ -214,15 +212,49 @@ public class BoardController {
 	
 	
 	@GetMapping("ask.no")
-	public String ask() {
+	public String ask(@RequestParam(value="page", defaultValue="1") int currentPage, Model model, HttpServletRequest req) {// 문의는 사이드 + 카테고리
+
+		CategorySelect cs = new CategorySelect();
+		cs.setBoardType("QUESTION");
+		// GENERAL, QUESTION, NOTICE -> 일반, 문의, 공지
+		
+		
+		int listCount = bService.getListCount(cs);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); // 10개씩 보여주겠다
+		ArrayList<Board> aList = bService.getBoardList(cs, pi); // 메소드 안에 해당 타입 넣으면 그거 가져옴
+		// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
+		ArrayList<Question> qList = bService.getQuestionList(0);
+		
+		//System.out.println(aList);
+		//System.out.println(qList);
+		
+		if(!aList.isEmpty()) {
+			model.addAttribute("aList", aList); // 보드
+			model.addAttribute("pi",pi);
+			model.addAttribute("loc", req.getRequestURI());
+			model.addAttribute("qList", qList); // 문의(글번호, 비번, 답변, 답변YN)
+			model.addAttribute("generalType","ALL");
+			//model.addAttribute("boardType","GENERAL");
+		}
 		return "askList";
 	}
 	
 	@GetMapping("askSelect.no")
-	public String askSelect() { // 선택한 글번호 넘겨받기
+	public String askSelect(@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model) { // 선택한 글번호 넘겨받기
 		
+		Board board = bService.selectBoard(boardNo, 0);
+		ArrayList<Image> iList = bService.selectImage(boardNo);
 		
-		return "askSelect";
+		if(board != null) {
+			model.addAttribute("n", board);
+			model.addAttribute("page", page);
+			model.addAttribute("iList", iList);
+			return "askSelect";
+		}else {
+			return "NOT";
+		}
+		
 	}
 	
 	@GetMapping("askWrite.no")
@@ -231,14 +263,48 @@ public class BoardController {
 	}
 	
 	@GetMapping("notice.no")
-	public String notice() {
+	public String notice(@RequestParam(value="page", defaultValue="1") int currentPage, Model model, HttpServletRequest req) {// 공지는 사이드메뉴만 있음
+		
+		CategorySelect cs = new CategorySelect();
+		cs.setBoardType("NOTICE");
+		// GENERAL, QUESTION, NOTICE -> 일반, 문의, 공지
+		
+		
+		int listCount = bService.getListCount(cs);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); // 10개씩 보여주겠다
+		ArrayList<Board> nList = bService.getBoardList(cs, pi); // 메소드 안에 해당 타입 넣으면 그거 가져옴
+		// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
+		
+		
+		
+		if(!nList.isEmpty()) {
+			model.addAttribute("nList", nList);
+			model.addAttribute("pi",pi);
+			model.addAttribute("loc", req.getRequestURI());
+		}
 		return "noticeList";
 	}
 	
 	@GetMapping("noticeSelect.no")
-	public String noticeSelect() { // 선택한 공지 글번호 가져오기
+	public String noticeSelect(@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session) { // 선택한 공지 글번호 가져오기
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int no = 0;
+		if(loginUser != null) {
+			no = loginUser.getMemberNo();
+		}
 		
-		return "noticeSelect";
+		Board board = bService.selectBoard(boardNo, no);
+		ArrayList<Image> iList = bService.selectImage(boardNo);
+		
+		if(board != null) {
+			model.addAttribute("n", board);
+			model.addAttribute("page", page);
+			model.addAttribute("iList", iList);
+			return "noticeSelect";
+		}else {
+			return "NOT";
+		}
 	}
 	
 	@GetMapping("noticeWrite.no")

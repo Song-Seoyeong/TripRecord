@@ -87,88 +87,28 @@
 	          		</thead>
 	         		<tbody id="text-test">
 	         		<!-- 이거 반복 -->
-	          			<tr th:each=" b : ${bList}">
-	            			<td>[[${ b.boardId }]]</td>
-	            			<td>[[${ b.boardTitle }]]</td>
-	            			<td>[[${ b.nickName }]]</td>
-	            			<td>[[${ b.boardModifyDate }]]</td>
-	            			<td>[[${ b.boardCount }]]</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td><a href="askSelect.no">문의 상세보기 임시링크</a></td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>5</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
+       					<th:block th:each=" a : ${aList}">
+          					<th:block th:each="q : ${qList}">
+	          					<tr th:if="${a.boardNo == q.questionNo}">
+			            			<td>[[${ a.boardNo }]]</td>
+			            			<td>[[${ a.boardTitle }]]</td>
+			            			<td>[[${ a.nickname }]]</td>
+			            			<td>[[${ a.boardModifyDate }]]</td>
+<!-- 문의는 조회수가 필요없을거같은데 -->	<td>[[${ a.boardCount }]]
+			            				<input type="hidden" th:value="${q.questionPwd}" th:id="|pwd${a.boardNo}|">
+			            			</td>
+	          					</tr>
+		            		</th:block>
+            			</th:block>
 	          		</tbody>
 	        	</table>
 	       	</div>
 		</div>
         <br>
+        <input type="hidden" id="pwdCheck">
+        
+        
+        
 		<div class="text-center">페이징 1 2 3 4 5</div>
 		<!-- 페이징 -->
 		<a href="notice.no">공지사항 이동 임시</a>
@@ -193,7 +133,7 @@
 	  		</div>
 		</div>
 		
-		
+		<input type="hidden" th:value="${generalType}">
 		
 		
 		
@@ -224,8 +164,12 @@
 			}
 			for(const sideP of sideMenus){
 				sideP.addEventListener('click',function(){
-					console.log(this.innerText.split(' ')[1]);
-					//location.href= 클릭한 것으로 구분
+					//console.log(this.innerText.split(' ')[1]);
+					if(this.innerText.split(' ')[1] == "문의사항"){
+						location.href="ask.no";
+					} else{
+						location.href="notice.no";
+					}
 				});
 			}
 			
@@ -252,12 +196,14 @@
 			}
 			
 			let boardNo = null; 
+			const pwdCheck = document.getElementById("pwdCheck");
 			
 			const trs = document.getElementById("text-test").children;
 			for(const tr of trs){
 				tr.addEventListener('click', function(){
 					//$('#modalChoice').modal('show');
 					boardNo = tr.children[0].innerText;
+					pwdCheck.value = document.getElementById('pwd'+boardNo).value;
 					
 					$('#modalChoice').modal('show');
 				});
@@ -269,20 +215,12 @@
 				if($('#modalInput').val() == ''){
 					alert("비밀번호를 적어주세요");
 				} else{
-					for(const a of askList){
-						if(boardNo == a.boardNo){
-							if($('#modalInput').val() == a.questionPwd){
-								// location.href="selectAsk.no?bId=" + boardNo + "&page=" + ${pi.currentPage}]];
-							}else{
-								alert("비밀번호가 다릅니다");
-							}
-						}
+					if($('#modalInput').val() == pwdCheck.value){
+						location.href="askSelect.no?boardNo=" + boardNo + "&page=" + /*[[${pi?.currentPage}]]*/1;
+					}else{
+						alert("비밀번호가 다릅니다");
 					}
 				}
-				//bList 에 있는 문의 목록에 있는 놈들 중 선택한 boardNo와 일치하는 녀석의 비밀번호와 비교
-				//location.href= "selectAsk.no?bId=" + boardNo + "&page=" + ${pi.currentPage}]];
-				
-				console.log("어렵다");
 			});
 			
 			

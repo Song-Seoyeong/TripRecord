@@ -9,24 +9,25 @@
 	<select id="checkPlace">
 		select count(*)
 		from reco_place
-		where place_no = #{contentid} and local_no = #{areacode}
+		where place_no = #{placeNo} and local_no = #{localNo}
 	</select>
 	
 	<select id="selectPlace" resultType='Place'>
 		select *
 		from reco_place
-		where place_no = #{contentid} and local_no = #{areacode}
+		left join image on (place_no = image_ref_no)
+		where place_no = #{placeNo} and local_no = #{localNo}
 	</select>
 	
 	<insert id="insertPlace">
 		insert into reco_place
-			values(#{contentid}, #{areacode}, #{contenttypeid}, default, default)
+			values(#{placeNo}, #{localNo}, #{contentTypeId}, default, default, #{placeName})
 	</insert>
 	
 	<update id="updatePlaceCount">
 		update reco_place
 			set place_count = place_count + 1
-			where place_no = #{contentid} and local_no = #{areacode} and content_type_id = #{contenttypeid}
+			where place_no = #{placeNo} and local_no = #{localNo} and content_type_id = #{contentTypeId}
 	</update>
 	
 	<select id="selectReviewList" resultType='Review'>
@@ -34,7 +35,7 @@
 		FROM review r
 		LEFT JOIN member m ON r.member_no = m.member_no
 		LEFT JOIN image i ON m.member_no = i.image_ref_no
-		WHERE r.REV_REF_TYPE = 'PLACE' AND r.REV_REF_NO = #{contentid} AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL)
+		WHERE r.REV_REF_TYPE = 'PLACE' AND r.REV_REF_NO = #{contentid} AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL) and review_status = 'Y'
 		ORDER BY r.review_no DESC
 	</select>
 	
@@ -88,8 +89,25 @@
 	</delete>
 	
 	<select id="ckeckImage" resultType='_int'>
-		select *
+		select count(*)
 			from image
 			where image_ref_no = #{contentid} and image_ref_type = 'RECOPLACE'
 	</select>
+	
+	<insert id="insertPlaImage">
+		insert into image
+		values(new_image_id, #{imagePath}, #{imageOriginName}, #{imageOriginName}, 1, #{imageRefType}, #{imageRefNo})
+	</insert>
+	
+	<select id="checkName" resultType='_int'>
+		select count(*)
+		from reco_place
+		where place_no = #{placeNo} and place_name = #{placeName}
+	</select>
+	
+	<update id="updatePlaName">
+		update reco_place
+		set place_name = #{placeName}
+		where place_no = #{placeNo}
+	</update>
 </mapper>

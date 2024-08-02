@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 상세 조회</title>
 <link type="text/css" href="css/community/communitySelect.css" rel="stylesheet">
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 
 
@@ -93,18 +94,19 @@
 			[[${b.boardContent}]]
 		</div>
 		
+		
+		<!-- 이미지들 -->
 		<div id="placeImg" class="container">
 			<h2>관련 사진 &#x1F4F8;</h2>
 		    <div class="image-gallery" id="image-gallery">
-		        <div class="image-container" th:each=" i : ${ iList }">
-		        	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" alt="Image 1">
+		        <div class="image-container" th:each=" i, iStat : ${ iList }">
+		        	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" th:alt="|Image ${iStat.count}|">
 		        </div>
-		        <!-- <div class="image-container"><img src="" alt="Image 2"></div>
-		        <div class="image-container"><img src="" alt="Image 3"></div>
-		        <div class="image-container"><img src="" alt="Image 4"></div> -->
 		    </div>
 		</div>
 	</div>
+	
+	
 	<input type="hidden" th:value="${b.boardNo}">
 	<div class="text-center row">
 		<div class="col-4"></div>
@@ -226,77 +228,72 @@
 		<div th:replace="~{ common/footer.html :: footer }"></div>
 	
 	
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-	        const gallery = document.getElementById('image-gallery');
-	        const images = gallery.querySelectorAll('.image-container img');
-	        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
-	        const carouselIndicators = document.querySelector('.carousel-indicators');
-	        const carouselInner = document.querySelector('.carousel-inner');
-	
-	        images.forEach((img, index) => {
-	            const indicator = document.createElement('button');
-	            indicator.type = 'button';
-	            indicator.setAttribute('data-bs-target', '#carouselExampleIndicators');
-	            indicator.setAttribute('data-bs-slide-to', index);
-	            if (index === 0) indicator.classList.add('active');
-	            carouselIndicators.appendChild(indicator);
-	
-	            const carouselItem = document.createElement('div');
-	            carouselItem.classList.add('carousel-item');
-	            if (index === 0) carouselItem.classList.add('active');
-	
-	            const carouselImage = document.createElement('img');
-	            carouselImage.src = img.src;
-	            carouselImage.classList.add('d-block', 'w-100');
-	            carouselItem.appendChild(carouselImage);
-	
-	            carouselInner.appendChild(carouselItem);
-	
-	            img.addEventListener('click', () => {
-	                modal.show();
-	                $('#carouselExampleIndicators').carousel(index);
-	            });
-	        });
-	
-	        if (images.length > 2) {
-	            for (let i = 2; i < images.length; i++) {
-	                images[i].parentElement.style.display = 'none';
-	            }
-	
-	            const moreImages = document.createElement('div');
-	            moreImages.classList.add('more-images');
-	            moreImages.innerText = `더보기`;
-	            gallery.appendChild(moreImages);
-	
-	            moreImages.addEventListener('click', () => {
-	                modal.show();
-	                $('#carouselExampleIndicators').carousel(2);
-	            });
-	        }
-	        
-	        /* document.getElementById('goReview').addEventListener('click', ()=>{
-	        	const reviewModal = document.getElementById('Modal');
-	        	$('#Modal').modal('show');
-	        }); */
-	        
-	       /*  document.getElementById('loginView').addEventListener('click', ()=>{
-	        	location.href = 'placeReviewWrite.pla';
-	        }) */
-	        
-	        
-	       const reviewCard = document.getElementsByClassName('testimonial-card');
-	       Array.from(reviewCard).forEach(card =>{
-	    	   card.addEventListener('click', () =>{
-		    	   location.href = 'placeReviewDetail.pla'
-		       })
-	       })
-	    });
+	<script th:inline="javascript">
+	imageModal();
+	function imageModal(){
+		const gallery = document.getElementById('image-gallery');
+        const images = document.getElementsByClassName('image-container');
+        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+        const carouselIndicators = document.querySelector('.carousel-indicators');
+        const carouselInner = document.querySelector('.carousel-inner');
+
+        images.forEach((img, index) => {
+            const indicator = document.createElement('button');
+            indicator.type = 'button';
+            indicator.setAttribute('data-bs-target', '#carouselExampleIndicators');
+            indicator.setAttribute('data-bs-slide-to', index);
+            if (index === 0) indicator.classList.add('active');
+            carouselIndicators.appendChild(indicator);
+
+            const carouselItem = document.createElement('div');
+            carouselItem.classList.add('carousel-item');
+            if (index === 0) carouselItem.classList.add('active');
+
+            const carouselImage = document.createElement('img');
+            carouselImage.src = img.src;
+            carouselImage.classList.add('d-block', 'w-100');
+            carouselItem.appendChild(carouselImage);
+
+            carouselInner.appendChild(carouselItem);
+
+            img.addEventListener('click', () => {
+                modal.show();
+                $('#carouselExampleIndicators').carousel(index);
+            });
+        });
+
+        if (images.length > 2) {
+            for (let i = 2; i < images.length; i++) {
+                images[i].parentElement.style.display = 'none';
+            }
+
+            const moreImages = document.createElement('div');
+            moreImages.classList.add('more-images');
+            moreImages.innerText = `더보기`;
+            gallery.appendChild(moreImages);
+
+            moreImages.addEventListener('click', () => {
+                modal.show();
+                $('#carouselExampleIndicators').carousel(2);
+            });
+        }
+	}
 		
 		
 		
 		
 		window.onload=()=>{
+			
+			///////////////////////////////////
+			
+			
+			
+			
+			//imageModal();
+			
+			
+			
+			
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			for(const sideP of sideMenus){
 				sideP.addEventListener('mouseover',function(){

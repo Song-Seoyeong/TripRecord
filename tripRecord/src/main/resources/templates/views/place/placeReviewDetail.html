@@ -11,9 +11,14 @@
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
 	<!-- 타이틀 영역 -->
-	<div class="div" id='imageTitle'>
+	<div class="div" id='imageTitle' th:if="${p.imagePath != null}" th:style='|background-image: url(${p.imagePath})|'> 
 		<div class="text-content-title">
-			<span><b class="title" id='title'></b></span>
+			<span><b class="title" id='title'>"[[${p.placeName}]]" 후기</b></span>
+		</div>
+	</div>
+	<div class="div" id='imageTitle' th:if="${p.imagePath == null}" th:style='background-image: url(image/noimageBackground.png)'>
+		<div class="text-content-title">
+			<span><b class="title" id='title'>"[[${p.placeName}]]" 후기</b></span>
 		</div>
 	</div>
 	<!-- 타이틀 영역 -->
@@ -23,9 +28,9 @@
 		<form method='POST' id='reviewForm'>
 			<div id='reviewTitle'>
 				<input type='hidden' name='reviewNo' th:value='${r.reviewNo}'>
-				<input type='hidden' name='contentid' th:value='${contentid}'>
-				<input type='hidden' name='contenttypeid' th:value='${contenttypeid}'>
-				<input type='hidden' name='areacode' th:value='${areacode}'>
+				<input type='hidden' name='contentid' th:value='${p.placeNo}'>
+				<input type='hidden' name='contenttypeid' th:value='${p.contentTypeId}'>
+				<input type='hidden' name='areacode' th:value='${p.localNo}'>
 				<input type='hidden' name='page' th:value='${page}'>
 				<h2>[[${r.reviewTitle}]]</h2>
 			</div>
@@ -125,7 +130,7 @@
 		</form>
 		<hr>
 		<div class='d-grid gap-2 d-md-flex justify-content-md-center' id='listButton'>
-			<button class="button" th:onclick="|location.href='placeDetail.pla?page=${page}&contentid=${contentid}&contenttypeid=${contenttypeid}&areacode=${areacode}'|" style='margin: 0px auto; margin-top: 20px;'>
+			<button class="button" th:onclick="|location.href='placeDetail.pla?page=${page}&contentid=${p.placeNo}&contenttypeid=${p.contentTypeId}&areacode=${p.localNo}'|" style='margin: 0px auto; margin-top: 20px;'>
 			  <!-- <svg class="svgIcon" viewBox="0 0 384 512">
 			    <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"></path>
 			  </svg> -->
@@ -186,14 +191,6 @@
 	
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-	        
-	        
-	        const params = new URLSearchParams(window.location.search);
-			const contentid = params.get('contentid');
-			const contenttypeid = params.get('contenttypeid');
-	        
-	        detailInfo(contentid, contenttypeid);
-	        
 	        if(document.getElementById('imgReview') != null){
 	        	imageModal();
 	        }
@@ -227,33 +224,6 @@
 	        	})
 	        }
 	    });
-		
-		// 컨텐츠 기본 정보 조회 함수
-		function detailInfo(contentid, contenttypeid){
-			$.ajax({
-				url:'placeInfo.pla',
-				type: 'GET',
-				data: {contentid : contentid, contenttypeid : contenttypeid},
-				success: data =>{
-					//console.log(data);
-					const item = data.response.body.items.item[0];
-					
-					const title = document.getElementById('title');
-					title.innerHTML = "'" + item.title + "' 후기";
-					
-					/* const subTitle = document.getElementById('subTitle');
-					subTitle.innerHTML = item.overview.split(".")[0]; */
-					
-					const imageTitle = document.getElementById('imageTitle');
-					if(item.firstimage === ""){
-						imageTitle.style.backgroundImage = 'url(image/noimageBackground.png)'
-					}else{
-						imageTitle.style.backgroundImage = 'url(' + item.firstimage + ')';
-					}
-				},
-				error: data => console.log(data)
-			})
-		}
 		
 		// 이미지 모달 함수
 		function imageModal(){

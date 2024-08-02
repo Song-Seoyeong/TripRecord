@@ -12,9 +12,14 @@
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
 	<!-- 타이틀 영역 -->
-	<div class="div" id='imageTitle'>
-		<div class="text-content-title"  id='placeName'>
-			<b class="title"></b>
+	<div class="div" id='imageTitle' th:if="${p.imagePath != null}" th:style='|background-image: url(${p.imagePath})|'> 
+		<div class="text-content-title">
+			<span><b class="title" id='title'>"[[${p.placeName}]]" 후기 쓰기</b></span>
+		</div>
+	</div>
+	<div class="div" id='imageTitle' th:if="${p.imagePath == null}" th:style='background-image: url(image/noimageBackground.png)'>
+		<div class="text-content-title">
+			<span><b class="title" id='title'>"[[${p.placeName}]]" 후기 쓰기</b></span>
 		</div>
 	</div>
 	<!-- 타이틀 영역 -->
@@ -57,11 +62,6 @@
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-			const params = new URLSearchParams(window.location.search);
-			const contentid = params.get('contentid');
-			const contenttypeid = params.get('contenttypeid');
-			
-			 detailInfo(contentid, contenttypeid);
 			 
 			// 제목/내용 미입력시 폼제출 안됌
 			document.getElementById('insert').addEventListener('click', ()=>{
@@ -123,34 +123,6 @@
 			}
 			
 		})
-		
-		// 컨텐츠 기본 정보 조회 함수
-		function detailInfo(contentid, contenttypeid){
-			$.ajax({
-				url:'placeInfo.pla',
-				type: 'GET',
-				data: {contentid : contentid, contenttypeid : contenttypeid},
-				success: data =>{
-					//console.log(data);
-					const item = data.response.body.items.item[0];
-					
-					const title = document.getElementById('placeName');
-					title.innerHTML = "'" + item.title + "' 후기 남기기";
-					
-					/* const subTitle = document.getElementById('subTitle');
-					subTitle.innerHTML = item.overview.split(".")[0]; */
-					
-					const imageTitle = document.getElementById('imageTitle');
-					if(item.firstimage === ""){
-						imageTitle.style.backgroundImage = 'url(image/noimageBackground.png)'
-					}else{
-						imageTitle.style.backgroundImage = 'url(' + item.firstimage + ')';
-					}
-				},
-				error: data => console.log(data)
-			})
-		}
-		
 	</script>
 
 

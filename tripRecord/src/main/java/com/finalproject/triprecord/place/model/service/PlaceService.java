@@ -12,11 +12,11 @@ public interface PlaceService {
 
 	ArrayList<Local> getLocalList();
 
-	int checkPlace(HashMap<String, Integer> map);
+	int checkPlace(Place ckPla);
 
-	Place selectPlace(HashMap<String, Integer> map);
+	Place selectPlace(Place ckPla);
 
-	int insertPlace(HashMap<String, Integer> map);
+	int insertPlace(Place ckPla);
 
 	ArrayList<Review> selectReviewList(int contentid);
 
@@ -35,5 +35,13 @@ public interface PlaceService {
 	int delImg(ArrayList<String> deleteImg);
 
 	int ckeckImage(int contentid);
+
+	void insertPlaImage(Image i);
+
+	int checkName(Place ckPla);
+
+	void updatePlaName(Place ckPla);
+
+	Place selectPlaceImg(Place p);
 
 }

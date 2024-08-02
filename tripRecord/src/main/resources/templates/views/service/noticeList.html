@@ -26,7 +26,7 @@
 	
 	
 	
-	
+	<input type="hidden" name="boardType" value="NOTICE">
 	
 	
 	<!-- 왼쪽 사이드 바 -->
@@ -75,13 +75,6 @@
 	          		</thead>
 	         		<tbody id="text-test">
 	         		<!-- 이거 반복 -->
-	          			<tr th:each=" b : ${bList}">
-	            			<td>[[${ b.boardId }]]</td>
-	            			<td>[[${ b.boardTitle }]]</td>
-	            			<td>[[${ b.nickName }]]</td>
-	            			<td>[[${ b.boardModifyDate }]]</td>
-	            			<td>[[${ b.boardCount }]]</td>
-	          			</tr>
 	          			<tr>
 	          				<td>1</td>
 	          				<td><a href="noticeSelect.no">notice 상세보기 임시링크</a></td>
@@ -89,80 +82,48 @@
 	          				<td>4</td>
 	          				<td>5</td>
 	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
-	          			<tr>
-	          				<td>1</td>
-	          				<td>2</td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
+	          			<tr th:each=" n : ${nList}">
+	          				<td>[[${n.boardNo}]]</td>
+	          				<td>[[${n.boardTitle}]]</td>
+	          				<td>[[${n.nickname}]]</td>
+	          				<td>[[${n.boardModifyDate}]]</td>
+	          				<td>[[${n.boardCount}]]</td>
 	          			</tr>
 	          		</tbody>
 	        	</table>
 	       	</div>
 		</div>
         <br>
-		<div class="text-center">페이징 1 2 3 4 5</div>
+		
 		<!-- 페이징 -->
+		<div class='row' style='margin-bottom: 100px;'>
+			<div class='col-4'></div>
+				<nav aria-label="Page navigation example" th:with="loc=${loc}" style="display:flex; justify-content:center;">
+					<ul class="pagination">
+						<li class="page-item">
+							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li class="page-item" th:each=" p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+							<a class="page-link" th:href="@{${loc}(page=${p})}">[[${p}]]</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			<div class='col-4'></div>
+		</div>
+		<!-- 페이징 -->
+
+
 		<a href="ask.no">ask 이동 임시</a>
 
 
-		<div th:if="${ session.loginUser != null}">
+		<div th:if="${ session.loginUser != null}" style="position: relative; top: -480px; left: 1035px; width: 140px;">
 	       	<button class="btn btn-outline-success" type="button" onclick="location.href='writeBoard.bo'">WRITE BOARD</button>
 	    </div>
 	</div>
@@ -173,6 +134,7 @@
 	
 	<script>
 		window.onload=()=>{
+			//사이드메뉴 이동
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			for(const sideP of sideMenus){
 				sideP.addEventListener('mouseover',function(){
@@ -188,8 +150,22 @@
 			}
 			for(const sideP of sideMenus){
 				sideP.addEventListener('click',function(){
-					console.log(this.innerText.split(' ')[1]);
-					//location.href= 클릭한 것으로 구분
+					//console.log(this.innerText.split(' ')[1]);
+					if(this.innerText.split(' ')[1] == "문의사항"){
+						location.href="ask.no";
+					} else{
+						location.href="notice.no";
+					}
+				});
+			}
+			
+			
+			//공지 클릭시 이동
+			const trs = document.getElementById("text-test").children;
+			for(const tr of trs){
+				tr.addEventListener('click', function(){
+					const boardNo = this.children[0].innerText;
+					location.href="noticeSelect.no?boardNo=" + boardNo + "&page=" + /*[[${pi?.currentPage}]]*/1; 
 				});
 			}
 		}

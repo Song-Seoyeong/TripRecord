@@ -106,9 +106,14 @@
 		order by image_no asc
 	</select>	
 	
-	
-	
-	
+	<select id="getQuestionList" resultType="Question">
+		select *
+		from question
+		<if test="i != 0">
+			where question_no = #{i}
+		</if>
+		<!-- i=0 : 문의 목록, i != 0 : 문의 상세 조회 -->
+	</select>
 	
 	
 	
