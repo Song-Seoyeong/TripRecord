@@ -130,46 +130,4 @@ public class MemberController {
 	public Integer checkId(@RequestParam("id") String id) {
 		 return mService.checkId(id);
 	}
-	
-	
-	///////// 관리자 ////////////
-	@GetMapping("dashBoard.ad")
-	public String dashBoardView() {
-		return "dashBoard";
-	}
-	
-	@GetMapping("userManage.ad")
-	public String userManageView() {
-		return "userManage";
-	}
-	
-	@GetMapping("questManage.ad")
-	public String questManageView() {
-		return "questManage";
-	}
-	
-	@GetMapping("gradeManage.ad")
-	public String gradeManageView() {
-		return "gradeManage";
-	}
-	
-	@GetMapping("noticeManage.ad")
-	public String noticeManageView() {
-		return "noticeManage";
-	}
-	
-	@GetMapping("pointManage.ad")
-	public String pointManageView() {
-		return "pointManage";
-	}
-	
-	@GetMapping("boardManage.ad")
-	public String boardManageView() {
-		return "boardManage";
-	}
-	
-	@GetMapping("hashTagManage.ad")
-	public String hashTagManageView() {
-		return "hashTagManage";
-	}
 }

@@ -6,14 +6,14 @@
 <link href="/css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 <link href="/css/admin/questManage.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="min-width: 1820px;">
+<body>
 	<div th:replace="~{common/adminHeader :: header}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">
 			<ul class="board-list-ul">
 				<li><a href="dashBoard.ad">대시보드</a></li>
-				<li><a href="userManage.ad">회원 관리</a></li>
-				<li class="select-board"><a>문의사항 관리</a></li>
+				<li><a href="memberManage.ad">회원 관리</a></li>
+				<li class="select-board"><a href="questManage.ad">문의사항 관리</a></li>
 				<li><a href="gradeManage.ad">등급 관리</a></li>
 				<li><a href="noticeManage.ad">공지사항 관리</a></li>
 				<li><a href="pointManage.ad">포인트 관리</a></li>
@@ -41,15 +41,22 @@
 						  	<tbody>
 						  		<tr>
 						      		<td class="td-user" style="width: 40%;">전체</td>
-						      		<td> 275 </td>
+						      		<td> [[${totalCount}]] </td>
 						  		</tr>
 						    	<tr class="tr-user">
 						      		<td class="td-user">응답</td>
-						      		<td> 270 </td>
+						      		<td> [[${answerCount}]] </td>
 						  		</tr>
 						  		<tr class="tr-user">
 						      		<td class="td-user">미응답</td>
-						      		<td> <span class="no-answer">5</span></td>
+						      		<td> 
+						      			<th:block th:if="${noAnswerCount == 0}">
+						      				[[${noAnswerCount}]]
+						      			</th:block>
+						      			<th:block th:unless="${noAnswerCount == 0}">
+								      		<span class="no-answer">[[${noAnswerCount}]]</span>
+						      			</th:block>
+						      		</td>
 						  		</tr>
 						  	</tbody>
 						</table>
@@ -71,19 +78,19 @@
 								</tr>
 							</thead>
 						  	<tbody class="table_hover">
-						  		<tr class="tr-user">
-						      		<td>2</td>
-						      		<td><span class="overflow-ell">결제 관련 문의 보냅니다.</span></td>
-						      		<td>가가가</td>
-									<td>2024.07.22</td>
-									<td><span class="no-answer">미응답</span></td>
-						  		</tr>
-						  		<tr class="tr-user">
-						      		<td>1</td>
-						      		<td><span class="overflow-ell">1000포인트는 결제창에 없나요</span></td>
-						      		<td>나나나</td>
-									<td>2024.07.18</td>
-									<td>응답</td>
+						  		<tr class="tr-user" th:each="q : ${qList}">
+						      		<td>[[${q.boardNo}]]</td>
+						      		<td><span class="overflow-ell">[[${q.boardTitle}]]</span></td>
+						      		<td>[[${q.memberName}]]</td>
+									<td>[[${#strings.replace(q.boardCreateDate, '-', '.')}]]</td>
+									<td>
+										<th:block th:if="${q.questionSuccess == 'N'}">
+											<span class="no-answer">미응답</span>
+										</th:block>
+										<th:block th:if="${q.questionSuccess == 'Y'}">
+											응답
+										</th:block>
+									</td>
 						  		</tr>
 						  	</tbody>
 						</table>
@@ -99,6 +106,7 @@
 						</span>
 					</div>
 					<form action="insertAnswer.ad" method="POST">
+						<input type="hidden" name="boardNo" id="qNo"/>
 						<div class="quest-detail">
 							<div class="title-div-quest">
 								<span class="title-text-quest">결제 관련 문의</span>
@@ -110,7 +118,7 @@
 								<span class="title-text-answer">답변 작성</span>
 							</div>
 							<div class="form-floating answer-detail-div">
-							  	<textarea class="form-control box-shadow-none quest-textarea" id="detail-answer" style="width:100%; height: 100%;"></textarea>
+							  	<textarea class="form-control box-shadow-none quest-textarea" name="questionAnswer" id="detail-answer" style="width:100%; height: 100%;"></textarea>
 							</div>
 							<button class="btn btn-outline-secondary answer-reg" id="button">등록</button>
 						</div>
@@ -140,6 +148,9 @@
 					success: data => {
 						if(data != null){
 							document.getElementById('detail-quest').innerText = data.boardContent;
+							console.log(data.boardNo);
+							document.getElementById('qNo').value = data.boardNo;
+							console.log(document.getElementById('qNo').value);
 							
 							if(tr.children[4].innerText == '응답'){
 								document.getElementById('detail-answer').innerText = data.questionAnswer;
@@ -152,7 +163,6 @@
 							}
 						}
 					},
-					error: data => console.log('error')
 				});
 				
 				detail.style.display='block';

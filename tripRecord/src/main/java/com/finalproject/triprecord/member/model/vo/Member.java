@@ -24,4 +24,5 @@ public class Member {
 	private String status;
 	private int memberPoint;
 	private String memberDrop;
+	private String localName;
 }

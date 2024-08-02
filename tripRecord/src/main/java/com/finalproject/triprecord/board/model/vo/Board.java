@@ -24,4 +24,6 @@ public class Board {
 	private String generalType;		// WITH, GIVE, REVIEW
 	private String localName;		// 서울, 부산, 대구 등등
 	private int boardCount;
+	
+	private String memberName;
 }

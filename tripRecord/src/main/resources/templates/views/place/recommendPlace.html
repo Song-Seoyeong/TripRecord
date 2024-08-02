@@ -11,7 +11,6 @@
    <div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 	<!-- ------------------------------------------------------------------------------------ -->
 	<div class="loader" id='loading-screen'></div>
-	<div id='menuTitle'><h1>여기가 추천하는 여행지 &#x1F5FA;</h1></div>
 	<div class="div" id='div'>
 		<!-- 필터 메뉴 -->
 		<div class="filter-menu">
@@ -98,39 +97,17 @@
 		<!-- 컨텐츠 카드 -->
 		<div class="section-product-grid">
 			<!-- 장소 top 5 -->
+			<div class='menuTitle'><h3>여기가 추천하는 여행지 Top 5 &#x2728;</h3></div>
 			<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
-				<div class="local-card position-relative">
-					<input type=hidden value=1>
-					<img class="local-img shadow position-absolute"  src="/image/seoul.jpg" alt="서울">
-					<span class="card-text position-absolute fs-1 px-3">서울
-					</span>
-				</div>
-				<div class="local-card position-relative">
-					<input type=hidden value=2>
-					<img class="local-img shadow"  src="/image/busan.jpg" alt="부산">
-					<span class="card-text position-absolute fs-1 px-3">부산
-					</span>
-				</div>
-				<div class="local-card position-relative">
-					<input type=hidden value=3>
-					<img class="local-img shadow"  src="/image/gwangju.jpg" alt="광주">
-					<span class="card-text position-absolute fs-1 px-3">광주
-					</span>
-				</div>
-				<div class="local-card position-relative">
-					<input type=hidden value=4>
-					<img class="local-img shadow"  src="/image/daejeon.jpg" alt="대전">
-					<span class="card-text position-absolute fs-1 px-3">대전
-					</span>
-				</div>
-				<div class="local-card position-relative">
-					<input type=hidden value=5>
-					<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
-					<span class="card-text position-absolute fs-1 px-3">강원
+				<div class="local-card position-relative" th:each='t : ${topList}'>
+					<input type='hidden' name='areacode' th:value="${t.localNo}">
+					<img class="local-img shadow position-absolute"  th:src="${t.imageRename == null}? 'image/noimage.png' : '|https://drive.google.com/thumbnail?id=${t.imageRename}&sz=w1000|'" th:alt="${t.localName}">
+					<span class="card-text position-absolute fs-1 px-3">[[${t.localName}]]
 					</span>
 				</div>
 			</div>	
-			
+			<div class='menuTitle'><h3>여행지 찾아보기 &#x1F5FA;</h3></div>
+			<div class='menuTitle' id='searchTitle'></div>
 			<!-- 검색바 -->
 			<div class="filter-bar row">
 				<div class='col-4'></div>
@@ -250,6 +227,7 @@
 			    });
 			});
 			
+			// 필터 검색 함수
 			document.getElementsByName('arrange')[0].addEventListener('change', function(){
 				//console.log(this.value);
 				const arrange = this.value;
@@ -260,6 +238,7 @@
 				placeApi(1, arrange, key, area, word);
 			})
 			
+			// 검색어 함수
 			const searchKeyword = document.getElementById('search');
 			searchKeyword.addEventListener('keyup', e =>{
 				//console.log(e.key)
@@ -271,6 +250,18 @@
 			document.getElementById('searchIcon').addEventListener('click', ()=>{
 				search(searchKeyword);
 			});
+			
+			// topList 클릭 함수
+			const tops = document.getElementsByClassName('local-card');
+			for(const top of tops){
+				top.addEventListener('click', function(){
+					arr = updateInArrange();
+		    		key = updateInSelectKeyword();
+		    		word = updateInKeyword();
+					//console.log(this.children[0].value)
+					placeApi(1, arrange, key, this.children[0].value, word);
+				})
+			}
 			
 		})
 		
@@ -516,6 +507,14 @@
    			ul.append(li3);
    			
    			pagination.append(ul);
+   			
+   			// 지역/키워드/검색어별 타이틀
+   			const searchTitle = document.getElementById('searchTitle')
+   			if(data.areaCode != "" && data.selectedKeyword != "" && keyword != ""){
+   				
+   			}else if(data.areaCode != ""){
+   				searchTitle.innerHTML = "<h4> 엥 </h4>" 
+   			}
 		}
 		
 		/*]]>*/

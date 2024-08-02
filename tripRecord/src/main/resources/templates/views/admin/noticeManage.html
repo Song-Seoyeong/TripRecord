@@ -6,16 +6,16 @@
 <link href="css/admin/noticeManage.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="min-width: 1820px;">
+<body>
 	<div th:replace="~{common/adminHeader :: header}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">
 			<ul class="board-list-ul">
 				<li><a href="dashBoard.ad">대시보드</a></li>
-				<li><a href="userManage.ad">회원 관리</a></li>
+				<li><a href="memberManage.ad">회원 관리</a></li>
 				<li><a href="questManage.ad">문의사항 관리</a></li>
 				<li><a href="gradeManage.ad">등급 관리</a></li>
-				<li class="select-board"><a>공지사항 관리</a></li>
+				<li class="select-board"><a href="noticeManage.ad">공지사항 관리</a></li>
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
@@ -43,8 +43,8 @@
 							</div>
 							<div class="search-div-keyword display-inline-block">
 								<div class="input-group mb-3">
-								  	<input type="text" class="form-control box-shadow-none search-input" id="keyword" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
-								  	<button class="btn btn-outline-secondary box-shadow-none search-box" type="button" id="search">검색</button>
+								  	<input type="text" class="form-control box-shadow-no search-input" id="keyword" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
+								  	<button class="btn btn-outline-secondary search-box box-shadow-non" type="button" id="search">검색</button>
 								</div>
 							</div>
 						</div>
@@ -59,17 +59,11 @@
 									</tr>
 								</thead>
 							  	<tbody class="table_hover">
-							  		<tr class="tr-user">
-							      		<td>2</td>
-							      		<td><span class="overflow-ell">스크립트 고쳐야 됨</span></td>
-							      		<td>관리자</td>
-							      		<td>2024.07.22</td>
-							  		</tr>
-							  		<tr class="tr-user">
-							      		<td>1</td>
-							      		<td><span class="overflow-ell">공지사항을 작성할 때 길이 범위가 넘어가면 뒤쪽은 ...처리가 돼서 줄여지게 된다.</span></td>
-							      		<td>관리자</td>
-							      		<td>2024.07.18</td>
+							  		<tr class="tr-user" th:each="n : ${nList}">
+							      		<td>[[${n.boardNo}]]</td>
+							      		<td><span class="overflow-ell">[[${n.boardTitle}]]</span></td>
+							      		<td>[[${n.memberName}]]</td>
+							      		<td>[[${#strings.replace(n.boardModifyDate, '-', '.')}]]</td>
 							  		</tr>
 							  	</tbody>
 							</table>
@@ -91,13 +85,13 @@
 								<span class="title-text-title">제목</span>
 							</div>
 							<div class="form-floating title-detail-div">
-						  		<textarea class="form-control box-shadow-none title-textarea" id="write-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;" placeholder="제목을 작성하세요."></textarea>
+						  		<textarea class="form-control box-shadow-no title-textarea" name="boardTitle" id="write-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;" placeholder="제목을 작성하세요."></textarea>
 							</div>
 							<div class="title-div-content">
 								<span class="title-text-content">내용</span>
 							</div>
 							<div class="form-floating content-detail-div">
-							  	<textarea class="form-control box-shadow-none title-textarea" id="write-content" style="width:100%; height: 100%;" placeholder="내용을 작성하세요."></textarea>
+							  	<textarea class="form-control box-shadow-no title-textarea" name="boardContent" id="write-content" style="width:100%; height: 100%;" placeholder="내용을 작성하세요."></textarea>
 							</div>
 							<div class="reg-div">
 								<button class="btn btn-outline-secondary content-reg">등록</button>
@@ -117,17 +111,18 @@
 					</div>
 					<form action="updateNotice.ad" method="POST">
 						<div class="notice-detail">
+							<input type="hidden" name="boardNo" id="modify-no"/>
 							<div class="title-div-title">
 								<span class="title-text-title">제목</span>
 							</div>
 							<div class="form-floating title-detail-div">
-						  		<textarea class="form-control box-shadow-none title-textarea" id="modify-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
+						  		<textarea class="form-control box-shadow-no title-textarea" name="boardTitle" id="modify-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
 							</div>
 							<div class="title-div-content">
 								<span class="title-text-content">내용</span>
 							</div>
 							<div class="form-floating content-detail-div">
-							  	<textarea class="form-control box-shadow-none title-textarea" id="modify-content" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
+							  	<textarea class="form-control box-shadow-no title-textarea" name="boardContent" id="modify-content" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;"></textarea>
 							</div>
 							<div class="reg-div">
 								<button class="btn btn-outline-secondary content-reg">수정하기</button>
@@ -150,13 +145,13 @@
 							<span class="title-text-title">제목</span>
 						</div>
 						<div class="form-floating title-detail-div">
-					  		<textarea class="form-control box-shadow-none title-textarea" id="notice-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;" readonly>공지사항 제목을 작성하였습니다.</textarea>
+					  		<textarea class="form-control box-shadow-no title-textarea" name="boardTitle" id="notice-title" style="width:100%; height: 100%; overflow-x: auto; overflow-y: none;" readonly></textarea>
 						</div>
 						<div class="title-div-content">
 							<span class="title-text-content">내용</span>
 						</div>
 						<div class="form-floating content-detail-div">
-						  	<textarea class="form-control box-shadow-none title-textarea" id="notice-content" style="width:100%; height: 100%;" readonly>공지사항 내용을 작성하였습니다.</textarea>
+						  	<textarea class="form-control box-shadow-no title-textarea" name="boardContent" id="notice-content" style="width:100%; height: 100%;" readonly></textarea>
 						</div>
 						<div class="reg-div">
 							<button type="button" class="btn btn-outline-secondary content-reg" id="go-edit">수정하기</button>
@@ -188,6 +183,7 @@
 	
 	<script th:inline="javascript">
 		window.onload = () => {
+			/*<![CDATA[*/
 			/* 작성/수정 폼 안보이게 */
 			const forms = document.getElementsByClassName('detail-notice');
 			for(const form of forms){
@@ -199,19 +195,37 @@
 			const tds = document.querySelectorAll('td');
 			const boxs = document.getElementsByClassName('button-border');
 			let boardNo;
+			let boardTitle;
+			let boardContent;
+			let boardWriterNo;
 			for(const td of tds){
 				td.addEventListener('click', function(){
 					const tr = this.parentElement;
 					boardNo = tr.children[0].innerText;
-					console.log(this);
-					const children = this.children[0];
-					console.log(children);
-					if(children != 'button-border' || children == null){
-						forms[0].style.display = 'none';
-						forms[1].style.display = 'none';
-						forms[2].style.display = 'block';
-					}
 					
+					$.ajax({
+						url: 'selectNotice.ad',
+						data: {
+							boardNo: boardNo
+						},
+						success: data => {
+							if(data != null){
+								boardTitle = data.boardTitle;
+								boardContent = data.boardContent;
+								boardWriterNo = data.boardWriterNo;
+								
+								document.getElementById('notice-title').innerText = data.boardTitle;
+								document.getElementById('notice-content').innerText = data.boardContent;
+								
+								const children = this.children[0];
+								if(children != 'button-border' || children == null){
+									forms[0].style.display = 'none';
+									forms[1].style.display = 'none';
+									forms[2].style.display = 'block';
+								}
+							}
+						}
+					});
 				});
 			}
 			
@@ -226,15 +240,21 @@
 			
 			/* 공지사항 수정 폼 */
 			const goEdit = document.getElementById('go-edit');
-			const title = document.getElementById('notice-title').innerText;
-			const content = document.getElementById('notice-content').innerText;
 			goEdit.addEventListener('click', function(){
-				document.getElementById('modify-title').innerText = title;
-				document.getElementById('modify-content').innerText = content;
+				if(/*[[${session.loginUser.memberNo}]]*/'user01' == boardWriterNo){
+					document.getElementById('modify-title').innerText = boardTitle;
+					document.getElementById('modify-content').innerText = boardContent;
+					document.getElementById('modify-no').value = boardNo;
+					console.log(document.getElementById('modify-no').value);
+					document.getElementById('modify-title').focus();
+					
+					forms[0].style.display = 'none';
+					forms[1].style.display = 'block';
+					forms[2].style.display = 'none';
+				} else{
+					alert('작성자만 수정할 수 있습니다.');
+				}
 				
-				forms[0].style.display = 'none';
-				forms[1].style.display = 'block';
-				forms[2].style.display = 'none';
 				
 			});
 			
@@ -245,7 +265,11 @@
 			});
 			
 			document.getElementById('ok').addEventListener('click', function(){
-				location.href="deleteNotice.ad?bId=" + boardNo;
+				if(/*[[${session.loginUser.memberNo}]]*/'user01' == boardWriterNo){
+					location.href="deleteNotice.ad?boardNo=" + boardNo;
+				} else{
+					alert('작성자만 수정할 수 있습니다.');
+				}
 			});
 			
 			
@@ -268,7 +292,7 @@
 			const keyword = document.getElementById('keyword');
 			search.addEventListener('click', function(){
 				if(keyword.value != ''){
-					location.href="searchNotice.ad?search=" + keyword.value;					
+					location.href="noticeManage.ad?search=" + keyword.value;					
 				}
 			});
 		
@@ -298,7 +322,7 @@
 				});
 				
 			}
-			
+			/*]]>*/
 		}
 	</script>
 </body>

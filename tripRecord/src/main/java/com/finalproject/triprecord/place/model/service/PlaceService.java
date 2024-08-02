@@ -44,4 +44,6 @@ public interface PlaceService {
 
 	Place selectPlaceImg(Place p);
 
+	ArrayList<Local> getTopList();
+
 }

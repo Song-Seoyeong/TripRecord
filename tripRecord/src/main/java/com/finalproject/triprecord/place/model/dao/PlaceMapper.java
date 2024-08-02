@@ -47,4 +47,6 @@ public interface PlaceMapper {
 
 	void updatePlaName(Place ckPla);
 
+	ArrayList<Local> getTopList();
+
 }
