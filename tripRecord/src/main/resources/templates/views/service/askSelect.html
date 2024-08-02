@@ -263,8 +263,12 @@
 			}
 			for(const sideP of sideMenus){
 				sideP.addEventListener('click',function(){
-					console.log(this.innerText.split(' ')[1]);
-					//location.href= 클릭한 것으로 구분
+					//console.log(this.innerText.split(' ')[1]);
+					if(this.innerText.split(' ')[1] == "문의사항"){
+						location.href="ask.no";
+					} else{
+						location.href="notice.no";
+					}
 				});
 			}
 			

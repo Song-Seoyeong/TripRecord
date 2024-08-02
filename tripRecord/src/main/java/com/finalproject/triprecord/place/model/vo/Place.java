@@ -15,4 +15,6 @@ public class Place {
 	private int contentTypeId;
 	private int placeStar;
 	private int placeCount;
+	private String placeName;
+	private String imagePath;
 }

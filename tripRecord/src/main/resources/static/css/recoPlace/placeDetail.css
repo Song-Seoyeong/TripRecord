@@ -412,3 +412,10 @@ body {
   /* transform: translateY(-30px); */
   transition-duration: 0.3s;
 }
+#rText{
+	width: 60%;
+	margin: 0 auto;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}

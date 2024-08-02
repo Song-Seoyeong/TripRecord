@@ -15,13 +15,13 @@ public interface PlaceMapper {
 
 	ArrayList<Local> getLocalList();
 
-	int checkPlace(HashMap<String, Integer> map);
+	int checkPlace(Place ckPla);
 
-	Place selectPlace(HashMap<String, Integer> map);
+	Place selectPlace(Place ckPla);
 
-	int insertPlace(HashMap<String, Integer> map);
+	int insertPlace(Place ckPla);
 
-	void updatePlaceCount(HashMap<String, Integer> map);
+	void updatePlaceCount(Place ckPla);
 
 	ArrayList<Review> selectReviewList(int contentid);
 
@@ -40,5 +40,11 @@ public interface PlaceMapper {
 	int delImg(ArrayList<String> deleteImg);
 
 	int ckeckImage(int contentid);
+
+	void insertPlaImage(Image i);
+
+	int checkName(Place ckPla);
+
+	void updatePlaName(Place ckPla);
 
 }

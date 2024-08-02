@@ -24,21 +24,21 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
-	public int checkPlace(HashMap<String, Integer> map) {
-		return pMapper.checkPlace(map);
+	public int checkPlace(Place ckPla) {
+		return pMapper.checkPlace(ckPla);
 	}
 
 	@Override
-	public Place selectPlace(HashMap<String, Integer> map) {
-		 Place p =pMapper.selectPlace(map);
-		 pMapper.updatePlaceCount(map);
+	public Place selectPlace(Place ckPla) {
+		 Place p =pMapper.selectPlace(ckPla);
+		 pMapper.updatePlaceCount(ckPla);
 		 p.setPlaceCount(p.getPlaceCount() + 1);
 		 return p;
 	}
 
 	@Override
-	public int insertPlace(HashMap<String, Integer> map) {
-		return pMapper.insertPlace(map);
+	public int insertPlace(Place ckPla) {
+		return pMapper.insertPlace(ckPla);
 	}
 
 	@Override
@@ -84,6 +84,26 @@ public class PlaceServiceImpl implements PlaceService {
 	@Override
 	public int ckeckImage(int contentid) {
 		return pMapper.ckeckImage(contentid);
+	}
+
+	@Override
+	public void insertPlaImage(Image i) {
+		pMapper.insertPlaImage(i);
+	}
+
+	@Override
+	public int checkName(Place ckPla) {
+		return pMapper.checkName(ckPla);
+	}
+
+	@Override
+	public void updatePlaName(Place ckPla) {
+		pMapper.updatePlaName(ckPla);
+	}
+
+	@Override
+	public Place selectPlaceImg(Place p) {
+		return pMapper.selectPlace(p);
 	}
 
 }

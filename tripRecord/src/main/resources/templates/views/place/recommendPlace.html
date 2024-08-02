@@ -284,6 +284,7 @@
 			return inKeyword;
 		}
 		
+		// 검색 태그 변경 함수
 		function updateTags(name, targetId, sectionId){
 		    //console.log(`updateTags 호출됨: name=${name}, targetId=${targetId}, sectionId=${sectionId}`);
 
@@ -351,6 +352,7 @@
 		    
 		};
 		
+		// API 함수
 		function placeApi(page, arrange, selectedKeyword, areaCode, keyword){
 			// console.log(page)
 			// console.log(arrange)
@@ -373,8 +375,8 @@
 		    })
 		}
 		
+		// 카드 클릭시 상세 페이지 이동
 		function clickCard(){
-			// 카드 클릭시 상세 페이지 이동
 			const cards = document.getElementsByClassName('clickCard');
 			const page = document.getElementById('page').value;
 			for(const card of cards){
@@ -382,20 +384,22 @@
 					const placeId = this.id;
 					const contentid = placeId.split('/')[0];
 					const contenttypeid = placeId.split('/')[1];
-					const areaCode = placeId.split('/')[2];
-					const image = placeId.split('/')[3];
+					const areaCode = placeId.split('/')[2].split('!')[0];
+					const image = placeId.split('!')[1];
+					const title = encodeURI(encodeURIComponent(placeId.split('!')[2]));
 					/* console.log(contentid)
 					console.log(contenttypeid) */
-					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&image=" + image;
+					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&image=(" + image + ")&title=" + title;
 				})
 			}
 		}
 		
+		// div 카드 바꾸는 함수
 		function changeDiv(data){
 			for(const i of data.response.body.items.item){
 	   			const clickCardDiv = document.createElement('div');
 	   			clickCardDiv.className = 'col-4 clickCard';
-	   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + i.areacode + '/' + i.firstimage;
+	   			clickCardDiv.id = i.contentid + '/' + i.contenttypeid + '/' + i.areacode + '!' + i.firstimage + '!' + i.title;
 	   			const infoCardDiv = document.createElement('div');
 	   			infoCardDiv.className = 'product-info-card';
 	   			const img = document.createElement('img');

@@ -1,10 +1,12 @@
 package com.finalproject.triprecord.place.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,29 +53,55 @@ public class PlaceController {
 							  @RequestParam("contenttypeid") int contenttypeid,
 							  @RequestParam("page") int page,
 							  @RequestParam("areacode") int areacode,
-							  @RequestParam("image") String image,
+							  @RequestParam(value="image", required=false) String image,
+							  @RequestParam(value="title", required=false) String title,
 							  Model model) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map.put("contentid", contentid);
-		map.put("contenttypeid", contenttypeid);
-		map.put("areacode", areacode);
+		String name = null;
+		if(title != null ) {
+			try {
+				name = URLDecoder.decode(title,"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			name = name.split("\\(|\\[|\\{")[0];
+			
+			
+		}
+		
+		Place ckPla = new Place();
+		ckPla.setPlaceNo(contentid);
+		ckPla.setLocalNo(areacode);
+		ckPla.setContentTypeId(contenttypeid);
+		ckPla.setPlaceName(name);
+		
+		// 이름 정보 저장되어있는지 확인
+		if(name != null) {
+			int checkName = pService.checkName(ckPla);
+			
+			if(checkName == 0) {
+				pService.updatePlaName(ckPla);
+			}
+		}
+				
 		
 		// 장소 db에 저장되어있는지 확인
-		int checkPlace = pService.checkPlace(map);
+		int checkPlace = pService.checkPlace(ckPla);
 		
 		// db 저장 여부에 따라 다름
 		Place p = new Place();
 		ArrayList<Review> list = new ArrayList<Review>();
 		if(checkPlace > 0){
-			p = pService.selectPlace(map);
+			p = pService.selectPlace(ckPla);
 			list = pService.selectReviewList(contentid);
 		}else {
-			int result = pService.insertPlace(map);
+			int result = pService.insertPlace(ckPla);
 			if(result > 0) {
 				p.setLocalNo(areacode);
 				p.setPlaceNo(contentid);
 				p.setPlaceCount(1);
 				p.setPlaceStar(0);
+				p.setPlaceName(name);
 			}else {
 				throw new PlaceException("장소 조회 중 에러 발생");
 			}
@@ -82,13 +110,24 @@ public class PlaceController {
 		// db에 이미지 정보 저장되어있는지 확인
 		int checkImage = pService.ckeckImage(contentid);
 		
-		if(checkImage == 0) {
+		//System.out.println(image.split("\\(|\\)")[1]);
+		
+		// api에서 이미지를 제공 해주면 이미지 저장
+		if(checkImage == 0 && !image.equals("()")) {
+			Image i = new Image();
+			i.setImageRefNo(contentid);
+			i.setImagePath(image.split("\\(|\\)")[1]);
+			i.setImageRefType("RECOPLACE");
+			i.setImageOriginName(name);
 			
+			pService.insertPlaImage(i);
 		}
+		
 		
 		if(p != null) {
 			model.addAttribute("p", p);
 			model.addAttribute("list", list);
+			model.addAttribute("page", page);
 			return "placeDetail";
 		}else {
 			throw new PlaceException("장소 조회 중 에러 발생");
@@ -99,13 +138,22 @@ public class PlaceController {
 	public String placeReviewWrite(@RequestParam("contentid") int contentid,
 								   @RequestParam("contenttypeid") int contenttypeid,
 								   @RequestParam("page") int page,
-								  @RequestParam("areacode") int areaCode,
+								  @RequestParam("areacode") int areacode,
 								   Model model) {
 		//System.out.println("여기인가");
+		
+		Place p =new Place();
+		p.setLocalNo(areacode);
+		p.setPlaceNo(contentid);
+		
+		p = pService.selectPlaceImg(p);
+		//System.out.println(p);
+		
 		model.addAttribute("contentid", contentid);
 		model.addAttribute("contenttypeid", contenttypeid);
-		model.addAttribute("areacode", areaCode);
+		model.addAttribute("areacode", areacode);
 		model.addAttribute("page", page);
+		model.addAttribute("p", p);
 		return "placeReviewWrite";
 	}
 	
@@ -185,17 +233,23 @@ public class PlaceController {
 			   						@RequestParam("areacode") int areaCode,
 			   						@RequestParam("reviewNo") int rId,
 			   						Model model) {
+		Place p =new Place();
+		p.setLocalNo(areaCode);
+		p.setPlaceNo(contentid);
+		
+		p = pService.selectPlaceImg(p);
+		
+		//System.out.println(p);
+		
 		Review r = pService.selectReview(rId);
 		ArrayList<Image> list = pService.selectImage(rId);
 		
 		//System.out.println(list);
 		if(r != null && list != null) {
-			model.addAttribute("contentid", contentid);
-			model.addAttribute("contenttypeid", contenttypeid);
-			model.addAttribute("areacode", areaCode);
 			model.addAttribute("page", page);
 			model.addAttribute("r", r);
 			model.addAttribute("list", list);
+			model.addAttribute("p", p);
 			return "placeReviewDetail";
 		}else {
 			throw new PlaceException("리뷰 상세 보기 중 에러 발생");
@@ -229,7 +283,14 @@ public class PlaceController {
 			   					   @RequestParam("areacode") int areacode,
 			   					   @RequestParam("page") int page,
 			   					   Model model) {
+		Place p =new Place();
+		p.setLocalNo(areacode);
+		p.setPlaceNo(contentid);
+		
+		p = pService.selectPlaceImg(p);
+		
 		Review r = pService.selectReview(rId);
+		
 		ArrayList<Image> list = pService.selectImage(rId);
 		
 		if(r != null && list != null) {
@@ -239,6 +300,7 @@ public class PlaceController {
 			model.addAttribute("page", page);
 			model.addAttribute("r", r);
 			model.addAttribute("list", list);
+			model.addAttribute("p", p);
 			return "placeReviewUpdate";
 		}else {
 			throw new PlaceException("리뷰 상세 보기 중 에러 발생");
@@ -289,7 +351,7 @@ public class PlaceController {
 					a.setImageRename(fileId);
 					a.setImagePath("drive://files/" + fileId);
 					a.setImageThum(2);
-					a.setImageRefType("RECOPLACE");
+					a.setImageRefType("REVIEW");
 					a.setImageRefNo(r.getReviewNo());
 					
 					list.add(a);
