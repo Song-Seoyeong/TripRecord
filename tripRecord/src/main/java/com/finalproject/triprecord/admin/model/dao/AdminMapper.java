@@ -98,6 +98,8 @@ public interface AdminMapper {
 
 	ArrayList<Payment> selectMonthStats();
 
+	int selectGradeCount();
+
 
 	
 }

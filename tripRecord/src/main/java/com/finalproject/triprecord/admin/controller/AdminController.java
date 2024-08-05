@@ -1,5 +1,6 @@
 package com.finalproject.triprecord.admin.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -18,6 +19,7 @@ import com.finalproject.triprecord.admin.model.service.AdminService;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Payment;
@@ -35,6 +37,9 @@ public class AdminController {
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
 	
+	@Autowired
+	private GoogleDriveService gdService;
+	
 	/** 대시보드 */
 	// 대시보드 페이지 이동
 	@GetMapping("dashBoard.ad")
@@ -43,6 +48,8 @@ public class AdminController {
 		int generalCount = aService.selectMemberGradeCount("GENERAL");
 		int plannerCount = aService.selectMemberGradeCount("PLANNER");
 		int adminCount = aService.selectMemberGradeCount("ADMIN");
+		int noAnswerCount = aService.selectQuestionAnswerCount("N");
+		int gradeCount = aService.selectGradeCount();
 		ArrayList<Content> placeCount = aService.selectPlacesCount();
 		
 		Point total = aService.selectTotalPoint();
@@ -66,7 +73,6 @@ public class AdminController {
 		String day;
 		for(Payment p: dpList) {
 			day = String.valueOf(p.getPayDate()).split("-")[2];
-			System.out.println(day);
 			if(dayStats.containsKey(day)){
 				dayStats.put(day, dayStats.get(day) + p.getPoPrice());
 			} else {
@@ -74,7 +80,30 @@ public class AdminController {
 			}
 		}
 		
-		System.out.println(monthStats);
+		String loges = "";
+		try {
+			loges = gdService.selectLogFile("login.txt");
+		} catch (IOException e) {
+			
+		}
+		
+		TreeMap<String, Integer> dateCount = new TreeMap<String, Integer>();
+		
+		
+		for(String log : loges.split("\n")) {
+			if(log.contains("[INFO]")) {
+				String str = log.split(" ")[0];
+				
+				if(dateCount.containsKey(str)) {
+					dateCount.put(str, dateCount.get(str) + 1);
+				} else {
+					dateCount.put(str, 1);
+				}
+			}
+		}
+		model.addAttribute("noAnswerCount", noAnswerCount);
+		model.addAttribute("gradeCount", gradeCount);
+		model.addAttribute("datedata", dateCount);
 		model.addAttribute("monthStats", monthStats);
 		model.addAttribute("dayStats", dayStats);
 		model.addAttribute("totalCount", totalCount);
@@ -153,9 +182,7 @@ public class AdminController {
 	// 문의사항 작성
 	@PostMapping("insertAnswer.ad")
 	public String insertAnswer(@ModelAttribute Question q) {
-		System.out.println(q);
 		int result = aService.insertAnswer(q);
-		System.out.println("result: " + result);
 		if(result > 0) {
 			return "redirect:questManage.ad";
 		} else {
@@ -212,8 +239,6 @@ public class AdminController {
 	@ResponseBody
 	public String gradeSuccess(@RequestParam("mNo") int mNo) {
 		RequestGrade rg = aService.selectRequestGrade(mNo);
-		
-		System.out.println(rg);
 		
 		if(rg != null) {
 			String grade = rg.getGrade();
@@ -444,6 +469,13 @@ public class AdminController {
 		}
 	}
 	
+	/** 지역 사진 관리 */
+	// 지역 사진 관리 페이지 이동
+	@GetMapping("contentImgManage.ad")
+	public String contentImgManageView() {
+		
+		return "contentImgManage";
+	}
 	
 	// 삭제 과정 중 비밀번호 확인
 	@GetMapping("matchPwd.ad")

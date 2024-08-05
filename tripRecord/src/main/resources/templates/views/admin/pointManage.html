@@ -43,6 +43,7 @@
 				<li class="select-board"><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+				<li><a href="contentImgManage.ad">지역 사진 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
 				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
@@ -238,7 +239,6 @@
 				case 'path': clickDiv = clickDivTarget.parentElement.parentElement; break;
 				case 'div': clickDiv = clickDivTarget; break;
 				}
-				console.log('클릭된 곳: ' + clickDiv.className);
 				if(clickDiv.classList.contains('box-size')){
 					if(document.getElementsByClassName('bi-pencil-square').length > 0){
 						rList();
@@ -322,8 +322,6 @@
 					myPoint = tr.children[0].innerText.replace(/,/g, '');
 					status = this.innerText;
 					
-					console.log(myPoint);
-					
 				    $('#modal').modal('show');
 				});
 			}
@@ -361,8 +359,7 @@
 										} else{
 											alert('상태 변경을 실패하였습니다.');
 										}
-									},
-									error: data => console.log('error')
+									}
 								});
 							} else{
 								document.getElementById('modalHide').style.color = 'red';

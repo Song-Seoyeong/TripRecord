@@ -249,4 +249,8 @@
 		FROM PAYMENT 
 		    JOIN POINT ON(POINT_NO = PO_NO)
 	</select>
+	
+	<select id="selectGradeCount" resultType="_int">
+		select count(*) from request_grade
+	</select>
 </mapper>

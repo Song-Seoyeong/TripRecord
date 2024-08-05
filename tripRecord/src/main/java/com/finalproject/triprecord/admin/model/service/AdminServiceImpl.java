@@ -225,4 +225,9 @@ public class AdminServiceImpl implements AdminService{
 	public ArrayList<Payment> selectMonthStats() {
 		return aMapper.selectMonthStats();
 	}
+	
+	@Override
+	public int selectGradeCount() {
+		return aMapper.selectGradeCount();
+	}
 }
