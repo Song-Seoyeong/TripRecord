@@ -37,6 +37,12 @@ public interface BoardService {
 
 	ArrayList<Question> getQuestionList(int i);
 
+	int deleteReply(int rNo);
+
+	int updateReply(Reply r);
+
+	void insertReply(Reply r);
+
 
 
 }

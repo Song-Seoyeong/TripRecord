@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>플래너 수정</title>
 <style>
 	#submit_button {
@@ -36,7 +37,7 @@
 	<div class="flex-container" style="margin-top:-240px;">
 		<div class="text-center" style="color: black; font-size: 36px; font-weight: 900;">플래너계정으로전환하기</div>
 		<div style="height:40px;"></div>
-		<form action="promotion.mp" method="post">
+		
 			<!-- 지역 선택-->
 			<div class="location row" style="justify-content:center;">
 				<div class="col-1">
@@ -83,9 +84,9 @@
 			<div style="height:50px;"></div>
 			<!-- 제출버튼 -->
 			<div class="text-center">
-				<button id="submit_button" >제출</button>
+				<button id="submit_button" onclick="promotion()">제출</button>
 			</div>
-		</form>
+		
 	</div>
 		
 	<div style="margin-bottom: 300px"></div>
@@ -93,6 +94,65 @@
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
+	 <script>
+	 	//전환 요청 확인 promotion.mp
+	 	function promotion(){
+	 		const region = document.getElementById('region').value;
+	 		const intro = document.getElementById('introProfile').value;
+	 		const submit = document.getElementById('submitContent').value;
+		 	if(region == '지역을 선택하세요'){
+		 		alert('지역을 선택하세요')
+		 		return false;
+		 	}else if(intro == "" || submit == ""){
+		 		if(confirm("소개 글 또는 신청 글이 없을 시 전환이 안 될 수있습니다")){
+		 			$.ajax({
+		 				type : 'post', 
+	    				url : 'promotion.mp',
+	    				data : {region:region, introProfile:intro, submitContent:submit},
+	    				success : (data) =>{ 
+	    					console.log(data)
+	    					if(data == 'PLANNER'){
+	    						alert('플래너 요청이 되어 있는 상태입니다');
+	    					}else if(data == 'ADMIN'){
+	    						alert('관리자 요청이 되어 있는 상태입니다.');
+	    					}else{
+		    					alert('플래너 요청이 완료되었습니다');
+	    					}
+	    				},
+	    				error : (data) =>{
+	    						alert('플래너 요청이 실패되었습니다') ;   						
+	    					}
+		 			})
+		 		}else{
+		 			return false;
+		 		}
+		 	}else{
+		 		if(confirm('전환 요청하시겠습니까')){
+		 			$.ajax({
+		 				type : 'post', 
+	    				url : 'promotion.mp',
+	    				data : {region:region, introProfile:intro, submitContent:submit},
+	    				success : (data) =>{ 
+	    					if(data == 'PLANNER'){
+	    						alert('플래너 요청이 되어 있는 상태입니다');
+	    					}else if(data == 'ADMIN'){
+	    						alert('관리자 요청이 되어 있는 상태입니다.');
+	    					}else{
+		    					alert('플래너 요청이 완료되었습니다');
+	    					}
+	    				},
+	    				error : (data) =>{
+	    						alert('플래너 요청이 실패되었습니다') ;   						
+	    					}
+		 			})
+		 		}else{
+		 			return false;
+		 		}
+		 	}
+	 	}
+	 	
+	 </script>
+		
 	
 </body>
 </html>

@@ -6,7 +6,7 @@
 <link type="text/css" href="css/service/askList.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <style>
-
+.disabled{cursor: not-allowed; pointer-events: none;}
 </style>
 </head>
 <body>
@@ -109,9 +109,29 @@
         
         
         
-		<div class="text-center">페이징 1 2 3 4 5</div>
 		<!-- 페이징 -->
-		<a href="notice.no">공지사항 이동 임시</a>
+		<div class='row' style='margin-bottom: 100px;'>
+			<div class='col-4'></div>
+				<nav aria-label="Page navigation example" th:with="loc=${loc}" style="display:flex; justify-content:center;">
+					<ul class="pagination">
+						<li class="page-item">
+							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li class="page-item" th:each=" p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+							<a class="page-link" th:href="@{${loc}(page=${p})}">[[${p}]]</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			<div class='col-4'></div>
+		</div>
+		<!-- 페이징 -->
 		
 		
 		

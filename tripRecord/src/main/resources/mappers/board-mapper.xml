@@ -12,6 +12,7 @@
 		select *
 		from board
 			left join member on(board_writer_no = member_no)
+			left join general_bo on(board_no = general_no)
 		where board_status = 'N' and board_type = #{boardType}
 		order by board_no desc
 	</select>
@@ -104,7 +105,24 @@
 		from image
 		where image_ref_type = 'BOARD' and image_ref_no = #{boardNo}
 		order by image_no asc
-	</select>	
+	</select>
+	
+	<insert id="insertReply">
+		insert into reply
+		values(seq_reply.nextval, #{boardNo}, #{replyWriterNo}, #{replyContent}, sysdate, sysdate, default)
+	</insert>
+	
+	<update id="deleteReply">
+		update reply
+		set reply_status = 'Y'
+		where reply_no = #{rNo}
+	</update>
+	
+	<update id="updateReply">
+		update reply
+		set reply_content = #{replyContent}, reply_modify_date = sysdate
+		where reply_no = #{replyNo}
+	</update>
 	
 	<select id="getQuestionList" resultType="Question">
 		select *
@@ -114,6 +132,8 @@
 		</if>
 		<!-- i=0 : 문의 목록, i != 0 : 문의 상세 조회 -->
 	</select>
+	
+	
 	
 	
 	

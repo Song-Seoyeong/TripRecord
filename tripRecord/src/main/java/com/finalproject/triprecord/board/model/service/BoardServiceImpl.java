@@ -94,5 +94,20 @@ public class BoardServiceImpl implements BoardService{
 		return bMapper.getQuestionList(i);
 	}
 
+	@Override
+	public void insertReply(Reply r) {
+		bMapper.insertReply(r);
+	}
+
+	@Override
+	public int deleteReply(int rNo) {
+		return bMapper.deleteReply(rNo);
+	}
+
+	@Override
+	public int updateReply(Reply r) {
+		return bMapper.updateReply(r);
+	}
+
 
 }

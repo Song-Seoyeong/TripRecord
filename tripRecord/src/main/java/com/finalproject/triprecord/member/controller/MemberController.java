@@ -7,6 +7,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,7 +55,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("login.me")
-	public String login(@RequestParam("memberId") String id, @RequestParam("memberPwd") String pwd, HttpSession session) {
+	public String login(@RequestParam("memberId") String id, @RequestParam("memberPwd") String pwd, HttpSession session, Model model) {
 		Member m = new Member();
 		m.setMemberId(id);
 		m.setMemberPwd(pwd);
@@ -74,13 +75,14 @@ public class MemberController {
 				} catch (IOException e) {
 					
 				}
-				return "index";
+				return "redirect:/";
 			} else {
 				return "redirect:dashBoard.ad";
 			}
 			
 		}else {
-			return "에러페이지";
+			model.addAttribute("error", "error");
+			return "login";
 		}
 	}
 	

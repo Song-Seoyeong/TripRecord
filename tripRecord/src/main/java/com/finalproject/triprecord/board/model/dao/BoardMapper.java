@@ -42,5 +42,9 @@ public interface BoardMapper {
 
 	ArrayList<Question> getQuestionList(int i);
 
+	void insertReply(Reply r);
 
+	int deleteReply(int rNo);
+
+	int updateReply(Reply r);
 }

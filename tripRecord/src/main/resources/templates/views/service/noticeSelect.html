@@ -6,6 +6,34 @@
 <link type="text/css" href="css/service/noticeSelect.css" rel="stylesheet">
 <style>
 
+.edit-btn{
+	background:#96caf0;
+	border:none;
+	color:white;
+	font-weight:bold;
+	font-size:15px;
+	width: 65px;
+    border-radius: 10px;
+    height: 35px;
+}
+.edit-btn:hover{
+	cursor: pointer;
+	background: #58aae7;
+}
+.del-btn{
+	background:lightgray;
+	color:black;
+	border:none;
+	font-weight:bold;
+	font-size:15px;
+	width: 65px;
+    border-radius: 10px;
+    height: 35px;
+}
+.del-btn:hover{
+	cursor:pointer;
+	background:gray;
+}
 
 </style>
 </head>
@@ -59,75 +87,56 @@
 		</div>
 		<div class='row' style="padding:30px; border-bottom:5px solid #96caf0;">
 			<div class="col-2">
-				<img src="#">
+				<img src="#"><!-- 프로필사진 -->
 				[[${n.nickname}]]
 			</div>
-			<div class="col-9"></div>
-			<div class="col-1">작성일</div>
+			<div class="col-8"></div>
+			<div class="col-2">[[${n.boardModifyDate}]]</div>
 		</div>
 		<div class='text-start' id='placeContent'>
 			[[${n.boardContent}]]
 		</div>
 		
-		<div id="placeImg" class="container">
-			<h2>관련 사진 &#x1F4F8;</h2>
-		    <div class="image-gallery" id="image-gallery">
-		        <div class="image-container" th:each=" i, iStat : ${ iList }">
-		        	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" th:alt="Image ${iStat.count}">
-		        </div>
-		    </div>
-		</div>
 	</div>
 	<input type="hidden" th:value="${n.boardNo}">
 	<div class="text-center row">
 		<div class="col-4"></div>
 		<div class="col-1" style="margin:auto;">
-			<a href="#">
-				<button class="btn btn-primary edit-btn">수정</button>
+			<a href="관리자 페이지로 보내죠?" th:if="${session.loginUser != null && session.loginUser.grade == 'ADMIN'}">
+				<button class="edit-btn">수정</button>
 			</a>
 		</div>
 		<div class="col-1" style="margin:auto;">
 			<a href="notice.no">
-				<button class="btn btn-primary edit-btn">목록</button>
+				<button class="edit-btn">목록</button>
 			</a>
 		</div>
 		<div class="col-1" style="margin:auto;">
-			<button class="btn btn-danger del-btn">삭제</button>
+			<button class="del-btn" th:if="${session.loginUser != null && session.loginUser.grade == 'ADMIN'}">삭제</button>
 		</div>
 		<div class="col-4"></div>
 	</div>
 	
-	<!-- 이미지 모달 -->
-	<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-	    <div class="modal-dialog modal-lg modal-dialog-centered">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <h5 class="modal-title" id="imageModalLabel">사진</h5>
-	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	            </div>
-	            <div class="modal-body">
-	                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-	                    <div class="carousel-indicators">
-	                        <!-- Indicators will be inserted here by JavaScript -->
-	                    </div>
-	                    <div class="carousel-inner">
-	                        <!-- Carousel items will be inserted here by JavaScript -->
-	                    </div>
-	                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-	                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	                        <span class="visually-hidden">Previous</span>
-	                    </button>
-	                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-	                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	                        <span class="visually-hidden">Next</span>
-	                    </button>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	</div>
-	<!-- 이미지 모달 -->
 	
+	
+	<!-- 삭제 모달 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+		<div class="modal-dialog" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
+        			<p class="mb-0">삭제 후 복구가 불가능합니다.</p>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
+        				<strong>네</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	<!-- 삭제 모달 -->
 	
 	
 
@@ -135,91 +144,14 @@
         <br>
 		
 		<!-- 페이징 -->
-		<a href="noticeWrite.no">notice 글쓰기로 이동 임시</a>
 
 
-		<div th:if="${ session.loginUser != null}">
-	       	<button class="btn btn-outline-success" type="button" onclick="location.href='writeBoard.bo'">WRITE BOARD</button>
-	    </div>
-	
-	
 	
 	
 		<div th:replace="~{ common/footer.html :: footer }"></div>
 	
 	
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-	        const gallery = document.getElementById('image-gallery');
-	        const images = gallery.querySelectorAll('.image-container img');
-	        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
-	        const carouselIndicators = document.querySelector('.carousel-indicators');
-	        const carouselInner = document.querySelector('.carousel-inner');
-	
-	        images.forEach((img, index) => {
-	            const indicator = document.createElement('button');
-	            indicator.type = 'button';
-	            indicator.setAttribute('data-bs-target', '#carouselExampleIndicators');
-	            indicator.setAttribute('data-bs-slide-to', index);
-	            if (index === 0) indicator.classList.add('active');
-	            carouselIndicators.appendChild(indicator);
-	
-	            const carouselItem = document.createElement('div');
-	            carouselItem.classList.add('carousel-item');
-	            if (index === 0) carouselItem.classList.add('active');
-	
-	            const carouselImage = document.createElement('img');
-	            carouselImage.src = img.src;
-	            carouselImage.classList.add('d-block', 'w-100');
-	            carouselItem.appendChild(carouselImage);
-	
-	            carouselInner.appendChild(carouselItem);
-	
-	            img.addEventListener('click', () => {
-	                modal.show();
-	                $('#carouselExampleIndicators').carousel(index);
-	            });
-	        });
-	
-	        if (images.length > 2) {
-	            for (let i = 2; i < images.length; i++) {
-	                images[i].parentElement.style.display = 'none';
-	            }
-	
-	            const moreImages = document.createElement('div');
-	            moreImages.classList.add('more-images');
-	            moreImages.innerText = `더보기`;
-	            gallery.appendChild(moreImages);
-	
-	            moreImages.addEventListener('click', () => {
-	                modal.show();
-	                $('#carouselExampleIndicators').carousel(2);
-	            });
-	        }
-	        
-	        /* document.getElementById('goReview').addEventListener('click', ()=>{
-	        	const reviewModal = document.getElementById('Modal');
-	        	$('#Modal').modal('show');
-	        }); */
-	        
-	       /*  document.getElementById('loginView').addEventListener('click', ()=>{
-	        	location.href = 'placeReviewWrite.pla';
-	        }) */
-	        
-	        
-	       const reviewCard = document.getElementsByClassName('testimonial-card');
-	       Array.from(reviewCard).forEach(card =>{
-	    	   card.addEventListener('click', () =>{
-		    	   location.href = 'placeReviewDetail.pla'
-		       })
-	       })
-	    });
-		
-		
-		
-		
-		
-		
 		window.onload=()=>{
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			for(const sideP of sideMenus){
@@ -244,6 +176,17 @@
 					}
 				});
 			}
+			
+			
+			// 삭제버튼
+			document.getElementsByClassName('del-btn')[0].addEventListener('click',()=>{
+				$('#modalChoice').modal('show');
+			});
+			document.getElementById('delete').addEventListener('click',()=>{
+				location.href="commuDelete.bo?boardNo=" + boardNo;
+			})
+			
+			
 		}
 	</script>
 	

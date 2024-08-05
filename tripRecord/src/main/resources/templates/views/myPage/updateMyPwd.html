@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>마이페이지</title>
 <style>
 	#revision_button {
@@ -36,52 +37,50 @@
 	<div class="flex-container" style="margin-top:-240px;">
 		<div class="text-center" style="color: black; font-size: 36px; font-weight: 900;">비밀번호 변경</div>
 		<div style="height:40px;"></div>
-		<form action="updatPwdOfMe.mp" method="post">
-			<!-- 현 비밀번호 -->
-			<div class="currentPwd row" style="justify-content:center;">
-				<div class="col-2">
-					<span style="float:right; font-size:25px; font-weight: 700; ">현재 비밀번호</span>
-				</div>
-				<div class="col-1"></div>
-				<div class="col-3">
-					<input id="currentPwd" name="currentPwd" type="password" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray" placeholder="현재 사용중인 비밀번호를 입력하세요">
-				</div>
+		<!-- 현 비밀번호 -->
+		<div class="currentPwd row" style="justify-content:center;">
+			<div class="col-2">
+				<span style="float:right; font-size:25px; font-weight: 700; ">현재 비밀번호</span>
 			</div>
-			<div style="height:20px;"></div>
-			<!-- 새 비밀번호 -->
-			<div class="newPwd row" style="justify-content:center;">
-				<div class="col-2">
-					<span style="float:right; font-size:25px; font-weight: 700; ">새 비밀번호</span>
-				</div>
-				<div class="col-1"></div>
-				<div class="col-3">
-					<input id="newPwd" name="newPwd" type="password" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray" placeholder="비밀번호를 입력하세요">
-					<button style="border:none; background:white;" title="비밀번호는 숫자, 영어, 특수문자 포함 8자 이상 15자 미만으로 생성해주세요" disabled>
-                    	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-airplane-fill" viewBox="0 0 16 16">
-  							<path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849"/>
-						</svg>
-                    </button>
-                    <div id="pwdText"></div>
-				</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<input id="currentPwd" name="currentPwd" type="password" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray" placeholder="현재 사용중인 비밀번호를 입력하세요">
 			</div>
-			<div style="height:20px;"></div>
-			<!-- 새 비밀번호 확인 -->
-			<div class="checkNewPwd row" style="justify-content:center;">
-				<div class="col-2">
-					<a style="float:right; font-size:25px; font-weight: 700; ">새 비밀번호 확인</a>
-				</div>
-				<div class="col-1"></div>
-				<div class="col-3">
-					<input id="checkPwd" type="password" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray"placeholder="확인을 위한 비밀번호 입력">
-					<div id="checkPwdText">비밀번호를 입력하세요</div>
-				</div>
+		</div>
+		<div style="height:20px;"></div>
+		<!-- 새 비밀번호 -->
+		<div class="newPwd row" style="justify-content:center;">
+			<div class="col-2">
+				<span style="float:right; font-size:25px; font-weight: 700; ">새 비밀번호</span>
 			</div>
-			<div style="height:50px;"></div>
-			<!-- 수정버튼 -->
-			<div class="text-center">
-				<button id="revision_button">수정</button>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<input id="newPwd" name="newPwd" type="password" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray" placeholder="비밀번호를 입력하세요">
+				<button style="border:none; background:white;" title="비밀번호는 숫자, 영어, 특수문자 포함 8자 이상 15자 미만으로 생성해주세요" disabled>
+                   	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-airplane-fill" viewBox="0 0 16 16">
+ 							<path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849"/>
+					</svg>
+                   </button>
+                   <div id="pwdText"></div>
 			</div>
-		</form>
+		</div>
+		<div style="height:20px;"></div>
+		<!-- 새 비밀번호 확인 -->
+		<div class="checkNewPwd row" style="justify-content:center;">
+			<div class="col-2">
+				<a style="float:right; font-size:25px; font-weight: 700; ">새 비밀번호 확인</a>
+			</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<input id="checkPwd" name="checkPwd" type="password" style="width:300px; height:40px; border-radius: 8px; border:1px solid lightgray"placeholder="확인을 위한 비밀번호 입력">
+				<div id="checkPwdText">비밀번호를 입력하세요</div>
+			</div>
+		</div>
+		<div style="height:50px;"></div>
+		<!-- 수정버튼 -->
+		<div class="text-center">
+			<button id="revision_button" onclick="updatePwd()">수정</button>
+		</div>
 	</div>
 		
 	<div style="margin-bottom: 300px"></div>
@@ -90,41 +89,106 @@
 	<div th:replace="~{common/footer :: footer}" ></div>
 	<script>
 		//새로운 비밀번호 유효성 검사
-		document.getElementById('newPwd').addEventListener('change', () => {
-			const newPwd = document.getElementById('newPwd').value;
-			const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
-			const pwdText = document.getElementById('pwdText')
-			//console.log(newPwd);
-			if(newPwd == ""){
-				pwdText.innerText="";
-			}else if(!regPwd.test(newPwd)){
-				pwdText.innerText="비밀번호는 숫자, 영어, 특수문자 포함 8자 이상 15자 미만으로 생성해주세요";
-				pwdText.style.color="red";
+		const checkNewPwd = () =>{
+			document.getElementById('newPwd').addEventListener('change', () => {
+				const newPwd = document.getElementById('newPwd').value;
+				const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+				const pwdText = document.getElementById('pwdText')
+				//console.log(newPwd);
+				if(newPwd == ""){
+					pwdText.innerText="";
+				}else if(!regPwd.test(newPwd)){
+					pwdText.innerText="비밀번호는 숫자, 영어, 특수문자 포함 8자 이상 15자 미만으로 생성해주세요";
+					pwdText.style.color="red";
+				}else{
+					pwdText.innerText="";
+				}
+				//새로운 비밀번호 맞는지 확인
+				if(regPwd.test(newPwd)){
+					document.getElementById('checkPwd').addEventListener('input',()=>{
+						const newPwd = document.getElementById('newPwd').value;
+						const checkPwd = document.getElementById('checkPwd').value;
+						const checkPwdText = document.getElementById('checkPwdText');
+						
+						if(checkPwd.trim() == ""){
+							checkPwdText.innerText= "비밀번호를 입력하세요";
+							checkPwdText.style.color = "black";
+						}else if(newPwd == checkPwd){
+							checkPwdText.innerText= "";
+							checkPwdTextValue = 'true';
+							checkPwdText.innerText= "일치";
+							checkPwdText.style.color = "green";
+							
+						}else if(newPwd != checkPwd){
+							checkPwdText.innerText= "";
+							checkPwdText.innerText= "불일치";
+							checkPwdText.style.color = "red";
+						}
+					})
+				}
+			});
+		}
+		
+		(() => {
+			checkNewPwd();
+		})();
+		
+		//비번 수정 신청 확인 및 완료 시 알람창 
+		function updatePwd(){
+			const currentPwd = document.getElementById('currentPwd');
+			const currentPwdValue = currentPwd.value;
+			
+			const newPwd = document.getElementById('newPwd');
+			const newPwdValue = newPwd.value; 
+			
+			const checkPwd = document.getElementById('checkPwd');
+			const checkPwdValue = checkPwd.value;
+			
+			if(currentPwdValue.trim() == ""){
+				currentPwd.focus();
+				alert('비밀번호를 입력하세요');
+			}else if(newPwdValue.trim() == ""){
+				newPwd.focus();
+				alert('새 비밀번호를 입력하세요');
+			}else if(checkPwdValue.trim() == ""){
+				checkPwd.focus();
+				alert('비밀번호 확인을 입력하세요');
 			}else{
-				pwdText.innerText="";
-			}
-			//새로운 비밀번호 맞는지 확인
-			if(regPwd.test(newPwd)){
-				document.getElementById('checkPwd').addEventListener('input',()=>{
-					const newPwd = document.getElementById('newPwd').value;
-					const checkPwd = document.getElementById('checkPwd').value;
-					const checkPwdText = document.getElementById('checkPwdText');
-					
-					if(checkPwd == ""){
-						checkPwdText.innerText= "비밀번호를 입력하세요";
-						checkPwdText.style.color = "black";
-					}else if(newPwd == checkPwd){
-						checkPwdText.innerText= "";
-						checkPwdText.innerText= "일치";
-						checkPwdText.style.color = "green";
-					}else if(newPwd != checkPwd){
-						checkPwdText.innerText= "";
-						checkPwdText.innerText= "불일치";
-						checkPwdText.style.color = "red";
+				
+				if(confirm('비밀번호를 수정하시겠습니까')){
+					const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
+					if(regPwd.test(newPwdValue) && (newPwdValue == checkPwdValue)){
+						$.ajax({
+							type : 'post', 
+		    				url : 'updatPwdOfMe.mp',
+		    				data : {currentPwd:currentPwdValue, newPwd:newPwdValue},
+		    				success : (data)=>{ 
+		    					if(data == 'true'){
+		    						checkPwd.value ="";
+		    						newPwd.value="";
+		    						newPwd.focus();
+		    						alert('현재 이용하는 비밀번호로 수정할 수 없습니다')
+		    					}else{
+			    					alert('비밀번호 수정에 성공하였습니다.');
+			    					location.href = "logout.me";
+		    					}
+		    				},
+		    				error: (data) =>{
+		    					alert('비밀번호 수정에 실패하였습니다.');
+		    				}
+						})
+					}else if(!regPwd.test(newPwd)){
+						checkPwd.value ="";
+						newPwd.value="";
+						newPwd.focus();
+						alert('비밀번호가 형식과 일치하지 않습니다');
+						return false;
 					}
-				})
+				}else{
+					return false;
+				}
 			}
-		});
+		}
 		
 	</script>
 </body>
