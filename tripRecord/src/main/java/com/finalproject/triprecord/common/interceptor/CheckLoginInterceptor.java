@@ -1,6 +1,6 @@
 package com.finalproject.triprecord.common.interceptor;
 
-//import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.finalproject.triprecord.member.model.vo.Member;
@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+@Component
 public class CheckLoginInterceptor implements HandlerInterceptor{
 	
 	@Override
