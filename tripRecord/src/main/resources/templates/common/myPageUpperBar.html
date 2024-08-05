@@ -2,10 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="myPageUpperBar">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>마이페이지 어퍼바</title>
 <style>
 	a{text-decoration-line: none; color:black;}
 	a:hover{color:#96CAF0;}
+	
+	 #revision_button {
+        color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+     #replace_button {
+        color: white; 
+        background-color: #96CAF0; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
+    }
+    #close_button {
+        color: white; 
+        background-color: #DD5353; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        border: 2px solid #DD5353;
+    }
 </style>
 </head>
 <body>
@@ -13,7 +44,7 @@
 	<!-- 프로필 -->
 	<div class="container text-center" id="profileCon" style="margin:Auto; display:grid;" >
 		<div style="border:1px solid blue; width: 180px; height: 180px; border:2px solid black; border-radius: 9999px; overflow: hidden; justify-content: center; align-items: center;">
-			<img style="width:100%; height:100%; ;" src="image/profile.png"/>
+			<img style="width:100%; height:100%; ;" th:src="|https://drive.google.com/thumbnail?id=${rename}|"/>
 		</div>
 		<!-- 닉네임 및 내정보 이동 -->
 		<div id="nickMove" class="container text-center" style=" margin-top:-130px;">
@@ -28,7 +59,6 @@
 				[[${session.loginUser.memberName}]]
 				<span style="font-size:20px; font-weight:100">&#91; [[${session.loginUser.memberPoint}]] &#93;p</span>
 			</span>
-			
 		</div>
 	</div> 
 	<div style="height:40px;"></div>
@@ -60,17 +90,19 @@
 	               <h5 class="modal-title">프로필 사진 교체</h5>
 	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	           </div>
-	           <div class="modal-body">
-	               <!-- 교체할 이미지 미리보기 -->
-	               <img id="previewImage" width="120px" height="120px"  src="image/profile.png" alt="프로필 사진">
-	               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	               <!-- 파일 선택 -->
-	               <input type="file" accept="image/*" id="imageInput" onchange="previewImage(this)">
-	           </div>
-	           <div class="modal-footer">
-	               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-	               <button type="button" class="btn btn-primary" onclick="replaceImage()">교체</button>
-	           </div>
+	           <form id="uploadImage" action="#" method="post" enctype="multipart/form-data" >
+		           	<div class="modal-body">
+		               <!-- 교체할 이미지 미리보기 -->
+		               <img id="previewImage" width="120px" height="120px"  src="image/noProfile.png" alt="프로필 사진">
+		               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		               <!-- 파일 선택 -->
+		               <input type="file" accept="image/*" id="imageInput" name="imageInput" value="this.value"/>
+		           </div>
+		           <div class="modal-footer">
+		               <button type="button" id="replace_button" onclick="uploadImage()" >수정</button>
+		               <button type="button" id="close_button" data-bs-dismiss="modal">닫기</button>
+		           </div>
+	           </form>
 	       </div>
 	   </div>
 	</div>
@@ -79,18 +111,63 @@
 	
 	
 	<script>
-		//프로필 사진 모달 팝업
+		//프로필 사진 모달 팝업 replaceImage.mp
 		function changeImage(){
-			//모달 객체 생성
 			const imageModal = new bootstrap.Modal(document.getElementById('profileModal'));
-		    // 모달 열기
 		    imageModal.show()
 		}
-		//프로필 사진 교체
-		function replaceImage(){
-	    	location.href="replaceImage.mp"
-	    }
 		
+		//사진 첨부시 미리보기
+	    document.getElementById('imageInput').addEventListener('change', function() {
+           const preview = document.getElementById('previewImage');	
+           const imageInput = document.getElementById('imageInput');
+           
+           if (imageInput.files && imageInput.files[0]) { // 파일이 선택되었는지 확인
+               const file = imageInput.files[0];
+               const reader = new FileReader(); 
+               
+               reader.onload = function(e) {
+                   preview.src = e.target.result; // 읽어온 데이터로 이미지 업데이트
+               }
+               reader.readAsDataURL(file); // 파일을 데이터 URL로 읽기
+           } else {
+               preview.src = 'image/noProfile.png'; // 기본 이미지로 설정
+           }
+        });
+		
+		//프로필 사진 교체 
+		function uploadImage() {
+			const uploadImage = document.getElementById('uploadImage');
+			const imageInput = document.getElementById('imageInput');
+			const imageData = new FormData();
+			console.log(imageData.append)
+			// 이미지 파일을 FormData에 추가
+			if (imageInput.files.length > 0) {
+				imageData.append('file', imageInput.files[0]); //fill은 키 값
+			} else {
+				alert('이미지를 삽입하세요')
+				return; 
+			}
+
+			console.log('FormData 객체:', imageData);
+
+			$.ajax({
+				type : 'POST',
+				url : 'uploadProfile.mp',
+				data : imageData,
+				processData : false, // jQuery가 데이터 처리를 하지 않도록 설정 ,  jQuery가 데이터 처리를 하지 않도록 하기 이는 FormData를 사용하는 경우 필수
+				contentType : false, // jQuery가 Content-Type 헤더를 설정하지 않도록 설정
+				success : (data) => {
+					console.log('업로드 성공:', data);
+					alert('수정되었습니다')
+					window.location.reload();
+					
+				},
+				error : (data) =>{
+					console.error('업로드 실패:', data);
+				}
+			});
+		}
 	</script>
 </body>
 </html>

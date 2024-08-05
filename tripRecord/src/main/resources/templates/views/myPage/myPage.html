@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>마이페이지</title>
 <style>
     #revision_button {
@@ -90,90 +91,88 @@
 
     <div style="height:20px;"></div>
     <div class="flex-container" style="margin-top:-240px;">
-	    <div class="text-center" style="color: black; font-size: 36px; font-weight: 900;">내 정보 수정</div>    
-        <div style="height:40px;"></div>
-        <form action="updateMember.mp" method="post">
-            <!-- 아이디 -->
-            <div class="id row" style="justify-content:center;">
-                <div class="col-2">
-                    <span style="float:right; font-size:25px; font-weight: 700;">아이디</span>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-3">
-                    <input type="text" th:value="${session.loginUser.memberId}" readonly>
-                </div>
-            </div>
-            <div style="height:20px;"></div>
-            <!-- 이름 -->
-            <div class="name row" style="justify-content:center;">
-                <div class="col-2">
-                    <span style="float:right; font-size:25px; font-weight: 700;">이름</span>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-3">
-                    <input type="text" th:value="${session.loginUser.memberName}" readonly>
-                </div>
-            </div>
-            <div style="height:20px;"></div>
-            <!-- 닉네임 -->
-            <div class="name row" style="justify-content:center;">
-                <div class="col-2">
-                    <span style="float:right; font-size:25px; font-weight: 700;">닉네임</span>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-3" >
-                    <input id="nickName" name="nickName" type="text" th:value="${session.loginUser.nickname}" >
-                    <div id="nickNameText"></div>
-                </div>
-            </div>
-            <div style="height:20px;"></div>
-            <!-- 전화번호 -->
-            <div class="phone row" style="justify-content:center;">
-                <div class="col-2">
-                    <span style="float:right; font-size:25px; font-weight: 700;">전화번호</span>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-3">
-                    <input id="phoneNo" name="phoneNo" type="text"  th:value="${session.loginUser.phone}" >
-                    <button style="border:none; background:white;" title="(-)를제외하고 전화번호를 입력하세요" disabled>
-                    	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-airplane-fill" viewBox="0 0 16 16">
-  							<path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849"/>
-						</svg>
-                    </button>
-                    <div id='phoneText'></div>
-                </div>
-            </div>
-            <div style="height:20px;"></div>
-            <!-- 이메일 -->
-            <div class="email row" style="justify-content:center;">
-                <div class="col-2">
-                    <span style="float:right; font-size:25px; font-weight: 700;">이메일</span>
-                </div>
-                <div class="col-1"></div>
-                <div class="col-3">
-                	<div style="justify-content:center;">
-	                    <div class='d-flex align-items-center'>
-	                        <input id='memEmail' type="text" name='memEmail' placeholder="이메일 입력" th:value="${#strings.substringBefore(session.loginUser.email,'@')}">
-	                        <span id='atSign' class='text-center align-text-center'>@</span>
-	                        <input id="domain" type="text" name="domain" aria-lavel="Text input with dropdown button" th:value="${#strings.substringAfter(session.loginUser.email,'@')}">
-	                        <select name='emailDomain' id='emailDomain' class="form-select">
-	                            <option value=""selected>직접 입력하기</option>
-	                            <option value="naver.com">naver.com</option>
-	                            <option value="gmail.com">gmail.com</option>
-	                            <option value="yahoo.com">yahoo.com</option>
-	                        </select>
-	                    </div>
-	                    <div id="checkEmail"></div>
-                	</div>
-                </div>
-            </div>
-            <div style="height:50px;"></div>
-            <!-- 수정/탈퇴 버튼 -->
-            <div class="text-center">
-                <button id="revision_button"> 수정</button>
-                <button id="delete_button">탈퇴</button>
-            </div>
-        </form>
+    <div class="text-center" style="color: black; font-size: 36px; font-weight: 900;">내 정보 수정</div>    
+       <div style="height:40px;"></div>
+           <!-- 아이디 -->
+           <div class="id row" style="justify-content:center;">
+               <div class="col-2">
+                   <span style="float:right; font-size:25px; font-weight: 700;">아이디</span>
+               </div>
+               <div class="col-1"></div>
+               <div class="col-3">
+                   <input type="text" th:value="${session.loginUser.memberId}" readonly>
+               </div>
+           </div>
+           <div style="height:20px;"></div>
+           <!-- 이름 -->
+           <div class="name row" style="justify-content:center;">
+               <div class="col-2">
+                   <span style="float:right; font-size:25px; font-weight: 700;">이름</span>
+               </div>
+               <div class="col-1"></div>
+               <div class="col-3">
+                   <input type="text" th:value="${session.loginUser.memberName}" readonly>
+               </div>
+           </div>
+           <div style="height:20px;"></div>
+           <!-- 닉네임 -->
+           <div class="name row" style="justify-content:center;">
+               <div class="col-2">
+                   <span style="float:right; font-size:25px; font-weight: 700;">닉네임</span>
+               </div>
+               <div class="col-1"></div>
+               <div class="col-3" >
+                   <input id="nickName" name="nickName" type="text" th:value="${session.loginUser.nickname}" >
+                   <div id="nickNameText"></div>
+               </div>
+           </div>
+           <div style="height:20px;"></div>
+           <!-- 전화번호 -->
+           <div class="phone row" style="justify-content:center;">
+               <div class="col-2">
+                   <span style="float:right; font-size:25px; font-weight: 700;">전화번호</span>
+               </div>
+               <div class="col-1"></div>
+               <div class="col-3">
+                   <input id="phoneNo" name="phoneNo" type="text"  th:value="${session.loginUser.phone}" >
+                   <button style="border:none; background:white;" title="(-)를제외하고 전화번호를 입력하세요" disabled>
+                   	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-airplane-fill" viewBox="0 0 16 16">
+ 							<path d="M6.428 1.151C6.708.591 7.213 0 8 0s1.292.592 1.572 1.151C9.861 1.73 10 2.431 10 3v3.691l5.17 2.585a1.5 1.5 0 0 1 .83 1.342V12a.5.5 0 0 1-.582.493l-5.507-.918-.375 2.253 1.318 1.318A.5.5 0 0 1 10.5 16h-5a.5.5 0 0 1-.354-.854l1.319-1.318-.376-2.253-5.507.918A.5.5 0 0 1 0 12v-1.382a1.5 1.5 0 0 1 .83-1.342L6 6.691V3c0-.568.14-1.271.428-1.849"/>
+					</svg>
+                   </button>
+                   <div id='phoneText'></div>
+               </div>
+           </div>
+           <div style="height:20px;"></div>
+           <!-- 이메일 -->
+           <div class="email row" style="justify-content:center;">
+               <div class="col-2">
+                   <span style="float:right; font-size:25px; font-weight: 700;">이메일</span>
+               </div>
+               <div class="col-1"></div>
+               <div class="col-3">
+               	<div style="justify-content:center;">
+                    <div class='d-flex align-items-center'>
+                        <input id='memEmail' type="text" name='memEmail' placeholder="이메일 입력" th:value="${#strings.substringBefore(session.loginUser.email,'@')}">
+                        <span id='atSign' class='text-center align-text-center'>@</span>
+                        <input id="domain" type="text" name="domain" aria-lavel="Text input with dropdown button" th:value="${#strings.substringAfter(session.loginUser.email,'@')}">
+                        <select name='emailDomain' id='emailDomain' class="form-select">
+                            <option value=""selected>직접 입력하기</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="yahoo.com">yahoo.com</option>
+                        </select>
+                    </div>
+                    <div id="checkEmail"></div>
+               	</div>
+               </div>
+           </div>
+           <div style="height:50px;"></div>
+           <!-- 수정/탈퇴 버튼 -->
+           <div class="text-center">
+               <button id="revision_button"> 수정</button>
+               <button type="button" id="delete_button" onclick="deleteBtn()">탈퇴</button>
+           </div>
     </div>
     
     <div style="margin-bottom: 300px"></div>
@@ -182,6 +181,35 @@
     <div th:replace="~{common/footer :: footer}"></div>
     
     <script th:inline="javascript">
+	  //수정 버튼 엔터 가능
+		/*function submitCheck(){
+			if(confirm("수정하시겠습니까")){
+				return;
+			}else{
+				return false; action="updateMember.mp"
+			}
+		};*/
+		//탈퇴하기
+		function deleteBtn(){
+			if(confirm("탈퇴하시겠습니까")){
+				$.ajax({
+    				type : 'post', 
+    				url : 'deleteMember.mp',
+    				data : {},
+    				success : (data) =>{
+    					console.log(data);
+    					alert('탈퇴 되었습니다. 이용해주셔서 감사합니다');
+    					location.href = "logout.me";
+    				},
+    				error: (data) => {
+    					console.log(data)
+    					alert('탈퇴에 실패하였습니다');
+    				}
+    			})
+			}else{
+				return false;
+			}
+		}
     	//전화번호 기본값 010 표시
 	    document.addEventListener('DOMContentLoaded', function() {
 	        const phoneInput = document.getElementById('phoneNo');
@@ -240,7 +268,7 @@
     	document.addEventListener('change', () => {
 		    const preEmail = document.getElementById('memEmail').value;
 		    const surDomain = document.getElementById('domain').value;
-		    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[com]{2,}$/;
 		    const checkEmail = document.getElementById('checkEmail')
 			const memEmail = preEmail + '@' + surDomain;
 		    
@@ -251,6 +279,32 @@
 				checkEmail.innerText ='';
 			}
 		});
+    	
+    	//정보 성공적으로 수정 시 알람 창
+    	const submitBtn = document.getElementById('revision_button');
+    	submitBtn.addEventListener('click', function(){
+    		const nickName = document.getElementById('nickName').value;
+    		const phoneNo = document.getElementById('phoneNo').value;
+    		const memEmail = document.getElementById('memEmail').value;
+    		const domain = document.getElementById('domain').value;
+    		if(confirm("수정하시겠습니까")){
+    			$.ajax({
+    				type : 'post', 
+    				url : 'updateMember.mp',
+    				data : {nickName:nickName, phoneNo:phoneNo, memEmail:memEmail, domain:domain},
+    				success : (data) =>{
+    					alert('정보수정에 성공하였습니다');
+    					location.href = "logout.me";
+    				},
+    				error: (data) => {
+    					alert('정보 수정에 실패하였습니다');
+    				}
+    			})
+    		}else{
+    			return false;
+    		}
+    	})
+    	
     	
     </script>
 </body>

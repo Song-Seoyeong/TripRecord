@@ -20,6 +20,7 @@
 	margin-top: 70px;
 	margin-left: 50px;
 }
+#admin{cursor:pointer;}
 </style>
 </head>
 <body>
@@ -35,18 +36,36 @@
 					변경</a></li>
 			<li class="nav-item"><a class="nav-link"
 				href="promoteToPlanner.mp">플래너 전환하기</a></li>
-			<li class="nav-item"><a class="nav-link" href="submitAdmin()">관리자
-					전환 요청하기</a></li>
+			<li class="nav-item">
+				<a class="nav-link" id="admin" onclick="submitAdmin()">
+					관리자 전환 요청하기
+				</a>
+			</li>
 		</ul>
 	</div>
 
 	<script>
 		function submitAdmin() {
-			let result = confirm("요청하시겠습니까");
-			if (result == 'true') {
-				location.href = "submitAdmin.me"
+			if (confirm("요청하시겠습니까")) {
+				$.ajax({
+					type:'post',
+					url : 'submitAdmin.mp',
+					data : {grade:'ADMIN'},
+					success : (data) =>{
+						if(data == 'PLANNER'){
+    						alert('플래너 요청이 되어 있는 상태입니다');
+    					}else if(data == 'ADMIN'){
+    						alert('관리자 요청이 되어 있는 상태입니다.');
+    					}else{
+	    					alert('관리자 요청이 완료되었습니다');
+    					}
+					},
+					error : (data) =>{
+	   					alert('관리자 요청이 실패되었습니다')	    						
+    				}
+				})
 			} else {
-				return;
+				return false;
 			}
 		}
 	</script>

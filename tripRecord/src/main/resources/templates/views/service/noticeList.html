@@ -5,7 +5,7 @@
 <title>Insert title here</title>
 <link type="text/css" href="css/service/noticeList.css" rel="stylesheet">
 <style>
-
+.disabled{cursor: not-allowed; pointer-events: none;}
 </style>
 </head>
 <body>
@@ -75,13 +75,6 @@
 	          		</thead>
 	         		<tbody id="text-test">
 	         		<!-- 이거 반복 -->
-	          			<tr>
-	          				<td>1</td>
-	          				<td><a href="noticeSelect.no">notice 상세보기 임시링크</a></td>
-	          				<td>3</td>
-	          				<td>4</td>
-	          				<td>5</td>
-	          			</tr>
 	          			<tr th:each=" n : ${nList}">
 	          				<td>[[${n.boardNo}]]</td>
 	          				<td>[[${n.boardTitle}]]</td>
@@ -101,7 +94,7 @@
 				<nav aria-label="Page navigation example" th:with="loc=${loc}" style="display:flex; justify-content:center;">
 					<ul class="pagination">
 						<li class="page-item">
-							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous">
+							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
 								<span aria-hidden="true">&laquo;</span>
 							</a>
 						</li>
@@ -109,7 +102,7 @@
 							<a class="page-link" th:href="@{${loc}(page=${p})}">[[${p}]]</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next">
+							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
 								<span aria-hidden="true">&raquo;</span>
 							</a>
 						</li>
@@ -120,12 +113,8 @@
 		<!-- 페이징 -->
 
 
-		<a href="ask.no">ask 이동 임시</a>
 
 
-		<div th:if="${ session.loginUser != null}" style="position: relative; top: -480px; left: 1035px; width: 140px;">
-	       	<button class="btn btn-outline-success" type="button" onclick="location.href='writeBoard.bo'">WRITE BOARD</button>
-	    </div>
 	</div>
 	
 	<div th:replace="~{common/footer :: footer}"></div>

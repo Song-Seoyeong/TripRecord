@@ -25,6 +25,7 @@
 		where member_id = #{id}
 	</select>
 	
+	<!-- 마이페이지 -->
 	<!-- 내 정보 수정 -->
 	<update id="updateMember">
 		update member
@@ -42,8 +43,95 @@
 	<!-- 플래너 요청 -->
 	<insert id="reqPromote">
 		insert into REQUEST_GRADE
-		values(#{memberNo}, #{lNo}, #{grade}, #{intro}, #{content}, sysdate)
+		<if test="grade == 'PLANNER'">
+			values(#{memberNo}, #{lNo}, #{grade}, #{intro}, #{content}, sysdate)
+		</if>
+		<if test="grade == 'ADMIN'">
+			values(#{memberNo}, default, #{grade}, default, default, sysdate)
+		</if>
 	</insert>
+	
+	<!-- 요청 사항 확인 -->
+	<select id="checkRequest" resultType="RequestGrade">
+		select *
+		from REQUEST_GRADE
+		where MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<update id="deleteMember">
+		update MEMBER 
+		set STATUS = 'N' 
+		where MEMBER_NO = #{memberNo}
+	</update>
+	<!-- 회원 탈퇴 시 게시글 삭제 -->
+	<update id="deleteBoard">
+		update BOARD
+		set BOARD_STATUS = 'N'
+		where BOARD_WRITER_NO = #{memberNo}
+	</update>
+	<!-- 회원 탈퇴 시 댓글삭제 -->
+	<update id="deleteReply">
+		update REPLY
+		set REPLY_STATUS = 'N'
+		where REPLY_WRITER_NO = #{memberNo}
+	</update>
+	
+	<!-- 회원 탈퇴 시 일정삭제 -->	
+	<update id="deleteSchedule">
+		update SCHEDULE
+		set SC_DEL_STATUS = 'N'
+		where SC_WRITER_NO = #{memberNo}
+	</update>
+	
+	<!-- 회원 탈퇴 시 리뷰삭제 -->
+	<update id="deleteReview">
+		update REVIEW
+		set REVIEW_STATUS = 'N'
+		where MEMBER_NO = #{memberNo}
+	</update>
+	
+	<!-- 회원 탈퇴시 요청 일정 삭제 -->
+	<delete id="deleteReqSchedule">
+		delete 
+		from REQ_SCHEDULE
+		where REQ_MEM_NO = #{memberNo}
+	</delete>
+	
+	<!-- 회원 탈퇴시 요청 전환 요청 삭제 -->
+	<delete id="deleteReqGrade">
+		delete
+		from REQUEST_GRADE
+		where MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<!-- 프로필 이미지 유무 확인 -->
+	<select id="checkProfile" resultType="_int">
+		select count(*)
+		from IMAGE
+		where image_ref_type = 'MEMBER' and image_ref_no = #{memberNo}
+	</select>
+	
+	<!-- 프로필 이미지 삽입 -->
+	<insert id="insertProfile">
+		insert	into IMAGE 
+		values(new_image_id, #{imagePath}, #{imageOriginName}, #{imageRename}, #{imageThum}, #{imageRefType}, #{imageRefNo})
+	</insert>
+	
+	<!-- 기존 프로필 이미지 삭제 -->
+	<delete id="deleteProfile">
+		delete
+		from IMAGE
+		where IMAGE_REF_TYPE = 'MEMBER' and IMAGE_REF_NO = #{memberNo}
+	</delete>
+	
+	<!-- 기존 프로필 이미지 이름 가져오기 -->
+	<select id="existFileId" resultType="Image">
+		select IMAGE_RENAME
+		from IMAGE
+		where IMAGE_REF_TYPE = 'MEMBER' and IMAGE_REF_NO = #{memberNo}
+	</select>
+<!-- 여기까지 마이페이지 -->
 	
 	
 	

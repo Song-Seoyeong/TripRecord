@@ -5,7 +5,8 @@
 <title>로그인</title>
 <link type="text/css" href='css/member/login.css' rel="stylesheet">
 <style>
-
+#pwd-write{color:red;height:20px;}
+#id-write{height:20px;}
 
 </style>
 </head>
@@ -26,11 +27,10 @@
 				</div>
 				<div  class='col-4'>
 					<input id="memId" type="text" name='memberId' placeholder="아이디를 입력하세요">
-					<div id="id-write"></div>
+					<div id="id-write">&nbsp;</div>
 				</div>
 				<div class='col-3'></div>
 			</div>
-			<input type="hidden" id="login-fail" th:value="${fail}">
 			<div class="inputDiv row">
 				<div class='col-3'></div>
 				<div class='col-2'>
@@ -52,7 +52,9 @@
 		</div>
 	</form>
 	<!-- 로그인 폼 -->
-
+	
+	<input type="hidden" th:value="${error}" id="error">
+	
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 	
 	<script>
@@ -78,11 +80,10 @@
 				}
 			}
 			
-			if(document.getElementById('login-fail').value != ''){
-				alertDiv.innerText = "잘못된 아이디, 또는 비밀번호입니다.";
+			
+			if(document.getElementById('error').value == 'error'){
+				alert("잘못된 아이디, 또는 비밀번호입니다.");
 			}
-			
-			
 			
 			
 			

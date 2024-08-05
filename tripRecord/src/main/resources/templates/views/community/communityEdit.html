@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link type="text/css" href="css/community/communityWrite.css" rel="stylesheet">
+<style>
+
+
+</style>
+</head>
+<body>
+	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
+	
+	
+	
+	<!-- 미완성 -->
+	<!-- 미완성 -->
+	<!-- 미완성 -->
+	
+	
+	
+	<div class="text-center" style="padding-top:60px; padding-bottom:100px;">
+		<b style="font-size:70px;">글 쓰기</b>
+	</div>
+	
+	<form action="updateBoard.bo" method="POST" enctype="multipart/form-data">
+		<div class="row filter-bar">
+			<div class="col-4"></div>
+			<div class="col-3"></div>
+			<div class='col-1'>
+				<select class="form-select" aria-label="Sort by" name="localName" style="width:100px;">
+		               <option value="서울">서울</option>
+		               <option value="부산">부산</option>
+		               <option value="대구">대구</option>
+		               <option value="인천">인천</option>
+		               <option value="광주">광주</option>
+		               <option value="대전">대전</option>
+		               <option value="울산">울산</option>
+		               <option value="세종">세종</option>
+		               <option value="경기">경기</option>
+		               <option value="강원">강원</option>
+		               <option value="충북">충북</option>
+		               <option value="충남">충남</option>
+		               <option value="경북">경북</option>
+		               <option value="경남">경남</option>
+		               <option value="전북">전북</option>
+		               <option value="전남">전남</option>
+		               <option value="제주">제주</option>
+				</select>
+			</div>
+			<div class='col-1'>
+				<select class="form-select" aria-label="Sort by" name="generalType" style="width:100px;">
+		               <option selected>말머리</option>
+		               <option value="WITH">동행</option>
+		               <option value="GIVE">양도</option>
+		               <option value="REVIEW">후기</option>
+				</select>
+			</div>
+			<div class="col-3"></div>
+		</div>
+		<br><br>
+	
+		<div id='inputDiv'>
+			<div id='reviewTitle'>
+				<h3>제목</h3>
+				<input type='text' name='boardTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' th:value="${b.boardTitle}" required>
+			</div>
+			<div id='reviewContent'>
+				<h3>내용</h3>
+				<textArea name='boardContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' th:value="${b.boardContent}" required></textArea>
+			</div>
+			<div id='imgReview'>
+				<h3>사진</h3>
+				<input type='file' accept="image/*" multiple id="files" name='files' class="form-control">
+			</div>
+			<div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+				<a href="community.bo">
+					<button class="btn btn-primary" id='insert'>등록</button>
+				</a>
+			</div>
+		</div>
+		<input type="hidden" value="GENERAL" name="boardType">
+	</form>
+	
+	
+	<div th:replace="~{common/footer :: footer}"></div>
+	
+	
+	
+	
+	
+	
+	<script>
+		window.onload=()=>{
+			/* const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
+			for(const sideP of sideMenus){
+				sideP.addEventListener('mouseover',function(){
+					sideP.style.fontSize = 'large';
+					sideP.style.textDecoration = 'underline';
+				});
+			}
+			for(const sideP of sideMenus){
+				sideP.addEventListener('mouseout',function(){
+					sideP.style.fontSize = 'medium';
+					sideP.style.textDecoration = 'none';
+				});
+			}
+			for(const sideP of sideMenus){
+				sideP.addEventListener('click',function(){
+					console.log(this.innerText.split(' ')[1]);
+					//location.href= 클릭한 것으로 구분
+				});
+			} */
+		}
+	</script>
+	
+	
+</body>
+</html>

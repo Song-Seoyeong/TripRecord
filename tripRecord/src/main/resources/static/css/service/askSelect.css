@@ -259,11 +259,14 @@
 	font-size: 25px;
 }
 .edit-btn{
-	background:#96caf0;
-	border:none;
-	color:white;
-	font-weight:bold;
-	font-size:15px;
+	background: #96caf0;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    width: 65px;
+    border-radius: 10px;
+    height: 35px;
 }
 .edit-btn:hover{
 	cursor: pointer;
@@ -275,11 +278,15 @@
 	border:none;
 	font-weight:bold;
 	font-size:15px;
+	width: 65px;
+    border-radius: 10px;
+    height: 35px;
 }
 .del-btn:hover{
 	cursor:pointer;
 	background:gray;
-}.arrow {
+}
+.arrow {
   cursor: pointer;
   height: 60px;
   left: 50%;

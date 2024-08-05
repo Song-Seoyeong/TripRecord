@@ -4,6 +4,8 @@ package com.finalproject.triprecord.board.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.finalproject.triprecord.board.model.service.BoardService;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.CategorySelect;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.board.model.vo.Reply;
 import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -114,8 +118,26 @@ public class BoardController {
 		return "communityWrite";
 	}
 	
+	@GetMapping("commuEdit.bo")
+	public String commuEdit(@RequestParam("boardNo") int bNo, Model model) {
+		Board b = bService.selectBoard(bNo, 0);
+		ArrayList<Image> iList = bService.selectImage(bNo);
+		
+		if(b != null) {
+			model.addAttribute("b", b);
+			model.addAttribute("iList", iList);
+		}
+		return "communityEdit";
+	}
+	
+	@GetMapping("commuDelete.bo")
+	public String commuDelete(@RequestParam("boardNo") Integer bNo) {
+		bService.deleteBoard(bNo);
+		return "redirect:community.bo";
+	}
+	
 	@GetMapping("commuSelect.bo")
-	public String commuSelect(@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session) {
+	public String commuSelect(@RequestParam("generalType") String generalType,@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, HttpServletRequest req) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int id = 0;
 		if(loginUser != null) {
@@ -124,28 +146,23 @@ public class BoardController {
 		
 		Board board = bService.selectBoard(boardNo, id);
 		ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
-		ArrayList<com.finalproject.triprecord.board.model.vo.Reply> rList = bService.selectReply(boardNo);
+		ArrayList<Reply> rList = bService.selectReply(boardNo);
+		//System.out.println(rList);
 		/* 댓글 작성자들 썸네일 사진도 가져와야 함 */
 		if(board != null) {
 			model.addAttribute("b", board);
 			model.addAttribute("page", page);
-			model.addAttribute("rlist", rList);
+			model.addAttribute("rList", rList);
+			model.addAttribute("generalType", generalType);
+			model.addAttribute("loc", req.getRequestURI());
 			model.addAttribute("iList", iList);
+			//System.out.println(rList);
 			return "communitySelect";
 		} else {
 			return "NOT";
 		}
 	}
 	
-	@GetMapping("commuEdit.bo")
-	public String commuEdit(@RequestParam("boardNo") Integer boardNo, Model model) {
-		Board b = bService.selectBoard(boardNo, 0);
-		if(b != null) {
-			model.addAttribute("b",b);
-			
-		}
-		return null;
-	}
 	
 	/*
 	 * BOARD.BOARD_NO = GENERAL_BO.GENERAL_NO
@@ -207,6 +224,45 @@ public class BoardController {
 			}
 			return "NOT";
 		}
+	}
+	
+	
+	@GetMapping(value="insertCommuReply.bo", produces = "application/json; charset=UTF-8")
+	@ResponseBody
+	public String insertCommuReply(@ModelAttribute Reply r) {
+		bService.insertReply(r);
+		ArrayList<Reply> list = bService.selectReply(r.getBoardNo());
+//		out.print(list); // PrintWriter 사용 시 String 타입으로 출력됨
+		
+		JSONArray array = new JSONArray();
+		for(Reply reply : list) {
+			JSONObject json = new JSONObject(); // {"key":value}
+			json.put("replyId", reply.getReplyNo());
+			json.put("replyContent", reply.getReplyContent());
+			json.put("replyBoardId", reply.getBoardNo());
+			json.put("replyWriterNo", reply.getReplyWriterNo());
+			json.put("nameNick", reply.getNickname());
+			json.put("replyCreateDate", reply.getReplyCreateDate());
+			json.put("replyModifyDate", reply.getReplyModifyDate());
+			json.put("replyStatus", reply.getReplyStatus());
+		
+			array.put(json); // 하나를 담은 json을 jsonArray에 담기(add 없음)
+		}
+		return array.toString(); // 보내야 하는 형식은 toString 밖에 없음
+	}
+	
+	@GetMapping("deleteReply.bo")
+	@ResponseBody
+	public String deleteReply(@RequestParam("rNo") int rNo) {
+		int result = bService.deleteReply(rNo);
+		return result == 1? "success" : "no";
+	}
+	
+	@GetMapping("updateReply.bo")
+	@ResponseBody
+	public String updateReply(@ModelAttribute Reply r) {
+		int result = bService.updateReply(r);
+		return result == 1? "success" : "fail";
 	}
 	
 	

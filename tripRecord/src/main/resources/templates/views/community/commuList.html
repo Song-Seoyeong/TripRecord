@@ -6,7 +6,7 @@
 <link type="text/css" href="css/community/commuList.css" rel="stylesheet">
 <style>
 
-
+.disabled{cursor: not-allowed; pointer-events: none;}
 
 
 
@@ -131,10 +131,10 @@
         <!-- 페이징 -->
 		<div class='row' style='margin-bottom: 100px;'>
 			<div class='col-4'></div>
-				<nav aria-label="Page navigation example" th:with="loc=${loc}" style="display:flex; justify-content:center;">
-					<ul class="pagination">
+				<nav aria-label="Page navigation example" style="display:flex; justify-content:center;">
+					<ul class="pagination" th:with="loc=${loc}">
 						<li class="page-item">
-							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous">
+							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
 								<span aria-hidden="true">&laquo;</span>
 							</a>
 						</li>
@@ -142,7 +142,7 @@
 							<a class="page-link" th:href="@{${loc}(page=${p})}">[[${p}]]</a>
 						</li>
 						<li class="page-item">
-							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next">
+							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
 								<span aria-hidden="true">&raquo;</span>
 							</a>
 						</li>
@@ -264,8 +264,14 @@
 			for(const tr of trs){
 				tr.addEventListener('click', function(){
 					const boardNo = this.children[0].innerText;
-					location.href="commuSelect.bo?boardNo=" + boardNo + "&page=" + /*[[${pi?.currentPage}]]*/1; 
-					// 상세조회에서 동행 양도 후기 전체 는 필요없을거같지만 필요하다면 넣어보겠읍니다.
+					let generalT = "";
+					for(const c of [[${cList}]]){
+						if(c.boardNo == boardNo){
+							generalT = c.generalType;
+						}
+					}
+					location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=" + generalT + "&page=" + /*[[${pi?.currentPage}]]*/1; 
+					
 				});
 			}
 			
