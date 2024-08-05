@@ -19,6 +19,7 @@
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+				<li><a href="contentImgManage.ad">지역 사진 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
 				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
@@ -245,7 +246,6 @@
 					document.getElementById('modify-title').innerText = boardTitle;
 					document.getElementById('modify-content').innerText = boardContent;
 					document.getElementById('modify-no').value = boardNo;
-					console.log(document.getElementById('modify-no').value);
 					document.getElementById('modify-title').focus();
 					
 					forms[0].style.display = 'none';

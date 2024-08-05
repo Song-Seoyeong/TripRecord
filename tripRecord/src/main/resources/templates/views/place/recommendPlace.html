@@ -508,13 +508,49 @@
    			
    			pagination.append(ul);
    			
-   			// 지역/키워드/검색어별 타이틀
-   			const searchTitle = document.getElementById('searchTitle')
-   			if(data.areaCode != "" && data.selectedKeyword != "" && keyword != ""){
-   				
-   			}else if(data.areaCode != ""){
-   				searchTitle.innerHTML = "<h4> 엥 </h4>" 
+   			if(data.areaCode != "" || data.selectedKeyword != "" || data.keyword != ""){
+	   			changeSearch(data.areaCode, data.selectedKeyword, data.keyword)
    			}
+		}
+		
+		function changeSearch(areaCode, selectedKeyword, keyword){
+			// 지역/키워드/검색어별 타이틀
+   			const searchTitle = document.getElementById('searchTitle')
+   			searchTitle.innerHTML = ""
+   			let localName = "";
+   			
+   			switch(areaCode){
+   			case(1): lacalName = '서울'; break;
+   			case(6): lacalName = "부산"; break;
+   			case(4): lacalName = "대구"; break;
+   			case(2): lacalName = "인천"; break;
+   			case(5): lacalName = "광주"; break;
+   			case(3): lacalName = "대전"; break;
+   			case(7): lacalName = "울산"; break;
+   			case(8): lacalName = "세종"; break;
+   			case(31): lacalName = "경기"; break;
+   			case(32): lacalName = "강원"; break;
+   			case(33): lacalName = "충북"; break;
+   			case(34): lacalName = "충남"; break;
+   			case(35): lacalName = "경북"; break;
+   			case(36): lacalName = "경남"; break;
+   			case(37): lacalName = "전북"; break;
+   			case(38): lacalName = "전남"; break;
+   			case(39): lacalName = "제주"; break;
+   			}
+   			
+   			let type = "";
+   			switch(selectedKeyword){
+   			case(14): type = "문화시설"; break;
+   			case(32): type = "숙소"; break;
+   			case(12): type = "관광지"; break;
+   			case(15): type = "행사/공연/축제"; break;
+   			case(28): type = "레포츠"; break;
+   			case(39): type = "음식점"; break;
+   			case(38): type = "쇼핑"; break;
+   			}
+   			
+  			searchTitle.innerHTML = "<h4>'"+ localName + "', '" + type + ", '" + keyword + "'으로 검색한 결과입니다</h4>"
 		}
 		
 		/*]]>*/

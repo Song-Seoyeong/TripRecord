@@ -20,6 +20,7 @@
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+				<li><a href="contentImgManage.ad">지역 사진 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
 				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
@@ -39,7 +40,7 @@
 					</div>
 					<div class="content-enter">
 						<div class="enter-box" style="text-align: center;">
-							<canvas class="w-100" id="enter-stats"></canvas>
+							<canvas id="enter-stats"></canvas>
 						</div>
 					</div>
 				</div>
@@ -60,6 +61,25 @@
 					      			<td class="td-user" style="width: 40%;">[[${p.contentTypeName}]]</td>
 									<td> [[${p.count}]] </td>
 								</tr>
+						  	</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="sum-quest">
+					<div class="title-div">
+						<span class="title-text">확인되지 않은 목록</span>
+					</div>
+					<div class="quest-table rounded-2">
+						<table class="table-user table">
+						  	<tbody>
+						  		<tr>
+						      		<td class="td-user" style="width: 40%;">문의사항</td>
+						      		<td> [[${noAnswerCount}]] </td>
+						  		</tr>
+						    	<tr class="tr-user">
+						      		<td class="td-user">등급</td>
+						      		<td> [[${gradeCount}]] </td>
+						  		</tr>
 						  	</tbody>
 						</table>
 					</div>
@@ -109,7 +129,7 @@
 						<div class="money-month-day">
 							<div class="money-month">
 								<span style="font-weight: normal; font-size: 20px; padding-left:20px;">월별 매출</span>
-								<canvas class=" w-100" id="month-stats"></canvas>
+								<canvas class="w-100" id="month-stats"></canvas>
 							</div>
 							<div class="money-day">
 								<span style="font-weight: normal; font-size: 20px; padding-left:20px;">일별 매출</span>
@@ -126,10 +146,11 @@
 	<script th:inline="javascript">
 			/* <![CDATA[ */
 			const monthStats = /*[[${monthStats}]]*/null;
-			/* ]]> */
-			/* <![CDATA[ */
 			const dayStats = /*[[${dayStats}]]*/null;
+			const data = /*[[${datedata}]]*/null;
 			/* ]]> */
+			
+			console.log(data);
 			
 			// 오늘 날짜를 불러오는 함수
 			const today = new Date();
@@ -137,9 +158,11 @@
 			// 날짜를 yy-MM-dd로 나타나게 해주는 함수
 			const getDateFormat = date => {
 				const year = (date.getFullYear() + "").slice(-2);
+				console.log(year);
 				const month = ('0' + (date.getMonth() + 1)).slice(-2);
 				const day = ('0' + date.getDate()).slice(-2);
 				
+				console.log(year + '-' + month + '-' + day);
 				return year + '-' + month + '-' + day;
 			}
 			
@@ -158,7 +181,6 @@
 			}
 			
 			
-			console.log(getDayFormat(today));
 			// n일 전 날짜를 출력하는 코드
 			// 날짜와 며칠 전인지 전부 지정해서 넣으면 됨
 			const getDate = (date, days) => {
@@ -236,7 +258,6 @@
 			    for (let i = 6; i >= 0; i--) {
 			        const date = getDate(today, i);
 			        days.push(getDayFormat(date));
-			        console.log(date);
 			        dataPoints.push(getSafeDayStats(date));
 			    }
 				
@@ -269,6 +290,66 @@
 				});
 			}
 			
+			console.log(data[getDateFormat(today)]);
+			const enter = () => {
+				
+				// Graphs
+				const ctx = document.getElementById('enter-stats');
+				// eslint-disable-next-line no-unused-vars
+				const myChart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: [
+							getDateFormat(getDate(today, 9)),
+							getDateFormat(getDate(today, 8)),
+							getDateFormat(getDate(today, 7)),
+							getDateFormat(getDate(today, 6)),
+							getDateFormat(getDate(today, 5)),
+							getDateFormat(getDate(today, 4)),
+							getDateFormat(getDate(today, 3)),
+							getDateFormat(getDate(today, 2)),
+							getDateFormat(getDate(today, 1)),
+							getDateFormat(today)
+						],
+						datasets: [{
+							data: [
+								data[getDateFormat(getDate(today, 9))] == undefined ? 0 : data[getDateFormat(getDate(today, 9))],
+								data[getDateFormat(getDate(today, 8))] == undefined ? 0 : data[getDateFormat(getDate(today, 8))],
+								data[getDateFormat(getDate(today, 7))] == undefined ? 0 : data[getDateFormat(getDate(today, 7))],
+								data[getDateFormat(getDate(today, 6))] == undefined ? 0 : data[getDateFormat(getDate(today, 6))],
+								data[getDateFormat(getDate(today, 5))] == undefined ? 0 : data[getDateFormat(getDate(today, 5))],
+								data[getDateFormat(getDate(today, 4))] == undefined ? 0 : data[getDateFormat(getDate(today, 4))],
+								data[getDateFormat(getDate(today, 3))] == undefined ? 0 : data[getDateFormat(getDate(today, 3))],
+								data[getDateFormat(getDate(today, 2))] == undefined ? 0 : data[getDateFormat(getDate(today, 2))],
+								data[getDateFormat(getDate(today, 1))] == undefined ? 0 : data[getDateFormat(getDate(today, 1))],
+								data[getDateFormat(today)] == undefined ? 0 : data[getDateFormat(today)]
+							],
+							lineTension: 0,
+							backgroundColor: 'transparent',
+							borderColor: '#007bff',
+							borderWidth: 2,
+							pointBackgroundColor: '#96caf0'
+						}]
+					},
+					options: {
+						plugins: {
+							legend: {
+								display: false
+							},
+							tooltip: {
+								boxPadding: 3
+							}
+							
+						},
+						scales: {
+			     			y: {
+			                	beginAtZero: true // Y축이 0에서 시작하도록 설정
+			            	}
+			    		}
+					}
+				})
+			}
+			
 			
 		window.onload = () => {	
 			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
@@ -298,6 +379,7 @@
 			
 			months();
 			days();
+			enter();
 			
 		}
 	</script>

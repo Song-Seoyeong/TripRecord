@@ -19,6 +19,7 @@
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li class="select-board"><a href="hashTagManage.ad">해시태그 관리</a></li>
+				<li><a href="contentImgManage.ad">지역 사진 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
 				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
@@ -190,7 +191,6 @@
 			/* 해시태그 삭제 */
 			const btns = document.getElementsByClassName('del');
 			const delform = document.getElementById('delHashTagForm');
-			console.log(form);
 			let tagNo;
 			for(const btn of btns){
 				btn.addEventListener('click', function(){
@@ -213,7 +213,6 @@
 						success: data => {
 							if(data == 'success'){
 								document.getElementById('tagNo').value = tagNo;
-								console.log(document.getElementById('tagNo').value);
 								delform.action = "deleteHashTag.ad";
 								delform.submit();
 							} else{

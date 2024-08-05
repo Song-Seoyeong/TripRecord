@@ -1,5 +1,9 @@
 package com.finalproject.triprecord.member.controller;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.member.model.service.MemberService;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
@@ -24,6 +29,9 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcrypt;
+	
+	@Autowired
+	private GoogleDriveService gdService;
 	
 	@GetMapping("loginView.me")
 	public String loginView() {
@@ -55,7 +63,22 @@ public class MemberController {
 		//System.out.println("로그인가져옴");
 		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 			session.setAttribute("loginUser", loginUser);
-			return "index";
+			
+			if(!loginUser.getGrade().equals("ADMIN")) {
+				Date date = new Date();
+				SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+				
+				
+				try {
+					gdService.logActivity(format.format(date) + " [INFO] - " + loginUser.getMemberId() + "님이 로그인하였습니다.");
+				} catch (IOException e) {
+					
+				}
+				return "index";
+			} else {
+				return "redirect:dashBoard.ad";
+			}
+			
 		}else {
 			return "에러페이지";
 		}

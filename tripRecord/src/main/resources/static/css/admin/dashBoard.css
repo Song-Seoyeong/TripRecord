@@ -12,9 +12,15 @@ body{
 }
 
 .enter-container{
-	width: 60%;
+	width: 40%;
 	height: 90%;
 	align-items: center;
+}
+
+.enter-box{
+	text-align: center;
+	width: 100%;
+	height: 100%;
 }
 
 #enter-stats, #month-stats, #days-stats{
@@ -27,7 +33,6 @@ body{
 	margin: 10px auto 0;
 	width: 95%;
 	height: 300px;
-	border: 1px solid lightgray;
 }
 
 .user-container{
@@ -99,4 +104,18 @@ body{
 	width: 48%;
 	height: 200px;
 	margin: 0 auto;
+}
+
+.no-answer{
+	color: red;
+	font-weight: bold;
+}
+
+.sum-quest{
+	margin-left: 80px;
+	width: 15%;
+}
+
+.quest-table{
+	margin-top: 5px;
 }

@@ -95,6 +95,8 @@ public interface AdminService {
 
 	ArrayList<Payment> selectMonthStats();
 
+	int selectGradeCount();
+
 	
 
 
