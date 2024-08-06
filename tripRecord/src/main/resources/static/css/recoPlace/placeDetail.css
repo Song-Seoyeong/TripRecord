@@ -5,10 +5,11 @@ body {
 	line-height: normal;
 }
 .loader {
-  width: 45%;
-  height: 30%;
+  width: 44.8px;
+  height: 44.8px;
   position: relative;
   transform: rotate(45deg);
+  margin: 200px auto;
 }
 
 .loader:before,
@@ -135,7 +136,6 @@ body {
 }
 .reviewTitle {
   	position: relative;
-  	letter-spacing: -0.02em;
   	font-weight: 600;
   	cursor: default;
   	width: 100%;
@@ -197,7 +197,6 @@ body {
 }
 .testimonial-card {
     margin: 0;
-    width: 30%;
   	border-radius: 8px;
   	background-color: #fff;
   	border: 1px solid #d9d9d9;
@@ -221,7 +220,6 @@ body {
   	flex-wrap: wrap;
   	align-items: flex-start;
   	justify-content: flex-start;
-  	gap: 10px;
   	text-align: left;
   	font-size: 24px;
   	color: #1e1e1e;

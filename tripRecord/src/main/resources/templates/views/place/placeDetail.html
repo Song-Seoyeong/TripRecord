@@ -10,6 +10,7 @@
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
    <div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 	<div class="loader" id='loading-screen'></div>
+	
 	<!-- 타이틀 영역 -->
 	<div class="div" id='imageTitle'>
 		<div class="text-content-title">
@@ -112,25 +113,27 @@
 		</button>
 	</div>
 	
-	<div class="card-grid row row-cols-3" th:if='${list != null && !list.isEmpty()}'>
-		<div class="testimonial-card col" th:each='r : ${list}'>
-			<input type='hidden' name='reviewNo' th:value='${r.reviewNo}'>
-			<div class="text-heading">
-				<div class="reviewTitle">[[${r.reviewTitle}]]</div>
-			</div>
-			<div class="avatar-block">
-				<img th:if='${r.imageRename == null}' class="avatar-icon" alt="프로필 사진 없음" src="image/noProfile.png">
-				<img th:if='${r.imageRename != null}' class="avatar-icon" alt="프로필 사진" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|">
-				<div class="info">
-					<div class="card-title">[[${r.reviewContent}]]</div>
-					<div class="starReview">★[[${r.reviewStar}]]</div>
+	<div class='container my-4'>
+		<div class="card-grid row row-cols-3 container g-4" th:if='${list != null && !list.isEmpty()}'>
+			<div class="testimonial-card col" th:each='r : ${list}'>
+				<input type='hidden' name='reviewNo' th:value='${r.reviewNo}'>
+				<div class="text-heading">
+					<div class="reviewTitle">[[${r.reviewTitle}]]</div>
+				</div>
+				<div class="avatar-block">
+					<img th:if='${r.imageRename == null}' class="avatar-icon" alt="프로필 사진 없음" src="image/noProfile.png">
+					<img th:if='${r.imageRename != null}' class="avatar-icon" alt="프로필 사진" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|">
+					<div class="info">
+						<div class="card-title">[[${r.reviewContent}]]</div>
+						<div class="starReview">★[[${r.reviewStar}]]</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div th:if='${list == null} or ${list.isEmpty()}' id='rText' style='margin-bottom: 50px;'>
-		<hr>
-		<p>아직 작성된 후기가 없어요. 소중한 경험을 공유해주세요 :)</p>
+		<div th:if='${list == null} or ${list.isEmpty()}' id='rText' style='margin-bottom: 50px;'>
+			<hr>
+			<p>아직 작성된 후기가 없어요. 소중한 경험을 공유해주세요 :)</p>
+		</div>
 	</div>
 	<!-- 후기 영역 -->
 	
