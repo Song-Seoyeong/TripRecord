@@ -8,12 +8,16 @@
 	cursor: pointer;
 }
 
+#introContent{
+	overflow: hidden;
+}
+
 .local-card{
-	width: 220px;
 	height: 250px;
 	margin: 3px 10px;
 	cursor: pointer;
 	overflow: hidden;
+	border-radius: 5px;
 }
 
 .card-text{
@@ -36,7 +40,7 @@
 .local-img:hover{
 	object-fit: cover;
     border-radius: 5px;
-    transform:scale(1.1);
+    transform: scale(1.1);
     transition: all .5s ease;
 }
 
@@ -54,20 +58,21 @@
 	opacity: 100%;
 }
 
-ul{
-   list-style: none;
-   padding-left: 0px;
+.swiper-wrapper{
+	width: 100px;
 }
 
-.swiper-button-prev {
-	color: black;
-	background: black;
-}
-
-.swiper-container {width: 1000px;}
-.swiper-container {overflow: visible;}
+.swiper-container {width: 1250px; height: 250px;}
+.swiper-container {overflow: hidden;}
 .swiper-slide {opacity:1; transition:opacity 0.3s;}
-.swiper-slide-active,
-.swiper-slide-active + .swiper-slide,
-.swiper-slide-active + .swiper-slide + .swiper-slide,
-.swiper-slide-active + .swiper-slide + .swiper-slide + .swiper-slide {opacity:1}
+
+.swiper-button-wrapper {
+  width:1400px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  position:absolute;
+  top:42%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}

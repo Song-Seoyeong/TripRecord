@@ -6,113 +6,32 @@
 <link type="text/css" href="css/matching/matchingMain.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">
-			<div class="fs-2 my-3 ms-5">플래너 정보</div>
-<!-- 			<div class="dropdown dropend my-3"> -->
-<!-- 				<button class="btn btn-secondary dropdown-toggle me-5" type="button" id="selectLocation" data-bs-toggle="dropdown" aria-expanded="false">지역 선택</button> -->
-<!-- 				<ul class="dropdown-menu px-3" aria-labelledby="selectLocation"> -->
-<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="1"> 서울</li> -->
-<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="2"> 인천</li> -->
-<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="3"> 대전</li> -->
-<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="4"> 광주</li> -->
-<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="5"> 대구</li> -->
-<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="6"> 울산</li> -->
-<!-- 					<li><input class="form-check-input my-2 align-middle" type="checkbox" value="7"> 부산</li> -->
-<!-- <!-- 					<button class="btn btn-primary">찾아보기</button> -->
-<!-- 				</ul> -->
+			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
 			</div>
-		</div>
 		<div class="d-flex justify-content-center">
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide">
+					<div class="swiper-slide" th:each="l : ${ localList }">
 						<div class="local-card position-relative">
-							<input type=hidden value=1>
-							<img class="local-img shadow position-absolute"  src="/image/seoul.jpg" alt="서울">
-							<span class="card-text position-absolute fs-1 px-3">서울
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=2>
-							<img class="local-img shadow"  src="/image/busan.jpg" alt="부산">
-							<span class="card-text position-absolute fs-1 px-3">부산
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=3>
-							<img class="local-img shadow"  src="/image/gwangju.jpg" alt="광주">
-							<span class="card-text position-absolute fs-1 px-3">광주
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=4>
-							<img class="local-img shadow"  src="/image/daejeon.jpg" alt="대전">
-							<span class="card-text position-absolute fs-1 px-3">대전
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=5>
-							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
-							<span class="card-text position-absolute fs-1 px-3">강원
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=5>
-							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
-							<span class="card-text position-absolute fs-1 px-3">강원
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=5>
-							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
-							<span class="card-text position-absolute fs-1 px-3">강원
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=5>
-							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
-							<span class="card-text position-absolute fs-1 px-3">강원
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=5>
-							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
-							<span class="card-text position-absolute fs-1 px-3">강원
-							</span>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="swiper-slide local-card position-relative">
-							<input type=hidden value=5>
-							<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
-							<span class="card-text position-absolute fs-1 px-3">강원
+							<input type=hidden th:value="${l.LOCAL_NO}">
+							<img class="local-img shadow position-absolute"  src="/image/seoul.jpg" th:alt="${l.LOCAL_NAME}">
+							<span class="card-text position-absolute fs-1 px-3">[[${l.LOCAL_NAME}]]
 							</span>
 						</div>
 					</div>
 				</div>
-				<div class="swiper-button-next"></div>
-	    		<div class="swiper-button-prev"></div>
+				<div class="swiper-button-wrapper">
+					<div class="swiper-button-next"></div>
+		    		<div class="swiper-button-prev"></div>
+	    		</div>
 			</div>
 		</div>
 		<hr/>
@@ -134,14 +53,13 @@
 			         		</table>
 			         	</div>
 		         	</div>
-		         	<hr/>
 	         		<!-- 플래너 정보 -->
 	         		<div class="d-flex justify-content-center my-3">
-		         		<div>
+		         		<div class="plannerListContainer">
 			         		<table class="plannerList text-center my-3" th:each="planner : ${ list }">
 				         		<tr>
 				         			<td class="d-none">[[${planner.memberNo}]]</td>
-		         					<td><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px"></td>
+		         					<td><img class="rounded-circle m-3" src="image/profile basic.jpg" width="75px" height="75px" alt="프사"></td>
 					         		<td width="200px">[[${planner.Nickname}]]</td>
 					         		<td width="150px">[[${localName[planner.memberNo]}]]</td>
 					         		<td class="fs-5" width="300px">[[${planner.sIntroContent}]]</td>
@@ -192,12 +110,12 @@
 				<h1> 등록된 플래너가 없습니다. </h1>
 			</div>
 		</th:block>
-				
-
-	</div>
+		</div>
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 </body>
+
 <script th:inline='javascript'>
+
 window.onload = () => {
 	const plannerList = document.getElementsByClassName('plannerList');
 	for(const planner of plannerList){
@@ -208,15 +126,8 @@ window.onload = () => {
 			/*]]>*/
 		});
 	}
-	
-	const cards = document.getElementsByClassName('local-card');
-	for(const card of cards){
-		card.addEventListener('click', function(){
-			 const localNo = this.children[0].value;
-			 location.href="matchingMain.ma?localNo=" + localNo
-		});
-	}
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -230,6 +141,52 @@ document.addEventListener("DOMContentLoaded", function() {
         },
     });
 });
+
+const cards = document.getElementsByClassName('local-card');
+for (const card of cards) {
+    card.addEventListener('click', function() {
+        const localNo = this.children[0].value;
+        $.ajax({
+            url: 'localImgClick.ma',
+            method: 'GET',
+            data: { localNo: localNo },
+            dataType: 'json',
+            success: function(data) {
+                const plannerListContainer = document.getElementsByClassName('plannerListContainer')[0];
+                plannerListContainer.innerHTML = ''; // 기존 내용 삭제
+                
+                const list = data.list;
+                list.forEach(planner => {
+                    const table = document.createElement('table');
+                    table.classList.add('plannerList', 'text-center', 'my-3');
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="d-none">${planner.memberNo}</td>
+                        <td><img class="rounded-circle m-3" src="image/profile basic.jpg" width="75px" height="75px" alt="프사"></td>
+                        <td width="200px">${planner.Nickname}</td>
+                        <td width="150px">${data.localName[planner.memberNo]}</td>
+                        <td class="fs-5" width="300px">${planner.sIntroContent}</td>
+                        <td width="200px">${data.likes[planner.memberNo]}</td>
+                    `;
+                    
+                    // 행 클릭 시 이벤트 리스너 추가
+                    row.addEventListener('click', function() {
+                        const pNo = planner.memberNo;
+                        const currentPage = 1;
+                        location.href = "selectPlanner.ma?pNo=" + pNo + "&page=" + currentPage;
+                    });
+
+                    table.appendChild(row);
+                    plannerListContainer.appendChild(table);
+                });
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+}
 
 
 </script>

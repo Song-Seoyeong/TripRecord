@@ -175,8 +175,8 @@
 			const loginUser = /*[[${session.loginUser}]]*/'아무값';
 			/*]]>*/
 	      	document.getElementById('goReview').addEventListener('click', ()=>{
-	      		console.log(loginUser)
-	      		if(!loginUser || loginUser === '아무값'){
+	      		if(loginUser == null || loginUser === '아무값'){
+	      			
 		        	const reviewModal = document.getElementById('Modal');
 		        	$('#Modal').modal('show');
 	      		}else{

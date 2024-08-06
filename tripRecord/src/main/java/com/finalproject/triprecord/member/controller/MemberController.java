@@ -55,7 +55,10 @@ public class MemberController {
 	}
 	
 	@PostMapping("login.me")
-	public String login(@RequestParam("memberId") String id, @RequestParam("memberPwd") String pwd, HttpSession session, Model model) {
+	public String login(@RequestParam("memberId") String id,
+						@RequestParam("memberPwd") String pwd,
+						@RequestParam("beforeURL") String beforeURL,
+						HttpSession session, Model model) {
 		Member m = new Member();
 		m.setMemberId(id);
 		m.setMemberPwd(pwd);
@@ -75,7 +78,7 @@ public class MemberController {
 				} catch (IOException e) {
 					
 				}
-				return "redirect:/";
+				return "redirect:" + beforeURL;
 			} else {
 				return "redirect:dashBoard.ad";
 			}
