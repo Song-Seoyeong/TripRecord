@@ -134,6 +134,7 @@ body {
 }
 #profileImg img{
 	width: 42px;
+	height: 42px;
     object-fit: cover;
 }
 #profileImg{
