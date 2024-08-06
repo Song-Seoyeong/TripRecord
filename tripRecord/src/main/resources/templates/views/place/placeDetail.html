@@ -120,7 +120,7 @@
 			</div>
 			<div class="avatar-block">
 				<img th:if='${r.imageRename == null}' class="avatar-icon" alt="프로필 사진 없음" src="image/noProfile.png">
-				<img th:if='${r.imageRename != null}' class="avatar-icon" alt="프로필 사진" th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|">
+				<img th:if='${r.imageRename != null}' class="avatar-icon" alt="프로필 사진" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|">
 				<div class="info">
 					<div class="card-title">[[${r.reviewContent}]]</div>
 					<div class="starReview">★[[${r.reviewStar}]]</div>

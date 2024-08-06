@@ -128,7 +128,7 @@ public class PlaceController {
 			pService.insertPlaImage(i);
 		}
 		
-		
+		//System.out.println(list);
 		if(p != null) {
 			model.addAttribute("p", p);
 			model.addAttribute("list", list);

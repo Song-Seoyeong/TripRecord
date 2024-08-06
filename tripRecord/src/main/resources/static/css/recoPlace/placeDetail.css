@@ -152,10 +152,10 @@ body {
   	justify-content: flex-start;
 }
 .avatar-icon {
-  	width: 10%;
+	width: 34px;
+    height: 34px;
   	position: relative;
   	border-radius: 50%;
-  	height: 10%;
   	overflow: hidden;
   	flex-shrink: 0;
   	object-fit: cover;

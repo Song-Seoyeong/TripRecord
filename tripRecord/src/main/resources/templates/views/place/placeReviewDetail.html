@@ -65,7 +65,7 @@
 				<div id='profile' class='col-6 text-end justify-content-end'>
 					<div id='profileImg'>
 						<img th:if='${r.imageRename == null}' class="avatar-icon" alt="프로필 사진 없음" src="image/noProfile.png">
-						<img th:if='${r.imageRename != null}' class="avatar-icon" alt="프로필 사진" th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|">
+						<img th:if='${r.imageRename != null}' class="avatar-icon" alt="프로필 사진" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|">
 					</div>
 					<div>[[${r.nickname}]]</div>
 					<!-- 드롭다운 -->
