@@ -2,12 +2,15 @@ package com.finalproject.triprecord.matching.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
+import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.dao.MatchingMapper;
 import com.finalproject.triprecord.member.model.vo.Planner;
 
@@ -28,6 +31,11 @@ public class MatchingServiceImpl implements MatchingService {
 	}
 
 	@Override
+	public int checkLikes(HashMap<String, Integer> likemap) {
+		return matMapper.checkLikes(likemap);
+	}
+	
+	@Override
 	public String selectLocalName(int pNo) {
 		return matMapper.selectLocalName(pNo);
 	}
@@ -47,12 +55,38 @@ public class MatchingServiceImpl implements MatchingService {
 	}
 
 	@Override
-	public int insertBLikes(HashMap<String, Integer> map) {
-		return matMapper.insertBLikes(map);
+	public int insertLikes(HashMap<String, Integer> map) {
+		return matMapper.insertLikes(map);
 	}
 
 	@Override
-	public int deleteBLikes(HashMap<String, Integer> map) {
-		return matMapper.deleteBLikes(map);
+	public int deleteLikes(HashMap<String, Integer> map) {
+		return matMapper.deleteLikes(map);
 	}
+
+	@Override
+	public Double AverageStar(int pNo) {
+		return matMapper.AverageStar(pNo);
+	}
+
+	@Override
+	public int getReviewListCount(int pNo) {
+		return matMapper.getReviewListCount(pNo);
+	}
+
+	@Override
+	public ArrayList<Review> getReviewList(PageInfo pi, int pNo) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return matMapper.getReviewList(pNo, rowBounds);
+	}
+
+	@Override
+	public ArrayList<Local> selectLocalList() {
+		return matMapper.selectLocalList();
+	}
+
+
 }

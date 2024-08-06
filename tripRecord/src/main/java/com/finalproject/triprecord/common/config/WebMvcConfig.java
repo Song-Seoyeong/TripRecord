@@ -24,6 +24,6 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		
 		registry.addInterceptor(new CheckLoginInterceptor())
 		.addPathPatterns("/*.pl")
-		.addPathPatterns("updateReviewView.pla", "updatePlaReview.pla", "insertPlaReview.pla", "placeReviewWrite.pla");
+		.addPathPatterns("/updateReviewView.pla", "/updatePlaReview.pla", "/insertPlaReview.pla", "/placeReviewWrite.pla");
 	}
 }

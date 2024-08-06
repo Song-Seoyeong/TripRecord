@@ -29,7 +29,7 @@
 		<div id='inputDiv'>
 			<div id='reviewTitle'>
 				<h3>리뷰 제목</h3>
-				<input type='text' name='reviewTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
+				<input type='text' name='reviewTitle' id='reTitle' placeholder='제목을 입력하세요' class='reviewInput' required>
 				<input type='hidden' name='revRefNo' th:value='${contentid}'>
 				<input type='hidden' name='contenttypeid' th:value='${contenttypeid}'>
 				<input type='hidden' name='page' th:value='${page}'>
@@ -64,8 +64,8 @@
 		document.addEventListener('DOMContentLoaded', function() {
 			 
 			// 제목/내용 미입력시 폼제출 안됌
+			const title = document.getElementById('reTitle');
 			document.getElementById('insert').addEventListener('click', ()=>{
-				const title = document.getElementById('title');
 				const content = document.getElementById('content');
 				const reviewStar = document.getElementsByName('reviewStar')[0];
 				
@@ -81,6 +81,38 @@
 					document.getElementById('reviewForm').submit();
 				}
 			})
+			
+			const maxBytes = 60;
+			
+			title.addEventListener('focusout', function(){
+				let currentBytes = calculateBytes(title.value);
+
+                if (currentBytes > maxBytes) {
+                	alert("제목은 30자내로 입력해주세요");
+                    while (currentBytes > maxBytes) {
+                        title.value = title.value.slice(0, -1);
+                        currentBytes = calculateBytes(title.value);
+                    }
+                }
+			})
+			
+			function calculateBytes(str) {
+                let bytes = 0;
+                for (let i = 0; i < str.length; i++) {
+                    const charCode = str.charCodeAt(i);
+                    if (charCode <= 0x7F) {
+                        bytes += 1; // ASCII characters
+                    } else if (charCode <= 0x7FF) {
+                        bytes += 2; // Non-ASCII characters, mostly CJK characters
+                    } else if (charCode <= 0xFFFF) {
+                        bytes += 3; // Non-ASCII characters, mostly CJK characters
+                    } else {
+                        bytes += 4; // Non-ASCII characters, mostly CJK characters
+                    }
+                }
+                return bytes;
+            }
+			
 			
 			// 별점 등록하기
 			function addStarClickListeners() {

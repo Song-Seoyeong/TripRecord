@@ -35,29 +35,49 @@
 	
 	<insert id="insertLikes">
 		insert into planner_like
-		values (seq_likes.nextval, #{ refPlannerNo }, #{ loginUserNo })
+		values (seq_likes.nextval, #{ pNo }, #{ loginUserNo })
 	</insert >
 	
 	<delete id="deleteLikes">
 		delete from planner_like
-		where member_no = #{ loginUserNo } and planner_no = #{ refPlannerNo }
+		where planner_no = #{ pNo } and member_no = #{ loginUserNo }
 	</delete>
-	
 	
 	<select id="selectLocalName" resultType="string">
 		select local_name
 		from local
 		join planner using (local_no)
-		where member_no = #{pNo}
+		where member_no = #{ pNo }
+	</select>
+	
+	<select id="selectLocalList" resultType="map">
+		select *
+		from local
 	</select>
 	
 	<select id="selectPlanner" resultType="Planner">
 		select *
 		from planner
 		join member using(member_no)
-		where member_no = #{pNo} and status = 'Y'
+		where member_no = #{ pNo } and status = 'Y'
 	</select>
 	
+	<select id="AverageStar" resultType="_double">
+		select avg(review_star)
+		from review
+		where rev_ref_type = 'PLANNER' and review_status='Y' and rev_ref_no = #{ pNo }
+	</select>
 	
+	<select id="getReviewListCount" resultType="_int">
+		select count (*)
+		from review
+		where rev_ref_type = 'PLANNER' and review_status='Y' and rev_ref_no = #{ pNo }
+	</select>
+	
+	<select id="getReviewList" resultType="Review">
+		select *
+		from review
+		where rev_ref_type = 'PLANNER' and review_status='Y' and rev_ref_no = #{ pNo }
+	</select>
 	
 </mapper>

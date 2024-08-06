@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>플래너 정보</title>
-
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <style>
 #mainContainer {
 	width: 1400px;
@@ -18,7 +18,7 @@
 	
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">	
-			<div class="fs-2 my-3 ms-5">플래너 정보</div>
+			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
 			<div>
 				<button class="btn btn-secondary me-5" onclick="location.href='matchingMain.ma'">목록으로</button>
 			</div>
@@ -41,18 +41,19 @@
 							</svg> [[${localName}]]
 						</div>
 						<div class="mx-3 mt-2">
-							<button id="likeButton" class="btn btn-outline-danger">
+							<button id="likeButton" class="btn btn-outline-danger" th:classappend="${checkLikes != 0} ? 'active' : ''">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
 									<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
 								</svg>
-								좋아요 [[${likes}]]
+								좋아요 <span id="likeCount">[[${likes}]]</span>
 							</button>
 						</div>
 						<div class="mx-3 mt-2">
-							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
-							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
-							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
-							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+							<a style="text-decoration: none; color: black;" href="#">#해시태그 인원</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그1</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그2</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그3</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그4</a>&nbsp;&nbsp;
 						</div>
 					</div>
 				</div>
@@ -61,9 +62,13 @@
 				<div class="d-inline-block text-center shadow border bg-light rounded-3">
 					<h3 class="d-inline-block m-3">플래너에게 지금 견적을<br/>
 													신청해보세요</h3><br/>
-					<button class="btn btn-primary m-3" onclick="location.href='matchingRequest.ma'">일정 신청</button>
+					<button class="btn text-white m-3" style="background-color: #96caf0;" onclick="location.href='matchingRequest.ma'">일정 신청</button>
 				</div>
-				<br/><br/><a href="matchingReview.ma">>> 후기 작성하러 가기</a>
+				<br/><br/>
+				<form action="matchingReview.ma">
+					<input type="hidden" name="pNo" th:value="${planner.memberNo}">
+					<button class="btn" id="reviewBtn">>> 후기 작성하러 가기</button>
+				</form>
 			</div>
 		</div>
 		
@@ -74,7 +79,7 @@
 		
 		<div id="reviewSumTab" class="d-flex justify-content-center">
 			<div class="container shadow border bg-light rounded-3 m-3 w-75" >
-				<h2 class="m-5 text-center">리뷰(523) | 별점 ★ 5.0</h2>
+				<h2 class="m-5 text-center">후기([[${pi.listCount}]]) | 별점 ★ [[${AvgStar}]]</h2>
 			</div>
 		</div>
 		
@@ -103,44 +108,73 @@
 		
 		<!-- 후기 -->
 			
-		<div class="d-flex text-start mb-3 fs-3">후기 ★★★★★</div>
+		<div class="d-flex text-start mb-3 fs-3">[[${pi.listCount}]]개의 후기 (★ [[${AvgStar}]])</div>
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
-				<div class="list-group shadow w-100">
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기1</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기2</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기3</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기4</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">후기5</a>
+				<div class="list-group shadow w-100" th:each="r : ${ list }">
+					<a href="reviewDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">
+					[[${r.reviewTitle}]]</a>
 				</div>
 			</div>
 		</div>
+		
+		<nav class="d-flex justify-content-center">
+        	<ul class="pagination" th:with="loc=${ loc }">
+        		 <!-- 이전 버튼 -->
+	            <li class="page-item">
+	            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+	            		<span aria-hidden="true">&laquo;</span>
+	              	</a>
+	            </li>
+	            
+	             <!-- 페이지 넘버링 버튼  -->
+	            	
+				<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+					<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+				</li>
+	           
+	             <!-- 다음 버튼  -->
+	            <li class="page-item">
+	            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+	            		<span aria-hidden="true">&raquo;</span>
+	            	</a>
+	            </li>
+	    	</ul>
+        </nav>
+		
 	</div>
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 </body>
 <script>
+   
 document.getElementById('likeButton').addEventListener('click', () => {
+	const pNo = [[${ planner.memberNo }]];
 	const likeButton = document.getElementById('likeButton');
-    const pNo = /*[[${ planner.memberNo }]]*/1;
     let url = '';
+    let changeLikes = 0;
+    
 
     if (likeButton.classList.contains('active')) {
         url = 'deleteLikes.ma';
+        changeLikes = -1;
     } else {
         url = 'insertLikes.ma';
+        changeLikes = +1;
     }
     
     $.ajax({
         type: "POST",
         url: url,
-        data: { pNo: pNo },
+        data: { pNo : pNo },
         dataType: 'json',
         success: data => {
             if(data.result == -1) {
                 alert('로그인 후에 [좋아요] 할 수 있습니다.');
             } else if(data.result > 0) {
                 likeButton.classList.toggle('active');
-                alert(alertMessage);
+                
+                let currentLike = parseInt(document.getElementById('likeCount').textContent);
+                document.getElementById('likeCount').textContent = currentLike + changeLikes;
             } else {
                 alert('[좋아요]에 실패했습니다.');
             }
