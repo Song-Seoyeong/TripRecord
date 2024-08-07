@@ -8,6 +8,7 @@ import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.vo.Member;
@@ -26,7 +27,7 @@ public interface AdminService {
 
 	Integer getTypeCount(String generalType);
 
-	ArrayList<Board> selectBoardList(String search);
+	ArrayList<Board> selectBoardList(PageInfo pi, String search);
 
 	int deleteBoard(int boardNo);
 
@@ -46,7 +47,7 @@ public interface AdminService {
 
 	int insertNotice(Board b);
 
-	ArrayList<Board> selectNoticeList(String boardType);
+	ArrayList<Board> selectNoticeList(PageInfo pi, String boardType);
 
 	Board selectNotice(int boardNo);
 
@@ -74,7 +75,7 @@ public interface AdminService {
 
 	void insertPlanner(RequestGrade rg);
 
-	ArrayList<Question> selectQuestionList();
+	ArrayList<Question> selectQuestionList(PageInfo pi);
 
 	int selectQuestionTotalCount();
 
@@ -88,7 +89,7 @@ public interface AdminService {
 
 	int selectMemberGradeCount(String string);
 
-	ArrayList<Member> selectMemberList();
+	ArrayList<Member> selectMemberList(PageInfo pi);
 
 	int changeMemberStatus(Member m);
 
@@ -103,6 +104,14 @@ public interface AdminService {
 	int insertLocalImg(Image a);
 
 	void deleteLocalImg(int imageRefNo);
+
+	int getListCount();
+
+	int getNoticeListCount();
+
+	int getQuestListCount();
+
+	int getMemberListCount();
 
 	
 

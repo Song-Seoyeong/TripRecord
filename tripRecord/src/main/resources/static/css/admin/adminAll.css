@@ -84,7 +84,6 @@ td{
 .box-shadow-none:focus{
 	box-shadow: none !important;
 	border: 1px solid #dee2e6 !important;
-	border-radius: 0;
 }
 
 .button-border{
@@ -163,4 +162,18 @@ td{
 
 .bi{
 	cursor: pointer;
+}
+
+.pagination-color{
+	color: #2F6598;
+	font-weight: bold;
+}
+
+.pagination-color:focus{
+	box-shadow: none;
+}
+
+.pagination-div{
+	width: 98%;
+	height: 40px;
 }

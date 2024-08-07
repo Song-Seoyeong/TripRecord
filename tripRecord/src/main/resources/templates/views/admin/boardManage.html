@@ -94,6 +94,7 @@
 										<th style="width: 42%;">제목</th>
 										<th style="width: 10%;">작성자</th>
 										<th style="width: 15%;">날짜</th>
+										<th style="width: 8%;">상태</th>
 										<th style="width: 8%;">삭제</th>
 									</tr>
 								</thead>
@@ -113,10 +114,44 @@
 							      		<td><span class="overflow-ell">[[${list.boardTitle}]]</span></td>
 							      		<td>[[${list.memberName}]]</td>
 										<td>[[${#strings.replace(list.boardModifyDate, '-', '.')}]]</td>
+										<td th:text="${list.boardStatus == 'N' ? '활성' : '비활성'}"></td>
 										<td><span class="button-border box-size">삭제</span></td>
 							  		</tr>
 							  	</tbody>
 							</table>
+						</div>
+						<div class="pagination-div row">
+							<div class="col-3"></div>
+							<nav class="d-flex col-6" aria-label="Standard pagination example" style="float: right; height: 100%; justify-content: center !important;" th:with="loc=${loc}">
+								<ul class="pagination">
+									<li class="page-item" th:if="${pi.currentPage > 1}">
+										<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous">
+											<span aria-hidden="true" class="pagination-color">&laquo;</span>
+										</a>
+									</li>
+									<li class="page-item" th:unless="${pi.currentPage > 1}">
+										<a class="page-link" aria-label="Previous" style="cursor: pointer;">
+											<span aria-hidden="true" class="pagination-color">&laquo;</span>
+										</a>
+									</li>
+									<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+										<a class="page-link" th:href="@{${loc}(page=${p})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</li>
+									<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
+										<a class="page-link" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next">
+											<span aria-hidden="true" class="pagination-color">&raquo;</span>
+										</a>
+									</li>
+									<li class="page-item" th:unless="${pi.currentPage < pi.maxPage}">
+										<a class="page-link" aria-label="Next" style="cursor: pointer;">
+											<span aria-hidden="true" class="pagination-color">&raquo;</span>
+										</a>
+									</li>
+								</ul>
+							</nav>
+							<div class="col-3"></div>
 						</div>
 					</div>
 				</div>

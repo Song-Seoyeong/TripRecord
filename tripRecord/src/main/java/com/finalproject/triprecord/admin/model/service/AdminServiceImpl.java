@@ -2,6 +2,7 @@ package com.finalproject.triprecord.admin.model.service;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.vo.Member;
@@ -53,8 +55,11 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public ArrayList<Board> selectBoardList(String search) {
-		return aMapper.selectBoardList(search);
+	public ArrayList<Board> selectBoardList(PageInfo pi, String search) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return aMapper.selectBoardList(search, rowBounds);
 	}
 	
 	@Override
@@ -103,8 +108,11 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public ArrayList<Board> selectNoticeList(String boardType) {
-		return aMapper.selectNoticeList(boardType);
+	public ArrayList<Board> selectNoticeList(PageInfo pi, String boardType) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return aMapper.selectNoticeList(rowBounds, boardType);
 	}
 	
 	@Override
@@ -173,8 +181,11 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public ArrayList<Question> selectQuestionList() {
-		return aMapper.selectQuestionList();
+	public ArrayList<Question> selectQuestionList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return aMapper.selectQuestionList(rowBounds);
 	}
 	
 	@Override
@@ -208,8 +219,11 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public ArrayList<Member> selectMemberList() {
-		return aMapper.selectMemberList();
+	public ArrayList<Member> selectMemberList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+				
+		return aMapper.selectMemberList(rowBounds);
 	}
 	
 	@Override
@@ -241,9 +255,29 @@ public class AdminServiceImpl implements AdminService{
 	public int insertLocalImg(Image a) {
 		return aMapper.insertLocalImg(a);
 	}
-
+	
 	@Override
 	public void deleteLocalImg(int imageRefNo) {
 		aMapper.deleteLocalImg(imageRefNo);
+	}
+	
+	@Override
+	public int getListCount() {
+		return aMapper.getListCount();
+	}
+	
+	@Override
+	public int getNoticeListCount() {
+		return aMapper.getNoticeListCount();
+	}
+	
+	@Override
+	public int getQuestListCount() {
+		return aMapper.getQuestListCount();
+	}
+	
+	@Override
+	public int getMemberListCount() {
+		return aMapper.getMemberListCount();
 	}
 }

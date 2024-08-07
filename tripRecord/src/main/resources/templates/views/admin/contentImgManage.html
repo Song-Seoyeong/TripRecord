@@ -38,12 +38,16 @@
 					<div class="title-div">
 						<span class="title-text">지역 대표 사진</span>
 					</div>
-					<div class="content-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" th:each="l : ${list}">
-						<div class="card margin-right" style="width: 15rem; padding-top: 4px;">
-						  	<img th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" class="card-img-top">
-						  	<div class="card-body">
-						    	<p class="card-text" style="text-align: center;">[[${l.localName}]]</p>
-						  	</div>
+					<div class="content-list">
+						<div class="display-inline-block" th:each="l : ${list}">
+							<div class="card margin-right" style="width: 14.5rem;">
+								<div style="height: 200px; width: 100%;">
+								  	<img th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" class="card-img-top" height="200" width="100">
+								</div>
+							  	<div class="card-body">
+							    	<p class="card-text" style="text-align: center;">[[${l.localName}]]</p>
+							  	</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -76,7 +80,7 @@
 							  	</select>
 							</div>
 							<div class="mb-3 change-file display-inline-block">
-							  	<input class="form-control" type="file" id="formFile" name="formFile">
+							  	<input class="form-control box-shadow-none" type="file" id="formFile" name="formFile">
 							</div>
 							<div class="button">
 								<button class="button-border select-button">변경</button>

@@ -20,14 +20,17 @@ import com.finalproject.triprecord.admin.model.service.AdminService;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.vo.Member;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -120,19 +123,26 @@ public class AdminController {
 	/** 회원 */
 	// 회원 관리 페이지 이동
 	@GetMapping("memberManage.ad")
-	public String userManageView(Model model) {
+	public String userManageView(@RequestParam(value="page", defaultValue="1") int currentPage, 
+								 Model model,
+								 HttpServletRequest request) {
 		int totalCount = aService.selectMemberTotalCount();
 		int generalCount = aService.selectMemberGradeCount("GENERAL");
 		int plannerCount = aService.selectMemberGradeCount("PLANNER");
 		int adminCount = aService.selectMemberGradeCount("ADMIN");
 		
-		ArrayList<Member> mList = aService.selectMemberList();
+		int listCount = aService.getMemberListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
+		ArrayList<Member> mList = aService.selectMemberList(pi);
+		
 		
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("generalCount", generalCount);
 		model.addAttribute("plannerCount", plannerCount);
 		model.addAttribute("adminCount", adminCount);
 		model.addAttribute("mList", mList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("loc", request.getRequestURI());
 		return "memberManage";
 	}
 	
@@ -159,16 +169,23 @@ public class AdminController {
 	/** 문의사항 */
 	// 문의사항 관리 페이지 이동
 	@GetMapping("questManage.ad")
-	public String questManageView(Model model) {
+	public String questManageView(@RequestParam(value="page", defaultValue="1") int currentPage,
+								  HttpServletRequest request,
+								  Model model) {
 		int totalCount = aService.selectQuestionTotalCount();
 		int answerCount = aService.selectQuestionAnswerCount("Y");
 		int noAnswerCount = aService.selectQuestionAnswerCount("N");
-		ArrayList<Question> qList = aService.selectQuestionList();
+		
+		int listCount = aService.getQuestListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
+		ArrayList<Question> qList = aService.selectQuestionList(pi);
 		
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("answerCount", answerCount);
 		model.addAttribute("noAnswerCount", noAnswerCount);
 		model.addAttribute("qList", qList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("loc", request.getRequestURI());
 		return "questManage";
 	}
 	
@@ -176,7 +193,13 @@ public class AdminController {
 	@GetMapping("selectQuest.ad")
 	@ResponseBody
 	public Question selectQuest(@RequestParam("qNo") int qNo) {
+		
 		Question question = aService.selectQuestion(qNo);
+		
+		if(question.getQuestionAnswer() != null) {
+			String content = question.getQuestionAnswer();
+			question.setQuestionAnswer(content.substring(0, content.length() - 4));
+		}
 		
 		return question;
 	}
@@ -184,6 +207,15 @@ public class AdminController {
 	// 문의사항 작성
 	@PostMapping("insertAnswer.ad")
 	public String insertAnswer(@ModelAttribute Question q) {
+		
+		String[] contentArr = q.getQuestionAnswer().split("\n");
+		String contentSum = "";
+		for(String content : contentArr) {
+			contentSum += content + "$$@!";
+		}
+		q.setQuestionAnswer(contentSum);
+		
+
 		int result = aService.insertAnswer(q);
 		if(result > 0) {
 			return "redirect:questManage.ad";
@@ -280,10 +312,16 @@ public class AdminController {
 	// 공지사항 관리 페이지 이동, 검색 페이지 이동
 	@GetMapping("noticeManage.ad")
 	public String noticeManageView(@RequestParam(value="search", required=false) String search,
+								   @RequestParam(value="page", defaultValue="1") int currentPage,
+								   HttpServletRequest request,
 								   Model model) {
-		ArrayList<Board> nList = aService.selectNoticeList(search);
+		int listCount = aService.getNoticeListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
+		ArrayList<Board> nList = aService.selectNoticeList(pi, search);
 		
 		model.addAttribute("nList", nList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("loc", request.getRequestURI());
 		return "noticeManage";
 	}
 	
@@ -293,6 +331,12 @@ public class AdminController {
 							   HttpSession session) {
 		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
 		
+		String[] contentArr = b.getBoardContent().split("\n");
+		String contentSum = "";
+		for(String content : contentArr) {
+			contentSum += content + "$$@!";
+		}
+		b.setBoardContent(contentSum);
 		b.setBoardWriterNo(memberNo);
 		int result = aService.insertNotice(b);
 		
@@ -309,6 +353,9 @@ public class AdminController {
 	public Board selectNotice(@RequestParam("boardNo") int boardNo) {
 		Board notice = aService.selectNotice(boardNo);
 		
+		String content = notice.getBoardContent();
+		notice.setBoardContent(content.substring(0, content.length() - 4));
+		
 		return notice;
 	}
 	
@@ -316,6 +363,14 @@ public class AdminController {
 	// 공지사항 수정
 	@PostMapping("updateNotice.ad")
 	public String updateNotice(@ModelAttribute Board b) {
+		
+		String[] contentArr = b.getBoardContent().split("\n");
+		String contentSum = "";
+		for(String content : contentArr) {
+			contentSum += content + "$$@!";
+		}
+		b.setBoardContent(contentSum);
+		
 		int result = aService.updateNotice(b);
 		
 		if(result > 0) {
@@ -400,19 +455,25 @@ public class AdminController {
 	// 게시글 관리 페이지 이동, 검색
 	@GetMapping("boardManage.ad")
 	public String boardManageView(@RequestParam(value="search", required=false) String search, 
-								  Model model) {
+								  @RequestParam(value="page", defaultValue="1") int currentPage,
+								  Model model,
+								  HttpServletRequest request) {
 		int totalCount = aService.getTotalCount();
 		Integer reviewCount = aService.getTypeCount("REVIEW");
 		Integer giveCount = aService.getTypeCount("GIVE");
 		Integer withCount = aService.getTypeCount("WITH");
 		
-		ArrayList<Board> list = aService.selectBoardList(search);
+		int listCount = aService.getListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
+		ArrayList<Board> list = aService.selectBoardList(pi, search);
 	
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("reviewCount", reviewCount);
 		model.addAttribute("giveCount", giveCount);
 		model.addAttribute("withCount", withCount);
 		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("loc", request.getRequestURI());
 		
 		return "boardManage";
 	}
@@ -485,7 +546,6 @@ public class AdminController {
 	@PostMapping("insertLocalImg.ad")
 	public String insertLocalImg(@RequestParam("localNo") int localNo, @RequestParam("formFile") ArrayList<MultipartFile> file) {
 		ArrayList<Image> list = aService.selectLocalImage();
-		System.out.println(list);
 		try {
 			for(Image i : list) {
 				if(i.getImageRefNo() == localNo) {
@@ -497,7 +557,6 @@ public class AdminController {
 			
 		}
 		
-		System.out.println("파일 insert 전");
 		MultipartFile upload = file.get(0);
 		int result = 0;
 		if(upload != null && !upload.isEmpty()) {
@@ -519,7 +578,6 @@ public class AdminController {
 			}
 		}
 		
-		System.out.println("파일 insert 후");
 		if(result > 0) {
 			return "redirect:contentImgManage.ad";
 		} else {
