@@ -7,8 +7,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,9 +21,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
+import com.finalproject.triprecord.place.model.service.PlaceService;
+import com.finalproject.triprecord.place.model.vo.Place;
 
 @RestController
 public class PlaceRestController {
+	
+	@Autowired
+	private PlaceService pService;
 	
 	public static final String SERVICEKEY = "BLrXOBbtbM7aAzBv8Cw6JpcKbQICvl4WGca4%2F4EXvcBWkVtqqtW4UgPuJgEBE4BkaIQcO0OjCqWmVo5gO8KGVQ%3D%3D";
 	
@@ -279,4 +287,14 @@ public class PlaceRestController {
 //       System.out.println(jsonMap.get("response"));
         return jsonMap;
 	}
+	
+	@GetMapping("topPlaceList.pla")
+	public Map<String, Object> topPlaceList(){
+		ArrayList<Place> pList = pService.topPlaceList();
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("pList", pList);
+		return map;
+	}
+	
 }

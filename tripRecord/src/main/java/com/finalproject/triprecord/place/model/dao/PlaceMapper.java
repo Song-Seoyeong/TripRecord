@@ -49,4 +49,6 @@ public interface PlaceMapper {
 
 	ArrayList<Local> getTopList();
 
+	ArrayList<Place> topPlaceList();
+
 }

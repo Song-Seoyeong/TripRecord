@@ -56,7 +56,7 @@ public class PlaceController {
 	@GetMapping("placeDetail.pla")
 	public String placeDetail(@RequestParam("contentid") int contentid,
 							  @RequestParam("contenttypeid") int contenttypeid,
-							  @RequestParam("page") int page,
+							  @RequestParam(value="page", defaultValue="1") int page,
 							  @RequestParam("areacode") int areacode,
 							  @RequestParam(value="image", required=false) String image,
 							  @RequestParam(value="title", required=false) String title,
@@ -386,4 +386,5 @@ public class PlaceController {
 			throw new PlaceException("리뷰 수정 중 에러발생");
 		}
 	}
+	
 }

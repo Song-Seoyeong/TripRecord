@@ -4,13 +4,14 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link type="text/css" href="css/index.css" rel="stylesheet">
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar.html :: logoBar}"></div>
 	<div th:replace="~{ common/mainCategoryBar.html :: mainCategoryBar }"></div>
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		
-		<div class="fs-2 my-3 ms-5">국내 여행 지역</div>
+		<div class="fs-2 my-3 ms-5">여행 지역 플래너 만나러가기</div>
 		<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
 			<div class="local-card position-relative">
 				<input type=hidden value=1>
@@ -65,12 +66,7 @@
 		<hr/>
 		<!-- TOP N2 -->
 		<h2 class="mx-5">TOP 5 여행지</h2>
-		<div class="container row-cols-1 row-cols-md-6 d-flex justify-content-center">
-			<img class="shadow mx-1 my-3 rounded-3" height="250px" src="/resources/black.jpg" alt="사진1">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진2">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진3">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진4">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진5">
+		<div class="container row-cols-1 row-cols-md-6 d-flex justify-content-center" id='topPlace'>
 		</div>
 		<!-- TOP N2 끝 -->
 		<br/>
@@ -86,6 +82,40 @@
 			 location.href="matchingMain.ma?localNo=" + localNo
 		});
 	}
-
+	
+	
+	// top5 여행지
+	$.ajax({
+		url: "topPlaceList.pla",
+		success: data =>{
+			//console.log(data)
+			const topPlace = document.getElementById('topPlace');
+			for(const place of data.pList){
+				//console.log(place)
+				const div = document.createElement('div');
+				div.className = 'shadow mx-2 my-3 rounded-3 place-card';
+				div.innerHTML = '<img src="' + place.imagePath +'" alt="' + place.placeName +'"><p>'+ place.placeName+'</p>\
+								<input type="hidden" name="contentid" value="' + place.placeNo +'"/><input type="hidden" name="contenttypeid" value="' + place.contentTypeId +'"/><input type="hidden" name="areacode" value="' + place.localNo +'"/>';
+				
+				topPlace.append(div);
+			}
+			
+			placeClick();
+		},
+		error: data => console.log(data)
+	})
+	
+	// top5 여행지 카드 클릭 함수
+	function placeClick(){
+		const placeCard = document.getElementsByClassName('place-card');
+		for(const card of placeCard){
+			card.addEventListener('click', function(){
+				const contentid = this.children[2].value;
+				const contenttypeid = this.children[3].value;
+				const areacode = this.children[4].value;
+				location.href = "placeDetail.pla?contentid=" + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode;
+			})
+		}
+	}
 </script>
 </html>
