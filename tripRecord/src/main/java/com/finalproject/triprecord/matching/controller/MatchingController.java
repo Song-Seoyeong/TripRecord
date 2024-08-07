@@ -43,8 +43,8 @@ public class MatchingController {
 		ArrayList<Local> localList = matService.selectLocalList();
 		
 		//좋아요 + 플래너지역
-		Map<Integer, String> selectLocalMap = new HashMap();
-		Map<Integer, Integer> plannerLikesMap = new HashMap();
+		Map<Integer, String> selectLocalMap = new HashMap<>();
+		Map<Integer, Integer> plannerLikesMap = new HashMap<>();
 		for(Planner planner : list) {
 			int pNo = planner.getMemberNo();
 			int likes = matService.countLikes(pNo);
@@ -75,8 +75,8 @@ public class MatchingController {
 		ArrayList<Planner> list = matService.getPlannerList(pi, localNo);
 		
 		//좋아요 + 지역
-		Map<Integer, String> selectLocalMap = new HashMap();
-		Map<Integer, Integer> plannerLikesMap = new HashMap();
+		Map<Integer, String> selectLocalMap = new HashMap<>();
+		Map<Integer, Integer> plannerLikesMap = new HashMap<>();
 		for(Planner planner : list) {
 			int pNo = planner.getMemberNo();
 			int likes = matService.countLikes(pNo);
@@ -213,7 +213,7 @@ public class MatchingController {
 		if(loginUser != null) {
 			loginUserNo = loginUser.getMemberNo();
 		}
-		HashMap<String, Integer> map = new HashMap();
+		HashMap<String, Integer> map = new HashMap<>();
 		map.put("pNo", pNo);
 		map.put("loginUserNo", loginUserNo);
 		

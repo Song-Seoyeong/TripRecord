@@ -7,8 +7,8 @@
 <style>
 
 .disabled{cursor: not-allowed; pointer-events: none;}
-
-
+a:hover{cursor:pointer;}
+.page-item a{color:black;}
 
 
 </style>
@@ -22,56 +22,61 @@
 		<b style="font-size:70px;">전국</b>
 	</div>
 	
-	<div id='content'>
-		<div id="content1-div" class="container">
-			<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
-			<img class="x-icon" alt="" src="image/Search.png">
+	
+	<form id="search-form" action="categorySelect.bo" method="get">
+		<div id='content'>
+			<div id="content1-div" class="container">
+				<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
+				<img class="x-icon" alt="" src="image/Search.png">
+			</div>
+			
 		</div>
 		
-	</div>
-	
-	<input type="hidden" name="boardType" value="GENERAL" id="general">
-	
-	<div id="sidebar">
-		<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-			<div class="arrow-top"></div>
-			<div class="arrow-bottom"></div>
-		</div>
-<!-- > 모양 -->
-
-<!-- 사이드 바 -->
-		<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-			<div class="offcanvas-header">
-				<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		
+		
+		<div id="sidebar">
+			<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+				<div class="arrow-top"></div>
+				<div class="arrow-bottom"></div>
 			</div>
-			<div class="offcanvas-body">
-				<p>- 전국</p>
-				<p>- 서울</p>
-				<p>- 부산</p>
-				<p>- 대구</p>
-				<p>- 인천</p>
-				<p>- 광주</p>
-				<p>- 대전</p>
-				<p>- 울산</p>
-				<p>- 세종</p>
-				<p>- 경기</p>
-				<p>- 강원</p>
-				<p>- 충북</p>
-				<p>- 충남</p>
-				<p>- 경북</p>
-				<p>- 경남</p>
-				<p>- 전북</p>
-				<p>- 전남</p>
-				<p>- 제주</p>
-				<input type="hidden" name="localName" id="localName" th:value="${localName}">
+	<!-- > 모양 -->
+	
+	<!-- 사이드 바 -->
+			<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+				<div class="offcanvas-header">
+					<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				</div>
+				<div class="offcanvas-body">
+					<p>- 전국</p>
+					<p>- 서울</p>
+					<p>- 부산</p>
+					<p>- 대구</p>
+					<p>- 인천</p>
+					<p>- 광주</p>
+					<p>- 대전</p>
+					<p>- 울산</p>
+					<p>- 세종</p>
+					<p>- 경기</p>
+					<p>- 강원</p>
+					<p>- 충북</p>
+					<p>- 충남</p>
+					<p>- 경북</p>
+					<p>- 경남</p>
+					<p>- 전북</p>
+					<p>- 전남</p>
+					<p>- 제주</p>
+				</div>
 			</div>
-		</div>
-	</div> 
-	
-	
-	
-	
+		</div> 
+		
+		
+		
+		
+		<input type="hidden" id="localName" th:value="${localName}" name="localName">
+		<input type="hidden" name="generalType" id="generalType" th:value="${generalType}">
+		<input type="hidden" name="boardType" value="GENERAL" id="general">
+	</form>
 	
 	
 	
@@ -86,7 +91,7 @@
 		<div class="col-3"><div>동행</div></div>
 		<div class="col-3"><div>양도</div></div>
 		<div class="col-3"><div>후기</div></div>
-		<input type="hidden" name="generalType" id="generalType" th:value="${generalType}">
+		
 	</div>
 	
 	
@@ -132,25 +137,11 @@
 		<div class='row' style='margin-bottom: 100px;'>
 			<div class='col-4'></div>
 				<nav aria-label="Page navigation example" style="display:flex; justify-content:center;">
-					<ul class="pagination" th:with="loc=${loc}">
-						<li class="page-item">
-							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
-								<span aria-hidden="true">&laquo;</span>
-							</a>
-						</li>
-						<li class="page-item" th:each=" p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<a class="page-link" th:href="@{${loc}(page=${p})}">[[${p}]]</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
-								<span aria-hidden="true">&raquo;</span>
-							</a>
-						</li>
+					<ul class="pagination" th:with="loc=${loc}" id="pagination">
 					</ul>
 				</nav>
 			<div class='col-4'></div>
 		</div>
-		<!-- 카테고리 선택 후 페이징이 안되는 문제 아직 있음. url 파라미터 유지법 찾아야함 -->
 		<!-- 페이징 -->
 		
 		
@@ -170,18 +161,61 @@
 			const localNameValue = document.getElementById("localName");
 			const generalTypeValue = document.getElementById("generalType");
 			const boardType = document.getElementById("general");
+			const searchForm = document.getElementById("search-form");
 			
-			const pagination = document.getElementById('pagination');
+			const paginationUl = document.getElementById('pagination');
 			
-			/* 
 			
-			localNameValue.value = [[${localName}]];
-			console.log('지역선택 : ' + localNameValue.value);
+			const params = new URLSearchParams(window.location.search);
+			const currentPage = parseInt(params.get('page')) || 1;
+			const totalItems = parseInt("[[${listCount}]]") || 1;
+			const totalPages = Math.ceil(totalItems / 10);
+			//const localName = params.get('localName') || 'ALL';
+			//const generalType = params.get('generalType') || 'ALL';
+			//const bType = params.get('boardType') || 'GENERAL';
+			//const keyword = params.get('keyword');
 			
-			generalTypeValue.value =[[${generalType}]];
-			console.log('카테고리 : ' + generalTypeValue.value);
+			console.log(Math.max(1, currentPage - 5));
+			console.log(Math.min(totalPages, currentPage + 4));
+			console.log(currentPage-1);
+			// 페이지 네이션 생성 부분
+			function createPagination(currentPage, totalPages){
+				let buttons = '';
+				const startPage = Math.max(1, currentPage - 5);
+				const endPage = Math.min(totalPages, currentPage + 4);
+				
+				buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
+				if(startPage > 1){
+					buttons += '<li class="page-item"><a class="page-link" onclick="changePage(1)">1</a></li>';
+				}
+				
+				for (let i = startPage; i <= endPage; i++) {
+					if(currentPage == i){
+						buttons += '<li class="page-item"><a class="page-link" style="font-size:1.1em; color:rgb(150,202,240);" onclick="changePage('+i+')">'+i+'</a></li>';
+					}else{
+						
+		                buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+i+')">'+i+'</a></li>';
+					}
+	            }
+
+	            if (endPage < totalPages) {
+	            	buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+endPage+')">'+endPage+'</a></li>';
+	            }
+				buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
+	            return buttons;
+	        }
 			
-			 */
+			window.changePage = function(pageNumber){
+				const pageInput = document.createElement('input');
+				pageInput.type="hidden";
+				pageInput.name = 'page';
+			 	pageInput.value = pageNumber;
+	            searchForm.appendChild(pageInput);
+	            searchForm.submit();
+			};
+			
+			paginationUl.innerHTML = createPagination(currentPage, totalPages);
+			
 			
 			
 			// 사이드 메뉴 클릭 시 이동
@@ -205,7 +239,7 @@
 						localNameValue.value = "ALL";
 					}
 					//console.log(localNameValue.value);
-					location.href="categorySelect.bo?localName=" + localNameValue.value + "&generalType=" + generalTypeValue.value + "&boardType=" + boardType.value + "&page=" + /*[[${pi?.currentPage}]]*/1;
+					searchForm.submit();
 				});
 			}
 			
@@ -234,8 +268,7 @@
 					}
 					
 					//console.log(generalTypeValue.value);
-					
-					location.href="categorySelect.bo?localName=" + localNameValue.value + "&generalType=" + generalTypeValue.value + "&boardType=" + boardType.value + "&page=" + /*[[${pi?.currentPage}]]*/1;
+					searchForm.submit();
 				})
 			}
 
@@ -275,25 +308,12 @@
 				});
 			}
 			
-			//setQueryStringParams();
+			
 			
 		}
 		// window.onload 밖
 		
-		/* function setQueryStringParams() {
-
-	        if ( !location.search ) {
-	            return false;
-	        }
-	
-	        const form = document.getElementById('searchForm');
-	
-	        new URLSearchParams(location.search).forEach((value, key) => {
-	            if (form[key]) {
-	                form[key].value = value;
-	            }
-	        })
-	    } */
+		
 
 			
 			

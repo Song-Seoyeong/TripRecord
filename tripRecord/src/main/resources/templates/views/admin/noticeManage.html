@@ -169,8 +169,11 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
     		<div class="modal-content rounded-3 shadow">
       			<div class="modal-body p-4 text-center">
-        			<h3 class="mb-0">공지사항 게시글을 삭제하겠습니까?</h3>
-        			<p class="mb-0">확인 클릭 시 선택한 공지사항 게시글이 삭제됩니다.</p>
+        			<h3 class="mb-0">공지사항을 삭제하겠습니까?</h3>
+        			<p class="mb-0">계정 비밀번호 입력 후 '확인' 클릭 시 선택한 공지사항이 삭제됩니다.</p>
+        			<div style="height:10px;"></div>
+        			<input type="password" id="modalInput">
+        			<div style="width: 100%; height: 15px;" id="modalHide"></div>
       			</div>
       			<div class="modal-footer flex-nowrap p-0">
         			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="ok">
@@ -185,6 +188,21 @@
 	<script th:inline="javascript">
 		window.onload = () => {
 			/*<![CDATA[*/
+			/* 공지 작성 전 확인*/
+			const form = document.getElementsByClassName('content-reg')[0];
+			form.addEventListener('click', e =>{
+				const title = document.getElementById('write-title');
+				const content = document.getElementById('write-content');
+				
+				if(title.value == ''){
+					alert('제목을 작성하세요.');
+					e.preventDefault();
+				} else if (content.value == ''){
+					alert('내용을 작성하세요.');
+					e.preventDefault();
+				}
+			});
+				
 			/* 작성/수정 폼 안보이게 */
 			const forms = document.getElementsByClassName('detail-notice');
 			for(const form of forms){
@@ -265,10 +283,33 @@
 			});
 			
 			document.getElementById('ok').addEventListener('click', function(){
-				if(/*[[${session.loginUser.memberNo}]]*/'user01' == boardWriterNo){
-					location.href="deleteNotice.ad?boardNo=" + boardNo;
-				} else{
-					alert('작성자만 수정할 수 있습니다.');
+				const modalId = document.getElementById('modalInput').value;
+				if(modalId != ''){
+					$.ajax({
+						url: 'matchPwd.ad',
+						data: {
+							pwd: modalId
+						},
+						success: data => {
+							if(data == 'success'){
+								if(/*[[${session.loginUser.memberNo}]]*/'user01' == boardWriterNo){
+									location.href="deleteNotice.ad?boardNo=" + boardNo;
+								} else{
+									alert('작성자만 삭제할 수 있습니다.');
+								}
+							} else{
+								document.getElementById('modalHide').style.color = 'red';
+								document.getElementById('modalHide').style.paddingLeft = '5px';
+								document.getElementById('modalHide').style.fontSize = '15px';
+								document.getElementById('modalHide').innerText = '비밀번호가 일치하지 않습니다.';
+							}
+						}
+					});
+				} else {
+					document.getElementById('modalHide').style.color = 'red';
+					document.getElementById('modalHide').style.paddingLeft = '5px';
+					document.getElementById('modalHide').style.fontSize = '15px';
+					document.getElementById('modalHide').innerText = '비밀번호를 입력하세요.';
 				}
 			});
 			

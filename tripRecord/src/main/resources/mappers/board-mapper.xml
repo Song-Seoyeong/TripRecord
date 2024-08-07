@@ -25,10 +25,10 @@
 			left join general_bo on(general_no = board_no)
 			left join local using(local_no)
 		where board_status = 'N' and board_type = #{boardType}
-		<if test="generalType != null">
+		<if test="generalType != 'ALL'">
 			and general_type = #{generalType}
 		</if>
-		<if test="localName != null">
+		<if test="localName != 'ALL'">
 			and local_name = #{localName}
 		</if>
 	</select>

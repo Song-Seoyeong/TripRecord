@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>지역 사진 관리</title>
-<link href="css/admin/dashBoard.css" rel="stylesheet" type="text/css">
+<link href="css/admin/contentImgManage.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -34,53 +34,54 @@
 				<h1 style="display: inline; font-size: 2.5rem !important;">지역 사진 관리</h1>
 			</div>
 			<div class="container-top display-flex">
-				<div class="enter-container">
+				<div class="list-container">
 					<div class="title-div">
-						<span class="title-text">접속 통계</span>
+						<span class="title-text">지역 대표 사진</span>
 					</div>
-					<div class="content-enter">
-						<div class="enter-box" style="text-align: center;">
+					<div class="content-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" th:each="l : ${list}">
+						<div class="card margin-right" style="width: 15rem; padding-top: 4px;">
+						  	<img th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" class="card-img-top">
+						  	<div class="card-body">
+						    	<p class="card-text" style="text-align: center;">[[${l.localName}]]</p>
+						  	</div>
 						</div>
 					</div>
 				</div>
-				<div class="contents-container">
+				<div class="change-container">
 					<div class="title-div">
-						<span class="title-text">컨텐츠 등록 통계</span>
+						<span class="title-text">지역 대표 사진 변경</span>
 					</div>
-					<div class="content-user rounded-2">
-						<table class="table-user table">
-							<thead>
-								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
-									<th class="td-user">분류</th>
-									<th>개수</th>
-								</tr>
-							</thead>
-						  	<tbody>
-						  		<tr class="tr-user">
-					      			<td class="td-user" style="width: 40%;"></td>
-									<td>  </td>
-								</tr>
-						  	</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="sum-quest">
-					<div class="title-div">
-						<span class="title-text">확인되지 않은 목록</span>
-					</div>
-					<div class="quest-table rounded-2">
-						<table class="table-user table">
-						  	<tbody>
-						  		<tr>
-						      		<td class="td-user" style="width: 40%;">문의사항</td>
-						      		<td>  </td>
-						  		</tr>
-						    	<tr class="tr-user">
-						      		<td class="td-user">등급</td>
-						      		<td>  </td>
-						  		</tr>
-						  	</tbody>
-						</table>
+					<div class="content-change">
+						<form action="insertLocalImg.ad" method="POST" enctype="multipart/form-data">
+							<div class="change-select display-inline-block">
+							  	<select class="form-select box-shadow-none" name="localNo" id="localNo" aria-label="Floating label select example">
+							    	<option value="-" selected disabled>지역 선택</option>
+							    	<option value="1">서울</option>
+							    	<option value="6">부산</option>
+							    	<option value="4">대구</option>
+							    	<option value="2">인천</option>
+							    	<option value="5">광주</option>
+							    	<option value="3">대전</option>
+							    	<option value="7">울산</option>
+							    	<option value="8">세종</option>
+							    	<option value="31">경기</option>
+							    	<option value="32">강원</option>
+							    	<option value="33">충북</option>
+							    	<option value="34">충남</option>
+							    	<option value="35">경북</option>
+							    	<option value="36">경남</option>
+							    	<option value="37">전북</option>
+							    	<option value="38">전남</option>
+							    	<option value="39">제주</option>
+							  	</select>
+							</div>
+							<div class="mb-3 change-file display-inline-block">
+							  	<input class="form-control" type="file" id="formFile" name="formFile">
+							</div>
+							<div class="button">
+								<button class="button-border select-button">변경</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -89,6 +90,22 @@
 	
 	<script th:inline="javascript">
 		window.onload = () => {	
+			/* 이미지 추가 전 분류 선택 - 로 할 시 */
+			const form = document.getElementsByClassName('select-button')[0];
+			form.addEventListener('click', e =>{
+				const type = document.getElementById('localNo');
+				const file = document.getElementById('formFile');
+				
+				if(type.value == '-'){
+					alert('분류를 선택하세요.');
+					e.preventDefault();
+				} else if(file.value == ''){
+					alert('사진을 선택하세요.');
+					e.preventDefault();
+				}
+				
+			});
+			
 			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
 			const current = document.getElementsByClassName('select-board')[0];
 			

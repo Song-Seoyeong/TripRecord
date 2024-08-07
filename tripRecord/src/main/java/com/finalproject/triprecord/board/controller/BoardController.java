@@ -40,7 +40,10 @@ public class BoardController {
 	private GoogleDriveService gdService;
 	
 	@GetMapping("community.bo") // 커뮤니티 게시글 가져오기
-	public String community(@RequestParam(value="page", defaultValue="1") int currentPage, Model model, HttpServletRequest req) {
+	public String community(@RequestParam(value="page", defaultValue="1") int currentPage,@RequestParam(value="generalType", defaultValue="ALL") String generalType,
+			@RequestParam(value="boardType", defaultValue="GENERAL") String boardType,
+			@RequestParam(value="localName", defaultValue="ALL") String localName,
+							Model model, HttpServletRequest req) {
 		
 		CategorySelect cs = new CategorySelect();
 		cs.setBoardType("GENERAL");
@@ -58,7 +61,8 @@ public class BoardController {
 		if(!cList.isEmpty()) {
 			model.addAttribute("cList", cList);
 			model.addAttribute("pi", pi);
-			model.addAttribute("loc", req.getRequestURI());
+			//model.addAttribute("loc", req.getRequestURI());
+			model.addAttribute("listCount", listCount);
 			model.addAttribute("generalType","ALL");
 			model.addAttribute("boardType","GENERAL");
 		} else {
@@ -71,7 +75,7 @@ public class BoardController {
 	public String categorySelect(@ModelAttribute CategorySelect cs, @RequestParam(value="page", defaultValue="1") int currentPage,
 								 Model model, HttpServletRequest req) {
 		
-		System.out.println(cs);
+		//System.out.println(cs);
 		if(cs.getGeneralType().equals("동행") || cs.getGeneralType().equals("WITH") ) {
 			cs.setGeneralType("WITH");
 		} else if(cs.getGeneralType().equals("양도") || cs.getGeneralType().equals("GIVE")) {
@@ -98,12 +102,13 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> cList = bService.getCategorySelectBoardList(cs, pi);
 		
-		System.out.println(cList);
+		//System.out.println(cList);
 		
 		if(!cList.isEmpty()) {
 			model.addAttribute("cList", cList);
 			model.addAttribute("pi",pi);
 			model.addAttribute("loc", req.getRequestURI());
+			model.addAttribute("listCount", listCount);
 			model.addAttribute("generalType", cs.getGeneralType());
 			model.addAttribute("localName", cs.getLocalName());
 			//model.addAttribute("boardType", "GENERAL");    // 현재 커뮤니티 게시판 == 무조건 GENERAL

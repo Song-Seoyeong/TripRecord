@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.finalproject.triprecord.admin.model.exception.AdminException;
 import com.finalproject.triprecord.admin.model.service.AdminService;
@@ -22,6 +23,7 @@ import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
+import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.vo.Member;
@@ -472,9 +474,56 @@ public class AdminController {
 	/** 지역 사진 관리 */
 	// 지역 사진 관리 페이지 이동
 	@GetMapping("contentImgManage.ad")
-	public String contentImgManageView() {
+	public String contentImgManageView(Model model) {
 		
+		ArrayList<Image> list = aService.selectLocalImage();
+		
+		model.addAttribute("list", list);
 		return "contentImgManage";
+	}
+	
+	@PostMapping("insertLocalImg.ad")
+	public String insertLocalImg(@RequestParam("localNo") int localNo, @RequestParam("formFile") ArrayList<MultipartFile> file) {
+		ArrayList<Image> list = aService.selectLocalImage();
+		System.out.println(list);
+		try {
+			for(Image i : list) {
+				if(i.getImageRefNo() == localNo) {
+					gdService.deleteFile(i.getImageRename());
+				}
+			}
+		} catch (IOException e) {
+			
+		}
+		
+		System.out.println("파일 insert 전");
+		MultipartFile upload = file.get(0);
+		int result = 0;
+		if(upload != null && !upload.isEmpty()) {
+			String fileId;
+			
+			try {
+				fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
+				Image a = new Image();
+				a.setImageOriginName(upload.getOriginalFilename());
+				a.setImageRename(fileId);
+				a.setImagePath("drive://files/" + fileId);
+				a.setImageThum(2);
+				a.setImageRefType("LOCAL");
+				a.setImageRefNo(localNo);
+				
+				result = aService.insertLocalImg(a);
+			} catch (IOException e) {
+				
+			}
+		}
+		
+		System.out.println("파일 insert 후");
+		if(result > 0) {
+			return "redirect:contentImgManage.ad";
+		} else {
+			throw new AdminException("지역 사진 저장에 실패하였습니다.");
+		}
 	}
 	
 	// 삭제 과정 중 비밀번호 확인

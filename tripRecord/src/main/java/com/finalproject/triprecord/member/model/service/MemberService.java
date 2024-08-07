@@ -17,6 +17,12 @@ public interface MemberService {
 
 	int checkId(String id);
 	
+	Member findId(Member m);
+	
+	Member findPwd(Member m);
+	
+	int updatePwd(Member m);
+	
 	//마이페이지
 	//내 정보 수정
 	int updateMember(HashMap<String, String> map);
@@ -48,5 +54,10 @@ public interface MemberService {
 	int deleteProfile(int memberNo);
 	//기존 프로필 이미지 이름 가져오기
 	Image existFileId(int memberNo);
+
+	
+
+
+	
 
 }

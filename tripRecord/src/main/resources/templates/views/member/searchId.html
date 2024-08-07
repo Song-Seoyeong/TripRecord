@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <link type="text/css" href='css/member/searchId.css' rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <title>아이디 찾기</title>
 <style>
 
@@ -24,7 +25,7 @@
 				<label class="loginText">이름</label>
 			</div>
 			<div  class='col-4'>
-				<input type="text" name='memName' placeholder="이름를 입력하세요"/>
+				<input type="text" name='memName' placeholder="이름를 입력하세요" id="inputName"/>
 				<div id="alert-div">&nbsp;</div>
 			</div>
 			<div class='col-3'></div>
@@ -36,7 +37,7 @@
 				<label class="loginText">전화번호</label>
 			</div>
 			<div  class='col-4'>
-				<input type="text" name='memPhone' placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+				<input type="text" name='memPhone' id="inputPhone" placeholder="전화번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 				<div id='text'>(-)를 제외하고 입력해주세요</div>
 			</div>
 			<div class='col-3'></div>
@@ -56,12 +57,12 @@
 		<div class="modal-dialog" role="document">
     		<div class="modal-content rounded-3 shadow">
       			<div class="modal-body p-4 text-center">
-        			<h3 class="mb-0">${loginUser.name}님의 아이디는</h3>
+        			<h3 class="mb-0" id="h3id">님의 아이디는</h3>
         			<div style="height:10px;"></div>
-        			<h4 id="id-space" class="mb-0">'${oooooo}'입니다.</h4>
+        			<h4 id="id-space" class="mb-0"></h4>
       			</div>
       			<div class="modal-footer flex-nowrap p-0" style="justify-content:center;">
-        			<button type="button" onclick="findId();" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">확인</button>
+        			<button type="button" id="searchBtn" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">확인</button>
       			</div>
     		</div>
   		</div>
@@ -93,45 +94,30 @@
 					inputPhone.focus();
 					
 				} else{
+					var name = $('#inputName').val();
+					var phone = $('#inputPhone').val();
+					var memberName = document.getElementById("h3id");
+					//console.log(memberName);
+					$.ajax({
+							url: 'findId.me',
+							data: {'memberName':name, 'phone':phone},
+							success: function(data) {
+								if($.isEmptyObject(data)){
+									console.log(data);
+									memberName.innerText = '아이디가 존재하지 않습니다.';
+									$('#id-space').text("");
+								} else{
+									console.log(data);
+									memberName.innerText = data.memberName + '님의 아이디는';
+									$('#id-space').text("'" + data.memberId + "'입니다.");
+								}
+							},
+							error: data => console.log(data)
+					});
 					$('#modalChoice').modal('show');
 				}
 			};
-			
-			/* searchbtn.addEventListener('click',()=>{
-				$('#modalChoice').modal('show');
-			}); */
-			
-			
 		}	
-		
-		
-		function findId(){
-			var name = $('#inputName').val();
-			var phone = $('#inputPhone').val();
-			
-			$.ajax({
-					url: 'findId.me',
-					data: {'name':name, 'phone':phone},
-					success: function(data) {
-						if(data == 0){
-							$('id-space').text("존재하지 않습니다.");
-						} else{
-							$('id-space')>text("'"+data+"'입니다.");
-						}
-					},
-					error: data => console.log(data)
-			});
-			
-			
-			//되는지 모르겠네
-			
-			
-			
-		}
-		
-		
-		
-			
 	</script>
 </body>
 </html>

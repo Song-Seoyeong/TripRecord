@@ -9,6 +9,7 @@ import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
+import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.vo.Member;
@@ -99,6 +100,10 @@ public interface AdminMapper {
 	ArrayList<Payment> selectMonthStats();
 
 	int selectGradeCount();
+
+	ArrayList<Image> selectLocalImage();
+
+	int insertLocalImg(Image a);
 
 
 	

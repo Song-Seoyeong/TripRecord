@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace='com.finalproject.triprecord.plan.model.dao.PlanMapper'>
+	
+	<insert id="saveScheInsert">
+		<selectKey keyProperty="scNo" order="BEFORE" resultType="_int">
+			select seq_schedule.nextval from dual
+		</selectKey>
+	
+		insert into schedule 
+		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default)
+	</insert>
+
+
+	<insert id="savePlanInsert">
+		insert all
+		<foreach collection="list" item="l" separator=" ">
+			into plan values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo}, #{l.reserve}, #{l.day})
+		</foreach>
+		select * from dual
+	</insert>
+	
+</mapper>

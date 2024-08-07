@@ -131,6 +131,17 @@
 	<script>
 	window.onload = () => {
 		
+		/* 문의 답변 작성 전 확인 */
+		const form = document.getElementsByClassName('answer-reg')[0];
+		form.addEventListener('click', e =>{
+			const answer = document.getElementById('detail-answer');
+			
+			if(answer.value == ''){
+				alert('답변을 작성하세요.');
+				e.preventDefault();
+			} 
+		});
+		
 		/* 문의사항 폼 나오게 */
 		const detail = document.getElementsByClassName('detail-quest')[0];
 		detail.style.display = 'none';

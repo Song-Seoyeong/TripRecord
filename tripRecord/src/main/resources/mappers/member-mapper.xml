@@ -25,6 +25,25 @@
 		where member_id = #{id}
 	</select>
 	
+	<select id="findId" resultType="Member">
+		select *
+		from member
+		where member_name = #{memberName} and phone = #{phone}
+	</select>
+	
+	<select id="findPwd" resultType="Member">
+		select *
+		from member
+		where member_id = #{memberId} and member_name = #{memberName}
+				and phone = #{phone} 
+	</select>
+	
+	<update id="updatePwd">
+		update member
+		set member_pwd = #{memberPwd}
+		where member_id = #{memberId}
+	</update>
+	
 	<!-- 마이페이지 -->
 	<!-- 내 정보 수정 -->
 	<update id="updateMember">

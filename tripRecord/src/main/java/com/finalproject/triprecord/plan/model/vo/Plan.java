@@ -10,12 +10,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Plan {
+	private int plNo;
 	private int scNo;
-	private String spot;
-	private String writer;
-	private String startDate;
-	private String endDate;
-	private char status;
-	private String together;
-	private String hashtag;
+	private String place;
+	private String time;
+	private String memo;
+	private String reserve;
+	private String day;
 }

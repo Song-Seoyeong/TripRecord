@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+body{
+	margin: 0;
+}
+
+.container-top{
+	margin-top: 30px;
+	margin-left: 55px;
+	min-width: 1450px;
+	min-height: 380px;
+}
+
+.list-container{
+	width: 50%;
+	height: 90%;
+	align-items: center;
+}
+
+.content-list{
+	margin: 10px auto 0 !important;
+	width: 95% !important;
+	max-height: 680px;
+	overflow-y: auto;
+	scrollbar-width: thin;
+}
+
+.margin-right{
+	margin: 4px;
+}
+
+.change-container{
+	margin-left: 80px;
+	width: 40%;
+}
+
+.content-change{
+	margin: 15px auto 0;
+	width: 98%;
+	height: 200px;
+}
+
+.change-select{
+	width: 20%;
+}
+
+.change-file{
+	margin-left: 20px;
+	width: 70%;
+}
+
+.select-button{
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.button{
+	text-align: center;
+	width: 20%;
+	margin: 0 auto;
+	height: 40px;
+}
+

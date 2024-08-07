@@ -55,35 +55,37 @@ public class MemberController {
 	}
 	
 	@PostMapping("login.me")
-	public String login(@RequestParam("memberId") String id,
-						@RequestParam("memberPwd") String pwd,
-						@RequestParam("beforeURL") String beforeURL,
-						HttpSession session, Model model) {
+	public String login(@RequestParam("memberId") String id, @RequestParam("memberPwd") String pwd, HttpSession session, Model model) {
 		Member m = new Member();
 		m.setMemberId(id);
 		m.setMemberPwd(pwd);
 		//System.out.println("로그인 서비스 갈거임");
 		Member loginUser = mService.login(m);
-		//System.out.println("로그인가져옴");
-		if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
-			session.setAttribute("loginUser", loginUser);
-			
-			if(!loginUser.getGrade().equals("ADMIN")) {
-				Date date = new Date();
-				SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+		if(loginUser != null) {
+			//System.out.println("로그인가져옴");
+			if(bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
+				session.setAttribute("loginUser", loginUser);
 				
-				
-				try {
-					gdService.logActivity(format.format(date) + " [INFO] - " + loginUser.getMemberId() + "님이 로그인하였습니다.");
-				} catch (IOException e) {
+				if(!loginUser.getGrade().equals("ADMIN")) {
+					Date date = new Date();
+					SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 					
+					
+					try {
+						gdService.logActivity(format.format(date) + " [INFO] - " + loginUser.getMemberId() + "님이 로그인하였습니다.");
+					} catch (IOException e) {
+						
+					}
+					return "redirect:/";
+				} else {
+					return "redirect:dashBoard.ad";
 				}
-				return "redirect:" + beforeURL;
-			} else {
-				return "redirect:dashBoard.ad";
+				
+			}else {
+				model.addAttribute("error", "error");
+				return "login";
 			}
-			
-		}else {
+		} else {
 			model.addAttribute("error", "error");
 			return "login";
 		}
@@ -157,5 +159,30 @@ public class MemberController {
 	@ResponseBody
 	public Integer checkId(@RequestParam("id") String id) {
 		 return mService.checkId(id);
+	}
+	
+	@GetMapping("findId.me")
+	@ResponseBody
+	public Member findId(@ModelAttribute Member m) {
+		m = mService.findId(m);
+		return m;
+	}
+	
+	@GetMapping("findPwd.me")
+	@ResponseBody
+	public Member findPwd(@ModelAttribute Member m, Model model) {
+		Member mem = mService.findPwd(m);
+		return mem;
+	}
+	
+	@PostMapping("updatePwd.me")
+	public String updatePwd(@ModelAttribute Member m) {
+		m.setMemberPwd(bcrypt.encode(m.getMemberPwd()));
+		int result = mService.updatePwd(m);
+		if(result > 0) {
+			return "redirect:loginView.me";
+		} else {
+			return "error";
+		}
 	}
 }

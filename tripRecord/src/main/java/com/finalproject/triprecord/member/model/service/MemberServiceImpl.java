@@ -37,8 +37,20 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.checkId(id);
 	}
 	
+	@Override
+	public Member findId(Member m) {
+		return mMapper.findId(m);
+	}
 	
+	@Override
+	public Member findPwd(Member m) {
+		return mMapper.findPwd(m);
+	}
 	
+	@Override
+	public int updatePwd(Member m) {
+		return mMapper.updatePwd(m);
+	}
 	
 	//마이페이지
 	//내 정보 수정
@@ -116,5 +128,10 @@ public class MemberServiceImpl implements MemberService{
 	public Image existFileId(int memberNo) {
 		return mMapper.existFileId(memberNo);
 	}
+
+	
+
+
+	
 
 }
