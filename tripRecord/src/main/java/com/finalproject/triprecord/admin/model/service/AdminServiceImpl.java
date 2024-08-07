@@ -241,4 +241,9 @@ public class AdminServiceImpl implements AdminService{
 	public int insertLocalImg(Image a) {
 		return aMapper.insertLocalImg(a);
 	}
+
+	@Override
+	public void deleteLocalImg(int imageRefNo) {
+		aMapper.deleteLocalImg(imageRefNo);
+	}
 }

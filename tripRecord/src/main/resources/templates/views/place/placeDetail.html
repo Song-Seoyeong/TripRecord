@@ -114,8 +114,8 @@
 	</div>
 	
 	<div class='container my-4'>
-		<div class="card-grid row row-cols-3 container g-4" th:if='${list != null && !list.isEmpty()}'>
-			<div class="testimonial-card col" th:each='r : ${list}'>
+		<div class="card-grid container g-4" th:if='${list != null && !list.isEmpty()}'>
+			<div class="testimonial-card" th:each='r : ${list}'>
 				<input type='hidden' name='reviewNo' th:value='${r.reviewNo}'>
 				<div class="text-heading">
 					<div class="reviewTitle">[[${r.reviewTitle}]]</div>
