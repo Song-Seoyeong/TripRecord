@@ -35,3 +35,32 @@
     transition: all .5s ease;
     opacity: .75;
 }
+.place-card{
+    height:250px;
+    text-align: center;
+    overflow: hidden;
+}
+.place-card img{
+    height: 100%;
+    transform: translateX(-20%);
+}
+.place-card p{
+    font-size: 20px;
+    color: white;
+    background: #96caf0;
+    font-weight: bold;
+    opacity: 0.5;
+}
+.place-card:hover{
+	cursor: pointer;
+}
+.place-card:hover img{
+    opacity: 0.5;
+    transform: scale(1.1);
+    transition: all .5s ease;
+}
+.place-card:hover p{
+    opacity: 1;
+    transform: translateY(-450%);
+    transition: all .5s cubic-bezier(0.41, 0.06, 0.06, 0.28);
+}

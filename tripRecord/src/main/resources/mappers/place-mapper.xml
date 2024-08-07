@@ -124,4 +124,15 @@
 		    where rownum <= 5
 		]]>
 	</select>
+	
+	<select id="topPlaceList" resultType='Place'>
+		<![CDATA[
+		select *
+		from (select *
+				from reco_place
+					join image on place_no = image_ref_no and image_ref_type = 'RECOPLACE'
+				order by place_count desc)
+		where rownum <= 5
+		]]>
+	</select>
 </mapper>

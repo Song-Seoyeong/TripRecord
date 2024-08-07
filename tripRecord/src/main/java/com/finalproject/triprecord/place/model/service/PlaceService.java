@@ -46,4 +46,6 @@ public interface PlaceService {
 
 	ArrayList<Local> getTopList();
 
+	ArrayList<Place> topPlaceList();
+
 }
