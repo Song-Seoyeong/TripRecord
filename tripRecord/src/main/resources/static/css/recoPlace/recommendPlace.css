@@ -15,8 +15,6 @@
   border-radius: 50% 50% 0 50%;
   background: #0000;
   background-image: radial-gradient(circle 11.2px at 50% 50%,#0000 94%, #ff4747);
-  top: 50%;
-  left: 40%;
 }
 
 .loader:after {

@@ -102,6 +102,8 @@ public interface AdminService {
 
 	int insertLocalImg(Image a);
 
+	void deleteLocalImg(int imageRefNo);
+
 	
 
 

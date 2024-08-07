@@ -105,6 +105,8 @@ public interface AdminMapper {
 
 	int insertLocalImg(Image a);
 
+	void deleteLocalImg(int imageRefNo);
+
 
 	
 }

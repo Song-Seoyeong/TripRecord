@@ -490,6 +490,7 @@ public class AdminController {
 			for(Image i : list) {
 				if(i.getImageRefNo() == localNo) {
 					gdService.deleteFile(i.getImageRename());
+					aService.deleteLocalImg(i.getImageRefNo());
 				}
 			}
 		} catch (IOException e) {

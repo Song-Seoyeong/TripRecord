@@ -261,4 +261,8 @@
 	<insert id="insertLocalImg">
 		insert into image values(seq_image.nextval, #{imagePath}, #{imageOriginName}, #{imageRename}, #{imageThum}, #{imageRefType}, #{imageRefNo})
 	</insert>
+	
+	<delete id="deleteLocalImg">
+      delete from image where image_ref_no = #{imageRefNo}
+   </delete>
 </mapper>
