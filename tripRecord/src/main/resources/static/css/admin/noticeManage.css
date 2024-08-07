@@ -53,8 +53,7 @@
 
 .list-table{
 	max-height:600px;
-	overflow-y: auto;
-	scrollbar-width: thin;
+	margin-bottom: 20px;
 }
 
 .search-input:focus{

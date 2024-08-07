@@ -42,7 +42,7 @@
 		from board 
 			join general_bo on (board_no = general_no) 
 			join member on (board_writer_no = member_no)
-		where board_status = 'N' and board_type = 'GENERAL'
+		where board_type = 'GENERAL'
 			<if test="search != null">
 				and board_title like '%${search}%'
 			</if>
@@ -108,7 +108,7 @@
 		select * 
 		from board 
 			join member on (board_writer_no = member_no) 
-		where board_status = 'N' and board_type = 'NOTICE'
+		where board_type = 'NOTICE'
 			<if test="search != null">
 				and board_title like '%${search}%'
 			</if>
@@ -263,6 +263,26 @@
 	</insert>
 	
 	<delete id="deleteLocalImg">
-      delete from image where image_ref_no = #{imageRefNo}
-   </delete>
+		delete from image where image_ref_no = #{imageRefNo}
+	</delete>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*) from board where board_type = 'GENERAL'
+	</select>
+	
+	<select id="getNoticeListCount" resultType="_int">
+		select count(*) from board where board_type = 'NOTICE'
+	</select>
+	
+	<select id="getQuestListCount" resultType="_int">
+		select count(*)
+		from board
+		    join member on(board_writer_no = member_no)
+		    join question on(board_no = question_no)
+	</select>
+	
+	<select id="getMemberListCount">
+		select count(*) from member
+	</select>
+	
 </mapper>

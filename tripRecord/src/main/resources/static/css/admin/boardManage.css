@@ -77,7 +77,6 @@
 }
 
 .list-table{
-	overflow-y: auto;
-	max-height: 600px;
-	scrollbar-width: thin;
+	margin-bottom: 20px;
+	max-height: 580px;
 }

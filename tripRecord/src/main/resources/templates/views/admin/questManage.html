@@ -96,6 +96,39 @@
 						  	</tbody>
 						</table>
 					</div>
+					<div class="pagination-div row">
+						<div class="col-3"></div>
+						<nav class="d-flex col-6" aria-label="Standard pagination example" style="float: right; height: 100%; justify-content: center !important;" th:with="loc=${loc}">
+							<ul class="pagination">
+								<li class="page-item" th:if="${pi.currentPage > 1}">
+									<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous">
+										<span aria-hidden="true" class="pagination-color">&laquo;</span>
+									</a>
+								</li>
+								<li class="page-item" th:unless="${pi.currentPage > 1}">
+									<a class="page-link" aria-label="Previous" style="cursor: pointer;">
+										<span aria-hidden="true" class="pagination-color">&laquo;</span>
+									</a>
+								</li>
+								<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+									<a class="page-link" th:href="@{${loc}(page=${p})}">
+										<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+									</a>
+								</li>
+								<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
+									<a class="page-link" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next">
+										<span aria-hidden="true" class="pagination-color">&raquo;</span>
+									</a>
+								</li>
+								<li class="page-item" th:unless="${pi.currentPage < pi.maxPage}">
+									<a class="page-link" aria-label="Next" style="cursor: pointer;">
+										<span aria-hidden="true" class="pagination-color">&raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+						<div class="col-3"></div>
+					</div>
 				</div>
 				<div class="detail-quest">
 					<div class="title-div">
@@ -113,7 +146,7 @@
 								<span class="title-text-quest">결제 관련 문의</span>
 							</div>
 							<div class="form-floating quest-detail-div">
-						  		<textarea class="form-control box-shadow-none quest-textarea" id="detail-quest" style="width:100%; height: 100%;"readonly> 내용 입력</textarea>
+						  		<textarea class="form-control box-shadow-none quest-textarea" id="detail-quest" style="width:100%; height: 100%;"readonly></textarea>
 							</div>
 							<div class="title-div-answer">
 								<span class="title-text-answer">답변 작성</span>
@@ -159,11 +192,17 @@
 					},
 					success: data => {
 						if(data != null){
-							document.getElementById('detail-quest').innerText = data.boardContent;
 							document.getElementById('qNo').value = data.boardNo;
+							document.getElementById('detail-quest').innerText = data.boardContent;
 							
 							if(tr.children[4].innerText == '응답'){
-								document.getElementById('detail-answer').innerText = data.questionAnswer;
+								const questContents = data.questionAnswer.split('$$@!');
+								document.getElementById('detail-answer').innerText = '';
+								
+								for(let i = 0; i < questContents.length; i++){
+									document.getElementById('detail-answer').innerHTML += questContents[i];
+								}
+								
 								document.getElementById('detail-answer').readOnly = true;
 								document.getElementById('button').disabled = true;
 							} else{

@@ -27,8 +27,7 @@
 
 .list-table{
 	max-height: 650px;
-	overflow-y: auto;
-	scrollbar-width: thin;
+	margin-bottom: 20px;
 }
 
 .detail-quest{
