@@ -16,16 +16,16 @@
 	<div class="main-title">
 		<p>일정 기록하기</p>
 	</div>
-	<form>
+	<form id="planCreate" method="post" action="saveplan.pl">
 		<div class="contain-div" id="detailForm">
 			<div class="inline-contain-div">
-				<span class="textSpan" id="startDate-span" th:text="${p.startDate}"></span>
+				<span class="textSpan" id="startDate-span" th:text="${s.startDate}"></span>
 				<span class="textSpan">-</span> 
-				<span class="textSpan" id="endDate-span" th:text="${p.endDate}"></span> 
+				<span class="textSpan" id="endDate-span" th:text="${s.endDate}"></span> 
 				<span class="textSpan">동안</span>
 			</div>
 			<div class="inline-contain-div">
-				<span class="textSpan" id="spot-span" th:text="${p.spot}"></span>
+				<span class="textSpan" id="spot-span" th:text="${spot}"></span>
 				<span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
 			</div>
 			<div class="editButton-div">
@@ -34,26 +34,31 @@
 		</div>
 		<div class="contain-div" id="editForm" style="display: none;">
 			<div class="inline-contain-div edit-div">
-				<input type="text" id="sdate" class="datepicker" name="startDate" th:value="${p.startDate}" /> 
+				<input type="text" id="sdate" class="datepicker" name="startDate" th:value="${s.startDate}" /> 
 				<span class="textSpan">-</span> 
-				<input type="text" id="edate" class="datepicker" name="endDate" th:value="${p.endDate}" /> 
+				<input type="text" id="edate" class="datepicker" name="endDate" th:value="${s.endDate}" /> 
 				<span class="textSpan">동안</span>
 			</div>
 			<div class="inline-contain-div edit-div">
-				<select id="selectSpotHidden" class="form-select selectOption">
-					<option class="select_opt" value="서울" th:selected="${ p.spot == '서울' }">서울</option>
-					<option class="select_opt" value="경기" th:selected="${ p.spot == '경기' }">경기</option>
-					<option class="select_opt" value="강원" th:selected="${ p.spot == '강원' }">강원</option>
-					<option class="select_opt" value="인천" th:selected="${ p.spot == '인천' }">인천</option>
-					<option class="select_opt" value="충북" th:selected="${ p.spot == '충북' }">충북</option>
-					<option class="select_opt" value="충남" th:selected="${ p.spot == '충남' }">충남</option>
-					<option class="select_opt" value="경북" th:selected="${ p.spot == '경북' }">경북</option>
-					<option class="select_opt" value="경남" th:selected="${ p.spot == '경남' }">경남</option>
-					<option class="select_opt" value="전북" th:selected="${ p.spot == '전북' }">전북</option>
-					<option class="select_opt" value="전남" th:selected="${ p.spot == '전남' }">전남</option>
-					<option class="select_opt" value="제주" th:selected="${ p.spot == '제주' }">제주</option>
+				<select id="selectSpotHidden" name="spot" class="form-select selectOption">
+					<option class="select_opt" value="1" th:selected="${ spot == '서울' }">서울</option>
+					<option class="select_opt" value="2" th:selected="${ spot == '인천' }">인천</option>
+					<option class="select_opt" value="3" th:selected="${ spot == '대전' }">대전</option>
+					<option class="select_opt" value="4" th:selected="${ spot == '대구' }">대구</option>
+					<option class="select_opt" value="5" th:selected="${ spot == '광주' }">광주</option>
+					<option class="select_opt" value="6" th:selected="${ spot == '부산' }">부산</option>
+					<option class="select_opt" value="7" th:selected="${ spot == '울산' }">울산</option>
+					<option class="select_opt" value="8" th:selected="${ spot == '세종' }">세종</option>
+					<option class="select_opt" value="31" th:selected="${ spot == '경기' }">경기</option>
+					<option class="select_opt" value="32" th:selected="${ spot == '강원' }">강원</option>
+					<option class="select_opt" value="33" th:selected="${ spot == '충북' }">충북</option>
+					<option class="select_opt" value="34" th:selected="${ spot == '충남' }">충남</option>
+					<option class="select_opt" value="35" th:selected="${ spot == '경북' }">경북</option>
+					<option class="select_opt" value="36" th:selected="${ spot == '경남' }">경남</option>
+					<option class="select_opt" value="37" th:selected="${ spot == '전북' }">전북</option>
+					<option class="select_opt" value="38" th:selected="${ spot == '전남' }">전남</option>
+					<option class="select_opt" value="39" th:selected="${ spot == '제주' }">제주</option>
 				</select> <span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
-				<input type="hidden" th:value="${p.spot}" name="spot" id="spot" />
 			</div>
 			<div class="editButton-div">
 				<button type="button" id="completeButton" class="runButton">완료</button>
@@ -62,22 +67,22 @@
 		</div>
 		<div class="contain-div">
 			<div class="navigation-pill-list">
-				<div class="navigation-pill" th:if="${p.together != null}">
-					<div class="hashtag" th:text='|# ${ p.together }|'></div>
+				<div class="navigation-pill" th:if="${s.together != null}">
+					<div class="hashtag" th:text='|# ${ s.together }|'><input type="hidden" name="together" th:value="${s.together}"/></div>
 				</div>
-				<div class="navigation-pill" th:if="${p.hashtag != null}" th:each="tag : ${ #strings.arraySplit(p.hashtag, ',')}">
-					<div class="hashtag" th:text="|# ${tag}|"></div>
+				<div class="navigation-pill" th:if="${s.hashtag != null}" th:each="tag : ${ #strings.arraySplit(s.hashtag, ',')}">
+					<div class="hashtag" th:text="|# ${tag}|"><input type="hidden" name="hashtag" th:value="${s.hashtag}"/></div>
 				</div>
-				<div class="navigation-pill" th:if="${p.together == null && p.hashtag == null}">
-					<div class="hashtag">엄마 저는 css 가 싫어요</div>
+				<div class="navigation-pill" th:if="${s.together == null && s.hashtag == null}">
+					<div class="hashtag">엄마 저는 이제 자바스크립트도 싫어요</div>
 				</div>
 			</div>
 		</div>
 		<div class="contain-div">
-			<div id="planAll">
-				<div class="dayPlan" th:each="date : ${dates}">
+			<div id="planAll" class="grid">
+				<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
 					<div class="dayText" th:text="|${date.key}일차|"></div>
-					<div class="date" th:text="${date.value}"></div>
+					<div class="date" th:text="${date.value}"></div><input type="hidden" name="day" th:value="${date.value}"/>
 					<div class="planDiv">
 						<div class="one-plan">
 							<div class="plan-spans">
@@ -85,13 +90,13 @@
 							</div>
 							<div class="plan-inputs">
 								<div>
-									<input type="text" class="plan-text placeInput" placeholder="장소 입력창">
+									<input type="text" name="place" class="plan-text placeInput" placeholder="장소 입력창">
 								</div>
 								<div>
-									<input type="time" class="plan-text timeInput" placeholder="시간 입력창">
+									<input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창">
 								</div>
 								<div>
-									<input type="text" class="plan-text memoInput" placeholder="메모 입력창">
+									<input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창">
 								</div>
 							</div>
 							<div class="plan-images">
@@ -106,9 +111,10 @@
 				</div>
 			</div>
 		</div>
+		<div id="inputHiddens"></div>
 		<div class="contain-div buttonsDiv">
-			<button id="saveButton" class="planDetailButton runButton">일정 저장</button>
-			<button id="deleteButton" class="planDetailButton notButton">일정 삭제</button>
+			<button id="saveButton" type="button" class="planDetailButton runButton">일정 저장</button>
+			<button id="deleteButton" type="button" class="planDetailButton notButton">일정 삭제</button>
 		</div>
 	</form>
 
@@ -136,9 +142,11 @@
 				planSpans.classList.add('plan-spans');
 				planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
 				
+				let ii = 1;
 				const planInputs = document.createElement('div');
 				planInputs.classList.add('plan-inputs');
-				planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" placeholder="메모 입력창"></div>';
+				planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" name="place" placeholder="장소 입력창"></div><div><input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창"></div>';
+				ii++;
 				
 				const planImages = document.createElement('div');
 				planImages.classList.add('plan-images');
@@ -172,6 +180,7 @@
 							let label = document.createElement('label');
 							label.innerText = value;
 							label.classList.add('planLabel');
+							input.style.display = 'none';
 							
 							if(input == inputs[0]){
 								label.classList.add('placeLabel');
@@ -181,7 +190,7 @@
 								label.classList.add('memoLabel');
 							}
 							
-							input.parentNode.replaceChild(label, input);
+							input.parentNode.insertBefore(label, input.nextSibling);
 							
 							label.parentElement.className = 'label-div';
 							label.parentElement.parentElement.style.background = 'none';
@@ -319,7 +328,7 @@
 				
 				let newStartDate = $("#sdate").val();
 				let newEndDate = $("#edate").val();
-				let newSpot = $("#selectSpotHidden").val();
+				let newSpot = $('#selectSpotHidden option:checked').text();
 				
 				$('#startDate-span').text(newStartDate);
 				$('#endDate-span').text(newEndDate);
@@ -372,6 +381,45 @@
 				detailForm.style.display = 'block';
 				editForm.style.display = 'none';
 			});
+			
+			const hiddenDiv = document.getElementById('inputHiddens');
+			hiddenDiv.innerHTML = '<input type="hidden" name="reserve" id="reserve" value=""/><input type="hidden" name="count" id="count" value=""/>';
+			
+			document.getElementById('saveButton').addEventListener('click', () => {
+				let i = 0;				
+				const dayPlans = document.querySelectorAll('#planAll .dayPlan');
+				const rInput = document.getElementById('reserve');
+				
+				dayPlans.forEach(function(dayPlan){
+					let dayText = dayPlan.children[0].value; // n일차
+					let day = dayPlan.children[2].value; // 날짜
+					
+					let onePlans = dayPlan.getElementsByClassName('one-plan');
+					let count = onePlans.length; // 그날 계획 몇 개?
+
+					let places = dayPlan.getElementsByClassName('placeInput');
+					let times = dayPlan.getElementsByClassName('timeInput');
+					let memos = dayPlan.getElementsByClassName('memoInput');
+					let checks = dayPlan.getElementsByClassName('inp-cbx');
+					
+					let cInput = document.getElementById("count");
+					for(let j = 0; j < count; j++){
+						if(checks[j].checked){
+							rInput.value += 'Y' + '/';
+						} else {
+							rInput.value += 'N' + '/';
+						}
+						
+						if(j + 1 == count){
+							cInput.value += count + ';';
+						}
+					}
+					
+				})
+				
+				document.getElementById('planCreate').submit();
+			});
+			
 			
 		}
 	</script>

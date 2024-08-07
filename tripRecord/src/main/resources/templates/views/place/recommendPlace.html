@@ -101,7 +101,8 @@
 			<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
 				<div class="local-card position-relative" th:each='t : ${topList}'>
 					<input type='hidden' name='areacode' th:value="${t.localNo}">
-					<img class="local-img shadow position-absolute"  th:src="${t.imageRename == null}? 'image/noimage.png' : '|https://drive.google.com/thumbnail?id=${t.imageRename}&sz=w1000|'" th:alt="${t.localName}">
+					<img class="local-img shadow position-absolute" th:if="${t.imageRename == null}" src="image/noimage.png" th:alt="${t.localName}">
+					<img class="local-img shadow position-absolute" th:if="${t.imageRename != null}" th:src="|https://drive.google.com/thumbnail?id=${t.imageRename}&sz=w1000|" th:alt="${t.localName}">
 					<span class="card-text position-absolute fs-1 px-3">[[${t.localName}]]
 					</span>
 				</div>

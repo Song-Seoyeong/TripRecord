@@ -13,7 +13,7 @@
 	<div id="bigTitle" class='text-center'>비밀번호 변경</div>
 
 	<!-- 아이디찾기 폼 -->
-	<form action="" >
+	<form action="updatePwd.me" method="POST">
 		<div id='updatePwdDiv'>
 			<div class="pwdInputDiv row">
 				<div class='col-3'></div>
@@ -21,7 +21,7 @@
 					<label class="loginText">새 비밀번호</label>
 				</div>
 				<div  class='col-4'>
-					<input type="password" name='memPwd' placeholder="비밀번호를 입력하세요">
+					<input type="password" name='memberPwd' placeholder="비밀번호를 입력하세요">
 				</div>
 				<div class='col-3'></div>
 			</div>
@@ -43,13 +43,14 @@
 				<div class='col-3'></div>
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
-				<button type="button" class="btn btn-primary" id='searchButton'>비밀번호 변경</button>
+				<button class="btn btn-primary" id='searchButton'>비밀번호 변경</button>
 			</div>
 	
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center'>
 				<a class='aTag' id='searchId' href="enrollView.me">회원가입</a> | <a class='aTag' id='searchId' href="loginView.me">로그인</a> | <a class='aTag' id='searchPwd' href="searchPwdView.me">비밀번호 찾기</a>
 			</div>
 		</div>
+		<input type="hidden" name="memberId">
 	</form>
 	<!-- 아이디찾기 폼 -->
 	
@@ -59,7 +60,7 @@
 	<script>
 		window.onload=()=>{
 			const searchBtn = document.getElementById("searchButton");
-			const newPwd = document.getElementsByName("memPwd")[0];
+			const newPwd = document.getElementsByName("memberPwd")[0];
 			const pwdconfirm = document.getElementById('pwdconfirm');
 			const pwdconfirmCheck = document.getElementById('pwdConfirmText');
 			const pwdText = document.getElementById('pwdText');
@@ -79,12 +80,31 @@
 			}
 			
 			
+			// 현재 페이지의 URL 가져오기
+			var currentUrl = window.location.href;
+
+			// URL에서 쿼리 파라미터 부분 추출
+			var queryString = currentUrl.split('?')[1]; // '?' 이후의 부분을 가져옴
+
+			// URLSearchParams 객체 생성
+			var searchParams = new URLSearchParams(queryString);
+
+			// memberId 값 가져오기
+			var memberId = searchParams.get('memberId');
+
+			document.getElementsByName("memberId")[0].value = memberId;
+			
+			
+			
+			
+			
+			
 		}
 		
 		
 		
 		
-		const newPwd = document.getElementsByName("memPwd")[0];
+		const newPwd = document.getElementsByName("memberPwd")[0];
 		const pwdconfirm = document.getElementById('pwdconfirm');
 		const pwdconfirmCheck = document.getElementById('pwdConfirmText');
 		const pwdText = document.getElementById('pwdText');

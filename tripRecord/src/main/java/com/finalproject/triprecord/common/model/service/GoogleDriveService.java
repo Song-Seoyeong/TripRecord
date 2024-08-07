@@ -37,8 +37,7 @@ public class GoogleDriveService {
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     private static final List<String> SCOPES = Arrays.asList(
-    		DriveScopes.DRIVE,
-    		DriveScopes.DRIVE_FILE
+    		DriveScopes.DRIVE
     		);
     		
 
@@ -65,7 +64,7 @@ public class GoogleDriveService {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(9362).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(6786).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
@@ -195,4 +194,3 @@ public class GoogleDriveService {
     }
     
 }
-

@@ -59,6 +59,7 @@
 	text-align: center;
 	display: flex;
 	justify-content: space-around;
+	min-width: fit-content;
 }
 
 /* 해시태그 구역 div */

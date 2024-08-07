@@ -17,6 +17,7 @@ public class Image {
 	private int imageThum;
 	private String imageRefType;
 	private int imageRefNo;
+	private String localName;	
 	
 }
 

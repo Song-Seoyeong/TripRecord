@@ -67,7 +67,7 @@
 										<li class="overflow-ell" style="width: 50%;">
 											<th:block th:if="${r.plaReqContent == 'null'}"></th:block>
 											<th:block th:unless="${r.plaReqContent == 'null'}">
-												[[${r.plaReqContent}]]
+												<abbr th:title="${r.plaReqContent}" class="abbr">[[${r.plaReqContent}]]</abbr>
 											</th:block>
 										</li>
 										<li style="width: 10%;">[[${#strings.replace(r.requestDate, '-', '.')}]]</li>
@@ -167,7 +167,7 @@
     		<div class="modal-content rounded-3 shadow">
       			<div class="modal-body p-4 text-center">
         			<h3 class="mb-0">일반 회원으로 전환하시겠습니까?</h3>
-        			<p class="mb-0">비밀번호를 입력 후 '확인' 클릭 시<br> 선택한 회원의 등급이 일반으로 변경됩니다.</p>
+        			<p class="mb-0">계정 비밀번호를 입력 후 '확인' 클릭 시<br> 선택한 회원의 등급이 일반으로 변경됩니다.</p>
         			<div style="height:10px;"></div>
         			<input type="password" id="modalInput">
         			<div style="width: 100%; height: 15px;" id="modalHide"></div>
@@ -186,8 +186,8 @@
 		<div class="modal-dialog modal-dialog-centered" role="document">
     		<div class="modal-content rounded-3 shadow">
       			<div class="modal-body p-4 text-center">
-        			<h3 class="mb-0">요청을 거절하시겠습니까??</h3>
-        			<p class="mb-0">비밀번호를 입력 후 '확인' 클릭 시 요청이 거절됩니다.</p>
+        			<h3 class="mb-0">요청을 거절하시겠습니까?</h3>
+        			<p class="mb-0">계정 비밀번호를 입력 후 '확인' 클릭 시 요청이 거절됩니다.</p>
         			<div style="height:10px;"></div>
         			<input type="password" id="xModalInput">
         			<div style="width: 100%; height: 15px;" id="xModalHide"></div>

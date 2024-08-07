@@ -20,6 +20,12 @@ public interface MemberMapper {
 
 	int checkId(String id);
 	
+	Member findId(Member m);
+	
+	Member findPwd(Member m);
+	
+	int updatePwd(Member m);
+	
 	//마이페이지
 	//내 정보 수정
 	int updateMember(HashMap<String, String> map);
@@ -53,5 +59,8 @@ public interface MemberMapper {
 	Image existFileId(int memberNo);
 	//마이페이지 입장 시 프로필 가져오기
 	Image getProfile(int memberNo);//마이페이지
+
+
+
 	
 }
