@@ -381,6 +381,9 @@
 		function placeApi(page, arrange, selectedKeyword, areaCode, keyword){
 			// console.log(page)
 			// console.log(arrange)
+			if(areaCode != "" || selectedKeyword != "" || keyword != ""){
+	   			changeSearch(areaCode, selectedKeyword, keyword)
+   			}
 		    $.ajax({
 		    	url:"recoPlaceList.pla",
 		   		type: "GET",
@@ -508,9 +511,6 @@
    			
    			pagination.append(ul);
    			
-   			if(data.areaCode != "" || data.selectedKeyword != "" || data.keyword != ""){
-	   			changeSearch(data.areaCode, data.selectedKeyword, data.keyword)
-   			}
 		}
 		
 		function changeSearch(areaCode, selectedKeyword, keyword){
