@@ -21,7 +21,7 @@ public class Board {
 	private Date boardCreateDate;
 	private Date boardModifyDate;
 	private String boardStatus;
-	private String generalType;		// WITH, GIVE, REVIEW
+	private String generalType;		// WITH, GIVE, REVIEW (게시판) or PAYMENT, PLANNER, ELSE (문의)
 	private String localName;		// 서울, 부산, 대구 등등
 	private int boardCount;
 	

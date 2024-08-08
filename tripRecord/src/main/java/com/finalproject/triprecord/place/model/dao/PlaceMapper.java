@@ -25,7 +25,7 @@ public interface PlaceMapper {
 
 	ArrayList<Review> selectReviewList(int contentid);
 
-	int insertMapper(Review r);
+	int insertReview(Review r);
 
 	int insertImage(ArrayList<Image> list);
 
@@ -39,7 +39,7 @@ public interface PlaceMapper {
 
 	int delImg(ArrayList<String> deleteImg);
 
-	int ckeckImage(int contentid);
+	int checkImage(int contentid);
 
 	void insertPlaImage(Image i);
 

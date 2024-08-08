@@ -26,7 +26,7 @@ a:hover{cursor:pointer;}
 	<form id="search-form" action="categorySelect.bo" method="get">
 		<div id='content'>
 			<div id="content1-div" class="container">
-				<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
+				<input id="search-com" name="searchWord" type="text" placeholder="검색어를 입력해주세요" th:value="${searchWord}">
 				<img class="x-icon" alt="" src="image/Search.png">
 			</div>
 			
@@ -83,11 +83,7 @@ a:hover{cursor:pointer;}
 	
 	
 	<div id="commu-select" class="row">
-		<div class="col-3">
-			<div>
-				전체
-			</div>
-		</div>
+		<div class="col-3"><div>전체</div></div>
 		<div class="col-3"><div>동행</div></div>
 		<div class="col-3"><div>양도</div></div>
 		<div class="col-3"><div>후기</div></div>
@@ -119,7 +115,7 @@ a:hover{cursor:pointer;}
 	         				<td></td>
 	         			</tr>
 	         		<!-- 이거 반복 -->
-	          			<tr th:each=" b : ${cList}">
+	          			<tr th:if="${ !#strings.isEmpty(cList)}" th:each=" b : ${cList}">
 	            			<td>[[${ b.boardNo }]]</td>
 	            			<td>[[${ b.boardTitle }]]</td>
 	            			<td>[[${ b.nickname }]]</td>
@@ -157,6 +153,7 @@ a:hover{cursor:pointer;}
 	
 	<script th:inline="javascript">
 		window.onload=()=>{
+			/*<![CDATA[*/
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			const localNameValue = document.getElementById("localName");
 			const generalTypeValue = document.getElementById("generalType");
@@ -170,14 +167,8 @@ a:hover{cursor:pointer;}
 			const currentPage = parseInt(params.get('page')) || 1;
 			const totalItems = parseInt("[[${listCount}]]") || 1;
 			const totalPages = Math.ceil(totalItems / 10);
-			//const localName = params.get('localName') || 'ALL';
-			//const generalType = params.get('generalType') || 'ALL';
-			//const bType = params.get('boardType') || 'GENERAL';
-			//const keyword = params.get('keyword');
+
 			
-			console.log(Math.max(1, currentPage - 5));
-			console.log(Math.min(totalPages, currentPage + 4));
-			console.log(currentPage-1);
 			// 페이지 네이션 생성 부분
 			function createPagination(currentPage, totalPages){
 				let buttons = '';
@@ -193,7 +184,6 @@ a:hover{cursor:pointer;}
 					if(currentPage == i){
 						buttons += '<li class="page-item"><a class="page-link" style="font-size:1.1em; color:rgb(150,202,240);" onclick="changePage('+i+')">'+i+'</a></li>';
 					}else{
-						
 		                buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+i+')">'+i+'</a></li>';
 					}
 	            }
@@ -243,7 +233,6 @@ a:hover{cursor:pointer;}
 				});
 			}
 			
-			const comSelDiv = document.getElementById("commu-select");
 			const categories = document.getElementsByClassName("col-3");
 			
 			// 검색 아래에 카테고리 클릭 시 이동, 모양 변화 (동행, 양도, 후기)
@@ -272,21 +261,21 @@ a:hover{cursor:pointer;}
 				})
 			}
 
-			if([[${categorySelect}]] == null){
+			if(/*[[${categorySelect}]]*/1 == null){
 				generalTypeValue.value = "ALL";
 			}
 			
 			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if([[${generalType}]] == "ALL"){
+				if(/*[[${generalType}]]*/1 == "ALL"){
 					categories[0].children[0].style.borderRadius = '9999px';
 					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "WITH"){
+				} else if(/* [[${generalType}]] */1 == "WITH"){
 					categories[1].children[0].style.borderRadius = '9999px';
 					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "GIVE"){
+				} else if(/* [[${generalType}]] */1 == "GIVE"){
 					categories[2].children[0].style.borderRadius = '9999px';
 					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "REVIEW"){
+				} else if(/* [[${generalType}]] */1 == "REVIEW"){
 					categories[3].children[0].style.borderRadius = '9999px';
 					categories[3].children[0].style.backgroundColor = '#96caf0';
 				}
@@ -298,18 +287,21 @@ a:hover{cursor:pointer;}
 				tr.addEventListener('click', function(){
 					const boardNo = this.children[0].innerText;
 					let generalT = "";
-					for(const c of [[${cList}]]){
+					console.log("여기");
+					const list =  /*[[${cList}]]*/1;
+					for(const c of list){
 						if(c.boardNo == boardNo){
 							generalT = c.generalType;
 						}
 					}
-					location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=" + generalT + "&page=" + /*[[${pi?.currentPage}]]*/1; 
+					
+					location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=" + generalT + "&page=" + /*[[${pi.currentPage}]]*/1; 
 					
 				});
 			}
 			
 			
-			
+			/*]]>*/
 		}
 		// window.onload 밖
 		

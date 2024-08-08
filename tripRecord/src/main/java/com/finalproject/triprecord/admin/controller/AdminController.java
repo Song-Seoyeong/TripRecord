@@ -53,8 +53,10 @@ public class AdminController {
 		int generalCount = aService.selectMemberGradeCount("GENERAL");
 		int plannerCount = aService.selectMemberGradeCount("PLANNER");
 		int adminCount = aService.selectMemberGradeCount("ADMIN");
+		
 		int noAnswerCount = aService.selectQuestionAnswerCount("N");
 		int gradeCount = aService.selectGradeCount();
+		
 		ArrayList<Content> placeCount = aService.selectPlacesCount();
 		
 		Point total = aService.selectTotalPoint();
@@ -74,9 +76,8 @@ public class AdminController {
 			}
 		}
 		
-		ArrayList<Payment> dpList = aService.selectMonthStats();
 		String day;
-		for(Payment p: dpList) {
+		for(Payment p: mpList) {
 			day = String.valueOf(p.getPayDate()).split("-")[2];
 			if(dayStats.containsKey(day)){
 				dayStats.put(day, dayStats.get(day) + p.getPoPrice());

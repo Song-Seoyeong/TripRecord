@@ -34,7 +34,7 @@ public interface PlaceService {
 
 	int delImg(ArrayList<String> deleteImg);
 
-	int ckeckImage(int contentid);
+	int checkImage(int contentid);
 
 	void insertPlaImage(Image i);
 

@@ -109,5 +109,27 @@ public class BoardServiceImpl implements BoardService{
 		return bMapper.updateReply(r);
 	}
 
+	@Override
+	public int insertGeneralAsk(Board b) {
+		return bMapper.insertGeneralAsk(b);
+	}
+
+	@Override
+	public int insertQuestion(Board t) {
+		return bMapper.insertQuestion(t);
+	}
+
+	@Override
+	public int getaskCategoryListCount(CategorySelect cs) {
+		return bMapper.getaskCategoryListCount(cs);
+	}
+
+	@Override
+	public ArrayList<Board> getCategorySelectQuestionList(CategorySelect cs, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
+		return bMapper.getCategorySelectQuestionList(rb,cs);
+	}
+
 
 }

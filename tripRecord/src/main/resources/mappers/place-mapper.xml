@@ -39,7 +39,7 @@
 		ORDER BY r.review_no DESC
 	</select>
 	
-	<insert id="insertMapper" useGeneratedKeys="true">
+	<insert id="insertReview" useGeneratedKeys="true">
 		<selectKey keyProperty="reviewNo" order="BEFORE" resultType="_int">
 			select seq_review.nextval from dual
 		</selectKey>
@@ -88,7 +88,7 @@
 		</foreach>
 	</delete>
 	
-	<select id="ckeckImage" resultType='_int'>
+	<select id="checkImage" resultType='_int'>
 		select count(*)
 			from image
 			where image_ref_no = #{contentid} and image_ref_type = 'RECOPLACE'

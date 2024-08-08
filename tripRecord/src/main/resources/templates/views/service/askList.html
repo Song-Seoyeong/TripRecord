@@ -9,7 +9,7 @@
 .disabled{cursor: not-allowed; pointer-events: none;}
 </style>
 </head>
-<body>
+<body id="commuBody">
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 	
@@ -18,52 +18,52 @@
 		<b style="font-size:70px;">문의사항</b>
 	</div>
 	
-	<div id='content'>
-		<div id="content1-div" class="container">
-			<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
-			<img class="x-icon" alt="" src="image/Search.png">
+	
+	
+	
+	<form id="search-form" action="askCategorySelect.no" method="get">
+	
+		<div id='content'>
+			<div id="content1-div" class="container">
+				<input id="search-com" name="searchWord" type="text" placeholder="검색어를 입력해주세요" th:value="${searchWord}">
+				<img class="x-icon" alt="" src="image/Search.png">
+			</div>
+			
 		</div>
 		
-	</div>
-	
-	
-	
-	
-	
-	
-	<!-- 왼쪽 사이드 바 -->
-		<div id="sidebar">
-			<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-				<div class="arrow-top"></div>
-				<div class="arrow-bottom"></div>
-			</div>
-	<!-- > 모양 -->
-	
-			<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-				<div class="offcanvas-header">
-					<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		
+		
+		<!-- 왼쪽 사이드 바 -->
+			<div id="sidebar">
+				<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+					<div class="arrow-top"></div>
+					<div class="arrow-bottom"></div>
 				</div>
-				<div class="offcanvas-body">
-					<p>- 문의사항</p>
-					<p>- 공지사항</p>
+		<!-- > 모양 -->
+		
+				<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+					<div class="offcanvas-header">
+						<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					<div class="offcanvas-body">
+						<p>- 문의사항</p>
+						<p>- 공지사항</p>
+					</div>
 				</div>
 			</div>
-		</div>
-<!-- 사이드 바 -->
+	<!-- 사이드 바 -->
 	
+		<input type="hidden" name="generalType" th:value="${generalType}" id="generalType">
+		<input type="hidden" name="boardType" value="QUESTION" id="general">
 	
-	
+	</form>
 	
 	
 	
 	
 	<div id="commu-select" class="row">
-		<div class="col-3">
-			<div style="border-radius:9999px; background-color:#96caf0;">
-				전체
-			</div>
-		</div>
+		<div class="col-3"><div>전체</div></div>
 		<div class="col-3"><div>결제</div></div>
 		<div class="col-3"><div>플래너</div></div>
 		<div class="col-3"><div>기타</div></div>
@@ -86,6 +86,13 @@
 	          			</tr>
 	          		</thead>
 	         		<tbody id="text-test">
+	         			<tr th:if="${ #strings.isEmpty(aList)}">
+	         				<td></td>
+	         				<td>문의사항이 아직 없어요.</td>
+	         				<td></td>
+	         				<td></td>
+	         				<td></td>
+	         			</tr>
 	         		<!-- 이거 반복 -->
        					<th:block th:each=" a : ${aList}">
           					<th:block th:each="q : ${qList}">
@@ -112,21 +119,8 @@
 		<!-- 페이징 -->
 		<div class='row' style='margin-bottom: 100px;'>
 			<div class='col-4'></div>
-				<nav aria-label="Page navigation example" th:with="loc=${loc}" style="display:flex; justify-content:center;">
-					<ul class="pagination">
-						<li class="page-item">
-							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
-								<span aria-hidden="true">&laquo;</span>
-							</a>
-						</li>
-						<li class="page-item" th:each=" p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<a class="page-link" th:href="@{${loc}(page=${p})}">[[${p}]]</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
-								<span aria-hidden="true">&raquo;</span>
-							</a>
-						</li>
+				<nav aria-label="Page navigation example" style="display:flex; justify-content:center;">
+					<ul class="pagination" th:with="loc=${loc}" id="pagination">
 					</ul>
 				</nav>
 			<div class='col-4'></div>
@@ -153,7 +147,6 @@
 	  		</div>
 		</div>
 		
-		<input type="hidden" th:value="${generalType}">
 		
 		
 		
@@ -161,7 +154,7 @@
 		
 
 		<div th:if="${ session.loginUser != null}">
-	       	<button class="btn btn-outline-success" type="button" onclick="location.href='writeBoard.bo'">WRITE BOARD</button>
+	       	<button class="btn btn-outline-success" type="button" onclick="location.href='askWrite.no'">WRITE BOARD</button>
 	    </div>
 	</div>
 	
@@ -170,6 +163,58 @@
 	<script th:inline="javascript">
 		window.onload=()=>{
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
+			const generalTypeValue = document.getElementById("generalType");
+			const boardType = document.getElementById("general");
+			const searchForm = document.getElementById("search-form");
+			
+			const paginationUl = document.getElementById('pagination');
+			
+			
+			const params = new URLSearchParams(window.location.search);
+			const currentPage = parseInt(params.get('page')) || 1;
+			const totalItems = parseInt("[[${listCount}]]") || 1;
+			const totalPages = Math.ceil(totalItems / 10);
+			
+			function createPagination(currentPage, totalPages){
+				let buttons = '';
+				const startPage = Math.max(1, currentPage - 5);
+				const endPage = Math.min(totalPages, currentPage + 4);
+				
+				buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
+				if(startPage > 1){
+					buttons += '<li class="page-item"><a class="page-link" onclick="changePage(1)">1</a></li>';
+				}
+				
+				for (let i = startPage; i <= endPage; i++) {
+					if(currentPage == i){
+						buttons += '<li class="page-item"><a class="page-link" style="font-size:1.1em; color:rgb(150,202,240);" onclick="changePage('+i+')">'+i+'</a></li>';
+					}else{
+						
+		                buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+i+')">'+i+'</a></li>';
+					}
+	            }
+
+	            if (endPage < totalPages) {
+	            	buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+endPage+')">'+endPage+'</a></li>';
+	            }
+				buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
+	            return buttons;
+	        }
+			
+			
+			window.changePage = function(pageNumber){
+				const pageInput = document.createElement('input');
+				pageInput.type="hidden";
+				pageInput.name = 'page';
+			 	pageInput.value = pageNumber;
+	            searchForm.appendChild(pageInput);
+	            searchForm.submit();
+			};
+			
+			paginationUl.innerHTML = createPagination(currentPage, totalPages);
+			
+			
+			// 사이드 메뉴 이동
 			for(const sideP of sideMenus){
 				sideP.addEventListener('mouseover',function(){
 					sideP.style.fontSize = 'large';
@@ -193,7 +238,7 @@
 				});
 			}
 			
-			
+			// 카테고리 클릭 시 이동
 			const categories = document.getElementsByClassName("col-3");
 			for(const cate of categories){
 				cate.addEventListener('mouseover', function(){
@@ -204,17 +249,47 @@
 					cate.children[0].style.borderRadius = '0';
 					cate.children[0].style.backgroundColor = 'white';
 				});
-/* 				if(${categorySelect} != null){
-					if(${categorySelect} == cate.children[0].innerText){
-						cate.children[0].style.borderRadius = '9999px';
-						cate.children[0].style.backgroundColor = '#96caf0';
-						
-						선택되있는 카테고리에 동그라미 표시해두려고
-						
+				cate.addEventListener('click', function(){
+					if(this.innerText == '결제'){
+						generalTypeValue.value = "PAYMENT";
+					} else if(this.innerText == "플래너") {
+						generalTypeValue.value = "PLANNER";
+					} else if(this.innerText == "기타") {
+						generalTypeValue.value = "ELSE";
+					} else if(this.innerText == "전체") {
+						generalTypeValue.value = "ALL";
 					}
-				} */
+					
+					//console.log(generalTypeValue.value);
+					searchForm.submit();
+				})
 			}
 			
+			if([[${categorySelect}]] == null){
+				generalTypeValue.value = "ALL";
+			}
+			
+			// 현재 카테고리 표시해두기
+			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
+				if([[${generalType}]] == "ALL"){
+					categories[0].children[0].style.borderRadius = '9999px';
+					categories[0].children[0].style.backgroundColor = '#96caf0';
+				} else if([[${generalType}]] == "PAYMENT"){
+					categories[1].children[0].style.borderRadius = '9999px';
+					categories[1].children[0].style.backgroundColor = '#96caf0';
+				} else if([[${generalType}]] == "PLANNER"){
+					categories[2].children[0].style.borderRadius = '9999px';
+					categories[2].children[0].style.backgroundColor = '#96caf0';
+				} else if([[${generalType}]] == "ELSE"){
+					categories[3].children[0].style.borderRadius = '9999px';
+					categories[3].children[0].style.backgroundColor = '#96caf0';
+				}
+			});
+			
+			
+			
+			
+			// 비밀번호 확인
 			let boardNo = null; 
 			const pwdCheck = document.getElementById("pwdCheck");
 			

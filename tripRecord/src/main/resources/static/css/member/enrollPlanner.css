@@ -44,8 +44,6 @@ input{
 #atSign{
 	width: 10%;
 	background: #B7B7B7;
-	border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
 	display: inline-block;
 	height: 35px;
 	padding: 0;
@@ -92,6 +90,13 @@ input{
 	height: 90px;
 	resize: none;
 }
-#domain{width:35%;}
-#selectDomain{width:35%;}
+#domain{
+	width:35%;
+	border-top-left-radius:0;
+	border-bottom-left-radius:0;
+}
+#selectDomain{
+	width:35%;
+	height:35px;
+}
 .alert-div{height:25px;}
