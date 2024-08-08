@@ -62,11 +62,6 @@
 	min-width: fit-content;
 }
 
-/* 해시태그 구역 div */
-#select-contain-div {
-	position: relative;
-}
-
 /* select 옵션 */
 #selectSpot {
 	box-shadow: none;
@@ -76,13 +71,18 @@
 	cursor: pointer;
 }
 
+/* 해시태그 구역 div */
+#select-contain-div {
+	position: relative;
+}
+
 /* 각 input들 감싸는 div */
 .checkbox-parent-div {
-	display: flex;
-	align-items: center;
-	margin-left: 15px;
 	margin-top: 15px;
 	margin-bottom: 15px;
+	margin-left: 10px;
+	display: flex;
+	justify-content: space-between;
 }
 
 /* 해시태그 label */
@@ -111,9 +111,19 @@
 
 /* 해시태그 각 칸을 감싸는 div */
 .checkbox-div {
-	width: 150px;
+/* 	width: 150px; */
 	display: flex;
 	flex-direction: column;
+/* 	flex-wrap: wrap; */
+}
+
+/* 해시태그 우측 칸을 감싸는 div */
+.right-check{
+	width: 80%;
+	box-sizing: border-box;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-left: 15px;
 }
 
 /* 우측 해시태그 전체 감싸는 div */
@@ -123,7 +133,7 @@
 	width: 560px;
 	height: 262px;
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-around;
 }
 
 .tag_label:hover, .check_input:hover {

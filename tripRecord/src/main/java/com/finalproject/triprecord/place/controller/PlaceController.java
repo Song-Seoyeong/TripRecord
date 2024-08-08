@@ -142,7 +142,7 @@ public class PlaceController {
 	@GetMapping("placeReviewWrite.pla")
 	public String placeReviewWrite(@RequestParam("contentid") int contentid,
 								   @RequestParam("contenttypeid") int contenttypeid,
-								   @RequestParam("page") int page,
+								   @RequestParam(value="page", defaultValue="1") int page,
 								  @RequestParam("areacode") int areacode,
 								   Model model) {
 		//System.out.println("여기인가");
@@ -166,7 +166,7 @@ public class PlaceController {
 	public String insertPlaReview(@ModelAttribute Review r,
 								  @RequestParam(value="files", required=false) ArrayList<MultipartFile> files,
 								  @RequestParam("contenttypeid") int contenttypeid,
-								  @RequestParam("page") int page,
+								  @RequestParam(value="page", defaultValue="1") int page,
 								  @RequestParam("areacode") int areacode,
 								  HttpServletRequest request, RedirectAttributes ra) {
 		//System.out.println(files);
@@ -234,7 +234,7 @@ public class PlaceController {
 	@GetMapping("placeReviewDetail.pla")
 	public String placeReviewDetail(@RequestParam("contentid") int contentid,
 			   						@RequestParam("contenttypeid") int contenttypeid,
-			   						@RequestParam("page") int page,
+			   						@RequestParam(value="page", defaultValue="1") int page,
 			   						@RequestParam("areacode") int areaCode,
 			   						@RequestParam("reviewNo") int rId,
 			   						Model model) {
@@ -266,7 +266,7 @@ public class PlaceController {
 							   @RequestParam("contentid") int contentid,
 							   @RequestParam("contenttypeid") int contenttypeid,
 							   @RequestParam("areacode") int areacode,
-							   @RequestParam("page") int page,
+							   @RequestParam(value="page", defaultValue="1") int page,
 							   RedirectAttributes ra) {
 		int result = pService.deleteReview(rId);
 		
@@ -317,7 +317,7 @@ public class PlaceController {
 								  @RequestParam(value="delImg", required=false) ArrayList<String> delImgs,
 								  @RequestParam(value="files", required=false) ArrayList<MultipartFile> files,
 							  	  @RequestParam("contenttypeid") int contenttypeid,
-							  	  @RequestParam("page") int page,
+							  	  @RequestParam(value="page", defaultValue="1") int page,
 							  	  @RequestParam("areacode") int areacode,
 							  	  HttpServletRequest request, RedirectAttributes ra) {
 		// 리뷰수정

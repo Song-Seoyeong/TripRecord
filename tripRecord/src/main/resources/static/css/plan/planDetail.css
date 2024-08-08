@@ -66,7 +66,7 @@ form{
 .plan-images{ 
 	display: inline-block; 
 	position: relative;
-	margin-left: 6px;
+	margin-left: 2px;
 }
 
 #plan-flex-div{
@@ -293,7 +293,7 @@ form{
 }
 /* 체크 버튼 눌렀을 때의 메모 label */
 .memoLabel{
-	font-size: 13px;
+	font-size: 12px;
     font-weight: 700;
     color: #727272;
 }
@@ -384,7 +384,7 @@ form{
 /* 예약 여부 */
 .plan-checks{
 	display: inline-block;
-	margin-left: 45px;
+	margin-left: 40px;
 	position: relative;
 }
 
@@ -425,3 +425,46 @@ form{
     font-size: 13px;
     padding: 8px;
 }
+
+/*추천 장소*/
+.menuTitle{
+	text-align: center;
+	margin:30px;
+	color: black;
+}
+.local-container
+.local-card{
+	width: 220px;
+	height: 250px;
+	margin: 3px 10px;
+	cursor: pointer;
+	overflow: hidden;
+	border: 1px solid #f5f5f5;
+	margin-bottom:50px;
+}
+
+.card-text{
+	bottom: 0;
+	right: 0;
+	background: #96caf0;
+	opacity: 90%;
+	border-radius: 5px;
+	color: white;
+}
+
+.local-img{
+	width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: all .5s ease;
+    border-radius: 5px;
+}
+
+.local-img:hover{
+	object-fit: cover;
+    border-radius: 5px;
+    transform:scale(1.1);
+    transition: all .5s ease;
+    opacity: .75;
+}
+/*추천 장소*/
