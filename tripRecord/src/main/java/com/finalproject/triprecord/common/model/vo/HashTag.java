@@ -17,4 +17,7 @@ public class HashTag {
 	private String tagType;
 	private int count;
 	private int rownum;
+	
+	private String tagRefType; // select_hashtag
+	private int tagRefNo;  // select_hashtag
 }

@@ -19,4 +19,16 @@
 		select * from dual
 	</insert>
 	
+	<select id="hashTagList" resultType="HashTag">
+		select * from hashtag where tag_type in ('PERSON', 'GENERAL')
+	</select>
+	
+	<insert id="saveHashTagInsert">
+		insert all
+		<foreach collection="list" item="h" separator=" ">
+			into select_hashtag values(SLH_NO_FUNC, #{h.tagNo}, #{h.tagRefType}, #{h.tagRefNo})
+		</foreach>
+		select * from dual
+	</insert>
+	
 </mapper>

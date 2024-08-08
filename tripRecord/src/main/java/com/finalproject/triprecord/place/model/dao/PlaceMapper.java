@@ -51,4 +51,6 @@ public interface PlaceMapper {
 
 	ArrayList<Place> topPlaceList();
 
+	ArrayList<Place> selectPlaceList(int localNo);
+
 }

@@ -34,8 +34,8 @@
 		SELECT *
 		FROM review r
 		LEFT JOIN member m ON r.member_no = m.member_no
-		LEFT JOIN image i ON m.member_no = i.image_ref_no
-		WHERE r.REV_REF_TYPE = 'PLACE' AND r.REV_REF_NO = #{contentid} AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL) and review_status = 'Y'
+		LEFT JOIN image i ON m.member_no = i.image_ref_no AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL)
+		WHERE r.REV_REF_TYPE = 'PLACE' AND r.REV_REF_NO = #{contentid} and review_status = 'Y'
 		ORDER BY r.review_no DESC
 	</select>
 	
@@ -135,4 +135,14 @@
 		where rownum <= 5
 		]]>
 	</select>
+	
+	<select id="selectPlaceList" resultType='Place'>
+		<![CDATA[
+		select *
+		from reco_place
+			left join image on place_no = image_ref_no and image_ref_type = 'RECOPLACE'
+		where local_no = #{localNo} and rownum <= 5
+		]]>
+	</select>
+	
 </mapper>

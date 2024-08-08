@@ -116,4 +116,9 @@ public class PlaceServiceImpl implements PlaceService {
 		return pMapper.topPlaceList();
 	}
 
+	@Override
+	public ArrayList<Place> selectPlaceList(int localNo) {
+		return pMapper.selectPlaceList(localNo);
+	}
+
 }

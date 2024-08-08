@@ -48,4 +48,6 @@ public interface PlaceService {
 
 	ArrayList<Place> topPlaceList();
 
+	ArrayList<Place> selectPlaceList(int localNo);
+
 }

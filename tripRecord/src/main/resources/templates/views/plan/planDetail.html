@@ -68,13 +68,13 @@
 		<div class="contain-div">
 			<div class="navigation-pill-list">
 				<div class="navigation-pill" th:if="${s.together != null}">
-					<div class="hashtag" th:text='|# ${ s.together }|'><input type="hidden" name="together" th:value="${s.together}"/></div>
+					<div class="hashtag" th:text='|# ${ s.together }|'></div>
 				</div>
 				<div class="navigation-pill" th:if="${s.hashtag != null}" th:each="tag : ${ #strings.arraySplit(s.hashtag, ',')}">
-					<div class="hashtag" th:text="|# ${tag}|"><input type="hidden" name="hashtag" th:value="${s.hashtag}"/></div>
+					<div class="hashtag" th:text="|# ${tag}|"></div>
 				</div>
 				<div class="navigation-pill" th:if="${s.together == null && s.hashtag == null}">
-					<div class="hashtag">엄마 저는 이제 자바스크립트도 싫어요</div>
+					<div class="hashtag"> &#128655; 굉장하고 엄청난 여행 계획을 완성해 봅시다 &#128522; </div>
 				</div>
 			</div>
 		</div>
@@ -90,13 +90,13 @@
 							</div>
 							<div class="plan-inputs">
 								<div>
-									<input type="text" name="place" class="plan-text placeInput" placeholder="장소 입력창">
+									<input type="text" name="place" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창">
 								</div>
 								<div>
 									<input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창">
 								</div>
 								<div>
-									<input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창">
+									<input type="text" name="memo" class="plan-text memoInput" maxlength="200" placeholder="메모 입력창">
 								</div>
 							</div>
 							<div class="plan-images">
@@ -117,6 +117,23 @@
 			<button id="deleteButton" type="button" class="planDetailButton notButton">일정 삭제</button>
 		</div>
 	</form>
+	
+	
+	
+	<!-- 지역 장소 5 곳 -->
+	<hr>
+	<div class='menuTitle'><h3>여기가 추천하는 관광 SPOT &#x2728;</h3></div>
+	<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
+		<div class="local-card position-relative" th:each='p : ${pList}'>
+			<input type='hidden' name='areacode' th:value="${p.localNo}">
+			<input type='hidden' name='contentid' th:value="${p.placeNo}">
+			<input type='hidden' name='contentypeid' th:value="${p.contentTypeId}">
+			<img class="local-img shadow position-absolute" th:if="${p.imagePath == null}" src="image/noimage.png" th:alt="${p.placeName}">
+			<img class="local-img shadow position-absolute" th:if="${p.imagePath != null}" th:src="|${p.imagePath}|" th:alt="${p.placeName}">
+			<span class="card-text position-absolute fs-4 px-3">[[${p.placeName}]]
+			</span>
+		</div>
+	</div>
 
 
 	<div th:replace="~{ ../common/footer :: footer }"></div>
@@ -159,11 +176,10 @@
 				
 				planDiv.appendChild(newOnePlan);
 			}
-					
-				
 			
 			let index = 0;
 			let labelDiv = '';
+			const body = document.querySelector('body');
 			document.getElementById('planAll').addEventListener('click', function(e){
 				if (e.target.classList.contains('check-icon')) {
 					let onePlan = e.target.closest('.one-plan');
@@ -174,26 +190,25 @@
 					let memoInput = inputs[2];
 					
 					if(placeInput.value.trim() !== '' && timeInput.value.trim() !== ''){
+						let label = null;
 						inputs.forEach(function(input) {
-							
 							let value = input.value;
-							let label = document.createElement('label');
-							label.innerText = value;
-							label.classList.add('planLabel');
-							input.style.display = 'none';
-							
-							if(input == inputs[0]){
-								label.classList.add('placeLabel');
-							} else if(input == inputs[1]){
-								label.classList.add('timeLabel');
-							} else if(input == inputs[2]){
-								label.classList.add('memoLabel');
-							}
-							
-							input.parentNode.insertBefore(label, input.nextSibling);
-							
-							label.parentElement.className = 'label-div';
-							label.parentElement.parentElement.style.background = 'none';
+								label = document.createElement('label');
+								label.innerText = value;
+								label.classList.add('planLabel');
+								input.style.display = 'none';
+								
+								if(input == inputs[0]){
+									label.classList.add('placeLabel');
+								} else if(input == inputs[1]){
+									label.classList.add('timeLabel');
+								} else if(input == inputs[2]){
+									label.classList.add('memoLabel');
+								}
+								
+								input.parentNode.insertBefore(label, input.nextSibling);
+								label.parentElement.className = 'label-div';
+								label.parentElement.parentElement.style.background = 'none';
 						});
 
 						let icons = onePlan.querySelectorAll('img.planInputIcon');
@@ -216,8 +231,20 @@
 		        } else if (e.target.classList.contains('trash-icon')) {
 		            let planDiv = e.target.closest('.one-plan');
 		            planDiv.remove();
+		            
 		        } else if (e.target.classList.contains('planLabel') || e.target.classList.contains('label-div')) {
+		        	let bgCheckDiv = body.querySelectorAll('.plan-labels');
 		        	
+	        		for(const bgDiv of bgCheckDiv){
+	        			if(bgDiv.style.background != 'none') {
+	        				bgDiv.style.background = 'none';
+	        				bgDiv.nextElementSibling.innerHTML = '';
+	        			} else if(bgDiv.children[0]){
+	        				console.log(bgDiv.children[0].className == 'plan-inputs' ? '예' : '아니오');
+	        			}
+	        		}
+		        	
+	        		
 		        	if(e.target.classList.contains('planLabel')){
 			        	labelDiv = e.target.parentElement.parentElement;
 		        	} else {
@@ -227,30 +254,17 @@
 		        	labelDiv.style.background = '#E9F5FE';
 		        	let imagesDiv = labelDiv.nextElementSibling;
 		        	imagesDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
-		       
+		        	
+		        	
 		        } else if(e.target.classList.contains('bi-pencil-square')) {
 					let plan = e.target.closest('.one-plan');
 					let labels = plan.querySelectorAll('.planLabel');
 
 					labels.forEach(function(label) {
-						let value = label.innerText;
-						let input = document.createElement('input');
-						input.type = label.classList.contains('timeLabel') ? 'time' : 'text';
-						input.value = value;
-						input.classList.add('plan-text');
-
-						if (label.classList.contains('placeLabel')) {
-							input.classList.add('placeInput');
-							input.placeholder = '장소 입력창';
-						} else if (label.classList.contains('timeLabel')) {
-							input.classList.add('timeInput');
-							input.placeholder = '시간 입력창';
-						} else if (label.classList.contains('memoLabel')) {
-							input.classList.add('memoInput');
-							input.placeholder = '메모 입력창';
-						}
-
-						label.parentNode.replaceChild(input, label);
+						let input = label.previousElementSibling;
+						input.value = label.innerText;
+						label.remove();
+						input.style.display = 'inline';
 					});
 
 					let checkDiv = plan.querySelector('.plan-checks');
@@ -353,7 +367,7 @@
 							let dateHtml = '<div class="date">' + value + '</div>';
 						
 							// input 입력창
-							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" placeholder="메모 입력창"></div></div>';
+							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="200" placeholder="메모 입력창"></div></div>';
 						
 							// 1개의 계획 + 라인 + 원
 							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
@@ -364,7 +378,7 @@
 							// planDiv 안에 1개 계획 넣기
 							let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
 						
-							//  1일차를 감싸는 계획 div
+							// 1일차를 감싸는 계획 div
 							let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
 						
 							$('#planAll').append(newDayPlan);
@@ -383,12 +397,32 @@
 			});
 			
 			const hiddenDiv = document.getElementById('inputHiddens');
-			hiddenDiv.innerHTML = '<input type="hidden" name="reserve" id="reserve" value=""/><input type="hidden" name="count" id="count" value=""/>';
+			hiddenDiv.innerHTML = '<input type="hidden" name="reserve" id="reserve" value=""/><input type="hidden" name="count" id="count" value=""/><input type="hidden" id="together" name="together" value=""/><input type="hidden" name="hashtag" id="hashtag" value=""/>';
+			
+			/*<![CDATA[*/
+			let togetherVal = /*[[${togetherNo}]]*/0;
+			let hashtagVal = /*[[${hashtagNo}]]*/0;
+			/*]]>*/
+			
+			if(togetherVal == "") togetherVal = '0';
+			if(hashtagVal == "") hashtagVal = '0';
+			
 			
 			document.getElementById('saveButton').addEventListener('click', () => {
+				document.getElementById('together').value = togetherVal;
+				document.getElementById('hashtag').value = hashtagVal;
+				
 				let i = 0;				
 				const dayPlans = document.querySelectorAll('#planAll .dayPlan');
 				const rInput = document.getElementById('reserve');
+				
+				const inputCheck = document.querySelectorAll('.placeInput');
+				for(input of inputCheck){
+					if(input.style.display != 'none'){
+						alert('여행 계획을 완성해 주세요');
+						break;
+					}
+				}
 				
 				dayPlans.forEach(function(dayPlan){
 					let dayText = dayPlan.children[0].value; // n일차
@@ -419,6 +453,18 @@
 				
 				document.getElementById('planCreate').submit();
 			});
+			
+			
+			// 추천장소 카드 클릭
+			const placeCard = document.getElementsByClassName('local-card');
+			for(const card of placeCard){
+				card.addEventListener('click', function(){
+					const contentid = this.children[1].value;
+					const contenttypeid = this.children[2].value;
+					const areacode = this.children[0].value;
+					location.href = "placeDetail.pla?contentid=" + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode;
+				})
+			}
 			
 			
 		}
