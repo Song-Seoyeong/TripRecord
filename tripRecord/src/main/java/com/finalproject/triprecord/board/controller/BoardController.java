@@ -93,22 +93,23 @@ public class BoardController {
 		} else if(cs.getLocalName().equals("전국")) {
 			cs.setLocalName("ALL");
 		}
-		// 위 2개의 카테고리를 반복 설정? 클릭 시 어느 순간 에러가 남
 		
-		//System.out.println(cs);
 		
 		int listCount = bService.getCategorySelectListCount(cs);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> cList = bService.getCategorySelectBoardList(cs, pi);
 		
-		//System.out.println(cList);
+//		System.out.println("listCount : " + listCount);
+//		System.out.println(cList.size());
+//		System.out.println(cs.getSearchWord());
 		
 		if(!cList.isEmpty()) {
 			model.addAttribute("cList", cList);
 			model.addAttribute("pi",pi);
-			model.addAttribute("loc", req.getRequestURI());
+//			model.addAttribute("loc", req.getRequestURI());
 			model.addAttribute("listCount", listCount);
+			model.addAttribute("searchWord", cs.getSearchWord());
 			model.addAttribute("generalType", cs.getGeneralType());
 			model.addAttribute("localName", cs.getLocalName());
 			//model.addAttribute("boardType", "GENERAL");    // 현재 커뮤니티 게시판 == 무조건 GENERAL
@@ -153,6 +154,9 @@ public class BoardController {
 		ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
 		ArrayList<Reply> rList = bService.selectReply(boardNo);
 		//System.out.println(rList);
+		
+		System.out.println("왜 두번씩 호출됨");
+		
 		/* 댓글 작성자들 썸네일 사진도 가져와야 함 */
 		if(board != null) {
 			model.addAttribute("b", board);
@@ -273,7 +277,10 @@ public class BoardController {
 	
 	
 	@GetMapping("ask.no")
-	public String ask(@RequestParam(value="page", defaultValue="1") int currentPage, Model model, HttpServletRequest req) {// 문의는 사이드 + 카테고리
+	public String ask(@RequestParam(value="page", defaultValue="1") int currentPage,@RequestParam(value="generalType", defaultValue="ALL") String generalType,
+			@RequestParam(value="boardType", defaultValue="GENERAL") String boardType,
+			@RequestParam(value="localName", defaultValue="ALL") String localName,
+							Model model, HttpServletRequest req) {// 문의는 사이드 + 카테고리
 
 		CategorySelect cs = new CategorySelect();
 		cs.setBoardType("QUESTION");
@@ -285,18 +292,19 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); // 10개씩 보여주겠다
 		ArrayList<Board> aList = bService.getBoardList(cs, pi); // 메소드 안에 해당 타입 넣으면 그거 가져옴
 		// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
-		ArrayList<Question> qList = bService.getQuestionList(0);
+		ArrayList<Question> qList = bService.getQuestionList(0); // 0 보내면 Question 전체리스트, 숫자 보내면 해당 번호 가져오기
 		
-		//System.out.println(aList);
-		//System.out.println(qList);
 		
 		if(!aList.isEmpty()) {
 			model.addAttribute("aList", aList); // 보드
 			model.addAttribute("pi",pi);
 			model.addAttribute("loc", req.getRequestURI());
+			model.addAttribute("listCount", listCount);
 			model.addAttribute("qList", qList); // 문의(글번호, 비번, 답변, 답변YN)
 			model.addAttribute("generalType","ALL");
 			//model.addAttribute("boardType","GENERAL");
+		} else {
+			model.addAttribute("nothing", null);
 		}
 		return "askList";
 	}
@@ -318,10 +326,118 @@ public class BoardController {
 		
 	}
 	
+	@GetMapping("askCategorySelect.no")
+	public String askCategory(@ModelAttribute CategorySelect cs, @RequestParam(value="page", defaultValue="1") int currentPage,
+			 Model model, HttpServletRequest req) {
+
+		//System.out.println(cs);
+		if(cs.getGeneralType().equals("결제") || cs.getGeneralType().equals("PAYMENT") ) {
+			cs.setGeneralType("PAYMENT");
+		} else if(cs.getGeneralType().equals("플래너") || cs.getGeneralType().equals("PLANNER")) {
+			cs.setGeneralType("PLANNER");
+		} else if(cs.getGeneralType().equals("기타") || cs.getGeneralType().equals("ELSE")) {
+			cs.setGeneralType("ELSE");
+		} else if(cs.getGeneralType() == "") {
+			cs.setGeneralType("ALL");
+		} else {
+			cs.setGeneralType("ALL");
+		}
+		
+		cs.setLocalName("ALL");
+		if(cs.getSearchWord() != null) {
+			cs.setSearchWord(cs.getSearchWord().trim());
+		}
+		
+		//System.out.println(cs + "askCategorySelect");
+		
+		int listCount = bService.getaskCategoryListCount(cs);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Board> cList = bService.getCategorySelectQuestionList(cs, pi);
+		ArrayList<Question> qList = bService.getQuestionList(0);
+		//System.out.println(cList);
+		
+		if(!cList.isEmpty()) {
+			model.addAttribute("aList", cList);
+			model.addAttribute("pi",pi);
+			model.addAttribute("listCount", listCount);
+			model.addAttribute("searchWord", cs.getSearchWord());
+			model.addAttribute("generalType", cs.getGeneralType());
+			model.addAttribute("qList", qList);
+		} else {
+			model.addAttribute("nothing", "nothing");
+		}
+		//System.out.println(cList);
+			return "askList";
+		}
+	
 	@GetMapping("askWrite.no")
 	public String askWrite() {
 		return "askWrite";
 	}
+	
+	@PostMapping("insertQuestion.no")
+	public String insertQuestion(@ModelAttribute Board b, @RequestParam("pwd") Integer pwd, HttpSession session, @RequestParam(value="files", required=false) ArrayList<MultipartFile> files) {
+		// b 에 든거 : 제목, 내용, 결제/플래너/기타
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		b.setBoardWriterNo(loginUser.getMemberNo());
+		int result = bService.insertBoard(b); // 성공 시 1
+		int result2 = bService.insertGeneralAsk(b); // 성공 시 1
+		int bNo = returnBoardNo(); // seq_board.currval
+		Board t = new Board();
+		t.setBoardNo(bNo);
+		t.setBoardCount(pwd);
+		int result3 = bService.insertQuestion(t);
+		
+		ArrayList<Image> list = new ArrayList<Image>();
+		for(int i = 0; i < files.size(); i++) {
+			MultipartFile upload = files.get(i);
+			
+			//if(!upload.getOriginalFilename().equals("")) {
+			if(upload != null && !upload.isEmpty()) {
+	            String fileId;
+	            
+				try {
+					fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
+					Image a = new Image();
+					a.setImageOriginName(upload.getOriginalFilename());
+					a.setImageRename(fileId);
+					a.setImagePath("drive://files/" + fileId);
+					a.setImageThum(2);
+					a.setImageRefType("BOARD");
+					a.setImageRefNo(bNo);
+					
+					list.add(a);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		int iResult = 0;
+		if(!list.isEmpty()) {
+			iResult = bService.insertImage(list);
+		}
+		if(result + result2 + iResult == 2 + list.size()) {
+			return "redirect:ask.no";
+		}else {
+			bService.deleteBoard(bNo); // 이미지 넣기 실패해서 글도 삭제 ?
+			for(Image a : list) {
+				try {
+					gdService.deleteFile(a.getImageRename());
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return "NOT";
+		}
+	
+	}
+	
+	
+	
+	
 	
 	@GetMapping("notice.no")
 	public String notice(@RequestParam(value="page", defaultValue="1") int currentPage, Model model, HttpServletRequest req) {// 공지는 사이드메뉴만 있음

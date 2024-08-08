@@ -70,7 +70,7 @@
 			</div>
 			<div id='reviewContent'>
 				<h3>내용</h3>
-				<textArea name='boardContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' th:value="${b.boardContent}" required></textArea>
+				<textArea name='boardContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required>[[${b.boardContent}]]</textArea>
 			</div>
 			<div id='imgReview'>
 				<h3>사진</h3>
@@ -95,25 +95,7 @@
 	
 	<script>
 		window.onload=()=>{
-			/* const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
-			for(const sideP of sideMenus){
-				sideP.addEventListener('mouseover',function(){
-					sideP.style.fontSize = 'large';
-					sideP.style.textDecoration = 'underline';
-				});
-			}
-			for(const sideP of sideMenus){
-				sideP.addEventListener('mouseout',function(){
-					sideP.style.fontSize = 'medium';
-					sideP.style.textDecoration = 'none';
-				});
-			}
-			for(const sideP of sideMenus){
-				sideP.addEventListener('click',function(){
-					console.log(this.innerText.split(' ')[1]);
-					//location.href= 클릭한 것으로 구분
-				});
-			} */
+			
 		}
 	</script>
 	

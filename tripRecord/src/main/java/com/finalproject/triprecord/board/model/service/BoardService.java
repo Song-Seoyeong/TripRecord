@@ -43,6 +43,14 @@ public interface BoardService {
 
 	void insertReply(Reply r);
 
+	int insertGeneralAsk(Board b);
+
+	int insertQuestion(Board t);
+
+	int getaskCategoryListCount(CategorySelect cs);
+
+	ArrayList<Board> getCategorySelectQuestionList(CategorySelect cs, PageInfo pi);
+
 
 
 }

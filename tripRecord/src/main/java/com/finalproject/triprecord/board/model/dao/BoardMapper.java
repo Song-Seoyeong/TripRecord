@@ -47,4 +47,12 @@ public interface BoardMapper {
 	int deleteReply(int rNo);
 
 	int updateReply(Reply r);
+
+	int insertGeneralAsk(Board b);
+
+	int insertQuestion(Board t);
+
+	int getaskCategoryListCount(CategorySelect cs);
+
+	ArrayList<Board> getCategorySelectQuestionList(RowBounds rb, CategorySelect cs);
 }

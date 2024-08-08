@@ -48,7 +48,7 @@ public class PlaceServiceImpl implements PlaceService {
 
 	@Override
 	public int insertReview(Review r) {
-		return pMapper.insertMapper(r);
+		return pMapper.insertReview(r);
 	}
 
 	@Override
@@ -82,8 +82,8 @@ public class PlaceServiceImpl implements PlaceService {
 	}
 
 	@Override
-	public int ckeckImage(int contentid) {
-		return pMapper.ckeckImage(contentid);
+	public int checkImage(int contentid) {
+		return pMapper.checkImage(contentid);
 	}
 
 	@Override

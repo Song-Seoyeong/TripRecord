@@ -6,6 +6,10 @@
 <link href="css/admin/contentImgManage.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- 파비콘 -->
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
+<!-- 끝 -->
 </head>
 <body>
 	<div th:replace="~{common/adminHeader :: header}"></div>
@@ -40,7 +44,7 @@
 					</div>
 					<div class="content-list">
 						<div class="display-inline-block" th:each="l : ${list}">
-							<div class="card margin-right" style="width: 14.5rem;">
+							<div class="card margin-right" style="width: 14rem;">
 								<div style="height: 200px; width: 100%;">
 								  	<img th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" class="card-img-top" height="200" width="100">
 								</div>

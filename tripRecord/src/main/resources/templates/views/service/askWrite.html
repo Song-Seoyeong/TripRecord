@@ -17,33 +17,34 @@
 		<b style="font-size:70px;">문의 사항 적기</b>
 	</div>
 	
-	<div class="row filter-bar">
-		<div class="col-4"></div>
-		<div class="col-3"></div>
-		<div class='col-3'>
-			<select class="form-select" aria-label="Sort by" style="width:200px;">
-	               <option selected>말머리</option>
-	               <option value="1">결제</option>
-	               <option value="2">플래너</option>
-	               <option value="3">기타</option>
-			</select>
+	<form action="insertQuestion.no" method="post" enctype="multipart/form-data">
+		<input type="hidden" value="QUESTION" name="boardType">
+		<div class="row filter-bar">
+			<div class="col-4"></div>
+			<div class="col-3"></div>
+			<div class='col-3'>
+				<select class="form-select" aria-label="Sort by" style="width:200px;" name="generalType">
+		               <option value="all" selected>말머리</option>
+		               <option value="PAYMENT">결제</option>
+		               <option value="PLANNER">플래너</option>
+		               <option value="ELSE">기타</option>
+				</select>
+			</div>
+			<div class="col-2"></div>
 		</div>
-		<div class="col-2"></div>
-	</div>
-	<br><br>
-	<form action="">
+		<br><br>
 		<div id='inputDiv'>
 			<div style="margin-bottom:15px; padding-left:20px;">
 				<h3>비밀번호 설정</h3>
-				<input type="password" class="reviewInput" style="width:20%;">
+				<input type="password" class="reviewInput" style="width:20%;" name="pwd" maxlength="10" placeholder="10자리 이하 숫자로만 적어주세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
 			</div>
 			<div id='reviewTitle'>
 				<h3>문의 제목</h3>
-				<input type='text' name='reviewTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
+				<input type='text' name='boardTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
 			</div>
 			<div id='reviewContent'>
 				<h3>문의 내용</h3>
-				<textArea name='reviewContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required></textArea>
+				<textArea name='boardContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required></textArea>
 			</div>
 			<div id='imgReview'>
 				<h3>문의 사진</h3>
@@ -51,30 +52,12 @@
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-end'>
 				<a href="community.bo">
-					<button type="button" class="btn btn-primary" id='insert'>등록</button>
+					<button class="btn btn-primary" id='insert'>등록</button>
 				</a>
 			</div>
 		</div>
 	</form>
 	
-	<div id="sidebar">
-		<button style="border:none; background-color:white;" type="button" data-bs-toggle="offcanvas" data-bs-target="#staticBackdrop" aria-controls="staticBackdrop">
-			<svg style="width:25px; height:31px; color: #2f6589;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
-				<path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708"/>
-				<path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708"/>
-			</svg>
-		</button>
-		<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-			<div class="offcanvas-header">
-				<h5 class="offcanvas-title" id="staticBackdropLabel">고객센터</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-			</div>
-			<div class="offcanvas-body">
-				<p>- 문의사항</p>
-				<p>- 공지사항</p>
-			</div>
-		</div>
-	</div> 
 	
 	
 	<div th:replace="~{common/footer :: footer}"></div>
@@ -86,25 +69,33 @@
 	
 	<script>
 		window.onload=()=>{
-			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
-			for(const sideP of sideMenus){
-				sideP.addEventListener('mouseover',function(){
-					sideP.style.fontSize = 'large';
-					sideP.style.textDecoration = 'underline';
-				});
+			const genT = document.getElementsByName('generalType')[0];
+			const pwd = document.getElementsByName('pwd')[0];
+			const title = document.getElementById("title");
+			const content = document.getElementById("content");
+			const btn = document.getElementById("insert");
+			
+			btn.onclick = e =>{
+				if(genT.value == 'all'){
+					alert("말머리를 선택해 주세요");
+					genT.focus();
+					e.preventDefault();
+				} else if(pwd.value.trim() == ''){
+					alert("비밀번호를 입력해주세요");
+					pwd.focus();
+					e.preventDefault();
+				} else if(title.value.trim() == ''){
+					alert('제목을 입력해주세요');
+					title.focus();
+					e.preventDefault();
+				} else if(content.value.trim() == ''){
+					alert("내용을 입력해주세요.");
+					content.focus();
+					e.preventDefault();
+				}
+				
 			}
-			for(const sideP of sideMenus){
-				sideP.addEventListener('mouseout',function(){
-					sideP.style.fontSize = 'medium';
-					sideP.style.textDecoration = 'none';
-				});
-			}
-			for(const sideP of sideMenus){
-				sideP.addEventListener('click',function(){
-					console.log(this.innerText.split(' ')[1]);
-					//location.href= 클릭한 것으로 구분
-				});
-			}
+			
 		}
 	</script>
 </body>

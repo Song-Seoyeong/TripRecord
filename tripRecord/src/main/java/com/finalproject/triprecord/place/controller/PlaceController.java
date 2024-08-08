@@ -49,7 +49,7 @@ public class PlaceController {
 			model.addAttribute("areaCode", areacode);
 			return "recommendPlace";
 		}else {
-			return "fail";
+			throw new PlaceException("추천장소 이동 중 에러 발생");
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class PlaceController {
 		}
 		
 		// db에 이미지 정보 저장되어있는지 확인
-		int checkImage = pService.ckeckImage(contentid);
+		int checkImage = pService.checkImage(contentid);
 		
 		//System.out.println(image.split("\\(|\\)")[1]);
 		
