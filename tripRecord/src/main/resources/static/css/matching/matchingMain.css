@@ -8,16 +8,19 @@
 	cursor: pointer;
 }
 
-#introContent{
-	overflow: hidden;
+.plannerList .sIntro {
+	max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .local-card{
-	height: 250px;
+	height: 240px;
 	margin: 3px 10px;
 	cursor: pointer;
 	overflow: hidden;
-	border-radius: 5px;
+	border-radius: 10px;
 }
 
 .card-text{

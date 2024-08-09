@@ -17,25 +17,24 @@
 		<b style="font-size:70px;">공지사항</b>
 	</div>
 	
-	<div id='content'>
-		<div id="content1-div" class="container">
-			<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
-			<img class="x-icon" alt="" src="image/Search.png">
+	
+	
+	<form id="search-form" action="noticeSearch.no" method="get">
+		<div id='content'>
+			<div id="content1-div" class="container">
+				<input id="search-com" type="text" name="searchWord" placeholder="제목으로 검색" th:value="${searchWord}">
+				<img class="x-icon" alt="" src="image/Search.png">
+			</div>
 		</div>
-	</div>
+		
 	
-	
-	
-	<input type="hidden" name="boardType" value="NOTICE">
-	
-	
-	<!-- 왼쪽 사이드 바 -->
+		<!-- 왼쪽 사이드 바 -->
 		<div id="sidebar">
 			<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
 				<div class="arrow-top"></div>
 				<div class="arrow-bottom"></div>
 			</div>
-	<!-- > 모양 -->
+		<!-- > 모양 -->
 	
 			<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 				<div class="offcanvas-header">
@@ -48,9 +47,10 @@
 				</div>
 			</div>
 		</div>
-<!-- 사이드 바 -->
-	
-	
+		<!-- 사이드 바 -->
+		<input type="hidden" name="boardType" value="NOTICE" id="general">
+		<input type="hidden" name="generalType" value="ALL">
+	</form>
 	
 	
 	<div style="height:50px;"></div>
@@ -89,23 +89,10 @@
         <br>
 		
 		<!-- 페이징 -->
-		<div class='row' style='margin-bottom: 100px;'>
+		<div class='row' style='margin-bottom: 60px;'>
 			<div class='col-4'></div>
-				<nav aria-label="Page navigation example" th:with="loc=${loc}" style="display:flex; justify-content:center;">
-					<ul class="pagination">
-						<li class="page-item">
-							<a class="page-link" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
-								<span aria-hidden="true">&laquo;</span>
-							</a>
-						</li>
-						<li class="page-item" th:each=" p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<a class="page-link" th:href="@{${loc}(page=${p})}">[[${p}]]</a>
-						</li>
-						<li class="page-item">
-							<a class="page-link" th:href="@{${ loc }(page=${pi.currentPage+1})}" aria-label="Next" th:classappend="${pi.endPage == pi.currentPage} ? 'disabled'">
-								<span aria-hidden="true">&raquo;</span>
-							</a>
-						</li>
+				<nav aria-label="Page navigation example" style="display:flex; justify-content:center;">
+					<ul class="pagination" th:with="loc=${loc}" id="pagination">
 					</ul>
 				</nav>
 			<div class='col-4'></div>
@@ -121,7 +108,7 @@
 	
 	
 	
-	<script>
+	<script th:inline="javascript">
 		window.onload=()=>{
 			//사이드메뉴 이동
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
@@ -157,6 +144,60 @@
 					location.href="noticeSelect.no?boardNo=" + boardNo + "&page=" + /*[[${pi?.currentPage}]]*/1; 
 				});
 			}
+			
+			// 공지 검색
+			const boardType = document.getElementById("general");
+			const searchForm = document.getElementById("search-form");
+			
+			
+			
+			// pagination
+			const paginationUl = document.getElementById('pagination');
+			
+			const params = new URLSearchParams(window.location.search);
+			const currentPage = parseInt(params.get('page')) || 1;
+			const totalItems = parseInt("[[${listCount}]]") || 1;
+			const totalPages = Math.ceil(totalItems / 10);
+			
+			function createPagination(currentPage, totalPages){
+				let buttons = '';
+				const startPage = Math.max(1, currentPage - 5);
+				const endPage = Math.min(totalPages, currentPage + 4);
+				
+				buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
+				if(startPage > 1){
+					buttons += '<li class="page-item"><a class="page-link" onclick="changePage(1)">1</a></li>';
+				}
+				
+				for (let i = startPage; i <= endPage; i++) {
+					if(currentPage == i){
+						buttons += '<li class="page-item"><a class="page-link" style="font-size:1.1em; color:rgb(150,202,240);" onclick="changePage('+i+')">'+i+'</a></li>';
+					}else{
+						
+		                buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+i+')">'+i+'</a></li>';
+					}
+	            }
+
+	            if (endPage < totalPages) {
+	            	buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+endPage+')">'+endPage+'</a></li>';
+	            }
+				buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
+	            return buttons;
+	        }
+			
+			
+			window.changePage = function(pageNumber){
+				const pageInput = document.createElement('input');
+				pageInput.type="hidden";
+				pageInput.name = 'page';
+			 	pageInput.value = pageNumber;
+	            searchForm.appendChild(pageInput);
+	            searchForm.submit();
+			};
+			
+			paginationUl.innerHTML = createPagination(currentPage, totalPages);
+			
+			
 		}
 	
 	</script>

@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link type="text/css" href="css/service/askSelect.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
-
+.disable-link{pointer-events:none;}
 
 </style>
 </head>
-<body>
+<body id="commuBody">
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
@@ -17,22 +18,24 @@
 		<b style="font-size:70px;">문의사항</b>
 	</div>
 	
-	<div id='content'>
-		<div id="content1-div" class="container">
-			<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
-			<img class="x-icon" alt="" src="image/Search.png">
+	
+	<form id="search-form" action="askCategorySelect.no" method="get">
+		<div id='content'>
+			<div id="content1-div" class="container">
+				<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
+				<img class="x-icon" alt="" src="image/Search.png">
+			</div>
 		</div>
-	</div>
 	
 	
 
-<!-- 사이드 바 -->
+		<!-- 사이드 바 -->
 		<div id="sidebar">
 			<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
 				<div class="arrow-top"></div>
 				<div class="arrow-bottom"></div>
 			</div>
-	<!-- > 모양 -->
+		<!-- > 모양 -->
 	
 			<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 				<div class="offcanvas-header">
@@ -45,18 +48,16 @@
 				</div>
 			</div>
 		</div>
-<!-- 사이드 바 -->
-
+		<!-- 사이드 바 -->
+		<input type="hidden" name="generalType" id="generalType" th:value="${generalType}">
+		<input type="hidden" name="boardType" value="QUESTION" id="general">
+	</form>
 
 
 	
 	
 	<div id="commu-select" class="row">
-		<div class="col-3">
-			<div style="border-radius:9999px; background-color:#96caf0;">
-				전체
-			</div>
-		</div>
+		<div class="col-3"><div>전체</div></div>
 		<div class="col-3"><div>결제</div></div>
 		<div class="col-3"><div>플래너</div></div>
 		<div class="col-3"><div>기타</div></div>
@@ -66,47 +67,58 @@
 	
 	<div id='content2'>
 		<div class="text-center" style="padding:30px;">
-			<b style="font-size:40px;">사기 당한거같아요(글 제목)</b>
+			<b style="font-size:40px;">[[${n.boardTitle}]]</b>
 		</div>
 		<div class='row' style="padding:30px; border-bottom:5px solid #96caf0;">
 			<div class="col-2">
-				<img src="#">
-				작성자
+				<!-- <img src="#"> -->
+				[[${n.nickname}]]
 			</div>
-			<div class="col-9"></div>
-			<div class="col-1">작성일</div>
+			<div class="col-8"></div>
+			<div class="col-2">[[${n.boardModifyDate}]]</div>
 		</div>
 		<div class='text-start' id='placeContent'>
-			미안하다 이거 보여주려고 어그로끌었다.. 나루토 사스케 싸움수준 ㄹㅇ실화냐? 진짜 세계관최강자들의 싸움이다.. 그찐따같던 나루토가 맞나? 진짜 나루토는 전설이다..진짜옛날에 맨날나루토봘는데 왕같은존재인 호카게 되서 세계최강 전설적인 영웅이된나루토보면 진짜내가다 감격스럽고 나루토 노래부터 명장면까지 가슴울리는장면들이 뇌리에 스치면서 가슴이 웅장해진다.. 그리고 극장판 에 카카시앞에 운석날라오는 거대한 걸 사스케가 갑자기 순식간에 나타나서 부숴버리곤 개간지나게 나루토가 없다면 마을을 지킬 자는 나밖에 없다 라며 바람처럼 사라진장면은 진짜 나루토처음부터 본사람이면 안울수가없더라 진짜 너무 감격스럽고 보루토를 최근에 알았는데 미안하다.. 지금20화보는데 진짜 나루토세대나와서 너무 감격스럽고 모두어엿하게 큰거보니 내가 다 뭔가 알수없는 추억이라해야되나 그런감정이 이상하게 얽혀있다.. 시노는 말이많아진거같다 좋은선생이고..그리고 보루토왜욕하냐 귀여운데 나루토를보는것같다 성격도 닮았어 그리고버루토에 나루토사스케 둘이싸워도 이기는 신같은존재 나온다는게 사실임?? 그리고인터닛에 쳐봣는디 이거 ㄹㅇㄹㅇ 진짜팩트냐?? 저적이 보루토에 나오는 신급괴물임?ㅡ 나루토사스케 합체한거봐라 진짜 ㅆㅂ 이거보고 개충격먹어가지고 와 소리 저절로 나오더라 ;; 진짜 저건 개오지는데.. 저게 ㄹㅇ이면 진짜 꼭봐야돼 진짜 세계도 파괴시키는거아니야 .. 와 진짜 나루토사스케가 저렇게 되다니 진짜 눈물나려고했다.. 버루토그라서 계속보는중인데 저거 ㄹㅇ이냐..? 하.. ㅆㅂ 사스케 보고싶다..  진짜언제 이렇게 신급 최강들이 되었을까 옛날생각나고 나 중딩때생각나고 뭔가 슬프기도하고 좋기도하고 감격도하고 여러가지감정이 복잡하네.. 아무튼 나루토는 진짜 애니중최거명작임..<br>
-		</div>
-		<div id="placeImg" class="container">
-			<h2>관련 사진 &#x1F4F8;</h2>
-		    <div class="image-gallery" id="image-gallery">
-		        <div class="image-container"><img src="image/insadong1.jpg" alt="Image 1"></div>
-		        <div class="image-container"><img src="image/insadong2.jpg" alt="Image 2"></div>
-		        <div class="image-container"><img src="image/insadong3.jpg" alt="Image 3"></div>
-		        <div class="image-container"><img src="image/insadong4.jpg" alt="Image 4"></div>
-		    </div>
+			[[${n.boardContent}]]<br>
 		</div>
 		
+		
+		
+		<!-- 이미지들 -->
+		<div id="placeImg" class="container">
+			<h2 style="margin-bottom:35px;">관련 사진 &#x1F4F8;</h2>
+		    <div class="image-gallery" id="image-gallery">
+		    	<div th:if="${ #lists.isEmpty(iList)}">등록된 이미지가 없습니다.</div>
+		        <div class="image-container" th:each=" i, iStat : ${ iList }">
+		        	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|">
+		        </div>
+		    </div>
+		</div>
 	</div>
+	
+
+	<input type="hidden" th:value="${n.boardNo}" name="boardNo">
 	<div class="text-center row">
 		<div class="col-4"></div>
 		<div class="col-1" style="margin:auto;">
-			<a href="askEdit.no">
-				<button class="edit-btn">수정</button>
+			<a th:class="${q.questionSuccess == 'Y'} ? disable-link : ''">
+				<button class="edit-btn" th:if="${session.loginUser != null && session.loginUser.memberNo == n.boardWriterNo}">수정</button>
 			</a>
 		</div>
 		<div class="col-1" style="margin:auto;">
-			<a href="notice.no">
+			<a href="ask.no">
 				<button class="edit-btn">목록</button>
 			</a>
 		</div>
 		<div class="col-1" style="margin:auto;">
-			<button class="del-btn">삭제</button>
+			<a>
+				<button class="del-btn" th:if="${session.loginUser != null && session.loginUser.memberNo == n.boardWriterNo}">삭제</button>
+			</a>
 		</div>
 		<div class="col-4"></div>
 	</div>
+	<hr>
+
+
 	
 	<!-- 이미지 모달 -->
 	<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -140,6 +152,27 @@
 	<!-- 이미지 모달 -->
 	
 	
+	<!-- 삭제 모달 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+		<div class="modal-dialog" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
+        			<p class="mb-0">삭제 후 복구가 불가능합니다.</p>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete" th:disabled="${session.loginUser != null && session.loginUser.memberNo == n.boardWriterNo}">
+        				<strong>네</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+      			</div>
+    		</div>
+  		</div>
+	</div>
+	<!-- 삭제 모달 -->
+	
+	
+	
 	<!-- 문의 답변 -->
 	<div id='content4'>
 		<div class="text-center" style="padding:30px;">
@@ -147,14 +180,16 @@
 		</div>
 		<div class='row' style="padding:30px; border-bottom:5px solid #96caf0;">
 			<div class="col-2">
-				<img src="#">
-				관리자입니다
+				<!-- <img src="#"> -->
+				관리자 or 매니저 ?
 			</div>
-			<div class="col-9"></div>
-			<div class="col-1">작성일</div>
+			<div class="col-8" style="font-size:20px;">[[${n.boardTitle}]] 에 대한 답변입니다.</div>
+			<div class="col-2" th:if="${q.questionSuccess == 'Y'}">답변이 달려 수정이 불가능합니다.</div>
+			<div class="col-2" th:if="${q.questionSuccess == 'N'}">답변이 달리면 수정이 불가능합니다.</div>
 		</div>
 		<div class='text-start' id='placeContent2'>
-			안녕하세요.
+		[[${q.questionAnswer}]]
+			<th:block th:if="${ q.questionAnswer == null}">아직 답변이 없습니다.</th:block>
 		</div>
 	</div>
 	<!-- 문의 답변 -->
@@ -164,11 +199,9 @@
 		
         <br>
 		
-		<!-- 페이징 -->
-		<a href="askWrite.no">문의 글쓰기로 이동 임시</a>
 
 
-		<div th:if="${ session.loginUser != null}">
+		<div th:if="${ session.loginUser != null}" style="display:flex; justify-content:left; margin-bottom:50px;">
 	       	<button class="btn btn-outline-success" type="button" onclick="location.href='askWrite.no'">WRITE BOARD</button>
 	    </div>
 	
@@ -178,73 +211,54 @@
 		<div th:replace="~{ common/footer.html :: footer }"></div>
 	
 	
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-	        const gallery = document.getElementById('image-gallery');
-	        const images = gallery.querySelectorAll('.image-container img');
-	        const modal = new bootstrap.Modal(document.getElementById('imageModal'));
-	        const carouselIndicators = document.querySelector('.carousel-indicators');
-	        const carouselInner = document.querySelector('.carousel-inner');
-	
-	        images.forEach((img, index) => {
-	            const indicator = document.createElement('button');
-	            indicator.type = 'button';
-	            indicator.setAttribute('data-bs-target', '#carouselExampleIndicators');
-	            indicator.setAttribute('data-bs-slide-to', index);
-	            if (index === 0) indicator.classList.add('active');
-	            carouselIndicators.appendChild(indicator);
-	
-	            const carouselItem = document.createElement('div');
+	<script th:inline="javascript">
+		
+		// 이미지 모달 변경
+		const images = document.getElementsByClassName("image-container"); // div class="image-container"
+	//	console.log(images.length);
+		const gallery = document.getElementById("image-gallery");
+		const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+		const carouselIndicators = document.querySelector('.carousel-indicators');
+		const carouselInner = document.querySelector('.carousel-inner');
+		
+		if(images.length > 3){ // 4개 이상의 이미지가 있다면
+			for(let a = 0; a < images.length; a++){ // 1~마지막 이미지들을 모달창에 넣기, 그 후 images[2 ~ 끝].remove()
+				const indicator = document.createElement('button');
+				indicator.type = 'button';
+				indicator.setAttribute('data-bs-target', '#carouselExampleIndicators');
+				indicator.setAttribute('data-bs-slide-to', a);
+				if(a === 0) indicator.classList.add('active');
+				carouselIndicators.appendChild(indicator);
+				
+				const carouselItem = document.createElement('div');
 	            carouselItem.classList.add('carousel-item');
-	            if (index === 0) carouselItem.classList.add('active');
-	
-	            const carouselImage = document.createElement('img');
-	            carouselImage.src = img.src;
+	            if(a === 0) carouselItem.classList.add('active');
+				
+				const carouselImage = document.createElement('img');
+	            carouselImage.src = images[a].children[0].src;
 	            carouselImage.classList.add('d-block', 'w-100');
 	            carouselItem.appendChild(carouselImage);
-	
+				
 	            carouselInner.appendChild(carouselItem);
-	
-	            img.addEventListener('click', () => {
-	                modal.show();
-	                $('#carouselExampleIndicators').carousel(index);
-	            });
+				
+				images[a].children[0].addEventListener('click', ()=>{
+					modal.show();
+					$('#carouselExampleIndicators').carousel(a);
+				});
+			}
+			for(let b = 2; b < images.length; b++){
+				images[b].style.display = 'none';
+			}
+			const moreImages = document.createElement('div');
+	        moreImages.classList.add('more-images');
+	        moreImages.innerText = '더보기';
+	        gallery.appendChild(moreImages);
+	        
+	        moreImages.addEventListener('click', () => {
+	            modal.show();
+	            $('#carouselExampleIndicators').carousel(2);
 	        });
-	
-	        if (images.length > 2) {
-	            for (let i = 2; i < images.length; i++) {
-	                images[i].parentElement.style.display = 'none';
-	            }
-	
-	            const moreImages = document.createElement('div');
-	            moreImages.classList.add('more-images');
-	            moreImages.innerText = `더보기`;
-	            gallery.appendChild(moreImages);
-	
-	            moreImages.addEventListener('click', () => {
-	                modal.show();
-	                $('#carouselExampleIndicators').carousel(2);
-	            });
-	        }
-	        
-	        /* document.getElementById('goReview').addEventListener('click', ()=>{
-	        	const reviewModal = document.getElementById('Modal');
-	        	$('#Modal').modal('show');
-	        }); */
-	        
-	       /*  document.getElementById('loginView').addEventListener('click', ()=>{
-	        	location.href = 'placeReviewWrite.pla';
-	        }) */
-	        
-	        
-	       const reviewCard = document.getElementsByClassName('testimonial-card');
-	       Array.from(reviewCard).forEach(card =>{
-	    	   card.addEventListener('click', () =>{
-		    	   location.href = 'placeReviewDetail.pla'
-		       })
-	       })
-	    });
-		
+		}
 		
 		
 		window.onload=()=>{
@@ -272,7 +286,8 @@
 				});
 			}
 			
-			
+			const searchForm = document.getElementById("search-form");
+			const generalTypeValue = document.getElementById("generalType");
 			const categories = document.getElementsByClassName("col-3");
 			for(const cate of categories){
 				cate.addEventListener('mouseover', function(){
@@ -283,16 +298,65 @@
 					cate.children[0].style.borderRadius = '0';
 					cate.children[0].style.backgroundColor = 'white';
 				});
-/* 				if(${categorySelect} != null){
-					if(${categorySelect} == cate.children[0].innerText){
-						cate.children[0].style.borderRadius = '9999px';
-						cate.children[0].style.backgroundColor = '#96caf0';
-						
-						선택되있는 카테고리에 동그라미 표시해두려고
-						
+				cate.addEventListener('click', function(){
+					if(this.innerText == '결제'){
+						generalTypeValue.value = "PAYMENT";
+					} else if(this.innerText == "플래너") {
+						generalTypeValue.value = "PLANNER";
+					} else if(this.innerText == "기타") {
+						generalTypeValue.value = "ELSE";
+					} else if(this.innerText == "전체") {
+						generalTypeValue.value = "ALL";
 					}
-				} */
+					
+					//console.log(generalTypeValue.value);
+					searchForm.submit();
+				})
 			}
+			
+			let gType = [[${generalType}]];
+			//console.log(gType);
+			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
+				if(gType == "ALL"){
+					categories[0].children[0].style.borderRadius = '9999px';
+					categories[0].children[0].style.backgroundColor = '#96caf0';
+				} else if(gType == "WITH"){
+					categories[1].children[0].style.borderRadius = '9999px';
+					categories[1].children[0].style.backgroundColor = '#96caf0';
+				} else if(gType == "GIVE"){
+					categories[2].children[0].style.borderRadius = '9999px';
+					categories[2].children[0].style.backgroundColor = '#96caf0';
+				} else if(gType == "REVIEW"){
+					categories[3].children[0].style.borderRadius = '9999px';
+					categories[3].children[0].style.backgroundColor = '#96caf0';
+				}
+			});
+			
+			
+			
+			
+			// 수정버튼
+			const boardNo = document.getElementsByName('boardNo')[0].value;
+			document.getElementsByClassName('edit-btn')[0].addEventListener('click', ()=>{
+				location.href="editQuestion.no?boardNo=" + boardNo;
+			});
+			
+			// 삭제버튼
+			const delBtn = document.getElementsByClassName('del-btn')[0];
+			if(delBtn != null){
+				delBtn.addEventListener('click',()=>{
+					$('#modalChoice').modal('show');
+				});
+			}
+			document.getElementById('delete').addEventListener('click',()=>{
+				location.href="commuDelete.bo?boardNo=" + boardNo;
+			})
+			
+			
+			
+			
+			
+			
 		}
 		
 		

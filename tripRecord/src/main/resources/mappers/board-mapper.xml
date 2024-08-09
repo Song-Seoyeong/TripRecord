@@ -31,6 +31,9 @@
 		<if test="localName != 'ALL'">
 			and local_name = #{localName}
 		</if>
+		<if test="searchWord != ''">
+			and board_title like '%${searchWord}%'
+		</if>
 	</select>
 	
 	<select id="getCategorySelectBoardList" resultType="Board">
@@ -46,6 +49,9 @@
 		<if test="localName != 'ALL'">
 			and local_name = #{localName}
 		</if>
+		<if test="searchWord != ''">
+			and board_title like '%${searchWord}%'
+		</if>
 		order by board_no desc
 	</select>
 	
@@ -56,11 +62,13 @@
 			left join general_bo on(general_no = board_no)
 			left join local using(local_no)
 		where board_status = 'N' and board_no = #{boardNo}
+		order by board_no desc
 	</select>
 	
 	<update id="updateCount">
 		update board
 		set board_count = board_count + 1
+		where board_no = #{boardNo}
 	</update>
 	
 	<select id="selectBoardNo" resultType="_int">
@@ -74,6 +82,7 @@
 			left join board using(board_no)
 			left join member on(reply_writer_no = member_no)
 		where reply_status = 'N' and board_no = #{boardNo}
+		order by reply_no desc
 	</select>
 	
 	<insert id="insertBoard">
@@ -84,6 +93,16 @@
 	<insert id="insertGeneralBoard">
 		insert into general_bo
 		values(seq_board.currval, (select local_no from local where local_name = #{localName}), #{generalType})
+	</insert>
+	
+	<insert id="insertGeneralAsk">
+		insert into general_ask
+		values(seq_board.currval, #{generalType})
+	</insert>
+	
+	<insert id="insertQuestion">
+		insert into question
+		values(#{boardNo}, #{boardCount}, null, default)
 	</insert>
 	
 	<insert id="insertImage">
@@ -100,7 +119,7 @@
 		where board_no = #{bNo}	
 	</update>
 	
-	<select id="selectImage">
+	<select id="selectImage" resultType="Image">
 		select *
 		from image
 		where image_ref_type = 'BOARD' and image_ref_no = #{boardNo}
@@ -133,11 +152,66 @@
 		<!-- i=0 : 문의 목록, i != 0 : 문의 상세 조회 -->
 	</select>
 	
+	<select id="getaskCategoryListCount" resultType="_int">
+		select count(*)
+		from board
+			left join member on(board_writer_no = member_no)
+			left join general_ask on(general_no = board_no)
+		where board_status = 'N' and board_type = #{boardType}
+		<if test="generalType != 'ALL'">
+			and general_type = #{generalType}
+		</if>
+		<if test="searchWord != ''">
+			and board_title like '%${searchWord}%'
+		</if>
+	</select>
 	
+	<select id="getCategorySelectQuestionList" resultType="Board">
+		select *
+		from board
+			left join member on(board_writer_no = member_no)
+			left join general_ask on(general_no = board_no)
+		where board_status = 'N' and board_type = #{boardType}
+		<if test="generalType != 'ALL'">
+			and general_type = #{generalType}
+		</if>
+		<if test="searchWord != ''">
+			and board_title like '%${searchWord}%'
+		</if>
+		order by board_no desc
+	</select>
 	
+	<select id="getNoticeListCount" resultType="_int">
+		select count(*)
+		from board
+		where board_status = 'N' and board_type = 'NOTICE'
+		and board_title like '%${searchWord}%'
+	</select>
 	
+	<select id="getNoticeSelect" resultType="Board">
+		select *
+		from board
+			left join member on(board_writer_no = member_no)
+		where board_status = 'N' and board_type = 'NOTICE'
+		and board_title like '%${searchWord}%'
+	</select>
 	
+	<select id="selectQuestion" resultType="Question">
+		select *
+		from question
+		where question_no = #{boardNo}
+	</select>
 	
+	<insert id="updateBoard">
+		update board
+		set board_title = #{boardTitle}, board_content = #{boardContent}, board_modify_date = sysdate
+		where board_no = #{boardNo}
+	</insert>
 	
-	
+	<delete id="deleteImg">
+		delete from image
+		<foreach collection="list" item="i" separator=",">
+			where image_rename = #{i.del}
+		</foreach>
+	</delete>
 </mapper>

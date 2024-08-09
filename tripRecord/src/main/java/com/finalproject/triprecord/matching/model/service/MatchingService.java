@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Review;
@@ -34,6 +35,10 @@ public interface MatchingService {
 	ArrayList<Review> getReviewList(PageInfo pi, int pNo);
 
 	ArrayList<Local> selectLocalList();
+
+	int insertReview(Review r);
+
+	int insertImage(ArrayList<Image> list);
 
 	
 

@@ -40,22 +40,26 @@
 </style>
 </head>
 <body id="commuBody">
-	<div th:replace="~{ common/logoBar :: logoBar }"></div>
-	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+ 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
+ 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
 	<div class="text-center" style="padding-top:60px;">
 		<b style="font-size:70px;">전국</b>
 	</div>
 	
-	<div id='content'>
-		<div id="content1-div" class="container">
-			<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
-			<img class="x-icon" alt="" src="image/Search.png">
+	<form id="search-form" action="categorySelect.bo" method="get">
+		<div id='content'>
+			<div id="content1-div" class="container">
+				<input id="search-com" type="text" placeholder="제목으로 검색" name="searchWord">
+				<img class="x-icon" src="image/Search.png">
+			</div>
 		</div>
-	</div>
-	
+		
+		<input type="hidden" id="localName" th:value="${localName}" name="localName">
+		<input type="hidden" name="generalType" id="generalType" th:value="${generalType}">
+		<input type="hidden" name="boardType" value="GENERAL" id="general">
+	</form>
 	<input type="hidden" name="page" value="1">
-	<input type="hidden" name="boardType" value="GENERAL" id="general">
 	
 	<!-- 사이드 바 -->
 	<div id="sidebar">
@@ -109,7 +113,7 @@
 		</div>
 		<div class='row' style="padding:30px; border-bottom:5px solid #96caf0;">
 			<div class="col-2">
-				<img src="#">
+				<!-- <img src="#"> -->
 				[[${b.nickname}]]
 			</div>
 			<div class="col-8"></div>
@@ -122,10 +126,11 @@
 		
 		<!-- 이미지들 -->
 		<div id="placeImg" class="container">
-			<h2>관련 사진 &#x1F4F8;</h2>
+			<h2 style="margin-bottom:35px;">관련 사진 &#x1F4F8;</h2>
 		    <div class="image-gallery" id="image-gallery">
+		    	<div th:if="${ #lists.isEmpty(iList)}">등록된 이미지가 없습니다.</div>
 		        <div class="image-container" th:each=" i, iStat : ${ iList }">
-		        	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" th:alt="|Image ${iStat.count}|">
+		        	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|">
 		        </div>
 		    </div>
 		</div>
@@ -170,7 +175,7 @@
 	                    <div class="carousel-indicators">
 	                        <!-- Indicators will be inserted here by JavaScript -->
 	                    </div>
-	                    <div class="carousel-inner">
+	                    <div class="carousel-inner" style="position:relative; left:70px;width:700px;">
 	                        <!-- Carousel items will be inserted here by JavaScript -->
 	                    </div>
 	                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -198,7 +203,7 @@
         			<p class="mb-0">삭제 후 복구가 불가능합니다.</p>
       			</div>
       			<div class="modal-footer flex-nowrap p-0">
-        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete" th:disabled="${session.loginUser != null && session.loginUser.memberNo == b.boardWriterNo}">
         				<strong>네</strong>
         			</button>
         			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
@@ -239,13 +244,17 @@
 	            			<td th:text="${r.nickname}"></td>
 	            			<td th:text="${r.replyModifyDate}"></td>
 	            			<td style="border:none; width:20px;">
-	            				<input type="hidden" th:value="${r.replyNo}">
 		            			<th:block th:if="${session.loginUser == null || r.replyWriterNo != session.loginUser.memberNo}"></th:block>
 		            			<th:block th:if="${session.loginUser != null && r.replyWriterNo == session.loginUser.memberNo}">
 		            				<span>
 		          						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>
 		          					</span>
-		          					
+		          				</th:block>
+          					</td>
+          					<td style="border:none; width:20px;">
+	            				<input type="hidden" th:value="${r.replyNo}">
+          						<th:block th:if="${session.loginUser == null || r.replyWriterNo != session.loginUser.memberNo}"></th:block>
+		            			<th:block th:if="${session.loginUser != null && r.replyWriterNo == session.loginUser.memberNo}">
 		          					<span>
 	            						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg>
 	            					</span>
@@ -275,7 +284,7 @@
 		</div>
 		
 		
-		<div th:if="${ session.loginUser != null}" style="display:flex; justify-content:right;">
+		<div th:if="${ session.loginUser != null}" style="display:flex; justify-content:right; margin-bottom:50px;">
 	       	<button class="btn btn-outline-success" type="button" onclick="location.href='commuWrite.bo'">WRITE BOARD</button>
 	    </div>
 		
@@ -283,14 +292,16 @@
 	</div>
         <br>
 		
-	<div th:replace="~{common/footer :: footer}"></div>
+ 	<div th:replace="~{common/footer :: footer}"></div>
 	
 	
 	
 	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-		window.onload=()=>{
+//		window.onload=()=>{
+			
+			
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			const localNameValue = document.getElementById("localName");
 			const generalTypeValue = document.getElementById("generalType");
@@ -355,21 +366,21 @@
 				})
 			}
 
-			if(/* [[${categorySelect}]] */1 == null){
+			if([[${categorySelect}]] == null){
 				generalTypeValue.value = "ALL";
 			}
 			
 			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if(/* [[${generalType}]] */1 == "ALL"){
+				if([[${generalType}]] == "ALL"){
 					categories[0].children[0].style.borderRadius = '9999px';
 					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if(/* [[${generalType}]] */1 == "WITH"){
+				} else if([[${generalType}]] == "WITH"){
 					categories[1].children[0].style.borderRadius = '9999px';
 					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if(/* [[${generalType}]] */1 == "GIVE"){
+				} else if([[${generalType}]] == "GIVE"){
 					categories[2].children[0].style.borderRadius = '9999px';
 					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if(/* [[${generalType}]] */1 == "REVIEW"){
+				} else if([[${generalType}]] == "REVIEW"){
 					categories[3].children[0].style.borderRadius = '9999px';
 					categories[3].children[0].style.backgroundColor = '#96caf0';
 				}
@@ -382,9 +393,12 @@
 			});
 			
 			// 삭제버튼
-			document.getElementsByClassName('del-btn')[0].addEventListener('click',()=>{
-				$('#modalChoice').modal('show');
-			});
+			const delBtn = document.getElementsByClassName('del-btn')[0];
+			if(delBtn != null){
+				delBtn.addEventListener('click',()=>{
+					$('#modalChoice').modal('show');
+				});
+			}
 			document.getElementById('delete').addEventListener('click',()=>{
 				location.href="commuDelete.bo?boardNo=" + boardNo;
 			})
@@ -412,7 +426,7 @@
 							const contentTd = document.createElement('td');
 							contentTd.innerText = r.replyContent;
 							const writerTd = document.createElement('td');
-							writerTd.innerText = r.nameNick;
+							writerTd.innerText = r.nickname;
 							const dateTd = document.createElement('td');
 							dateTd.innerText = r.replyModifyDate;
 							
@@ -484,7 +498,7 @@
 				}
 			
 				const myTd = targetSVG.parentElement.parentElement;
-				const replyNo = myTd.children[0].value;
+				const replyNo = myTd.parentElement.children[0].innerText;
 				const contentTd = myTd.parentElement.children[1];
 				
 				if(targetSVG  != null){
@@ -492,10 +506,9 @@
 						if(document.getElementsByClassName('bi-check-lg').length > 0){
 							changePencilTrash();
 						}
-						
 						contentTd.innerHTML = '<textarea rows="2" cols="30" style="resize:none">' + contentTd.innerText + '</textarea>';
-						myTd.children[1].innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"/></svg>';
-						myTd.children[2].innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16"><path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/></svg>';
+						myTd.children[0].innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"/></svg>';
+						myTd.nextElementSibling.children[1].innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16"><path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/></svg>';
 					
 					} else if(targetSVG.className.baseVal.includes('trash')) {
 						if(confirm('정말 삭제하시겠습니까?')){
@@ -525,34 +538,80 @@
 								}
 							},
 							error: data => console.log(data)
-							
 						});
 					} else if(targetSVG.className.baseVal.includes('x')){
 						changePencilTrash();
 					}
 				}
-				
-			
-			
-			
 			})
 			
 			
 			
+			// 이미지 모달 변경
+			const images = document.getElementsByClassName("image-container"); // div class="image-container"
+//			console.log(images.length);
+			const gallery = document.getElementById("image-gallery");
+			const modal = new bootstrap.Modal(document.getElementById('imageModal'));
+			const carouselIndicators = document.querySelector('.carousel-indicators');
+			const carouselInner = document.querySelector('.carousel-inner');
+			
+			if(images.length > 3){ // 4개 이상의 이미지가 있다면
+				for(let a = 0; a < images.length; a++){ // 1~마지막 이미지들을 모달창에 넣기, 그 후 images[2 ~ 끝].remove()
+					const indicator = document.createElement('button');
+					indicator.type = 'button';
+					indicator.setAttribute('data-bs-target', '#carouselExampleIndicators');
+					indicator.setAttribute('data-bs-slide-to', a);
+					if(a === 0) indicator.classList.add('active');
+					carouselIndicators.appendChild(indicator);
+					
+					const carouselItem = document.createElement('div');
+		            carouselItem.classList.add('carousel-item');
+		            if(a === 0) carouselItem.classList.add('active');
+					
+					const carouselImage = document.createElement('img');
+		            carouselImage.src = images[a].children[0].src;
+		            carouselImage.classList.add('d-block', 'w-100');
+		            carouselItem.appendChild(carouselImage);
+					
+		            carouselInner.appendChild(carouselItem);
+					
+					images[a].children[0].addEventListener('click', ()=>{
+						modal.show();
+						$('#carouselExampleIndicators').carousel(a);
+					});
+				}
+				for(let b = 2; b < images.length; b++){
+					images[b].style.display = 'none';
+				}
+				const moreImages = document.createElement('div');
+	            moreImages.classList.add('more-images');
+	            moreImages.innerText = '더보기';
+	            gallery.appendChild(moreImages);
+	            
+	            moreImages.addEventListener('click', () => {
+	                modal.show();
+	                $('#carouselExampleIndicators').carousel(2);
+	            });
+			}
 			
 			
-		}
+			
+			
+			
+			
+//		}
 		// window.onload 밖
 		
 		
 		const changePencilTrash = (type) => {
-			const beforeCheck = document.getElementsByClassName('bi-check-lg')[0]; // 이전에 있던 check icon
+			const beforeCheck = document.getElementsByClassName('bi-check-lg')[0];// 이전에 있던 check icon
 			const beforeCheckSpan = beforeCheck.parentElement; // 이전에 있던 check icon을 감싸는 span
-			const beforeXSpan = beforeCheckSpan.nextElementSibling; // 이전에 있던 check icon을 감싸는 span의 다음 span(x의 span)
-			const beforeTd = beforeCheckSpan.parentElement; // check 와 x 를 감싸고 있던 td 
-			const beforeId = beforeTd.children[0].value; // 이전에 클릭했던 댓글 번호
-			const beforeContent = beforeTd.children[3].value; // 이전에 클릭했던 댓글 내용
+			const beforeXSpan = beforeCheckSpan.parentElement.nextElementSibling.children[1]; // 이전에 있던 check icon을 감싸는 span의 다음 span(x의 span)
+			const beforeTd = beforeCheckSpan.parentElement;// check 를 감싸고 있던 td 
+			const beforeId = beforeTd.parentElement.children[0].innerText; // 이전에 클릭했던 댓글 번호
+			const beforeContent = beforeTd.parentElement.children[1].children[0].value;//.value; // 이전에 클릭했던 댓글 내용
 			const beforeContentTd = beforeTd.parentElement.children[1]; // 컨텐츠가 들어가있는 td
+			
 			
 			beforeCheckSpan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>';
 			beforeXSpan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg>';
@@ -561,7 +620,7 @@
 				beforeContentTd.innerHTML = beforeContent;
 			} else { 
 				beforeContentTd.innerHTML = type;
-				beforeTd.children[3].value = type;
+				//beforeTd.children[3].value = type;
 			}
 			
 		}

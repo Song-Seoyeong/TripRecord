@@ -51,6 +51,16 @@ public interface BoardService {
 
 	ArrayList<Board> getCategorySelectQuestionList(CategorySelect cs, PageInfo pi);
 
+	int getNoticeListCount(String searchWord);
+
+	ArrayList<Board> getNoticeSelect(String searchWord, PageInfo pi);
+
+	Question selectQuestion(Integer boardNo);
+
+	int updateBoard(Board b);
+
+	int delImg(ArrayList<String> deleteImg);
+
 
 
 }

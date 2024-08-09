@@ -87,7 +87,7 @@
 		</div>
 		<div class='row' style="padding:30px; border-bottom:5px solid #96caf0;">
 			<div class="col-2">
-				<img src="#"><!-- 프로필사진 -->
+				<!-- <img src="#"> 프로필사진 -->
 				[[${n.nickname}]]
 			</div>
 			<div class="col-8"></div>
@@ -102,7 +102,7 @@
 	<div class="text-center row">
 		<div class="col-4"></div>
 		<div class="col-1" style="margin:auto;">
-			<a href="관리자 페이지로 보내죠?" th:if="${session.loginUser != null && session.loginUser.grade == 'ADMIN'}">
+			<a href="noticeManage.ad" th:if="${session.loginUser != null && session.loginUser.grade == 'ADMIN'}">
 				<button class="edit-btn">수정</button>
 			</a>
 		</div>
