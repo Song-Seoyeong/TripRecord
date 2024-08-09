@@ -249,7 +249,9 @@ public class PlaceController {
 		Review r = pService.selectReview(rId);
 		ArrayList<Image> list = pService.selectImage(rId);
 		
+		//System.out.println(rId);
 		//System.out.println(list);
+		//System.out.println(r);
 		if(r != null && list != null) {
 			model.addAttribute("page", page);
 			model.addAttribute("r", r);

@@ -19,10 +19,26 @@ body{
 
 .content-list{
 	margin: 10px auto 0 !important;
-	width: 95% !important;
+	width: 93% !important;
 	max-height: 680px;
 	overflow-y: auto;
-	scrollbar-width: thin;
+}
+
+.content-list::-webkit-scrollbar{
+	width: 5px;
+}
+
+.content-list::-webkit-scrollbar-thumb{
+	background-color: #657C8D;
+	border-radius: 20px;
+}
+
+.content-list::-webkit-scrollbar-track{
+	background-color: white;
+}
+
+.content-list::-webkit-scrollbar-button{
+	display: none;
 }
 
 .margin-right{

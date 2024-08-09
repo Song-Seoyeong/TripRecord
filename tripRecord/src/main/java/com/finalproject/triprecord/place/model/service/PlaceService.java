@@ -50,4 +50,6 @@ public interface PlaceService {
 
 	ArrayList<Place> selectPlaceList(int localNo);
 
+	Image planImg();
+
 }

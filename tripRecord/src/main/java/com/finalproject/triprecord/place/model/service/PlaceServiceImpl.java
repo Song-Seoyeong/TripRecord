@@ -121,4 +121,9 @@ public class PlaceServiceImpl implements PlaceService {
 		return pMapper.selectPlaceList(localNo);
 	}
 
+	@Override
+	public Image planImg() {
+		return pMapper.planImg();
+	}
+
 }

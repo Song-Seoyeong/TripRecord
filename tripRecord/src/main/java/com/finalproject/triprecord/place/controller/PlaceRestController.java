@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.triprecord.common.Pagination;
+import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.place.model.service.PlaceService;
 import com.finalproject.triprecord.place.model.vo.Place;
@@ -287,14 +288,4 @@ public class PlaceRestController {
 //       System.out.println(jsonMap.get("response"));
         return jsonMap;
 	}
-	
-	@GetMapping("topPlaceList.pla")
-	public Map<String, Object> topPlaceList(){
-		ArrayList<Place> pList = pService.topPlaceList();
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("pList", pList);
-		return map;
-	}
-	
 }

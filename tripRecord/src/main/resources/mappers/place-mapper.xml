@@ -59,8 +59,8 @@
 		SELECT *
 		FROM review r
 		LEFT JOIN member m ON r.member_no = m.member_no
-		LEFT JOIN image i ON m.member_no = i.image_ref_no
-		WHERE review_no = #{rId} and review_Status = 'Y' AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL)
+		LEFT JOIN image i ON m.member_no = i.image_ref_no AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL)
+		WHERE review_no = #{rId} and review_Status = 'Y'
 	</select>
 	
 	<select id="selectImage" resultType='Image'>
@@ -145,4 +145,9 @@
 		]]>
 	</select>
 	
+	<select id="planImg" resultType="Image">
+		select *
+		from image
+		where image_ref_type = 'PLAN' and image_ref_no = 1
+	</select>
 </mapper>
