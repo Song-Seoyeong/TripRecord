@@ -1,11 +1,15 @@
 package com.finalproject.triprecord.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.Payment;
+import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 
@@ -26,7 +30,7 @@ public interface MemberMapper {
 	
 	int updatePwd(Member m);
 	
-	//마이페이지
+	//마이페이지----------------------------------------
 	//내 정보 수정
 	int updateMember(HashMap<String, String> map);
 	//내 비번 수정
@@ -58,7 +62,14 @@ public interface MemberMapper {
 	//기존 프로필 이미지 이름 가져오기
 	Image existFileId(int memberNo);
 	//마이페이지 입장 시 프로필 가져오기
-	Image getProfile(int memberNo);//마이페이지
+	Image getProfile(int memberNo);
+	//포인트 목록 불러오기
+	ArrayList<Point> selectPointList();
+	//결제 내역 불러오기
+	ArrayList<Payment> getPaymentList(RowBounds rowBounds, int memberNo);
+	//결제 내역 수 불러오기
+	int pmListCount(int memberNo);
+	//---------------------------------------------------------
 
 
 

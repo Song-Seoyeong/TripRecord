@@ -86,6 +86,11 @@ td{
 	border: 1px solid #dee2e6 !important;
 }
 
+.box-shadow-no:focus{
+	box-shadow: none !important;
+	border: 1px solid #dee2e6 !important;
+	border-radius: 0;
+}
 .button-border{
 	border: var(--bs-border-width) solid #2F6598;
 	border-radius: var(--bs-border-radius) !important;

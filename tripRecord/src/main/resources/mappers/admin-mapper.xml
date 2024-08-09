@@ -95,7 +95,7 @@
 					from payment
 					    join member using(member_no)
 					    join point on (point_no = po_no)
-					order by po_no, pay_date)
+					order by pay_date desc)
 			where rownum <= 15
 		]]>
 	</select>
@@ -258,12 +258,12 @@
 		select * from image join local on (image_ref_no = local_no) where image_ref_type = 'LOCAL'
 	</select>
 	
-	<insert id="insertLocalImg">
+	<insert id="insertImg">
 		insert into image values(seq_image.nextval, #{imagePath}, #{imageOriginName}, #{imageRename}, #{imageThum}, #{imageRefType}, #{imageRefNo})
 	</insert>
 	
-	<delete id="deleteLocalImg">
-		delete from image where image_ref_no = #{imageRefNo}
+	<delete id="deleteImg">
+		delete from image where image_ref_no = #{imageRefNo} and image_ref_type = #{imageRefType}
 	</delete>
 	
 	<select id="getListCount" resultType="_int">
@@ -281,8 +281,12 @@
 		    join question on(board_no = question_no)
 	</select>
 	
-	<select id="getMemberListCount">
+	<select id="getMemberListCount" resultType="_int">
 		select count(*) from member
+	</select>
+	
+	<select id="selectPlanImage" resultType="Image">
+		select * from image where image_ref_type = 'PLAN'
 	</select>
 	
 </mapper>

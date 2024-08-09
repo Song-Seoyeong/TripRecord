@@ -44,27 +44,38 @@
 		</ul>
 	</div>
 
-	<script>
+	<script th:inline="javascript">
 		function submitAdmin() {
+			/*<![CDATA[*/
+			const grade = /*[[${session.loginUser.grade}]]*/
+			/*]]>*/
 			if (confirm("요청하시겠습니까")) {
-				$.ajax({
-					type:'post',
-					url : 'submitAdmin.mp',
-					data : {grade:'ADMIN'},
-					success : (data) =>{
-						if(data == 'PLANNER'){
-    						alert('플래너 요청이 되어 있는 상태입니다');
-    					}else if(data == 'ADMIN'){
-    						alert('관리자 요청이 되어 있는 상태입니다.');
-    					}else{
-	    					alert('관리자 요청이 완료되었습니다');
-    					}
-					},
-					error : (data) =>{
-	   					alert('관리자 요청이 실패되었습니다')	    						
-    				}
-				})
-			} else {
+				if(grade == 'ADMIN'){
+					alert('현재 관리자입니다')
+					return false;
+				}else if(grade == 'PLANNER'){
+					alert('현재 플래너입니다')
+					return false;
+				}else{
+					$.ajax({
+						type:'post',
+						url : 'submitAdmin.mp',
+						data : {grade:'ADMIN'},
+						success : (data) =>{
+							if(data == 'PLANNER'){
+	    						alert('플래너 요청이 되어 있는 상태입니다');
+	    					}else if(data == 'ADMIN'){
+	    						alert('관리자 요청이 되어 있는 상태입니다.');
+	    					}else{
+		    					alert('관리자 요청이 완료되었습니다');
+	    					}
+						},
+						error : (data) =>{
+		   					alert('관리자 요청이 실패되었습니다')	    						
+	    				}
+					})
+				}
+			}else {
 				return false;
 			}
 		}

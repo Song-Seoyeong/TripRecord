@@ -18,6 +18,8 @@ public class Payment {
 	private int memberNo;
 	private int pointNo;
 	private Date payDate;
+	private String impUid;
+	private String merchantUid;
 	
 	private String memberName;
 	private int poPoint;

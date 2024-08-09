@@ -1,9 +1,13 @@
 package com.finalproject.triprecord.member.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
+import com.finalproject.triprecord.common.model.vo.Payment;
+import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 
@@ -23,7 +27,7 @@ public interface MemberService {
 	
 	int updatePwd(Member m);
 	
-	//마이페이지
+	//마이페이지------------------------------------
 	//내 정보 수정
 	int updateMember(HashMap<String, String> map);
 	//내 비번 수정
@@ -54,6 +58,13 @@ public interface MemberService {
 	int deleteProfile(int memberNo);
 	//기존 프로필 이미지 이름 가져오기
 	Image existFileId(int memberNo);
+	//포인트 목록 불러오기
+	ArrayList<Point> selectPointList();
+	//결제 내역 불러오기
+	ArrayList<Payment> getPaymentList(PageInfo pi, int memberNo);
+	//결제 내역 수 불러오기
+	int pmListCount(int memberNo);
+	//-------------------------------------------------------------
 
 	
 

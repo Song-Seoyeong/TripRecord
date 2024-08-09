@@ -1,12 +1,17 @@
 package com.finalproject.triprecord.member.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
+import com.finalproject.triprecord.common.model.vo.Payment;
+import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.dao.MemberMapper;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
@@ -52,7 +57,7 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.updatePwd(m);
 	}
 	
-	//마이페이지
+	//마이페이지------------------------------------------
 	//내 정보 수정
 	@Override
 	public int updateMember(HashMap<String, String> map) {
@@ -128,6 +133,24 @@ public class MemberServiceImpl implements MemberService{
 	public Image existFileId(int memberNo) {
 		return mMapper.existFileId(memberNo);
 	}
+	//포인트 목록 불러오기
+	@Override
+	public ArrayList<Point> selectPointList() {
+		return mMapper.selectPointList();
+	}
+	//결제 내역 불러오기
+	@Override
+	public ArrayList<Payment> getPaymentList(PageInfo pi,int memberNo) {
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return mMapper.getPaymentList(rowBounds, memberNo);
+	}
+	//결제 내역 수 불러오기
+	@Override
+	public int pmListCount(int memberNo) {
+		return mMapper.pmListCount(memberNo);
+	}
+	//----------------------------------------------------------------
 
 	
 

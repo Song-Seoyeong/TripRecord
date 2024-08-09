@@ -271,7 +271,7 @@
 		    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[com]{2,}$/;
 		    const checkEmail = document.getElementById('checkEmail')
 			const memEmail = preEmail + '@' + surDomain;
-		    
+		 
 			if(!emailPattern.test(memEmail)){
 				checkEmail.innerText ='형식에 맞게 입력하세요';
 				checkEmail.style.color='red';
@@ -305,7 +305,15 @@
     		}
     	})
     	
-    	
+    	//검색 창 엔터 검색
+		const inputSearch = document.getElementsByTagName('input')
+		for(const input of inputSearch){
+			input.addEventListener('keyup', function(e){
+				if(e.key.toLowerCase() == 'enter'){
+					doSearch(this);
+				}		
+			})
+		}
     </script>
 </body>
 </html>

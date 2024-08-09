@@ -22,6 +22,9 @@ configurations {
 repositories {
 	mavenCentral()
 	maven { url 'https://maven.google.com' }
+	//결제api
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -49,6 +52,9 @@ dependencies {
     
     // Gson JSON Processing
     implementation 'com.google.code.gson:gson:2.10.1'
+    
+    //결제 api
+	implementation 'com.github.iamport:iamport-rest-client-java:0.1.6'
 }
 
 tasks.named('test') {

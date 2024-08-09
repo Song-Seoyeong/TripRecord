@@ -101,9 +101,9 @@ public interface AdminService {
 
 	ArrayList<Image> selectLocalImage();
 
-	int insertLocalImg(Image a);
+	int insertImg(Image a);
 
-	void deleteLocalImg(int imageRefNo);
+	void deleteImg(Image i);
 
 	int getListCount();
 
@@ -113,7 +113,8 @@ public interface AdminService {
 
 	int getMemberListCount();
 
-	
+	Image selectPlanImage();
+
 
 
 }
