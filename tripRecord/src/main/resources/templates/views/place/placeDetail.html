@@ -171,7 +171,7 @@
 			const contentid = params.get('contentid');
 			const contenttypeid = params.get('contenttypeid');
 			const areacode = params.get('areacode');
-			const page = params.get('page');
+			const page = params.get('page') || '1';
 	        
 			/*<![CDATA[*/
 			const loginUser = /*[[${session.loginUser}]]*/'아무값';

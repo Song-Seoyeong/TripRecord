@@ -53,4 +53,6 @@ public interface PlaceMapper {
 
 	ArrayList<Place> selectPlaceList(int localNo);
 
+	Image planImg();
+
 }

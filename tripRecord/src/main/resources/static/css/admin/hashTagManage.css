@@ -18,7 +18,23 @@
 .list-table{
 	max-height: 620px;
 	overflow-y: auto;
-	scrollbar-width: thin;
+}
+
+.list-table::-webkit-scrollbar{
+	width: 5px;
+}
+
+.list-table::-webkit-scrollbar-thumb{
+	background-color: #657C8D;
+	border-radius: 20px;
+}
+
+.list-table::-webkit-scrollbar-track{
+	background-color: white;
+}
+
+.list-table::-webkit-scrollbar-button{
+	display: none;
 }
 
 .box-size{
