@@ -55,4 +55,14 @@ public interface BoardMapper {
 	int getaskCategoryListCount(CategorySelect cs);
 
 	ArrayList<Board> getCategorySelectQuestionList(RowBounds rb, CategorySelect cs);
+
+	int getNoticeListCount(String searchWord);
+
+	ArrayList<Board> getNoticeSelect(RowBounds rb, String searchWord);
+
+	Question selectQuestion(Integer boardNo);
+
+	int updateBoard(Board b);
+
+	int deleteImg(ArrayList<String> deleteImg);
 }

@@ -17,5 +17,6 @@ public class Planner {
 	private String plaReqContent;
 	private String sIntroContent;
 	
-	private String Nickname; // 많이 쓰일 변수같은데.. vo?
+	private String Nickname;
+	private String imageRename;
 }

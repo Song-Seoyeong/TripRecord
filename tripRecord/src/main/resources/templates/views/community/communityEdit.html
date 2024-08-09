@@ -5,7 +5,31 @@
 <title>Insert title here</title>
 <link type="text/css" href="css/community/communityWrite.css" rel="stylesheet">
 <style>
-
+.reImg{
+	width: 200px;
+}
+.beforeDel, .afterDel{
+	float: left;
+}
+.afterDel{
+	display: none ;
+}
+.backDel{
+    display: inline-block ;
+    transition: transform 0.5s ease-in-out;
+}
+#image{
+	margin: 20px 0px;
+}
+.deleteButton:hover .afterDel{
+	display: inline-block ;
+}
+.deleteButton:hover .beforeDel{
+	display: none;
+}
+.deleteButton:hover .backDel{
+	transform: rotate(-90deg);
+}
 
 </style>
 </head>
@@ -54,9 +78,9 @@
 			<div class='col-1'>
 				<select class="form-select" aria-label="Sort by" name="generalType" style="width:100px;">
 		               <option selected>말머리</option>
-		               <option value="WITH">동행</option>
-		               <option value="GIVE">양도</option>
-		               <option value="REVIEW">후기</option>
+		               <option value="WITH" th:selected="${b.generalType == 'WITH'}">동행</option>
+		               <option value="GIVE" th:selected="${b.generalType == 'GIVE'}">양도</option>
+		               <option value="REVIEW" th:selected="${b.generalType == 'REVIEW'}">후기</option>
 				</select>
 			</div>
 			<div class="col-3"></div>
@@ -74,6 +98,24 @@
 			</div>
 			<div id='imgReview'>
 				<h3>사진</h3>
+				<div id='image' th:if='${iList != null}'>
+					<th:block  th:each='i : ${iList}'>
+						<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" th:alt="${i.imageOriginName}" class='reImg'>
+						<button class='deleteButton btn' type='button'  th:id='${i.imageRename}'>
+							<span  class="beforeDel">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+									<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+								</svg>
+							</span>
+							<span class="afterDel">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+									<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+								</svg>
+							</span>
+						</button>
+						<input type='hidden' value='none' name='delImg'>
+					</th:block>
+				</div>
 				<input type='file' accept="image/*" multiple id="files" name='files' class="form-control">
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-end'>
@@ -95,7 +137,49 @@
 	
 	<script>
 		window.onload=()=>{
+			const genT = document.getElementsByName('generalType')[0];
+			const title = document.getElementById("title");
+			const content = document.getElementById("content");
+			const button = document.getElementById("insert");
 			
+			button.onclick = e =>{
+				if(genT.value == 'all'){
+					alert("말머리를 선택해 주세요");
+					genT.focus();
+					e.preventDefault();
+				} else if(title.value.trim() == ''){
+					alert('제목을 입력해주세요');
+					title.focus();
+					e.preventDefault();
+				} else if(content.value.trim() == ''){
+					alert("내용을 입력해주세요.");
+					content.focus();
+					e.preventDefault();
+				}
+
+				
+				const delBtns = document.getElementsByClassName('deleteButton');
+				for(const btn of delBtns){
+					btn.addEventListener('click', function(){
+						console.log("click");
+						const hidden = this.nextElementSibling;
+						const img = this.previousElementSibling;
+						this.innerHTML = "";
+						console.log(hidden);
+						if(hidden.value == 'none'){
+							this.innerHTML = '<span class="backDel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z"/><path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466"/></svg></span>';
+							hidden.value = this.id;
+							img.style.opacity = '0.5';
+						}else{
+							this.innerHTML = '<span  class="beforeDel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg></span>'
+												+ '<span class="afterDel"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16"><path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/></svg></span>';
+							hidden.value = "none";
+							img.style.opacity = '1';
+						}
+						
+					})
+				}	
+			}
 		}
 	</script>
 	

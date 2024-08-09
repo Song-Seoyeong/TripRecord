@@ -21,9 +21,9 @@
 				<div class="swiper-wrapper">
 					<div class="swiper-slide" th:each="l : ${ localList }">
 						<div class="local-card position-relative">
-							<input type=hidden th:value="${l.LOCAL_NO}">
-							<img class="local-img shadow position-absolute"  src="/image/seoul.jpg" th:alt="${l.LOCAL_NAME}">
-							<span class="card-text position-absolute fs-1 px-3">[[${l.LOCAL_NAME}]]
+							<input type=hidden th:value="${l.localNo}">
+								<img class="local-img shadow position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
+							<span class="card-text position-absolute fs-1 px-3">[[${l.localName}]]
 							</span>
 						</div>
 					</div>
@@ -59,12 +59,19 @@
 			         		<table class="plannerList text-center my-3" th:each="planner : ${ list }">
 				         		<tr>
 				         			<td class="d-none">[[${planner.memberNo}]]</td>
-		         					<td><img class="rounded-circle m-3" src="image/profile basic.jpg" width="75px" height="75px" alt="프사"></td>
+				         			
+		         					<td th:if="${planner.imageRename != null }">
+		         						<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}&sz=w1000|"  width="75px" height="75px" alt="프로필">
+		         					</td>	
+		         					<td th:if="${planner.imageRename == null }">
+		         						<img class="rounded-circle m-3" src="image/noProfile.png"  width="75px" height="75px" alt="프로필">
+		         					</td>
+		         					
 					         		<td width="200px">[[${planner.Nickname}]]</td>
 					         		<td width="150px">[[${localName[planner.memberNo]}]]</td>
-					         		<td class="fs-5" width="300px">[[${planner.sIntroContent}]]</td>
+					         		<td class="sIntro fs-5" width="300px">[[${planner.sIntroContent}]]</td>
 					         		<td width="200px">[[${likes[planner.memberNo]}]]</td>
-				         		<tr>
+				         		</tr>
 			         		</table>
 		         		</div>
 		         	</div>
@@ -153,7 +160,7 @@ for (const card of cards) {
             dataType: 'json',
             success: function(data) {
                 const plannerListContainer = document.getElementsByClassName('plannerListContainer')[0];
-                plannerListContainer.innerHTML = ''; // 기존 내용 삭제
+                plannerListContainer.innerHTML = '';
                 
                 const list = data.list;
                 list.forEach(planner => {
@@ -161,16 +168,50 @@ for (const card of cards) {
                     table.classList.add('plannerList', 'text-center', 'my-3');
                     
                     const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="d-none">${planner.memberNo}</td>
-                        <td><img class="rounded-circle m-3" src="image/profile basic.jpg" width="75px" height="75px" alt="프사"></td>
-                        <td width="200px">${planner.Nickname}</td>
-                        <td width="150px">${data.localName[planner.memberNo]}</td>
-                        <td class="fs-5" width="300px">${planner.sIntroContent}</td>
-                        <td width="200px">${data.likes[planner.memberNo]}</td>
-                    `;
                     
-                    // 행 클릭 시 이벤트 리스너 추가
+                    const memberNoCell = document.createElement('td');
+                    memberNoCell.classList.add('d-none');
+                    memberNoCell.innerText = planner.memberNo;
+                    
+                    const imageCell = document.createElement('td');
+                    const img = document.createElement('img');
+                    img.classList.add('rounded-circle', 'm-3');
+                    img.width = 75;
+                    img.height = 75;
+                    img.alt = '프로필';
+                    
+                    if (planner.imageRename) {
+                        img.src = `https://drive.google.com/thumbnail?id=${planner.imageRename}`;
+                    } else {
+                        img.src = 'image/noProfile.png';
+                    }
+                    imageCell.appendChild(img);
+                    
+                    const nicknameCell = document.createElement('td');
+                    nicknameCell.width = 200;
+                    nicknameCell.innerText = planner.Nickname;
+                    
+                    const localNameCell = document.createElement('td');
+                    localNameCell.width = 150;
+                    localNameCell.innerText = data.localName[planner.memberNo];
+                    
+                    const sIntroContentCell = document.createElement('td');
+                    sIntroContentCell.classList.add('sIntro');
+                    sIntroContentCell.classList.add('fs-5');
+                    sIntroContentCell.width = 300;
+                    sIntroContentCell.innerText = planner.sIntroContent;
+                    
+                    const likesCell = document.createElement('td');
+                    likesCell.width = 200;
+                    likesCell.innerText = data.likes[planner.memberNo];
+                    
+                    row.appendChild(memberNoCell);
+                    row.appendChild(imageCell);
+                    row.appendChild(nicknameCell);
+                    row.appendChild(localNameCell);
+                    row.appendChild(sIntroContentCell);
+                    row.appendChild(likesCell);
+                    
                     row.addEventListener('click', function() {
                         const pNo = planner.memberNo;
                         const currentPage = 1;

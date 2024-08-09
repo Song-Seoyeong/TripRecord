@@ -22,38 +22,34 @@
 	
 	
 	<form id="search-form" action="askCategorySelect.no" method="get">
-	
 		<div id='content'>
 			<div id="content1-div" class="container">
-				<input id="search-com" name="searchWord" type="text" placeholder="검색어를 입력해주세요" th:value="${searchWord}">
+				<input id="search-com" name="searchWord" type="text" placeholder="제목으로 검색" th:value="${searchWord}">
 				<img class="x-icon" alt="" src="image/Search.png">
 			</div>
-			
 		</div>
 		
 		
 		
 		<!-- 왼쪽 사이드 바 -->
-			<div id="sidebar">
-				<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-					<div class="arrow-top"></div>
-					<div class="arrow-bottom"></div>
-				</div>
+		<div id="sidebar">
+			<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+				<div class="arrow-top"></div>
+				<div class="arrow-bottom"></div>
+			</div>
 		<!-- > 모양 -->
-		
-				<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
-					<div class="offcanvas-header">
-						<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-					</div>
-					<div class="offcanvas-body">
-						<p>- 문의사항</p>
-						<p>- 공지사항</p>
-					</div>
+			<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+				<div class="offcanvas-header">
+					<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+				</div>
+				<div class="offcanvas-body">
+					<p>- 문의사항</p>
+					<p>- 공지사항</p>
 				</div>
 			</div>
-	<!-- 사이드 바 -->
-	
+		</div>
+		<!-- 사이드 바 -->
 		<input type="hidden" name="generalType" th:value="${generalType}" id="generalType">
 		<input type="hidden" name="boardType" value="QUESTION" id="general">
 	
@@ -117,7 +113,7 @@
         
         
 		<!-- 페이징 -->
-		<div class='row' style='margin-bottom: 100px;'>
+		<div class='row' style='margin-bottom: 60px;'>
 			<div class='col-4'></div>
 				<nav aria-label="Page navigation example" style="display:flex; justify-content:center;">
 					<ul class="pagination" th:with="loc=${loc}" id="pagination">
@@ -153,7 +149,7 @@
 		
 		
 
-		<div th:if="${ session.loginUser != null}">
+		<div th:if="${ session.loginUser != null}" style="display:flex; justify-content:right; margin-bottom:50px;">
 	       	<button class="btn btn-outline-success" type="button" onclick="location.href='askWrite.no'">WRITE BOARD</button>
 	    </div>
 	</div>
@@ -162,13 +158,13 @@
 	
 	<script th:inline="javascript">
 		window.onload=()=>{
+			
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			const generalTypeValue = document.getElementById("generalType");
 			const boardType = document.getElementById("general");
 			const searchForm = document.getElementById("search-form");
 			
 			const paginationUl = document.getElementById('pagination');
-			
 			
 			const params = new URLSearchParams(window.location.search);
 			const currentPage = parseInt(params.get('page')) || 1;
@@ -265,7 +261,7 @@
 				})
 			}
 			
-			if([[${categorySelect}]] == null){
+			if(/*[[${categorySelect}]]*/1 == null){
 				generalTypeValue.value = "ALL";
 			}
 			
@@ -304,14 +300,13 @@
 				});
 			}
 			
-			//let askList = ${bList}]];
 			
 			document.getElementById("ask-submit").addEventListener('click',()=>{
 				if($('#modalInput').val() == ''){
 					alert("비밀번호를 적어주세요");
 				} else{
 					if($('#modalInput').val() == pwdCheck.value){
-						location.href="askSelect.no?boardNo=" + boardNo + "&page=" + /*[[${pi?.currentPage}]]*/1;
+						location.href="askSelect.no?boardNo=" + boardNo + "&generalType=" + generalTypeValue.value + "&page=" + /*[[${pi?.currentPage}]]*/1;
 					}else{
 						alert("비밀번호가 다릅니다");
 					}

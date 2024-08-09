@@ -1,3 +1,11 @@
+#mainContainer {
+	width: 1400px;
+}
+
 button {
 	background-color: #96caf0;
+}
+
+.emptyReview {
+	height : 300px;
 }

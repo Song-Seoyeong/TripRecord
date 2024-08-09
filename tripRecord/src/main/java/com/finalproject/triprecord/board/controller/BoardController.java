@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.finalproject.triprecord.board.model.exception.BoardException;
 import com.finalproject.triprecord.board.model.service.BoardService;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.CategorySelect;
@@ -75,7 +77,6 @@ public class BoardController {
 	public String categorySelect(@ModelAttribute CategorySelect cs, @RequestParam(value="page", defaultValue="1") int currentPage,
 								 Model model, HttpServletRequest req) {
 		
-		//System.out.println(cs);
 		if(cs.getGeneralType().equals("동행") || cs.getGeneralType().equals("WITH") ) {
 			cs.setGeneralType("WITH");
 		} else if(cs.getGeneralType().equals("양도") || cs.getGeneralType().equals("GIVE")) {
@@ -100,9 +101,6 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> cList = bService.getCategorySelectBoardList(cs, pi);
 		
-//		System.out.println("listCount : " + listCount);
-//		System.out.println(cList.size());
-//		System.out.println(cs.getSearchWord());
 		
 		if(!cList.isEmpty()) {
 			model.addAttribute("cList", cList);
@@ -153,9 +151,7 @@ public class BoardController {
 		Board board = bService.selectBoard(boardNo, id);
 		ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
 		ArrayList<Reply> rList = bService.selectReply(boardNo);
-		//System.out.println(rList);
 		
-		System.out.println("왜 두번씩 호출됨");
 		
 		/* 댓글 작성자들 썸네일 사진도 가져와야 함 */
 		if(board != null) {
@@ -165,10 +161,9 @@ public class BoardController {
 			model.addAttribute("generalType", generalType);
 			model.addAttribute("loc", req.getRequestURI());
 			model.addAttribute("iList", iList);
-			//System.out.println(rList);
 			return "communitySelect";
 		} else {
-			return "NOT";
+			throw new BoardException("게시글 조회에 실패하였습니다.");
 		}
 	}
 	
@@ -231,9 +226,12 @@ public class BoardController {
 					e.printStackTrace();
 				}
 			}
-			return "NOT";
+			throw new BoardException("게시글 작성에 실패하였습니다.");
 		}
 	}
+	
+	@PostMapping("updateBoard.bo")
+//	public String updateBoard(@ModelAttribute Board b, )
 	
 	
 	@GetMapping(value="insertCommuReply.bo", produces = "application/json; charset=UTF-8")
@@ -246,11 +244,11 @@ public class BoardController {
 		JSONArray array = new JSONArray();
 		for(Reply reply : list) {
 			JSONObject json = new JSONObject(); // {"key":value}
-			json.put("replyId", reply.getReplyNo());
+			json.put("replyNo", reply.getReplyNo());
 			json.put("replyContent", reply.getReplyContent());
 			json.put("replyBoardId", reply.getBoardNo());
 			json.put("replyWriterNo", reply.getReplyWriterNo());
-			json.put("nameNick", reply.getNickname());
+			json.put("nickname", reply.getNickname());
 			json.put("replyCreateDate", reply.getReplyCreateDate());
 			json.put("replyModifyDate", reply.getReplyModifyDate());
 			json.put("replyStatus", reply.getReplyStatus());
@@ -310,18 +308,21 @@ public class BoardController {
 	}
 	
 	@GetMapping("askSelect.no")
-	public String askSelect(@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model) { // 선택한 글번호 넘겨받기
+	public String askSelect(@RequestParam(value="generalType", defaultValue="ALL") String generalType, @RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model) { // 선택한 글번호 넘겨받기
 		
 		Board board = bService.selectBoard(boardNo, 0);
+		Question q = bService.selectQuestion(boardNo);
 		ArrayList<Image> iList = bService.selectImage(boardNo);
 		
 		if(board != null) {
 			model.addAttribute("n", board);
 			model.addAttribute("page", page);
+			model.addAttribute("q", q);
+			model.addAttribute("generalType", generalType);
 			model.addAttribute("iList", iList);
 			return "askSelect";
 		}else {
-			return "NOT";
+			throw new BoardException("해당 문의사항을 불러오는데 실패하였습니다.");
 		}
 		
 	}
@@ -330,7 +331,6 @@ public class BoardController {
 	public String askCategory(@ModelAttribute CategorySelect cs, @RequestParam(value="page", defaultValue="1") int currentPage,
 			 Model model, HttpServletRequest req) {
 
-		//System.out.println(cs);
 		if(cs.getGeneralType().equals("결제") || cs.getGeneralType().equals("PAYMENT") ) {
 			cs.setGeneralType("PAYMENT");
 		} else if(cs.getGeneralType().equals("플래너") || cs.getGeneralType().equals("PLANNER")) {
@@ -348,28 +348,25 @@ public class BoardController {
 			cs.setSearchWord(cs.getSearchWord().trim());
 		}
 		
-		//System.out.println(cs + "askCategorySelect");
 		
 		int listCount = bService.getaskCategoryListCount(cs);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> cList = bService.getCategorySelectQuestionList(cs, pi);
 		ArrayList<Question> qList = bService.getQuestionList(0);
-		//System.out.println(cList);
 		
 		if(!cList.isEmpty()) {
 			model.addAttribute("aList", cList);
 			model.addAttribute("pi",pi);
 			model.addAttribute("listCount", listCount);
-			model.addAttribute("searchWord", cs.getSearchWord());
-			model.addAttribute("generalType", cs.getGeneralType());
 			model.addAttribute("qList", qList);
 		} else {
 			model.addAttribute("nothing", "nothing");
 		}
-		//System.out.println(cList);
-			return "askList";
-		}
+		model.addAttribute("searchWord", cs.getSearchWord());
+		model.addAttribute("generalType", cs.getGeneralType());
+		return "askList";
+	}
 	
 	@GetMapping("askWrite.no")
 	public String askWrite() {
@@ -430,9 +427,95 @@ public class BoardController {
 					e.printStackTrace();
 				}
 			}
-			return "NOT";
+			throw new BoardException("작성에 실패하였습니다.");
 		}
 	
+	}
+	
+	@GetMapping("editQuestion.no")
+	public String editQuestion(@RequestParam("boardNo") int boardNo, Model model) {
+
+		Board b = bService.selectBoard(boardNo, 0);
+		ArrayList<Image> iList = bService.selectImage(boardNo);
+		
+		if(b != null) {
+			model.addAttribute("b", b);
+			model.addAttribute("iList", iList);
+			return "askEdit";
+		}else {
+			throw new BoardException("게시글 수정에 실패하였습니다");
+		}
+	}
+	
+	@PostMapping("updateQuestion.no")
+	public String updateQuestion(@ModelAttribute Board b, @RequestParam("pwd") Integer pwd, @RequestParam(value="delImg", required=false) ArrayList<String> delImgs,
+								@RequestParam(value="files", required=false) ArrayList<MultipartFile> files, RedirectAttributes ra) {
+		int result = bService.updateBoard(b);
+		
+		ArrayList<String> deleteImg = new ArrayList<String>();
+		int delResult = 0;
+		int insertResult;
+		
+		System.out.println(files);
+		System.out.println(delImgs);
+		
+		
+		try {
+			// 이미지 삭제
+			if(delImgs != null && !delImgs.isEmpty()) {
+				for(String del : delImgs) {
+					if(!del.equals("none")) {
+						deleteImg.add(del);
+						// 구글 드라이브에서 삭제
+						System.out.println("syso : " + deleteImg);
+						gdService.deleteFile(del);
+					}
+				}
+			}
+			delResult = bService.delImg(deleteImg);
+			
+			// 이미지 추가
+			ArrayList<Image> list = new ArrayList<Image>();
+			for(int i = 0; i < files.size(); i++) {
+				MultipartFile upload = files.get(i);
+				
+				//if(!upload.getOriginalFilename().equals("")) {
+				if(upload != null && !upload.isEmpty()) {
+		            String fileId;
+		            
+					fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
+					Image a = new Image();
+					a.setImageOriginName(upload.getOriginalFilename());
+					a.setImageRename(fileId);
+					a.setImagePath("drive://files/" + fileId);
+					a.setImageThum(2);
+					a.setImageRefType("BOARD");
+					a.setImageRefNo(b.getBoardNo());
+					
+					list.add(a);
+				}
+			}
+			
+			if(!list.isEmpty()) {
+				insertResult = bService.insertImage(list);
+				
+				if(insertResult < 0) {
+					for(Image i : list) {
+						gdService.deleteFile(i.getImageRename());
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(result + delResult == 1 + deleteImg.size()) {
+			ra.addAttribute("generalType", b.getGeneralType());
+			ra.addAttribute("boardNo", b.getBoardNo());
+			ra.addAttribute("page",1);
+			return "redirect:askSelect.no";
+		}else {
+			throw new BoardException("문의사항 수정 중 에러가 발생하였습니다.");
+		}
 	}
 	
 	
@@ -458,9 +541,32 @@ public class BoardController {
 		if(!nList.isEmpty()) {
 			model.addAttribute("nList", nList);
 			model.addAttribute("pi",pi);
+			model.addAttribute("listCount", listCount);
 			model.addAttribute("loc", req.getRequestURI());
 		}
 		return "noticeList";
+	}
+	
+	@GetMapping("noticeSearch.no")
+	public String noticeSearch(@RequestParam(value="page", defaultValue="1") int currentPage,@RequestParam("searchWord") String searchWord, Model model) {
+		if(searchWord.trim() == "") {
+			return "redirect:notice.no";
+		}else {
+			int listCount = bService.getNoticeListCount(searchWord);
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+			ArrayList<Board> nList = bService.getNoticeSelect(searchWord,pi);
+			
+			if(!nList.isEmpty()) {
+				model.addAttribute("nList", nList);
+				model.addAttribute("pi", pi);
+				model.addAttribute("listCount", listCount);
+				model.addAttribute("searchWord", searchWord);
+				
+				return "noticeList";
+			}else {
+				throw new BoardException("검색에 실패하였습니다.");
+			}
+		}
 	}
 	
 	@GetMapping("noticeSelect.no")
@@ -471,16 +577,20 @@ public class BoardController {
 			no = loginUser.getMemberNo();
 		}
 		
+		
 		Board board = bService.selectBoard(boardNo, no);
+		
 		ArrayList<Image> iList = bService.selectImage(boardNo);
+		
 		
 		if(board != null) {
 			model.addAttribute("n", board);
 			model.addAttribute("page", page);
 			model.addAttribute("iList", iList);
+			
 			return "noticeSelect";
 		}else {
-			return "NOT";
+			throw new BoardException("해당 공지를 불러오는데 실패하였습니다.");
 		}
 	}
 	

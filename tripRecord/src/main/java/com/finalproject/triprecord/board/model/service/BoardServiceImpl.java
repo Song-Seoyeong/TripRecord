@@ -131,5 +131,32 @@ public class BoardServiceImpl implements BoardService{
 		return bMapper.getCategorySelectQuestionList(rb,cs);
 	}
 
+	@Override
+	public int getNoticeListCount(String searchWord) {
+		return bMapper.getNoticeListCount(searchWord);
+	}
+
+	@Override
+	public ArrayList<Board> getNoticeSelect(String searchWord, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
+		return bMapper.getNoticeSelect(rb,searchWord);
+	}
+
+	@Override
+	public Question selectQuestion(Integer boardNo) {
+		return bMapper.selectQuestion(boardNo);
+	}
+
+	@Override
+	public int updateBoard(Board b) {
+		return bMapper.updateBoard(b);
+	}
+
+	@Override
+	public int delImg(ArrayList<String> deleteImg) {
+		return bMapper.deleteImg(deleteImg);
+	}
+
 
 }

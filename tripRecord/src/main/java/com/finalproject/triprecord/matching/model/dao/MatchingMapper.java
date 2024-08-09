@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.member.model.vo.Planner;
@@ -39,6 +40,8 @@ public interface MatchingMapper {
 
 	ArrayList<Local> selectLocalList();
 
+	int insertReview(Review r);
 
+	int insertImage(ArrayList<Image> list);
 
 }

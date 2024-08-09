@@ -3,13 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>플래너 정보</title>
+<link type="text/css" href="css/matching/matchingDetail.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<style>
-#mainContainer {
-	width: 1400px;
-}
-</style>
-
 
 </head>
 <body>
@@ -25,11 +20,14 @@
 		</div>
 		<!-- 상단 정보 탭 전체 -->
 		<div class="d-flex justify-content-center px-3 m-3">
-		<!-- 플래너 정보 -->
+			<!-- 플래너 정보 -->
 			<div id="plannerInfo" class="m-3">
-				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
+				<div class="d-flex justify-content-center align-items-center shadow border bg-light rounded-3">
 					<div class="d-flex justify-content-center p-3">
-						<img class="rounded-circle mx-3" src="resources/profile-basic.jpg" width="150px" height="150px"/>
+						<img th:if="${planner.imageRename != null}" class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
+					</div>
+					<div class="d-flex justify-content-center p-3">
+						<img th:if="${planner.imageRename == null}" class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
 					</div>
 					<div class="p-3">
 						<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
@@ -78,7 +76,7 @@
 		</div>
 		
 		<div id="reviewSumTab" class="d-flex justify-content-center">
-			<div class="container shadow border bg-light rounded-3 m-3 w-75" >
+			<div class="container border bg-light rounded-3 m-3 w-75" >
 				<h2 class="m-5 text-center">후기([[${pi.listCount}]]) | 별점 ★ [[${AvgStar}]]</h2>
 			</div>
 		</div>
@@ -90,7 +88,7 @@
 		
 		
 		<div id="content" class="d-flex justify-content-center my-3">
-			<div class="d-flex flex-column shadow border bg-light rounded-3 w-75" >
+			<div class="d-flex flex-column border bg-light  rounded-3 w-75" >
 				<div class="d-flex justify-content-center">
 					<img class="m-5 w-100" width="800px" src="/resources/goSchedule.jpg"/><br/>
 				</div>
@@ -111,42 +109,91 @@
 		<div class="d-flex text-start mb-3 fs-3">[[${pi.listCount}]]개의 후기 (★ [[${AvgStar}]])</div>
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
-				<div class="list-group shadow w-100" th:each="r : ${ list }">
-					<a href="reviewDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">
-					[[${r.reviewTitle}]]</a>
+				<div class="list-group w-100" th:each="r : ${ rlist }">
+					<table class="fs-3 text-center border bg-light">
+						<tr>
+							<td>
+								<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|" width="75px" height="75px">
+							</td>
+							<td width="200px">[[${r.nickname}]]</td>
+							<td width="200px">★ [[${r.reviewStar}]]</td>
+							<td width="600px">[[${r.reviewTitle}]]</td>
+							<td style="display: none;">[[${r.reviewContent}]]</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>
 		
-		<nav class="d-flex justify-content-center">
-        	<ul class="pagination" th:with="loc=${ loc }">
-        		 <!-- 이전 버튼 -->
-	            <li class="page-item">
-	            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
-	            		<span aria-hidden="true">&laquo;</span>
-	              	</a>
-	            </li>
-	            
-	             <!-- 페이지 넘버링 버튼  -->
-	            	
-				<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
-					<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
-				</li>
-	           
-	             <!-- 다음 버튼  -->
-	            <li class="page-item">
-	            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
-	            		<span aria-hidden="true">&raquo;</span>
-	            	</a>
-	            </li>
-	    	</ul>
-        </nav>
 		
+		<th:block th:if="${pi.listCount != 0}">
+			<nav class="d-flex justify-content-center">
+	        	<ul class="pagination" th:with="loc=${ loc }">
+	        		 <!-- 이전 버튼 -->
+		            <li class="page-item">
+		            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+		            		<span aria-hidden="true">&laquo;</span>
+		              	</a>
+		            </li>
+		            
+		             <!-- 페이지 넘버링 버튼  -->
+		            	
+					<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+						<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+					</li>
+		           
+		             <!-- 다음 버튼  -->
+		            <li class="page-item">
+		            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+		            		<span aria-hidden="true">&raquo;</span>
+		            	</a>
+		            </li>
+		    	</ul>
+	        </nav>
+		</th:block>
+		<th:block th:if="${pi.listCount == 0}">
+			<div class="emptyReview d-flex justify-content-center">
+				<h2>등록된 후기가 없습니다.</h2>
+			</div>
+		</th:block>
 	</div>
 	<div th:replace="~{ common/footer.html :: footer }"></div>
+	
+	<!-- 후기 모달창 -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="reviewModal">
+		<div class="modal-dialog d-flex align-items-center justify-content-center">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-3" id="modalReviewTitle">리뷰 제목</h3>
+        			<hr/>
+                	<p class="mb-0" id="modalReviewContent">리뷰 내용</p>
+      			</div>
+      			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">닫기</button>
+    		</div>
+  		</div>
+	</div>
+	
+	
+	
+	
 </body>
 <script>
-   
+
+const reviewList = document.querySelectorAll('tr');
+for(const tr of reviewList) {
+	tr.addEventListener('click', function(){
+        
+        const reviewTitle = this.children[3].innerText;
+        const reviewContent = this.children[4].innerText;
+
+        document.querySelector('#modalReviewTitle').innerText = reviewTitle;
+        document.querySelector('#modalReviewContent').innerText = reviewContent;
+
+        $('#reviewModal').modal('show');
+	});
+}
+
+
 document.getElementById('likeButton').addEventListener('click', () => {
 	const pNo = [[${ planner.memberNo }]];
 	const likeButton = document.getElementById('likeButton');

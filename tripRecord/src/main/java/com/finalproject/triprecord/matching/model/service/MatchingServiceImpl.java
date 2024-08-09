@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Review;
@@ -86,6 +87,16 @@ public class MatchingServiceImpl implements MatchingService {
 	@Override
 	public ArrayList<Local> selectLocalList() {
 		return matMapper.selectLocalList();
+	}
+
+	@Override
+	public int insertReview(Review r) {
+		return matMapper.insertReview(r);
+	}
+
+	@Override
+	public int insertImage(ArrayList<Image> list) {
+		return matMapper.insertImage(list);
 	}
 
 

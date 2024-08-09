@@ -4,11 +4,7 @@
 <meta charset="UTF-8">
 <title>플래너 후기 작성하기</title>
 
-<style>
-#mainContainer {
-	width: 1400px;
-}
-</style>
+<link type='text/css' href='css/recoPlace/placeReviewWrite.css' rel='stylesheet'>
 
 </head>
 <body>
@@ -16,71 +12,173 @@
 <div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 <div id="mainContainer" class="container-fluid justify-content-center">
 	<div class="d-flex justify-content-center mb-3">
-		<!-- 줄맞추기용 레이블 -->
-		<label class="col-sm-1"></label>
 		<!-- 플래너 정보 -->
-		<div id="plannerInfo" class="m-3">
-			<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
-				<div class="d-flex justify-content-center p-3">
-					<img class="rounded-circle mx-3" src="resources/profile-basic.jpg" width="150px" height="150px"/>
-				</div>
-				<div class="p-3">
-					<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
-					<div class="mx-3 mt-2" style="width: 400px">[[${planner.sIntroContent}]]</div>
-					<div class="mx-3">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
-							<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
-							<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-						</svg> [[${localName}]]
+			<div id="plannerInfo" class="m-3">
+				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
+					<div th:if="${planner.imageRename != null}" class="d-flex justify-content-center p-3">
+						<img class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
 					</div>
-					<div class="mx-3 mt-2">
-						<button id="likeButton" class="btn btn-outline-danger" th:classappend="${checkLikes != 0} ? 'active' : ''">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-								<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-							</svg>
-							좋아요 <span id="likeCount">[[${likes}]]</span>
-						</button>
-					</div>
-					<div class="mx-3 mt-2">
-						<a style="text-decoration: none; color: black;" href="#">#해시태그 인원</a>&nbsp;&nbsp;
-						<a style="text-decoration: none; color: black;" href="#">#해시태그1</a>&nbsp;&nbsp;
-						<a style="text-decoration: none; color: black;" href="#">#해시태그2</a>&nbsp;&nbsp;
-						<a style="text-decoration: none; color: black;" href="#">#해시태그3</a>&nbsp;&nbsp;
-						<a style="text-decoration: none; color: black;" href="#">#해시태그4</a>&nbsp;&nbsp;
+					<div class="p-3">
+						<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
+						<div class="mx-3 mt-2" style="width: 400px">[[${planner.sIntroContent}]]</div>
+						<div class="mx-3">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+								<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+								<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+							</svg> [[${localName}]]
+						</div>
+						<div class="mx-3 mt-2">
+							<button id="likeButton" class="btn btn-outline-danger" th:classappend="${checkLikes != 0} ? 'active' : ''">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+								</svg>
+								좋아요 <span id="likeCount">[[${likes}]]</span>
+							</button>
+						</div>
+						<div class="mx-3 mt-2">
+							<a style="text-decoration: none; color: black;" href="#">#해시태그 인원</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그1</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그2</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그3</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그4</a>&nbsp;&nbsp;
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-		
-	<form method="POST">
-		<div class="d-flex justify-content-center mb-3">
-			<label for="ReviewTitle" class="col-sm-1 col-form-label text-center fw-bold">후기 제목</label>
-			<input type="text" class="form-control shadow form-control-lg w-50" id="ReviewTitle" placeholder="후기 제목을 입력하세요"/>
-		</div>
-		
-		
-		<div class="d-flex justify-content-center mb-3">
-			<label class="col-sm-1 col-form-label text-center fw-bold" for="ReviewContent" >후기 내용</label>
-			<textarea class="form-control shadow w-50" id="ReviewContent" placeholder="후기 내용을 입력하세요" rows="20"></textarea>
-		</div>
-		
-		<div class="d-flex justify-content-center mb-3">
-			<label for="ReviewPic" class="col-sm-1 col-form-label text-center fw-bold">사진 첨부</label>
-			<input class="form-control form-control text-center w-50" id="ReviewPic" type="file">
-		</div>
-		<div class="d-flex justify-content-center">
-			<!-- 줄맞추기용 레이블 -->
-			<label class="col-sm-1"></label>
-			<div class="d-flex justify-content-end mb-3 w-50">
-				<button class="btn btn-primary">제출하기</button>
+	<!-- form 영역 -->
+	<form action="insertReview.ma" method='POST' enctype="multipart/form-data" id='reviewForm'>
+		<input type="hidden" name="plannerNo" id="plannerNo" th:value=${planner.memberNo}>
+		<input type='hidden' name='page' th:value=1>
+		<div id='inputDiv'>
+			<div id='reviewTitle'>
+				<h3>리뷰 제목</h3>
+				<input type='text' name='reviewTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
+				
+			</div>
+			<div id='starReview'>
+				<input type='hidden' name='reviewStar' value='0' id='reviewStar' >
+				<div id='starDiv'>
+					<img src="image/noStar.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+					<img src="image/noStar.png" class='star'/>
+				</div>
+			</div>
+			<div id='reviewContent'>
+				<h3>리뷰 내용</h3>
+				<textArea name='reviewContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required></textArea>
+			</div>
+			<div id='imgReview'>
+				<h3>리뷰 사진</h3>
+				<input type='file' accept="image/*" multiple id="files" name='files' class="form-control">
+			</div>
+			<div class='d-grid gap-2 d-md-flex justify-content-md-end'>
+				<button type='button' class="btn btn-primary" id='insert'>등록</button>
 			</div>
 		</div>
 	</form>
-	
-	</div>
-	
+	<!-- form 영역 -->
+</div>
 <div th:replace="~{ common/footer.html :: footer }"></div>
-</body>
+	
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			 
+			// 제목/내용 미입력시 폼제출 안됌
+			const title = document.getElementById('title');
+			document.getElementById('insert').addEventListener('click', ()=>{
+				const content = document.getElementById('content');
+				const reviewStar = document.getElementsByName('reviewStar')[0];
+				
+				if(title.value == ""){
+					alert("제목을 입력해주세요.");
+					title.focus();
+				}else if(content.value == ""){
+					alert("내용을 입력해주세요.");
+					content.focus();
+				}else if(reviewStar.value == 0){
+					alert("별점을 등록해주세요.");
+				}else{
+					document.getElementById('reviewForm').submit();
+				}
+			})
+			
+			const maxBytes = 60;
+			
+			title.addEventListener('focusout', function(){
+				let currentBytes = calculateBytes(title.value);
+
+                if (currentBytes > maxBytes) {
+                	alert("제목은 30자내로 입력해주세요");
+                    while (currentBytes > maxBytes) {
+                        title.value = title.value.slice(0, -1);
+                        currentBytes = calculateBytes(title.value);
+                    }
+                }
+			})
+			
+			function calculateBytes(str) {
+                let bytes = 0;
+                for (let i = 0; i < str.length; i++) {
+                    const charCode = str.charCodeAt(i);
+                    if (charCode <= 0x7F) {
+                        bytes += 1; // ASCII characters
+                    } else if (charCode <= 0x7FF) {
+                        bytes += 2; // Non-ASCII characters, mostly CJK characters
+                    } else if (charCode <= 0xFFFF) {
+                        bytes += 3; // Non-ASCII characters, mostly CJK characters
+                    } else {
+                        bytes += 4; // Non-ASCII characters, mostly CJK characters
+                    }
+                }
+                return bytes;
+            }
+			
+			
+			// 별점 등록하기
+			function addStarClickListeners() {
+				// 별 이미지
+				const stars = document.querySelectorAll('.star');
+				
+				// hidden 파라미터
+				const paramStar = document.getElementById('reviewStar');
+				//console.log(paramStar.value);
+				
+				stars.forEach((star, index) => {
+					star.addEventListener('click', e =>{
+						paramStar.value = index +1;
+						changeStarDiv(index);
+					})
+				})
+			}
+			
+			// 초기 이벤트 리스너 추가
+            addStarClickListeners();
+			
+			// 별점 이미지변경 함수
+			function changeStarDiv (index){
+				// 별 div
+				const starDiv = document.getElementById('starDiv');
+				starDiv.innerHTML = "";
+				
+				let starHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    if (i <= index) {
+                        starHTML += "<img src='image/star.png' class='star'/>";
+                    } else {
+                        starHTML += "<img src='image/noStar.png' class='star'/>";
+                    }
+                }
+                starDiv.innerHTML = starHTML;
+                
+				// 새로운 별 요소들에 이벤트 리스너 다시 추가
+	            addStarClickListeners();
+			}
+			
+		})
+	</script>
 </html>

@@ -15,7 +15,7 @@ a:hover{cursor:pointer;}
 </head>
 <body id="commuBody">
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
-	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
+	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div> 
 	
 	
 	<div class="text-center" style="padding-top:60px;">
@@ -26,7 +26,7 @@ a:hover{cursor:pointer;}
 	<form id="search-form" action="categorySelect.bo" method="get">
 		<div id='content'>
 			<div id="content1-div" class="container">
-				<input id="search-com" name="searchWord" type="text" placeholder="검색어를 입력해주세요" th:value="${searchWord}">
+				<input id="search-com" name="searchWord" type="text" placeholder="제목으로 검색" th:value="${searchWord}">
 				<img class="x-icon" alt="" src="image/Search.png">
 			</div>
 			
@@ -115,7 +115,7 @@ a:hover{cursor:pointer;}
 	         				<td></td>
 	         			</tr>
 	         		<!-- 이거 반복 -->
-	          			<tr th:if="${ !#strings.isEmpty(cList)}" th:each=" b : ${cList}">
+	          			<tr th:each=" b : ${cList}">
 	            			<td>[[${ b.boardNo }]]</td>
 	            			<td>[[${ b.boardTitle }]]</td>
 	            			<td>[[${ b.nickname }]]</td>
@@ -130,7 +130,7 @@ a:hover{cursor:pointer;}
         
         
         <!-- 페이징 -->
-		<div class='row' style='margin-bottom: 100px;'>
+		<div class='row' style='margin-bottom: 60px;'>
 			<div class='col-4'></div>
 				<nav aria-label="Page navigation example" style="display:flex; justify-content:center;">
 					<ul class="pagination" th:with="loc=${loc}" id="pagination">
@@ -142,7 +142,7 @@ a:hover{cursor:pointer;}
 		
 		
 
-		<div th:if="${ session.loginUser != null}">
+		<div th:if="${ session.loginUser != null}" style="display:flex; justify-content:right; margin-bottom:50px;">
 	       	<button class="btn btn-outline-success" type="button" onclick="location.href='commuWrite.bo'">WRITE BOARD</button>
 	    </div>
 	</div>
@@ -153,7 +153,6 @@ a:hover{cursor:pointer;}
 	
 	<script th:inline="javascript">
 		window.onload=()=>{
-			/*<![CDATA[*/
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			const localNameValue = document.getElementById("localName");
 			const generalTypeValue = document.getElementById("generalType");
@@ -261,47 +260,65 @@ a:hover{cursor:pointer;}
 				})
 			}
 
-			if(/*[[${categorySelect}]]*/1 == null){
+			if([[${categorySelect}]] == null){
 				generalTypeValue.value = "ALL";
 			}
 			
 			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if(/*[[${generalType}]]*/1 == "ALL"){
+				if([[${generalType}]] == "ALL"){
 					categories[0].children[0].style.borderRadius = '9999px';
 					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if(/* [[${generalType}]] */1 == "WITH"){
+				} else if([[${generalType}]] == "WITH"){
 					categories[1].children[0].style.borderRadius = '9999px';
 					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if(/* [[${generalType}]] */1 == "GIVE"){
+				} else if([[${generalType}]] == "GIVE"){
 					categories[2].children[0].style.borderRadius = '9999px';
 					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if(/* [[${generalType}]] */1 == "REVIEW"){
+				} else if([[${generalType}]] == "REVIEW"){
 					categories[3].children[0].style.borderRadius = '9999px';
 					categories[3].children[0].style.backgroundColor = '#96caf0';
 				}
 			});
 			
 			// 게시글 클릭 시 이동
-			const trs = document.getElementById("text-test").children;
-			for(const tr of trs){
-				tr.addEventListener('click', function(){
-					const boardNo = this.children[0].innerText;
+			
+			const tds = document.getElementById("text-test").querySelectorAll('td');
+			for(const td of tds){
+				td.addEventListener('click', function(){
+					
+					console.log(123)
+					const boardNo = this.parentElement.children[0].innerText;
 					let generalT = "";
-					console.log("여기");
-					const list =  /*[[${cList}]]*/1;
-					for(const c of list){
+					for(const c of [[${cList}]]){
 						if(c.boardNo == boardNo){
 							generalT = c.generalType;
 						}
 					}
-					
+					/*<![CDATA[*/
 					location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=" + generalT + "&page=" + /*[[${pi.currentPage}]]*/1; 
-					
-				});
+					/*]]>*/
+				})
 			}
 			
+			const trs = document.getElementById("text-test").children;
+ 			for(const tr of trs){
+ 				tr.addEventListener('click', function(){
+ 					const boardNo = this.children[0].innerText;
+ 					let generalT = "";
+ 					for(const c of [[${cList}]]){
+ 						if(c.boardNo == boardNo){
+ 							generalT = c.generalType;
+ 							console.log(generalT)
+ 						}
+ 					}
+ 					/*<![CDATA[*/
+ 					location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=" + generalT + "&page=" + /*[[${pi.currentPage}]]*/1; 
+ 					/*]]>*/
+ 				});
+ 			}
 			
-			/*]]>*/
+			
+			
 		}
 		// window.onload 밖
 		
