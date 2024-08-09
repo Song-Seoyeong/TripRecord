@@ -252,13 +252,13 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public int insertLocalImg(Image a) {
-		return aMapper.insertLocalImg(a);
+	public int insertImg(Image a) {
+		return aMapper.insertImg(a);
 	}
 	
 	@Override
-	public void deleteLocalImg(int imageRefNo) {
-		aMapper.deleteLocalImg(imageRefNo);
+	public void deleteImg(Image i) {
+		aMapper.deleteImg(i);
 	}
 	
 	@Override
@@ -280,4 +280,9 @@ public class AdminServiceImpl implements AdminService{
 	public int getMemberListCount() {
 		return aMapper.getMemberListCount();
 	}
+	@Override
+	public Image selectPlanImage() {
+		return aMapper.selectPlanImage();
+	}
+	
 }

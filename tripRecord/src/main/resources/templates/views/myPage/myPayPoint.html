@@ -2,44 +2,141 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+<!-- 필수 -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"
+	type="text/javascript"></script>
+
+
 <title>포인트 결제</title>
 <style>
-	.flex-container {
-            display: flex;
-            justify-content: center; 
-            gap: 30px; 
-        }
-        .pay-box {
-            display: inline-block;
-            width: 250px;
-            height: 180px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: center;
-            padding: 10px;
-        }
-        .pay-box p {
-            margin: 0;
-        }
-        .pay-box .amount {
-            font-size: 36px;
-            font-weight: 900;
-        }
-        .pay-box .button-container {
-            margin-top: 10px;
-        }
-        .pay-box button {
-            color: #fff;
-            background-color: black;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        .pay-box button:hover {
-            background-color: #96CAF0;
-        }
-	
+.flex-container {
+	display: flex;
+	justify-content: center;
+	gap: 30px;
+}
+
+table {
+	width: 90%;
+	align: center;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+}
+
+th {
+	font-size: 24px;
+}
+
+td {
+	padding: 15px;
+}
+tbody tr:hover{background:#DFDEDE; cursor:pointer}
+
+/*토스페이*/
+#toss {
+	background-color: #fff;
+	border: 1px solid #094DF6;
+	padding: 0px;
+	position: relative;
+	width: 7em;
+	height: 2em;
+	transition: 0.5s;
+	font-size: 17px;
+	border-radius: 0.4em;
+}
+
+#toss p {
+	top: 0.4em;
+	left: 1.4em;
+	margin: auto;
+	padding: 0;
+	transition: .5s;
+	color: #094DF6;
+}
+
+#toss:hover p {
+	left: 0.5em;
+	color: #fff
+}
+
+#toss:hover span {
+	opacity: 1;
+}
+
+#toss:hover {
+	background-color: #094DF6;
+}
+
+/*카카오페이*/
+#kakao {
+	background-color: #fff;
+	border: 1px solid #FDD100;
+	padding: 0px;
+	position: relative;
+	width: 7em;
+	height: 2em;
+	transition: 0.5s;
+	font-size: 17px;
+	border-radius: 0.4em;
+}
+
+#kakao p {
+	top: 0.4em;
+	left: 1.4em;
+	margin: auto;
+	padding: 0;
+	transition: .5s;
+	color: #FDD100;
+}
+
+#kakao:hover p {
+	left: 0.5em;
+	color: #fff
+}
+
+#kakao:hover span {
+	opacity: 1;
+}
+
+#kakao:hover {
+	background-color: #FDD100;
+}
+
+/*충전*/
+#charge {
+	width: 80px;
+	height: 40px;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+	border: 2px solid #96CAF0;
+	border-radius: 20px;
+	color: #96CAF0;
+	font-weight: 600;
+	gap: 8px;
+	cursor: pointer;
+	position: relative;
+	transition-duration: .3s;
+}
+
+.svgIcon {
+	width: 16px;
+}
+
+.svgIcon path {
+	fill: #96CAF0;
+}
+
+#charge:hover {
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
+}
 </style>
 </head>
 <body>
@@ -49,62 +146,207 @@
 	<!-- 마이페이지 어퍼바 -->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
 	<!-- 사이드바 -->
-	<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div> 
-	
-	<div class="flex-center" style="text-align:center;">
-		<div style="height:80px;"></div>
-		
-		<div style="display:inline-block; margin-right:250px;">
-			<div style="color: black; font-size: 36px; font-weight: 900;">포인트 결제</div>
+	<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div>
+
+	<div class="flex-center" style="text-align: center;">
+		<div style="height: 80px;"></div>
+
+		<div style="display: inline-block; margin-right: 250px;">
+			<div style="color: black; font-size: 36px; font-weight: 900;">포인트
+				결제</div>
 			<!-- 현재 포인트 표시 -->
-			<div id="currentPoint" style="font-weight:900; margin-left:700px;"><p>현재 포인트 : [1000] p</p></div>
-			<!-- 결제 창 -->
-			<div style="height:50px;"></div>
-			<div class="flex-container">
-				<div class="pay-box">
-					<div>
-						<p>11,000p</p>
-					</div>
-					<div class="amount">
-						<p>10,000원</p>
-					</div>
-					<div class="button-container">
-						<button>포인트충전</button>
-					</div>
-				</div>
-				<div class="pay-box">
-					<div>
-						<p>25,000p</p>
-					</div>
-					<div class="amount">
-						<p>20,000원</p>
-					</div>
-					<div class="button-container">
-						<button>포인트충전</button>
-					</div>
-				</div>
-				<div class="pay-box">
-					<div>
-						<p>60,000p</p>
-					</div>
-					<div class="amount">
-						<p>50,000원</p>
-					</div>
-					<div class="button-container">
-						<button>포인트충전</button>
-					</div>
-				</div>
+			<div id="currentPoint" style="font-weight: 900; margin-left: 700px;">
+				<p>현재 포인트 : &#91; [[${#numbers.formatDecimal(session.loginUser.memberPoint,3,'COMMA',0,'COMMA')}]] &#93; p</p>
 			</div>
-		</div>
-		
-		<div style="width:900px; margin-left:1000px;">
-			<button style="border:none; background:white;" title="  10%추가" disabled>VAT 별도</button>
+			<!-- 결제 창 -->
+			<div style="height: 50px;"></div>
+			<div
+				style="display: inline-block; width: 1000px; overflow: auto; border: 1px solid lightgray; border-radius: 10px;">
+				<table>
+					<thead>
+						<tr style="border-bottom: 2px solid #96CAF0;">
+							<th><input type="hidden"></th>
+							<th>포인트 <b style="font-size: 15px;">[p]</b></th>
+							<th>결제금액 <b style="font-size: 15px;">[원]</b></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="border-bottom: 2px solid #b9b9b9" th:each="p:${pList}">
+							<td><input class="getPoNo" type="hidden" id="pointNo" name='poNoList' th:value="${p.poNo}"></td>
+							<td><input type="hidden" th:value="${p.poPoint}">
+								[[${#numbers.formatDecimal(p.poPoint,3,'COMMA',0,'COMMA')}]]</td>
+							<td><input type="hidden" th:value="${p.poPrice}">
+								[[${#numbers.formatDecimal(p.poPrice,3,'COMMA',0,'COMMA')}]]</td>
+						</tr>
+					</tbody>
+				</table>
+				<div style="height: 60px;"></div>
+			</div>
+			<!-- <div>
+				<button id="charge">충전</button>
+				<button style="border:none; background:white; float:right;" title="  10%추가" disabled>VAT 별도</button>
+			</div> -->
 		</div>
 	</div>
-		
+
+
 	<div style="margin-bottom: 300px"></div>
-	
+
+	<!-- 결제 선택 모달 -->
+	<div id=payModal class="modal" tabindex="1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">결제 방식 선택</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="text-align: center">
+					<button id="toss" value="tosspay">
+						<p>토스페이</p>
+					</button>
+					<button id="kakao" value="kakaopay">
+						<p>카카오페이</p>
+					</button>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+
 	<!-- 푸터 -->
-	<div th:replace="~{common/footer :: footer}" ></div>
+	<div th:replace="~{common/footer :: footer}"></div>
+
+	<script th:inline="javascript">
+		let poNo = null;
+		let point = null;
+		let price = null;
+		
+		//페이모달 팝업
+		function payModalShow(){
+			const payModal = new bootstrap.Modal(document.getElementById('payModal'));
+			payModal.show()
+		}
+		
+		//페이모달 닫기
+		function payModalHide(){
+			const payModal = new bootstrap.Modal(document.getElementById('payModal'));
+			payModal.hide()
+		}
+		//포인트 클릭 구매
+		const trs = document.querySelectorAll('tr');
+		for(const tr of trs){
+			tr.addEventListener('click',function(){
+				poNo = this.children[0].querySelector('input').value;
+				point = this.children[1].querySelector('input').value;
+				price = this.children[2].querySelector('input').value;
+				
+				//console.log(poNo, point, price);
+				payModalShow();
+			})
+		}
+	
+		/*<![CDATA[*/
+		//토스
+		document.getElementById('toss').addEventListener('click', function() {
+			//주문번호 생성
+			const char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+			let merchantUid = 'TD'; 
+			for(let i = 0; i < 8; i++){
+				const random = Math.floor(Math.random()*char.length);
+				merchantUid += char[random]
+			}
+			 IMP.init('imp54856747');         
+			 // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용        
+			 // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드        
+			 IMP.request_pay({           
+				 pg: this.value,
+				 pay_method: 'card',         
+				 merchant_uid: merchantUid,      
+				 name: point + ' 포인트 충전',        
+				 amount: price,          
+				 buyer_email: /*[[${session.loginUser.email}]]*/'null',     
+				 buyer_name: /*[[${session.loginUser.memberName}]]*/'null',          
+				 buyer_tel: /*[[${session.loginUser.phone}]]*/'null',           
+				 m_redirect_url: 'myPayPoint.mp'        
+				      
+				 }, function (rsp) {    
+					 if (rsp.success == true) {
+							$.ajax({
+								type:"post",
+								url : "payment.pm",
+								data:{impUid:rsp.imp_uid, merchantUid:rsp.merchant_uid ,poNo:poNo},
+								success:(rsp) =>{
+									console.log(rsp)
+									
+								},
+								error:(rsp) =>{
+									console.log(rsp);
+								}
+							})						 
+							 let msg = '결제가 완료되었습니다.';       
+							 msg += '고유ID : ' + rsp.imp_uid;     
+							 msg += '상점 거래ID : ' + rsp.merchant_uid;        
+							 msg += '결제 금액 : ' + rsp.paid_amount;              
+							 alert(msg); 
+						 }else {
+							 let msg = '결제에 실패하였습니다.';       
+							 msg += '에러내용 : ' + rsp.error_msg;       
+							 alert(msg);
+						 }    
+					 });				  
+		});
+		
+		document.getElementById('kakao').addEventListener('click', function() {
+			//주문번호 생성
+			const char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+			let merchantUid = 'TD'; 
+			for(let i = 0; i < 8; i++){
+				const random = Math.floor(Math.random()*char.length);
+				merchantUid += char[random]
+			}
+			 IMP.init('imp54856747');         
+			 // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용        
+			 // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드        
+			 IMP.request_pay({           
+				 pg: this.value,
+				 pay_method: 'card',         
+				 merchant_uid: merchantUid,      
+				 name: point + ' 포인트 충전',        
+				 amount: price,          
+				 buyer_email: /*[[${session.loginUser.email}]]*/'null',     
+				 buyer_name: /*[[${session.loginUser.memberName}]]*/'null',          
+				 buyer_tel: /*[[${session.loginUser.phone}]]*/'null',           
+				 m_redirect_url: 'myPayPoint.mp'        
+				      
+				 }, function (rsp) {
+					 if (rsp.success == true) {
+						$.ajax({
+							type:"post",
+							url : "payment.pm",
+							data:{impUid:rsp.imp_uid, merchantUid:rsp.merchant_uid, poNo:poNo, point: point},
+							success:(rsp) =>{
+								console.log(rsp)
+								
+							},
+							error:(rsp) =>{
+								console.log(rsp);
+							}
+						})						 
+						 let msg = '결제가 완료되었습니다.';       
+						 msg += '고유ID : ' + rsp.imp_uid;     
+						 msg += '상점 거래ID : ' + rsp.merchant_uid;        
+						 msg += '결제 금액 : ' + rsp.paid_amount;              
+						 alert(msg); 
+					 }else {
+						 let msg = '결제에 실패하였습니다.';       
+						 msg += '에러내용 : ' + rsp.error_msg;       
+						 alert(msg); 
+					 }    
+				 });
+		});
+		/*]]>*/
+	</script>
+
 </body>
 </html>

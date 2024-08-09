@@ -539,23 +539,31 @@ public class AdminController {
 	public String contentImgManageView(Model model) {
 		
 		ArrayList<Image> list = aService.selectLocalImage();
+		Image i = aService.selectPlanImage();
 		
 		model.addAttribute("list", list);
+		model.addAttribute("i", i);
 		return "contentImgManage";
 	}
 	
+	// 지역 사진 삭제 / 추가
 	@PostMapping("insertLocalImg.ad")
-	public String insertLocalImg(@RequestParam("localNo") int localNo, @RequestParam("formFile") ArrayList<MultipartFile> file) {
+	public String insertLocalImg(@RequestParam("localNo") int localNo, @RequestParam("planFormFile") ArrayList<MultipartFile> file) {
 		ArrayList<Image> list = aService.selectLocalImage();
-		try {
-			for(Image i : list) {
-				if(i.getImageRefNo() == localNo) {
-					gdService.deleteFile(i.getImageRename());
-					aService.deleteLocalImg(i.getImageRefNo());
+		
+		if(!list.isEmpty()) {
+			try {
+				for(Image i : list) {
+					if(i.getImageRefNo() == localNo) {
+						gdService.deleteFile(i.getImageRename());
+						
+						i.setImageRefType("LOCAL");
+						aService.deleteImg(i);
+					}
 				}
+			} catch (IOException e) {
+				
 			}
-		} catch (IOException e) {
-			
 		}
 		
 		MultipartFile upload = file.get(0);
@@ -573,7 +581,7 @@ public class AdminController {
 				a.setImageRefType("LOCAL");
 				a.setImageRefNo(localNo);
 				
-				result = aService.insertLocalImg(a);
+				result = aService.insertImg(a);
 			} catch (IOException e) {
 				
 			}
@@ -583,6 +591,52 @@ public class AdminController {
 			return "redirect:contentImgManage.ad";
 		} else {
 			throw new AdminException("지역 사진 저장에 실패하였습니다.");
+		}
+	}
+	
+	// 일정 사진 삭제 / 추가
+	@PostMapping("insertPlanImg.ad")
+	public String insertPlanImg(@RequestParam("planNo") int planNo, @RequestParam("planFormFile") ArrayList<MultipartFile> file) {
+		Image i = aService.selectPlanImage();
+		
+		if(i != null) {
+			try {
+				if(i.getImageRefNo() == planNo) {
+					gdService.deleteFile(i.getImageRename());
+					
+					i.setImageRefType("PLAN");
+					aService.deleteImg(i);
+				}
+			} catch (IOException e) {
+				
+			}
+		}
+		
+		MultipartFile upload = file.get(0);
+		int result = 0;
+		if(upload != null && !upload.isEmpty()) {
+			String fileId;
+			
+			try {
+				fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
+				Image a = new Image();
+				a.setImageOriginName(upload.getOriginalFilename());
+				a.setImageRename(fileId);
+				a.setImagePath("drive://files/" + fileId);
+				a.setImageThum(2);
+				a.setImageRefType("PLAN");
+				a.setImageRefNo(planNo);
+				
+				result = aService.insertImg(a);
+			} catch (IOException e) {
+				
+			}
+		}
+		
+		if(result > 0) {
+			return "redirect:contentImgManage.ad";
+		} else {
+			throw new AdminException("일정 사진 저장에 실패하였습니다.");
 		}
 	}
 	

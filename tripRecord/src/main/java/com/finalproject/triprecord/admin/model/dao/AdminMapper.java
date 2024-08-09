@@ -105,9 +105,9 @@ public interface AdminMapper {
 
 	ArrayList<Image> selectLocalImage();
 
-	int insertLocalImg(Image a);
+	int insertImg(Image a);
 
-	void deleteLocalImg(int imageRefNo);
+	void deleteImg(Image i);
 
 	int getListCount();
 
@@ -117,6 +117,7 @@ public interface AdminMapper {
 
 	int getMemberListCount();
 
+	Image selectPlanImage();
 
 	
 }

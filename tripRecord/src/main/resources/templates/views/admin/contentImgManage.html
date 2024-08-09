@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>지역 사진 관리</title>
+<title>사진 관리</title>
 <link href="css/admin/contentImgManage.css" rel="stylesheet" type="text/css">
 <link href="css/admin/adminAll.css" rel="stylesheet" type="text/css"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -24,7 +24,7 @@
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
-				<li class="select-board"><a href="contentImgManage.ad">지역 사진 관리</a></li>
+				<li class="select-board"><a href="contentImgManage.ad">사진 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
 				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
@@ -35,7 +35,7 @@
 		</div>
 		<div class="board-main">
 			<div class="title-board display-4">
-				<h1 style="display: inline; font-size: 2.5rem !important;">지역 사진 관리</h1>
+				<h1 style="display: inline; font-size: 2.5rem !important;">사진 관리</h1>
 			</div>
 			<div class="container-top display-flex">
 				<div class="list-container">
@@ -48,7 +48,7 @@
 								<div style="height: 200px; width: 100%;">
 								  	<img th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" class="card-img-top" height="200" width="100">
 								</div>
-							  	<div class="card-body">
+							  	<div class="card-body" style="padding: 8px;">
 							    	<p class="card-text" style="text-align: center;">[[${l.localName}]]</p>
 							  	</div>
 							</div>
@@ -56,40 +56,77 @@
 					</div>
 				</div>
 				<div class="change-container">
-					<div class="title-div">
-						<span class="title-text">지역 대표 사진 변경</span>
+					<div class="local-img-change">
+						<div class="title-div">
+							<span class="title-text">지역 대표 사진 변경</span>
+						</div>
+						<div class="content-change">
+							<form action="insertLocalImg.ad" method="POST" enctype="multipart/form-data">
+								<div class="change-select display-inline-block">
+								  	<select class="form-select box-shadow-none" name="localNo" id="localNo" aria-label="Floating label select example">
+								    	<option value="-" selected disabled>지역 선택</option>
+								    	<option value="1">서울</option>
+								    	<option value="6">부산</option>
+								    	<option value="4">대구</option>
+								    	<option value="2">인천</option>
+								    	<option value="5">광주</option>
+								    	<option value="3">대전</option>
+								    	<option value="7">울산</option>
+								    	<option value="8">세종</option>
+								    	<option value="31">경기</option>
+								    	<option value="32">강원</option>
+								    	<option value="33">충북</option>
+								    	<option value="34">충남</option>
+								    	<option value="35">경북</option>
+								    	<option value="36">경남</option>
+								    	<option value="37">전북</option>
+								    	<option value="38">전남</option>
+								    	<option value="39">제주</option>
+								  	</select>
+								</div>
+								<div class="mb-3 change-file display-inline-block">
+								  	<input class="form-control box-shadow-none" type="file" id="formFile" name="formFile">
+								</div>
+								<div class="button">
+									<button class="button-border select-button">변경</button>
+								</div>
+							</form>
+						</div>
 					</div>
-					<div class="content-change">
-						<form action="insertLocalImg.ad" method="POST" enctype="multipart/form-data">
-							<div class="change-select display-inline-block">
-							  	<select class="form-select box-shadow-none" name="localNo" id="localNo" aria-label="Floating label select example">
-							    	<option value="-" selected disabled>지역 선택</option>
-							    	<option value="1">서울</option>
-							    	<option value="6">부산</option>
-							    	<option value="4">대구</option>
-							    	<option value="2">인천</option>
-							    	<option value="5">광주</option>
-							    	<option value="3">대전</option>
-							    	<option value="7">울산</option>
-							    	<option value="8">세종</option>
-							    	<option value="31">경기</option>
-							    	<option value="32">강원</option>
-							    	<option value="33">충북</option>
-							    	<option value="34">충남</option>
-							    	<option value="35">경북</option>
-							    	<option value="36">경남</option>
-							    	<option value="37">전북</option>
-							    	<option value="38">전남</option>
-							    	<option value="39">제주</option>
-							  	</select>
+					<div class="plan-img-change">
+						<div class="title-div">
+							<span class="title-text">일정 대표 사진 변경</span>
+						</div>
+						<div class="content-change">
+							<form action="insertPlanImg.ad" method="POST" enctype="multipart/form-data">
+								<div class="change-select display-inline-block">
+								  	<select class="form-select box-shadow-none" name="planNo" id="planNo" aria-label="Floating label select example">
+								    	<option value="-" selected disabled>선택</option>
+								    	<option value="1">일정</option>
+								  	</select>
+								</div>
+								<div class="mb-3 change-file display-inline-block">
+								  	<input class="form-control box-shadow-none" type="file" id="planFormFile" name="planFormFile">
+								</div>
+								<div class="button">
+									<button class="button-border select-button">변경</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="plan-list-content" style="margin-top: 20px;">
+						<div class="title-div">
+							<span class="title-text">일정 대표 사진</span>
+						</div>
+						<div class="content-list">
+							<div class="display-inline-block">
+								<div class="card margin-right" style="width: 14rem;">
+									<div style="height: 200px; width: 100%;">
+									  	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" class="card-img-top card-img-bottom" height="200" width="100">
+									</div>
+								</div>
 							</div>
-							<div class="mb-3 change-file display-inline-block">
-							  	<input class="form-control box-shadow-none" type="file" id="formFile" name="formFile">
-							</div>
-							<div class="button">
-								<button class="button-border select-button">변경</button>
-							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -98,11 +135,28 @@
 	
 	<script th:inline="javascript">
 		window.onload = () => {	
-			/* 이미지 추가 전 분류 선택 - 로 할 시 */
+			console.log([[${i}]]);
+			
+			/* 지역 이미지 추가 전 분류 선택 - 로 할 시 */
 			const form = document.getElementsByClassName('select-button')[0];
 			form.addEventListener('click', e =>{
 				const type = document.getElementById('localNo');
 				const file = document.getElementById('formFile');
+				
+				if(type.value == '-'){
+					alert('분류를 선택하세요.');
+					e.preventDefault();
+				} else if(file.value == ''){
+					alert('사진을 선택하세요.');
+					e.preventDefault();
+				}
+				
+			});
+			
+			const pForm = document.getElementsByClassName('select-button')[1];
+			pForm.addEventListener('click', e =>{
+				const type = document.getElementById('planNo');
+				const file = document.getElementById('planFormFile');
 				
 				if(type.value == '-'){
 					alert('분류를 선택하세요.');

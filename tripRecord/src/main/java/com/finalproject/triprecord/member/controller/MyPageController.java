@@ -1,6 +1,7 @@
 package com.finalproject.triprecord.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,17 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
+import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
+import com.finalproject.triprecord.common.model.vo.Payment;
+import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.member.model.exception.MemberException;
 import com.finalproject.triprecord.member.model.service.MemberService;
 import com.finalproject.triprecord.member.model.vo.Member;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -50,7 +56,6 @@ public class MyPageController {
 		        // 이미지가 없거나 리네임이 없는 경우 처리
 		        model.addAttribute("rename", "defaultImageName"); 
 		    }
-
 		    return "myPage";
 	}
 	//내 정보 수정
@@ -79,9 +84,16 @@ public class MyPageController {
 	
 	@GetMapping("updateMyPwd.mp")
 	public String moveToUpdateMyPwd(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "updateMyPwd";
 	}
 	
@@ -124,9 +136,16 @@ public class MyPageController {
 
 	@GetMapping("promoteToPlanner.mp")
 	public String moveToPromoteToPlanner(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "promoteToPlanner";
 	}
 	
@@ -269,66 +288,134 @@ public class MyPageController {
 	}
 	
 	@GetMapping("myPoint.mp")
-	public String moveToMyPoint(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+	public String moveToMyPoint(HttpSession session, Model model, HttpServletRequest req,
+								@RequestParam(value="page", defaultValue="1") int currentPage ) {
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
+	    
+	    int pmListCount = mService.pmListCount(memberNo);
+	    PageInfo pi = Pagination.getPageInfo(currentPage, pmListCount, 10);
+	    
+	    ArrayList<Payment> pmList = mService.getPaymentList(pi, memberNo);
+	    model.addAttribute("pi", pi);
+	    model.addAttribute("pmList",pmList);
+	    model.addAttribute("loc", req.getRequestURI());
 		return "myPoint";
 	}
 
 	@GetMapping("myPayPoint.mp")
 	public String moveToMyPayPoint(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
+		
+		ArrayList<Point> pList = mService.selectPointList();  
+		model.addAttribute("pList", pList);
 		return "myPayPoint";
 	}
 
 	@GetMapping("myPlan.mp")
 	public String moveToMyPlan(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);	
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "myPlan";
 	}
 
 	@GetMapping("detailReqPlan.mp")
 	public String moveToDetailReqPlan(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "detailReqPlan";
 	}
 
 	@GetMapping("feedback.mp")
 	public String moveToFeedback(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "feedback";
 	}
 
 	@GetMapping("myTripNote.mp")
 	public String moveToMyTripNote(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "myTripNote";
 	}
 
 	@GetMapping("detailMyTripNote.mp")
 	public String moveToDetailMyTripNote(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "detailMyTripNote";
 	}
 
 	@GetMapping("myInquiry.mp")
 	public String moveToMyInquiry(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "myInquiry";
 	}
 
@@ -344,9 +431,16 @@ public class MyPageController {
 
 	@GetMapping("myBoard.mp")
 	public String moveToMyBoard(HttpSession session, Model model) {
-		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();
-		String existFileId =  mService.existFileId(memberNo).getImageRename();
-		model.addAttribute("rename", existFileId);
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	  
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
 		return "myBoard";
 	}
 

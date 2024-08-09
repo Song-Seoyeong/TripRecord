@@ -56,8 +56,8 @@
 			</svg>
 			</button>
 			<span style="float:left; font-size:40px; font-weight:900">
-				[[${session.loginUser.memberName}]]
-				<span style="font-size:20px; font-weight:100">&#91; [[${session.loginUser.memberPoint}]] &#93;p</span>
+				[[${session.loginUser.nickname}]]
+				<span style="font-size:20px; font-weight:100">&#91; [[${#numbers.formatDecimal(session.loginUser.memberPoint,3,'COMMA',0,'COMMA')}]] &#93;p</span>
 			</span>
 		</div>
 	</div> 

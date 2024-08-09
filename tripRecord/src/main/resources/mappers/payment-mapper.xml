@@ -1,0 +1,22 @@
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace='com.finalproject.triprecord.payment.model.dao.PaymentMapper'>
+	<insert id="saveOrder">
+		insert into PAYMENT
+		values (SEQ_PAYMENT.nextval, #{memberNo}, #{pointNo}, sysdate, #{impUid}, #{merchantUid})
+	</insert>
+		
+	<update id="updateMemberPoint">
+		update MEMBER
+		set MEMBER_POINT = MEMBER_POINT + #{memberPoint}
+		where MEMBER_NO = #{memberNo}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
