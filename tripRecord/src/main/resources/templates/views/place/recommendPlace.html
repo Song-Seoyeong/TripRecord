@@ -194,11 +194,13 @@
 				    	updateTags('local', 'selected-locations', 'locations-section');
 			    	}
 			    });
+			    
 			});
 			
 			// 키워드 필터 선택시 함수 호출
 			keywordCheckboxes.forEach(checkbox => {
-			    checkbox.addEventListener('change', function(){
+
+				checkbox.addEventListener('change', function(){
 		    		arr = updateInArrange();
 		    		area = updateInAreaCode();
 		    		word = updateInKeyword();
@@ -426,6 +428,9 @@
 		
 		// div 카드 바꾸는 함수
 		function changeDiv(data){
+			const localCheckboxes = document.querySelectorAll('input[name="local"]');
+			const keywordCheckboxes = document.querySelectorAll('input[name="keyword"]');
+			
 			for(const i of data.response.body.items.item){
 	   			const clickCardDiv = document.createElement('div');
 	   			clickCardDiv.className = 'col-4 clickCard';
@@ -495,6 +500,7 @@
    				}
    				li.append(a);
    				ul.append(li);
+   				
    			}
    			
    			const li3 = document.createElement('li');
@@ -513,6 +519,28 @@
    			
    			pagination.append(ul);
    			
+   			changeSearch(data.areaCode, data.selectedKeyword, data.keyword)
+   			
+   			keywordCheckboxes.forEach(checkbox => {
+   					if(checkbox.value == data.selectedKeyword){
+   						checkbox.checked = true;
+   						updateTags('keyword', 'selected-keywords', 'keywords-section');
+   					}else{
+	                   if (checkbox.checked) checkbox.checked = false;
+                       updateTags('keyword', 'selected-keywords', 'keywords-section');
+   					}
+   				})
+   				
+			localCheckboxes.forEach(checkbox => {
+				if(checkbox.value == data.areaCode){
+					checkbox.checked = true;
+					updateTags('local', 'selected-locations', 'locations-section');
+				}else{
+                      if (checkbox.checked)  checkbox.checked = false;
+                  updateTags('local', 'selected-locations', 'locations-section');
+				}
+			})
+   			
 		}
 		
 		function changeSearch(areaCode, selectedKeyword, keyword){
@@ -524,9 +552,9 @@
    			//console.log(areaCode)
    			
    			switch(areaCode){
-   			case "1": localName = '서울'; console.log(localName); break;
-   			case "6": localName = "부산"; console.log(localName); break;
-   			case "4": localName = "대구"; console.log(localName); break;
+   			case "1": localName = '서울'; break;
+   			case "6": localName = "부산"; break;
+   			case "4": localName = "대구"; break;
    			case "2": localName = "인천"; break;
    			case "5": localName = "광주"; break;
    			case "3": localName = "대전"; break;
