@@ -192,6 +192,86 @@
 		join MEMBER using(MEMBER_NO)
 		where MEMBER_NO = #{memberNo}
 	</select>
+	
+	<!-- 자기 게시글 목록 수 조회 -->
+	<select id="getListCount">
+		select count(*)
+		from BOARD
+		where BOARD_STATUS = 'N' and BOARD_TYPE = #{cs.boardType} and BOARD_WRITER_NO=#{memberNo}
+	</select>
+	<!-- 자기 게시글 불러오기 -->
+	<select id="getBoardList" resultType="Board">
+		select *
+		from BOARD
+			left join MEMBER on(BOARD_WRITER_NO = MEMBER_NO)
+			left join general_bo on(board_no = general_no)
+		where BOARD_STATUS = 'N' and BOARD_TYPE = #{cs.boardType} and BOARD_WRITER_NO=#{memberNo}
+		order by board_no desc
+	</select>
+	<!-- 문의 사항 데이터 불러오기 -->
+	<select id="getQuestionList" resultType="Question">
+		select *
+		from question
+			join BOARD on(QUESTION_NO = BOARD_NO)
+		<if test="i != 0">
+			where question_no = #{i} 
+		</if>
+		<!-- i=0 : 문의 목록, i != 0 : 문의 상세 조회 -->
+	</select>
+	<!-- 여기까지 마이페이지 -->
+
+	<!-- 플래너페이지 -->
+	<!-- 플래너 불러오기 -->	
+	<select id="getPlanner">
+		select *
+		from PLANNER
+			join MEMBER using(MEMBER_NO)
+		where MEMBER_NO = #{memberNo} and status = 'Y'
+	</select>
+		
+	<!-- 플래너 지역 불러오기 -->
+	<select id="getLocalName">
+		select local_name
+		from LOCAL
+		join PLANNER using (LOCAL_NO)
+		where MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 좋아요 불러오기 -->
+	<select id="countLikes" resultType="_int">
+		select count(*)
+		from PLANNER_LIKE
+		where PLANNER_NO = #{memberNo}
+	</select>
+	
+	<!-- 별점 평균 -->
+	<select id="averageStar" resultType="_double">
+		select avg(REVIEW_STAR)
+		from REVIEW
+		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and REV_REF_NO = #{memberNo}
+	</select>
+	
+	<!-- 후기 수 -->
+	<select id="getReviewListCount" resultType="_int">
+		select count (*)
+		from REVIEW
+		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and REV_REF_NO = #{memberNo}
+	</select>
+	
+	<!-- 후기 불러오기 -->
+	<select id="getReviewList" resultType="Review">
+		select *
+		from REVIEW
+		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and REV_REF_NO = #{memberNo}
+	</select>
+	
+	<!-- 플래너 프로필 이미지 불러오기 -->
+	<select id="getImgRename" resultType="Image">
+		select IMAGE_RENAME
+		from IMAGE
+		where IMAGE_REF_TYPE = #{refType} and IMAGE_REF_NO = #{refNo}
+	</select> 
+	<!-- 여기까지 플래너 페이지 -->
 	<!-- 여기까지 마이페이지 -->
 
 

@@ -20,6 +20,13 @@ form{
 	margin-top: 30px;
 }
 
+/* 저장 버튼을 누르지 않으면 사라지는 일정 안내 */
+#inforDiv{
+	margin-top: 15px;
+	margin-bottom: 15px;
+	text-align: center;
+}
+
 /* 계획 선 */
 .line{
 	position: relative;
@@ -157,12 +164,6 @@ form{
 
 #saveButton:hover{
 	background-color: #58aae7;
-}
-
-/* 일정 삭제 버튼 */
-#deleteButton{
-	background-color: gray;
-	float: inline-end;
 }
 
 /* 수정 버튼 누를 때 나오는 지역 select */
@@ -426,7 +427,7 @@ form{
     padding: 8px;
 }
 
-/*추천 장소*/
+/*여기부터 추천 장소*/
 .menuTitle{
 	text-align: center;
 	margin:30px;
@@ -467,4 +468,3 @@ form{
     transition: all .5s ease;
     opacity: .75;
 }
-/*추천 장소*/

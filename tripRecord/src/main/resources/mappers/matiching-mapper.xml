@@ -101,7 +101,22 @@
 		select * from dual
 	</insert>
 	
+	<select id="selectrImgList">
+		select *
+		from image
+		where image_Ref_type = 'REVIEW'
+	</select>
 	
+	<select id="selectReview" resultType="Review">
+		select *
+		from review
+		where review_No = #{rNo}
+	</select>
 	
+	<update id="deleteReview">
+		update review
+		set review_status = 'N'
+		where review_no = #{rNo}
+	</update>
 	
 </mapper>

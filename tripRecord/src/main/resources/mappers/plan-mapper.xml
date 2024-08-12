@@ -31,4 +31,65 @@
 		select * from dual
 	</insert>
 	
+	<select id="myTripNoteList" resultMap="scheduleMap">
+		select sc_no, sc_local_no, local_name, sc_writer_no, sc_start_date, sc_end_date
+		from schedule 
+			join local on(local_no = sc_local_no)
+		where sc_writer_no = #{memberNo} and sc_del_status = 'N'
+		order by sc_no desc
+	</select>
+	
+	<select id="myTripTagList" resultType="HashTag">
+		select tag_no, tag_name, tag_ref_no
+		from select_hashtag
+		    join hashtag using(tag_no)
+		where tag_ref_no in 
+			 <foreach collection="list" index="index" item="s" open="(" close=")" separator=",">
+			 	#{s.scNo}
+			 </foreach>
+	</select>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*) from schedule where sc_writer_no = #{memberNo}
+	</select>
+	
+	<select id="detailMySchedule" resultMap="scheduleMap">
+		select sc_no, sc_local_no, local_name, sc_writer_no, 
+				to_char(sc_start_date, 'YYYY/MM/DD') as start_date, to_char(sc_end_date, 'YYYY/MM/DD') as end_date
+		from schedule 
+			join local on(local_no = sc_local_no)
+		where sc_no = #{scNo} and sc_del_status = 'N'
+	</select>
+	
+	<select id="detailMyTripNote" resultMap="planMap">
+		select *
+		from plan
+		where sc_no = #{scNo}
+		order by pl_no
+	</select>
+	
+	<update id="deleteTripNote">
+		update schedule set sc_del_status = 'Y' where sc_no = #{scNo}
+	</update>
+	
+	<update id="detailTripUpdate">
+		update plan 
+		set place = #{p.place}, time = #{p.time}, memo = #{p.memo}
+		where pl_no = #{p.plNo}
+	</update>
+	
+	<resultMap id="scheduleMap" type="Schedule">
+		<result column="SC_WRITER_NO" property="writerNo"/>
+		<result column="local_name" property="spot"/>
+		<result column="SC_DEL_STATUS" property="status"/>
+	</resultMap>
+	
+	<resultMap id="planMap" type="Plan">
+		<result column="PL_PLACE" property="place"/>
+		<result column="PL_TIME" property="time"/>
+		<result column="PL_MEMO" property="memo"/>
+		<result column="PL_RESERVE" property="reserve"/>
+		<result column="PL_DAY" property="day"/>
+	</resultMap>
+	
 </mapper>

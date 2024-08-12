@@ -1,5 +1,7 @@
 package com.finalproject.triprecord.plan.model.vo;
 
+import java.sql.Date;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,8 +19,12 @@ public class Schedule {
 	private String writer;
 	private String startDate;
 	private String endDate;
-	private String delStatus;
+	private String status;
+	
+	private Date scStartDate;
+	private Date scEndDate;
 	
 	private String together;
 	private String hashtag;
+	
 }

@@ -3,87 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <title>여행을 기록하다</title>
-<link type="text/css" href="css/index.css" rel="stylesheet">
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link type="text/css" href="css/home.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon" />
 </head>
 <body>
 	<div th:replace="~{ common/logoBar.html :: logoBar}"></div>
 	<div th:replace="~{ common/mainCategoryBar.html :: mainCategoryBar }"></div>
 	<div id="mainContainer" class="container-fluid justify-content-center">
-		
+
 		<div class="fs-2 my-3 ms-5">'여행지 TOP 5'의 플래너 만나러가기</div>
 		<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
-			<div class="local-card position-relative">
-				<input type=hidden value=1>
-				<img class="local-img shadow position-absolute"  src="/image/seoul.jpg" alt="서울">
-				<span class="card-text position-absolute fs-1 px-3">서울
-				</span>
-			</div>
-			<div class="local-card position-relative">
-				<input type=hidden value=2>
-				<img class="local-img shadow"  src="/image/busan.jpg" alt="부산">
-				<span class="card-text position-absolute fs-1 px-3">부산
-				</span>
-			</div>
-			<div class="local-card position-relative">
-				<input type=hidden value=3>
-				<img class="local-img shadow"  src="/image/gwangju.jpg" alt="광주">
-				<span class="card-text position-absolute fs-1 px-3">광주
-				</span>
-			</div>
-			<div class="local-card position-relative">
-				<input type=hidden value=4>
-				<img class="local-img shadow"  src="/image/daejeon.jpg" alt="대전">
-				<span class="card-text position-absolute fs-1 px-3">대전
-				</span>
-			</div>
-			<div class="local-card position-relative">
-				<input type=hidden value=5>
-				<img class="local-img shadow"  src="/image/kangwon.jpg" alt="강원">
-				<span class="card-text position-absolute fs-1 px-3">강원
-				</span>
+			<div class="local-card position-relative" th:each='l : ${lList}'>
+				<input type=hidden th:value=${l.localNo}>
+				<img class="local-img shadow position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
+				<span class="card-text position-absolute fs-1 px-3">[[${l.localName}]]</span>
 			</div>
 		</div>
-		
-		<hr/>
+
+		<hr />
 		<div class="contatiner d-flex justify-content-center">
-			<div class="card" style="width: 800px;" id='planImg'>
-				<img class="img-fluid" th:src="|https://drive.google.com/thumbnail?id=${img.imageRename}&sz=w1000|" alt="일정 페이지 넘어가기">
+			<div class="card" style="width: 800px;">
+				<img class="img-fluid" th:src="|https://drive.google.com/thumbnail?id=${img.imageRename}&sz=w1000|" alt="일정 페이지 넘어가기" id='planImg'>
 			</div>
 		</div>
-		<hr/>
+		<hr />
 		<h2 class="mx-5">TOP 5 플래너</h2>
 		<!-- TOP N1 -->
-		<div class="container row-cols-1 row-cols-md-6 d-flex justify-content-center">
-			<img class="shadow mx-1 my-3 rounded-3" height="250px" src="/resources/black.jpg" alt="사진1">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진2">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진3">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진4">
-			<img class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg" alt="사진5">
+		<div
+			class="container row-cols-1 row-cols-md-6 d-flex justify-content-center">
+			<img class="shadow mx-1 my-3 rounded-3" height="250px"
+				src="/resources/black.jpg" alt="사진1"> <img
+				class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg"
+				alt="사진2"> <img class="shadow mx-1 my-3 rounded-3"
+				src="/resources/black.jpg" alt="사진3"> <img
+				class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg"
+				alt="사진4"> <img class="shadow mx-1 my-3 rounded-3"
+				src="/resources/black.jpg" alt="사진5">
 		</div>
 		<!-- TOP N1 끝 -->
-		<br/>
-		<hr/>
+		<br />
+		<hr />
 		<!-- TOP N2 -->
 		<h2 class="mx-5">TOP 5 여행지</h2>
-		<div class="container row-cols-1 row-cols-md-6 d-flex justify-content-center" id='topPlace'>
-			<div class='shadow mx-2 my-3 rounded-3 place-card' th:each='p : ${pList}'>
+		<div
+			class="container row-cols-1 row-cols-md-6 d-flex justify-content-center"
+			id='topPlace'>
+			<div class='shadow mx-2 my-3 rounded-3 place-card'
+				th:each='p : ${pList}'>
 				<img th:src="|${p.imagePath}|" th:alt="|${p.placeName}|">
 				<p>[[${p.placeName}]]</p>
-				<input type="hidden" name="contentid" th:value="${p.placeNo}"/>
-				<input type="hidden" name="contenttypeid" th:value="${p.contentTypeId}"/>
-				<input type="hidden" name="areacode" th:value="${p.localNo}"/>
+				<input type="hidden" name="contentid" th:value="${p.placeNo}" /> <input
+					type="hidden" name="contenttypeid" th:value="${p.contentTypeId}" />
+				<input type="hidden" name="areacode" th:value="${p.localNo}" />
 			</div>
 		</div>
 		<!-- TOP N2 끝 -->
 		<br/>
-		</div>
+	</div>
 	<div th:replace="~{ common/footer.html :: footer }"></div>
-</body>
 
 <script>
+	// 지역 카드클릭시 플래너 페이지 이동
 	const cards = document.getElementsByClassName('local-card');
 	for(const card of cards){
 		card.addEventListener('click', function(){
@@ -92,7 +74,12 @@
 		});
 	}
 	
-	// top5 여행지 카드 클릭 함수
+	//일정 이미지 클릭시 이동 함수
+	document.getElementById('planImg').addEventListener('click', function(){
+		location.href = 'planMain.pl';
+	})
+	
+	// top5 관광지 카드 클릭
 	const placeCard = document.getElementsByClassName('place-card');
 	for(const card of placeCard){
 		card.addEventListener('click', function(){
@@ -103,4 +90,5 @@
 		})
 	}
 </script>
+</body>
 </html>

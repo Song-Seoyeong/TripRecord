@@ -79,6 +79,7 @@
 			</div>
 		</div>
 		<div class="contain-div">
+			<div id="inforDiv"> &#128205; 저장 버튼을 누르지 않은 일정은 사라집니다 </div>
 			<div id="planAll" class="grid">
 				<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
 					<div class="dayText" th:text="|${date.key}일차|"></div>
@@ -118,9 +119,6 @@
 		</div>
 	</form>
 	
-	
-	
-	<!-- 지역 장소 5 곳 -->
 	<hr>
 	<div class='menuTitle'><h3>여기가 추천하는 관광 SPOT &#x2728;</h3></div>
 	<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
@@ -134,8 +132,7 @@
 			</span>
 		</div>
 	</div>
-
-
+	
 	<div th:replace="~{ ../common/footer :: footer }"></div>
 	<script th:inline="javascript">
 		window.onload = () => {
@@ -179,12 +176,16 @@
 			
 			let index = 0;
 			let labelDiv = '';
-			const body = document.querySelector('body');
+			
 			document.getElementById('planAll').addEventListener('click', function(e){
 				if (e.target.classList.contains('check-icon')) {
 					let onePlan = e.target.closest('.one-plan');
 					let inputs = onePlan.querySelectorAll('input.plan-text');
-		            
+					
+					if(onePlan.classList.contains('edit-plan')){
+						onePlan.className = 'one-plan';
+					}
+					
 					let placeInput = inputs[0];
 					let timeInput = inputs[1];
 					let memoInput = inputs[2];
@@ -193,22 +194,22 @@
 						let label = null;
 						inputs.forEach(function(input) {
 							let value = input.value;
-								label = document.createElement('label');
-								label.innerText = value;
-								label.classList.add('planLabel');
-								input.style.display = 'none';
-								
-								if(input == inputs[0]){
-									label.classList.add('placeLabel');
-								} else if(input == inputs[1]){
-									label.classList.add('timeLabel');
-								} else if(input == inputs[2]){
-									label.classList.add('memoLabel');
-								}
-								
-								input.parentNode.insertBefore(label, input.nextSibling);
-								label.parentElement.className = 'label-div';
-								label.parentElement.parentElement.style.background = 'none';
+							label = document.createElement('label');
+							label.innerText = value;
+							label.classList.add('planLabel');
+							input.style.display = 'none';
+							
+							if(input == inputs[0]){
+								label.classList.add('placeLabel');
+							} else if(input == inputs[1]){
+								label.classList.add('timeLabel');
+							} else if(input == inputs[2]){
+								label.classList.add('memoLabel');
+							}
+							
+							input.parentNode.insertBefore(label, input.nextSibling);
+							label.parentElement.className = 'label-div';
+							label.parentElement.parentElement.style.background = 'none';
 						});
 
 						let icons = onePlan.querySelectorAll('img.planInputIcon');
@@ -233,17 +234,13 @@
 		            planDiv.remove();
 		            
 		        } else if (e.target.classList.contains('planLabel') || e.target.classList.contains('label-div')) {
-		        	let bgCheckDiv = body.querySelectorAll('.plan-labels');
-		        	
+		        	let bgCheckDiv = document.querySelectorAll('.plan-labels');
 	        		for(const bgDiv of bgCheckDiv){
 	        			if(bgDiv.style.background != 'none') {
 	        				bgDiv.style.background = 'none';
 	        				bgDiv.nextElementSibling.innerHTML = '';
-	        			} else if(bgDiv.children[0]){
-	        				console.log(bgDiv.children[0].className == 'plan-inputs' ? '예' : '아니오');
 	        			}
 	        		}
-		        	
 	        		
 		        	if(e.target.classList.contains('planLabel')){
 			        	labelDiv = e.target.parentElement.parentElement;
@@ -255,10 +252,10 @@
 		        	let imagesDiv = labelDiv.nextElementSibling;
 		        	imagesDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
 		        	
-		        	
 		        } else if(e.target.classList.contains('bi-pencil-square')) {
-					let plan = e.target.closest('.one-plan');
-					let labels = plan.querySelectorAll('.planLabel');
+					let onePlan = e.target.closest('.one-plan');
+					let labels = onePlan.querySelectorAll('.planLabel');
+					onePlan.classList.add('edit-plan');
 
 					labels.forEach(function(label) {
 						let input = label.previousElementSibling;
@@ -267,13 +264,10 @@
 						input.style.display = 'inline';
 					});
 
-					let checkDiv = plan.querySelector('.plan-checks');
-					if (checkDiv) {
-						checkDiv.remove();
-					}
+					onePlan.querySelector('.plan-checks').remove();
 					
-					let plLabels = plan.querySelector('.plan-labels');
-					plLabels.className = 'plan-inputs';
+					let plLabels = onePlan.querySelector('.plan-labels');
+					plLabels.className = 'plan-inputs edit-inputs';
 					
 					let childDivs = plLabels.querySelectorAll('div');
 					
@@ -281,9 +275,35 @@
 						classRemove.classList.remove('label-div');
 					});
 					
-					plan.querySelector('.plan-images').innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>&nbsp;<img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
+					onePlan.querySelector('.plan-images').innerHTML = '<img class="planInputIcon check-icon edit-image" style="width: 16px; height: 17px;" src="image/Check.png"/>&nbsp;<img class="planInputIcon trash-icon edit-image" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
 		        }
 		    });
+			
+			document.querySelector('body').addEventListener('click', e => {
+				const planImages = document.querySelectorAll('.plan-images');
+				let planInputs = document.querySelectorAll('.plan-inputs');
+				let editInputs = document.querySelectorAll('.edit-inputs');
+				let editPlan = document.getElementsByClassName('.edit-plan');
+				
+				planImages.forEach(planImage => {
+					if(/*planImage.children[0] != undefined && 
+						!e.target.classList.contains('edit-inputs') && 
+						planImage.children[0].classList.contains('edit-image')*/
+						) {
+						
+// 						let planInputsDiv = planImage.previousElementSibling;
+						
+// 						if(planInputsDiv.style.background != 'none' && planInputsDiv.children[0].children[0].style.display == 'inline'){
+// 							let inputParentDivs = planInputsDiv.children[0];
+							
+// 							planInputsDiv.style.background = 'none';
+// 							plan
+// 						}
+						console.log(editPlan);
+						
+					}
+				});
+			})
 			
 			originalStart = '';
 			originalEnd = '';
@@ -336,6 +356,7 @@
 				});
 			});
 
+// 			수정 저장하기
 			document.getElementById('completeButton').addEventListener('click', function(){
 				detailForm.style.display = 'block';
 				editForm.style.display = 'none';
@@ -391,6 +412,7 @@
 				$('#spot').val(newSpot);
 			})
 			
+// 			수정 취소
 			document.getElementById('cancelButton').addEventListener('click', () => {
 				detailForm.style.display = 'block';
 				editForm.style.display = 'none';
@@ -407,7 +429,7 @@
 			if(togetherVal == "") togetherVal = '0';
 			if(hashtagVal == "") hashtagVal = '0';
 			
-			
+			// 일정 저장
 			document.getElementById('saveButton').addEventListener('click', () => {
 				document.getElementById('together').value = togetherVal;
 				document.getElementById('hashtag').value = hashtagVal;
@@ -454,7 +476,6 @@
 				document.getElementById('planCreate').submit();
 			});
 			
-			
 			// 추천장소 카드 클릭
 			const placeCard = document.getElementsByClassName('local-card');
 			for(const card of placeCard){
@@ -465,8 +486,6 @@
 					location.href = "placeDetail.pla?contentid=" + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode;
 				})
 			}
-			
-			
 		}
 	</script>
 </body>

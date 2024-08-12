@@ -398,9 +398,13 @@
 		   			contentCardList.innerHTML = "";
 		   			pagination.innerHTML = "";
 		   			
-		   			changeDiv(data);
-		   			
-		   			clickCard();
+		   			const searchTitle = document.getElementById('searchTitle')
+		   			if(data.response.body.totalCount == 0){
+		   				searchTitle.innerHTML = "<h4>" + data.keyword + "(으)로 조회된 장소가 없습니다.</h4>"
+		   			}else{
+			   			changeDiv(data);
+			   			clickCard();
+		   			}
 		   		},
 		   		error: data => console.log(data)
 		    	
@@ -549,58 +553,59 @@
    			searchTitle.innerHTML = ""
    			let localName = "";
 			
-   			//console.log(areaCode)
+   			//console.log(totalCount)
    			
-   			switch(areaCode){
-   			case "1": localName = '서울'; break;
-   			case "6": localName = "부산"; break;
-   			case "4": localName = "대구"; break;
-   			case "2": localName = "인천"; break;
-   			case "5": localName = "광주"; break;
-   			case "3": localName = "대전"; break;
-   			case "7": localName = "울산"; break;
-   			case "8": localName = "세종"; break;
-   			case "31": localName = "경기"; break;
-   			case "32": localName = "강원"; break;
-   			case "33": localName = "충북"; break;
-   			case "34": localName = "충남"; break;
-   			case "35": localName = "경북"; break;
-   			case "36": localName = "경남"; break;
-   			case "37": localName = "전북"; break;
-   			case "38": localName = "전남"; break;
-   			case "39": localName = "제주"; break;
-   			}
+	   			switch(areaCode){
+	   			case "1": localName = '서울'; break;
+	   			case "6": localName = "부산"; break;
+	   			case "4": localName = "대구"; break;
+	   			case "2": localName = "인천"; break;
+	   			case "5": localName = "광주"; break;
+	   			case "3": localName = "대전"; break;
+	   			case "7": localName = "울산"; break;
+	   			case "8": localName = "세종"; break;
+	   			case "31": localName = "경기"; break;
+	   			case "32": localName = "강원"; break;
+	   			case "33": localName = "충북"; break;
+	   			case "34": localName = "충남"; break;
+	   			case "35": localName = "경북"; break;
+	   			case "36": localName = "경남"; break;
+	   			case "37": localName = "전북"; break;
+	   			case "38": localName = "전남"; break;
+	   			case "39": localName = "제주"; break;
+	   			}
+	   			
+	   			//console.log(localName)
+	   			
+	   			let type = "";
+	   			switch(selectedKeyword){
+	   			case "14": type = "문화시설"; break;
+	   			case "32": type = "숙소"; break;
+	   			case "12": type = "관광지"; break;
+	   			case "15": type = "행사/공연/축제"; break;
+	   			case "28": type = "레포츠"; break;
+	   			case "39": type = "음식점"; break;
+	   			case "38": type = "쇼핑"; break;
+	   			}
+	   			
+	   			if(areaCode != "" && selectedKeyword == "" && keyword == ""){
+		  			searchTitle.innerHTML = "<h4>'"+ localName + "'(으)로 검색한 결과입니다</h4>"
+	   			}else if(areaCode != "" && selectedKeyword != "" && keyword == ""){
+	   				searchTitle.innerHTML = "<h4>'"+ localName + "', '" + type + "'(으)로 검색한 결과입니다</h4>"
+	   			}else if(areaCode != "" && selectedKeyword != "" && keyword != ""){
+	   				searchTitle.innerHTML = "<h4>'"+ localName + "', '" + type + "', '" + keyword + "'(으)로 검색한 결과입니다</h4>"
+	   			}else if(areaCode != "" && selectedKeyword == "" && keyword != ""){
+	   				searchTitle.innerHTML = "<h4>'"+ localName + "', '" + keyword + "'(으)로 검색한 결과입니다</h4>"
+	   			}else if(areaCode == "" && selectedKeyword != "" && keyword == ""){
+	   				searchTitle.innerHTML = "<h4>'" + type + "'으로 검색한 결과입니다</h4>"
+	   			}else if(areaCode == "" && selectedKeyword != "" && keyword != ""){
+	   				searchTitle.innerHTML = "<h4>'" + type + "', '" + keyword + "'(으)로 검색한 결과입니다</h4>"
+	   			}else if(areaCode == "" && selectedKeyword == "" && keyword != ""){
+	   				searchTitle.innerHTML = "<h4>'" + keyword + "'(으)로 검색한 결과입니다</h4>"
+	   			}else{
+	   				searchTitle.innerHTML = ""
+	   			}
    			
-   			//console.log(localName)
-   			
-   			let type = "";
-   			switch(selectedKeyword){
-   			case "14": type = "문화시설"; break;
-   			case "32": type = "숙소"; break;
-   			case "12": type = "관광지"; break;
-   			case "15": type = "행사/공연/축제"; break;
-   			case "28": type = "레포츠"; break;
-   			case "39": type = "음식점"; break;
-   			case "38": type = "쇼핑"; break;
-   			}
-   			
-   			if(areaCode != "" && selectedKeyword == "" && keyword == ""){
-	  			searchTitle.innerHTML = "<h4>'"+ localName + "'으로 검색한 결과입니다</h4>"
-   			}else if(areaCode != "" && selectedKeyword != "" && keyword == ""){
-   				searchTitle.innerHTML = "<h4>'"+ localName + "', '" + type + "'으로 검색한 결과입니다</h4>"
-   			}else if(areaCode != "" && selectedKeyword != "" && keyword != ""){
-   				searchTitle.innerHTML = "<h4>'"+ localName + "', '" + type + "', '" + keyword + "'으로 검색한 결과입니다</h4>"
-   			}else if(areaCode != "" && selectedKeyword == "" && keyword != ""){
-   				searchTitle.innerHTML = "<h4>'"+ localName + "', '" + keyword + "'으로 검색한 결과입니다</h4>"
-   			}else if(areaCode == "" && selectedKeyword != "" && keyword == ""){
-   				searchTitle.innerHTML = "<h4>'" + type + "'으로 검색한 결과입니다</h4>"
-   			}else if(areaCode == "" && selectedKeyword != "" && keyword != ""){
-   				searchTitle.innerHTML = "<h4>'" + type + "', '" + keyword + "'으로 검색한 결과입니다</h4>"
-   			}else if(areaCode == "" && selectedKeyword == "" && keyword != ""){
-   				searchTitle.innerHTML = "<h4>'" + keyword + "'으로 검색한 결과입니다</h4>"
-   			}else{
-   				searchTitle.innerHTML = ""
-   			}
 		}
 		
 		/*]]>*/

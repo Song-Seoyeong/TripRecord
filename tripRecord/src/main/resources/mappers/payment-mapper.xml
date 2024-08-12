@@ -11,9 +11,16 @@
 		where MEMBER_NO = #{memberNo}
 	</update>
 	
+	<update id="minusPoint">
+		update MEMBER
+		set MEMBER_POINT = MEMBER_POINT - #{canclePoint}
+		where MEMBER_NO = #{memberNo}
+	</update>
 	
-	
-	
+	<delete id="deletePayments">
+		delete from PAYMENT
+		where MERCHANT_UID = #{string}
+	</delete>
 	
 	
 	

@@ -112,9 +112,6 @@ public class MatchingController {
 		return gson.toJson(json);
 	}
 	
-	
-	
-	
 	@GetMapping("selectPlanner.ma")
 	public String selectPlanner(@RequestParam(value="page", defaultValue="1") int currentReviewPage, @RequestParam("pNo") int pNo, @RequestParam("page") int page, Model model, HttpSession session) {
 		
@@ -141,11 +138,12 @@ public class MatchingController {
 		int ReviewlistCount = matService.getReviewListCount(pNo);
 		PageInfo pi = Pagination.getPageInfo(currentReviewPage, ReviewlistCount, 5);
 		ArrayList<Review> rlist = matService.getReviewList(pi, pNo);
-		//ArrayList<Image> rImgList = matService.selectrImgList();
+		ArrayList<Image> rImgList = matService.selectrImgList();
 		
 		model.addAttribute("AvgStar", AvgStar);
 		model.addAttribute("pi", pi);
 		model.addAttribute("rlist", rlist);
+		model.addAttribute("rImgList", rImgList);
 		model.addAttribute("planner", planner);
 		model.addAttribute("page", page);
 		model.addAttribute("checkLikes", checkLikes);
@@ -283,6 +281,120 @@ public class MatchingController {
 				}
 			}
 			throw new PlaceException("리뷰 작성을 실패했습니다.");
+		}
+	}
+	
+	@PostMapping("updateReviewView.ma")
+	public String updateReviewView(@RequestParam("pNo") int pNo, @RequestParam("rNo") int rNo, Model model, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int loginUserNo = 0;
+		if(loginUser != null) {
+			loginUserNo = loginUser.getMemberNo();
+		}
+		
+		//플래너 정보
+		Planner planner = matService.selectPlanner(pNo);
+		
+		//좋아요 + 지역
+		HashMap<String, Integer> likemap = new HashMap<>();
+		likemap.put("pNo", pNo);
+		likemap.put("loginUserNo", loginUserNo);
+		int likes = matService.countLikes(pNo);
+		int checkLikes = matService.checkLikes(likemap);
+		
+		String localNames = matService.selectLocalName(pNo);
+		
+		Review review = matService.selectReview(rNo);
+		
+		model.addAttribute("r", review);
+		model.addAttribute("planner", planner);
+		model.addAttribute("checkLikes", checkLikes);
+		model.addAttribute("likes", likes);
+		model.addAttribute("localName", localNames);
+		
+		return "matchingReviewUpdate";
+	}
+	
+	
+	//수정 필요
+	/*
+	@PostMapping("updateReview.ma")
+	public String updateReview(@ModelAttribute Review review,
+							   @RequestParam("plannerNo")int pNo,
+							   @RequestParam(value="delImg", required=false) ArrayList<String> delImgs,
+							   @RequestParam(value="files", required=false) ArrayList<MultipartFile> files,
+							   RedirectAttributes ra) {
+		
+		int result = matService.updateReview(review);
+		
+		ArrayList<String> deleteImg = new ArrayList<String>();
+		int delResult = 0;
+		int insertResult;
+		
+		// 이미지 삭제
+		if(delImgs != null && !delImgs.isEmpty()) {
+			for(String del : delImgs) {
+				if(!del.equals("none")) {
+					deleteImg.add(del);
+					// 구글 드라이브에서 삭제
+					gdService.deleteFile(del);
+				}
+			}
+		}
+		delResult = matService.deleteImage(deleteImg);
+		
+		// 이미지 추가
+		ArrayList<Image> list = new ArrayList<Image>();
+		for(int i = 0; i < files.size(); i++) {
+			MultipartFile upload = files.get(i);
+			
+			//if(!upload.getOriginalFilename().equals("")) {
+			if(upload != null && !upload.isEmpty()) {
+	            String fileId;
+	            
+				fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
+				Image a = new Image();
+				a.setImageOriginName(upload.getOriginalFilename());
+				a.setImageRename(fileId);
+				a.setImagePath("drive://files/" + fileId);
+				a.setImageThum(2);
+				a.setImageRefType("REVIEW");
+				a.setImageRefNo(review.getReviewNo());
+				
+				list.add(a);
+			}
+		}
+		
+		if(!list.isEmpty()) {
+			insertResult = matService.insertImage(list);
+			
+			if(insertResult < 0) {
+				for(Image i : list) {
+					gdService.deleteFile(i.getImageRename());
+				}
+			}
+		}
+			
+		if(result > 0) {
+			ra.addAttribute("pNo", pNo);
+			ra.addAttribute("page", 1);
+			return "redirect:selectPlanner.ma";
+		} else {
+			return null;
+		}
+	}*/
+	
+	@PostMapping("deleteReview.ma")
+	public String deleteReview(@RequestParam("pNo")int pNo, @RequestParam("rNo")int rNo, RedirectAttributes ra) {
+		
+		int result = matService.deleteReview(rNo);
+		
+		if(result > 0) {
+			ra.addAttribute("pNo", pNo);
+			ra.addAttribute("page",1);
+			return "redirect:selectPlanner.ma";
+		} else {
+			return null;
 		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.finalproject.triprecord.payment.model.service;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,14 @@ public class PaymentService {
 	public int updateMemberPoint(Member m) {
 		return pMapper.updateMemberPoint(m);
 		
+	}
+
+	public int minusPoint(HashMap<String, Object> map) {
+		return pMapper.minusPoint(map);
+		
+	}
+
+	public int deletePayments(String string) {
+		return pMapper.deletePayments(string);
 	}
 }

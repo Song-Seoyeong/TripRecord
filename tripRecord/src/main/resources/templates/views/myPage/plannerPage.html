@@ -26,6 +26,9 @@
     #submitAdmin:hover{color:skyblue}
     
     #mainContainer{width:1400px;}
+    .hidden{
+    	display:none;
+    }
 </style>
 </head>
 <body>
@@ -52,30 +55,31 @@
 			<div id="plannerInfo" class="m-3 w-75 ">
 				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
 					<div class="d-flex justify-content-center p-3">
-						<img class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
+						<img class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${image.imageRename}|" width="150px" height="150px"/>
 					</div>
 					<div class="p-3">
-						<div class="mx-3 fs-1">황병찬 플래너</div>
-						<div class="mx-3 mt-2"> 서울살이 30년 / 가이드 경력 있음</div>
+						<div class="mx-3 fs-1">[[${session.loginUser.nickname}]]</div>
+						<div class="mx-3 mt-2" >[[${planner.sIntroContent}]]</div>
 						<div class="mx-3">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
 								<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
 								<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-							</svg> 서울
+							</svg> [[${local.localName}]]
 						</div>
 						<div class="mx-3 mt-2">
 							<button id="likeButton" class="btn btn-outline-danger">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
 									<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
 								</svg>
-								좋아요 124
+								좋아요 <span id="likeCount">[[${likes}]]</span>
 							</button>
 						</div>
 						<div class="mx-3 mt-2">
-							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
-							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
-							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
-							<button class="btn btn-primary opacity-50 m-1">#해시태그</button>
+							<a style="text-decoration: none; color: black;" href="#">#해시태그 인원</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그1</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그2</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그3</a>&nbsp;&nbsp;
+							<a style="text-decoration: none; color: black;" href="#">#해시태그4</a>&nbsp;&nbsp;
 						</div>
 					</div>
 				</div>
@@ -89,7 +93,7 @@
 		
 		<div id="reviewSumTab" class="d-flex justify-content-center">
 			<div class="container shadow border bg-light rounded-3 m-3 w-75">
-				<h2 class="m-5 text-center">리뷰(523) | 별점 ★ 5.0</h2>
+				<h2 class="m-5 text-center">후기([[${pi.listCount}]]) | 별점 ★ [[${#numbers.formatDecimal(avgStar,1,1)}]]</h2>
 			</div>
 		</div>
 		
@@ -105,7 +109,7 @@
 					<img class="m-5" width="800px" src="image/insadong.jpg"/><br/>
 				</div>
 				<div class="mx-5">
-					<p>안녕하세요! 여행을 사랑하는 모든 분들을 환영합니다. 이 가이드는 여러분의 여행이 더욱 특별하고 잊지 못할 경험이 될 수 있도록 다양한 정보를 제공합니다. 전 세계의 숨겨진 명소, 현지인만 아는 맛집, 독특한 문화 체험까지, 여행지에 대한 상세한 정보와 유용한 팁을 담고 있습니다. 혼자 떠나는 자유 여행이든 가족과 함께하는 휴가든, 각 여행 스타일에 맞춘 맞춤형 정보를 제공합니다. 또한, 여행 중 유의해야 할 안전 수칙과 에티켓, 현지 언어 표현 등도 포함되어 있어 처음 방문하는 곳에서도 자신감을 가질 수 있습니다. 여러분의 여행 준비부터 현지에서의 활동까지 이 가이드가 든든한 동반자가 되길 바랍니다. 새로운 곳에서의 멋진 추억을 만들어 보세요!</p>
+					<p>[[${planner.introContent}]]</p>
 				</div>
 			</div>
 		</div>
@@ -118,30 +122,30 @@
 		
 		<!-- 후기 -->
 			
-		<div class="d-flex text-start mb-3 fs-3">후기 ★★★★★</div>
+		<div class="d-flex text-start mb-3 fs-3">[[${pi.listCount}]]개의 후기 (★ [[${#numbers.formatDecimal(avgStar,1,1)}]])</div>
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
-				<div class="list-group shadow w-100">
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기1</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기2</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기3</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기4</a>
-					<a href="matchingDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px">후기5</a>
+				<div class="list-group shadow w-100" th:each="r: ${rList}">
+					<a href="reviewDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">
+						[[${r.reviewTitle}]]
+					</a>
 					<!-- 페이지네이션 -->
-					<div class="text-center" style="margin-top:25px; text-align:center;">
-						<ul class="pagination">
-							<!-- 이전링크 -->
-							<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
-							<!-- 번호 이동 -->
-							<li class="pageNumber"><a href='#'>1</a></li>
-							<li class="pageNumber"><a href='#'>2</a></li>
-							<li class="pageNumber"><a href='#'>3</a></li>
-							<li class="pageNumber"><a href='#'>4</a></li>
-							<li class="pageNumber"><a href='#'>5</a></li>
-							<!-- 다음링크 -->
-							<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
-						</ul>
-					</div>
+				</div>
+				<div class="text-center" style="margin-top:50px; text-align:center;" th:with="loc=${loc}">
+					<ul class="pagination" >
+						<!-- 이전링크 -->
+						<li style="margin-left:auto;" >
+							<a th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:class="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+						</li>
+						<!-- 번호 이동 -->
+						<li class="pageNumber" th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
+							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${p})}" th:text="${p}"></a></th:block>
+						</li>
+						<!-- 다음링크 -->
+						<li style="margin-right:auto;">
+							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:class="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a></th:block>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>

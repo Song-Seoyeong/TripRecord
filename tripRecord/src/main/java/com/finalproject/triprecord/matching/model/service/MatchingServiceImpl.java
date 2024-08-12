@@ -99,5 +99,19 @@ public class MatchingServiceImpl implements MatchingService {
 		return matMapper.insertImage(list);
 	}
 
+	@Override
+	public ArrayList<Image> selectrImgList() {
+		return matMapper.selectrImgList();
+	}
+
+	@Override
+	public Review selectReview(int rNo) {
+		return matMapper.selectReview(rNo);
+	}
+
+	@Override
+	public int deleteReview(int rNo) {
+		return matMapper.deleteReview(rNo);
+	}
 
 }

@@ -3,6 +3,8 @@ package com.finalproject.triprecord.plan.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.vo.HashTag;
+import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
+import com.finalproject.triprecord.member.model.service.MemberService;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.place.model.service.PlaceService;
 import com.finalproject.triprecord.place.model.vo.Place;
@@ -24,24 +31,30 @@ import com.finalproject.triprecord.plan.model.service.PlanService;
 import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PlanController {
 	
 	@Autowired
-	private PlaceService pService;
+	PlanService plService;
 	
 	@Autowired
-	private PlanService plService;
+	private PlaceService pService;
 
+	@Autowired
+	private MemberService mService;
+	
+	// 일정 메인
 	@GetMapping("planMain.pl")
 	public String planMainView(Model model) {
 		ArrayList<HashTag> list = plService.hashTagList();
 		model.addAttribute("list", list);
 		return "planMain";
 	}
-
+	
+	// 일정 생성
 	@PostMapping("planCreate.pl")
 	public String planCreateView(@ModelAttribute Schedule s,
 								 @RequestParam("spot") String spot,
@@ -63,6 +76,7 @@ public class PlanController {
 		return "planDetail";
 	}
 	
+	// 여행 n일 계산
 	public HashMap<Integer, LocalDate> dateFunction(String startDate, String endDate) {
 
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -80,9 +94,11 @@ public class PlanController {
 		return dates;
 	}
 	
+	// planDetil 에서 시작일, 종료일, 지역 수정
 	@PostMapping("updateValue.pl")
-	public ResponseEntity<Map<String, Object>> updateValue(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
-							@RequestParam("spot") String spot) {
+	public ResponseEntity<Map<String, Object>> updateValue(@RequestParam("startDate") String startDate, 
+														   @RequestParam("endDate") String endDate,
+														   	@RequestParam("spot") String spot) {
 		Schedule s = new Schedule();
 		s.setStartDate(startDate);
 		s.setEndDate(endDate);
@@ -103,8 +119,10 @@ public class PlanController {
 		
 	}
 	
+	// 일정 저장
 	@PostMapping("saveplan.pl")
-	public String savePlanInsert(@ModelAttribute Schedule s, @ModelAttribute Plan p, HttpSession session, @RequestParam("count") String count) {
+	public String savePlanInsert(@ModelAttribute Schedule s, @ModelAttribute Plan p, 
+								HttpSession session, @RequestParam("count") String count) {
 		Member loginUser = ((Member)session.getAttribute("loginUser"));
 		if(loginUser != null) {
 			s.setWriterNo(loginUser.getMemberNo());
@@ -168,6 +186,137 @@ public class PlanController {
 			throw new PlanException("일정을 저장하던 중 오류가 발생했습니다.");
 		}
 	}
+	
+	// 마이페이지 내 일정 보기 -> 내 여행 노트
+	@GetMapping("myTripNote.pl")
+	public String myTripNoteList(HttpSession session, HttpServletRequest request, 
+								Model model, @RequestParam(value="page", defaultValue="1") int currentPage) {
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    Image image = mService.existFileId(memberNo); 
+	    
+	    int listCount = plService.getListCount(memberNo);
+	    PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+	    
+	    ArrayList<Schedule> sList = plService.myTripNoteList(memberNo, pi);
+	    
+	    if(sList.isEmpty()) {
+	    	Schedule s = new Schedule();
+	    	s.setScNo(0); // 일정 작성 안 했어도 해시태그 가지러 갔다올 거라
+	    	sList.add(s);
+	    } else {
+	    	Date today = new Date();
+	    	
+	    	for(int i = 0; i < sList.size(); i++) {
+	    		if(today.compareTo(sList.get(i).getScEndDate()) > 0) {
+	    			sList.get(i).setStatus("완료");
+	    			
+	    		} else {
+	    			sList.get(i).setStatus("기대하는 중");
+	    		}
+	    	}
+	    }
+	    
+	    ArrayList<HashTag> hList = plService.myTripTagList(sList);
+	    String hashtag = "";
+	    
+	    if(!hList.isEmpty()) {
+	    	for(int s = 0; s < sList.size(); s++) {
+	    		int scNo = sList.get(s).getScNo();
+	    		for(int i = 0; i < hList.size(); i++) {
+    				if(scNo == hList.get(i).getTagRefNo()) {
+    					hashtag += hList.get(i).getTagName() + " ";
+	    			}
+    			}
+	    		
+	    		sList.get(s).setHashtag(hashtag);
+	    		hashtag = "";
+	    	}
+	    }
+	    
+	    model.addAttribute("sList", sList);
+	    model.addAttribute("pi", pi);
+	    model.addAttribute("loc", request.getRequestURI());
+	    
+	    if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        model.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        model.addAttribute("rename", "defaultImageName"); 
+	    }
+		return "myTripNote";
+	}
+	
+//	마이페이지 내 일정 보기 -> 내 여행 노트 -> 상세 조회
+	@GetMapping("detailMyTripNote.pl")
+	public String detailMyTripNote(@RequestParam("scNo") int scNo, @RequestParam("page") int page, 
+									HttpSession session, Model model, RedirectAttributes ra) {
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+	    
+		Image image = mService.existFileId(memberNo); 
+	    if (image != null && image.getImageRename() != null) {
+	    	String existFileId = image.getImageRename(); 
+	    	model.addAttribute("rename", existFileId);
+	    } else {
+	    	// 이미지가 없거나 리네임이 없는 경우 처리
+	    	model.addAttribute("rename", "defaultImageName"); 
+	    }
+	    
+	    Schedule s = plService.detailMySchedule(scNo);
+	    System.out.println(s);
+	    
+	    HashMap<Integer, LocalDate> dates = dateFunction(s.getStartDate(), s.getEndDate());
+	    
+	    String dateStr = dates.values().toString();
+	    
+	    ArrayList<Plan> pList = plService.detailMyTripNote(scNo);
+	    System.out.println("pList" + pList);
+	    
+	    if(!pList.isEmpty()) {
+	    	for(int i = 0; i < pList.size(); i++) {
+	    		pList.get(i).setDay(pList.get(i).getDay().split(" ")[0]);
+	    	}
+	    	
+	    	ra.addAttribute("page", page);
+	    	model.addAttribute("s", s);
+	    	model.addAttribute("dates", dates);
+	    	model.addAttribute("pList", pList);
+	    	
+	    	return "detailMyTripNote";
+	    } else {
+	    	throw new PlanException("일정 상세 조회에 실패하였습니다.");
+	    }
+	}
+	
+	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 일정 삭제
+	@PostMapping("deleteTripNote.pl")
+	public String deleteTripNote(@RequestParam("scNo") int scNo) {
+		int result = plService.deleteTripNote(scNo);
+		if(result > 0) {
+			return "redirect:myTripNote.pl";
+		} else {
+			throw new PlanException("일정 삭제에 실패하였습니다.");
+		}
+	}
+	
+	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 수정 ajax 
+	@GetMapping("detailTripUpdate.pl")
+	public String detailTripUpdate(@ModelAttribute Plan p) {
+		int result = plService.detailTripUpdate(p);
+		return result == 1? "success" : "fail";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

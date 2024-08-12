@@ -2,10 +2,12 @@ package com.finalproject.triprecord.plan.model.service;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.finalproject.triprecord.common.model.vo.HashTag;
+import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.plan.model.dao.PlanMapper;
 import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
@@ -45,5 +47,43 @@ public class PlanServiceImpl implements PlanService{
 			return 0;
 		}
 	}
+
+	@Override
+	public ArrayList<Schedule> myTripNoteList(int memberNo, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return plMapper.myTripNoteList(memberNo, rowBounds);
+	}
+
+	@Override
+	public ArrayList<HashTag> myTripTagList(ArrayList<Schedule> sList) {
+		return plMapper.myTripTagList(sList);
+	}
+
+	@Override
+	public int getListCount(int memberNo) {
+		return plMapper.getListCount(memberNo);
+	}
+
+	@Override
+	public Schedule detailMySchedule(int scNo) {
+		return plMapper.detailMySchedule(scNo);
+	}
+
+	@Override
+	public ArrayList<Plan> detailMyTripNote(int scNo) {
+		return plMapper.detailMyTripNote(scNo);
+	}
+
+	@Override
+	public int deleteTripNote(int scNo) {
+		return plMapper.deleteTripNote(scNo);
+	}
+
+	@Override
+	public int detailTripUpdate(Plan p) {
+		return plMapper.detailTripUpdate(p);
+	}
+
 	
 }

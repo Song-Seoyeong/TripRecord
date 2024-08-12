@@ -8,10 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
+import com.finalproject.triprecord.board.model.vo.Board;
+import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.member.model.dao.MemberMapper;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
@@ -149,6 +153,62 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int pmListCount(int memberNo) {
 		return mMapper.pmListCount(memberNo);
+	}
+	//게시글 목록수 불러오기
+	@Override
+	public int getListCount(HashMap<String, Object> map) {
+		return mMapper.getListCount(map);
+	}
+	//자기 문의글 불러오기
+	@Override
+	public ArrayList<Board> getBoardList(HashMap<String, Object> map, PageInfo pi) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
+		return mMapper.getBoardList(map, rb);
+	}
+	//문의 사항 데이터
+	@Override
+	public ArrayList<Question> getQuestionList(int i) {
+		return mMapper.getQuestionList(i);
+	}
+	//----------------------------------------------------------------
+	//플래너페이지
+	//플래너 불러오기
+	@Override
+	public Planner getPalnner(int memberNo) {
+		return mMapper.getPlanner(memberNo);
+	}
+	//플래너 지역이름 불러오기
+	@Override
+	public Local getLocalName(int memberNo) {
+		return mMapper.getLocalName(memberNo);
+	}
+	//플래너 좋아요 불러오기
+	@Override
+	public int countLikes(int memberNo) {
+		return mMapper.countLikes(memberNo);
+	}
+	//별점 평균
+	@Override
+	public Double averageStar(int memberNo) {
+		return mMapper.averageStar(memberNo);
+	}
+	//후기 수
+	@Override
+	public int getReviewListCount(int memberNo) {
+		return mMapper.getReviewListCount(memberNo);
+	}
+	//후기 불러오기
+	@Override
+	public ArrayList<Review> getReviewList(PageInfo pi, int memberNo) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
+		return mMapper.getReviewList(memberNo, rb);
+	}
+	//플래너 프로필이미지 불러오기
+	@Override
+	public Image getImgRename(HashMap<String, Object> map) {
+		return mMapper.getImgRename(map);
 	}
 	//----------------------------------------------------------------
 

@@ -44,4 +44,10 @@ public interface MatchingMapper {
 
 	int insertImage(ArrayList<Image> list);
 
+	ArrayList<Image> selectrImgList();
+
+	Review selectReview(int rNo);
+
+	int deleteReview(int rNo);
+
 }
