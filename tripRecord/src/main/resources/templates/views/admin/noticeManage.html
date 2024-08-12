@@ -26,7 +26,7 @@
 				<li><a href="contentImgManage.ad">지역 사진 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
-				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+				<a class="out-text" href="/home"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
   <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
   <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
 </svg>&nbsp; 관리자 페이지 나가기</a>
@@ -254,14 +254,17 @@
 			const boxs = document.getElementsByClassName('button-border');
 			let boardNo;
 			let boardTitle;
-			let boardContent;
+			let boardContents;
 			let boardWriterNo;
 			for(const td of tds){
 				td.addEventListener('click', function(){
 					const tr = this.parentElement;
 					boardNo = tr.children[0].innerText;
+					document.getElementById('go-edit').disabled = false;
+					document.getElementById('go-del').disabled = false;
 					
 					$.ajax({
+						type: 'POST',
 						url: 'selectNotice.ad',
 						data: {
 							boardNo: boardNo
@@ -272,12 +275,16 @@
 								boardContents = data.boardContent.split('$$@!');
 								boardWriterNo = data.boardWriterNo;
 								
-								
 								document.getElementById('notice-title').innerText = data.boardTitle;
 								document.getElementById('notice-content').innerText = '';
 								
 								for(let i = 0; i < boardContents.length; i++){
 									document.getElementById('notice-content').innerHTML += boardContents[i];
+								}
+								
+								if(data.boardStatus == 'Y'){
+									document.getElementById('go-edit').disabled = true;
+									document.getElementById('go-del').disabled = true;
 								}
 								
 								const children = this.children[0];
@@ -306,7 +313,11 @@
 			goEdit.addEventListener('click', function(){
 				if(/*[[${session.loginUser.memberNo}]]*/'user01' == boardWriterNo){
 					document.getElementById('modify-title').innerText = boardTitle;
-					document.getElementById('modify-content').innerText = boardContent;
+					
+					for(let i = 0; i < boardContents.length; i++){
+						document.getElementById('modify-content').innerHTML += boardContents[i];
+					}
+					
 					document.getElementById('modify-no').value = boardNo;
 					document.getElementById('modify-title').focus();
 					
@@ -330,6 +341,7 @@
 				const modalId = document.getElementById('modalInput').value;
 				if(modalId != ''){
 					$.ajax({
+						type: 'POST',
 						url: 'matchPwd.ad',
 						data: {
 							pwd: modalId
@@ -377,7 +389,7 @@
 			const keyword = document.getElementById('keyword');
 			search.addEventListener('click', function(){
 				if(keyword.value != ''){
-					location.href="noticeManage.ad?search=" + keyword.value;					
+					location.href="noticeManage.ad?search=" + keyword.value;				
 				}
 			});
 		

@@ -8,56 +8,115 @@
 <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
 <style>
 body {
-	font-family: 'NanumBarunGothic';
-	background: #96CAF0;
-	text-align: center;
+    font-family: 'NanumBarunGothic';
+    background: #96CAF0;
+    text-align: center;
 }
-@keyframes moveBus {
-	0% {
-		transform: translateX(0);
-	}
-	100% {
-		transform: translateX(1000px);
-	}
-}
+
 #button {
-	position: relative;
-	height: 130px;
-	width: 100%;
-	cursor: pointer;
-	font-size: 20px;
-	overflow: hidden;
+    cursor: pointer;
 }
+
+#busGame {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin: 0px;
+}
+
 #bus {
+    position: absolute;
+    width: 60px;
+    height:60px;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.3s ease-out; /* 점프 애니메이션 속도 */
+}
+
+#smoke{
 	position: absolute;
-	top: 0;
-	left: 300px;
+    width: 30px;
+    height:30px;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-65px);
+    animation: viewSmoke 2s linear infinite;
+}
+@keyframes viewSmoke {
+    0% {
+        opacity: 1;
+    }
+    50%{
+    	opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
-#button:hover #bus {
-	animation: moveBus 6s linear infinite;
+#road {
+    position: absolute;
+    width: 200%; /* 도로의 너비를 화면의 두 배로 설정 */
+    bottom: 0;
+    left: 0;
+  	animation: moveRoad 30s linear infinite;
 }
 
-#button b {
-	position: absolute;
-	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
+/* 도로가 계속 왼쪽으로 이동하는 애니메이션 */
+@keyframes moveRoad {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
+/* 점프 애니메이션 */
+@keyframes jump {
+    0% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-75px);
+    }
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+}
 </style>
 </head>
 <body>
-	<img src='image/main.gif' width='800' height='800'>
-	<div id=button>
-		<img src="image/road-trip.png" width="80" height='80' id='bus'>
-		<b>여행 시작 하기 >></b>
-	</div>
+    <div id="button">
+        <img src="image/main.gif" width="750" height="750">
+    </div>
+    <div id="busGame">
+        <img src="image/road.png" id="road">
+    	<img src="image/smoke.png" id='smoke'>
+        <img src="image/road-trip.png" width="80" height="80" id="bus">
+    </div>
+    
+    <script type="text/javascript">
+        document.getElementById('button').addEventListener('click', () => {
+            location.href = "home";
+        });
 
-	<script type="text/javascript">
-		document.getElementById('button').addEventListener('click', ()=>{
-			location.href = "home"
-		})
-	</script>
+        const bus = document.getElementById('bus');
+        const road = document.getElementById('road');
+
+        document.getElementById('busGame').addEventListener('click', () => {
+            // 애니메이션을 리셋한 후에 다시 시작
+            bus.style.animation = 'none';
+            bus.offsetHeight; // 트릭: 스타일 재계산을 강제하여 애니메이션을 리셋합니다.
+            bus.style.animation = 'jump 0.8s ease-out'; // 애니메이션 다시 설정
+
+            // 애니메이션 끝난 후 초기화
+            bus.addEventListener('animationend', () => {
+                bus.style.animation = ''; // 애니메이션 속성 초기화
+            }, { once: true }); // 한번만 실행되도록 설정
+        });
+    </script>
 </body>
 </html>

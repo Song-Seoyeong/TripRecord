@@ -482,6 +482,11 @@
    			beforeA.className = 'page-link';
    			beforeA.href = 'recoPlace.pla?page=' + (data.pi.currentPage - 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode + "&keyword=" + data.keyword;
    			beforeA.ariaLabel = "Previous";
+   			if(data.pi.currentPage == 1){
+				beforeA.style.pointerEvents = 'none'; // 클릭 비활성화
+	   		    beforeA.style.cursor = 'not-allowed'; // 마우스 커서 변경
+	   		    beforeA.style.opacity = '0.5';
+   			}
    			const span1 = document.createElement('span');
    			span1.ariaHidden = "true";
    			span1.innerHTML = "&laquo;";
@@ -513,6 +518,11 @@
    			afterA.className = 'page-link';
    			afterA.href = 'recoPlace.pla?page=' + (data.pi.currentPage + 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode + "&keyword=" + data.keyword;
    			afterA.ariaLabel = "Next";
+   			if(data.pi.currentPage == data.pi.endPage){
+   				afterA.style.pointerEvents = 'none'; // 클릭 비활성화
+   				afterA.style.cursor = 'not-allowed'; // 마우스 커서 변경
+   				afterA.style.opacity = '0.5';
+   			}
    			const span2 = document.createElement('span');
    			span2.ariaHidden = "true";
    			span2.innerHTML = "&raquo;";

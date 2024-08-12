@@ -180,7 +180,7 @@
 	</update>
 	
 	<insert id="insertPlanner">
-		insert into planner values(#{memberNo}, #{localNo}, null, #{plaReqContent}, #{sIntroContent})
+		insert into planner values(#{memberNo}, #{localNo}, null, #{plaReqContent, jdbcType=VARCHAR}, #{sIntroContent, jdbcType=VARCHAR})
 	</insert>
 	
 	<select id="selectQuestionList" resultType="Question">
@@ -287,6 +287,22 @@
 	
 	<select id="selectPlanImage" resultType="Image">
 		select * from image where image_ref_type = 'PLAN'
+	</select>
+	
+	<select id="selectMemberProfileList" resultType="Image">
+		select * from image where image_ref_type = 'MEMBER'
+	</select>
+	
+	<select id="selectMember" resultType="Member">
+		select * from member where member_id = #{memberId}
+	</select>
+	
+	<delete id="deleteMemberProfile">
+		delete from image where image_ref_no = #{memberNo} and image_ref_type = 'MEMBER'
+	</delete>
+	
+	<select id="selectMemberImage" resultType="Image">
+		select * from image where image_ref_no = #{memberNo} and image_ref_type = 'MEMBER'
 	</select>
 	
 </mapper>

@@ -44,7 +44,7 @@
 				<li><a href="contentImgManage.ad">지역 사진 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
-				<a class="out-text" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+				<a class="out-text" href="/home"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
   <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
   <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z"/>
 </svg>&nbsp; 관리자 페이지 나가기</a>
@@ -87,21 +87,30 @@
 						<span class="title-text">회원 리스트</span>
 					</div>
 					<div class="user-table rounded-2 list-table">
-						<table class="table-user table">
+						<table class="table-user table" id="list-table">
 							<thead>
 								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
-									<th>이름</th>
-									<th>아이디</th>
-									<th>닉네임</th>
-									<th>전화번호</th>
-									<th>가입 날짜</th>
-									<th>상태 정보</th>
-									<th>등급</th>
-									<th>강제 탈퇴</th>
+									<th style="width: 7%;">프로필</th>
+									<th style="width: 10%;">이름</th>
+									<th style="width: 11%;">아이디</th>
+									<th style="width: 20%;">닉네임</th>
+									<th style="width: 10%;">전화번호</th>
+									<th style="width: 10%;">가입 날짜</th>
+									<th style="width: 7%;">상태 정보</th>
+									<th style="width: 5%;">등급</th>
+									<th style="width: 7%;">강제 탈퇴</th>
 								</tr>
 							</thead>
 						  	<tbody>
 						  		<tr class="tr-user" th:each="m : ${mList}">
+						  			<td th:each="i : ${iList}" th:if="${i.imageRefNo == m.memberNo}">
+						  				<div style="width: 100%; height: 100%" th:if="${i.imageRename == 'noImage'}">
+						  					<div style="width: 100%; height: 100%; background-color: white;"></div>
+						  				</div>
+						  				<div style="width: 100%; height: 100%; cursor: pointer;" th:unless="${i.imageRename == 'noImage'}" class="imageTd">
+						  					<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" width="26" height="26">
+						  				</div>
+						  			</td>
 						      		<td>[[${m.memberName}]]</td>
 						      		<td>[[${m.memberId}]]</td>
 						      		<td>[[${m.nickname}]]</td>
@@ -213,6 +222,21 @@
   		</div>
 	</div>
 	
+	<div class="modal fade" id="memberImageDetail" tabindex="-1" aria-labelledby="exampleModalCenteredScrollableTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="text-align: center;"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="profile-del">프로필 이미지 삭제</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script th:inline="javascript">
 		window.onload = () => {
 			const divs = document.getElementsByClassName('unselectState');
@@ -247,6 +271,7 @@
 				const modalId = document.getElementById('modalInput').value;
 				if(modalId != ''){
 					$.ajax({
+						type: 'POST',
 						url: 'matchPwd.ad',
 						data: {
 							pwd: modalId
@@ -254,6 +279,7 @@
 						success: data => {
 							if(data == 'success'){
 								$.ajax({
+									type: 'POST',
 									url: "changeMemberStatus.ad",
 									data: {
 										memberId: myId,
@@ -297,6 +323,7 @@
 				const modalId = document.getElementById('rollback-modalInput').value;
 				if(modalId != ''){
 					$.ajax({
+						type: 'POST',
 						url: 'matchPwd.ad',
 						data: {
 							pwd: modalId
@@ -304,6 +331,7 @@
 						success: data => {
 							if(data == 'success'){
 								$.ajax({
+									type: 'POST',
 									url: "changeMemberStatus.ad",
 									data: {
 										memberId: myId,
@@ -343,6 +371,50 @@
 				}
 			});
 			
+			// 프로필 이미지 확대
+			const imageDivs = document.getElementsByClassName('imageTd');
+			let memberId;
+			let imageDiv;
+			for(const div of imageDivs){
+				div.addEventListener('click', function(){
+					const image = this.querySelector('img');
+					memberId = this.parentElement.parentElement.children[2].innerText;
+					imageDiv = this;
+					
+					const imageModal = document.querySelector('#memberImageDetail');
+					const modalBody = imageModal.querySelector('.modal-body');
+					
+					console.log(image.src);
+					
+					modalBody.innerHTML = '<img src="' + image.src + '" width="300" height="300">';
+					
+					$(imageModal).modal('show');
+				});
+			}
+			
+			// 프로필 이미지 삭제
+			document.querySelector('#profile-del').addEventListener('click', function(){
+				$.ajax({
+					type: 'POST',
+					url: 'deleteMemberProfile.ad',
+					data: {
+						memberId: memberId
+					},
+					success: data => {
+						if(data == 'success'){
+							imageDiv.innerHTML = '<div style="width: 100%; height: 100%; background-color: white;"></div>';
+							$(imageModal).modal('hide');
+						} else{
+							alert('오류가 발생하여 페이지가 새로고침 됩니다.');
+							location.reload();
+						}
+					},
+					error: data => {
+						alert('오류가 발생하여 페이지가 새로고침 됩니다.');
+						location.reload();
+					}
+				});
+			});
 			
 			
 			const listLi = document.getElementsByClassName('board-list-ul')[0].children;

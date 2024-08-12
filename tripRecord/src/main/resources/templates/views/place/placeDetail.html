@@ -172,6 +172,11 @@
 			const contenttypeid = params.get('contenttypeid');
 			const areacode = params.get('areacode');
 			const page = params.get('page') || '1';
+			const ch = params.get('ch');
+			
+			if(ch != null){
+				alert("첫 후기를 작성하셨습니다👏👏\n1000p 자동 적립되었습니다💖")
+			}
 	        
 			/*<![CDATA[*/
 			const loginUser = /*[[${session.loginUser}]]*/'아무값';
@@ -271,7 +276,7 @@
 				data:{contentid:contentid, contenttypeid:contenttypeid},
 				type: "GET",
 				success: data =>{
-					console.log(data);
+					//console.log(data);
 					const item = data.response.body.items.item[0];
 					//console.log(item.contenttypeid);
 					

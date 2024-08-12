@@ -150,4 +150,16 @@
 		from image
 		where image_ref_type = 'PLAN' and image_ref_no = 1
 	</select>
+	
+	<select id="checkReview" resultType='_int'>
+		select count(*)
+		from review
+		where member_no = #{memNo} and rev_ref_type = 'PLACE'
+	</select>
+	
+	<update id="givePoint">
+		update member
+		set member_point = member_point + 1000
+		where member_no = #{memNo} 
+	</update>
 </mapper>
