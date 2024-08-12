@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>포인트</title>
 <style>
     table{width:90%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px; } 
@@ -102,10 +103,16 @@
 					</thead>
 					<tbody>
 						<tr style="border-bottom:2px solid #b9b9b9" th:each="pm:${pmList}">
-							<td><input class="getPoNo" type="checkbox" id="pointNo"	name='poNoList' th:value="${pm.impUid}"></td>
-							<td>[[${pm.merchantUid}]]</td>
-							<td>[[${#numbers.formatDecimal(pm.poPrice,3,'COMMA',0,'COMMA')}]]</td>
-							<td>[[${#numbers.formatDecimal(pm.poPoint,3,'COMMA',0,'COMMA')}]]</td>
+							<td><input  type="checkbox" id="impUid" name="impUidList" th:value="${pm.impUid}"></td>
+							<td><input type="hidden" th:value="${pm.merchantUid}">
+								[[${pm.merchantUid}]]
+							</td>
+							<td><input type="hidden" th:value="${pm.poPrice}">
+								[[${#numbers.formatDecimal(pm.poPrice,3,'COMMA',0,'COMMA')}]]
+							</td>
+							<td><input type="hidden" th:value="${pm.poPoint}">
+								[[${#numbers.formatDecimal(pm.poPoint,3,'COMMA',0,'COMMA')}]]
+							</td>
 							<td>[[${pm.payDate}]]</td>
 						</tr>
 					</tbody>
@@ -120,11 +127,11 @@
 						</li>
 						<!-- 번호 이동 -->
 						<li class="pageNumber" th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<a th:href="@{${loc}(page=${p})}" th:text="${p}"></a>
+							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${p})}" th:text="${p}"></a></th:block>
 						</li>
 						<!-- 다음링크 -->
 						<li style="margin-right:auto;">
-							<a th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:class="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
+							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:class="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a></th:block>
 						</li>
 					</ul>
 				</div>
@@ -148,6 +155,106 @@
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
 	<script>
+		let merchantUidList= [];
+		let points = 0;
+		let pays = 0;
+		
+		// 체크박스 모두 선택
+		document.querySelector('input[id="checkAll"]').addEventListener('change', function() {
+		    const checkboxes = document.querySelectorAll('input[name="impUidList"]');
+		    checkboxes.forEach(checkbox => {
+		        checkbox.checked = this.checked;
+		    });
+		    updateTotals()
+		});
+		
+		// 합산 
+		function updateTotals() {
+		   	 // 초기화
+		    points = 0;
+		    pays = 0;
+		    const impUidSet = new Set();
+		    const merchantUidSet = new Set();
+		
+		    // 현재 체크된 체크박스 처리
+		    document.querySelectorAll('input[name="impUidList"]:checked').forEach(checkbox => {
+		        const pointValue = checkbox.parentElement.parentElement.children[3].children[0].value
+		        const payValue = checkbox.parentElement.parentElement.children[2].children[0].value;
+		        const impUidValue = checkbox.value;
+		        const merchantValue = checkbox.parentElement.parentElement.children[1].children[0].value;
+		
+		        const pointNumber = parseFloat(pointValue);
+		        const payNumber = parseFloat(payValue);
+				
+		        //set 중복된 번호 제거를 위해 이용 코드가 짧아짐
+		      	impUidSet.add(impUidValue);
+		      	impUidList = Array.from(impUidSet)
+			
+		      	merchantUidSet.add(merchantValue)
+		      	merchantUidList = Array.from(merchantUidSet)
+		        // 충전금액, 결제금액 합산
+		        points += pointNumber;
+		        pays += payNumber;
+	   		 });
+			// 체크 박스 전부 체크 아닐시 상단 체크 상태 unchecked
+		    const allCheckboxes = document.querySelectorAll('input[name="impUidList"]');
+		    const checkAll = document.querySelector('input[id="checkAll"]');
+		    checkAll.checked = allCheckboxes.length == document.querySelectorAll('input[name="impUidList"]:checked').length;
+		
+		    // 출력
+		    console.log('impUid :', impUidList);
+		    console.log('merchantUid', merchantUidList)
+		    console.log('전체 포인트:', points);
+		    console.log('전체 결제 금액:', pays);
+		}
+		
+		
+		const checkboxes = document.querySelectorAll('input[name="impUidList"]')
+		for(const checkbox of checkboxes){
+			checkbox.addEventListener('change',function(){
+				updateTotals();
+			})
+		}
+		
+		
+	
+		//환불 기능
+		function canclePay(){
+		 	$.ajax({
+		      type: "post",
+		      url: "canclePay.pm",
+		      data: {merchantUidList: merchantUidList, // 예: ORD20180131-0000011
+		        	cancleAmount: pays , // 환불금액
+		        	cancelPoint: points,  // 차감 포인트
+		      },
+		      success : (data)=>{
+		    	  if(data == 'success'){
+		    		  alert('환불 완료 되었습니다.')
+		    		  location.reload();
+		    	  }else{
+		    		  alert('환불에 실패하셨습니다')
+		    		  loaction.reload();
+		    	  }
+		      },
+		      error : (data) =>{
+		    	  console.log(data)
+		      }
+		    });
+		}
+		
+		//취소버튼
+		const cancleBtn = document.getElementById('payCancle')
+		cancleBtn.querySelector('svg').parentElement.addEventListener('click',function(){
+			if(confirm("환불 요청 하시겠습니까")){
+				if(merchantUidList.length == 0){
+					alert("선택사항이 없습니다")
+				}else{
+					canclePay();
+				}
+			}else{
+				return false;
+			}
+		})
 	</script>
 </body>
 </html>

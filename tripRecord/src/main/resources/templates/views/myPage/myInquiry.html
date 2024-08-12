@@ -9,6 +9,7 @@
     .pageNumber{margin-left:5px; margin-right:5px;}
    	th{font-size:24px;}
    	td{padding:15px;}
+   	.hidden{display:none;}
 </style>
 </head>
 <body>
@@ -22,95 +23,51 @@
 		<div style="height:120px;"></div>
 		<div style="color: black; font-size: 36px; font-weight: 900;">내 문의글 보기</div>
 		<div style="height:40px;"></div>
-		<div style="display:inline-block; width:1200px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
+		<div style="display:inline-block; width:1200px; overflow:auto; border: 1px solid lightgray; border-radius:10px;" >
 			<table>
 				<thead>
 				 	<tr style="border-bottom:2px solid #96CAF0;">
-						<th><p>글번 호</p></th>
-						<th><p>제목</p></th>
-						<th><p>작성일자</p></th>
-						<th><p>진행상태</p></th>
+						<th>글번 호</th>
+						<th>제목</th>
+						<th>작성자</th>
+						<th>작성일자</th>
+						<th>진행상태</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
-					<tr style="border-bottom:2px solid #b9b9b9">
-						<td id="place">1</td>
-						<td id="date">제 여행계획 진행 상황은 어떻게 되갑니까</td>
-						<td id="planner">2099.1.1</td>
-						<td id="status">진행 중</td>
-					</tr>
+					<th:block th:each=" a : ${aList}">
+	 					<!-- <th:block th:each="q : ${qList}"> -->
+							<tr style="border-bottom:2px solid #b9b9b9" >
+								<td>[[${a.boardNo}]]</td>
+								<td>[[${a.boardTitle}]]</td>
+								<td>[[${a.memberName}]]</td>
+								<td>[[${a.boardModifyDate}]]</td>
+								<td>
+									진행 중
+								</td>
+							</tr>
+						<!-- </th:block> -->
+					</th:block>
 				</tbody>
 			</table>
 			
 			<!-- 페이지네이션 -->
-			<div class="text-center" style="margin-top:25px; text-align:center;">
-				<ul class="pagination">
-					<!-- 이전링크 -->
-					<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
-					<!-- 번호 이동 -->
-					<li class="pageNumber"><a href='#'>1</a></li>
-					<li class="pageNumber"><a href='#'>2</a></li>
-					<li class="pageNumber"><a href='#'>3</a></li>
-					<li class="pageNumber"><a href='#'>4</a></li>
-					<li class="pageNumber"><a href='#'>5</a></li>
-					<!-- 다음링크 -->
-					<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
-				</ul>
-			</div>
+			<div class="text-center" style="margin-top:50px; text-align:center;" th:with="loc=${loc}">
+					<ul class="pagination" >
+						<!-- 이전링크 -->
+						<li style="margin-left:auto;" >
+							<a th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:class="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+						</li>
+						<!-- 번호 이동 -->
+						<li class="pageNumber" th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
+							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${p})}" th:text="${p}"></a></th:block>
+						</li>
+						<!-- 다음링크 -->
+						<li style="margin-right:auto;">
+							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:class="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a></th:block>
+						</li>
+					</ul>
+				</div>
 		</div>
 	</div>
 	

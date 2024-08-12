@@ -230,7 +230,7 @@ public class BoardController {
 		}
 	}
 	
-	@PostMapping("updateBoard.bo")
+	//@PostMapping("updateBoard.bo")
 //	public String updateBoard(@ModelAttribute Board b, )
 	
 	
@@ -456,8 +456,8 @@ public class BoardController {
 		int delResult = 0;
 		int insertResult;
 		
-		System.out.println(files);
-		System.out.println(delImgs);
+		//System.out.println(files);
+		//System.out.println(delImgs);
 		
 		
 		try {

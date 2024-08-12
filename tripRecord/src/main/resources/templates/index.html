@@ -2,15 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>여행을 기록하다</title>
-<link type="text/css" href="css/index.css" rel="stylesheet">
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<title>TripRecord</title>
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-barun-gothic.css" rel="stylesheet">
+<style>
+body {
+	font-family: 'NanumBarunGothic';
+	background: #96CAF0;
+	text-align: center;
+}
+@keyframes moveBus {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(1000px);
+	}
+}
+#button {
+	position: relative;
+	height: 130px;
+	width: 100%;
+	cursor: pointer;
+	font-size: 20px;
+	overflow: hidden;
+}
+#bus {
+	position: absolute;
+	top: 0;
+	left: 300px;
+}
+
+#button:hover #bus {
+	animation: moveBus 6s linear infinite;
+}
+
+#button b {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+</style>
 </head>
 <body>
+	<img src='image/main.gif' width='800' height='800'>
+	<div id=button>
+		<img src="image/road-trip.png" width="80" height='80' id='bus'>
+		<b>여행 시작 하기 >></b>
+	</div>
+
 	<script type="text/javascript">
-		location.href = "home"
+		document.getElementById('button').addEventListener('click', ()=>{
+			location.href = "home"
+		})
 	</script>
 </body>
 </html>

@@ -4,92 +4,472 @@
 <meta charset="UTF-8">
 <title>내 여행노트 상세보기</title>
 <style>
-	#back_button {
-        color: #2C707E; 
-        background-color: white; 
-        width: 80px; 
-        height: 40px; 
-        border: none; 
-        border-radius: 20px; 
-        margin-right: 5px; 
-        border: 2px solid #2C707E;
-    }
-    #back_button:hover {
-        background: #2C707E;
-        border: 2px solid #2C707E;
-        color: #fff;
-        font-weight: 600;
-    }
-	 #revision_button {
-        color: #96CAF0; 
-        background-color: white; 
-        width: 80px; 
-        height: 40px; 
-        border: none; 
-        border-radius: 20px; 
-        margin-right: 5px; 
-        border: 2px solid #96CAF0;
-    }
-    #revision_button:hover {
-        background: #96CAF0;
-        border: 2px solid #96CAF0;
-        color: #fff;
-        font-weight: 600;
-    }
-    #delete_button {
-        color: #DD5353; 
-        background-color: white; 
-        width: 80px; 
-        height: 40px; 
-        border: none; 
-        border-radius: 20px; 
-        border: 2px solid #DD5353;
-    }
-    #delete_button:hover {
-        background: #DD5353;
-        border: 2px solid #DD5353;
-        color: #fff;
-        font-weight: 600;
-    }
 </style>
+<link rel="stylesheet" href="css/plan/detailMyTripNote.css" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
+<link rel="stylesheet" href="css/plan/datepicker.css" type="text/css" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 </head>
 <body>
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
-	<!--마이페이지 어퍼바-->
-	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	<!-- 사이드바 -->
-	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
-	
-	<div class="flex-container" style="text-align:center; margin-left:auto; margin-top:-240px;">
-		<div style="height:80px;"></div>
-		<div style="color: black; font-size: 36px; font-weight: 900;">내 여행노트</div>
-		<div style="height:40px;"></div>
-		<!-- 내 여행 일정 -->
-		<div style="margin:auto; width:1200px; height:700px; border:1px solid #b9b9b9; border-radius:10px;">
-			<div style="margin-left:600px; width: 500px; transform: rotate(90deg); transform-origin: 0 0; border: 2px black solid"></div>
+	<form id="detailMyTripForm">
+		<div class="flex-container">
+			<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+			<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
+			<div id="contain-all-div">
+				<div style="color: black; text-align:center; font-size: 36px; font-weight: 900;">내 여행노트</div>
+				<div class="contain-div" id="detailForm">
+					<div class="inline-contain-div">
+						<span class="textSpan" id="startDate-span" th:text="${s.startDate}"></span>
+						<span class="textSpan">-</span> 
+						<span class="textSpan" id="endDate-span" th:text="${s.endDate}"></span> 
+						<span class="textSpan">동안</span>
+					</div>
+					<div class="inline-contain-div">
+						<span class="textSpan" id="spot-span" th:text="${s.spot}"></span>
+						<span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
+					</div>
+					<div class="editButton-div">
+						<button type="button" class="runButton" id="editButton">수정</button>
+						<input type="hidden" name="scNo" th:value="${s.scNo}" id="scNo"/>
+					</div>				
+				</div>
+				
+				<div class="contain-div" id="editForm" style="display: none;">
+					<div class="inline-contain-div edit-div">
+						<input type="text" id="sdate" class="datepicker" name="startDate" th:value="${s.startDate}" /> 
+						<span class="textSpan">-</span> 
+						<input type="text" id="edate" class="datepicker" name="endDate" th:value="${s.endDate}" /> 
+						<span class="textSpan">동안</span>
+					</div>
+					<div class="inline-contain-div edit-div">
+						<select id="selectSpotHidden" name="spot" class="form-select selectOption">
+							<option class="select_opt" value="1" th:selected="${ spot == '서울' }">서울</option>
+							<option class="select_opt" value="2" th:selected="${ spot == '인천' }">인천</option>
+							<option class="select_opt" value="3" th:selected="${ spot == '대전' }">대전</option>
+							<option class="select_opt" value="4" th:selected="${ spot == '대구' }">대구</option>
+							<option class="select_opt" value="5" th:selected="${ spot == '광주' }">광주</option>
+							<option class="select_opt" value="6" th:selected="${ spot == '부산' }">부산</option>
+							<option class="select_opt" value="7" th:selected="${ spot == '울산' }">울산</option>
+							<option class="select_opt" value="8" th:selected="${ spot == '세종' }">세종</option>
+							<option class="select_opt" value="31" th:selected="${ spot == '경기' }">경기</option>
+							<option class="select_opt" value="32" th:selected="${ spot == '강원' }">강원</option>
+							<option class="select_opt" value="33" th:selected="${ spot == '충북' }">충북</option>
+							<option class="select_opt" value="34" th:selected="${ spot == '충남' }">충남</option>
+							<option class="select_opt" value="35" th:selected="${ spot == '경북' }">경북</option>
+							<option class="select_opt" value="36" th:selected="${ spot == '경남' }">경남</option>
+							<option class="select_opt" value="37" th:selected="${ spot == '전북' }">전북</option>
+							<option class="select_opt" value="38" th:selected="${ spot == '전남' }">전남</option>
+							<option class="select_opt" value="39" th:selected="${ spot == '제주' }">제주</option>
+						</select> <span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
+					</div>
+					<div class="editButton-div">
+						<button type="button" id="completeButton" class="runButton">완료</button>
+						<button type="button" id="cancelButton" class="notButton">취소</button>
+					</div>
+				</div>
+				
+				<!-- 내 여행 일정 -->
+				<div class="contain-div">
+					<div id="planAll" class="grid">
+						<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
+							<div class="dayText" th:text="|${date.key}일차|"></div>
+							<div class="date" th:text="${date.value}"></div>
+							<div class="planDiv">
+								<div class="one-plan" th:each="p : ${pList}">
+									<th:block th:if="${p.day == date.value}">
+										<input type="hidden" name="plNo" class="plNos" th:value="${p.plNo}"/>
+										<input type="hidden" name="day" th:value="${p.day}"/>
+										<div class="plan-spans">
+											<span class="line"><span class="round"></span></span>
+										</div>
+										<div class="plan-labels" style="background: none;">
+											<div class="label-div">
+												<input type="text" name="place" th:value="${p.place}" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창" style="display: none;">
+												<label class="planLabel placeLabel" th:text=${p.place}></label>
+											</div>
+											<div class="label-div">
+												<input type="time" name="time" th:value="${p.time}" class="plan-text timeInput" placeholder="시간 입력창" style="display: none;">
+												<label class="planLabel timeLabel" th:text="${p.time}"></label>
+												<div class="plan-checks">
+													<div class="checkbox-wrapper-46">
+														<input type="checkbox" id="cbx0" class="inp-cbx" th:checked="${p.reserve == 'Y'}"><label for="cbx0" class="cbx">
+														<span><svg viewBox="0 0 12 10" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span>
+														<span class="reserveText"> 예약 여부</span></label>
+													</div>
+												</div>
+											</div>
+											<div class="label-div">
+												<input type="text" name="memo" th:value="${p.memo}" class="plan-text memoInput" maxlength="200" placeholder="메모 입력창" style="display: none;">
+												<label class="planLabel memoLabel" th:text="${p.memo}"></label>
+											</div>
+										</div>
+										<div class="plan-images"></div>
+									</th:block>
+								</div>
+							</div>
+							<div class="addButton-div">
+								<button class="placeAddButton" type="button">장소 추가</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 제출버튼 -->
+			<div id="buttons-div">
+				<button id="back_button" onclick="back()">뒤로가기</button>
+				<button id="delete_button" type="button">삭제</button>
+			</div>
 		</div>
-		<div style="height:40px;"></div>
-		<!-- 제출버튼 -->
-		<div>
-			<button id="back_button" onclick="back()">뒤로가기</button>
-			<button id="revision_button" onclick="#">수정</button>
-			<button id="delete_button" onclick="#">삭제</button>
-		</div>
-	</div>
-		
+	</form>
 	<div style="margin-bottom: 400px"></div>
-	
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}"></div>
 	
-	<script>
-		//클릭시 피드백 페이지로 이동
-		function back(){
-			location.href="myTripNote.me"
+	<script th:inline="javascript">
+		window.onload = () => {
+			/*<![CDATA[*/
+			let page = /*[[${page}]]*/1;
+			
+			/*]]>*/
+			
+			const form = document.getElementById('detailMyTripForm');
+			
+			function back(){
+				location.href = "myTripNote.pl?page=" + page;
+			}
+			
+			document.getElementById('delete_button').addEventListener('click', function(){
+				if(confirm("정말 삭제하시겠습니까?")){
+					form.action = "deleteTripNote.pl";
+					form.method = "post";
+					form.submit();
+				} else {
+					console.log('좋습니다');
+				}
+				
+			});
+			
+			document.querySelectorAll('.placeAddButton').forEach(function(addButton) {
+				addButton.addEventListener('click', placeAddClick);
+			});
+			
+			document.addEventListener('click', function(e){
+				if(e.target.classList.contains('editB')){
+					placeAddClick(e);
+				}
+			});
+			
+			function placeAddClick(e){
+				let planDiv = e.target.parentElement.previousElementSibling;
+
+				const newOnePlan = document.createElement('div');
+				newOnePlan.classList.add('one-plan');
+				
+				const planSpans = document.createElement('div');
+				planSpans.classList.add('plan-spans');
+				planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
+				
+				let ii = 1;
+				const planInputs = document.createElement('div');
+				planInputs.classList.add('plan-inputs');
+				planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" name="place" placeholder="장소 입력창"></div><div><input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창"></div>';
+				ii++;
+				
+				const planImages = document.createElement('div');
+				planImages.classList.add('plan-images');
+				planImages.innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>'
+				+ ' <img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
+				
+				newOnePlan.appendChild(planSpans);
+				newOnePlan.appendChild(planInputs);
+				newOnePlan.appendChild(planImages);
+				
+				planDiv.appendChild(newOnePlan);
+			}
+			
+			let index = 0;
+			let labelDiv = '';
+			
+			document.getElementById('planAll').addEventListener('click', function(e){
+				if (e.target.classList.contains('check-icon')) {
+					let onePlan = e.target.closest('.one-plan');
+					let inputs = onePlan.querySelectorAll('input.plan-text');
+					
+					if(onePlan.classList.contains('edit-plan')){
+						onePlan.className = 'one-plan';
+					}
+					
+					let placeInput = inputs[0];
+					let timeInput = inputs[1];
+					let memoInput = inputs[2];
+					
+					let placeLabel, timeLabel, memoLabel;
+					
+					if(placeInput.value.trim() !== '' && timeInput.value.trim() !== ''){
+						let label = null;
+						inputs.forEach(function(input) {
+							let value = input.value;
+							label = document.createElement('label');
+							label.innerText = value;
+							label.classList.add('planLabel');
+							input.style.display = 'none';
+							
+							if(input == inputs[0]){
+								label.classList.add('placeLabel');
+								placeLabel = value;
+							} else if(input == inputs[1]){
+								label.classList.add('timeLabel');
+								timeLabel = value;
+							} else if(input == inputs[2]){
+								label.classList.add('memoLabel');
+								memoLabel = value;
+							}
+							
+							input.parentNode.insertBefore(label, input.nextSibling);
+							label.parentElement.className = 'label-div';
+							label.parentElement.parentElement.style.background = 'none';
+							
+						});
+						
+						$.ajax({
+							url:'detailTripUpdate.pl',
+							data: {
+								place:placeLabel,
+								time:timeLabel,
+								memo:memoLabel,
+								plNo:onePlan.parentElement.parentElement.children[1].value
+							},
+							success: data => {
+								console.log(data);
+							},
+							error: data => console.log(data)
+						});
+
+						let icons = onePlan.querySelectorAll('img.planInputIcon');
+						icons.forEach(function(icon) {
+							icon.remove();
+						});
+						
+						let checkDiv = document.createElement('div');
+						checkDiv.classList.add('plan-checks');
+						checkDiv.innerHTML = '<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx" /><label for="cbx' + index + '" class="cbx"><span><svg viewBox="0 0 12 10" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
+						index++;
+						
+						let planLabelsDiv = onePlan.children[1].children[1];
+						planLabelsDiv.appendChild(checkDiv);
+						onePlan.children[1].className = 'plan-labels';
+						
+					} else {
+						alert('계획을 입력해 주세요.');
+					}
+		        } else if (e.target.classList.contains('trash-icon')) {
+		            let planDiv = e.target.closest('.one-plan');
+		            planDiv.remove();
+		            
+		        } else if (e.target.classList.contains('planLabel') || e.target.classList.contains('label-div')) {
+		        	let bgCheckDiv = document.querySelectorAll('.plan-labels');
+	        		for(const bgDiv of bgCheckDiv){
+	        			if(bgDiv.style.background != 'none') {
+	        				bgDiv.style.background = 'none';
+	        				bgDiv.nextElementSibling.innerHTML = '';
+	        			}
+	        		}
+	        		
+		        	if(e.target.classList.contains('planLabel')){
+			        	labelDiv = e.target.parentElement.parentElement;
+		        	} else {
+			        	labelDiv = e.target.parentElement;
+		        	}
+		        	
+		        	labelDiv.style.background = '#E9F5FE';
+		        	let imagesDiv = labelDiv.nextElementSibling;
+		        	imagesDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
+		        	
+		        } else if(e.target.classList.contains('bi-pencil-square')) {
+					let onePlan = e.target.closest('.one-plan');
+					let labels = onePlan.querySelectorAll('.planLabel');
+					onePlan.classList.add('edit-plan');
+
+					labels.forEach(function(label) {
+						let input = label.previousElementSibling;
+						input.value = label.innerText;
+						label.remove();
+						input.style.display = 'inline';
+					});
+
+					onePlan.querySelector('.plan-checks').remove();
+					
+					let plLabels = onePlan.querySelector('.plan-labels');
+					plLabels.className = 'plan-inputs edit-inputs';
+					
+					let childDivs = plLabels.querySelectorAll('div');
+					
+					childDivs.forEach(function(classRemove) {
+						classRemove.classList.remove('label-div');
+					});
+					
+					onePlan.querySelector('.plan-images').innerHTML = '<img class="planInputIcon check-icon edit-image" style="width: 16px; height: 17px;" src="image/Check.png"/>&nbsp;<img class="planInputIcon trash-icon edit-image" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
+		        }
+		    });
+			
+			document.querySelector('body').addEventListener('click', e => {
+				const planImages = document.querySelectorAll('.plan-images');
+				let planInputs = document.querySelectorAll('.plan-inputs');
+				let editInputs = document.querySelectorAll('.edit-inputs');
+				let editPlan = document.getElementsByClassName('.edit-plan');
+				
+				planImages.forEach(planImage => {
+					if(planImage.children[0] != undefined && 
+						!e.target.classList.contains('edit-inputs') && 
+						planImage.children[0].classList.contains('edit-image')
+						) {
+						
+// 						let planInputsDiv = planImage.previousElementSibling;
+						
+// 						if(planInputsDiv.style.background != 'none' && planInputsDiv.children[0].children[0].style.display == 'inline'){
+// 							let inputParentDivs = planInputsDiv.children[0];
+							
+// 							planInputsDiv.style.background = 'none';
+// 							plan
+// 						}
+						console.log(editPlan);
+						
+					}
+				});
+			})
+			
+			// 날짜, 지역 수정
+			originalStart = '';
+			originalEnd = '';
+			originalSpot = '';
+			
+			const detailForm = document.getElementById('detailForm');
+			const editForm = document.getElementById('editForm');
+			document.getElementById('editButton').addEventListener('click', () => {
+				detailForm.style.display = 'none';
+				editForm.style.display = 'block';
+				
+				originalStart = $('#startDate-span').text();
+				originalEnd = $('#endDate-span').text();
+				originalSpot = $('#spot-span').text();
+				
+				$('#sdate').val(originalStart);
+				$('#edate').val(originalEnd);
+				$('selectSpotHidden').val(originalSpot);
+			});
+			
+			
+			$(document).ready(function(){
+				$(".datepicker").datepicker({
+					inline: true,
+					dateFormat: 'yy/mm/dd',
+					prevText: '이전 달',
+					nextText: '다음 달',
+					monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+					dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+					dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+					dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+					showMonthAfterYear: true,
+					yearSuffix: '년'
+				});
+				
+				$('#sdate').datepicker("option", "minDate", 0);
+				$('#sdate').datepicker("option", "onSelect", function (selectedDate){
+					$('#sdate').val(selectedDate);
+					
+					$("#edate").datepicker("option", "minDate", selectedDate);
+					
+					let maxDate = $.datepicker.parseDate('yy/mm/dd', selectedDate);
+					maxDate.setDate(maxDate.getDate() + 21);
+					$("#edate").datepicker("option", "maxDate", $.datepicker.formatDate('yy/mm/dd', maxDate));
+			    });
+				
+				$('#edate').datepicker("option", "onSelect", function(selectedDate){
+					$('#edate').val(selectedDate);
+				});
+			});
+
+// 			수정 저장하기
+			document.getElementById('completeButton').addEventListener('click', function(){
+				detailForm.style.display = 'block';
+				editForm.style.display = 'none';
+				
+				let newStartDate = $("#sdate").val();
+				let newEndDate = $("#edate").val();
+				let newSpot = $('#selectSpotHidden option:checked').text();
+				
+				$('#startDate-span').text(newStartDate);
+				$('#endDate-span').text(newEndDate);
+				$('#spot-span').text(newSpot);
+				
+				$.ajax({
+					url: 'updateValue.pl',
+					method: 'POST',
+					data: { 
+						startDate:newStartDate,
+						endDate:newEndDate,
+						spot:newSpot
+					},
+					success: function(map) {
+						let p = map.p;
+						let dates = map.dates;
+						
+						$('#planAll').empty();
+						$.each(dates, function(key, value) {
+							// n일차 + 날짜
+							let dayTextHtml = '<div class="dayText">' + key + '일차</div>';
+							let dateHtml = '<div class="date">' + value + '</div>';
+						
+							// input 입력창
+							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="200" placeholder="메모 입력창"></div></div>';
+						
+							// 1개의 계획 + 라인 + 원
+							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
+						
+							// 버튼
+							let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
+							
+							// planDiv 안에 1개 계획 넣기
+							let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
+						
+							// 1일차를 감싸는 계획 div
+							let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
+						
+							$('#planAll').append(newDayPlan);
+						});
+					},
+					error: data => console.log(data)
+				})
+				
+				
+				$('#spot').val(newSpot);
+			})
+			
+// 			수정 취소
+			document.getElementById('cancelButton').addEventListener('click', () => {
+				detailForm.style.display = 'block';
+				editForm.style.display = 'none';
+			});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		}
-		
 	</script>
 </body>
 </html>

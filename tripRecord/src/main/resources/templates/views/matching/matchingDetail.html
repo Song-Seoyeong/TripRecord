@@ -93,7 +93,7 @@
 					<img class="m-5 w-100" width="800px" src="/resources/goSchedule.jpg"/><br/>
 				</div>
 				<div class="mx-5 mb-5">
-					<p>안녕하세요! 여행을 사랑하는 모든 분들을 환영합니다. 이 가이드는 여러분의 여행이 더욱 특별하고 잊지 못할 경험이 될 수 있도록 다양한 정보를 제공합니다. 전 세계의 숨겨진 명소, 현지인만 아는 맛집, 독특한 문화 체험까지, 여행지에 대한 상세한 정보와 유용한 팁을 담고 있습니다. 혼자 떠나는 자유 여행이든 가족과 함께하는 휴가든, 각 여행 스타일에 맞춘 맞춤형 정보를 제공합니다. 또한, 여행 중 유의해야 할 안전 수칙과 에티켓, 현지 언어 표현 등도 포함되어 있어 처음 방문하는 곳에서도 자신감을 가질 수 있습니다. 여러분의 여행 준비부터 현지에서의 활동까지 이 가이드가 든든한 동반자가 되길 바랍니다. 새로운 곳에서의 멋진 추억을 만들어 보세요!</p>
+					<p>[[${planner.introContent}]]</p>
 				</div>
 			</div>
 		</div>
@@ -110,22 +110,32 @@
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
 				<div class="list-group w-100" th:each="r : ${ rlist }">
-					<table class="fs-3 text-center border bg-light">
-						<tr>
-							<td>
-								<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|" width="75px" height="75px">
-							</td>
-							<td width="200px">[[${r.nickname}]]</td>
-							<td width="200px">★ [[${r.reviewStar}]]</td>
-							<td width="600px">[[${r.reviewTitle}]]</td>
-							<td style="display: none;">[[${r.reviewContent}]]</td>
-						</tr>
-					</table>
+					<form id="reviewForm" method="post">
+						<table class="fs-3 text-center border bg-light">
+							<tr>
+								<td>
+									<input type="hidden" name="pNo" th:value="${planner.MemberNo}">
+									<input type="hidden" name="rNo" th:value="${r.reviewNo}">
+								</td>
+								<td>
+									<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|" width="75px" height="75px">
+								</td>
+								<td width="200px">[[${r.nickname}]]</td>
+								<td width="100px">★ [[${r.reviewStar}]]</td>
+								<td width="600px">[[${r.reviewTitle}]]</td>
+								<td style="display: none;">[[${r.reviewContent}]]</td>
+								<td width="100px">
+									<th:block th:if="${ session.loginUser != null && r.MemberNo eq session.loginUser.MemberNo }">
+										<button type="button" id="updateButton" class="btn btn-primary">수정</button>
+										<button type="button" id="deleteButton" class="btn btn-danger">삭제</button>
+									</th:block>
+								</td>
+							</tr>
+						</table>
+					</form><br/>
 				</div>
 			</div>
 		</div>
-		
-		
 		<th:block th:if="${pi.listCount != 0}">
 			<nav class="d-flex justify-content-center">
 	        	<ul class="pagination" th:with="loc=${ loc }">
@@ -166,33 +176,94 @@
       			<div class="modal-body p-4 text-center">
         			<h3 class="mb-3" id="modalReviewTitle">리뷰 제목</h3>
         			<hr/>
-                	<p class="mb-0" id="modalReviewContent">리뷰 내용</p>
+                	<div class="mb-0" id="modalReviewContent">리뷰 내용</div>
+                	<br/>
       			</div>
+      			<div>
+				</div>
       			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">닫기</button>
     		</div>
   		</div>
 	</div>
 	
-	
+	<!-- 삭제 확인 모달창 -->
+	<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog d-flex align-items-center justify-content-center">
+			<div class="modal-content rounded-3 shadow">
+				<div class="modal-body p-4 text-center">
+					<p>정말 삭제하시겠습니까?</p>
+					<button id="deleteReview" class="btn btn-lg btn-danger w-80 m-3">예</button>
+					<button class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">아니오</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	
 </body>
-<script>
+<script th:inline="javascript">
+
+document.addEventListener('DOMContentLoaded', function() {
+    const lists = document.getElementsByClassName('list-group');
+	
+	
+    for(const list of lists) {
+    	if(list.querySelector('button') != null) {
+	       	const upButton = list.querySelector('button');
+	        const delButton = upButton.nextElementSibling;
+	        const form = list.querySelector('form');
+	    	
+	        if(upButton != null){
+	        	upButton.addEventListener('click', function(){
+	        		form.action = 'updateReviewView.ma';
+	        		form.submit();
+	            });
+	        }
+	    	
+	       	if(delButton != null){
+	           	delButton.addEventListener('click', function(){
+	           		$('#deleteModal').modal('show');
+	                document.getElementById('deleteReview').onclick = function() {
+	                console.log(form);
+	                form.action = 'deleteReview.ma';
+	                form.submit();
+	                }
+	        	});
+	        }
+    	}
+    }
+    // 리뷰 삭제
+
+});
 
 const reviewList = document.querySelectorAll('tr');
 for(const tr of reviewList) {
-	tr.addEventListener('click', function(){
-        
-        const reviewTitle = this.children[3].innerText;
-        const reviewContent = this.children[4].innerText;
-
-        document.querySelector('#modalReviewTitle').innerText = reviewTitle;
-        document.querySelector('#modalReviewContent').innerText = reviewContent;
-
-        $('#reviewModal').modal('show');
-	});
+	const tds = tr.children;
+		for (let i = 0; i < tds.length; i++) {
+			if(i != 6) {
+				tds[i].addEventListener('click', function(){
+			        const reviewTitle = this.parentElement.children[4].innerHTML;
+			        const reviewContent = this.parentElement.children[5].innerHTML;
+			        
+			         /*<!CDATA[*/
+			 		const rImgList = /*[[${rImgList}]]*/null;
+			 		/*]]>*/
+			 		
+			 		document.querySelector('#modalReviewTitle').innerHTML = reviewTitle;
+		       		document.querySelector('#modalReviewContent').innerHTML = reviewContent;
+		       		
+		       		const rNo = this.parentElement.children[0].children[1].value
+		            console.log(rNo);
+		            for(const rImg of rImgList){
+		            	if(rNo == rImg.imageRefNo){
+		            		document.querySelector('#modalReviewContent').innerHTML += '<img src="https://drive.google.com/thumbnail?id=' + rImg.imageRename + '&sz=w1000" width="100%" height="200"><br/><br/>'
+		            	}
+		            }
+		            $('#reviewModal').modal('show');
+				});
+			}
+		}
 }
-
 
 document.getElementById('likeButton').addEventListener('click', () => {
 	const pNo = [[${ planner.memberNo }]];

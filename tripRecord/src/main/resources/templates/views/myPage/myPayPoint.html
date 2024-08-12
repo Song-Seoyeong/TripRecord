@@ -6,8 +6,7 @@
 
 <!-- 필수 -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"
-	type="text/javascript"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
 
 <title>포인트 결제</title>
@@ -156,7 +155,7 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 				결제</div>
 			<!-- 현재 포인트 표시 -->
 			<div id="currentPoint" style="font-weight: 900; margin-left: 700px;">
-				<p>현재 포인트 : &#91; [[${#numbers.formatDecimal(session.loginUser.memberPoint,3,'COMMA',0,'COMMA')}]] &#93; p</p>
+				<p>현재 포인트 : &#91; [[${#numbers.formatDecimal(session.loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93; p</p>
 			</div>
 			<!-- 결제 창 -->
 			<div style="height: 50px;"></div>
@@ -174,9 +173,9 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 						<tr style="border-bottom: 2px solid #b9b9b9" th:each="p:${pList}">
 							<td><input class="getPoNo" type="hidden" id="pointNo" name='poNoList' th:value="${p.poNo}"></td>
 							<td><input type="hidden" th:value="${p.poPoint}">
-								[[${#numbers.formatDecimal(p.poPoint,3,'COMMA',0,'COMMA')}]]</td>
+								[[${#numbers.formatDecimal(p.poPoint,1,'COMMA',0,'COMMA')}]]</td>
 							<td><input type="hidden" th:value="${p.poPrice}">
-								[[${#numbers.formatDecimal(p.poPrice,3,'COMMA',0,'COMMA')}]]</td>
+								[[${#numbers.formatDecimal(p.poPrice,1,'COMMA',0,'COMMA')}]]</td>
 						</tr>
 					</tbody>
 				</table>
@@ -228,11 +227,6 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 			payModal.show()
 		}
 		
-		//페이모달 닫기
-		function payModalHide(){
-			const payModal = new bootstrap.Modal(document.getElementById('payModal'));
-			payModal.hide()
-		}
 		//포인트 클릭 구매
 		const trs = document.querySelectorAll('tr');
 		for(const tr of trs){
@@ -261,14 +255,12 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 			 // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드        
 			 IMP.request_pay({           
 				 pg: this.value,
-				 pay_method: 'card',         
 				 merchant_uid: merchantUid,      
 				 name: point + ' 포인트 충전',        
 				 amount: price,          
 				 buyer_email: /*[[${session.loginUser.email}]]*/'null',     
 				 buyer_name: /*[[${session.loginUser.memberName}]]*/'null',          
 				 buyer_tel: /*[[${session.loginUser.phone}]]*/'null',           
-				 m_redirect_url: 'myPayPoint.mp'        
 				      
 				 }, function (rsp) {    
 					 if (rsp.success == true) {
@@ -310,14 +302,12 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 			 // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드        
 			 IMP.request_pay({           
 				 pg: this.value,
-				 pay_method: 'card',         
 				 merchant_uid: merchantUid,      
 				 name: point + ' 포인트 충전',        
 				 amount: price,          
 				 buyer_email: /*[[${session.loginUser.email}]]*/'null',     
 				 buyer_name: /*[[${session.loginUser.memberName}]]*/'null',          
 				 buyer_tel: /*[[${session.loginUser.phone}]]*/'null',           
-				 m_redirect_url: 'myPayPoint.mp'        
 				      
 				 }, function (rsp) {
 					 if (rsp.success == true) {

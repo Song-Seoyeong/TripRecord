@@ -98,6 +98,7 @@
 	<script th:inline="javascript">
 		window.onload = ()=> {
 			
+			// 누구랑 갈지 해시태그는 한 개만 선택 가능
 			const togetherCheck = document.querySelectorAll('[name="together"]');
 			togetherCheck.forEach(function leftHashtag(checkbox) {
 				checkbox.addEventListener('click', function() {
@@ -109,9 +110,10 @@
 				});
 			});
 	        
+			// 컨셉 해시태그는 최대 4개만 선택 가능
 			const checkboxes = document.querySelectorAll('[name="hashtag"]');
 			const inforDiv = document.getElementById('inforDiv');
-			checkboxes.forEach(function rightHashtag(checkbox) {
+			checkboxes.forEach(function(checkbox) {
 				if(checkbox.type === 'checkbox'){
 					checkbox.addEventListener('click', function() {
 						let checkedCount = 0;
@@ -201,6 +203,8 @@
 				});
 				
 				$('#sdate').datepicker("option", "minDate", 0);
+				$('#edate').datepicker("option", "minDate", 0);
+				
 				$('#sdate').datepicker("option", "onSelect", function (selectedDate){
 					$('#startDate').val(selectedDate);
 					

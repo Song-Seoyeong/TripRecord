@@ -7,9 +7,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
+import com.finalproject.triprecord.board.model.vo.Board;
+import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.model.vo.Image;
+import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 
@@ -69,7 +73,30 @@ public interface MemberMapper {
 	ArrayList<Payment> getPaymentList(RowBounds rowBounds, int memberNo);
 	//결제 내역 수 불러오기
 	int pmListCount(int memberNo);
+	//게시글 목록 수 불러오기
+	int getListCount(HashMap<String, Object> map);
+	//자기 문의 글 불러오기
+	ArrayList<Board> getBoardList(HashMap<String, Object> map, RowBounds rb);
+	//문의 사항 데이터 불러오기
+	ArrayList<Question> getQuestionList(int i);
 	//---------------------------------------------------------
+	//플래너 페이지
+	//플래너 불러오기
+	Planner getPlanner(int memberNo);
+	//플래너 지역명 불러오기
+	Local getLocalName(int memberNo);
+	//플래너 좋아요 불러오기
+	int countLikes(int memberNo);
+	//별점 평균
+	Double averageStar(int memberNo);
+	//후기 수
+	int getReviewListCount(int memberNo);
+	//후기 불러오기
+	ArrayList<Review> getReviewList(int memberNo, RowBounds rb);
+	//플래너 프로필 이미지 불러오기
+	Image getImgRename(HashMap<String, Object> map);
+	//---------------------------------------------------------
+
 
 
 
