@@ -171,9 +171,19 @@ public class PlaceController {
 								  HttpServletRequest request, RedirectAttributes ra) {
 		//System.out.println(files);
 		
-		int memNo = ((Member)request.getSession().getAttribute("loginUser")).getMemberNo();
-		r.setMemberNo(memNo);
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		r.setMemberNo(loginUser.getMemberNo());
 		r.setRevRefType("PLACE");
+		
+		// 첫 리뷰인지 확인
+		int checkRe = pService.checkReview(loginUser.getMemberNo());
+		
+		//System.out.println(checkRe);
+		if(checkRe == 0) {
+			pService.givePoint(loginUser.getMemberNo());
+			loginUser.setMemberPoint(loginUser.getMemberPoint() + 1000);
+			ra.addAttribute("ch", "0");
+		}
 		
 		int result = pService.insertReview(r);
 		

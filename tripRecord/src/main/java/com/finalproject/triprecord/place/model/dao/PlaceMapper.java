@@ -55,4 +55,8 @@ public interface PlaceMapper {
 
 	Image planImg();
 
+	int checkReview(int memNo);
+
+	void givePoint(int memNo);
+
 }

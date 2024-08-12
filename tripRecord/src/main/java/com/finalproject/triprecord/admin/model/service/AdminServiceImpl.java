@@ -280,9 +280,30 @@ public class AdminServiceImpl implements AdminService{
 	public int getMemberListCount() {
 		return aMapper.getMemberListCount();
 	}
+	
 	@Override
 	public Image selectPlanImage() {
 		return aMapper.selectPlanImage();
+	}
+	
+	@Override
+	public ArrayList<Image> selectMemberProfileList() {
+		return aMapper.selectMemberProfileList();
+	}
+	
+	@Override
+	public int deleteMemberProfile(int MemberNo) {
+		return aMapper.deleteMemberProfile(MemberNo);
+	}
+	
+	@Override
+	public Member selectMember(String memberId) {
+		return aMapper.selectMember(memberId);
+	}
+	
+	@Override
+	public Image selectMemberImage(int memberNo) {
+		return aMapper.selectMemberImage(memberNo);
 	}
 	
 }

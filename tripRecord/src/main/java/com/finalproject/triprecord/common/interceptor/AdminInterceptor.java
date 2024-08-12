@@ -19,7 +19,7 @@ public class AdminInterceptor implements HandlerInterceptor{
 		
 		if(loginUser == null || !loginUser.getGrade().equals("ADMIN")) {
 			response.setContentType("text/html; charset=UTF-8");
-			response.getWriter().print("<script>alert('접근 권한이 없습니다.'); location.href='/';</script>");
+			response.getWriter().print("<script>alert('접근 권한이 없습니다.'); location.href='/home';</script>");
 			
 			return false;
 		}

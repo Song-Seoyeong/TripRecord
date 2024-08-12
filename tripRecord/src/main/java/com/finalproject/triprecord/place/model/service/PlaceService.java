@@ -52,4 +52,8 @@ public interface PlaceService {
 
 	Image planImg();
 
+	int checkReview(int memNo);
+
+	void givePoint(int memNo);
+
 }

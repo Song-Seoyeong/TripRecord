@@ -119,5 +119,13 @@ public interface AdminMapper {
 
 	Image selectPlanImage();
 
+	ArrayList<Image> selectMemberProfileList();
+
+	int deleteMemberProfile(int memberNo);
+
+	Member selectMember(String memberId);
+
+	Image selectMemberImage(int memberNo);
+
 	
 }

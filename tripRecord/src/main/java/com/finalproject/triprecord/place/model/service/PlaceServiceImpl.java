@@ -126,4 +126,14 @@ public class PlaceServiceImpl implements PlaceService {
 		return pMapper.planImg();
 	}
 
+	@Override
+	public int checkReview(int memNo) {
+		return pMapper.checkReview(memNo);
+	}
+
+	@Override
+	public void givePoint(int memNo) {
+		pMapper.givePoint(memNo);
+	}
+
 }

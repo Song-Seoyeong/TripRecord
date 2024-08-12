@@ -136,6 +136,27 @@ public class AdminController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
 		ArrayList<Member> mList = aService.selectMemberList(pi);
 		
+		ArrayList<Image> iList = aService.selectMemberProfileList();
+		
+		boolean flag;
+		for(Member m : mList) {
+			flag = true;
+			for(Image i : iList) {
+				if(m.getMemberNo() == i.getImageRefNo() && i.getImageRefType().equals("MEMBER")) {
+					flag = false;
+					break;
+				}
+			}
+			
+			if(flag) {
+				Image i = new Image();
+				i.setImageRefNo(m.getMemberNo());
+				i.setImageRename("noImage");
+				
+				iList.add(i);
+			}
+		}
+		
 		
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("generalCount", generalCount);
@@ -144,11 +165,12 @@ public class AdminController {
 		model.addAttribute("mList", mList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
+		model.addAttribute("iList", iList);
 		return "memberManage";
 	}
 	
 	// 회원 상태 변경 + 강제 탈퇴
-	@GetMapping("changeMemberStatus.ad")
+	@PostMapping("changeMemberStatus.ad")
 	@ResponseBody
 	public String changeMemberStatus(@ModelAttribute Member m) {
 		if(m.getStatus().equals("Y")) {
@@ -166,6 +188,25 @@ public class AdminController {
 		}
 	}
 	
+	// 회원 프로필 삭제
+	@PostMapping("deleteMemberProfile.ad")
+	@ResponseBody
+	public String deleteMemberProfile(@RequestParam("memberId") String memberId) {
+		Member m = aService.selectMember(memberId);
+		Image i = aService.selectMemberImage(m.getMemberNo());
+		int result = aService.deleteMemberProfile(m.getMemberNo());
+		
+		if(result > 0) {
+			try {
+				gdService.deleteFile(i.getImageRename());
+			} catch (IOException e) {
+			}
+			
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
 	
 	/** 문의사항 */
 	// 문의사항 관리 페이지 이동
@@ -191,7 +232,7 @@ public class AdminController {
 	}
 	
 	// 문의사항 선택
-	@GetMapping("selectQuest.ad")
+	@PostMapping("selectQuest.ad")
 	@ResponseBody
 	public Question selectQuest(@RequestParam("qNo") int qNo) {
 		
@@ -255,7 +296,7 @@ public class AdminController {
 	}
 	
 	// 등급 취소 요청 시
-	@GetMapping("gradeDownSuccess.ad")
+	@PostMapping("gradeDownSuccess.ad")
 	@ResponseBody
 	public String gradeDownSuccess(@RequestParam("mNo") int mNo) {
 		int result = aService.gradeDownSuccess(mNo);
@@ -270,11 +311,12 @@ public class AdminController {
 	}
 	
 	// 등급 요청 시
-	@GetMapping("gradeSuccess.ad")
+	@PostMapping("gradeSuccess.ad")
 	@ResponseBody
 	public String gradeSuccess(@RequestParam("mNo") int mNo) {
 		RequestGrade rg = aService.selectRequestGrade(mNo);
 		
+		System.out.println(rg);
 		if(rg != null) {
 			String grade = rg.getGrade();
 			
@@ -349,7 +391,7 @@ public class AdminController {
 	}
 	
 	// 공지사항 선택
-	@GetMapping("selectNotice.ad")
+	@PostMapping("selectNotice.ad")
 	@ResponseBody
 	public Board selectNotice(@RequestParam("boardNo") int boardNo) {
 		Board notice = aService.selectNotice(boardNo);
@@ -411,7 +453,7 @@ public class AdminController {
 	}
 	
 	// 포인트 수정
-	 @GetMapping("updatePoint.ad") 
+	 @PostMapping("updatePoint.ad") 
 	 @ResponseBody
 	 public String updatePoint(@ModelAttribute Point p) {
 		 int result = aService.updatePoint(p);
@@ -425,7 +467,7 @@ public class AdminController {
 	 }
 	 
 	 // 포인트 상태 변경
-	 @GetMapping("changePointStatus.ad")
+	 @PostMapping("changePointStatus.ad")
 	 @ResponseBody
 	 public String changePointStatus(@ModelAttribute Point p) {
 		 int result = aService.changePointStatus(p);
@@ -480,7 +522,7 @@ public class AdminController {
 	}
 	
 	// 게시글 삭제
-	@GetMapping("deleteBoard.ad")
+	@PostMapping("deleteBoard.ad")
 	@ResponseBody
 	public String deleteBoard(@RequestParam("boardNo") int boardNo){
 		int result = aService.deleteBoard(boardNo);
@@ -641,7 +683,7 @@ public class AdminController {
 	}
 	
 	// 삭제 과정 중 비밀번호 확인
-	@GetMapping("matchPwd.ad")
+	@PostMapping("matchPwd.ad")
 	@ResponseBody
 	public String matchPwd(@RequestParam("pwd") String pwd, HttpSession session) {
 		Member m = (Member)session.getAttribute("loginUser");
