@@ -17,7 +17,8 @@
 		<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
 			<div class="local-card position-relative" th:each='l : ${lList}'>
 				<input type=hidden th:value=${l.localNo}>
-				<img class="local-img shadow position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
+				<img th:if='${l.imageRename == null}' class="local-img shadow position-absolute" src="image/noimage.png" th:alt="${l.localName}">
+				<img th:if='${l.imageRename != null}' class="local-img shadow position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
 				<span class="card-text position-absolute fs-1 px-3">[[${l.localName}]]</span>
 			</div>
 		</div>
@@ -25,7 +26,8 @@
 		<hr />
 		<div class="contatiner d-flex justify-content-center">
 			<div class="card" style="width: 800px;">
-				<img class="img-fluid" th:src="|https://drive.google.com/thumbnail?id=${img.imageRename}&sz=w1000|" alt="일정 페이지 넘어가기" id='planImg'>
+				<img th:if='${img.imageRename == null}' class="local-img shadow position-absolute" th:src="${img.imagePath}" alt="일정 페이지 넘어가기" id='planImg'>
+				<img th:if='${img.imageRename != null}' class="img-fluid" th:src="|https://drive.google.com/thumbnail?id=${img.imageRename}&sz=w1000|" alt="일정 페이지 넘어가기" id='planImg'>
 			</div>
 		</div>
 		<hr />
@@ -52,6 +54,8 @@
 			id='topPlace'>
 			<div class='shadow mx-2 my-3 rounded-3 place-card'
 				th:each='p : ${pList}'>
+				<img th:if='${p.imagePath != null}' th:src="|${p.imagePath}|" th:alt="|${p.placeName}|">
+				<img th:if='${p.imagePath == null}' src="image/noimage.png" th:alt="|${p.placeName}|">
 				<img th:src="|${p.imagePath}|" th:alt="|${p.placeName}|">
 				<p>[[${p.placeName}]]</p>
 				<input type="hidden" name="contentid" th:value="${p.placeNo}" /> <input
