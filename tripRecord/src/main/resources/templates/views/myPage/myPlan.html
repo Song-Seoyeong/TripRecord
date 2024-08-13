@@ -26,7 +26,7 @@ td{padding:15px;}
 		<!-- 사이드바 -->
 		<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
 		<div style="height:80px;"></div>
-		<div style="display:inline-block; margin-right:250px;">
+		<div style="display:inline-block; margin-right:200px;">
 			<div style="color: black; font-size: 36px; font-weight: 900;">플래너 일정 요청 리스트</div>
 			<div style="height:40px;"></div>
 			<div style="display:inline-block; width:1000px; max-height:800px; min-height: 300px;" >
@@ -95,7 +95,13 @@ td{padding:15px;}
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
-	<script>
+	<script th:inline='javascript'>
+		/*<![CDATA[*/
+		const msg = /*[[${msg}]]*/null;
+		
+		if(msg != null){
+			alert(msg);
+		}
 		//상세글 보기
 		const tds = document.querySelectorAll('td');
 		for(const td of tds){
@@ -112,9 +118,10 @@ td{padding:15px;}
 			})
 			td.addEventListener('click', ()=>{
 				const parent = td.parentElement;
-				location.href='detailReqPlan.mp?reqNo=' + parent.children[0].innerText;
+				location.href='detailReqPlan.mp?reqNo=' + parent.children[0].innerText + "&page=" + /*[[${pi.currentPage}]]*/1;
 			})
 		}
+		/*]]>*/
 	</script>
 </body>
 </html>

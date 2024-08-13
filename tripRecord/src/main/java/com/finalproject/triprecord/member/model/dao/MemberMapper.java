@@ -113,6 +113,8 @@ public interface MemberMapper {
 
 	Schedule getSchedule(int scheNo);
 
+	int updateReqState(ReqSchedule req);
+
 
 
 	

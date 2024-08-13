@@ -200,6 +200,17 @@ public class MemberServiceImpl implements MemberService{
 	public ReqSchedule getReqSchedule(int reqNo) {
 		return mMapper.getReqSchedule(reqNo);
 	}
+	
+	@Override
+	public Schedule getSchedule(int scheNo) {
+		return mMapper.getSchedule(scheNo);
+	}
+	
+	@Override
+	public int updateReqState(ReqSchedule req) {
+		return mMapper.updateReqState(req);
+	}
+	
 	//----------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -246,10 +257,9 @@ public class MemberServiceImpl implements MemberService{
 	}
 	//----------------------------------------------------------------
 
-	@Override
-	public Schedule getSchedule(int scheNo) {
-		return mMapper.getSchedule(scheNo);
-	}
+	
+
+	
 
 	
 
