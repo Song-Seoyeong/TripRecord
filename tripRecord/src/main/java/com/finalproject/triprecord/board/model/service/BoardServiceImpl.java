@@ -158,5 +158,20 @@ public class BoardServiceImpl implements BoardService{
 		return bMapper.deleteImg(deleteImg);
 	}
 
+	@Override
+	public void updateQuestion(Integer pwd) {
+		bMapper.updateQuestion(pwd);
+	}
+
+	@Override
+	public int deleteImg(int boardNo) {
+		return bMapper.deleteImages(boardNo);
+	}
+
+	@Override
+	public Image selectProfileImage(int i) {
+		return bMapper.selectProfileImage(i);
+	}
+
 
 }

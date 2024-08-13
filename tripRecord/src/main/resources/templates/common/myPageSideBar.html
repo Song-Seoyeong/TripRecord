@@ -47,7 +47,7 @@
 	<script th:inline="javascript">
 		function submitAdmin() {
 			/*<![CDATA[*/
-			const grade = /*[[${session.loginUser.grade}]]*/
+			const grade = /*[[${session.loginUser.grade}]]*/null;
 			/*]]>*/
 			if (confirm("요청하시겠습니까")) {
 				if(grade == 'ADMIN'){

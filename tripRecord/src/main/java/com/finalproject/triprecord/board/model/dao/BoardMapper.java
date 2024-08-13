@@ -65,4 +65,10 @@ public interface BoardMapper {
 	int updateBoard(Board b);
 
 	int deleteImg(ArrayList<String> deleteImg);
+
+	void updateQuestion(Integer pwd);
+
+	int deleteImages(int boardNo);
+
+	Image selectProfileImage(int i);
 }

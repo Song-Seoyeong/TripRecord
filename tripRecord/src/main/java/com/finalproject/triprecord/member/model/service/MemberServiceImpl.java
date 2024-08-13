@@ -16,6 +16,7 @@ import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.common.model.vo.Review;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.dao.MemberMapper;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
@@ -176,6 +177,23 @@ public class MemberServiceImpl implements MemberService{
 	public ArrayList<Question> getQuestionList(HashMap<String, Object> map) {
 		return mMapper.getQuestionList(map);
 	}
+	// 일정 요청 리스트 수
+	@Override
+	public int getReqListCount(int memberNo) {
+		return mMapper.getReqListCount(memberNo);
+	}
+	// 일정 요청 리스트
+	@Override
+	public ArrayList<ReqSchedule> getReqList(PageInfo pi, int memberNo) {
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
+		return mMapper.getReqList(memberNo, rb);
+	}
+	// 일정 요청 플래너
+	@Override
+	public Planner getReqPlanner(int reqPlaNo) {
+		return mMapper.getReqPlanner(reqPlaNo);
+	}
 	//----------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -221,6 +239,10 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.canclePlanner(map);
 	}
 	//----------------------------------------------------------------
+
+	
+
+	
 
 	
 

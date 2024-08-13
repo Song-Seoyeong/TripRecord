@@ -29,11 +29,12 @@ import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.common.model.vo.Review;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.exception.MemberException;
 import com.finalproject.triprecord.member.model.service.MemberService;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -349,10 +350,29 @@ public class MyPageController {
 	}
 
 	@GetMapping("myPlan.mp")
-	public String moveToMyPlan(HttpSession session, Model model) {
+	public String moveToMyPlan(@RequestParam(value="page", defaultValue="1") int page,
+								HttpServletRequest request,
+								HttpSession session, Model model) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+		
+		// 요청 리스트 불러오기
+		int listCount = mService.getReqListCount(memberNo);
+		PageInfo pi = Pagination.getPageInfo(page, listCount, 10);
+		
+		ArrayList<ReqSchedule> list = mService.getReqList(pi, memberNo);
+		
+		ArrayList<Planner> pList = new ArrayList<Planner>();
+		
+		for(ReqSchedule r : list) {
+			Planner p = new Planner();
+			p = mService.getReqPlanner(r.getReqPlaNo());
+			pList.add(p);
+		}
+	    System.out.println(pi.getEndPage());
+	    //프로필 사진
+		
 	    Image image = mService.existFileId(memberNo); 
-	  
+	    
 	    if (image != null && image.getImageRename() != null) {
 	        String existFileId = image.getImageRename(); 
 	        model.addAttribute("rename", existFileId);
@@ -360,6 +380,10 @@ public class MyPageController {
 	        // 이미지가 없거나 리네임이 없는 경우 처리
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
+    	model.addAttribute("list", list);
+    	model.addAttribute("pList", pList);
+    	model.addAttribute("pi", pi);
+    	model.addAttribute("loc", request.getRequestURI());
 		return "myPlan";
 	}
 

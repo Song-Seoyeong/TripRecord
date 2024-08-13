@@ -17,6 +17,7 @@ public class Planner {
 	private String plaReqContent;
 	private String sIntroContent;
 	
-	private String Nickname;
+	private String nickname;
 	private String imageRename;
+	private String localName;
 }

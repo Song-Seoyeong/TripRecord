@@ -1,6 +1,8 @@
 package com.finalproject.triprecord.common.model.service;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +14,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.finalproject.triprecord.common.model.vo.CustomResource;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -51,7 +54,7 @@ public class GoogleDriveService {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }
-
+    
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = GoogleDriveService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
@@ -190,6 +193,38 @@ public class GoogleDriveService {
         } catch (IOException e) {
             System.err.println("Failed to delete file: " + e.getMessage());
             throw e;
+        }
+    }
+    
+    public CustomResource downloadImage(String fileId) throws IOException {
+        File fileMetadata = service.files().get(fileId).execute();
+        String fileName = fileMetadata.getName();
+        System.out.println("File Name: " + fileName); // Add log
+        // Fetch file content as byte array
+        try (InputStream inputStream = service.files().get(fileId).executeMediaAsInputStream()) {
+            byte[] fileBytes = convertStreamToByteArray(inputStream);
+            System.out.println("File Size: " + fileBytes.length); // Add log
+
+            String mimeType = service.files().get(fileId).execute().getMimeType();
+            System.out.println("MIME Type: " + mimeType); // Log MIME type
+            
+            // Check if the fileBytes are empty
+            if (fileBytes.length == 0) {
+                throw new IOException("The file content is empty.");
+            }
+
+            return new CustomResource(fileBytes, fileName);
+        }
+    }
+
+    private byte[] convertStreamToByteArray(InputStream inputStream) throws IOException {
+        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+            byte[] data = new byte[1024];
+            int nRead;
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            return buffer.toByteArray();
         }
     }
     

@@ -6,9 +6,6 @@
 <link type="text/css" href="css/community/commuList.css" rel="stylesheet">
 <style>
 
-.disabled{cursor: not-allowed; pointer-events: none;}
-a:hover{cursor:pointer;}
-.page-item a{color:black;}
 
 
 </style>
@@ -19,7 +16,8 @@ a:hover{cursor:pointer;}
 	
 	
 	<div class="text-center" style="padding-top:60px;">
-		<b style="font-size:70px;">전국</b>
+		<b style="font-size:70px;" th:if="${localName == 'ALL' || localName == null}">전국</b>
+		<b style="font-size:70px;" th:if="${localName != null && localName != 'ALL'}">[[${localName}]]</b>
 	</div>
 	
 	
@@ -72,7 +70,6 @@ a:hover{cursor:pointer;}
 		
 		
 		
-		
 		<input type="hidden" id="localName" th:value="${localName}" name="localName">
 		<input type="hidden" name="generalType" id="generalType" th:value="${generalType}">
 		<input type="hidden" name="boardType" value="GENERAL" id="general">
@@ -107,7 +104,7 @@ a:hover{cursor:pointer;}
 	          			</tr>
 	          		</thead>
 	         		<tbody id="text-test">
-	         			<tr th:if="${ #strings.isEmpty(cList)}">
+	         			<tr th:if="${ #lists.isEmpty(cList)}">
 	         				<td></td>
 	         				<td>게시글이 아직 없어요.</td>
 	         				<td></td>
@@ -143,7 +140,16 @@ a:hover{cursor:pointer;}
 		
 
 		<div th:if="${ session.loginUser != null}" style="display:flex; justify-content:right; margin-bottom:50px;">
-	       	<button class="btn btn-outline-success" type="button" onclick="location.href='commuWrite.bo'">WRITE BOARD</button>
+	       	<div class='review-text' id='reviewDiv'>
+	       		<a href="commuWrite.bo" style="text-decoration-line:none;">
+					<button id='goReview'>
+						<p>글 쓰기</p>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+						</svg>
+					</button>
+				</a>
+			</div>
 	    </div>
 	</div>
 	
