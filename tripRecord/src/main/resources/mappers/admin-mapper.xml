@@ -270,10 +270,16 @@
 	
 	<select id="getListCount" resultType="_int">
 		select count(*) from board where board_type = 'GENERAL'
+		<if test="search != null">
+			and board_title like '%${search}%'
+		</if>
 	</select>
 	
 	<select id="getNoticeListCount" resultType="_int">
 		select count(*) from board where board_type = 'NOTICE'
+		<if test="search != null">
+			and board_title like '%${search}%'
+		</if>
 	</select>
 	
 	<select id="getQuestListCount" resultType="_int">

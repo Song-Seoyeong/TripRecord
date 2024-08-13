@@ -14,7 +14,7 @@
 		insert into member
 		values(seq_member.nextval,
 		#{memberId}, #{memberPwd}, #{memberName}, #{nickname}, #{phone},
-		#{email}, sysdate, default, default, default, default)
+		#{email}, sysdate, default, default, 5000, default)
 	</insert>
 
 	<insert id="enrollPlanner">

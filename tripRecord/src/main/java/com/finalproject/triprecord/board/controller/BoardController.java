@@ -140,7 +140,6 @@ public class BoardController {
 	
 	@GetMapping("commuSelect.bo")
 	public String commuSelect(@RequestParam("generalType") String generalType,@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, HttpServletRequest req) {
-		System.out.println("d");
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int id = 0;
 		if(loginUser != null) {
@@ -149,13 +148,10 @@ public class BoardController {
 		
 		Board board = bService.selectBoard(boardNo, id);
 		ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
-		Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); // Member 인거만 다 가져와서 로그인 유저랑 글쓴이 번호랑 비교해서 사용
-		System.out.println("wri : " + writerProfile);
+		Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); // 회원번호를 보내서 그 ref_type = 'MEMBER' && ref_no = 회원번호
 		Image replyProfile = bService.selectProfileImage(id); // 로그인 x -> null, 로그인 ㅇ -> 사진 있을때 image, 없을때 null
-		System.out.println("rep : " + replyProfile);
 		ArrayList<Reply> rList = bService.selectReply(boardNo);
 		
-		System.out.println("커뮤설렉트");
 		
 		model.addAttribute("b", board);
 		model.addAttribute("page", page);
@@ -186,6 +182,11 @@ public class BoardController {
 		int result = bService.insertBoard(b); // 성공 시 1
 		int result2 = bService.insertGeneralBoard(b); // 성공 시 1
 		int bNo = returnBoardNo(); // seq_board.currval
+		int memWriteCount = bService.countBoardList(loginUser.getMemberNo());
+		
+		if(memWriteCount == 0) {
+			bService.firstBoardPoint(loginUser.getMemberNo());
+		}
 		
 		ArrayList<Image> list = new ArrayList<Image>();
 		for(int i = 0; i < files.size(); i++) {
@@ -377,22 +378,29 @@ public class BoardController {
 	}
 	
 	@GetMapping("askSelect.no")
-	public String askSelect(@RequestParam(value="generalType", defaultValue="ALL") String generalType, @RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model) { // 선택한 글번호 넘겨받기
+	public String askSelect(@RequestParam(value="generalType", defaultValue="ALL") String generalType, @RequestParam("boardNo") Integer boardNo,
+							@RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session) { // 선택한 글번호 넘겨받기
 		
-		Board board = bService.selectBoard(boardNo, 0);
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int id = 0;
+		if(loginUser != null) {
+			id = loginUser.getMemberNo();
+		}
+		
+		Board board = bService.selectBoard(boardNo, id);
 		Question q = bService.selectQuestion(boardNo);
 		ArrayList<Image> iList = bService.selectImage(boardNo);
+		Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); 
 		
-		if(board != null) {
-			model.addAttribute("n", board);
-			model.addAttribute("page", page);
-			model.addAttribute("q", q);
-			model.addAttribute("generalType", generalType);
-			model.addAttribute("iList", iList);
-			return "askSelect";
-		}else {
-			throw new BoardException("해당 문의사항을 불러오는데 실패하였습니다.");
-		}
+		
+		model.addAttribute("n", board);
+		model.addAttribute("page", page);
+		model.addAttribute("q", q);
+		model.addAttribute("writerProfile", writerProfile);
+		model.addAttribute("generalType", generalType);
+		// model.addattribute("myPage", 1);
+		model.addAttribute("iList", iList);
+		return "askSelect";
 		
 	}
 	
@@ -497,19 +505,18 @@ public class BoardController {
 	
 	}
 	
-	@GetMapping("editQuestion.no")
+	@PostMapping("editQuestion.no")
 	public String editQuestion(@RequestParam("boardNo") int boardNo, Model model) {
 
 		Board b = bService.selectBoard(boardNo, 0);
 		ArrayList<Image> iList = bService.selectImage(boardNo);
+		String askType = bService.selectAskBoard(boardNo);
+		b.setGeneralType(askType);
 		
-		if(b != null) {
-			model.addAttribute("b", b);
-			model.addAttribute("iList", iList);
-			return "askEdit";
-		}else {
-			throw new BoardException("게시글 수정에 실패하였습니다");
-		}
+		model.addAttribute("b", b);
+		model.addAttribute("iList", iList);
+		System.out.println(b);
+		return "askEdit";
 	}
 	
 	@PostMapping("updateQuestion.no")
@@ -518,8 +525,15 @@ public class BoardController {
 		
 		int result = bService.updateBoard(b);
 		
+		System.out.println(b);
+		
 		ArrayList<Image> list = new ArrayList<Image>();
 		ArrayList<String> deleteImg = new ArrayList<String>();
+		
+		Board t = new Board();
+		t.setBoardNo(b.getBoardNo());
+		t.setBoardCount(pwd);
+		bService.updateQuestion(t);
 		
 		int delResult = 0;
 		int insertResult;
@@ -577,16 +591,16 @@ public class BoardController {
 			ra.addAttribute("page", 1);
 			return "redirect:askSelect.no";
 		}else {
-			throw new PlaceException("게시글 수정 중 에러발생");
+			throw new PlaceException("문의사항 수정 중 에러발생");
 		}
 	}
 	
-	@GetMapping("deleteQuestion.no")
+	@PostMapping("deleteQuestion.no")
 	public String deleteQuestion(@RequestParam("boardNo") int boardNo) {
 		// 문의사항 : 보드 스테이터스 바꾸기 + 이미지 삭제하기
 		bService.deleteBoard(boardNo);
 		int result = bService.deleteImg(boardNo);
-		return "askList";
+		return "redirect:askList.no";
 	}
 	
 	

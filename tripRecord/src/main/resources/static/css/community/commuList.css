@@ -124,3 +124,80 @@
 .arrow:active {
   transform: translateX(-50%) translateY(-50%) scale(0.9);
 }
+.disabled{cursor: not-allowed; pointer-events: none;}
+a:hover{cursor:pointer;}
+.page-item a{color:black;}
+.review-text{
+	width: 900px;
+	margin: 10px auto;
+}
+#goReview{
+	margin-bottom: 40px;
+}
+#goReview {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+#goReview {
+  --primary-color: #111;
+  --hovered-color: #96caf0;
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  font-size: 20px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+#goReview p {
+  margin: 0;
+  position: relative;
+  font-size: 20px;
+  color: var(--primary-color);
+}
+
+#goReview::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  background: var(--hovered-color);
+  height: 2px;
+  transition: 0.1s ease-out;
+}
+
+#goReview p::before {
+  position: absolute;
+  /*   box-sizing: border-box; */
+  content: "글 쓰기";
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.03s ease-out;
+}
+
+#goReview:hover::after {
+  width: 100%;
+}
+
+#goReview:hover p::before {
+  width: 100%;
+}
+
+#goReview:hover svg {
+  transform: translateX(4px);
+  color: var(--hovered-color);
+}
+
+#goReview svg {
+  color: var(--primary-color);
+  transition: 0.1s;
+  position: relative;
+  width: 15px;
+}

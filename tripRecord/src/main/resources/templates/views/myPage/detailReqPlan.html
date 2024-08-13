@@ -54,8 +54,11 @@
 					플래너가 아직 일정을 생성하지 않았어요&#128517;<br>
 					조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
 				</div>
-				<div id='schedule' th:if='${rs.reqStatus != "1"}'>
+				<div id='schedule' th:if='${rs.reqStatus != "1" || rs.reqStatus != "6"}'>
 					일정 생성 완료
+				</div>
+				<div id='schedule' th:if='${rs.reqStatus == "6"}'>
+					요청 취소된 여행입니다 :(
 				</div>
 			</div>
 			

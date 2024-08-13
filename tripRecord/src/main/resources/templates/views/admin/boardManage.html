@@ -102,7 +102,7 @@
 										<th style="width: 8%;">삭제</th>
 									</tr>
 								</thead>
-							  	<tbody>
+							  	<tbody th:unless="${list.isEmpty}">
 							  		<tr class="tr-user" th:each="list : ${list}">
 							      		<td>[[${list.boardNo}]]</td>
 							      		<td>
@@ -122,14 +122,19 @@
 										<td><span class="button-border box-size">삭제</span></td>
 							  		</tr>
 							  	</tbody>
+							  	<tbody th:if="${list.isEmpty}" class="table_no_hover">
+							  		<tr class="tr-user">
+							      		<td colspan="6">존재하는 게시글이 없습니다.</td>
+							  		</tr>
+							  	</tbody>
 							</table>
 						</div>
-						<div class="pagination-div row">
+						<div class="pagination-div row" th:unless="${list.isEmpty}">
 							<div class="col-3"></div>
 							<nav class="d-flex col-6" aria-label="Standard pagination example" style="float: right; height: 100%; justify-content: center !important;" th:with="loc=${loc}">
 								<ul class="pagination">
 									<li class="page-item" th:if="${pi.currentPage > 1}">
-										<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous">
+										<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage-1}, search=${search})}" aria-label="Previous">
 											<span aria-hidden="true" class="pagination-color">&laquo;</span>
 										</a>
 									</li>
@@ -139,12 +144,12 @@
 										</a>
 									</li>
 									<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p})}">
+										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p}, search=${search})}">
 											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
 										</a>
 									</li>
 									<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
-										<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next">
+										<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1}, search=${search})}" aria-label="Next">
 											<span aria-hidden="true" class="pagination-color">&raquo;</span>
 										</a>
 									</li>
@@ -197,6 +202,7 @@
 	</div>
 	
 	<script th:inline="javascript">
+	/*<![CDATA[*/
 		window.onload = () => {
 			
 			/* 글 검색 */
@@ -304,6 +310,7 @@
 			}
 			
 		}
+		/*]]>*/
 	</script>
 </body>
 </html>

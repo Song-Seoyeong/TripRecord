@@ -49,6 +49,7 @@ public class BoardServiceImpl implements BoardService{
 		Board b = bMapper.selectBoard(boardNo);
 		if(id != 0 && id != b.getBoardWriterNo()) {
 			bMapper.updateCount(boardNo);
+			b.setBoardCount(b.getBoardCount() + 1);
 		}
 		return b;
 		
@@ -171,6 +172,26 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public Image selectProfileImage(int i) {
 		return bMapper.selectProfileImage(i);
+	}
+
+	@Override
+	public void updateQuestion(Board t) {
+		bMapper.updateQuestion(t);
+	}
+
+	@Override
+	public String selectAskBoard(int boardNo) {
+		return bMapper.selectAskBoard(boardNo);
+	}
+
+	@Override
+	public int countBoardList(int memberNo) {
+		return bMapper.countBoardList(memberNo);
+	}
+
+	@Override
+	public void firstBoardPoint(int memberNo) {
+		bMapper.firstBoardPoint(memberNo);
 	}
 
 

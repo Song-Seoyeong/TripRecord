@@ -38,6 +38,11 @@ td{
 	cursor: pointer;
 }
 
+.table_no_hover td{
+	--bs-table-color-state: none !important;
+	--bs-table-bg-state: none !important;
+}
+
 .overflow-ell{
 	text-overflow: ellipsis;
 	display: -webkit-box;
