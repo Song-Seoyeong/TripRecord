@@ -210,8 +210,26 @@
 	
 	<delete id="deleteImg">
 		delete from image
-		<foreach collection="list" item="i" separator=",">
-			where image_rename = #{i.del}
+		where image_rename in
+		<foreach collection="list" item="i" separator="," open="(" close=")">
+			#{i}
 		</foreach>
 	</delete>
+	
+	<update id="updateQuestion">
+		update question
+		set question_pwd = #{pwd}
+	</update>
+	
+	<delete id="deleteImages">
+		delete from image
+		where image_ref_type = 'BOARD' and image_ref_no = #{boardNo}
+	</delete>
+	
+	<select id="selectProfileImage" resultType="Image">
+		select * from image
+		where image_ref_type = 'MEMBER' and image_ref_no = #{i}
+	</select>
+	
+	
 </mapper>

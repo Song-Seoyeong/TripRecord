@@ -306,4 +306,9 @@ public class AdminServiceImpl implements AdminService{
 		return aMapper.selectMemberImage(memberNo);
 	}
 	
+	@Override
+	public ArrayList<Image> selectBoardImageList() {
+		return aMapper.selectBoardImageList();
+	}
+	
 }

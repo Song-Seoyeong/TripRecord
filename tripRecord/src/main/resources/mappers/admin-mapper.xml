@@ -30,11 +30,11 @@
 	</delete>
 	
 	<select id="getTotalCount" resultType="_int">
-		select count(*) from general_bo join board on (board_no = general_no) where board_status = 'N'
+		select count(*) from general_bo join board on (board_no = general_no)
 	</select>
 	
 	<select id="getTypeCount" resultType="_int">
-		select count(*) from general_bo join board on (board_no = general_no) where general_type = #{generalType} and board_status = 'N'
+		select count(*) from general_bo join board on (board_no = general_no) where general_type = #{generalType}
 	</select>
 	
 	<select id="selectBoardList" resultType="Board">
@@ -112,7 +112,7 @@
 			<if test="search != null">
 				and board_title like '%${search}%'
 			</if>
-		order by board_no desc
+		order by board_create_date desc
 	</select>
 	
 	<select id="selectNotice">
@@ -188,6 +188,8 @@
 		from board
 		    join member on(board_writer_no = member_no)
 		    join question on(board_no = question_no)
+		    left join general_ask on(board_no = general_no)
+		order by board_create_date desc
 	</select>
 	
 	<select id="selectQuestionTotalCount" resultType="_int">
@@ -303,6 +305,10 @@
 	
 	<select id="selectMemberImage" resultType="Image">
 		select * from image where image_ref_no = #{memberNo} and image_ref_type = 'MEMBER'
+	</select>
+	
+	<select id="selectBoardImageList" resultType="Image">
+		select * from image where image_ref_type = 'BOARD'
 	</select>
 	
 </mapper>

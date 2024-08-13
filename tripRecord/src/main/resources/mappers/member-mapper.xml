@@ -283,13 +283,30 @@
 	</insert>
 	<!-- 여기까지 플래너 페이지 -->
 
+	<!-- 일정 요청 리스트 수 -->
+	<select id="getReqListCount" resultType='_int'>
+		select count(*)
+		from req_schedule
+		where req_mem_no = #{memberNo}
+	</select>
 
+	<!-- 일정 요청 리스트 -->
+	<select id="getReqList" resultType='ReqSchedule'>
+		select *
+		from req_schedule
+			join member on req_pla_no = member_no
+		where req_mem_no = #{memberNo}
+	</select>
 
-
-
-
-
-
+	<!-- 일정 요청 플래너 -->
+	<select id="getReqPlanner" resultType='Planner'>
+		select *
+		from member
+			left join planner using (member_no)
+			left join local using (local_no)
+			where member_no = #{reqPlaNo}
+	</select>
+	
 
 
 

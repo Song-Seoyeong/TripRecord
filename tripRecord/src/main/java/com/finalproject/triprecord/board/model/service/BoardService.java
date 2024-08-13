@@ -61,6 +61,12 @@ public interface BoardService {
 
 	int delImg(ArrayList<String> deleteImg);
 
+	void updateQuestion(Integer pwd);
+
+	int deleteImg(int boardNo);
+
+	Image selectProfileImage(int i);
+
 
 
 }

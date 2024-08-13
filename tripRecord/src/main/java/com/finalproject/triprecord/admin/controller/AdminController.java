@@ -221,11 +221,13 @@ public class AdminController {
 		int listCount = aService.getQuestListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
 		ArrayList<Question> qList = aService.selectQuestionList(pi);
+		ArrayList<Image> iList = aService.selectBoardImageList();
 		
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("answerCount", answerCount);
 		model.addAttribute("noAnswerCount", noAnswerCount);
 		model.addAttribute("qList", qList);
+		model.addAttribute("iList", iList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
 		return "questManage";
@@ -509,6 +511,7 @@ public class AdminController {
 		int listCount = aService.getListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
 		ArrayList<Board> list = aService.selectBoardList(pi, search);
+
 	
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("reviewCount", reviewCount);

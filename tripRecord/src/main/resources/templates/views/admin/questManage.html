@@ -75,16 +75,28 @@
 						<table class="table-user table table-hover">
 							<thead>
 								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
-									<th style="width: 10%;">번호</th>
-									<th style="width: 40%;">제목</th>
-									<th style="width: 14%;">이름</th>
-									<th style="width: 18%;">날짜</th>
-									<th style="width: 17%;">응답 여부</th>
+									<th style="width: 8%;">번호</th>
+									<th style="width: 11%;">분류</th>
+									<th style="width: 37%;">제목</th>
+									<th style="width: 15%;">이름</th>
+									<th style="width: 14%;">날짜</th>
+									<th style="width: 15%;">응답 여부</th>
 								</tr>
 							</thead>
 						  	<tbody class="table_hover">
 						  		<tr class="tr-user" th:each="q : ${qList}">
 						      		<td>[[${q.boardNo}]]</td>
+						      		<td>
+						      			<th:block th:if="${q.generalType == 'PLANNER'}">
+						      				플래너
+						      			</th:block>
+						      			<th:block th:if="${q.generalType == 'PAYMENT'}">
+						      				결제
+						      			</th:block>
+						      			<th:block th:if="${q.generalType == 'ELSE'}">
+						      				기타
+						      			</th:block>
+						      		</td>
 						      		<td><span class="overflow-ell">[[${q.boardTitle}]]</span></td>
 						      		<td>[[${q.memberName}]]</td>
 									<td>[[${#strings.replace(q.boardCreateDate, '-', '.')}]]</td>
@@ -147,11 +159,12 @@
 						<input type="hidden" name="boardNo" id="qNo"/>
 						<div class="quest-detail">
 							<div class="title-div-quest">
-								<span class="title-text-quest">결제 관련 문의</span>
+								<span class="title-text-quest">문의 내용</span>
 							</div>
 							<div class="form-floating quest-detail-div">
 						  		<textarea class="form-control box-shadow-none quest-textarea" id="detail-quest" style="width:100%; height: 100%;"readonly></textarea>
 							</div>
+					  		<div class="form-image" style="width: 87%; margin: 5px auto 0; height: 30px;"></div>
 							<div class="title-div-answer">
 								<span class="title-text-answer">답변 작성</span>
 							</div>
@@ -165,9 +178,13 @@
 			</div>
 		</div>
 	</div>
-	<script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	const images = /*[[${iList}]]*/null;
+	/*]]>*/
+	let fileId;
+	
 	window.onload = () => {
-		
 		/* 문의 답변 작성 전 확인 */
 		const form = document.getElementsByClassName('answer-reg')[0];
 		form.addEventListener('click', e =>{
@@ -199,8 +216,19 @@
 						if(data != null){
 							document.getElementById('qNo').value = data.boardNo;
 							document.getElementById('detail-quest').innerText = data.boardContent;
+							const formImg = document.getElementsByClassName('form-image')[0];
+							formImg.innerHTML = '';
 							
-							if(tr.children[4].innerText == '응답'){
+							for(const image of images){
+								if(image.imageRefNo == data.boardNo){
+									fileId = image.imageRename;
+									
+									formImg.innerHTML = '<a href="' + image.imageRename + '" onclick="downloadFile(event)">' + image.imageRename + '</a>';
+									
+								}
+							}
+							
+							if(tr.children[5].innerText == '응답'){
 								const questContents = data.questionAnswer.split('$$@!');
 								document.getElementById('detail-answer').innerText = '';
 								
@@ -229,10 +257,6 @@
 		});
 		
 		
-		
-		
-		
-		
 		const listLi = document.getElementsByClassName('board-list-ul')[0].children;
 		const current = document.getElementsByClassName('select-board')[0];
 		
@@ -259,6 +283,12 @@
 		}
 		
 	} 
+	
+	function downloadFile(event) {
+        event.preventDefault();
+        const downloadUrl = '/downloadImage?fileId=' + fileId;
+        window.location.href = downloadUrl;
+    }
 	</script>
 </body>
 </html>

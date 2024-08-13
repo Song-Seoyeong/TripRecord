@@ -22,6 +22,10 @@ body{
 	width: 93% !important;
 	max-height: 680px;
 	overflow-y: auto;
+	min-width: 705px;
+	display: flex;
+	flex-direction: inherit;
+	flex-wrap: wrap;
 }
 
 .content-list::-webkit-scrollbar{

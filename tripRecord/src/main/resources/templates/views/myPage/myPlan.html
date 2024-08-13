@@ -25,7 +25,7 @@
 		<div style="display:inline-block; margin-right:250px;">
 			<div style="color: black; font-size: 36px; font-weight: 900;">플래너 일정 요청 리스트</div>
 			<div style="height:40px;"></div>
-			<div style="display:inline-block; width:1000px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
+			<div style="display:inline-block; width:1000px; height:800px;" >
 				<table>
 					<thead>
 					 	<tr style="border-bottom:2px solid #96CAF0;">
@@ -37,94 +37,52 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
+						<tr style="border-bottom:2px solid #b9b9b9" th:if='${list != null}' th:each='l :${list}'>
+							<th:block  th:each='p : ${pList}' th:if='${l.reqPlaNo == p.memberNo}'>
+								<td id="requestNumber">[[${l.reqNo}]]</td>
+								<td id="place">[[${p.localName}]]</td>
+								<td id="date">30일</td>
+								<td id="planner">[[${p.nickName}]]</td>
+								<td id="status" th:if='${l.reqStatus == 1}'>요청</td>
+								<td id="status" th:if='${l.reqStatus == 2}' style='color: green'>일정 완료</td>
+								<td id="status" th:if='${l.reqStatus == 3}' style='color: yellow'>피드백 요청</td>
+								<td id="status" th:if='${l.reqStatus == 4}' style='color: green'>피드백 완료</td>
+								<td id="status" th:if='${l.reqStatus == 5}' style='color: #96CAF0'>요청 완료</td>
+								<td id="status" th:if='${l.reqStatus == 6}' style='color: red'>요청 취소</td>
+							</th:block>
 						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">광주</td>
-							<td id="date">10일</td>
-							<td id="planner">송서영</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">부산</td>
-							<td id="date">20일</td>
-							<td id="planner">권예린</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">경기</td>
-							<td id="date">40일</td>
-							<td id="planner">황병찬</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">대전</td>
-							<td id="date">50일</td>
-							<td id="planner">강고은</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">울산</td>
-							<td id="date">30일</td>
-							<td id="planner">김정민</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">제주</td>
-							<td id="date">70일</td>
-							<td id="planner">송서영</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">경북</td>
-							<td id="date">80일</td>
-							<td id="planner">권예린</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">경남</td>
-							<td id="date">90일</td>
-							<td id="planner">황병찬</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="requestNumber">1</td>
-							<td id="place">강원</td>
-							<td id="date">35일</td>
-							<td id="planner">강고은</td>
-							<td id="status">완료</td>
+						<tr th:if='${list != null}'>
+							<td colspan="5">
+								요청하신 리스트가 없습니다
+							</td>
 						</tr>
 					</tbody>
 				</table>
 				
 				<!-- 페이지네이션 -->
-				<div class="text-center" style="margin-top:25px; text-align:center;">
-					<ul class="pagination">
-						<!-- 이전링크 -->
-						<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
-						<!-- 번호 이동 -->
-						<li class="pageNumber"><a href='#'>1</a></li>
-						<li class="pageNumber"><a href='#'>2</a></li>
-						<li class="pageNumber"><a href='#'>3</a></li>
-						<li class="pageNumber"><a href='#'>4</a></li>
-						<li class="pageNumber"><a href='#'>5</a></li>
-						<!-- 다음링크 -->
-						<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
-					</ul>
-				</div>
+				<nav class="d-flex justify-content-center" th:if='${pi.listCount != 0}'>
+		        	<ul class="pagination" th:with="loc=${ loc }">
+		        		 <!-- 이전 버튼 -->
+			            <li class="page-item">
+			            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+			            		<span aria-hidden="true">&laquo;</span>
+			              	</a>
+			            </li>
+			            
+			             <!-- 페이지 넘버링 버튼  -->
+			            	
+						<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+							<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+						</li>
+			           
+			             <!-- 다음 버튼  -->
+			            <li class="page-item">
+			            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+			            		<span aria-hidden="true">&raquo;</span>
+			            	</a>
+			            </li>
+			    	</ul>
+		        </nav>
 			</div>
 		</div>
 	</div>

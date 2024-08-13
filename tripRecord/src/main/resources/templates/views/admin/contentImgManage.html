@@ -120,7 +120,7 @@
 						</div>
 						<div class="content-list">
 							<div class="display-inline-block">
-								<div class="card margin-right" style="width: 14rem;">
+								<div class="card margin-right" style="width: 14rem;" th:unless="${i == null}">
 									<div style="height: 200px; width: 100%;">
 									  	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" class="card-img-top card-img-bottom" height="200" width="100">
 									</div>

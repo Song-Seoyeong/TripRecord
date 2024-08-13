@@ -14,6 +14,7 @@ import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.common.model.vo.Review;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 
@@ -81,6 +82,12 @@ public interface MemberMapper {
 	ArrayList<Board> getBoardList(HashMap<String, Object> map, RowBounds rb);
 	//문의 사항 데이터 불러오기
 	ArrayList<Question> getQuestionList(HashMap<String, Object> map);
+	
+	int getReqListCount(int memberNo);
+
+	ArrayList<ReqSchedule> getReqList(int memberNo, RowBounds rb);
+	
+	Planner getReqPlanner(int reqPlaNo);
 	//---------------------------------------------------------
 	//플래너 페이지
 	//플래너 불러오기
@@ -100,6 +107,10 @@ public interface MemberMapper {
 	//플래너 취소
 	int canclePlanner(HashMap<String, Object> map);
 	//---------------------------------------------------------
+
+	
+
+	
 
 
 

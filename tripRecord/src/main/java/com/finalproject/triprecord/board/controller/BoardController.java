@@ -28,6 +28,7 @@ import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.member.model.vo.Member;
+import com.finalproject.triprecord.place.model.exception.PlaceException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -96,24 +97,21 @@ public class BoardController {
 		}
 		
 		
+		
 		int listCount = bService.getCategorySelectListCount(cs);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> cList = bService.getCategorySelectBoardList(cs, pi);
 		
 		
-		if(!cList.isEmpty()) {
-			model.addAttribute("cList", cList);
-			model.addAttribute("pi",pi);
+		model.addAttribute("cList", cList);
+		model.addAttribute("pi",pi);
 //			model.addAttribute("loc", req.getRequestURI());
-			model.addAttribute("listCount", listCount);
-			model.addAttribute("searchWord", cs.getSearchWord());
-			model.addAttribute("generalType", cs.getGeneralType());
-			model.addAttribute("localName", cs.getLocalName());
-			//model.addAttribute("boardType", "GENERAL");    // 현재 커뮤니티 게시판 == 무조건 GENERAL
-		} else {
-			model.addAttribute("nothing", "nothing");
-		}
+		model.addAttribute("listCount", listCount);
+		model.addAttribute("searchWord", cs.getSearchWord());
+		model.addAttribute("generalType", cs.getGeneralType());
+		model.addAttribute("localName", cs.getLocalName());
+		//model.addAttribute("boardType", "GENERAL");    // 현재 커뮤니티 게시판 == 무조건 GENERAL
 		return "commuList";
 	}
 	
@@ -122,7 +120,7 @@ public class BoardController {
 		return "communityWrite";
 	}
 	
-	@GetMapping("commuEdit.bo")
+	@PostMapping("commuEdit.bo")
 	public String commuEdit(@RequestParam("boardNo") int bNo, Model model) {
 		Board b = bService.selectBoard(bNo, 0);
 		ArrayList<Image> iList = bService.selectImage(bNo);
@@ -134,7 +132,7 @@ public class BoardController {
 		return "communityEdit";
 	}
 	
-	@GetMapping("commuDelete.bo")
+	@PostMapping("commuDelete.bo")
 	public String commuDelete(@RequestParam("boardNo") Integer bNo) {
 		bService.deleteBoard(bNo);
 		return "redirect:community.bo";
@@ -142,6 +140,7 @@ public class BoardController {
 	
 	@GetMapping("commuSelect.bo")
 	public String commuSelect(@RequestParam("generalType") String generalType,@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, HttpServletRequest req) {
+		System.out.println("d");
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int id = 0;
 		if(loginUser != null) {
@@ -150,21 +149,23 @@ public class BoardController {
 		
 		Board board = bService.selectBoard(boardNo, id);
 		ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
+		Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); // Member 인거만 다 가져와서 로그인 유저랑 글쓴이 번호랑 비교해서 사용
+		System.out.println("wri : " + writerProfile);
+		Image replyProfile = bService.selectProfileImage(id); // 로그인 x -> null, 로그인 ㅇ -> 사진 있을때 image, 없을때 null
+		System.out.println("rep : " + replyProfile);
 		ArrayList<Reply> rList = bService.selectReply(boardNo);
 		
+		System.out.println("커뮤설렉트");
 		
-		/* 댓글 작성자들 썸네일 사진도 가져와야 함 */
-		if(board != null) {
-			model.addAttribute("b", board);
-			model.addAttribute("page", page);
-			model.addAttribute("rList", rList);
-			model.addAttribute("generalType", generalType);
-			model.addAttribute("loc", req.getRequestURI());
-			model.addAttribute("iList", iList);
-			return "communitySelect";
-		} else {
-			throw new BoardException("게시글 조회에 실패하였습니다.");
-		}
+		model.addAttribute("b", board);
+		model.addAttribute("page", page);
+		model.addAttribute("rList", rList);
+		model.addAttribute("generalType", generalType);
+		model.addAttribute("writerProfile", writerProfile);
+		model.addAttribute("replyProfile", replyProfile);
+		model.addAttribute("loc", req.getRequestURI());
+		model.addAttribute("iList", iList);
+		return "communitySelect";
 	}
 	
 	
@@ -230,8 +231,76 @@ public class BoardController {
 		}
 	}
 	
-	//@PostMapping("updateBoard.bo")
-//	public String updateBoard(@ModelAttribute Board b, )
+	@PostMapping("updateBoard.bo")
+	public String updateBoard(@ModelAttribute Board b, @RequestParam(value="files", required=false) ArrayList<MultipartFile> files,
+							  @RequestParam(value="page",defaultValue="1") int page, @RequestParam(value="delImg", required=false) ArrayList<String> delImgs,
+							  HttpSession session, RedirectAttributes ra) {
+		
+		
+		int result = bService.updateBoard(b);
+		
+		ArrayList<Image> list = new ArrayList<Image>();
+		ArrayList<String> deleteImg = new ArrayList<String>();
+		
+		int delResult = 0;
+		int insertResult;
+		
+		try {
+			// 이미지 삭제
+			if(delImgs != null && !delImgs.isEmpty()) {
+				for(String del : delImgs) {
+					if(!del.equals("none")) {
+						deleteImg.add(del);
+						// 구글 드라이브에서 삭제
+						gdService.deleteFile(del);
+					}
+				}
+			}
+			delResult = bService.delImg(deleteImg);
+			
+			// 이미지 추가
+			for(int i = 0; i < files.size(); i++) {
+				MultipartFile upload = files.get(i);
+				
+				//if(!upload.getOriginalFilename().equals("")) {
+				if(upload != null && !upload.isEmpty()) {
+		            String fileId;
+		            
+					fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
+					Image a = new Image();
+					a.setImageOriginName(upload.getOriginalFilename());
+					a.setImageRename(fileId);
+					a.setImagePath("drive://files/" + fileId);
+					a.setImageThum(2);
+					a.setImageRefType("BOARD");
+					a.setImageRefNo(b.getBoardNo());
+					
+					list.add(a);
+				}
+			}
+			
+			
+			if(!list.isEmpty()) {
+				insertResult = bService.insertImage(list);
+				
+				if(insertResult < 0) {
+					for(Image i : list) {
+						gdService.deleteFile(i.getImageRename());
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(result + delResult == 1 + deleteImg.size()) {
+			ra.addAttribute("boardNo", b.getBoardNo());
+			ra.addAttribute("generalType", b.getGeneralType());
+			ra.addAttribute("page", page);
+			return "redirect:commuSelect.bo";
+		}else {
+			throw new PlaceException("게시글 수정 중 에러발생");
+		}
+	}
 	
 	
 	@GetMapping(value="insertCommuReply.bo", produces = "application/json; charset=UTF-8")
@@ -355,14 +424,10 @@ public class BoardController {
 		ArrayList<Board> cList = bService.getCategorySelectQuestionList(cs, pi);
 		ArrayList<Question> qList = bService.getQuestionList(0);
 		
-		if(!cList.isEmpty()) {
-			model.addAttribute("aList", cList);
-			model.addAttribute("pi",pi);
-			model.addAttribute("listCount", listCount);
-			model.addAttribute("qList", qList);
-		} else {
-			model.addAttribute("nothing", "nothing");
-		}
+		model.addAttribute("aList", cList);
+		model.addAttribute("pi",pi);
+		model.addAttribute("listCount", listCount);
+		model.addAttribute("qList", qList);
 		model.addAttribute("searchWord", cs.getSearchWord());
 		model.addAttribute("generalType", cs.getGeneralType());
 		return "askList";
@@ -450,15 +515,14 @@ public class BoardController {
 	@PostMapping("updateQuestion.no")
 	public String updateQuestion(@ModelAttribute Board b, @RequestParam("pwd") Integer pwd, @RequestParam(value="delImg", required=false) ArrayList<String> delImgs,
 								@RequestParam(value="files", required=false) ArrayList<MultipartFile> files, RedirectAttributes ra) {
+		
 		int result = bService.updateBoard(b);
 		
+		ArrayList<Image> list = new ArrayList<Image>();
 		ArrayList<String> deleteImg = new ArrayList<String>();
+		
 		int delResult = 0;
 		int insertResult;
-		
-		//System.out.println(files);
-		//System.out.println(delImgs);
-		
 		
 		try {
 			// 이미지 삭제
@@ -467,7 +531,6 @@ public class BoardController {
 					if(!del.equals("none")) {
 						deleteImg.add(del);
 						// 구글 드라이브에서 삭제
-						System.out.println("syso : " + deleteImg);
 						gdService.deleteFile(del);
 					}
 				}
@@ -475,7 +538,6 @@ public class BoardController {
 			delResult = bService.delImg(deleteImg);
 			
 			// 이미지 추가
-			ArrayList<Image> list = new ArrayList<Image>();
 			for(int i = 0; i < files.size(); i++) {
 				MultipartFile upload = files.get(i);
 				
@@ -496,6 +558,7 @@ public class BoardController {
 				}
 			}
 			
+			
 			if(!list.isEmpty()) {
 				insertResult = bService.insertImage(list);
 				
@@ -509,16 +572,22 @@ public class BoardController {
 			e.printStackTrace();
 		}
 		if(result + delResult == 1 + deleteImg.size()) {
-			ra.addAttribute("generalType", b.getGeneralType());
 			ra.addAttribute("boardNo", b.getBoardNo());
-			ra.addAttribute("page",1);
+			ra.addAttribute("generalType", b.getGeneralType());
+			ra.addAttribute("page", 1);
 			return "redirect:askSelect.no";
 		}else {
-			throw new BoardException("문의사항 수정 중 에러가 발생하였습니다.");
+			throw new PlaceException("게시글 수정 중 에러발생");
 		}
 	}
 	
-	
+	@GetMapping("deleteQuestion.no")
+	public String deleteQuestion(@RequestParam("boardNo") int boardNo) {
+		// 문의사항 : 보드 스테이터스 바꾸기 + 이미지 삭제하기
+		bService.deleteBoard(boardNo);
+		int result = bService.deleteImg(boardNo);
+		return "askList";
+	}
 	
 	
 	

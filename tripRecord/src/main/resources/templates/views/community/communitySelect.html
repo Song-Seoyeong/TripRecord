@@ -7,34 +7,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style>
 
-.edit-btn{
-	background:#96caf0;
-	border:none;
-	color:white;
-	font-weight:bold;
-	font-size:15px;
-	width: 65px;
-    border-radius: 10px;
-    height: 35px;
-}
-.edit-btn:hover{
-	cursor: pointer;
-	background: #58aae7;
-}
-.del-btn{
-	background:lightgray;
-	color:black;
-	border:none;
-	font-weight:bold;
-	font-size:15px;
-	width: 65px;
-    border-radius: 10px;
-    height: 35px;
-}
-.del-btn:hover{
-	cursor:pointer;
-	background:gray;
-}
+
 
 
 </style>
@@ -44,14 +17,15 @@
  	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
 	<div class="text-center" style="padding-top:60px;">
-		<b style="font-size:70px;">전국</b>
+		<b style="font-size:70px;" th:if="${localName == 'ALL' || localName == null}">전국</b>
+		<b style="font-size:70px;" th:if="${localName != null && localName != 'ALL'}">[[${localName}]]</b>
 	</div>
 	
 	<form id="search-form" action="categorySelect.bo" method="get">
 		<div id='content'>
 			<div id="content1-div" class="container">
 				<input id="search-com" type="text" placeholder="제목으로 검색" name="searchWord">
-				<img class="x-icon" src="image/Search.png">
+				<!-- <img class="x-icon" src="image/Search.png"> -->
 			</div>
 		</div>
 		
@@ -93,7 +67,6 @@
 				<p>- 전북</p>
 				<p>- 전남</p>
 				<p>- 제주</p>
-				<input type="hidden" name="localName" id="localName" th:value="${localName}">
 				</div>
 			</div>
 		</div> 
@@ -104,24 +77,70 @@
 		<div class="col-3"><div>동행</div></div>
 		<div class="col-3"><div>양도</div></div>
 		<div class="col-3"><div>후기</div></div>
-		<input type="hidden" name="generalType" id="generalType" th:value="${generalType}">
 	</div>
 	
 	<div id='content2'>
 		<div class="text-center" style="padding:30px;">
 			<b style="font-size:40px;">[[${b.boardTitle}]]</b>
 		</div>
-		<div class='row' style="padding:30px; border-bottom:5px solid #96caf0;">
-			<div class="col-2">
-				<!-- <img src="#"> -->
-				[[${b.nickname}]]
-			</div>
-			<div class="col-8"></div>
+		<div style="padding:30px; border-bottom:5px solid #96caf0; display:flex; align-items:center;">
 			<div class="col-2">[[${b.boardModifyDate}]]</div>
+			<div class="col-2">조회수 : [[${b.boardCount}]]</div>
+			<div class="col-6"></div>
+			<div class="profileImg" id="prof">
+				<!-- <img th:if="${writerProfile == null}" src="image/noProfile.png"> -->
+				<!-- <img th:if="${writerProfile != null}" th:src="|https://drive.google.com/thumbnail?id=${writerProfile.imageRename}&sz=w1000|"> -->
+			</div>
+			<div class="col-1" th:text="${b.nickname}"></div>
+			<div class="dropend" th:if='${session.loginUser != null && session.loginUser.memberNo == b.boardWriterNo}'>
+				<a role="button" data-bs-toggle="dropdown" aria-expanded="false" id='drop'>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+						<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+					</svg>
+				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<button type='button' id='updateButton' class='btn'>
+							<span id='beforeUp'>
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+									<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+								</svg>
+							</span>
+							<span id='afterUp'>
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+									<path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+								</svg>
+							</span>
+							&nbsp;&nbsp;&nbsp;리뷰 수정하기
+						</button>
+					</li>
+					<li>
+						<button type='button' id='deleteButton' class='btn'>
+							<span id='beforeDel'>
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+									<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+								</svg>
+							</span>
+							<span id='afterDel'>
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+									<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+								</svg>
+							</span>
+							&nbsp;&nbsp;&nbsp;리뷰 삭제하기
+						</button>
+					</li>
+				</ul>
+			</div>
+			
 		</div>
 		<div class='text-start' id='placeContent'>
 			[[${b.boardContent}]]
 		</div>
+		
+		<form method="post" id="updel">
+			<input type="hidden" th:value="${b.boardNo}" name="boardNo">
+		</form>
+		
 		
 		
 		<!-- 이미지들 -->
@@ -129,8 +148,8 @@
 			<h2 style="margin-bottom:35px;">관련 사진 &#x1F4F8;</h2>
 		    <div class="image-gallery" id="image-gallery">
 		    	<div th:if="${ #lists.isEmpty(iList)}">등록된 이미지가 없습니다.</div>
-		        <div class="image-container" th:each=" i, iStat : ${ iList }">
-		        	<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|">
+		        <div class="image-container" th:if="${ not #lists.isEmpty(iList)}" th:each=" i, iStat : ${ iList }">
+		        	<!-- <img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|"> -->
 		        </div>
 		    </div>
 		</div>
@@ -144,19 +163,19 @@
 	
 	<input type="hidden" th:value="${b.boardNo}" name="boardNo">
 	<div class="text-center row">
-		<div class="col-4"></div>
-		<div class="col-1" style="margin:auto;">
+		<div class="col-5"></div>
+		<!-- <div class="col-1" style="margin:auto;">
 			<button class="edit-btn" th:if="${session.loginUser != null && session.loginUser.memberNo == b.boardWriterNo}">수정</button>
-		</div>
+		</div> -->
 		<div class="col-1" style="margin:auto;">
 			<a href="community.bo">
 				<button class="edit-btn">목록</button>
 			</a>
 		</div>
-		<div class="col-1" style="margin:auto;">
+		<!-- <div class="col-1" style="margin:auto;">
 			<button class="del-btn" th:if="${session.loginUser != null && session.loginUser.memberNo == b.boardWriterNo}">삭제</button>
-		</div>
-		<div class="col-4"></div>
+		</div> -->
+		<div class="col-5"></div>
 	</div>
 	<hr>
 	
@@ -203,7 +222,7 @@
         			<p class="mb-0">삭제 후 복구가 불가능합니다.</p>
       			</div>
       			<div class="modal-footer flex-nowrap p-0">
-        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete" th:disabled="${session.loginUser != null && session.loginUser.memberNo == b.boardWriterNo}">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete" th:disabled="${session.loginUser == null || session.loginUser.memberNo != b.boardWriterNo}">
         				<strong>네</strong>
         			</button>
         			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
@@ -228,18 +247,33 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th width="80px">번호</th>
-							<th width="600px">댓글 내용</th>
+							<th></th>
+							<th width="680px">댓글 내용</th>
 							<th width="130px">작성자</th>
 							<th width="130px">작성일자</th>
 							<th width="25px" style="border:none;width:20px;"></th>
-							<!-- <th width="25px" style="border:none;width:20px;"></th> -->
+							<th width="25px" style="border:none;width:20px;"></th>
 	          			</tr>
 	          		</thead>
 	         		<tbody id="text-test">
+	         			<tr style="display:none;">
+	         				<td></td>
+	         				<td></td>
+	         				<td></td>
+	         				<td>
+	         					<span>
+	          						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>
+	          					</span>
+          					</td>
+	         				<td>
+	         					<span>
+            						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg>
+            					</span>
+           					</td>
+	         			</tr>
 	         		<!-- 이거 반복 -->
 	          			<tr th:each=" r : ${rList}">
-	            			<td th:text="${r.replyNo}"></td>
+	            			<td><input type="hidden" th:value="${r.replyNo}"></td>
 	            			<td th:text="${r.replyContent}"></td>
 	            			<td th:text="${r.nickname}"></td>
 	            			<td th:text="${r.replyModifyDate}"></td>
@@ -271,9 +305,13 @@
 			<h3>댓글 작성</h3>
 			<br>
 			<div id='profile' class='text-start'>
-				<div id='profileImg' class="col-1">
-					<img src='image/profile.png'/>
+				<div class='profileImg' th:if="${session.loginUser == null || replyProfile == null}">
+					<!-- <img src="image/noProfile.png"/> -->
 				</div>
+				<!-- <div class='profileImg' th:if="${session.loginUser != null && replyProfile != null && replyProfile.imageRefNo == session.loginUser.memberNo}">
+					<img th:if="${replyProfile != null}" th:src='|https://drive.google.com/thumbnail?id=${replyProfile.imageRename}&sz=w1000|' alt="image/noProfile.png"/>
+				</div> -->
+				<!-- <div class="profileImg"></div> -->
 				<div style="padding:10px; font-size:15px;">
 					<th:block th:if="${session.loginUser != null}" th:text="${session.loginUser.nickname}"></th:block>
 					<th:block th:if="${session.loginUser == null}">로그인 후 이용해 주세요</th:block>
@@ -285,7 +323,14 @@
 		
 		
 		<div th:if="${ session.loginUser != null}" style="display:flex; justify-content:right; margin-bottom:50px;">
-	       	<button class="btn btn-outline-success" type="button" onclick="location.href='commuWrite.bo'">WRITE BOARD</button>
+	       	<div class='review-text' id='reviewDiv'>
+				<button id='goReview'>
+				  <p>글 쓰기</p>
+				  <svg  xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4" >
+				    <path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+				  </svg>
+				</button>
+			</div>
 	    </div>
 		
 		
@@ -301,7 +346,8 @@
 		/*<![CDATA[*/
 //		window.onload=()=>{
 			
-			
+			//console.log(document.querySelector('.profileImg'));	
+	
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			const localNameValue = document.getElementById("localName");
 			const generalTypeValue = document.getElementById("generalType");
@@ -387,21 +433,48 @@
 			});
 			
 			// 수정버튼
-			const boardNo = document.getElementsByName('boardNo')[0].value;
-			document.getElementsByClassName('edit-btn')[0].addEventListener('click', ()=>{
-				location.href="commuEdit.bo?boardNo=" + boardNo;
-			});
+			const form = document.getElementById("updel");
+			const update = document.getElementById('updateButton');
+			if(update != null){
+				update.addEventListener('click', ()=>{
+					form.action = 'commuEdit.bo';
+					form.submit();
+				});
+			}
 			
 			// 삭제버튼
-			const delBtn = document.getElementsByClassName('del-btn')[0];
+			const delBtn = document.getElementById('deleteButton');
 			if(delBtn != null){
 				delBtn.addEventListener('click',()=>{
 					$('#modalChoice').modal('show');
 				});
 			}
 			document.getElementById('delete').addEventListener('click',()=>{
-				location.href="commuDelete.bo?boardNo=" + boardNo;
-			})
+				form.action = 'commuDelete.bo';
+				form.submit();
+			});
+			
+			/* window.onload=()=>{
+				
+				// 프로필 사진 없을 때 넣어줌
+				const noProfile = document.getElementById('profile').children[0].children[0];
+				if(noProfile == null){
+					document.getElementById('profile').children[0].className = 'profileImg';
+					const img = document.createElement('img');
+					img.src = 'image/noProfile.png';
+					document.getElementById('profile').children[0].append(img);
+				} else if(noProfile.tagName.toLowerCase() == 'img'){
+					document.getElementById('profile').children[1].remove();
+				}
+				
+				const noImgWriter = document.getElementById("prof");
+				if(noImgWriter.children[0] == null){
+					const img = document.createElement('img');
+					img.src = 'image/noProfile.png';
+					noImgWriter.append(img);
+				}
+			} */
+			
 			
 			
 			
@@ -422,7 +495,10 @@
 							const tr = document.createElement('tr');
 							
 							const noTd = document.createElement('td');
-							noTd.innerText = r.replyNo;
+							const input = document.createElement('input');
+							input.type="hidden";
+							input.value=r.replyNo;
+							noTd.append(input);
 							const contentTd = document.createElement('td');
 							contentTd.innerText = r.replyContent;
 							const writerTd = document.createElement('td');
@@ -498,9 +574,8 @@
 				}
 			
 				const myTd = targetSVG.parentElement.parentElement;
-				const replyNo = myTd.parentElement.children[0].innerText;
+				const replyNo = myTd.parentElement.children[0].children[0].value;
 				const contentTd = myTd.parentElement.children[1];
-				
 				if(targetSVG  != null){
 					if(targetSVG.className.baseVal.includes('pencil')){ // 펜슬 아이콘 클릭했을 때
 						if(document.getElementsByClassName('bi-check-lg').length > 0){

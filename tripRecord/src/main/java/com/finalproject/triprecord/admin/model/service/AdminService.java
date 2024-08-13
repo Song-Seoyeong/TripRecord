@@ -123,6 +123,8 @@ public interface AdminService {
 
 	Image selectMemberImage(int memberNo);
 
+	ArrayList<Image> selectBoardImageList();
+
 
 
 }

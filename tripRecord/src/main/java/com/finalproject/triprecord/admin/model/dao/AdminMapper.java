@@ -127,5 +127,7 @@ public interface AdminMapper {
 
 	Image selectMemberImage(int memberNo);
 
+	ArrayList<Image> selectBoardImageList();
+
 	
 }

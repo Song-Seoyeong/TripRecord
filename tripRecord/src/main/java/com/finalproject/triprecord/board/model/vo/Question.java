@@ -25,4 +25,5 @@ public class Question {
 	private int questionPwd;
 	
 	private String memberName;
+	private String generalType;
 }
