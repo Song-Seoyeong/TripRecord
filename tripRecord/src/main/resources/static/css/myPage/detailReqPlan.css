@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+#submit_button {
+	color: #96CAF0;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	margin-right: 5px;
+	border: 2px solid #96CAF0;
+}
+
+#submit_button:hover {
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
+}
+
+#cancle_button {
+	color: #DD5353;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	border: 2px solid #DD5353;
+}
+
+#cancle_button:hover {
+	background: #DD5353;
+	border: 2px solid #DD5353;
+	color: #fff;
+	font-weight: 600;
+}
+
+.flex-container {
+	margin-left: auto;
+}
+
+#schContent {
+	margin: auto;
+	width: 900px;
+	min-height: 220px;
+}
+
+#note {
+	font-size: 20px;
+}
+
+#planSch {
+	margin: auto;
+	width: 900px;
+	min-height: 500px;
+}
+
+#planner {
+	font-size: 20px;
+	font-weight: 600;
+	height: 90px;
+	position: relative;
+}
+
+#plannerImgDiv {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	overflow: hidden;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid;
+}
+
+#plannerImg {
+	width: 100%;
+	height: 100%;
+}
+
+#plaNickname {
+	position: absolute;
+	left: 120px;
+	top: 50px;
+}
+
+#schedule {
+	font-size: 25px;
+}
+
+#planTitle {
+	margin-top: 20px;
+	font-size: 30px;
+}

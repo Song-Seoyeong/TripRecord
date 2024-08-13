@@ -578,8 +578,8 @@ public class AdminController {
 		}
 	}
 	
-	/** 지역 사진 관리 */
-	// 지역 사진 관리 페이지 이동
+	/** 사진 관리 */
+	// 사진 관리 페이지 이동
 	@GetMapping("contentImgManage.ad")
 	public String contentImgManageView(Model model) {
 		

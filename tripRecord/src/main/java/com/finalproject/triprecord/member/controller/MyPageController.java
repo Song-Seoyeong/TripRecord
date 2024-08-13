@@ -34,6 +34,7 @@ import com.finalproject.triprecord.member.model.exception.MemberException;
 import com.finalproject.triprecord.member.model.service.MemberService;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -368,7 +369,7 @@ public class MyPageController {
 			p = mService.getReqPlanner(r.getReqPlaNo());
 			pList.add(p);
 		}
-	    System.out.println(pi.getEndPage());
+		//System.out.println(list);
 	    //프로필 사진
 		
 	    Image image = mService.existFileId(memberNo); 
@@ -388,9 +389,20 @@ public class MyPageController {
 	}
 
 	@GetMapping("detailReqPlan.mp")
-	public String moveToDetailReqPlan(HttpSession session, Model model) {
+	public String moveToDetailReqPlan(@RequestParam("reqNo")int reqNo, HttpSession session, Model model) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
-	    Image image = mService.existFileId(memberNo); 
+	    
+		// 상세 요청 가져오기
+		ReqSchedule rs = mService.getReqSchedule(reqNo);
+		Planner planner = mService.getReqPlanner(rs.getReqPlaNo());
+		Image i = mService.existFileId(planner.getMemberNo());
+		planner.setImageRename(i.getImageRename());
+		Schedule sch = mService.getSchedule(rs.getScheNo());
+		//System.out.println(sch);
+		
+		
+		// 사용자 프로필 사진
+		Image image = mService.existFileId(memberNo); 
 	  
 	    if (image != null && image.getImageRename() != null) {
 	        String existFileId = image.getImageRename(); 
@@ -399,7 +411,10 @@ public class MyPageController {
 	        // 이미지가 없거나 리네임이 없는 경우 처리
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
-		return "detailReqPlan";
+	    model.addAttribute("rs", rs);
+	    model.addAttribute("planner", planner);
+	    model.addAttribute("sch", sch);
+	    return "detailReqPlan";
 	}
 
 	@GetMapping("feedback.mp")

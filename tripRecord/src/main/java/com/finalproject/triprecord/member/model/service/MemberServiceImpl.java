@@ -20,6 +20,7 @@ import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.dao.MemberMapper;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -194,6 +195,11 @@ public class MemberServiceImpl implements MemberService{
 	public Planner getReqPlanner(int reqPlaNo) {
 		return mMapper.getReqPlanner(reqPlaNo);
 	}
+	// 일정 상세 조회
+	@Override
+	public ReqSchedule getReqSchedule(int reqNo) {
+		return mMapper.getReqSchedule(reqNo);
+	}
 	//----------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -239,6 +245,15 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.canclePlanner(map);
 	}
 	//----------------------------------------------------------------
+
+	@Override
+	public Schedule getSchedule(int scheNo) {
+		return mMapper.getSchedule(scheNo);
+	}
+
+	
+
+	
 
 	
 

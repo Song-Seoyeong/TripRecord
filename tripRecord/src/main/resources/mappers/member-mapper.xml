@@ -170,8 +170,7 @@
 	<!-- 기존 프로필 이미지 이름 가져오기 -->
 	<select id="existFileId" resultType="Image">
 		select IMAGE_RENAME
-		from
-		IMAGE
+		from IMAGE
 		where IMAGE_REF_TYPE = 'MEMBER' and IMAGE_REF_NO = #{memberNo}
 	</select>
 
@@ -307,11 +306,19 @@
 			where member_no = #{reqPlaNo}
 	</select>
 	
-
-
-
-
-
+	<!-- 일정 상세 조회 : 요청 -->
+	<select id="getReqSchedule" resultType='ReqSchedule'>
+		select *
+		from req_schedule
+		where req_no = #{reqNo}
+	</select>
+	
+	<!-- 일정 상세 조회 : schedule -->
+	<select id="getSchedule" resultType='Schedule'>
+		select *
+		from schedule
+		where sc_no = #{scheNo}
+	</select>
 
 
 

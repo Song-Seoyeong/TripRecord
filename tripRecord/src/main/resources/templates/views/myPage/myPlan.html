@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
 <title>플래너 일정 요청 리스트</title>
 <style>
-    table{width:80%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
-    .pagination{font-weight:900;}
-    .pageNumber{margin-left:5px; margin-right:5px;}
-   	th{font-size:24px;}
-   	td{padding:15px;}
+table{
+	width:80%;
+	text-align: center;
+	margin: 30px auto;
+}
+th{font-size:24px;}
+td{padding:15px;}
 </style>
 </head>
 <body>
@@ -25,7 +29,7 @@
 		<div style="display:inline-block; margin-right:250px;">
 			<div style="color: black; font-size: 36px; font-weight: 900;">플래너 일정 요청 리스트</div>
 			<div style="height:40px;"></div>
-			<div style="display:inline-block; width:1000px; height:800px;" >
+			<div style="display:inline-block; width:1000px; max-height:800px; min-height: 300px;" >
 				<table>
 					<thead>
 					 	<tr style="border-bottom:2px solid #96CAF0;">
@@ -42,48 +46,48 @@
 								<td id="requestNumber">[[${l.reqNo}]]</td>
 								<td id="place">[[${p.localName}]]</td>
 								<td id="date">30일</td>
-								<td id="planner">[[${p.nickName}]]</td>
-								<td id="status" th:if='${l.reqStatus == 1}'>요청</td>
-								<td id="status" th:if='${l.reqStatus == 2}' style='color: green'>일정 완료</td>
-								<td id="status" th:if='${l.reqStatus == 3}' style='color: yellow'>피드백 요청</td>
-								<td id="status" th:if='${l.reqStatus == 4}' style='color: green'>피드백 완료</td>
-								<td id="status" th:if='${l.reqStatus == 5}' style='color: #96CAF0'>요청 완료</td>
-								<td id="status" th:if='${l.reqStatus == 6}' style='color: red'>요청 취소</td>
+								<td id="planner">[[${p.nickname}]]</td>
+								<td th:if='${l.reqStatus == "1"}'>요청 중</td>
+								<td th:if='${l.reqStatus == "2"}' style='color: green'>일정 완료</td>
+								<td th:if='${l.reqStatus == "3"}' style='color: yellow'>피드백 요청</td>
+								<td th:if='${l.reqStatus == "4"}' style='color: green'>피드백 완료</td>
+								<td th:if='${l.reqStatus == "5"}' style='color: #96CAF0'>요청 완료</td>
+								<td th:if='${l.reqStatus == "6"}' style='color: red'>요청 취소</td>
 							</th:block>
 						</tr>
-						<tr th:if='${list != null}'>
+						<tr th:if='${pi.listCount == 0}'>
 							<td colspan="5">
 								요청하신 리스트가 없습니다
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				
-				<!-- 페이지네이션 -->
-				<nav class="d-flex justify-content-center" th:if='${pi.listCount != 0}'>
-		        	<ul class="pagination" th:with="loc=${ loc }">
-		        		 <!-- 이전 버튼 -->
-			            <li class="page-item">
-			            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
-			            		<span aria-hidden="true">&laquo;</span>
-			              	</a>
-			            </li>
-			            
-			             <!-- 페이지 넘버링 버튼  -->
-			            	
-						<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
-							<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
-						</li>
-			           
-			             <!-- 다음 버튼  -->
-			            <li class="page-item">
-			            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
-			            		<span aria-hidden="true">&raquo;</span>
-			            	</a>
-			            </li>
-			    	</ul>
-		        </nav>
 			</div>
+			
+			<!-- 페이지네이션 -->
+			<nav class="d-flex justify-content-center" th:if='${pi.listCount != 0}'>
+	        	<ul class="pagination" th:with="loc=${ loc }">
+	        		 <!-- 이전 버튼 -->
+		            <li class="page-item">
+		            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+		            		<span aria-hidden="true">&laquo;</span>
+		              	</a>
+		            </li>
+		            
+		             <!-- 페이지 넘버링 버튼  -->
+		            	
+					<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+						<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+					</li>
+		           
+		             <!-- 다음 버튼  -->
+		            <li class="page-item">
+		            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+		            		<span aria-hidden="true">&raquo;</span>
+		            	</a>
+		            </li>
+		    	</ul>
+	        </nav>
 		</div>
 	</div>
 	
@@ -108,12 +112,8 @@
 			})
 			td.addEventListener('click', ()=>{
 				const parent = td.parentElement;
-			 	//const boardNo = parent.children[0].children[0].value
-				//const cateNo = parent.children[1].children[0].value 
-				location.href='detailReqPlan.mp'
-					//'${contextPath}/boardView.me?bId=' + boardNo + '&page='+ ${pi.currentPage} + '&cateNo=' + cateNo;
+				location.href='detailReqPlan.mp?reqNo=' + parent.children[0].innerText;
 			})
-				
 		}
 	</script>
 </body>

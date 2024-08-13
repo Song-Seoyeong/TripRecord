@@ -17,6 +17,7 @@ import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 @Mapper
 public interface MemberMapper {
@@ -88,6 +89,8 @@ public interface MemberMapper {
 	ArrayList<ReqSchedule> getReqList(int memberNo, RowBounds rb);
 	
 	Planner getReqPlanner(int reqPlaNo);
+
+	ReqSchedule getReqSchedule(int reqNo);
 	//---------------------------------------------------------
 	//플래너 페이지
 	//플래너 불러오기
@@ -107,6 +110,10 @@ public interface MemberMapper {
 	//플래너 취소
 	int canclePlanner(HashMap<String, Object> map);
 	//---------------------------------------------------------
+
+	Schedule getSchedule(int scheNo);
+
+
 
 	
 
