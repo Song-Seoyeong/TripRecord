@@ -53,6 +53,12 @@
 	</update>
 
 	<!-- 마이페이지 -->
+	<!-- 회원 정보 불러오기 -->
+	<select id="getMember" resultType="Member">
+		select *
+		from MEMBER
+		where MEMBER_NO = #{memberNo}
+	</select>
 	<!-- 내 정보 수정 -->
 	<update id="updateMember">
 		update member
@@ -73,8 +79,7 @@
 	<insert id="reqPromote">
 		insert into REQUEST_GRADE
 		<if test="grade == 'PLANNER'">
-			values(#{memberNo}, #{lNo}, #{grade}, #{intro},
-			#{content}, sysdate)
+			values(#{memberNo}, #{lNo}, #{grade}, #{content}, #{intro}, sysdate)
 		</if>
 		<if test="grade == 'ADMIN'">
 			values(#{memberNo}, default, #{grade}, default, default,
@@ -192,7 +197,6 @@
 		join MEMBER using(MEMBER_NO)
 		where MEMBER_NO = #{memberNo}
 	</select>
-	
 	<!-- 자기 게시글 목록 수 조회 -->
 	<select id="getListCount">
 		select count(*)
@@ -213,8 +217,9 @@
 		select *
 		from question
 			join BOARD on(QUESTION_NO = BOARD_NO)
+			where BOARD_WRITER_NO = #{memberNo}
 		<if test="i != 0">
-			where question_no = #{i} 
+			 and QUESTION_NO = #{i} 
 		</if>
 		<!-- i=0 : 문의 목록, i != 0 : 문의 상세 조회 -->
 	</select>
@@ -271,8 +276,12 @@
 		from IMAGE
 		where IMAGE_REF_TYPE = #{refType} and IMAGE_REF_NO = #{refNo}
 	</select> 
+	
+	<!-- 플래너 취소 -->
+	<insert id="canclePlanner">
+		
+	</insert>
 	<!-- 여기까지 플래너 페이지 -->
-	<!-- 여기까지 마이페이지 -->
 
 
 

@@ -32,6 +32,8 @@ public interface MemberService {
 	int updatePwd(Member m);
 	
 	//마이페이지------------------------------------
+	//회원 정보 불러오기 
+	Member getMember(int memberNo);
 	//내 정보 수정
 	int updateMember(HashMap<String, String> map);
 	//내 비번 수정
@@ -73,7 +75,7 @@ public interface MemberService {
 	//자기 문의글 불러오기
 	ArrayList<Board> getBoardList(HashMap<String, Object> map, PageInfo pi);
 	//문의 사항 데이터
-	ArrayList<Question> getQuestionList(int i);
+	ArrayList<Question> getQuestionList(HashMap<String, Object> map);
 	//-------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -90,9 +92,12 @@ public interface MemberService {
 	ArrayList<Review> getReviewList(PageInfo pi, int memberNo);
 	//플래너 프로필 이미지 불러오기
 	Image getImgRename(HashMap<String, Object> map);
+	//플래너 취소
+	int canclePlanner(HashMap<String, Object> map);
+
+	
 	
 	//-------------------------------------------------------------
-
 	
 
 	

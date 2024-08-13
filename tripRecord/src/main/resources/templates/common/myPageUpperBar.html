@@ -56,8 +56,8 @@
 			</svg>
 			</button>
 			<span style="float:left; font-size:40px; font-weight:900">
-				[[${session.loginUser.nickname}]]
-				<span style="font-size:20px; font-weight:100">&#91; [[${#numbers.formatDecimal(session.loginUser.memberPoint,3,'COMMA',0,'COMMA')}]] &#93;p</span>
+				[[${session.loginUser.memberName}]]
+				<span style="font-size:20px; font-weight:100">&#91; [[${#numbers.formatDecimal(loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93;p</span>
 			</span>
 		</div>
 	</div> 
@@ -68,7 +68,7 @@
 			<a href="myPage.mp">내 정보</a>
 		</div>
 		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myPoint.mp">포인트</a>
+			<a href="myPayPoint.mp">포인트</a>
 		</div>
 		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
 			<a href="myPlan.mp">내 일정 보기</a>
@@ -140,7 +140,7 @@
 			const uploadImage = document.getElementById('uploadImage');
 			const imageInput = document.getElementById('imageInput');
 			const imageData = new FormData();
-			console.log(imageData.append)
+			//console.log(imageData.append)
 			// 이미지 파일을 FormData에 추가
 			if (imageInput.files.length > 0) {
 				imageData.append('file', imageInput.files[0]); //fill은 키 값
@@ -149,8 +149,8 @@
 				return; 
 			}
 
-			console.log('FormData 객체:', imageData);
-
+			//console.log('FormData 객체:', imageData);
+			alert("부적절한 사진 적발 시 관리자가 삭제할 수 있습니다")
 			$.ajax({
 				type : 'POST',
 				url : 'uploadProfile.mp',

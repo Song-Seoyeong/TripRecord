@@ -36,7 +36,7 @@
 				</thead>
 				<tbody>
 					<th:block th:each=" a : ${aList}">
-	 					<!-- <th:block th:each="q : ${qList}"> -->
+	 					<!-- <th:block th:each="q : "> -->
 							<tr style="border-bottom:2px solid #b9b9b9" >
 								<td>[[${a.boardNo}]]</td>
 								<td>[[${a.boardTitle}]]</td>
@@ -74,7 +74,8 @@
 	<div style="margin-bottom: 200px"></div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
-	<script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
 		//상세글 보기
 		const tds = document.querySelectorAll('td');
 		for(const td of tds){
@@ -89,15 +90,14 @@
 				const parent = td.parentElement;
 				parent.style.backgroundColor='white';
 			})
+			
 			td.addEventListener('click', ()=>{
 				const parent = td.parentElement;
-			 	//const boardNo = parent.children[0].children[0].value
-				//const cateNo = parent.children[1].children[0].value 
-				location.href='askSelect.no'
-					//'${contextPath}/boardView.me?bId=' + boardNo + '&page='+ ${pi.currentPage} + '&cateNo=' + cateNo;
+				const boardNo = parent.children[0].innerText
+				location.href='askSelect.no?boardNo=' + boardNo + '&page='+ /*[[${pi.currentPage}]]*/1
 			})
-				
 		}
+		/*]]>*/
 	</script>
 </body>
 </html>

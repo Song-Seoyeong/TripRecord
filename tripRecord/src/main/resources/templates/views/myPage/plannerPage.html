@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>플래너페이지</title>
 <style>
     #revision_button {
@@ -55,7 +56,7 @@
 			<div id="plannerInfo" class="m-3 w-75 ">
 				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
 					<div class="d-flex justify-content-center p-3">
-						<img class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${image.imageRename}|" width="150px" height="150px"/>
+						<img class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${rename}|" width="150px" height="150px"/>
 					</div>
 					<div class="p-3">
 						<div class="mx-3 fs-1">[[${session.loginUser.nickname}]]</div>
@@ -159,7 +160,19 @@
 		function submitAdmin(){
 			let result = confirm("요청하시겠습니까");
 			if(result == 'true'){
-				location.href="submitAdmin.me"
+				$.ajax({
+					type:"post",
+					url:"canclePlanner.mp",
+					data:{grade:"PLANNER_CANCLE"},
+					success:(data)=>{
+						console.log(data)
+					},
+					error:(data)=>{
+						console.log(data)
+					}
+				})
+				
+				
 			}else{
 				return;
 			}

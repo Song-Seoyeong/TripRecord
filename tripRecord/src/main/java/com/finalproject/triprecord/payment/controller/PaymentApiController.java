@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,66 +45,57 @@ public class PaymentApiController {
 	}
 
 	// 결제시 결제내역이 저장되는 메소드
-	// ResponseEntitiy 사용 시 결과값, 상태코드, 헤더값을 프론트에 넘겨주기 가능
 	@PostMapping("payment.pm")
-	public ResponseEntity<String> paymentComplete(HttpSession session, @RequestParam("impUid") String impUid,
+	@ResponseBody
+	public String paymentComplete(HttpSession session, @RequestParam("impUid") String impUid,
 			@RequestParam("merchantUid") String merchantUid, @RequestParam("poNo") int pointNo,
 			@RequestParam("point") int point) {
 
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 
-		try {
 			Payment payments = new Payment();
 			payments.setMemberNo(memberNo);
 			payments.setPointNo(pointNo);
 			payments.setImpUid(impUid);
 			payments.setMerchantUid(merchantUid);
-			pService.saveOrder(payments);
+			int sResult = pService.saveOrder(payments);
 
 			Member m = new Member();
 			m.setMemberNo(memberNo);
 			m.setMemberPoint(point);
-			pService.updateMemberPoint(m);
+			int uResult = pService.updateMemberPoint(m);
 
-			return ResponseEntity.ok("결제가 완료되었습니다.");
+			return sResult + uResult == 2 ? "success" : "fail";
 
-		} catch (Exception e) {
-			return ResponseEntity.status(500).body("결제 처리 중 오류가 발생했습니다.");
-		}
 	}
 
 	@PostMapping("canclePay.pm")
 	@ResponseBody
 	public String refundComplete(HttpSession session,
 			@RequestParam("merchantUidList") ArrayList<String> merchantUidList,
-			@RequestParam("cancleAmount") int cancleAmount, @RequestParam("cancelPoint") int canclePoint)
-			throws IOException {
+			@RequestParam("cancleAmount") int cancleAmount, @RequestParam("cancelPoint") int canclePoint)throws IOException {
 		
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		int memberPoint = ((Member) session.getAttribute("loginUser")).getMemberPoint();
-		if (memberPoint >= canclePoint) {
-			for (int i = 0; i < merchantUidList.size();) {
+		int result = 0;
+		if (memberPoint > canclePoint) {
+			for (int i = 0; i < merchantUidList.size(); i++) {
 				String token = rService.getToken(apikey, secretkey);
 				System.out.println("토큰 번호 : " + token);
 				rService.refundRequest(token, merchantUidList.get(i));
-				
-				int result2 = pService.deletePayments(merchantUidList.get(i));
-				
-				if(result2 > 0) {
-					return "success1";
-				}else {
-					return "fail1";
-				}
+				result = pService.deletePayments(merchantUidList.get(i));
 			}
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("memberNo", memberNo);
 			map.put("canclePoint", canclePoint);
 			System.out.println(map);
-			int r = pService.minusPoint(map);
-			System.out.println("포인트 차감 : " + r);
-			return "success2";
-		} else {
-			return "fail2";
+			int result2 = pService.minusPoint(map);
+			System.out.println("포인트 차감 : " + result2);
+			
+			System.out.println(result + result2);
+			return result + result2 >= 2 ? "success" : "fail";
+		}else {
+			return "shortage";
 		}
 	}
 }
