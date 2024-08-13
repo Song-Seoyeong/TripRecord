@@ -262,13 +262,13 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public int getListCount() {
-		return aMapper.getListCount();
+	public int getListCount(String search) {
+		return aMapper.getListCount(search);
 	}
 	
 	@Override
-	public int getNoticeListCount() {
-		return aMapper.getNoticeListCount();
+	public int getNoticeListCount(String search) {
+		return aMapper.getNoticeListCount(search);
 	}
 	
 	@Override

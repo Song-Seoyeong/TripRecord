@@ -218,7 +218,8 @@
 	
 	<update id="updateQuestion">
 		update question
-		set question_pwd = #{pwd}
+		set question_pwd = #{boardCount}
+		where question_no = #{boardNo}
 	</update>
 	
 	<delete id="deleteImages">
@@ -231,5 +232,22 @@
 		where image_ref_type = 'MEMBER' and image_ref_no = #{i}
 	</select>
 	
+	<select id="selectAskBoard" resultType="string">
+		select general_type
+		from general_ask
+		where general_no = #{boardNo}
+	</select>
+	
+	<select id="countBoardList" resultType="_int">
+		select count(*)
+		from board
+		where board_writer_no = #{memberNo}
+	</select>
+	
+	<update id="firstBoardPoint">
+		update member
+		set member_point = member_point + 1000
+		where member_no = #{memberNo}
+	</update>
 	
 </mapper>

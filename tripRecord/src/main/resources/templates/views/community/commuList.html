@@ -286,8 +286,8 @@
 				}
 			});
 			
-			// 게시글 클릭 시 이동
 			
+			// 게시글 클릭 시 이동
 			const tds = document.getElementById("text-test").querySelectorAll('td');
 			for(const td of tds){
 				td.addEventListener('click', function(){
@@ -306,44 +306,7 @@
 				})
 			}
 			
-			const trs = document.getElementById("text-test").children;
- 			for(const tr of trs){
- 				tr.addEventListener('click', function(){
- 					const boardNo = this.children[0].innerText;
- 					let generalT = "";
- 					for(const c of [[${cList}]]){
- 						if(c.boardNo == boardNo){
- 							generalT = c.generalType;
- 							console.log(generalT)
- 						}
- 					}
- 					/*<![CDATA[*/
- 					location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=" + generalT + "&page=" + /*[[${pi.currentPage}]]*/1; 
- 					/*]]>*/
- 				});
- 			}
-			
-			
-			
 		}
-		// window.onload 밖
-		
-		
-
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 		
 	</script>
 	

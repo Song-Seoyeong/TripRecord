@@ -360,13 +360,14 @@ public class AdminController {
 								   @RequestParam(value="page", defaultValue="1") int currentPage,
 								   HttpServletRequest request,
 								   Model model) {
-		int listCount = aService.getNoticeListCount();
+		int listCount = aService.getNoticeListCount(search);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
 		ArrayList<Board> nList = aService.selectNoticeList(pi, search);
 		
 		model.addAttribute("nList", nList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
+		model.addAttribute("search", search);
 		return "noticeManage";
 	}
 	
@@ -508,7 +509,7 @@ public class AdminController {
 		Integer giveCount = aService.getTypeCount("GIVE");
 		Integer withCount = aService.getTypeCount("WITH");
 		
-		int listCount = aService.getListCount();
+		int listCount = aService.getListCount(search);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
 		ArrayList<Board> list = aService.selectBoardList(pi, search);
 
@@ -520,6 +521,7 @@ public class AdminController {
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
+		model.addAttribute("search", search);
 		
 		return "boardManage";
 	}
@@ -578,8 +580,8 @@ public class AdminController {
 		}
 	}
 	
-	/** 사진 관리 */
-	// 사진 관리 페이지 이동
+	/** 지역 사진 관리 */
+	// 지역 사진 관리 페이지 이동
 	@GetMapping("contentImgManage.ad")
 	public String contentImgManageView(Model model) {
 		

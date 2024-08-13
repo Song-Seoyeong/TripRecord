@@ -67,6 +67,14 @@ public interface BoardService {
 
 	Image selectProfileImage(int i);
 
+	void updateQuestion(Board t);
+
+	String selectAskBoard(int boardNo);
+
+	int countBoardList(int memberNo);
+
+	void firstBoardPoint(int memberNo);
+
 
 
 }

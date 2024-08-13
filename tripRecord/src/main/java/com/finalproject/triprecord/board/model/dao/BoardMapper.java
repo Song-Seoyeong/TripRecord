@@ -71,4 +71,12 @@ public interface BoardMapper {
 	int deleteImages(int boardNo);
 
 	Image selectProfileImage(int i);
+
+	void updateQuestion(Board t);
+
+	String selectAskBoard(int boardNo);
+
+	int countBoardList(int memberNo);
+
+	void firstBoardPoint(int memberNo);
 }

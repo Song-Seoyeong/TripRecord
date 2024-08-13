@@ -105,9 +105,9 @@ public interface AdminService {
 
 	void deleteImg(Image i);
 
-	int getListCount();
+	int getListCount(String search);
 
-	int getNoticeListCount();
+	int getNoticeListCount(String search);
 
 	int getQuestListCount();
 
