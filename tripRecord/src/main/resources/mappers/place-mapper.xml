@@ -84,7 +84,7 @@
 	<delete id="delImg">
 		delete from Image
 		<foreach collection="list" item="i" separator=",">
-			where Image_rename = #{i.del}
+			where Image_rename = #{i}
 		</foreach>
 	</delete>
 	

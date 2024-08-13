@@ -15,6 +15,7 @@ import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 public interface MemberService {
 
@@ -83,6 +84,10 @@ public interface MemberService {
 	ArrayList<ReqSchedule> getReqList(PageInfo pi, int memberNo);
 	// 일정 요청 플래너 리스트
 	Planner getReqPlanner(int reqPlaNo);
+	// 일정 상세
+	ReqSchedule getReqSchedule(int reqNo);
+
+	Schedule getSchedule(int scheNo);
 	//-------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -101,6 +106,9 @@ public interface MemberService {
 	Image getImgRename(HashMap<String, Object> map);
 	//플래너 취소
 	int canclePlanner(HashMap<String, Object> map);
+
+
+
 	
 	
 
