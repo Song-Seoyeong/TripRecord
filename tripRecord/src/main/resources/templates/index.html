@@ -109,7 +109,7 @@ body {
         document.getElementById('busGame').addEventListener('click', () => {
             // 애니메이션을 리셋한 후에 다시 시작
             bus.style.animation = 'none';
-            bus.offsetHeight; // 트릭: 스타일 재계산을 강제하여 애니메이션을 리셋합니다.
+            bus.offsetHeight; // 트릭: 스타일 재계산을 강제하여 애니메이션을 리셋
             bus.style.animation = 'jump 0.8s ease-out'; // 애니메이션 다시 설정
 
             // 애니메이션 끝난 후 초기화

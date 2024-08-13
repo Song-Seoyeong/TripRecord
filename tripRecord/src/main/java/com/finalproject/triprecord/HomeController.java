@@ -27,6 +27,8 @@ public class HomeController {
 		
 		// 일정 이미지
 		Image img = pService.planImg();
+		img.setImagePath("image/noimage.png");
+		
 		
 		// 관광지 top 5
 		ArrayList<Place> pList = pService.topPlaceList();
