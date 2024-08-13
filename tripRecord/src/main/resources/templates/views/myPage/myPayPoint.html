@@ -155,7 +155,7 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 				결제</div>
 			<!-- 현재 포인트 표시 -->
 			<div id="currentPoint" style="font-weight: 900; margin-left: 700px;">
-				<p>현재 포인트 : &#91; [[${#numbers.formatDecimal(session.loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93; p</p>
+				<p>현재 포인트 : &#91; [[${#numbers.formatDecimal(loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93; p</p>
 			</div>
 			<!-- 결제 창 -->
 			<div style="height: 50px;"></div>
@@ -181,10 +181,11 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 				</table>
 				<div style="height: 60px;"></div>
 			</div>
-			<!-- <div>
-				<button id="charge">충전</button>
-				<button style="border:none; background:white; float:right;" title="  10%추가" disabled>VAT 별도</button>
-			</div> -->
+			<div>
+				<!--<button id="charge">충전</button>
+				<button style="border:none; background:white; float:right;" title="  10%추가" disabled>VAT 별도</button>-->
+				<span style="float:right;">커뮤니티 글 작성, 일정 등록, 관광지 후기 등록 시 각 최초 1,000p 적립 가능</span>
+			</div>
 		</div>
 	</div>
 
@@ -228,19 +229,24 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 		}
 		
 		//포인트 클릭 구매
+		/*<![CDATA[*/
 		const trs = document.querySelectorAll('tr');
 		for(const tr of trs){
 			tr.addEventListener('click',function(){
+				const grade = /*[[${session.loginUser.grade}]]*/'null';
 				poNo = this.children[0].querySelector('input').value;
 				point = this.children[1].querySelector('input').value;
 				price = this.children[2].querySelector('input').value;
 				
-				//console.log(poNo, point, price);
-				payModalShow();
+				if( grade == 'ADMIN'){
+					alert("권한이 없습니다")
+				}else{
+					payModalShow();	
+				}
+				
 			})
 		}
-	
-		/*<![CDATA[*/
+		
 		//토스
 		document.getElementById('toss').addEventListener('click', function() {
 			//주문번호 생성
@@ -250,56 +256,7 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 				const random = Math.floor(Math.random()*char.length);
 				merchantUid += char[random]
 			}
-			 IMP.init('imp54856747');         
-			 // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용        
-			 // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드        
-			 IMP.request_pay({           
-				 pg: this.value,
-				 merchant_uid: merchantUid,      
-				 name: point + ' 포인트 충전',        
-				 amount: price,          
-				 buyer_email: /*[[${session.loginUser.email}]]*/'null',     
-				 buyer_name: /*[[${session.loginUser.memberName}]]*/'null',          
-				 buyer_tel: /*[[${session.loginUser.phone}]]*/'null',           
-				      
-				 }, function (rsp) {    
-					 if (rsp.success == true) {
-							$.ajax({
-								type:"post",
-								url : "payment.pm",
-								data:{impUid:rsp.imp_uid, merchantUid:rsp.merchant_uid ,poNo:poNo},
-								success:(rsp) =>{
-									console.log(rsp)
-									
-								},
-								error:(rsp) =>{
-									console.log(rsp);
-								}
-							})						 
-							 let msg = '결제가 완료되었습니다.';       
-							 msg += '고유ID : ' + rsp.imp_uid;     
-							 msg += '상점 거래ID : ' + rsp.merchant_uid;        
-							 msg += '결제 금액 : ' + rsp.paid_amount;              
-							 alert(msg); 
-						 }else {
-							 let msg = '결제에 실패하였습니다.';       
-							 msg += '에러내용 : ' + rsp.error_msg;       
-							 alert(msg);
-						 }    
-					 });				  
-		});
-		
-		document.getElementById('kakao').addEventListener('click', function() {
-			//주문번호 생성
-			const char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-			let merchantUid = 'TD'; 
-			for(let i = 0; i < 8; i++){
-				const random = Math.floor(Math.random()*char.length);
-				merchantUid += char[random]
-			}
-			 IMP.init('imp54856747');         
-			 // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용        
-			 // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드        
+			 IMP.init('imp54856747'); // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드                 
 			 IMP.request_pay({           
 				 pg: this.value,
 				 merchant_uid: merchantUid,      
@@ -316,18 +273,65 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 							url : "payment.pm",
 							data:{impUid:rsp.imp_uid, merchantUid:rsp.merchant_uid, poNo:poNo, point: point},
 							success:(rsp) =>{
-								console.log(rsp)
-								
+								if(rsp == 'success' ){
+									alert('결제가 완료되었습니다')
+									location.href="myPayPoint.mp"
+								} 
 							},
 							error:(rsp) =>{
 								console.log(rsp);
 							}
 						})						 
-						 let msg = '결제가 완료되었습니다.';       
-						 msg += '고유ID : ' + rsp.imp_uid;     
-						 msg += '상점 거래ID : ' + rsp.merchant_uid;        
-						 msg += '결제 금액 : ' + rsp.paid_amount;              
+						 //let msg = '결제가 완료되었습니다.';       
+						// msg += '고유ID : ' + rsp.imp_uid;     
+						// msg += '상점 거래ID : ' + rsp.merchant_uid;        
+						// msg += '결제 금액 : ' + rsp.paid_amount;              
+					 }else {
+						 let msg = '결제에 실패하였습니다.';       
+						 msg += '에러내용 : ' + rsp.error_msg;       
 						 alert(msg); 
+					 }    
+				 });				  
+		});
+		
+		document.getElementById('kakao').addEventListener('click', function() {
+			//주문번호 생성
+			const char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+			let merchantUid = 'TD'; 
+			for(let i = 0; i < 8; i++){
+				const random = Math.floor(Math.random()*char.length);
+				merchantUid += char[random]
+			}
+			 IMP.init('imp54856747'); // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드                 
+			 IMP.request_pay({           
+				 pg: this.value,
+				 merchant_uid: merchantUid,      
+				 name: point + ' 포인트 충전',        
+				 amount: price,          
+				 buyer_email: /*[[${session.loginUser.email}]]*/'null',     
+				 buyer_name: /*[[${session.loginUser.memberName}]]*/'null',          
+				 buyer_tel: /*[[${session.loginUser.phone}]]*/'null',           
+				      
+				 }, function (rsp) {
+					 if (rsp.success == true) {
+						$.ajax({
+							type:"post",
+							url : "payment.pm",
+							data:{impUid:rsp.imp_uid, merchantUid:rsp.merchant_uid, poNo:poNo, point: point},
+							success:(rsp) =>{
+								if(rsp == 'success' ){
+									alert('결제가 완료되었습니다')
+									location.href="myPayPoint.mp"
+								} 
+							},
+							error:(rsp) =>{
+								console.log(rsp);
+							}
+						})						 
+						// let msg = '결제가 완료되었습니다.';       
+						// msg += '고유ID : ' + rsp.imp_uid;     
+						// msg += '상점 거래ID : ' + rsp.merchant_uid;        
+						// msg += '결제 금액 : ' + rsp.paid_amount;              
 					 }else {
 						 let msg = '결제에 실패하였습니다.';       
 						 msg += '에러내용 : ' + rsp.error_msg;       

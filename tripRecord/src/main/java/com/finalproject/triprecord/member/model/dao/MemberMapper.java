@@ -35,6 +35,8 @@ public interface MemberMapper {
 	int updatePwd(Member m);
 	
 	//마이페이지----------------------------------------
+	//회원 정보 불러오기
+	Member getMember(int memberNo);
 	//내 정보 수정
 	int updateMember(HashMap<String, String> map);
 	//내 비번 수정
@@ -78,7 +80,7 @@ public interface MemberMapper {
 	//자기 문의 글 불러오기
 	ArrayList<Board> getBoardList(HashMap<String, Object> map, RowBounds rb);
 	//문의 사항 데이터 불러오기
-	ArrayList<Question> getQuestionList(int i);
+	ArrayList<Question> getQuestionList(HashMap<String, Object> map);
 	//---------------------------------------------------------
 	//플래너 페이지
 	//플래너 불러오기
@@ -95,6 +97,8 @@ public interface MemberMapper {
 	ArrayList<Review> getReviewList(int memberNo, RowBounds rb);
 	//플래너 프로필 이미지 불러오기
 	Image getImgRename(HashMap<String, Object> map);
+	//플래너 취소
+	int canclePlanner(HashMap<String, Object> map);
 	//---------------------------------------------------------
 
 

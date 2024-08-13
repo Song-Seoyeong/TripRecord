@@ -62,6 +62,11 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	//마이페이지------------------------------------------
+	//회원 정보 불러오기
+	@Override
+	public Member getMember(int memberNo) {
+		return mMapper.getMember(memberNo);
+	}
 	//내 정보 수정
 	@Override
 	public int updateMember(HashMap<String, String> map) {
@@ -168,8 +173,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 	//문의 사항 데이터
 	@Override
-	public ArrayList<Question> getQuestionList(int i) {
-		return mMapper.getQuestionList(i);
+	public ArrayList<Question> getQuestionList(HashMap<String, Object> map) {
+		return mMapper.getQuestionList(map);
 	}
 	//----------------------------------------------------------------
 	//플래너페이지
@@ -209,6 +214,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Image getImgRename(HashMap<String, Object> map) {
 		return mMapper.getImgRename(map);
+	}
+	//플래너 취소
+	@Override
+	public int canclePlanner(HashMap<String, Object> map) {
+		return mMapper.canclePlanner(map);
 	}
 	//----------------------------------------------------------------
 
