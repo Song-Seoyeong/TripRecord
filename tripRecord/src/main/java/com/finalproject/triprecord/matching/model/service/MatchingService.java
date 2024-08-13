@@ -8,7 +8,9 @@ import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Review;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 public interface MatchingService {
 
@@ -38,15 +40,16 @@ public interface MatchingService {
 
 	int insertReview(Review r);
 
-	int insertImage(ArrayList<Image> list);
+	int insertReviewImage(ArrayList<Image> list);
 
 	ArrayList<Image> selectrImgList();
 
 	Review selectReview(int rNo);
 
 	int deleteReview(int rNo);
-
 	
+	int insertSchedule(Schedule schedule);
 
+	int insertReqSchedule(ReqSchedule reqSchedule);
 
 }

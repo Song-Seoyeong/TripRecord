@@ -59,8 +59,12 @@
 			<div id="RequestForm" class="p-3">
 				<div class="d-inline-block text-center shadow border bg-light rounded-3">
 					<h3 class="d-inline-block m-3">플래너에게 지금 견적을<br/>
-													신청해보세요</h3><br/>
-					<button class="btn text-white m-3" style="background-color: #96caf0;" onclick="location.href='matchingRequest.ma'">일정 신청</button>
+												   신청해보세요</h3><br/>
+					<form action="matchingRequest.ma">
+						<input type="hidden" name="pNo" th:value="${planner.memberNo}">
+						<input type="hidden" name="page" th:value="${pi.currentPage}">
+						<button class="btn text-white m-3" id="reviewBtn" style="background-color: #96caf0;">일정 신청</button>
+					</form>
 				</div>
 				<br/><br/>
 				<form action="matchingReview.ma">

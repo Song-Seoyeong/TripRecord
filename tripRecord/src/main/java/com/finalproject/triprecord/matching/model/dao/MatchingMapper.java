@@ -9,7 +9,9 @@ import org.apache.ibatis.session.RowBounds;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Review;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 @Mapper
 public interface MatchingMapper {
@@ -42,12 +44,16 @@ public interface MatchingMapper {
 
 	int insertReview(Review r);
 
-	int insertImage(ArrayList<Image> list);
+	int insertReviewImage(ArrayList<Image> list);
 
 	ArrayList<Image> selectrImgList();
 
 	Review selectReview(int rNo);
 
 	int deleteReview(int rNo);
+
+	int insertReqSchedule(ReqSchedule reqSchedule);
+
+	int insertSchedule(Schedule schedule);
 
 }

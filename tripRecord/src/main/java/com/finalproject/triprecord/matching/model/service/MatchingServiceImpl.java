@@ -13,7 +13,9 @@ import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.dao.MatchingMapper;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 @Service
 public class MatchingServiceImpl implements MatchingService {
@@ -95,8 +97,8 @@ public class MatchingServiceImpl implements MatchingService {
 	}
 
 	@Override
-	public int insertImage(ArrayList<Image> list) {
-		return matMapper.insertImage(list);
+	public int insertReviewImage(ArrayList<Image> list) {
+		return matMapper.insertReviewImage(list);
 	}
 
 	@Override
@@ -112,6 +114,16 @@ public class MatchingServiceImpl implements MatchingService {
 	@Override
 	public int deleteReview(int rNo) {
 		return matMapper.deleteReview(rNo);
+	}
+
+	@Override
+	public int insertReqSchedule(ReqSchedule reqSchedule) {
+		return matMapper.insertReqSchedule(reqSchedule);
+	}
+
+	@Override
+	public int insertSchedule(Schedule schedule) {
+		return matMapper.insertSchedule(schedule);
 	}
 
 }

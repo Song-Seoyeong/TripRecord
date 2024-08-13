@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+#mainContainer {
+	width: 1400px;
+}
+
+/* 일정 기록하기 */
+.introduce {
+	font-family: 'NanumBarunGothic';
+	text-align: center;
+	font-weight: bold;
+	font-size: 30px;
+	margin-top: 30px;
+}
+/* 폼 감싸는 div */
+.main-div {
+	text-align: center;
+	font-family: 'NanumBarunGothic';
+}
+/* 각 선택 구역 감싸는 div */
+.contain-div {
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 10px;
+	width: 45%;
+	text-align: left;
+}
+/* 여행기간과 날짜 감싸는 div */
+#p-calender-div {
+	height: 530px;
+}
+
+/* 달력 api div */
+.datepicker {
+	display: inline-block;
+}
+/* 여행 출발 날짜, 여행 마지막 날짜 */
+.datepicker>span {
+	display: block;
+	margin-top: 10px;
+	padding: 10px;
+	font-size: large;
+	font-weight: 700;
+}
+/* 각 선택 구역의 타이틀 */
+.middle-title {
+	font-weight: bold;
+	font-size: 25px;
+	margin-left: 10px;
+}
+/* 선택 폼 감싸는 div */
+.contain-in-div {
+	margin-top: 30px;
+}
+/* 여행기간, 달력 감싸는 div */
+#calender-div {
+	margin-left: auto;
+	margin-right: auto;
+	border: 3px solid gray;
+	border-radius: 10px;
+	height: 430px;
+	text-align: center;
+	display: flex;
+	justify-content: space-around;
+	min-width: fit-content;
+}
+
+/* 일정 생성 버튼 */
+#createButton {
+	margin-top: 30px;
+	background: #96CAF0;
+	border: none;
+	border-radius: 20px;
+	color: white;
+	font-weight: bold;
+	font-size: 15px;
+	padding: 12px;
+	margin-bottom: 60px;
+}
+
+#createButton:hover {
+	cursor: pointer;
+	background: #58aae7;
+}
+
