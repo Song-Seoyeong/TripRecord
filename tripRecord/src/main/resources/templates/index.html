@@ -86,6 +86,17 @@ body {
         transform: translateX(-50%) translateY(0);
     }
 }
+@keyframes sJump {
+    0% {
+        transform: translateX(-65px) translateY(0);
+    }
+    50% {
+        transform:translateX(-65px)  translateY(-75px);
+    }
+    100% {
+        transform:translateX(-65px)  translateY(0);
+    }
+}
 </style>
 </head>
 <body>
@@ -105,16 +116,25 @@ body {
 
         const bus = document.getElementById('bus');
         const road = document.getElementById('road');
+        const smoke = document.getElementById('smoke');
 
         document.getElementById('busGame').addEventListener('click', () => {
             // 애니메이션을 리셋한 후에 다시 시작
             bus.style.animation = 'none';
             bus.offsetHeight; // 트릭: 스타일 재계산을 강제하여 애니메이션을 리셋
             bus.style.animation = 'jump 0.8s ease-out'; // 애니메이션 다시 설정
+            
+            smoke.style.animation = 'none';
+            smoke.offsetHeight;
+            smoke.style.animation = 'sJump 0.8s ease-out';
 
             // 애니메이션 끝난 후 초기화
             bus.addEventListener('animationend', () => {
                 bus.style.animation = ''; // 애니메이션 속성 초기화
+            }, { once: true }); // 한번만 실행되도록 설정
+         	// 애니메이션 끝난 후 초기화
+            smoke.addEventListener('animationend', () => {
+            	smoke.style.animation = ''; // 애니메이션 속성 초기화
             }, { once: true }); // 한번만 실행되도록 설정
         });
     </script>

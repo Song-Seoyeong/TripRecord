@@ -24,9 +24,11 @@ import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.service.MatchingService;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 import com.finalproject.triprecord.place.model.exception.PlaceException;
+import com.finalproject.triprecord.plan.model.vo.Schedule;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -36,7 +38,7 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MatchingController {
-
+	
 	@Autowired
 	private MatchingService matService;
 	
@@ -154,10 +156,70 @@ public class MatchingController {
 	}
 	
 	@GetMapping("matchingRequest.ma")
-	public String matchingRequest() {
+	public String matchingRequest(@RequestParam("pNo") int pNo, @RequestParam("page") int page, Model model, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int loginUserNo = 0;
+		if(loginUser != null) {
+			loginUserNo = loginUser.getMemberNo();
+		}
+		
+		//플래너 정보
+		Planner planner = matService.selectPlanner(pNo);
+		
+		//좋아요 + 지역
+		HashMap<String, Integer> likemap = new HashMap<>();
+		likemap.put("pNo", pNo);
+		likemap.put("loginUserNo", loginUserNo);
+		int likes = matService.countLikes(pNo);
+		int checkLikes = matService.checkLikes(likemap);
+		
+		String localNames = matService.selectLocalName(pNo);
+		
+		model.addAttribute("planner", planner);
+		model.addAttribute("page", page);
+		model.addAttribute("checkLikes", checkLikes);
+		model.addAttribute("likes", likes);
+		model.addAttribute("localName", localNames);
 		
 		return "matchingRequest";
 	}
+	@PostMapping("insertRequest.ma")
+	public String insertRequest(@ModelAttribute Schedule schedule,
+								@ModelAttribute ReqSchedule reqSchedule,
+								@RequestParam("pNo") int pNo,
+								@RequestParam("lNo") int lNo,
+								RedirectAttributes ra,
+								HttpSession session){
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int loginUserNo = 0;
+		if(loginUser != null) {
+			loginUserNo = loginUser.getMemberNo();
+		}
+		
+		schedule.setWriterNo(pNo);
+		schedule.setScLocalNo(lNo);
+		
+		int result1 = matService.insertSchedule(schedule);
+		
+		reqSchedule.setReqPlaNo(pNo);
+		reqSchedule.setReqMemNo(loginUserNo);
+		reqSchedule.setScheNo(schedule.getScNo());
+		
+		System.out.println(reqSchedule);
+		
+		int result2 = matService.insertReqSchedule(reqSchedule);
+		
+		System.out.println(result2);
+		
+//		if(result1 + result2 > 0) {
+			ra.addAttribute("pNo", pNo);
+			ra.addAttribute("page", 1);
+			return "redirect:selectPlanner.ma";
+//		} else {
+//			return "매칭익셉션";
+//		}
+	} 
+	
 	
 	@GetMapping("matchingReview.ma")
 	public String matchingReview(@RequestParam("pNo") int pNo, Model model, HttpSession session) {
@@ -266,7 +328,7 @@ public class MatchingController {
 		}
 		int iResult = 0;
 		if(!list.isEmpty()) {
-			iResult = matService.insertImage(list);
+			iResult = matService.insertReviewImage(list);
 		}
 		if(result + iResult == 1 + list.size()) {
 			ra.addAttribute("page", 1);

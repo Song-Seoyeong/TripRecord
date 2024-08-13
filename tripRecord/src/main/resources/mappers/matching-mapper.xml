@@ -94,7 +94,7 @@
 	</insert>
 	
 	<insert id="insertImage">
-		insert all
+		insert *
 		<foreach collection="list" item="item" separator=" ">
 			into image values(new_image_id, #{item.imagePath}, #{item.imageOriginName}, #{item.imageRename}, #{item.imageThum}, #{item.imageRefType}, #{item.imageRefNo})
 		</foreach>
@@ -118,5 +118,32 @@
 		set review_status = 'N'
 		where review_no = #{rNo}
 	</update>
+	
+	<insert id="insertReviewImage">
+		<selectKey keyProperty="reqNo" order="BEFORE" resultType="_int">
+			select seq_req.nextval from dual
+		</selectKey>
+		insert into req_schedule
+		values(#{reqNo}, #{reqMemNo}, #{reqPlaNo}, #{scheNo}, #{reqRef}, default)
+	</insert>
+	
+	<insert id="insertReqSchedule" useGeneratedKeys="true">
+		<selectKey keyProperty="reqNo" order="BEFORE" resultType="_int">
+			select seq_req.nextval from dual
+		</selectKey>
+		insert into req_schedule
+		values(#{reqNo}, #{reqMemNo}, #{reqPlaNo}, #{scheNo}, #{reqRef}, default)
+	</insert>
+	
+	<insert id="insertSchedule" useGeneratedKeys="true">
+		<selectKey keyProperty="scNo" order="BEFORE" resultType="_int">
+			select seq_schedule.nextval from dual
+		</selectKey>
+		insert into schedule
+		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default)
+	</insert>
+	
+	
+	
 	
 </mapper>

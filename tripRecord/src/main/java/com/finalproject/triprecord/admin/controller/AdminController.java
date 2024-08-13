@@ -590,7 +590,7 @@ public class AdminController {
 	
 	// 지역 사진 삭제 / 추가
 	@PostMapping("insertLocalImg.ad")
-	public String insertLocalImg(@RequestParam("localNo") int localNo, @RequestParam("planFormFile") ArrayList<MultipartFile> file) {
+	public String insertLocalImg(@RequestParam("localNo") int localNo, @RequestParam("formFile") ArrayList<MultipartFile> file) {
 		ArrayList<Image> list = aService.selectLocalImage();
 		
 		if(!list.isEmpty()) {
