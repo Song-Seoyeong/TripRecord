@@ -21,7 +21,7 @@
 #cancle_button {
 	color: #DD5353;
 	background-color: white;
-	width: 80px;
+	width: 90px;
 	height: 40px;
 	border: none;
 	border-radius: 20px;
@@ -34,9 +34,28 @@
 	color: #fff;
 	font-weight: 600;
 }
+#back_button {
+	color: #2F6598;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	margin-right: 5px;
+	border: 2px solid #2F6598;
+}
 
+#back_button:hover {
+	background: #2F6598;
+	border: 2px solid #2F6598;
+	color: #fff;
+	font-weight: 600;
+}
+.flex-container
 .flex-container {
-	margin-left: auto;
+	justify-content: center;
+    width: 900px;
+    margin-top:50px;
 }
 
 #schContent {
@@ -93,4 +112,10 @@
 #planTitle {
 	margin-top: 20px;
 	font-size: 30px;
+}
+#buttonDiv{
+	display: flex;
+    justify-content: center;
+    margin: 50px;
+    gap: 10px;
 }

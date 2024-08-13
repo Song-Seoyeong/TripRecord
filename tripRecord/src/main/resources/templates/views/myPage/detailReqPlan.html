@@ -16,67 +16,93 @@
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
 	<!-- 사이드바 -->
 	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
-	
-	<div class="flex-container">
-		<!-- 여행지 참고 사항 출력창 -->
-		<div id='schContent'>
-			<!-- 여행지 -->
-			<div id='planTitle'>
-				<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-right:-15px; margin-top:-10px;">
-					<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-				</svg>
-				&nbsp;<b>[[${planner.localName}]]</b>로 떠나는 <b>"[[${sch.scStartDate}]] ~ [[${sch.scEndDate}]]"</b> 여행입니다
-			</div>
-			<hr>
-			<!-- 참고사항 입력한거 -->
-			<div id="note">
-			<b>참고사항 : </b>	[[${rs.reqRef}]]
-			</div>
-		</div>
-		<div style="height:40px;"></div>
-		<!-- 플래너 및 여행 일정 -->
-		<div id='planSch'>
-			<div id='planner'>
-				<div id='plannerImgDiv'>
-					<img id='plannerImg' th:if='${planner.imageRename == null}' src="image/noProfile.png"/>
-					<img id='plannerImg' th:if='${planner.imageRename != null}' th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}&sz=w1000|"/>
+	<form id='reqForm'>
+		<div class="flex-container">
+			<!-- 여행지 참고 사항 출력창 -->
+			<div id='schContent'>
+				<!-- 여행지 -->
+				<div id='planTitle'>
+					<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
+					<input type='hidden' name='page' th:value='${page}'>
+					<input type='hidden' name='reqStatus' id='reqStatus' value='1'>
+					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-right:-15px; margin-top:-10px;">
+						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+					</svg>
+					&nbsp;<b>[[${planner.localName}]]</b>로 떠나는 <b>"[[${sch.scStartDate}]] ~ [[${sch.scEndDate}]]"</b> 여행입니다
 				</div>
-				<div id='plaNickname'>
-					[[${planner.nickname}]]
+				<hr>
+				<!-- 참고사항 입력한거 -->
+				<div id="note">
+				<b>참고사항 : </b>	[[${rs.reqRef}]]
 				</div>
 			</div>
-			<hr>
-			<!-- 간단한 일정설명 -->
-			<div id='schedule' th:if='${rs.reqStatus == "1"}'>
-				플래너가 아직 일정을 생성하지 않았어요&#128517;<br>
-				조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
-			</div>
-			<div id='schedule' th:if='${rs.reqStatus != "1"}'>
-				일정 생성 완료
+			<div style="height:40px;"></div>
+			<!-- 플래너 및 여행 일정 -->
+			<div id='planSch'>
+				<div id='planner'>
+					<div id='plannerImgDiv'>
+						<img id='plannerImg' th:if='${planner.imageRename == null}' src="image/noProfile.png"/>
+						<img id='plannerImg' th:if='${planner.imageRename != null}' th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}&sz=w1000|"/>
+					</div>
+					<div id='plaNickname'>
+						[[${planner.nickname}]]
+					</div>
+				</div>
+				<hr>
+				<!-- 간단한 일정설명 -->
+				<div id='schedule' th:if='${rs.reqStatus == "1"}'>
+					플래너가 아직 일정을 생성하지 않았어요&#128517;<br>
+					조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
+				</div>
+				<div id='schedule' th:if='${rs.reqStatus != "1"}'>
+					일정 생성 완료
+				</div>
 			</div>
 			
-		<!-- 제출버튼 -->
+			<!-- 제출버튼 -->
+			<div id='buttonDiv'>
+				<button type='button' th:if='${rs.reqStatus != "1" || rs.reqStatus != "6"}' id="submit_button">확정</button>
+				<button type='button' id="cancle_button">요청 취소</button>
+				<button type='button' id="back_button" onclick="back()">목록</button>
+			</div>
 		</div>
-		<div style="height:40px;"></div>
-		<div >
-			<button id="submit_button" onclick="submit()">확정</button>
-			<button id="cancle_button" onclick="cancle()">요청취소</button>
-		</div>
-	</div>
-		
-	<div style="margin-bottom: 300px"></div>
+	</form>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
-	<script>
+	<script th:inline='javascript'>
+		/*<![CDATA[*/
+		
+		const reqForm = document.getElementById('reqForm');
+			
 		//확정 시 피드백 페이지로 이동
-		function submit(){
-			location.href="feedback.mp"
+		const subBtn = document.getElementById('submit_button');
+		if(subBtn != null){
+			subBtn.addEventListener('click', ()=>{
+				form.action = "feedback.mp";
+				form.submit();
+			})
 		}
 		
-		//요청 취소 시 게시글 목록으로 이동
-		function cancle(){
-			location.href="myPlan.mp"
+		//요청 취소 시 요청 상태 변경
+		const canBtn = document.getElementById('cancle_button');
+		if(canBtn != null){
+			canBtn.addEventListener('click', ()=>{
+				if(confirm("정말 요청을 취소하시겠습니까?")){
+					const status = document.getElementById('reqStatus');
+					status.value = '6';
+					reqForm.action = "updateReqSch.mp";
+					reqForm.submit();
+					
+				}
+			})
 		}
+		
+		//요청 취소 시 요청 리스트로 이동
+		function back(){
+			location.href="myPlan.mp?page=" + /*[[${page}]]*/1;
+		}
+		
+		/*]]>*/
 	</script>
 </body>
 </html>

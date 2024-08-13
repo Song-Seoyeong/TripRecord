@@ -295,6 +295,7 @@
 		from req_schedule
 			join member on req_pla_no = member_no
 		where req_mem_no = #{memberNo}
+		order by req_no desc
 	</select>
 
 	<!-- 일정 요청 플래너 -->
@@ -320,7 +321,12 @@
 		where sc_no = #{scheNo}
 	</select>
 
-
+	<!-- 일정 요청 취소 -->
+	<update id="updateReqState">
+		update req_schedule
+		set req_status = #{reqStatus}
+		where req_no = #{reqNo}
+	</update>
 
 
 

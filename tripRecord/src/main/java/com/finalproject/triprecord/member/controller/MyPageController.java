@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.service.BoardService;
@@ -389,14 +390,19 @@ public class MyPageController {
 	}
 
 	@GetMapping("detailReqPlan.mp")
-	public String moveToDetailReqPlan(@RequestParam("reqNo")int reqNo, HttpSession session, Model model) {
+	public String moveToDetailReqPlan(@RequestParam("reqNo")int reqNo,
+									  @RequestParam("page") int page,
+									   HttpSession session, Model model) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 	    
 		// 상세 요청 가져오기
 		ReqSchedule rs = mService.getReqSchedule(reqNo);
 		Planner planner = mService.getReqPlanner(rs.getReqPlaNo());
 		Image i = mService.existFileId(planner.getMemberNo());
-		planner.setImageRename(i.getImageRename());
+		
+		if(i != null) 
+			planner.setImageRename(i.getImageRename());
+		
 		Schedule sch = mService.getSchedule(rs.getScheNo());
 		//System.out.println(sch);
 		
@@ -414,6 +420,7 @@ public class MyPageController {
 	    model.addAttribute("rs", rs);
 	    model.addAttribute("planner", planner);
 	    model.addAttribute("sch", sch);
+	    model.addAttribute("page", page);
 	    return "detailReqPlan";
 	}
 
@@ -430,6 +437,35 @@ public class MyPageController {
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
 		return "feedback";
+	}
+	
+	@GetMapping("updateReqSch.mp")
+	public String updateReqSch(@ModelAttribute ReqSchedule req,
+								@RequestParam("page") int page,
+								HttpSession session, RedirectAttributes ra) {
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+		
+		int result = mService.updateReqState(req);
+		
+		String msg = null;
+		if(result > 0) {
+			msg = "요청이 취소되었습니다.";
+		}else {
+			msg = "요청 취소 중 에러가 발생했습니다.";
+		}
+		
+		// 프로필 이미지 조회
+	    Image image = mService.existFileId(memberNo); 
+		if (image != null && image.getImageRename() != null) {
+	        String existFileId = image.getImageRename(); 
+	        ra.addAttribute("rename", existFileId);
+	    } else {
+	        // 이미지가 없거나 리네임이 없는 경우 처리
+	        ra.addAttribute("rename", "defaultImageName"); 
+	    }
+		ra.addAttribute("msg", msg);
+		ra.addAttribute("page", page);
+		return "redirect:myPlan.mp";
 	}
 
 	@GetMapping("myTripNote.mp")
