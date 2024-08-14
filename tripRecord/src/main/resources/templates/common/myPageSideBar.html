@@ -4,23 +4,44 @@
 <meta charset="UTF-8">
 <title>마이페이지 사이드바</title>
 <style>
-.nav-link {
-	color: black;
-}
+	.nav-link {
+		color: black;
+	}
+	
+	.nav-link:hover {
+		font-weight: 900;
+		color:black;
+	}
+	
+	#myPagesideBar {
+		display: inline-flex;
+		padding: 16px;
+		border: 1px lightgray solid;
+		border-radius: 8px;
+		margin-top: 70px;
+		margin-left: 50px;
+	}
+	#admin{
+		cursor:pointer;
+	}
+	#admin:hover{
+		color:#black
+	}
 
-.nav-link:hover {
-	font-weight: 900;
-}
-
-#myPagesideBar {
-	display: inline-flex;
-	padding: 16px;
-	border: 1px lightgray solid;
-	border-radius: 8px;
-	margin-top: 70px;
-	margin-left: 50px;
-}
-#admin{cursor:pointer;}
+	.secondSidebar{
+		text-align:center; 
+		margin:20px; 
+		display:none;
+	}
+	
+	@media screen and (max-width: 1600px){
+		#sidebar{
+			display:none;
+		}
+		.secondSidebar{
+			display:inline-block;
+		}
+	}
 </style>
 </head>
 <body>
@@ -28,7 +49,7 @@
 	<!-- 사이드바 -->
 	<div id="myPagesideBar">
 		<ul class="nav flex-column" style="float: left;">
-			<li style="border-bottom: 2px lightgray solid; width: 200px;"><h4>내
+			<li style="border-bottom: 2px lightgray solid; width: 200px; text-align:center;"><h4>내
 					정보</h4></li>
 			<li class="nav-item"><a class="nav-link" href="myPage.mp">내
 					정보 수정</a></li>
@@ -47,7 +68,7 @@
 	<script th:inline="javascript">
 		function submitAdmin() {
 			/*<![CDATA[*/
-			const grade = /*[[${session.loginUser.grade}]]*/null;
+			const grade = /*[[${session.loginUser.grade}]]*/
 			/*]]>*/
 			if (confirm("요청하시겠습니까")) {
 				if(grade == 'ADMIN'){

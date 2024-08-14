@@ -19,7 +19,7 @@ public class Schedule {
 	private String writer;
 	private String startDate;
 	private String endDate;
-	private String status;	
+	private String status;
 	
 	private Date scStartDate;
 	private Date scEndDate;

@@ -35,18 +35,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<th:block th:each=" a : ${aList}">
-	 					<!-- <th:block th:each="q : "> -->
+					<th:block th:each=" q : ${qList}">
 							<tr style="border-bottom:2px solid #b9b9b9" >
-								<td>[[${a.boardNo}]]</td>
-								<td>[[${a.boardTitle}]]</td>
-								<td>[[${a.memberName}]]</td>
-								<td>[[${a.boardModifyDate}]]</td>
-								<td>
-									진행 중
-								</td>
+								<td>[[${q.boardNo}]]</td>
+								<td>[[${q.boardTitle}]]</td>
+								<td>[[${q.memberName}]]</td>
+								<td>[[${q.boardCreateDate}]]</td>
+								<td id="questionSuccess">[[${q.questionSuccess}=='N'? '진행중' : '답변 완료']]</td>
 							</tr>
-						<!-- </th:block> -->
 					</th:block>
 				</tbody>
 			</table>
@@ -56,15 +52,15 @@
 					<ul class="pagination" >
 						<!-- 이전링크 -->
 						<li style="margin-left:auto;" >
-							<a th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:class="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+							<a class="movePage"th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
 						</li>
 						<!-- 번호 이동 -->
 						<li class="pageNumber" th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${p})}" th:text="${p}"></a></th:block>
+							<th:block th:if="${pi.endPage != 0}"><a class="movePage" th:href="@{${loc}(page=${p})}" th:text="${p}"></a></th:block>
 						</li>
 						<!-- 다음링크 -->
 						<li style="margin-right:auto;">
-							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:class="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a></th:block>
+							<th:block th:if="${pi.endPage != 0}"><a class="movePage" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a></th:block>
 						</li>
 					</ul>
 				</div>
@@ -97,6 +93,18 @@
 				location.href='askSelect.no?boardNo=' + boardNo + '&page='+ /*[[${pi.currentPage}]]*/1
 			})
 		}
+		
+		//답변 여부에 따른 글자 색
+		const questionStatuses = document.querySelectorAll('td[id="questionSuccess"]')
+		questionStatuses.forEach(status=>{
+			if(status.innerText == '진행중'){
+				status.style.color = 'red';
+			}else if(status.innerText == '답변 완료'){
+				status.style.color = 'green';
+			}
+		})
+			
+		
 		/*]]>*/
 	</script>
 </body>

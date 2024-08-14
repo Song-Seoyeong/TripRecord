@@ -4,18 +4,26 @@
 <meta charset="UTF-8">
 <title>포인트 사이드바</title>
 <style>
-.nav-link:hover {
-	font-weight: 900;
-}
-#pointsideBar {
-	display: inline-flex;
-	border: 1px lightgray solid;
-	border-radius: 8px;
-	padding: 16px;
-	float: left;
-	margin-top: 120px;
-	margin-left: 20px;
-}
+	.nav-link:hover {
+		font-weight: 900;
+	}
+	#pointsideBar {
+		display: inline-flex;
+		border: 1px lightgray solid;
+		border-radius: 8px;
+		padding: 16px;
+		margin-top: 70px;
+		margin-left: 50px;
+	}
+	.secondSidebar{margin:20px; display:none;}
+	@media screen and (max-width: 1600px){
+		#sidebar{
+			display:none;
+		}
+		.secondSidebar{
+			display:inline-block;
+		}
+	}
 </style>
 </head>
 <body>

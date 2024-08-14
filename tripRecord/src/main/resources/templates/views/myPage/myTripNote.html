@@ -5,25 +5,21 @@
 <title>내 여행노트</title>
 <style>
     table{width:80%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
-    ul{font-weight:900;}
     .pageNumber{margin-left:5px; margin-right:5px;}
    	th{font-size:24px;}
    	td{padding:15px;}
 </style>
 </head>
 <body>
-	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	
 	
 	<div class="flex-container" style="text-align:center;">
-		<!--마이페이지 어퍼바-->
 		<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-		<!-- 사이드바 -->
 		<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
 		<div style="height:80px;"></div>
-		<div style="display:inline-block; margin-right:250px;">
+		<div style="display:inline-block; margin-right:250px;" id="main-div">
 		
 			<div style="color: black; font-size: 36px; font-weight: 900;">내 여행노트</div>
 			<div style="height:40px;"></div>
@@ -33,98 +29,96 @@
 					 	<tr style="border-bottom:2px solid #96CAF0;">
 							<th><p>여행지</p></th>
 							<th><p>여행기간</p></th>
-							<th><p>플래너</p></th>
+							<th><p>해시태그</p></th>
 							<th><p>여행상태</p></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
-						</tr>
-						<tr style="border-bottom:2px solid #b9b9b9">
-							<td id="place">서울</td>
-							<td id="date">30일</td>
-							<td id="planner">서현규</td>
-							<td id="status">완료</td>
+						<tr style="border-bottom:2px solid #b9b9b9" th:each="s : ${sList}" th:if="${ s != null }">
+							<td class="place"><label th:text="${s.spot}"></label><input type="hidden" name="scNo" th:value="${s.scNo}"/></td>
+							<td class="date" th:text="|${s.scStartDate} ~ ${s.scEndDate}|"></td>
+							<td class="hashtag" th:unless='${s.hashtag == null}' th:text="${s.hashtag}"></td>
+							<td class="hashtag-none" th:if='${s.hashtag == null}'>-</td>
+							<td class="status" th:text="${s.status}"></td>
 						</tr>
 					</tbody>
 				</table>
 				
 				<!-- 페이지네이션 -->
-				<div class="text-center" style="margin-top:25px; text-align:center;">
-					<ul class="pagination">
-						<!-- 이전링크 -->
-						<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
-						<!-- 번호 이동 -->
-						<li class="pageNumber"><a href='#'>1</a></li>
-						<li class="pageNumber"><a href='#'>2</a></li>
-						<li class="pageNumber"><a href='#'>3</a></li>
-						<li class="pageNumber"><a href='#'>4</a></li>
-						<li class="pageNumber"><a href='#'>5</a></li>
-						<!-- 다음링크 -->
-						<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
-					</ul>
+				<div class='row' style='margin-bottom: 60px;'>
+					<div class='col-4'></div>
+						<nav aria-label="Page navigation example" style="display:flex; margin-top: 60px; justify-content:center;">
+							<ul class="pagination" th:with="loc=${loc}" id="pagination">
+							</ul>
+						</nav>
+					<div class='col-4'></div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
 	<div style="margin-bottom: 300px"></div>
-	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
-	<script>
+	<script th:inline="javascript">
+		/*!<[CDATA[*/
+		const paginationUl = document.getElementById('pagination');
+		
+		const params = new URLSearchParams(window.location.search);
+		const totalItems = parseInt(/*[[${listCount}]]*/) || 1;
+		/*]]>*/
+		
+		// 페이지 네이션 생성 부분
+		function createPagination(currentPage, totalPages){
+			let buttons = '';
+			const startPage = Math.max(1, currentPage - 5);
+			const endPage = Math.min(totalPages, currentPage + 4);
+			
+			buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
+			if(startPage > 1){
+				buttons += '<li class="page-item"><a class="page-link" onclick="changePage(1)">1</a></li>';
+			}
+			
+			for (let i = startPage; i <= endPage; i++) {
+				if(currentPage == i){
+					buttons += '<li class="page-item"><a class="page-link" style="font-size:1.1em; color:rgb(150,202,240);" onclick="changePage('+i+')">'+i+'</a></li>';
+				}else{
+	                buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+i+')">'+i+'</a></li>';
+				}
+            }
+
+            if (endPage < totalPages) {
+            	buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+endPage+')">'+endPage+'</a></li>';
+            }
+			buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
+            
+			console.log(currentPage);
+			
+			return buttons;
+        }
+		
+		/*<![CDATA[*/
+		const baseUrl = /*[[${loc}]]*/;
+		const currentPage = parseInt(/*[[${currentPage}]]*/) || 1;
+		const totalPages = Math.ceil(totalItems / 10);
+		
+		function changePage(pageNumber) {
+			if (pageNumber < 1) pageNumber = 1;
+			if (pageNumber > totalPages) pageNumber = totalPages;
+			
+			const url = new URL(baseUrl, window.location.origin);
+			url.searchParams.set('page', pageNumber);
+			window.location.href = url.toString();
+			const paginationUl = document.getElementById('pagination');
+			
+			
+		}
+		
+		/*]]>*/
+	 	
+		paginationUl.innerHTML = createPagination(currentPage, totalPages, baseUrl);
+		
+		
 		//상세글 보기
 		const tds = document.querySelectorAll('td');
 		for(const td of tds){
@@ -134,20 +128,20 @@
 				parent.style.backgroundColor='#ECEBEB';
 				parent.style.cursor='pointer';
 			})
+			
 			//마우스아웃 시 게시글 목록 배경 변환
 			td.addEventListener('mouseout',function(){
 				const parent = td.parentElement;
 				parent.style.backgroundColor='white';
 			})
-			td.addEventListener('click', ()=>{
-				const parent = td.parentElement;
-			 	//const boardNo = parent.children[0].children[0].value
-				//const cateNo = parent.children[1].children[0].value 
-				location.href='detailMyTripNote.mp'
-					//'${contextPath}/boardView.me?bId=' + boardNo + '&page='+ ${pi.currentPage} + '&cateNo=' + cateNo;
-			})
+			
+			td.addEventListener('click', function(){
 				
+				const clickTrScNo = this.parentElement.children[0].children[1].value;
+				location.href='detailMyTripNote.pl?scNo=' + clickTrScNo + '&page=' + currentPage;
+			})
 		}
+		
 	</script>
 </body>
 </html>

@@ -18,22 +18,22 @@
 	</div>
 	<form id="planCreate" method="post" action="saveplan.pl">
 		<div class="contain-div" id="detailForm">
-			<div class="inline-contain-div">
+			<div class="inline-contain-div clE">
 				<span class="textSpan" id="startDate-span" th:text="${s.startDate}"></span>
 				<span class="textSpan">-</span> 
 				<span class="textSpan" id="endDate-span" th:text="${s.endDate}"></span> 
 				<span class="textSpan">동안</span>
 			</div>
-			<div class="inline-contain-div">
+			<div class="inline-contain-div clE">
 				<span class="textSpan" id="spot-span" th:text="${spot}"></span>
 				<span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
 			</div>
-			<div class="editButton-div">
+			<div class="editButton-div clE">
 				<button type="button" class="runButton" id="editButton">수정</button>
 			</div>
 		</div>
 		<div class="contain-div" id="editForm" style="display: none;">
-			<div class="inline-contain-div edit-div">
+			<div class="inline-contain-div edit-div clE">
 				<input type="text" id="sdate" class="datepicker" name="startDate" th:value="${s.startDate}" /> 
 				<span class="textSpan">-</span> 
 				<input type="text" id="edate" class="datepicker" name="endDate" th:value="${s.endDate}" /> 
@@ -60,27 +60,27 @@
 					<option class="select_opt" value="39" th:selected="${ spot == '제주' }">제주</option>
 				</select> <span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
 			</div>
-			<div class="editButton-div">
+			<div class="editButton-div clE">
 				<button type="button" id="completeButton" class="runButton">완료</button>
 				<button type="button" id="cancelButton" class="notButton">취소</button>
 			</div>
 		</div>
 		<div class="contain-div">
-			<div class="navigation-pill-list">
-				<div class="navigation-pill" th:if="${s.together != null}">
+			<div class="navigation-pill-list clE">
+				<div class="navigation-pill clE" th:if="${s.together != null}">
 					<div class="hashtag" th:text='|# ${ s.together }|'></div>
 				</div>
-				<div class="navigation-pill" th:if="${s.hashtag != null}" th:each="tag : ${ #strings.arraySplit(s.hashtag, ',')}">
+				<div class="navigation-pill clE" th:if="${s.hashtag != null}" th:each="tag : ${ #strings.arraySplit(s.hashtag, ',')}">
 					<div class="hashtag" th:text="|# ${tag}|"></div>
 				</div>
-				<div class="navigation-pill" th:if="${s.together == null && s.hashtag == null}">
+				<div class="navigation-pill clE" th:if="${s.together == null && s.hashtag == null}">
 					<div class="hashtag"> &#128655; 굉장하고 엄청난 여행 계획을 완성해 봅시다 &#128522; </div>
 				</div>
 			</div>
 		</div>
 		<div class="contain-div">
-			<div id="inforDiv"> &#128205; 저장 버튼을 누르지 않은 일정은 사라집니다 </div>
-			<div id="planAll" class="grid">
+			<div id="inforDiv" class="clE"> &#128205; 저장 버튼을 누르지 않은 일정은 사라집니다 </div>
+			<div id="planAll" class="grid clE">
 				<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
 					<div class="dayText" th:text="|${date.key}일차|"></div>
 					<div class="date" th:text="${date.value}"></div><input type="hidden" name="day" th:value="${date.value}"/>
@@ -112,15 +112,15 @@
 				</div>
 			</div>
 		</div>
-		<div id="inputHiddens"></div>
-		<div class="contain-div buttonsDiv">
+		<div id="inputHiddens" class="clE"></div>
+		<div class="contain-div buttonsDiv clE">
 			<button id="saveButton" type="button" class="planDetailButton runButton">일정 저장</button>
 			<button id="deleteButton" type="button" class="planDetailButton notButton">일정 삭제</button>
 		</div>
 	</form>
 	
 	<hr>
-	<div class='menuTitle'><h3>여기가 추천하는 관광 SPOT &#x2728;</h3></div>
+	<div class='menuTitle clE'><h3>여기가 추천하는 관광 SPOT &#x2728;</h3></div>
 	<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
 		<div class="local-card position-relative" th:each='p : ${pList}'>
 			<input type='hidden' name='areacode' th:value="${p.localNo}">
@@ -137,65 +137,67 @@
 	<script th:inline="javascript">
 		window.onload = () => {
 			document.querySelectorAll('.placeAddButton').forEach(function(addButton) {
-				addButton.addEventListener('click', placeAddClick);
-			});
-			
-			document.addEventListener('click', function(e){
-				if(e.target.classList.contains('editB')){
-					placeAddClick(e);
-				}
-			});
-			
-			function placeAddClick(e){
-				let planDiv = e.target.parentElement.previousElementSibling;
+				addButton.addEventListener('click', function(e){
+					let planDiv = e.target.parentElement.previousElementSibling;
 
-				const newOnePlan = document.createElement('div');
-				newOnePlan.classList.add('one-plan');
-				
-				const planSpans = document.createElement('div');
-				planSpans.classList.add('plan-spans');
-				planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
-				
-				let ii = 1;
-				const planInputs = document.createElement('div');
-				planInputs.classList.add('plan-inputs');
-				planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" name="place" placeholder="장소 입력창"></div><div><input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창"></div>';
-				ii++;
-				
-				const planImages = document.createElement('div');
-				planImages.classList.add('plan-images');
-				planImages.innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>'
-				+ ' <img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
-				
-				newOnePlan.appendChild(planSpans);
-				newOnePlan.appendChild(planInputs);
-				newOnePlan.appendChild(planImages);
-				
-				planDiv.appendChild(newOnePlan);
-			}
+					const newOnePlan = document.createElement('div');
+					newOnePlan.classList.add('one-plan');
+					
+					const planSpans = document.createElement('div');
+					planSpans.classList.add('plan-spans');
+					planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
+					
+					let ii = 1;
+					const planInputs = document.createElement('div');
+					planInputs.classList.add('plan-inputs');
+					planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" name="place" placeholder="장소 입력창"></div><div><input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창"></div>';
+					ii++;
+					
+					const planImages = document.createElement('div');
+					planImages.classList.add('plan-images');
+					planImages.innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>'
+					+ ' <img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
+					
+					newOnePlan.appendChild(planSpans);
+					newOnePlan.appendChild(planInputs);
+					newOnePlan.appendChild(planImages);
+					
+					planDiv.appendChild(newOnePlan);
+				});
+			});
 			
 			let index = 0;
 			let labelDiv = '';
+			const timeReg = /^([01]\d|2[0-3]):([0-5]\d)$/;
+			
+			let originalPlace;
+			let originalTime;
+			let originalMemo;
 			
 			document.getElementById('planAll').addEventListener('click', function(e){
 				if (e.target.classList.contains('check-icon')) {
 					let onePlan = e.target.closest('.one-plan');
 					let inputs = onePlan.querySelectorAll('input.plan-text');
 					
-					if(onePlan.classList.contains('edit-plan')){
-						onePlan.className = 'one-plan';
-					}
-					
 					let placeInput = inputs[0];
 					let timeInput = inputs[1];
 					let memoInput = inputs[2];
 					
-					if(placeInput.value.trim() !== '' && timeInput.value.trim() !== ''){
+					if(placeInput.value.trim() != '' && timeInput.value.trim() != ''){
+						if(!timeReg.test(timeInput.value)){
+							alert('올바른 시간을 입력해 주세요.');
+						}
+						
 						let label = null;
 						inputs.forEach(function(input) {
 							let value = input.value;
 							label = document.createElement('label');
 							label.innerText = value;
+							
+							if(input == inputs[2] && value == ""){
+								input.value = "-";
+							}
+							
 							label.classList.add('planLabel');
 							input.style.display = 'none';
 							
@@ -219,7 +221,7 @@
 						
 						let checkDiv = document.createElement('div');
 						checkDiv.classList.add('plan-checks');
-						checkDiv.innerHTML = '<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx" /><label for="cbx' + index + '" class="cbx"><span><svg viewBox="0 0 12 10" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
+						checkDiv.innerHTML = '<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx planCheck" /><label for="cbx' + index + '" class="cbx planCheck"><span><svg viewBox="0 0 12 10" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
 						index++;
 						
 						let planLabelsDiv = onePlan.children[1].children[1];
@@ -250,16 +252,23 @@
 		        	
 		        	labelDiv.style.background = '#E9F5FE';
 		        	let imagesDiv = labelDiv.nextElementSibling;
+		        	labelDiv.classList.add('edit-labels');
 		        	imagesDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
 		        	
 		        } else if(e.target.classList.contains('bi-pencil-square')) {
 					let onePlan = e.target.closest('.one-plan');
 					let labels = onePlan.querySelectorAll('.planLabel');
-					onePlan.classList.add('edit-plan');
 
 					labels.forEach(function(label) {
 						let input = label.previousElementSibling;
 						input.value = label.innerText;
+						if(label == labels[0]){
+							originalPlace = label.innerText;
+						} else if(label == labels[1]){
+							originalTime = label.innerText;
+						} else if(label == labels[2]){
+							originalMemo = label.innerText;
+						}
 						label.remove();
 						input.style.display = 'inline';
 					});
@@ -280,30 +289,96 @@
 		    });
 			
 			document.querySelector('body').addEventListener('click', e => {
-				const planImages = document.querySelectorAll('.plan-images');
-				let planInputs = document.querySelectorAll('.plan-inputs');
-				let editInputs = document.querySelectorAll('.edit-inputs');
-				let editPlan = document.getElementsByClassName('.edit-plan');
+				// label 클릭한 후 다른 곳 클릭하면 배경색 없어지고 펜이랑 휴지통 아이콘 사라지는 스크립트
+				let editLabels = document.querySelector('.edit-labels');
 				
-				planImages.forEach(planImage => {
-					if(/*planImage.children[0] != undefined && 
-						!e.target.classList.contains('edit-inputs') && 
-						planImage.children[0].classList.contains('edit-image')*/
-						) {
+				if(editLabels != null){
+					let onePlan = editLabels.closest('.one-plan');
+					let labelDivs = Array.from(onePlan.querySelectorAll('.label-div'));
+					let planTexts = Array.from(onePlan.querySelectorAll('.plan-text'));
+					let planLabel = Array.from(onePlan.querySelectorAll('.planLabel'));
+					let planChecks = onePlan.querySelector('.plan-checks');
+					let planCheck = Array.from(planChecks.querySelectorAll('planCheck'));
+					
+					if(e.target != onePlan && e.target != planChecks && 
+					   !planTexts.includes(e.target) && !planLabel.includes(e.target) &&
+					   !labelDivs.includes(e.target) && !planCheck.includes(e.target)){
 						
-// 						let planInputsDiv = planImage.previousElementSibling;
-						
-// 						if(planInputsDiv.style.background != 'none' && planInputsDiv.children[0].children[0].style.display == 'inline'){
-// 							let inputParentDivs = planInputsDiv.children[0];
-							
-// 							planInputsDiv.style.background = 'none';
-// 							plan
-// 						}
-						console.log(editPlan);
-						
+						editLabels.style.background = 'none';
+						editLabels.classList.remove('edit-labels');
+						editLabels.nextElementSibling.innerHTML = '';
 					}
-				});
+					
+				}
+				
+				// 입력 완료 후 label click -> pencil icon click -> 수정 중일 때 다른 곳 클릭하면 돌아가는 스크립트
+				let editInputs = document.querySelector('.edit-inputs');
+				
+				if(editInputs != null && !e.target.classList.contains('bi')){
+					
+					let planText = Array.from(editInputs.querySelectorAll('input.plan-text'));
+					
+					if(e.target != editInputs && !planText.includes(e.target) && 
+					   editInputs.style.background != 'none'){
+						
+						editInputs.style.background = 'none';
+						editInputs.classList.remove('edit-inputs');
+						
+						if(planText[0].value.trim() == '') planText[0].value = originalPlace;
+						if(planText[1].value.trim() == '') {
+							if(!timeReg.test(originalTime)){
+								originalTime = '12:00';
+							}
+							planText[1].value = originalTime;
+						}
+						
+						if(planText[2].value.trim() == '') planText[2].value = originalMemo;
+						
+						labelChange(planText, editInputs);
+					}
+					
+				}
 			})
+			
+			function labelChange(planText, editInputs){
+				let label = null;
+				
+				let placeInput = planText[0];
+				let timeInput = planText[1];
+				let memoInput = planText[2];
+				
+				for(const input of planText){
+					let value = input.value;
+					label = document.createElement('label');
+					label.innerText = value;
+					
+					label.classList.add('planLabel');
+					input.style.display = 'none';
+					
+					if(input.classList.contains('placeInput')){
+						label.classList.add('placeLabel');
+					} else if(input.classList.contains('timeInput')){
+						label.classList.add('timeLabel');
+					} else if(input.classList.contains('memoInput')){
+						label.classList.add('memoLabel');
+					}
+					
+					input.parentNode.insertBefore(label, input.nextSibling);
+					label.parentElement.className = 'label-div';
+					label.parentElement.parentElement.style.background = 'none';
+				}
+				
+				editInputs.nextElementSibling.innerHTML = '';
+				
+				let checkDiv = document.createElement('div');
+				checkDiv.classList.add('plan-checks');
+				checkDiv.innerHTML = '<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx planCheck" /><label for="cbx' + index + '" class="cbx planCheck"><span><svg viewBox="0 0 12 10" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
+				index++;
+				
+				let planLabelsDiv = editInputs.children[1];
+				planLabelsDiv.appendChild(checkDiv);
+				editInputs.className = 'plan-labels';
+			}
 			
 			originalStart = '';
 			originalEnd = '';
@@ -431,8 +506,7 @@
 			
 			// 일정 저장
 			document.getElementById('saveButton').addEventListener('click', () => {
-				document.getElementById('together').value = togetherVal;
-				document.getElementById('hashtag').value = hashtagVal;
+				document.getElementById('hashtag').value = togetherVal + ',' + hashtagVal;
 				
 				let i = 0;				
 				const dayPlans = document.querySelectorAll('#planAll .dayPlan');
@@ -453,9 +527,6 @@
 					let onePlans = dayPlan.getElementsByClassName('one-plan');
 					let count = onePlans.length; // 그날 계획 몇 개?
 
-					let places = dayPlan.getElementsByClassName('placeInput');
-					let times = dayPlan.getElementsByClassName('timeInput');
-					let memos = dayPlan.getElementsByClassName('memoInput');
 					let checks = dayPlan.getElementsByClassName('inp-cbx');
 					
 					let cInput = document.getElementById("count");

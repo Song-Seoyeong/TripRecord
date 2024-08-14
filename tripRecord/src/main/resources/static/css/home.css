@@ -56,13 +56,13 @@
 }
 .place-card:hover img{
     opacity: 0.5;
-    transform: scale(1.1);
+    transform: scale(1.1) translateX(-20%) translateY(10px);
     transition: all .5s ease;
 }
 .place-card:hover p{
     opacity: 1;
-    transform: translateY(-450%);
-    transition: all .5s cubic-bezier(0.41, 0.06, 0.06, 0.28);
+    transform: translateY(-380px);
+    transition: all .5s ease-in-out;
 }
 #planImg{
 	cursor: pointer;

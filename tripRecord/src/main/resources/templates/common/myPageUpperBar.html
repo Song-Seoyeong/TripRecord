@@ -5,8 +5,8 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>마이페이지 어퍼바</title>
 <style>
-	a{text-decoration-line: none; color:black;}
-	a:hover{color:#96CAF0;}
+	.movePage{text-decoration-line: none; color:black;}
+	.movePage:hover{color:#96CAF0;}
 	
 	 #revision_button {
         color: #96CAF0; 
@@ -57,27 +57,27 @@
 			</button>
 			<span style="float:left; font-size:40px; font-weight:900">
 				[[${session.loginUser.memberName}]]
-				<span style="font-size:20px; font-weight:100">&#91; [[${#numbers.formatDecimal(session.loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93;p</span>
+				<span style="font-size:20px; font-weight:100">&#91; [[${#numbers.formatDecimal(loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93;p</span>
 			</span>
 		</div>
 	</div> 
 	<div style="height:40px;"></div>
 	<!-- 어퍼바 -->
 	<div class="container text-center" style="margin: auto; display:grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gao:-10px;" >
-		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myPage.mp">내 정보</a>
+		<div style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a class="movePage" href="myPage.mp">내 정보</a>
+		</div>
+		<div style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a class="movePage" href="myPayPoint.mp">포인트</a>
 		</div>
 		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myPayPoint.mp">포인트</a>
+			<a class="movePage" href="myPlan.mp">내 일정 보기</a>
 		</div>
-		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myPlan.mp">내 일정 보기</a>
+		<div style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a class="movePage" href="myInquiry.mp">내 문의글 보기</a>
 		</div>
-		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myInquiry.mp">내 문의글 보기</a>
-		</div>
-		<div class="movePage" style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
-			<a href="myBoard.mp">내 커뮤니티글 보기</a>
+		<div style="color: black; font-size: 24px; font-weight: 700; line-height: 24px;">
+			<a class="movePage" href="myBoard.mp">내 커뮤니티글 보기</a>
 		</div>
 	</div>
 	

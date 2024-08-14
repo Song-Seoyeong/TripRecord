@@ -31,11 +31,21 @@
 
 	<!--마이페이지 어퍼바-->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	<!-- 사이드바 -->
-	<div th:replace="~{common/myPageSideBar :: myPageSideBar}"></div>
+	
 
-	<div style="height: 20px;"></div>
-	<div class="flex-container" style="margin-top: -240px;">
+	<div style="height: 120px;">
+		<!-- 사이드바 -->
+		<div id="sidebar">
+    		<div th:replace="~{common/myPageSideBar :: myPageSideBar}"></div>
+    	</div>
+	</div>
+	<div class="flex-container" >
+		<div style="text-align:center;">
+	    	<span class=secondSidebar><a class="nav-link" href="myPage.mp">내 정보 수정</a></span>
+			<span class=secondSidebar><a class="nav-link" href="updateMyPwd.mp">비밀번호 변경</a></span>
+			<span class=secondSidebar><a class="nav-link" href="promoteToPlanner.mp">플래너 전환하기</a></span>
+			<span class=secondSidebar><a class="nav-link" id="admin" onclick="submitAdmin()">관리자 전환 요청하기</a></span>
+	    </div>
 		<div class="text-center"
 			style="color: black; font-size: 36px; font-weight: 900;">플래너계정으로전환하기</div>
 		<div style="height: 40px;"></div>

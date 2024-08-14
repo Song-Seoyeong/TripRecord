@@ -33,12 +33,13 @@ public class PlanServiceImpl implements PlanService{
 			
 			result = plMapper.savePlanInsert(list);
 			
-			if(result > 0 && !tagList.get(0).getTagRefType().equals("")) {
+			if(result > 0 && !tagList.contains(null)) { // controller 에서 해시태그 선택 안 하면 null 담아뒀음
 				for(int i = 0; i < tagList.size(); i++) {
 					tagList.get(i).setTagRefNo(s.getScNo());
 				}
 				return plMapper.saveHashTagInsert(tagList);
-			} else if(result > 0 && tagList.get(0).getTagRefType().equals("")) {
+				
+			} else if(result > 0 && tagList.contains(null)) {
 				return 1;
 			} else {
 				return 0;
@@ -52,7 +53,7 @@ public class PlanServiceImpl implements PlanService{
 	public ArrayList<Schedule> myTripNoteList(int memberNo, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return plMapper.myTripNoteList(memberNo, rowBounds);
+		return plMapper.myTripNoteList(rowBounds, memberNo);
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package com.finalproject.triprecord.plan.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +61,8 @@ public class PlanController {
 								 @RequestParam(value = "hashtagTagNos", required = false) String hashtagNo,
 								 @RequestParam("localNo") int localNo,
 								 Model model) {
-		HashMap<Integer, LocalDate> dates = dateFunction(s.getStartDate(), s.getEndDate());
+//		HashMap<Integer, LocalDate> dates = dateFunction(s.getStartDate(), s.getEndDate());
+		HashMap<Integer, String> dates = dateFunction(s.getStartDate(), s.getEndDate());
 		
 		ArrayList<Place> pList = pService.selectPlaceList(localNo);
 		
@@ -77,17 +77,18 @@ public class PlanController {
 	}
 	
 	// 여행 n일 계산
-	public HashMap<Integer, LocalDate> dateFunction(String startDate, String endDate) {
+	public HashMap<Integer, String> dateFunction(String startDate, String endDate) {
 
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
 		LocalDate start = LocalDate.parse(startDate, format);
 		LocalDate end = LocalDate.parse(endDate, format);
 
-		HashMap<Integer, LocalDate> dates = new HashMap<>();
+		HashMap<Integer, String> dates = new HashMap<>();
+		
 		int day = 1;
 		for (LocalDate date = start; !date.isAfter(end); date = date.plusDays(1)) {
-			dates.put(day, date);
+			dates.put(day, date+"");
 			day++;
 		}
 
@@ -104,8 +105,7 @@ public class PlanController {
 		s.setEndDate(endDate);
 		s.setSpot(spot);
 		
-		HashMap<Integer, LocalDate> dates = dateFunction(startDate, endDate);
-		
+		HashMap<Integer, String> dates = dateFunction(startDate, endDate);
 		
 		if(!dates.isEmpty()) {
 			Map<String, Object> map = new HashMap<>();
@@ -114,7 +114,7 @@ public class PlanController {
 
 			return ResponseEntity.ok(map);
 		} else {
-			return null;
+			return null ;
 		}
 		
 	}
@@ -130,11 +130,11 @@ public class PlanController {
 		
 		String place[] = p.getPlace().split(",");
 		String time[] = p.getTime().split(",");
-		String memo[] = p.getPlace().split(",");
+		String memo[] = p.getMemo().split(",");
 		String reserve[] = p.getReserve().split("/");
 		String day[] = p.getDay().split(",");
 		
-		String cStr[] = count.split(";");
+		String cStr[] = count.split(";"); // count 안에 한 날짜에 몇 개 담겼는지 += 구분자(;) 로 들어옴
 		Integer coNum[] = new Integer[cStr.length];
 		for(int i = 0; i < cStr.length; i++) {
 			coNum[i] = Integer.parseInt(cStr[i]);
@@ -149,7 +149,13 @@ public class PlanController {
 			pl.setPlNo(i);
 			pl.setPlace(place[i]);
 			pl.setTime(time[i]);
-			pl.setMemo(memo[i]);
+			
+			if(memo[i].equals("-")) {
+				pl.setMemo(null);
+			} else {
+				pl.setMemo(memo[i]);
+			}
+			
 			pl.setReserve(reserve[i]);
 			
 			if(coCount == coNum[dNum]) {
@@ -163,19 +169,18 @@ public class PlanController {
 		
 		ArrayList<HashTag> tagList = new ArrayList<HashTag>();
 		HashTag h = null;
-		if(s.getHashtag() != null) {
-			String hashtag[] = s.getHashtag().split(",");
+		String hashtag[] = s.getHashtag().split(",");
+		if(!hashtag[0].equals("0") || !hashtag[1].equals("0")) {
 			for(int i = 0; i < hashtag.length; i++) {
-				h = new HashTag();
-				h.setTagNo(Integer.parseInt(hashtag[i]));
-				h.setTagRefType("SCHEDULE");
-				tagList.add(h);
+				if(!hashtag[i].equals("0")) {
+					h = new HashTag();
+					h.setTagNo(Integer.parseInt(hashtag[i]));
+					h.setTagRefType("SCHEDULE");
+					tagList.add(h);
+				}
 			}
-		} else if(s.getTogether() != null) {
-			h = new HashTag();
-			h.setTagNo(Integer.parseInt(s.getTogether()));
-			h.setTagRefType("SCHEDULE");
-			tagList.add(h);
+		} else {
+			tagList.add(h); //serviceImpl 에서 contains(null) 비교 후 반환함
 		}
 		
 		int result = plService.savePlanInsert(s, plList, tagList);
@@ -227,14 +232,16 @@ public class PlanController {
     					hashtag += hList.get(i).getTagName() + " ";
 	    			}
     			}
-	    		
-	    		sList.get(s).setHashtag(hashtag);
+	    		if(!hashtag.equals("")) {
+	    			sList.get(s).setHashtag(hashtag);
+	    		}
 	    		hashtag = "";
 	    	}
 	    }
 	    
 	    model.addAttribute("sList", sList);
 	    model.addAttribute("pi", pi);
+	    model.addAttribute("listCount", listCount);
 	    model.addAttribute("loc", request.getRequestURI());
 	    
 	    if (image != null && image.getImageRename() != null) {
@@ -250,9 +257,9 @@ public class PlanController {
 //	마이페이지 내 일정 보기 -> 내 여행 노트 -> 상세 조회
 	@GetMapping("detailMyTripNote.pl")
 	public String detailMyTripNote(@RequestParam("scNo") int scNo, @RequestParam("page") int page, 
-									HttpSession session, Model model, RedirectAttributes ra) {
+									HttpSession session, Model model, RedirectAttributes ra, HttpServletRequest req) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
-	    
+		
 		Image image = mService.existFileId(memberNo); 
 	    if (image != null && image.getImageRename() != null) {
 	    	String existFileId = image.getImageRename(); 
@@ -263,15 +270,10 @@ public class PlanController {
 	    }
 	    
 	    Schedule s = plService.detailMySchedule(scNo);
-	    System.out.println(s);
 	    
-	    HashMap<Integer, LocalDate> dates = dateFunction(s.getStartDate(), s.getEndDate());
-	    
-	    String dateStr = dates.values().toString();
+	    HashMap<Integer, String> dates = dateFunction(s.getStartDate(), s.getEndDate());
 	    
 	    ArrayList<Plan> pList = plService.detailMyTripNote(scNo);
-	    System.out.println("pList" + pList);
-	    
 	    if(!pList.isEmpty()) {
 	    	for(int i = 0; i < pList.size(); i++) {
 	    		pList.get(i).setDay(pList.get(i).getDay().split(" ")[0]);
@@ -281,6 +283,7 @@ public class PlanController {
 	    	model.addAttribute("s", s);
 	    	model.addAttribute("dates", dates);
 	    	model.addAttribute("pList", pList);
+	    	model.addAttribute("loc", req.getRequestURI());
 	    	
 	    	return "detailMyTripNote";
 	    } else {
@@ -301,7 +304,12 @@ public class PlanController {
 	
 	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 수정 ajax 
 	@GetMapping("detailTripUpdate.pl")
-	public String detailTripUpdate(@ModelAttribute Plan p) {
+	public String detailTripUpdate(@RequestParam("place") String place, @RequestParam("time") String time, @RequestParam("memo") String memo, @RequestParam("plNo") int plNo) {
+		Plan p = new Plan();
+		p.setPlace(place);
+		p.setTime(time);
+		p.setMemo(memo);
+		p.setPlNo(plNo);
 		int result = plService.detailTripUpdate(p);
 		return result == 1? "success" : "fail";
 	}

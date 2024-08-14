@@ -20,7 +20,7 @@ public interface PlanMapper {
 
 	int saveHashTagInsert(ArrayList<HashTag> tagList);
 
-	ArrayList<Schedule> myTripNoteList(int memberNo, RowBounds rowBounds);
+	ArrayList<Schedule> myTripNoteList(RowBounds rowBounds, int memberNo);
 
 	ArrayList<HashTag> myTripTagList(ArrayList<Schedule> sList);
 

@@ -141,7 +141,8 @@
 	margin-right: auto;
 	margin-top: 30px;
 	border: 1px solid lightgray; 
-	border-radius:10px;
+	border-radius: 10px;
+	width: 900px;
 }
 
 /* 날짜, 지역 영역 div */

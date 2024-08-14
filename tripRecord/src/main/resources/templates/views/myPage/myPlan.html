@@ -4,7 +4,7 @@
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
-<title>플래너 일정 요청 리스트</title>
+<title>여행 플랜 신청 리스트</title>
 <style>
 table{
 	width:80%;
@@ -27,37 +27,38 @@ td{padding:15px;}
 		<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
 		<div style="height:80px;"></div>
 		<div style="display:inline-block; margin-right:200px;">
-			<div style="color: black; font-size: 36px; font-weight: 900;">플래너 일정 요청 리스트</div>
+			<div style="color: black; font-size: 36px; font-weight: 900;">여행 플랜 신청 리스트</div>
 			<div style="height:40px;"></div>
 			<div style="display:inline-block; width:1000px; max-height:800px; min-height: 300px;" >
 				<table>
 					<thead>
 					 	<tr style="border-bottom:2px solid #96CAF0;">
-							<th><p>요청번호</p></th>
-							<th><p>여행지</p></th>
-							<th><p>여행기간</p></th>
-							<th><p>플래너</p></th>
-							<th><p>진행상태</p></th>
+							<th width='15%'><p>여행지</p></th>
+							<th width='40%'><p>여행 기간</p></th>
+							<th width='15%'><p>담당 플래너</p></th>
+							<th width='30%'><p>진행 상태</p></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr style="border-bottom:2px solid #b9b9b9" th:if='${list != null}' th:each='l :${list}'>
 							<th:block  th:each='p : ${pList}' th:if='${l.reqPlaNo == p.memberNo}'>
-								<td id="requestNumber">[[${l.reqNo}]]</td>
-								<td id="place">[[${p.localName}]]</td>
+								<td id="place">
+									<input type='hidden' th:value='${l.reqNo}' name='reqNo'>
+									[[${p.localName}]]
+								</td>
 								<td id="date">30일</td>
 								<td id="planner">[[${p.nickname}]]</td>
-								<td th:if='${l.reqStatus == "1"}'>요청 중</td>
-								<td th:if='${l.reqStatus == "2"}' style='color: green'>일정 완료</td>
+								<td th:if='${l.reqStatus == "1"}'>일정 기다리는 중</td>
+								<td th:if='${l.reqStatus == "2"}' style='color: green; font-weight: bold;'>일정 도착</td>
 								<td th:if='${l.reqStatus == "3"}' style='color: yellow'>피드백 요청</td>
-								<td th:if='${l.reqStatus == "4"}' style='color: green'>피드백 완료</td>
-								<td th:if='${l.reqStatus == "5"}' style='color: #96CAF0'>요청 완료</td>
-								<td th:if='${l.reqStatus == "6"}' style='color: red'>요청 취소</td>
+								<td th:if='${l.reqStatus == "4"}' style='color: green; font-weight: bold;'>피드백 도착</td>
+								<td th:if='${l.reqStatus == "5"}' style='color: #96CAF0'>진행 종료</td>
+								<td th:if='${l.reqStatus == "6"}' style='color: red'>신청 취소</td>
 							</th:block>
 						</tr>
 						<tr th:if='${pi.listCount == 0}'>
 							<td colspan="5">
-								요청하신 리스트가 없습니다
+								신청하신 리스트가 없습니다
 							</td>
 						</tr>
 					</tbody>
@@ -118,7 +119,7 @@ td{padding:15px;}
 			})
 			td.addEventListener('click', ()=>{
 				const parent = td.parentElement;
-				location.href='detailReqPlan.mp?reqNo=' + parent.children[0].innerText + "&page=" + /*[[${pi.currentPage}]]*/1;
+				location.href='detailReqPlan.mp?reqNo=' + parent.children[0].querySelector('input').value + "&page=" + /*[[${pi.currentPage}]]*/1;
 			})
 		}
 		/*]]>*/

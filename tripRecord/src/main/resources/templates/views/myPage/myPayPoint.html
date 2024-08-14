@@ -11,131 +11,131 @@
 
 <title>포인트 결제</title>
 <style>
-.flex-container {
-	display: flex;
-	justify-content: center;
-	gap: 30px;
-}
-
-table {
-	width: 90%;
-	align: center;
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 30px;
-}
-
-th {
-	font-size: 24px;
-}
-
-td {
-	padding: 15px;
-}
-tbody tr:hover{background:#DFDEDE; cursor:pointer}
-
-/*토스페이*/
-#toss {
-	background-color: #fff;
-	border: 1px solid #094DF6;
-	padding: 0px;
-	position: relative;
-	width: 7em;
-	height: 2em;
-	transition: 0.5s;
-	font-size: 17px;
-	border-radius: 0.4em;
-}
-
-#toss p {
-	top: 0.4em;
-	left: 1.4em;
-	margin: auto;
-	padding: 0;
-	transition: .5s;
-	color: #094DF6;
-}
-
-#toss:hover p {
-	left: 0.5em;
-	color: #fff
-}
-
-#toss:hover span {
-	opacity: 1;
-}
-
-#toss:hover {
-	background-color: #094DF6;
-}
-
-/*카카오페이*/
-#kakao {
-	background-color: #fff;
-	border: 1px solid #FDD100;
-	padding: 0px;
-	position: relative;
-	width: 7em;
-	height: 2em;
-	transition: 0.5s;
-	font-size: 17px;
-	border-radius: 0.4em;
-}
-
-#kakao p {
-	top: 0.4em;
-	left: 1.4em;
-	margin: auto;
-	padding: 0;
-	transition: .5s;
-	color: #FDD100;
-}
-
-#kakao:hover p {
-	left: 0.5em;
-	color: #fff
-}
-
-#kakao:hover span {
-	opacity: 1;
-}
-
-#kakao:hover {
-	background-color: #FDD100;
-}
-
-/*충전*/
-#charge {
-	width: 80px;
-	height: 40px;
-	align-items: center;
-	justify-content: center;
-	background-color: white;
-	border: 2px solid #96CAF0;
-	border-radius: 20px;
-	color: #96CAF0;
-	font-weight: 600;
-	gap: 8px;
-	cursor: pointer;
-	position: relative;
-	transition-duration: .3s;
-}
-
-.svgIcon {
-	width: 16px;
-}
-
-.svgIcon path {
-	fill: #96CAF0;
-}
-
-#charge:hover {
-	background: #96CAF0;
-	border: 2px solid #96CAF0;
-	color: #fff;
-	font-weight: 600;
-}
+	.flex-container {
+		display: flex;
+		justify-content: center;
+		gap: 30px;
+	}
+	
+	table {
+		width: 90%;
+		align: center;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 30px;
+	}
+	
+	th {
+		font-size: 24px;
+	}
+	
+	td {
+		padding: 15px;
+	}
+	tbody tr:hover{background:#DFDEDE; cursor:pointer}
+	
+	/*토스페이*/
+	#toss {
+		background-color: #fff;
+		border: 1px solid #094DF6;
+		padding: 0px;
+		position: relative;
+		width: 7em;
+		height: 2em;
+		transition: 0.5s;
+		font-size: 17px;
+		border-radius: 0.4em;
+	}
+	
+	#toss p {
+		top: 0.4em;
+		left: 1.4em;
+		margin: auto;
+		padding: 0;
+		transition: .5s;
+		color: #094DF6;
+	}
+	
+	#toss:hover p {
+		left: 0.5em;
+		color: #fff
+	}
+	
+	#toss:hover span {
+		opacity: 1;
+	}
+	
+	#toss:hover {
+		background-color: #094DF6;
+	}
+	
+	/*카카오페이*/
+	#kakao {
+		background-color: #fff;
+		border: 1px solid #FDD100;
+		padding: 0px;
+		position: relative;
+		width: 7em;
+		height: 2em;
+		transition: 0.5s;
+		font-size: 17px;
+		border-radius: 0.4em;
+	}
+	
+	#kakao p {
+		top: 0.4em;
+		left: 1.4em;
+		margin: auto;
+		padding: 0;
+		transition: .5s;
+		color: #FDD100;
+	}
+	
+	#kakao:hover p {
+		left: 0.5em;
+		color: #fff
+	}
+	
+	#kakao:hover span {
+		opacity: 1;
+	}
+	
+	#kakao:hover {
+		background-color: #FDD100;
+	}
+	
+	/*충전*/
+	#charge {
+		width: 80px;
+		height: 40px;
+		align-items: center;
+		justify-content: center;
+		background-color: white;
+		border: 2px solid #96CAF0;
+		border-radius: 20px;
+		color: #96CAF0;
+		font-weight: 600;
+		gap: 8px;
+		cursor: pointer;
+		position: relative;
+		transition-duration: .3s;
+	}
+	
+	.svgIcon {
+		width: 16px;
+	}
+	
+	.svgIcon path {
+		fill: #96CAF0;
+	}
+	
+	#charge:hover {
+		background: #96CAF0;
+		border: 2px solid #96CAF0;
+		color: #fff;
+		font-weight: 600;
+	}
 </style>
 </head>
 <body>
@@ -144,15 +144,19 @@ tbody tr:hover{background:#DFDEDE; cursor:pointer}
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	<!-- 마이페이지 어퍼바 -->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	<!-- 사이드바 -->
-	<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div>
+	
 
+	<div style="height: 120px;">
+		<!-- 사이드바 -->
+		<div id="sidebar">
+			<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div>
+		</div>
+	</div>
 	<div class="flex-center" style="text-align: center;">
-		<div style="height: 80px;"></div>
-
-		<div style="display: inline-block; margin-right: 250px;">
-			<div style="color: black; font-size: 36px; font-weight: 900;">포인트
-				결제</div>
+		<div style="display: inline-block;">
+			<span class="secondSidebar"><a class="nav-link" href="myPoint.mp">결제 내역</a></span>
+			<span class="secondSidebar"><a class="nav-link" href="myPayPoint.mp">포인트 결제하기</a></span>
+			<div style="color: black; font-size: 36px; font-weight: 900;">포인트 결제</div>
 			<!-- 현재 포인트 표시 -->
 			<div id="currentPoint" style="font-weight: 900; margin-left: 700px;">
 				<p>현재 포인트 : &#91; [[${#numbers.formatDecimal(loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93; p</p>
