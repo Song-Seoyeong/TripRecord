@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar :: logoBar }"></div>
@@ -15,7 +17,7 @@
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
-			</div>
+		</div>
 		<div class="d-flex justify-content-center">
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
@@ -67,7 +69,7 @@
 		         						<img class="rounded-circle m-3" src="image/noProfile.png"  width="75px" height="75px" alt="프로필">
 		         					</td>
 		         					
-					         		<td width="200px">[[${planner.Nickname}]]</td>
+					         		<td class="fs-4" width="200px">[[${planner.Nickname}]]</td>
 					         		<td width="150px">[[${localName[planner.memberNo]}]]</td>
 					         		<td class="sIntro fs-5" width="300px">[[${planner.sIntroContent}]]</td>
 					         		<td width="200px">[[${likes[planner.memberNo]}]]</td>
@@ -78,15 +80,6 @@
 		        </div>
         	</div>
 		</div>
-		
-		<div class='row' style='margin-bottom: 100px;'>
-			<div class='col-4'></div>
-			<nav aria-label="Page navigation" class='col-4 d-flex justify-content-center' id='pagination'>
-			</nav>
-			<div class='col-4'></div>
-		</div>
-		
-				
 		<nav class="d-flex justify-content-center">
         	<ul class="pagination" th:with="loc=${ loc }">
         		 <!-- 이전 버튼 -->
@@ -110,6 +103,7 @@
 	            </li>
 	    	</ul>
         </nav>
+        
 		</th:block>
 		<th:block th:if="${ pi.listCount == 0 }">
 			<div style="height: 100px"></div>
@@ -188,6 +182,7 @@ for (const card of cards) {
                     imageCell.appendChild(img);
                     
                     const nicknameCell = document.createElement('td');
+                    nicknameCell.classList.add('fs-4');
                     nicknameCell.width = 200;
                     nicknameCell.innerText = planner.Nickname;
                     
@@ -196,8 +191,7 @@ for (const card of cards) {
                     localNameCell.innerText = data.localName[planner.memberNo];
                     
                     const sIntroContentCell = document.createElement('td');
-                    sIntroContentCell.classList.add('sIntro');
-                    sIntroContentCell.classList.add('fs-5');
+                    sIntroContentCell.classList.add('sIntro', 'fs-5');
                     sIntroContentCell.width = 300;
                     sIntroContentCell.innerText = planner.sIntroContent;
                     
@@ -214,13 +208,94 @@ for (const card of cards) {
                     
                     row.addEventListener('click', function() {
                         const pNo = planner.memberNo;
-                        const currentPage = 1;
-                        location.href = "selectPlanner.ma?pNo=" + pNo + "&page=" + currentPage;
+                        location.href = "selectPlanner.ma?pNo=" + pNo + "&page=" + 1;
                     });
-
+                    
                     table.appendChild(row);
                     plannerListContainer.appendChild(table);
                 });
+                
+                // 페이지네이션
+                const pagination = document.querySelector('nav');
+                pagination.innerHTML = '';
+                
+           		if(data.pi.listCount == 0){
+           			plannerListContainer.innerHTML = '';
+           			
+           		    const spacer = document.createElement('div');
+           		    spacer.style.height = '100px';
+           		    plannerListContainer.appendChild(spacer);
+
+           		    const messageDiv = document.createElement('div');
+           		    messageDiv.classList.add('d-flex', 'justify-content-center', 'm-3');
+           		    messageDiv.style.height = '300px';
+
+           		    const message = document.createElement('h1');
+           		    message.innerText = '등록된 플래너가 없습니다.';
+
+           		    messageDiv.appendChild(message);
+           		    plannerListContainer.appendChild(messageDiv);
+            	} else if(data.pi.listCount != 0) {
+                const ul = document.createElement('ul');
+       			ul.className='pagination';
+       			
+       			const prev = document.createElement('li');
+       			prev.className='page-item';
+       			const beforeA = document.createElement('a');
+       			console.log(data.pi.currentPage);
+       			beforeA.className = 'page-link';
+       			if (data.pi.currentPage == 1) {
+       				beforeA.classList.add('disabled');
+       			}
+       			beforeA.href = 'matchingMain.ma?page=' + (data.pi.currentPage - 1) + '&localNo=' + localNo;
+       			beforeA.ariaLabel = "Previous";
+       			const prevArrow = document.createElement('span');
+       			prevArrow.ariaHidden = "true";
+       			prevArrow.innerHTML = "&laquo;";
+       			
+       			beforeA.append(prevArrow);
+       			prev.append(beforeA);
+       			ul.append(prev);
+       			
+       			for(let i = data.pi.startPage ; i <= data.pi.endPage ; i++){
+    	   			const li = document.createElement('li');
+    	   			li.className='page-item';
+       				const a = document.createElement('a');
+       				a.className='page-link';
+       				a.href = 'matchingMain.ma?page=' + i + "&localNo=" + localNo;
+       				a.innerText = i;
+       				if(i == data.pi.currentPage){
+       					a.style.fontWeight = "bold";
+       					a.style.fontSize = '1.1em'
+       					a.style.color = "#96caf0";
+       				}
+       				li.append(a);
+       				ul.append(li);
+       			}
+       			
+       			const next = document.createElement('li');
+       			next.className='page-item';
+       			const afterA = document.createElement('a');
+       			
+       			afterA.className = 'page-link';
+       			if (data.pi.currentPage == data.pi.endPage) {
+       				afterA.classList.add('disabled');
+       			}
+       			afterA.href = 'matchingMain.ma?page=' + (data.pi.currentPage + 1) + '&localNo=' + localNo;
+       			afterA.ariaLabel = "Next";
+       			const nextArrow = document.createElement('span');
+       			nextArrow.ariaHidden = "true";
+       			nextArrow.innerHTML = "&raquo;";
+       			
+       			afterA.append(nextArrow);
+       			next.append(afterA);
+       			ul.append(next);
+       			
+       			pagination.appendChild(ul);
+       			
+                }
+                
+                
             },
             error: function(error) {
                 console.log(error);

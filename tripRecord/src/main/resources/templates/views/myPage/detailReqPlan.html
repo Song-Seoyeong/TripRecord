@@ -4,6 +4,7 @@
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link type="text/css" href="css/myPage/detailReqPlan.css" rel="stylesheet">
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <meta charset="UTF-8">
 <title>플래너와 함께 여행 계획 짜기</title>
 </head>
@@ -11,13 +12,14 @@
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
-	
 	<!--마이페이지 어퍼바-->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
 	<!-- 사이드바 -->
 	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
-	<form id='reqForm'>
-		<div class="flex-container">
+	
+	
+	<div class="flex-container">
+		<form id='reqForm'>
 			<!-- 여행지 참고 사항 출력창 -->
 			<div id='schContent'>
 				<!-- 여행지 -->
@@ -25,10 +27,11 @@
 					<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
 					<input type='hidden' name='page' th:value='${page}'>
 					<input type='hidden' name='reqStatus' id='reqStatus' value='1'>
-					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-right:-15px; margin-top:-10px;">
+					<input type='hidden' name='point' id='point' th:value='${rs.point}'>
+					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" id='localIcon'>
 						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
 					</svg>
-					&nbsp;<b>[[${planner.localName}]]</b>로 떠나는 <b>"[[${sch.scStartDate}]] ~ [[${sch.scEndDate}]]"</b> 여행입니다
+					&nbsp;<b>[[${planner.localName}]]</b>로 떠나는 <b>"[[${rs.startDate}]] ~ [[${rs.endDate}]]"</b> 여행입니다
 				</div>
 				<hr>
 				<!-- 참고사항 입력한거 -->
@@ -38,14 +41,19 @@
 			</div>
 			<!-- 플래너 및 여행 일정 -->
 			<div id='planSch'>
+				
 				<div id='planner'>
+					<input type='hidden' name='plaNo' th:value='${planner.memberNo}'>
 					<div id='plannerImgDiv'>
 						<img id='plannerImg' th:if='${planner.imageRename == null}' src="image/noProfile.png"/>
 						<img id='plannerImg' th:if='${planner.imageRename != null}' th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}&sz=w1000|"/>
 					</div>
-					<div id='plaNickname'>
+					<span id='plaNickname'>
 						[[${planner.nickname}]]
-					</div>
+					</span>
+					<span id='toolTip'>
+						플래너 프로필 보기
+					</span>
 				</div>
 				<hr>
 				<!-- 일정 -->
@@ -53,22 +61,103 @@
 					플래너가 아직 일정을 생성하지 않았어요<br>
 					조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
 				</div>
-				<div id='schedule' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
+				<div id='schedule' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6" && planList != null}'>
 					일정 생성 완료
 				</div>
 				<div id='schedule' th:if='${rs.reqStatus == "6"}' style='text-align:center;'>
 					신청이 취소된 여행입니다 :(
 				</div>
 			</div>
-			
-			<!-- 제출버튼 -->
+			<!-- 버튼 -->
 			<div id='buttonDiv'>
-				<button type='button' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}' id="submit_button">확정</button>
-				<button type='button' th:if='${rs.reqStatus != "6"}' id="cancle_button">요청 취소</button>
-				<button type='button' id="back_button" onclick="back()">목록</button>
+				<button type='button' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}' id="submit_button">결제</button>
+				<button type='button' th:if='${rs.reqStatus != "6"}' id="cancle_button">신청 취소</button>
+				<button type='button' id="back_button" onclick="back()">뒤로 가기</button>
 			</div>
+			
+			<!-- 피드백 -->
+			<div th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
+				<div id='feedbackTitle'>피드백 리스트</div>
+				<div id=''>※피드백은 3회로 제한됩니다※</div>
+				<div id='feedBackListDiv'>
+				</div>
+				<div id='feedBakcButton'>
+					<button type='button' th:if='${rs.feedBackCount != 3}' id="submit_feed">피드백 보내기</button>
+					<button type='button' id="confimReq" data-bs-toggle="modal" data-bs-target="#exampleModal">확정</button>
+				</div>
+			</div>
+		</form>
+		
+		<!-- 확정 모달 -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="modalSubmit">
+			<div class="modal-dialog" role="document">
+	    		<div class="modal-content rounded-3 shadow">
+	      			<div class="modal-body p-4 text-center">
+	        			<h3 class="mb-0">플래너에게 받은 일정을 결제하시겠습니까?</h3>
+	        			<p class="mb-0">확인 후 [[${rs.point}]]p가 차감됩니다<br>※확정 후 환불은 문의사항 게시판을 이용해주세요※</p>
+	      			</div>
+	      			<div class="modal-footer flex-nowrap p-0">
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="confim">
+	        				<strong>네</strong>
+	        			</button>
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+	      			</div>
+	    		</div>
+	 			</div>
 		</div>
-	</form>
+		<!-- 확정 모달 -->
+		<!-- 신청취소 모달 -->
+		<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+			<div class="modal-dialog" role="document">
+	    		<div class="modal-content rounded-3 shadow">
+	      			<div class="modal-body p-4 text-center">
+	        			<h3 class="mb-0">정말로 신청을 취소하시겠습니까?</h3>
+	        			<p class="mb-0">
+	        				취소 후 신청내역은 복구할 수 없습니다
+	        				<th:block th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
+	        					일정 확정 후 취소 환불은 문의게시판을 이용해주시길 바랍니다
+	        				</th:block>
+	        				<br>
+	        				필요시 재신청 해주세요
+	        			</p>
+	      			</div>
+	      			<div class="modal-footer flex-nowrap p-0">
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
+	        				<strong>네</strong>
+	        			</button>
+	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+	      			</div>
+	    		</div>
+	 			</div>
+		</div>
+		<!-- 신청취소 모달 -->
+		<!-- 피드백 모달 -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h1 class="modal-title fs-5" id="exampleModalLabel">피드백 보내기</h1>
+		      </div>
+		      <div class="modal-body">
+		        <form>
+		          <div class="mb-3">
+		            <label for="recipient-name" class="col-form-label">Recipient:</label>
+		            <input type="text" class="form-control" id="recipient-name">
+		          </div>
+		          <div class="mb-3">
+		            <label for="message-text" class="col-form-label">Message:</label>
+		            <textarea class="form-control" id="message-text"></textarea>
+		          </div>
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+		        <button type="button" class="btn btn-primary">피드백 보내기</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	<script th:inline='javascript'>
@@ -76,33 +165,55 @@
 		
 		const reqForm = document.getElementById('reqForm');
 			
-		//확정 시 피드백 페이지로 이동
+		//확정 시 모달
 		const subBtn = document.getElementById('submit_button');
 		if(subBtn != null){
 			subBtn.addEventListener('click', ()=>{
-				form.action = "feedback.mp";
-				form.submit();
+	        	$('#modalSubmit').modal('show');
 			})
 		}
 		
-		//요청 취소 시 요청 상태 변경
+		// 확정
+       const confim = document.getElementById('confim');
+        if(confim != null){
+        	confim.addEventListener('click', ()=>{
+        		const status = document.getElementById('reqStatus');
+				status.value = '2';
+				reqForm.action = "feedback.mp";
+				reqForm.submit();
+        	})
+        }
+		
+		//신청 취소 시 모달
 		const canBtn = document.getElementById('cancle_button');
 		if(canBtn != null){
 			canBtn.addEventListener('click', ()=>{
-				if(confirm("정말 요청을 취소하시겠습니까?")){
-					const status = document.getElementById('reqStatus');
-					status.value = '6';
-					reqForm.action = "updateReqSch.mp";
-					reqForm.submit();
-					
-				}
+	        	$('#modalChoice').modal('show');
 			})
 		}
 		
-		//요청 취소 시 요청 리스트로 이동
+		// 신청 취소
+       const del = document.getElementById('delete');
+        if(del != null){
+        	del.addEventListener('click', ()=>{
+        		const status = document.getElementById('reqStatus');
+				status.value = '6';
+				reqForm.action = "updateReqSch.mp";
+				reqForm.submit();
+        	})
+        }
+		
+		
+		//뒤로 가기
 		function back(){
 			location.href="myPlan.mp?page=" + /*[[${page}]]*/1;
 		}
+		
+		// 플래너 프로필 이동
+		const planner = document.getElementById('planner');
+		planner.addEventListener('click', function(){
+			location.href = 'selectPlanner.ma?page=1&pNo=' + this.children[0].value;
+		})
 		
 		/*]]>*/
 	</script>

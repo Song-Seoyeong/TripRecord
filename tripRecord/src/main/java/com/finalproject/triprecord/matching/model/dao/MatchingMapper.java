@@ -47,13 +47,19 @@ public interface MatchingMapper {
 	int insertReviewImage(ArrayList<Image> list);
 
 	ArrayList<Image> selectrImgList();
+	
+	ArrayList<Image> selectrImgList(int rNo);
 
 	Review selectReview(int rNo);
 
-	int deleteReview(int rNo);
+	int deletePlannerReview(int rNo);
 
 	int insertReqSchedule(ReqSchedule reqSchedule);
 
 	int insertSchedule(Schedule schedule);
+
+	int deleteReviewImage(ArrayList<String> deleteImg);
+
+	ArrayList<Planner> topPlannerList();
 
 }

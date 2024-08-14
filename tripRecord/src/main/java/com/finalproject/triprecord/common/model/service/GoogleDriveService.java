@@ -47,6 +47,7 @@ public class GoogleDriveService {
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     private Drive service;
+    private Credential credential;
 
     public GoogleDriveService() throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -69,6 +70,23 @@ public class GoogleDriveService {
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(6786).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    }
+    
+    // 주기적으로 엑세스 토큰을 갱신하는 메서드
+    public void refreshTokenIfNeeded() throws IOException {
+        // 만료된 토큰을 갱신
+        if (credential.getExpiresInSeconds() != null && credential.getExpiresInSeconds() <= 60) {
+            credential.refreshToken();
+            System.out.println("Access token was refreshed.");
+        } else {
+            System.out.println("Access token is still valid.");
+        }
+    }
+
+    // 토큰 갱신이나 재인증이 필요할 때 이 메서드를 호출
+    public Drive getDriveService() throws IOException {
+        refreshTokenIfNeeded();
+        return service;
     }
 
     public String uploadFile(InputStream inputStream, String originalFileName) throws IOException {

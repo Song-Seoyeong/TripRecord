@@ -45,6 +45,7 @@
     border-radius: 5px;
     transform: scale(1.1);
     transition: all .5s ease;
+    opacity: .75;
 }
 
 .plannerList{

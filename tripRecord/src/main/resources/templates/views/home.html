@@ -15,77 +15,83 @@
 
 		<div class="fs-2 my-3 ms-5">'여행지 TOP 5'의 플래너 만나러가기</div>
 		<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
-			<div class="local-card position-relative" th:each='l : ${lList}'>
+			<div class="local-card position-relative shadow" th:each='l : ${lList}'>
 				<input type=hidden th:value=${l.localNo}>
-				<img th:if='${l.imageRename == null}' class="local-img shadow position-absolute" src="image/noimage.png" th:alt="${l.localName}">
-				<img th:if='${l.imageRename != null}' class="local-img shadow position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
-				<span class="card-text position-absolute fs-1 px-3">[[${l.localName}]]</span>
+				<img class="local-card-img position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
+				<div class="medalDiv">
+					<img class="medal position-absolute" th:if="${lStat.index == 0}" src="image/gMedal.png"></img>
+					<img class="medal position-absolute" th:if="${lStat.index == 1}" src="image/sMedal.png"></img>
+					<img class="medal position-absolute" th:if="${lStat.index == 2}" src="image/bMedal.png"></img>
+				</div>
+				<span class="local-card-text position-absolute fs-2 px-3">[[${l.localName}]]</span>
 			</div>
 		</div>
 
-		<hr />
-		<div class="contatiner d-flex justify-content-center">
-			<div class="card" style="width: 800px;">
-				<img th:if='${img.imageRename == null}' class="local-img shadow position-absolute" th:src="${img.imagePath}" alt="일정 페이지 넘어가기" id='planImg'>
-				<img th:if='${img.imageRename != null}' class="img-fluid" th:src="|https://drive.google.com/thumbnail?id=${img.imageRename}&sz=w1000|" alt="일정 페이지 넘어가기" id='planImg'>
-			</div>
-		</div>
-		<hr />
-		<h2 class="mx-5">TOP 5 플래너</h2>
+		<hr/>
+		<h2 class="mx-5 my-3">TOP 5 플래너</h2>
 		<!-- TOP N1 -->
-		<div
-			class="container row-cols-1 row-cols-md-6 d-flex justify-content-center">
-			<img class="shadow mx-1 my-3 rounded-3" height="250px"
-				src="/resources/black.jpg" alt="사진1"> <img
-				class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg"
-				alt="사진2"> <img class="shadow mx-1 my-3 rounded-3"
-				src="/resources/black.jpg" alt="사진3"> <img
-				class="shadow mx-1 my-3 rounded-3" src="/resources/black.jpg"
-				alt="사진4"> <img class="shadow mx-1 my-3 rounded-3"
-				src="/resources/black.jpg" alt="사진5">
+		<div class="planner-container row-cols-1 row-cols-md-6 d-flex justify-content-center">
+			<div class="planner-card position-relative shadow" th:each='pl : ${plList}'>
+				<input type=hidden th:value=${pl.memberNo}>
+				<img th:if="${pl.imageRename != null }" class="planner-card-img shadow position-absolute" th:src="|https://drive.google.com/thumbnail?id=${pl.imageRename}&sz=w1000|" th:alt="${pl.nickname}">
+				<img th:if="${pl.imageRename == null }" class="planner-card-img shadow position-absolute" src="image/noProfile.png" alt="기본 프로필">
+				<span class="planner-card-text position-absolute fs-4 px-3">[[${pl.nickname}]]</span>
+				<div class="medalDiv">
+					<img class="medal position-absolute" th:if="${plStat.index == 0}" src="image/gMedal.png"></img>
+					<img class="medal position-absolute" th:if="${plStat.index == 1}" src="image/sMedal.png"></img>
+					<img class="medal position-absolute" th:if="${plStat.index == 2}" src="image/bMedal.png"></img>
+				</div>
+			</div>
 		</div>
 		<!-- TOP N1 끝 -->
-		<br />
-		<hr />
-		<!-- TOP N2 -->
-		<h2 class="mx-5">TOP 5 여행지</h2>
-		<div
-			class="container row-cols-1 row-cols-md-6 d-flex justify-content-center"
-			id='topPlace'>
-			<div class='shadow mx-2 my-3 rounded-3 place-card'
-				th:each='p : ${pList}'>
-				<img th:if='${p.imagePath != null}' th:src="|${p.imagePath}|" th:alt="|${p.placeName}|">
-				<img th:if='${p.imagePath == null}' src="image/noimage.png" th:alt="|${p.placeName}|">
-				<img th:src="|${p.imagePath}|" th:alt="|${p.placeName}|">
-				<p>[[${p.placeName}]]</p>
-				<input type="hidden" name="contentid" th:value="${p.placeNo}" /> <input
-					type="hidden" name="contenttypeid" th:value="${p.contentTypeId}" />
-				<input type="hidden" name="areacode" th:value="${p.localNo}" />
+		<br/>
+		<hr/>
+		<div class="contatiner d-flex justify-content-center">
+			<div class="goSchedule">
+				<img class="goSchedule-img" th:src="|https://drive.google.com/thumbnail?id=${img.imageRename}&sz=w1000|" alt="일정 페이지 넘어가기" id='planImg'>
 			</div>
 		</div>
-		<!-- TOP N2 끝 -->
-		<br/>
+		<hr />
+		<h2 class="mx-5 my-3">인기 많은 여행지</h2>
+		<div class="place-container row-cols-1 row-cols-md-6 d-flex justify-content-center" id='topPlace'>
+			<div class="place-card position-relative" th:each="p : ${pList}">
+				<img th:src="|${p.imagePath}|" th:alt="|${p.placeName}|">
+				<p>[[${p.placeName}]]</p>
+				<input type="hidden" name="contentid" th:value="${p.placeNo}"/>
+				<input type="hidden" name="contenttypeid" th:value="${p.contentTypeId}"/>
+				<input type="hidden" name="areacode" th:value="${p.localNo}"/>
+			</div>
+		</div>
 	</div>
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 
 <script>
 	// 지역 카드클릭시 플래너 페이지 이동
-	const cards = document.getElementsByClassName('local-card');
-	for(const card of cards){
+	const localCards = document.getElementsByClassName('local-card');
+	for(const card of localCards){
 		card.addEventListener('click', function(){
 			 const localNo = this.children[0].value;
 			 location.href="matchingMain.ma?localNo=" + localNo
 		});
 	}
 	
-	//일정 이미지 클릭시 이동 함수
+	// 일정 이미지 클릭시 이동 함수
 	document.getElementById('planImg').addEventListener('click', function(){
 		location.href = 'planMain.pl';
 	})
 	
+	// 플래너 이미지 클릭시 이동
+	const plannerCards = document.getElementsByClassName('planner-card');
+	for(const card of plannerCards){
+		card.addEventListener('click', function(){
+			 const plannerNo = this.children[0].value;
+			 location.href="selectPlanner.ma?pNo=" + plannerNo + "&page=1";
+		});
+	}
+	
 	// top5 관광지 카드 클릭
-	const placeCard = document.getElementsByClassName('place-card');
-	for(const card of placeCard){
+	const placeCards = document.getElementsByClassName('place-card');
+	for(const card of placeCards){
 		card.addEventListener('click', function(){
 			const contentid = this.children[2].value;
 			const contenttypeid = this.children[3].value;

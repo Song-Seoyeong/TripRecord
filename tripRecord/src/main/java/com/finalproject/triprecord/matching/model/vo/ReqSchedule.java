@@ -17,4 +17,9 @@ public class ReqSchedule {
 	private String reqRef;
 	private String reqStatus;
 	
+	private String nightDay;
+	private String startDay;
+	private String endDay;
+	private int point;
+	private int feedBackCount;
 }

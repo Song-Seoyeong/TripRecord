@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.vo.FeedBack;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Payment;
@@ -17,6 +18,7 @@ import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 @Mapper
@@ -91,6 +93,14 @@ public interface MemberMapper {
 	Planner getReqPlanner(int reqPlaNo);
 
 	ReqSchedule getReqSchedule(int reqNo);
+
+	Schedule getSchedule(int scheNo);
+	
+	int updateReqState(ReqSchedule req);
+	
+	ArrayList<Plan> getPlanList(int scheNo);
+	
+	ArrayList<FeedBack> getFeedBackList(int reqNo);
 	//---------------------------------------------------------
 	//플래너 페이지
 	//플래너 불러오기
@@ -111,9 +121,8 @@ public interface MemberMapper {
 	int canclePlanner(HashMap<String, Object> map);
 	//---------------------------------------------------------
 
-	Schedule getSchedule(int scheNo);
+	
 
-	int updateReqState(ReqSchedule req);
 
 
 

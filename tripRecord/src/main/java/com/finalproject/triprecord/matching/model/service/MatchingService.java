@@ -43,13 +43,19 @@ public interface MatchingService {
 	int insertReviewImage(ArrayList<Image> list);
 
 	ArrayList<Image> selectrImgList();
+	
+	ArrayList<Image> selectrImgList(int rNo);
 
 	Review selectReview(int rNo);
-
-	int deleteReview(int rNo);
+	
+	int deletePlannerReview(int rNo);
+	
+	int deleteReviewImage(ArrayList<String> deleteImg);
 	
 	int insertSchedule(Schedule schedule);
 
 	int insertReqSchedule(ReqSchedule reqSchedule);
+
+	ArrayList<Planner> topPlannerList();
 
 }
