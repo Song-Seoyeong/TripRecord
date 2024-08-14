@@ -368,7 +368,13 @@
 		from plan
 		where sc_no = #{scheNo}
 	</select>
-
+	
+	<!-- 피드백 리스트 -->
+	<select id="getFeedBackList" resultType='FeedBack'>
+		select *
+		from feedback
+		where req_no = #{reqNo}
+	</select>
 
 
 

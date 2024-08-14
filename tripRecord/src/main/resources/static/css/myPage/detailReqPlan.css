@@ -2,7 +2,7 @@
 
 .flex-container {
 	position: relative;
-	min-height: 600px;
+	min-height: 800px;
 }
 #reqForm {
 	position: absolute;
@@ -37,7 +37,7 @@
 	cursor: pointer;
 }
 
-#plannerImgDiv:hover #toolTip{
+#plannerImgDiv:hover ~ #toolTip{
 	opacity: 1;
 }
 #plannerImgDiv {
@@ -70,17 +70,18 @@
 	cursor: pointer;
 }
 
-#plaNickname:hover #toolTip{
+#plaNickname:hover ~ #toolTip{
 	opacity: 1;
 }
 #toolTip{
 	position: absolute;
-	left: 200px;
-	top: 30px;
+	left: 70px;
+	top: 3px;
 	opacity: 0;
 	font-size:12px;
 	color: white;
-	background: lightgray;
+	background: rgb(177, 218, 228);
+    border-radius: 5px 5px 5px 0px;
 	padding:2px;
 }
 #schedule {
@@ -148,4 +149,18 @@
 	border: 2px solid #2F6598;
 	color: #fff;
 	font-weight: 600;
+}
+
+#feedBackDiv{
+    min-width: 300px;
+    text-align: center;
+}
+#feedbackTitle{
+    font-size: 30px;
+}
+#feedInfo{
+    text-align: end;
+}
+#feedBackListDiv{
+    font-size: 25px;
 }

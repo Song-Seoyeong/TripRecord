@@ -18,25 +18,34 @@
 		<b style="font-size:70px;">공지사항</b>
 	</div>
 	
-	<div id='content'>
-		<div id="content1-div" class="container">
-			<input id="search-com" type="text" placeholder="검색어를 입력해주세요">
-			<img class="x-icon" alt="" src="image/Search.png">
+	<form id="search-form" action="noticeSearch.no" method="get">
+		<div id='content'>
+			<div id="content1-div" class="container">
+				<input id="search-com" type="text" name="searchWord" placeholder="제목으로 검색" th:value="${searchWord}">
+				<img class="x-icon" alt="" src="image/Search.png">
+			</div>
 		</div>
-	</div>
+		
+		<div style="display:flex; justify-content:right;">
+	       	<div class='review-text' id='reviewDiv' th:if="${ session.loginUser != null && session.loginUser.grade == 'ADMIN'}">
+	       		<a href="noticeManage.ad" style="text-decoration-line:none;">
+					<button id='goReview'>
+						<p>공지사항 작성</p>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+						</svg>
+					</button>
+				</a>
+			</div>
+	    </div>
 	
-	<div style="height:50px;"></div>
-	
-	
-	
-	
-<!-- 사이드 바 -->
+		<!-- 왼쪽 사이드 바 -->
 		<div id="sidebar">
 			<div class="arrow" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
 				<div class="arrow-top"></div>
 				<div class="arrow-bottom"></div>
 			</div>
-	<!-- > 모양 -->
+		<!-- > 모양 -->
 	
 			<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 				<div class="offcanvas-header">
@@ -49,7 +58,10 @@
 				</div>
 			</div>
 		</div>
-<!-- 사이드 바 -->
+		<!-- 사이드 바 -->
+		<input type="hidden" name="boardType" value="NOTICE" id="general">
+		<input type="hidden" name="generalType" value="ALL">
+	</form>
 	
 	
 	
@@ -61,10 +73,11 @@
 		<div class='row' style="padding:30px; border-bottom:5px solid #96caf0;">
 			<div class="col-2">
 				<!-- <img src="#"> 프로필사진 -->
-				[[${n.nickname}]]
+				[[${n.boardModifyDate}]]
 			</div>
-			<div class="col-8"></div>
-			<div class="col-2">[[${n.boardModifyDate}]]</div>
+			<div class="col-2">조회수 : [[${n.boardCount}]]</div>
+			<div class="col-6"></div>
+			<div class="col-2">[[${n.nickname}]]</div>
 		</div>
 		<div class='text-start' id='placeContent'>
 			[[${n.boardContent}]]
@@ -74,60 +87,24 @@
 	<input type="hidden" th:value="${n.boardNo}">
 	<div class="text-center row">
 		<div class="col-4"></div>
-		<div class="col-1" style="margin:auto;">
-			<a href="noticeManage.ad" th:if="${session.loginUser != null && session.loginUser.grade == 'ADMIN'}">
-				<button class="edit-btn">수정</button>
-			</a>
-		</div>
+		<div class="col-1" style="margin:auto;"></div>
 		<div class="col-1" style="margin:auto;">
 			<a href="notice.no">
 				<button class="edit-btn">목록</button>
 			</a>
 		</div>
-		<div class="col-1" style="margin:auto;">
-			<button class="del-btn" th:if="${session.loginUser != null && session.loginUser.grade == 'ADMIN'}">삭제</button>
-		</div>
+		<div class="col-1" style="margin:auto;"></div>
 		<div class="col-4"></div>
 	</div>
 	
 	
 	
-	<!-- 삭제 모달 -->
-	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
-		<div class="modal-dialog" role="document">
-    		<div class="modal-content rounded-3 shadow">
-      			<div class="modal-body p-4 text-center">
-        			<h3 class="mb-0">정말로 삭제하시겠습니까?</h3>
-        			<p class="mb-0">삭제 후 복구가 불가능합니다.</p>
-      			</div>
-      			<div class="modal-footer flex-nowrap p-0">
-        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
-        				<strong>네</strong>
-        			</button>
-        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
-      			</div>
-    		</div>
-  		</div>
-	</div>
-	<!-- 삭제 모달 -->
 	
 	
 
 		
         <br>
-		<!-- 관리자로 로그인 시 관리자 페이지 쪽으로 이동함 -->
-		<div th:if="${ session.loginUser != null && session.loginUser.grade == 'ADMIN'}" style="display:flex; justify-content:right; margin-bottom:50px;">
-	       	<div class='review-text' id='reviewDiv'>
-	       		<a href="noticeManage.ad" style="text-decoration-line:none;">
-					<button id='goReview'>
-						<p>공지사항 작성</p>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
-							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
-						</svg>
-					</button>
-				</a>
-			</div>
-	    </div>
+		
 
 	
 	
@@ -161,13 +138,6 @@
 			}
 			
 			
-			// 삭제버튼
-			document.getElementsByClassName('del-btn')[0].addEventListener('click',()=>{
-				$('#modalChoice').modal('show');
-			});
-			document.getElementById('delete').addEventListener('click',()=>{
-				location.href="commuDelete.bo?boardNo=" + boardNo;
-			})
 			
 			
 		}

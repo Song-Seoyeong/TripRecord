@@ -239,12 +239,14 @@
 	z-index: 50;
 }
 
-#offcanvasWithBothOptions {
-	height: 220px;
-	top: 340px;
-	left: 33px;
-	width: 250px;
-	border: 5px solid #2f6598;
+#offcanvasWithBothOptions{
+	height:220px;
+	top:340px; 
+	left:33px; 
+	width:250px; 
+	border:1px solid #d9d9d9;
+	border-radius:8px;
+	padding:10px;
 }
 
 #content1-div {
@@ -352,7 +354,6 @@
 }
 .review-text{
 	width: 900px;
-	margin: 10px auto;
 }
 #goReview{
 	margin-bottom: 40px;
@@ -363,6 +364,8 @@
   border: none;
   background: none;
   cursor: pointer;
+  top:-35px;
+  left:640px;
 }
 
 #goReview {
@@ -397,7 +400,7 @@
 #goReview p::before {
   position: absolute;
   /*   box-sizing: border-box; */
-  content: "글 쓰기";
+  content: "문의하기";
   width: 0%;
   inset: 0;
   color: var(--hovered-color);
@@ -407,6 +410,16 @@
 
 #goReview:hover::after {
   width: 100%;
+}
+#goReview::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  left: 0;
+  bottom: -7px;
+  background: black;
+  height: 2px;
+  transition: 0.1s ease-out;
 }
 
 #goReview:hover p::before {

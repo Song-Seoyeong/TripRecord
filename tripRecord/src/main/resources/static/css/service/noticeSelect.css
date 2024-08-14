@@ -238,12 +238,14 @@
 	z-index: 50;
 }
 
-#offcanvasWithBothOptions {
-	height: 220px;
-	top: 340px;
-	left: 33px;
-	width: 250px;
-	border: 5px solid #2f6598;
+#offcanvasWithBothOptions{
+	height:220px;
+	top:340px; 
+	left:33px; 
+	width:250px; 
+	border:1px solid #d9d9d9;
+	border-radius:8px;
+	padding:10px;
 }
 
 .arrow {
@@ -310,10 +312,6 @@
 .arrow:active {
   transform: translateX(-50%) translateY(-50%) scale(0.9);
 }
-.review-text{
-	width: 900px;
-	margin: 10px auto;
-}
 #goReview{
 	margin-bottom: 40px;
 }
@@ -323,6 +321,9 @@
   border: none;
   background: none;
   cursor: pointer;
+  position:relative;
+  top:-6px;
+  left:-215px;
 }
 
 #goReview {
@@ -368,6 +369,16 @@
 #goReview:hover::after {
   width: 100%;
 }
+#goReview::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  left: 0;
+  bottom: -7px;
+  background: black;
+  height: 2px;
+  transition: 0.1s ease-out;
+}
 
 #goReview:hover p::before {
   width: 100%;
@@ -385,14 +396,14 @@
   width: 15px;
 }
 .edit-btn{
-	background:#96caf0;
-	border:none;
-	color:white;
-	font-weight:bold;
-	font-size:15px;
-	width: 65px;
-    border-radius: 10px;
-    height: 35px;
+		color: #96CAF0; 
+        background-color: white; 
+        width: 80px; 
+        height: 40px; 
+        border: none; 
+        border-radius: 20px; 
+        margin-right: 5px; 
+        border: 2px solid #96CAF0;
 }
 .edit-btn:hover{
 	cursor: pointer;

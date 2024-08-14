@@ -1,6 +1,7 @@
 package com.finalproject.triprecord.plan.model.service;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +83,13 @@ public class PlanServiceImpl implements PlanService{
 	}
 
 	@Override
-	public int detailTripUpdate(Plan p) {
-		return plMapper.detailTripUpdate(p);
+	public int detailTripUpdate(Properties prop) {
+		return plMapper.detailTripUpdate(prop);
+	}
+
+	@Override
+	public int updateReserve(Properties prop) {
+		return plMapper.updateReserve(prop);
 	}
 
 	

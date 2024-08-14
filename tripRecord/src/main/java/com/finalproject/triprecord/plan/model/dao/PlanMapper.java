@@ -1,6 +1,7 @@
 package com.finalproject.triprecord.plan.model.dao;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -32,7 +33,9 @@ public interface PlanMapper {
 
 	int deleteTripNote(int scNo);
 
-	int detailTripUpdate(Plan p);
+	int detailTripUpdate(Properties prop);
+
+	int updateReserve(Properties prop);
 
 	
 }

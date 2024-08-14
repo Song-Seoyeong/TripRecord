@@ -31,12 +31,13 @@
 					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" id='localIcon'>
 						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
 					</svg>
-					&nbsp;<b>[[${planner.localName}]]</b>로 떠나는 <b>"[[${rs.startDate}]] ~ [[${rs.endDate}]]"</b> 여행입니다
+					&nbsp;<b>[[${planner.localName}]]</b>로 떠나는 <b>"[[${rs.startDay}]] ~ [[${rs.endDay}]]"</b>([[${rs.nightDay}]]) 여행입니다
 				</div>
 				<hr>
 				<!-- 참고사항 입력한거 -->
 				<div id="note">
-				<b>참고사항 : </b>	[[${rs.reqRef}]]
+					<b>참고사항(선택) : </b>
+					[[${rs.reqRef}]]
 				</div>
 			</div>
 			<!-- 플래너 및 여행 일정 -->
@@ -52,7 +53,7 @@
 						[[${planner.nickname}]]
 					</span>
 					<span id='toolTip'>
-						플래너 프로필 보기
+						&nbsp;플래너 프로필 보기&nbsp;
 					</span>
 				</div>
 				<hr>
@@ -76,12 +77,16 @@
 			</div>
 			
 			<!-- 피드백 -->
-			<div th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
+			<div id='feedBackDiv'>
 				<div id='feedbackTitle'>피드백 리스트</div>
-				<div id=''>※피드백은 3회로 제한됩니다※</div>
-				<div id='feedBackListDiv'>
+				<div id='feedInfo'>※피드백은 3회로 제한됩니다※</div>
+				<hr>
+				<div id='feedBackListDiv' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
 				</div>
-				<div id='feedBakcButton'>
+				<div id='feedBackListDiv' th:if='${rs.reqStatus == "1"}'>
+					일정이 도착하면 결제 후 피드백 작성이 가능합니다 :)
+				</div>
+				<div id='feedBakcButton' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
 					<button type='button' th:if='${rs.feedBackCount != 3}' id="submit_feed">피드백 보내기</button>
 					<button type='button' id="confimReq" data-bs-toggle="modal" data-bs-target="#exampleModal">확정</button>
 				</div>
@@ -140,13 +145,10 @@
 		      </div>
 		      <div class="modal-body">
 		        <form>
+		        	<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
 		          <div class="mb-3">
-		            <label for="recipient-name" class="col-form-label">Recipient:</label>
-		            <input type="text" class="form-control" id="recipient-name">
-		          </div>
-		          <div class="mb-3">
-		            <label for="message-text" class="col-form-label">Message:</label>
-		            <textarea class="form-control" id="message-text"></textarea>
+		            <label for="message-text" class="col-form-label">피드백:</label>
+		            <textarea class="form-control" id="message-text" name='feedContent'></textarea>
 		          </div>
 		        </form>
 		      </div>

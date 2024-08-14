@@ -234,12 +234,14 @@
 	z-index: 50;
 }
 
-#offcanvasWithBothOptions {
-	height: 270px;
-	top: 320px;
-	left: 33px;
-	width: 250px;
-	border: 5px solid #2f6598;
+#offcanvasWithBothOptions{
+	height:280px;
+	top:340px; 
+	left:33px; 
+	width:250px; 
+	border:1px solid #d9d9d9;
+	border-radius:8px;
+	padding:10px;
 }
 
 
@@ -353,7 +355,6 @@
 }
 .review-text{
 	width: 900px;
-	margin: 10px auto;
 }
 #goReview{
 	margin-bottom: 40px;
@@ -364,6 +365,8 @@
   border: none;
   background: none;
   cursor: pointer;
+  top:-35px;
+  left:655px;
 }
 
 #goReview {
@@ -408,6 +411,16 @@
 
 #goReview:hover::after {
   width: 100%;
+}
+#goReview::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  left: 0;
+  bottom: -7px;
+  background: black;
+  height: 2px;
+  transition: 0.1s ease-out;
 }
 
 #goReview:hover p::before {

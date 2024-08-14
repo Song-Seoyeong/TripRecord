@@ -43,7 +43,7 @@
 		</div>
 
 
-		<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+		<div class="offcanvas offcanvas-start" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 			<div class="offcanvas-header">
 				<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -77,6 +77,20 @@
 		<div class="col-3"><div>동행</div></div>
 		<div class="col-3"><div>양도</div></div>
 		<div class="col-3"><div>후기</div></div>
+		
+		<div style="display:flex; justify-content:right;">
+	       	<div class='review-text' id='reviewDiv' th:if="${ session.loginUser != null}">
+				<a href="commuWrite.bo" style="text-decoration-line:none;">
+					<button id='goReview'>
+						<p>글 쓰기</p>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+						</svg>
+					</button>
+				</a>
+			</div>
+	    </div>
+		
 	</div>
 	
 	<div id='content2'>
@@ -300,18 +314,7 @@
 		</div>
 		
 		
-		<div th:if="${ session.loginUser != null}" style="display:flex; justify-content:right; margin-bottom:50px;">
-	       	<div class='review-text' id='reviewDiv'>
-				<a href="commuWrite.bo" style="text-decoration-line:none;">
-					<button id='goReview'>
-						<p>글 쓰기</p>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
-							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
-						</svg>
-					</button>
-				</a>
-			</div>
-	    </div>
+		
 		
 		
 	</div>
@@ -488,7 +491,13 @@
 						}
 						document.getElementById('content3').value="";
 					},
-					error: data => console.log(data)
+					error: (xhr, status, data) => {
+						if (xhr.responseText.includes("로그인 후 이용하세요") || xhr.responseText.includes("로그인 세션이 만료")) {
+			                document.body.innerHTML = xhr.responseText;
+			            } else {
+			                console.error("Error: " + error);
+			            }
+					}
 				});
 			});
 			

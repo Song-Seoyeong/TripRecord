@@ -5,10 +5,10 @@
 <meta name="viewport" content="initial-scale=1, width=device-width">
 <title>여기 일정 상세</title>
 <link rel="stylesheet" href="css/plan/planDetail.css" type="text/css" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
 <link rel="stylesheet" href="css/plan/datepicker.css" type="text/css" />
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 </head>
 <body>
 	<div th:replace="~{ ../common/logoBar :: logoBar }"></div>
@@ -134,6 +134,8 @@
 	</div>
 	
 	<div th:replace="~{ ../common/footer :: footer }"></div>
+<!-- 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script> -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 	<script th:inline="javascript">
 		window.onload = () => {
 			document.querySelectorAll('.placeAddButton').forEach(function(addButton) {
