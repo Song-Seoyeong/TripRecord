@@ -74,8 +74,14 @@
 	
 	<update id="detailTripUpdate">
 		update plan 
-		set place = #{p.place}, time = #{p.time}, memo = #{p.memo, jdbcType=VARCHAR}
-		where pl_no = #{p.plNo}
+		set pl_place = #{place}, pl_time = #{time}, pl_memo = #{memo, jdbcType=VARCHAR}
+		where pl_no = #{plNo}
+	</update>
+	
+	<update id="updateReserve">
+		update plan
+		set pl_reserve = #{status}
+		where pl_no = #{plNo}
 	</update>
 	
 	<resultMap id="scheduleMap" type="Schedule">
@@ -91,5 +97,4 @@
 		<result column="PL_RESERVE" property="reserve"/>
 		<result column="PL_DAY" property="day"/>
 	</resultMap>
-	
 </mapper>

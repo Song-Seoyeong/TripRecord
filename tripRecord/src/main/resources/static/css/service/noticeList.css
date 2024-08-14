@@ -57,7 +57,15 @@
 #text-test>tr{height:50px;}
 .x-icon:hover{cursor:pointer}
 #sidebar{width:51px; height: 51px; left: 33px; top: 260px; position: fixed; z-index: 50;}
-#offcanvasWithBothOptions{height:220px; top:340px; left:33px; width:250px; border:5px solid #2f6598;}
+#offcanvasWithBothOptions{
+	height:220px;
+	top:340px; 
+	left:33px; 
+	width:250px; 
+	border:1px solid #d9d9d9;
+	border-radius:8px;
+	padding:10px;
+}
 #content1-div{display:flex;width:35%;border-radius:9999px; border:0.5px solid lightgray; align-items:center;}
 .arrow {
   cursor: pointer;
@@ -123,10 +131,6 @@
 .arrow:active {
   transform: translateX(-50%) translateY(-50%) scale(0.9);
 }
-.review-text{
-	width: 900px;
-	margin: 10px auto;
-}
 #goReview{
 	margin-bottom: 40px;
 }
@@ -136,6 +140,8 @@
   border: none;
   background: none;
   cursor: pointer;
+  top:-6px;
+  left:-210px;
 }
 
 #goReview {
@@ -180,6 +186,16 @@
 
 #goReview:hover::after {
   width: 100%;
+}
+#goReview::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  left: 0;
+  bottom: -7px;
+  background: black;
+  height: 2px;
+  transition: 0.1s ease-out;
 }
 
 #goReview:hover p::before {

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.finalproject.triprecord.common.Pagination;
@@ -239,6 +241,7 @@ public class PlanController {
 	    	}
 	    }
 	    
+	    model.addAttribute("page", currentPage);
 	    model.addAttribute("sList", sList);
 	    model.addAttribute("pi", pi);
 	    model.addAttribute("listCount", listCount);
@@ -256,7 +259,7 @@ public class PlanController {
 	
 //	마이페이지 내 일정 보기 -> 내 여행 노트 -> 상세 조회
 	@GetMapping("detailMyTripNote.pl")
-	public String detailMyTripNote(@RequestParam("scNo") int scNo, @RequestParam("page") int page, 
+	public String detailMyTripNote(@RequestParam("scNo") int scNo, @RequestParam(value="page", defaultValue="1") int page, 
 									HttpSession session, Model model, RedirectAttributes ra, HttpServletRequest req) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		
@@ -279,7 +282,7 @@ public class PlanController {
 	    		pList.get(i).setDay(pList.get(i).getDay().split(" ")[0]);
 	    	}
 	    	
-	    	ra.addAttribute("page", page);
+	    	model.addAttribute("page", page);
 	    	model.addAttribute("s", s);
 	    	model.addAttribute("dates", dates);
 	    	model.addAttribute("pList", pList);
@@ -302,20 +305,29 @@ public class PlanController {
 		}
 	}
 	
-	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 수정 ajax 
+	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 장소, 시간, 메모 수정 ajax 
 	@GetMapping("detailTripUpdate.pl")
-	public String detailTripUpdate(@RequestParam("place") String place, @RequestParam("time") String time, @RequestParam("memo") String memo, @RequestParam("plNo") int plNo) {
-		Plan p = new Plan();
-		p.setPlace(place);
-		p.setTime(time);
-		p.setMemo(memo);
-		p.setPlNo(plNo);
-		int result = plService.detailTripUpdate(p);
-		return result == 1? "success" : "fail";
+	@ResponseBody
+	public String detailTripUpdate(@RequestParam("place") String place, @RequestParam("time") String time, @RequestParam("memo") String memo, @RequestParam("plNo") String plNo) {
+		Properties prop = new Properties();
+		prop.setProperty("place", place);
+		prop.setProperty("time", time);
+		prop.setProperty("memo", memo);
+		prop.setProperty("plNo", plNo);
+		int result = plService.detailTripUpdate(prop);
+		return result > 0? "1" : "0";
 	}
 	
-	
-	
+	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 예약 여부 수정 ajax 
+	@GetMapping("updateReserve.pl")
+	@ResponseBody
+	public String updateReserve(@RequestParam("plNo") String plNo, @RequestParam("status") String status) {
+		Properties prop = new Properties();
+		prop.setProperty("plNo", plNo);
+		prop.setProperty("status", status);
+		int result = plService.updateReserve(prop);
+		return result > 0 ? "1" : "0";
+	}
 	
 	
 	

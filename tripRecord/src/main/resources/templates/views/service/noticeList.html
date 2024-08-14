@@ -26,6 +26,18 @@
 				<img class="x-icon" alt="" src="image/Search.png">
 			</div>
 		</div>
+		<div style="display:flex; justify-content:right;">
+	       	<div class='review-text' id='reviewDiv' th:if="${ session.loginUser != null && session.loginUser.grade == 'ADMIN'}">
+	       		<a href="noticeManage.ad" style="text-decoration-line:none;">
+					<button id='goReview'>
+						<p>공지사항 작성</p>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+						</svg>
+					</button>
+				</a>
+			</div>
+	    </div>
 		
 	
 		<!-- 왼쪽 사이드 바 -->
@@ -99,18 +111,7 @@
 		</div>
 		<!-- 페이징 -->
 
-		<div th:if="${ session.loginUser != null && session.loginUser.grade == 'ADMIN'}" style="display:flex; justify-content:right; margin-bottom:50px;">
-	       	<div class='review-text' id='reviewDiv'>
-	       		<a href="noticeManage.ad" style="text-decoration-line:none;">
-					<button id='goReview'>
-						<p>공지사항 작성</p>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
-							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
-						</svg>
-					</button>
-				</a>
-			</div>
-	    </div>
+		
 
 
 	</div>

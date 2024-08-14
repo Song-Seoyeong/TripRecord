@@ -1,6 +1,7 @@
 package com.finalproject.triprecord.plan.model.service;
 
 import java.util.ArrayList;
+import java.util.Properties;
 
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -25,6 +26,8 @@ public interface PlanService {
 
 	int deleteTripNote(int scNo);
 
-	int detailTripUpdate(Plan p);
+	int detailTripUpdate(Properties prop);
+
+	int updateReserve(Properties prop);
 
 }

@@ -9,18 +9,27 @@
    	th{font-size:24px;}
    	td{padding:15px;}
 </style>
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 </head>
 <body>
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	<div style="height:120px;">
+      <!-- 사이드바 -->
+      <div id="sidebar">
+         <div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div>
+      </div>   
+   </div>
 	
 	<div class="flex-container" style="text-align:center;">
-		<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-		<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
-		<div style="height:80px;"></div>
-		<div style="display:inline-block; margin-right:250px;" id="main-div">
+			<div style="display:inline-block;">
 		
+			<span class="secondSidebar"><a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a></span>
+        	<span class="secondSidebar"><a class="nav-link" href="myTripNote.mp">내 여행 노트</a></span>
+			
 			<div style="color: black; font-size: 36px; font-weight: 900;">내 여행노트</div>
 			<div style="height:40px;"></div>
 			<div style="display:inline-block; width:1000px; height:800px; border: 1px solid lightgray; border-radius:10px;" >

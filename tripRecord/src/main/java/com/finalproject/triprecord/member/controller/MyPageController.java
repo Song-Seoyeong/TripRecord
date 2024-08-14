@@ -381,7 +381,7 @@ public class MyPageController {
 			String nightDay = getNightDay(sch.getScEndDate(), sch.getScStartDate());
 			r.setNightDay(nightDay);
 			
-			SimpleDateFormat sp = new SimpleDateFormat("yyMMdd");
+			SimpleDateFormat sp = new SimpleDateFormat("yy.MM.dd");
 			r.setStartDay(sp.format(sch.getScStartDate()));
 			r.setEndDay(sp.format(sch.getScEndDate()));
 			
@@ -455,7 +455,7 @@ public class MyPageController {
 		rs.setNightDay(nightDay);
 		
 		// 출발/도착 일자
-		SimpleDateFormat sp = new SimpleDateFormat("yyMMdd");
+		SimpleDateFormat sp = new SimpleDateFormat("yy.MM.dd");
 		rs.setStartDay(sp.format(sch.getScStartDate()));
 		rs.setEndDay(sp.format(sch.getScEndDate()));
 		
