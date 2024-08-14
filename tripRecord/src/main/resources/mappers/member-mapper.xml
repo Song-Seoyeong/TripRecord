@@ -5,7 +5,8 @@
 	<select id="login" resultType="Member">
 		select *
 		from member
-		where member_drop = 'N' and member_id = #{memberId}
+		where
+		member_drop = 'N' and member_id = #{memberId}
 		and status = 'Y'
 	</select>
 
@@ -42,7 +43,8 @@
 		from member
 		where
 		member_id = #{memberId} and member_name = #{memberName}
-		and phone = #{phone}
+		and phone =
+		#{phone}
 	</select>
 
 	<update id="updatePwd">
@@ -57,7 +59,8 @@
 	<select id="getMember" resultType="Member">
 		select *
 		from MEMBER
-		where MEMBER_NO = #{memberNo}
+		where
+		MEMBER_NO = #{memberNo}
 	</select>
 	<!-- 내 정보 수정 -->
 	<update id="updateMember">
@@ -79,7 +82,8 @@
 	<insert id="reqPromote">
 		insert into REQUEST_GRADE
 		<if test="grade == 'PLANNER'">
-			values(#{memberNo}, #{lNo}, #{grade}, #{content}, #{intro}, sysdate)
+			values(#{memberNo}, #{lNo}, #{grade}, #{content},
+			#{intro}, sysdate)
 		</if>
 		<if test="grade == 'ADMIN'">
 			values(#{memberNo}, default, #{grade}, default, default,
@@ -98,7 +102,8 @@
 	<update id="deleteMember">
 		update MEMBER
 		set STATUS = 'N'
-		where MEMBER_NO = #{memberNo}
+		where MEMBER_NO =
+		#{memberNo}
 	</update>
 	<!-- 회원 탈퇴 시 게시글 삭제 -->
 	<update id="deleteBoard">
@@ -155,8 +160,10 @@
 	<!-- 프로필 이미지 삽입 -->
 	<insert id="insertProfile">
 		insert into IMAGE
-		values(new_image_id, #{imagePath}, #{imageOriginName}, #{imageRename}, #{imageThum},
-		#{imageRefType}, #{imageRefNo})
+		values(new_image_id, #{imagePath},
+		#{imageOriginName}, #{imageRename}, #{imageThum},
+		#{imageRefType},
+		#{imageRefNo})
 	</insert>
 
 	<!-- 기존 프로필 이미지 삭제 -->
@@ -170,22 +177,26 @@
 	<!-- 기존 프로필 이미지 이름 가져오기 -->
 	<select id="existFileId" resultType="Image">
 		select IMAGE_RENAME
-		from IMAGE
+		from
+		IMAGE
 		where IMAGE_REF_TYPE = 'MEMBER' and IMAGE_REF_NO = #{memberNo}
 	</select>
 
 	<!-- 포인트 목록 불러오기 -->
 	<select id="selectPointList" resultType="Point">
-		select * from point where PO_ACTIVE = 'Y' order by po_point desc
+		select * from point
+		where PO_ACTIVE = 'Y' order by po_point desc
 	</select>
 
 	<!-- 결제 내역 불러오기 -->
 	<select id="getPaymentList" resultType="Payment">
 		select *
 		from PAYMENT
-		join MEMBER using(MEMBER_NO)
+		join
+		MEMBER using(MEMBER_NO)
 		join POINT on(POINT_NO = PO_NO)
-		where MEMBER_NO = #{memberNo}
+		where MEMBER_NO
+		= #{memberNo}
 		order by PAY_DATE desc
 	</select>
 
@@ -200,92 +211,110 @@
 	<select id="getListCount">
 		select count(*)
 		from BOARD
-		where BOARD_STATUS = 'N' and BOARD_TYPE = #{cs.boardType} and BOARD_WRITER_NO=#{memberNo}
+		where BOARD_STATUS = 'N' and
+		BOARD_TYPE = #{cs.boardType} and BOARD_WRITER_NO=#{memberNo}
 	</select>
 	<!-- 자기 게시글 불러오기 -->
 	<select id="getBoardList" resultType="Board">
 		select *
 		from BOARD
-			left join MEMBER on(BOARD_WRITER_NO = MEMBER_NO)
-			left join general_bo on(board_no = general_no)
-		where BOARD_STATUS = 'N' and BOARD_TYPE = #{cs.boardType} and BOARD_WRITER_NO=#{memberNo}
-		order by board_no desc
+		left join
+		MEMBER on(BOARD_WRITER_NO = MEMBER_NO)
+		left join general_bo on(board_no
+		= general_no)
+		where BOARD_STATUS = 'N' and
+		BOARD_TYPE = #{cs.boardType}
+		and BOARD_WRITER_NO=#{memberNo}
+		order by
+		board_no desc
 	</select>
 	<!-- 문의 사항 데이터 불러오기 -->
 	<select id="getQuestionList" resultType="Question">
 		select *
 		from question
-			join BOARD on(QUESTION_NO = BOARD_NO)
-			where BOARD_WRITER_NO = #{memberNo}
+		join BOARD on(QUESTION_NO = BOARD_NO)
+		join MEMBER
+		on(BOARD_WRITER_NO = MEMBER_NO)
+		where BOARD_WRITER_NO = #{memberNo}
 		<if test="i != 0">
-			 and QUESTION_NO = #{i} 
+			and QUESTION_NO = #{i}
 		</if>
 		<!-- i=0 : 문의 목록, i != 0 : 문의 상세 조회 -->
 	</select>
 	<!-- 여기까지 마이페이지 -->
 
 	<!-- 플래너페이지 -->
-	<!-- 플래너 불러오기 -->	
+	<!-- 플래너 불러오기 -->
 	<select id="getPlanner">
 		select *
 		from PLANNER
-			join MEMBER using(MEMBER_NO)
+		join MEMBER using(MEMBER_NO)
 		where MEMBER_NO = #{memberNo} and status = 'Y'
 	</select>
-		
+
 	<!-- 플래너 지역 불러오기 -->
 	<select id="getLocalName">
 		select local_name
 		from LOCAL
-		join PLANNER using (LOCAL_NO)
+		join PLANNER using
+		(LOCAL_NO)
 		where MEMBER_NO = #{memberNo}
 	</select>
-	
+
 	<!-- 좋아요 불러오기 -->
 	<select id="countLikes" resultType="_int">
 		select count(*)
-		from PLANNER_LIKE
+		from
+		PLANNER_LIKE
 		where PLANNER_NO = #{memberNo}
 	</select>
-	
+
 	<!-- 별점 평균 -->
 	<select id="averageStar" resultType="_double">
 		select avg(REVIEW_STAR)
 		from REVIEW
-		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and REV_REF_NO = #{memberNo}
+		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and
+		REV_REF_NO =
+		#{memberNo}
 	</select>
-	
+
 	<!-- 후기 수 -->
 	<select id="getReviewListCount" resultType="_int">
 		select count (*)
 		from REVIEW
-		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and REV_REF_NO = #{memberNo}
+		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and
+		REV_REF_NO =
+		#{memberNo}
 	</select>
-	
+
 	<!-- 후기 불러오기 -->
 	<select id="getReviewList" resultType="Review">
 		select *
 		from REVIEW
-		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and REV_REF_NO = #{memberNo}
+		where
+		REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and REV_REF_NO =
+		#{memberNo}
 	</select>
-	
+
 	<!-- 플래너 프로필 이미지 불러오기 -->
 	<select id="getImgRename" resultType="Image">
 		select IMAGE_RENAME
-		from IMAGE
+		from
+		IMAGE
 		where IMAGE_REF_TYPE = #{refType} and IMAGE_REF_NO = #{refNo}
-	</select> 
-	
+	</select>
+
 	<!-- 플래너 취소 -->
 	<insert id="canclePlanner">
-		
+
 	</insert>
 	<!-- 여기까지 플래너 페이지 -->
 
 	<!-- 일정 요청 리스트 수 -->
 	<select id="getReqListCount" resultType='_int'>
 		select count(*)
-		from req_schedule
+		from
+		req_schedule
 		where req_mem_no = #{memberNo}
 	</select>
 
@@ -293,7 +322,7 @@
 	<select id="getReqList" resultType='ReqSchedule'>
 		select *
 		from req_schedule
-			join member on req_pla_no = member_no
+		join member on req_pla_no = member_no
 		where req_mem_no = #{memberNo}
 		order by req_no desc
 	</select>
@@ -302,23 +331,28 @@
 	<select id="getReqPlanner" resultType='Planner'>
 		select *
 		from member
-			left join planner using (member_no)
-			left join local using (local_no)
-			where member_no = #{reqPlaNo}
+		left
+		join planner using (member_no)
+		left join local using
+		(local_no)
+		where
+		member_no = #{reqPlaNo}
 	</select>
-	
+
 	<!-- 일정 상세 조회 : 요청 -->
 	<select id="getReqSchedule" resultType='ReqSchedule'>
 		select *
-		from req_schedule
+		from
+		req_schedule
 		where req_no = #{reqNo}
 	</select>
-	
+
 	<!-- 일정 상세 조회 : schedule -->
 	<select id="getSchedule" resultType='Schedule'>
 		select *
 		from schedule
-		where sc_no = #{scheNo}
+		where
+		sc_no = #{scheNo}
 	</select>
 
 	<!-- 일정 요청 취소 -->

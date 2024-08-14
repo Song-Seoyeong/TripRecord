@@ -5,112 +5,120 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>포인트</title>
 <style>
-table {
-	width: 90%;
-	align: center;
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 30px;
-}
-
-th {
-	font-size: 24px;
-}
-
-td {
-	padding: 15px;
-}
-
-.pagination {
-	font-weight: 900;
-}
-
-.pageNumber {
-	margin-left: 5px;
-	margin-right: 5px;
-}
-
-.hidden {
-	display: none;
-}
-
-/*결제 취소*/
-/* From Uiverse.io by cssbuttons-io */
-#payCancle {
-	width: 80px;
-	height: 40px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	background: red;
-	border: none;
-	border-radius: 20px;
-	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-	background: #e62222;
-}
-
-#payCancle, button span {
-	transition: 200ms;
-}
-
-#payCancle .text {
-	transform: translateX(5px);
-	color: white;
-	font-weight: bold;
-	text-align: center;
-}
-
-#payCancle .icon {
-	position: absolute;
-	transform: translateX(110px);
-	height: 40px;
-	width: 40px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-#payCancle svg {
-	width: 15px;
-	fill: white;
-}
-
-#payCancle:hover {
-	background: #ff3636;
-}
-
-#payCancle:hover .text {
-	color: transparent;
-}
-
-#payCancle:hover .icon {
-	width: 70px;
-	border-left: none;
-	transform: translateX(0);
-}
-
-#payCancle:focus {
-	outline: none;
-}
-
-#payCancle:active .icon svg {
-	transform: scale(0.8);
-}
+	table {
+		width: 90%;
+		align: center;
+		text-align: center;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 30px;
+	}
+	
+	th {
+		font-size: 24px;
+	}
+	
+	td {
+		padding: 15px;
+	}
+	
+	.pagination {
+		font-weight: 900;
+	}
+	
+	.pageNumber {
+		margin-left: 5px;
+		margin-right: 5px;
+	}
+	
+	.hidden {
+		display: none;
+	}
+	
+	/*결제 취소*/
+	/* From Uiverse.io by cssbuttons-io */
+	#payCancle {
+		width: 80px;
+		height: 40px;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		background: red;
+		border: none;
+		border-radius: 20px;
+		box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+		background: #e62222;
+	}
+	
+	#payCancle, button span {
+		transition: 200ms;
+	}
+	
+	#payCancle .text {
+		transform: translateX(5px);
+		color: white;
+		font-weight: bold;
+		text-align: center;
+	}
+	
+	#payCancle .icon {
+		position: absolute;
+		transform: translateX(110px);
+		height: 40px;
+		width: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	#payCancle svg {
+		width: 15px;
+		fill: white;
+	}
+	
+	#payCancle:hover {
+		background: #ff3636;
+	}
+	
+	#payCancle:hover .text {
+		color: transparent;
+	}
+	
+	#payCancle:hover .icon {
+		width: 70px;
+		border-left: none;
+		transform: translateX(0);
+	}
+	
+	#payCancle:focus {
+		outline: none;
+	}
+	
+	#payCancle:active .icon svg {
+		transform: scale(0.8);
+	}
+	
+	
+	
 </style>
 </head>
 <body>
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	<!-- 마이페이지 어퍼바 -->
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
 
-	<div class="flex-container " style="text-align: center;">
-		<!-- 마이페이지 어퍼바 -->
-		<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	<div style="height: 120px;">
 		<!-- 사이드바 -->
-		<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div>
-		<div style="height: 80px;"></div>
-		<div style="display: inline-block; margin-right: 250px;">
+		<div id="sidebar">
+			<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div>
+		</div>
+	</div>
+	<div class="flex-container " style="text-align: center;">
+		<div style="display: inline-block;">
+			<span class="secondSidebar"><a class="nav-link" href="myPoint.mp">결제 내역</a></span>
+			<span class="secondSidebar"><a class="nav-link" href="myPayPoint.mp">포인트 결제하기</a></span>
 			<div style="color: black; font-size: 36px; font-weight: 900;">포인트
 				결제내역</div>
 			<div style="height: 40px;"></div>
@@ -147,24 +155,24 @@ td {
 					style="margin-top: 50px; text-align: center;" th:with="loc=${loc}">
 					<ul class="pagination">
 						<!-- 이전링크 -->
-						<li style="margin-left: auto;"><a
+						<li style="margin-left: auto;"><a class="movePage"
 							th:href="@{${loc}(page=${pi.currentPage-1})}"
 							aria-label="Previous"
-							th:class="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+							th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
 						</li>
 						<!-- 번호 이동 -->
 						<li class="pageNumber"
 							th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
 							<th:block th:if="${pi.endPage != 0}">
-								<a th:href="@{${loc}(page=${p})}" th:text="${p}"></a>
+								<a class="movePage" th:href="@{${loc}(page=${p})}" th:text="${p}"></a>
 							</th:block>
 						</li>
 						<!-- 다음링크 -->
 						<li style="margin-right: auto;"><th:block
 								th:if="${pi.endPage != 0}">
-								<a th:href="@{${loc}(page=${pi.currentPage+1})}"
+								<a class="movePage" th:href="@{${loc}(page=${pi.currentPage+1})}"
 									aria-label="Next"
-									th:class="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
+									th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
 							</th:block></li>
 					</ul>
 				</div>
@@ -182,7 +190,6 @@ td {
 			</div>
 		</div>
 	</div>
-
 
 	<div style="margin-bottom: 300px"></div>
 

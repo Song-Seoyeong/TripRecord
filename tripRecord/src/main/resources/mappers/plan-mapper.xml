@@ -14,7 +14,7 @@
 	<insert id="savePlanInsert">
 		insert all
 		<foreach collection="list" item="l" separator=" ">
-			into plan values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo}, #{l.reserve}, #{l.day})
+			into plan values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo, jdbcType=VARCHAR}, #{l.reserve}, #{l.day})
 		</foreach>
 		select * from dual
 	</insert>
@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="getListCount" resultType="_int">
-		select count(*) from schedule where sc_writer_no = #{memberNo}
+		select count(*) from schedule where sc_writer_no = #{memberNo} and sc_del_status = 'N'
 	</select>
 	
 	<select id="detailMySchedule" resultMap="scheduleMap">
@@ -74,7 +74,7 @@
 	
 	<update id="detailTripUpdate">
 		update plan 
-		set place = #{p.place}, time = #{p.time}, memo = #{p.memo}
+		set place = #{p.place}, time = #{p.time}, memo = #{p.memo, jdbcType=VARCHAR}
 		where pl_no = #{p.plNo}
 	</update>
 	

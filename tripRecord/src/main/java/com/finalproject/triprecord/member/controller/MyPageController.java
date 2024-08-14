@@ -357,7 +357,7 @@ public class MyPageController {
 								HttpSession session, Model model) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		
-		// 요청 리스트 불러오기
+		// 신청 리스트 불러오기
 		int listCount = mService.getReqListCount(memberNo);
 		PageInfo pi = Pagination.getPageInfo(page, listCount, 10);
 		
@@ -366,9 +366,14 @@ public class MyPageController {
 		ArrayList<Planner> pList = new ArrayList<Planner>();
 		
 		for(ReqSchedule r : list) {
+			// 신청별 플래너 정보
 			Planner p = new Planner();
 			p = mService.getReqPlanner(r.getReqPlaNo());
 			pList.add(p);
+			
+			// 신청별 schedule
+			Schedule sch = mService.getSchedule(r.getScheNo());
+			
 		}
 		//System.out.println(list);
 	    //프로필 사진
@@ -468,42 +473,12 @@ public class MyPageController {
 		return "redirect:myPlan.mp";
 	}
 
-	@GetMapping("myTripNote.mp")
-	public String moveToMyTripNote(HttpSession session, Model model) {
-		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
-	    Image image = mService.existFileId(memberNo); 
-	  
-	    if (image != null && image.getImageRename() != null) {
-	        String existFileId = image.getImageRename(); 
-	        model.addAttribute("rename", existFileId);
-	    } else {
-	        // 이미지가 없거나 리네임이 없는 경우 처리
-	        model.addAttribute("rename", "defaultImageName"); 
-	    }
-		return "myTripNote";
-	}
-
-	@GetMapping("detailMyTripNote.mp")
-	public String moveToDetailMyTripNote(HttpSession session, Model model) {
-		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
-	    Image image = mService.existFileId(memberNo); 
-	  
-	    if (image != null && image.getImageRename() != null) {
-	        String existFileId = image.getImageRename(); 
-	        model.addAttribute("rename", existFileId);
-	    } else {
-	        // 이미지가 없거나 리네임이 없는 경우 처리
-	        model.addAttribute("rename", "defaultImageName"); 
-	    }
-		return "detailMyTripNote";
-	}
-
 	@GetMapping("myInquiry.mp")
 	public String moveToMyInquiry(HttpSession session, Model model, HttpServletRequest req,
 								  @RequestParam(value="page", defaultValue="1") int currentPage,
 								  @RequestParam(value="generalType", defaultValue="ALL") String generalType,
 								  @RequestParam(value="boardType", defaultValue="GENERAL") String boardType,
-									@RequestParam(value="localName", defaultValue="ALL") String localName) {
+								  @RequestParam(value="localName", defaultValue="ALL") String localName) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		Member loginUser = mService.getMember(memberNo);
 	    Image image = mService.existFileId(memberNo); 
@@ -526,21 +501,18 @@ public class MyPageController {
 		map.put("i", 0);
 		int listCount = mService.getListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); 
-		ArrayList<Board> aList = mService.getBoardList(map, pi); 
-		// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
 		ArrayList<Question> qList = mService.getQuestionList(map); // 0 보내면 Question 전체리스트, 숫자 보내면 해당 번호 가져오기
-		System.out.println(qList);
-		if(!aList.isEmpty()) {
-			model.addAttribute("aList", aList); // 보드
+		
+		if(!qList.isEmpty()) {
 			model.addAttribute("qList", qList); // 문의(글번호, 비번, 답변, 답변YN)
-			model.addAttribute("pi", pi);
-			model.addAttribute("loc", req.getRequestURI());
-			model.addAttribute("loginUser", loginUser);
 //			model.addAttribute("listCount", listCount);
 //			model.addAttribute("generalType","ALL");
 		} else {
 			model.addAttribute("nothing", null);
 		}
+		model.addAttribute("pi", pi);
+		model.addAttribute("loc", req.getRequestURI());
+		model.addAttribute("loginUser", loginUser);
 		return "myInquiry";
 	}
 
@@ -555,8 +527,10 @@ public class MyPageController {
 	}
 
 	@GetMapping("myBoard.mp")
-	public String moveToMyBoard(HttpSession session, Model model) {
+	public String moveToMyBoard(HttpSession session, Model model, HttpServletRequest req,
+								@RequestParam(value="page", defaultValue="1") int currentPage) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+		Member loginUser = mService.getMember(memberNo);
 	    Image image = mService.existFileId(memberNo); 
 	  
 	    if (image != null && image.getImageRename() != null) {
@@ -566,8 +540,31 @@ public class MyPageController {
 	        // 이미지가 없거나 리네임이 없는 경우 처리
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
+	    
+	    CategorySelect cs = new CategorySelect();
+		cs.setBoardType("GENERAL");
+	    
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    map.put("cs", cs);
+		map.put("memberNo", memberNo);
+		int listCount = mService.getListCount(map);
+		System.out.println("제너럴보드 수 : " + listCount);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10); 
+	    ArrayList<Board> aList = mService.getBoardList(map, pi);// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
+	    System.out.println("제너럴 보드 데이터 : " + aList);
+	  		
+	    if(aList != null) {
+	    	model.addAttribute("aList", aList); // 보드
+	    }else {
+	    	model.addAttribute("nothing", null);
+	    }
+	    
+	    model.addAttribute("pi", pi);
+		model.addAttribute("loc", req.getRequestURI());
+	    model.addAttribute("loginUser", loginUser);
 		return "myBoard";
 	}
+
 
 	@GetMapping("detailMyBoard.mp")
 	public String moveToDetailMyBoard() {

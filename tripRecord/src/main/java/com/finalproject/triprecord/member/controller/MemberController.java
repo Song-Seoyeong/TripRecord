@@ -76,7 +76,11 @@ public class MemberController {
 					} catch (IOException e) {
 						
 					}
-					return "redirect:" + beforeURL;
+					if(beforeURL.equals("enrollMember.me") || beforeURL.equals("enrollView.me")) {
+						return "redirect:hoem";
+					}else {
+						return "redirect:" + beforeURL;
+					}
 				} else {
 					return "redirect:dashBoard.ad";
 				}

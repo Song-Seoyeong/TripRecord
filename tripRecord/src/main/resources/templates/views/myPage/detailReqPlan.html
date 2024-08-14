@@ -5,7 +5,7 @@
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link type="text/css" href="css/myPage/detailReqPlan.css" rel="stylesheet">
 <meta charset="UTF-8">
-<title>플래너 일정 요청 자세히 보기</title>
+<title>플래너와 함께 여행 계획 짜기</title>
 </head>
 <body>
 	<!-- 헤더 -->
@@ -36,7 +36,6 @@
 				<b>참고사항 : </b>	[[${rs.reqRef}]]
 				</div>
 			</div>
-			<div style="height:40px;"></div>
 			<!-- 플래너 및 여행 일정 -->
 			<div id='planSch'>
 				<div id='planner'>
@@ -49,23 +48,23 @@
 					</div>
 				</div>
 				<hr>
-				<!-- 간단한 일정설명 -->
-				<div id='schedule' th:if='${rs.reqStatus == "1"}'>
-					플래너가 아직 일정을 생성하지 않았어요&#128517;<br>
+				<!-- 일정 -->
+				<div id='schedule' th:if='${rs.reqStatus == "1"}' style='text-align:center;'>
+					플래너가 아직 일정을 생성하지 않았어요<br>
 					조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
 				</div>
-				<div id='schedule' th:if='${rs.reqStatus != "1" || rs.reqStatus != "6"}'>
+				<div id='schedule' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
 					일정 생성 완료
 				</div>
-				<div id='schedule' th:if='${rs.reqStatus == "6"}'>
-					요청 취소된 여행입니다 :(
+				<div id='schedule' th:if='${rs.reqStatus == "6"}' style='text-align:center;'>
+					신청이 취소된 여행입니다 :(
 				</div>
 			</div>
 			
 			<!-- 제출버튼 -->
 			<div id='buttonDiv'>
-				<button type='button' th:if='${rs.reqStatus != "1" || rs.reqStatus != "6"}' id="submit_button">확정</button>
-				<button type='button' id="cancle_button">요청 취소</button>
+				<button type='button' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}' id="submit_button">확정</button>
+				<button type='button' th:if='${rs.reqStatus != "6"}' id="cancle_button">요청 취소</button>
 				<button type='button' id="back_button" onclick="back()">목록</button>
 			</div>
 		</div>

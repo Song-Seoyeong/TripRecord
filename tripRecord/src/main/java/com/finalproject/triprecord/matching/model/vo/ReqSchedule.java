@@ -16,4 +16,5 @@ public class ReqSchedule {
 	private int scheNo;
 	private String reqRef;
 	private String reqStatus;
+	
 }
