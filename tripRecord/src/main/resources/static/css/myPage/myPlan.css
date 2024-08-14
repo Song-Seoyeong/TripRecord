@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+table {
+	width: 90%;
+	text-align: center;
+	margin: 30px auto;
+}
+
+th {
+	font-size: 24px;
+}
+
+td {
+	padding: 15px;
+}
+
+.flex-container {
+	text-align: center;
+	position: relative;
+	display: flex;
+}
+
+#contentsDiv {
+	width: 100%;
+	max-width: 1400px;
+	position: absolute;
+	left: 50%;
+	top: -200px;
+	transform: translateX(-45%);
+}
+
+#divTitle {
+	color: black;
+	font-size: 36px;
+	font-weight: 900;
+}
+
+#tableDiv {
+	display: inline-block;
+	width: 1000px;
+	max-height: 800px;
+	min-height: 300px;
+}
+
+#thTr {
+	border-bottom: 2px solid #96CAF0;
+}
+
+#tbodyTr {
+	border-bottom: 2px solid #b9b9b9
+}

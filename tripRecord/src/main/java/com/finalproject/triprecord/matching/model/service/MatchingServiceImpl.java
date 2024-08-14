@@ -105,6 +105,11 @@ public class MatchingServiceImpl implements MatchingService {
 	public ArrayList<Image> selectrImgList() {
 		return matMapper.selectrImgList();
 	}
+	
+	@Override
+	public ArrayList<Image> selectrImgList(int rNo) {
+		return matMapper.selectrImgList(rNo);
+	}
 
 	@Override
 	public Review selectReview(int rNo) {
@@ -112,8 +117,8 @@ public class MatchingServiceImpl implements MatchingService {
 	}
 
 	@Override
-	public int deleteReview(int rNo) {
-		return matMapper.deleteReview(rNo);
+	public int deletePlannerReview(int rNo) {
+		return matMapper.deletePlannerReview(rNo);
 	}
 
 	@Override
@@ -124,6 +129,16 @@ public class MatchingServiceImpl implements MatchingService {
 	@Override
 	public int insertSchedule(Schedule schedule) {
 		return matMapper.insertSchedule(schedule);
+	}
+
+	@Override
+	public int deleteReviewImage(ArrayList<String> deleteImg) {
+		return matMapper.deleteReviewImage(deleteImg);
+	}
+
+	@Override
+	public ArrayList<Planner> topPlannerList() {
+		return matMapper.topPlannerList();
 	}
 
 }

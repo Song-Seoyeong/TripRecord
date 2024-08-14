@@ -5,55 +5,52 @@
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
 <title>여행 플랜 신청 리스트</title>
-<style>
-table{
-	width:80%;
-	text-align: center;
-	margin: 30px auto;
-}
-th{font-size:24px;}
-td{padding:15px;}
-</style>
+<link type="text/css" href='css/myPage/myPlan.css' rel="stylesheet">
 </head>
 <body>
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	
-	<div class="flex-container" style="text-align:center;">
-		<!--마이페이지 어퍼바-->
-		<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-		<!-- 사이드바 -->
-		<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
-		<div style="height:80px;"></div>
-		<div style="display:inline-block; margin-right:200px;">
-			<div style="color: black; font-size: 36px; font-weight: 900;">여행 플랜 신청 리스트</div>
-			<div style="height:40px;"></div>
-			<div style="display:inline-block; width:1000px; max-height:800px; min-height: 300px;" >
+	<!--마이페이지 어퍼바-->
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	<!-- 사이드바 -->
+	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
+	
+	<div class="flex-container">
+		<!-- 내용 -->
+		<div id='contentsDiv'>
+			<div id='divTitle'>여행 플랜 신청 리스트</div>
+			<div id='tableDiv'>
 				<table>
 					<thead>
-					 	<tr style="border-bottom:2px solid #96CAF0;">
+					 	<tr id='thTr'>
 							<th width='15%'><p>여행지</p></th>
-							<th width='40%'><p>여행 기간</p></th>
+							<th width='30%'><p>여행 기간</p></th>
 							<th width='15%'><p>담당 플래너</p></th>
 							<th width='30%'><p>진행 상태</p></th>
+							<th width='10%'><p>포인트</p></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr style="border-bottom:2px solid #b9b9b9" th:if='${list != null}' th:each='l :${list}'>
+						<tr id='tbodyTr' th:if='${list != null}' th:each='l :${list}'>
 							<th:block  th:each='p : ${pList}' th:if='${l.reqPlaNo == p.memberNo}'>
 								<td id="place">
 									<input type='hidden' th:value='${l.reqNo}' name='reqNo'>
 									[[${p.localName}]]
 								</td>
-								<td id="date">30일</td>
+								<td id="date">[[${l.startDay}]] - [[${l.endDay}]]([[${l.nightDay}]])</td>
 								<td id="planner">[[${p.nickname}]]</td>
+								<!-- 진행상태 -->
 								<td th:if='${l.reqStatus == "1"}'>일정 기다리는 중</td>
 								<td th:if='${l.reqStatus == "2"}' style='color: green; font-weight: bold;'>일정 도착</td>
 								<td th:if='${l.reqStatus == "3"}' style='color: yellow'>피드백 요청</td>
 								<td th:if='${l.reqStatus == "4"}' style='color: green; font-weight: bold;'>피드백 도착</td>
 								<td th:if='${l.reqStatus == "5"}' style='color: #96CAF0'>진행 종료</td>
 								<td th:if='${l.reqStatus == "6"}' style='color: red'>신청 취소</td>
+								<!-- 포인트 -->
+								<td th:if='${l.reqStatus == "1" || l.reqStatus == "6"}'>-</td>
+								<td th:if='${l.reqStatus != "1" && l.reqStatus != "6"}'>[[${l.point}]]</td>
 							</th:block>
 						</tr>
 						<tr th:if='${pi.listCount == 0}'>

@@ -1,7 +1,9 @@
 package com.finalproject.triprecord.member.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import com.finalproject.triprecord.board.model.vo.CategorySelect;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
+import com.finalproject.triprecord.common.model.vo.FeedBack;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -35,6 +38,7 @@ import com.finalproject.triprecord.member.model.exception.MemberException;
 import com.finalproject.triprecord.member.model.service.MemberService;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -374,6 +378,15 @@ public class MyPageController {
 			// 신청별 schedule
 			Schedule sch = mService.getSchedule(r.getScheNo());
 			
+			String nightDay = getNightDay(sch.getScEndDate(), sch.getScStartDate());
+			r.setNightDay(nightDay);
+			
+			SimpleDateFormat sp = new SimpleDateFormat("yyMMdd");
+			r.setStartDay(sp.format(sch.getScStartDate()));
+			r.setEndDay(sp.format(sch.getScEndDate()));
+			
+			// 포인트
+			r.setPoint(getDayPoint(sch.getScEndDate(), sch.getScStartDate()));
 		}
 		//System.out.println(list);
 	    //프로필 사진
@@ -393,6 +406,32 @@ public class MyPageController {
     	model.addAttribute("loc", request.getRequestURI());
 		return "myPlan";
 	}
+	
+	// 기간별 포인트 구하는 함수
+	public int getDayPoint(Date endDate, Date startDate) {
+		// 두 날짜 사이의 시간 차이를 밀리초 단위로 계산
+        long diffInMillies = Math.abs(startDate.getTime() - endDate.getTime());
+
+        // 밀리초를 일(day) 단위로 변환
+        long day = diffInMillies / (24 * 60 * 60 * 1000);
+        
+        return (int)(day*8000);
+	}
+	
+	// 여행 기간 구하는 함수
+	public String getNightDay(Date endDate, Date startDate) {
+		// 두 날짜 사이의 시간 차이를 밀리초 단위로 계산
+        long diffInMillies = Math.abs(startDate.getTime() - endDate.getTime());
+
+        // 밀리초를 일(day) 단위로 변환
+        long diffInDays = diffInMillies / (24 * 60 * 60 * 1000);
+
+        // 박(숙박 횟수) 계산: 1박은 1일을 제외한 일수로 계산
+        long nights = diffInDays - 1;
+        long days = diffInDays;
+        
+        return nights + "박" + days + "일";
+	}
 
 	@GetMapping("detailReqPlan.mp")
 	public String moveToDetailReqPlan(@RequestParam("reqNo")int reqNo,
@@ -411,6 +450,27 @@ public class MyPageController {
 		Schedule sch = mService.getSchedule(rs.getScheNo());
 		//System.out.println(sch);
 		
+		// 여행 기간
+		String nightDay = getNightDay(sch.getScEndDate(), sch.getScStartDate());
+		rs.setNightDay(nightDay);
+		
+		// 출발/도착 일자
+		SimpleDateFormat sp = new SimpleDateFormat("yyMMdd");
+		rs.setStartDay(sp.format(sch.getScStartDate()));
+		rs.setEndDay(sp.format(sch.getScEndDate()));
+		
+		// 포인트
+		rs.setPoint(getDayPoint(sch.getScEndDate(), sch.getScStartDate()));
+		
+		// 피드백 리스트
+		ArrayList<FeedBack> feedList = mService.getFeedBackList(rs.getReqNo());
+		
+		// 피드백 카운트
+		rs.setFeedBackCount(feedList.size());
+		
+		// 상세 일정 가져오기
+		ArrayList<Plan> planList = mService.getPlanList(rs.getScheNo());
+		
 		
 		// 사용자 프로필 사진
 		Image image = mService.existFileId(memberNo); 
@@ -422,6 +482,9 @@ public class MyPageController {
 	        // 이미지가 없거나 리네임이 없는 경우 처리
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
+	    
+	    model.addAttribute("feedList", feedList);
+	    model.addAttribute("planList", planList);
 	    model.addAttribute("rs", rs);
 	    model.addAttribute("planner", planner);
 	    model.addAttribute("sch", sch);

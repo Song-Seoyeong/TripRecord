@@ -2,25 +2,49 @@
 
 #mainContainer {
 	width: 1400px;
+	margin-top: 50px;
 }
-.local-card{
-	width: 220px;
-	height: 250px;
+.goSchedule {
+   height: 550px;
+   display: flex;
+    align-items: center;
+    overflow:hidden;
+}
+.medalDiv{
+	margin: 10px 5px;
+}
+
+.medal{
+	width: 60px;
+	height: 60px;
+}
+.local-card, .planner-card {
+	height: 240px;
 	margin: 3px 10px;
 	cursor: pointer;
 	overflow: hidden;
+	border-radius: 10px;
 }
 
-.card-text{
+.planner-card-text {
 	bottom: 0;
 	right: 0;
-	background: #96caf0;
-	opacity: 90%;
+	background: #2F6598;
+	opacity: .9;
 	border-radius: 5px;
 	color: white;
 }
 
-.local-img{
+.local-card-text {
+	bottom: 0;
+	right: 0;
+	background: #96caf0;
+	opacity: .9;
+	border-radius: 5px;
+	color: white;
+}
+
+.local-card-img, .planner-card-img{
 	width: 100%;
     height: 250px;
     object-fit: cover;
@@ -28,21 +52,27 @@
     border-radius: 5px;
 }
 
-.local-img:hover{
+.local-card-img:hover, .planner-card-img:hover{
 	object-fit: cover;
     border-radius: 5px;
-    transform:scale(1.1);
+    transform: scale(1.1);
     transition: all .5s ease;
     opacity: .75;
 }
 .place-card{
-    height:250px;
     text-align: center;
-    overflow: hidden;
+    height: 240px;
+	margin: 3px 10px;
+	cursor: pointer;
+	overflow: hidden;
+	border-radius: 10px;
 }
 .place-card img{
-    height: 100%;
-    transform: translateX(-20%);
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: all .5s ease;
+    border-radius: 5px;
 }
 .place-card p{
     font-size: 20px;
@@ -56,14 +86,17 @@
 }
 .place-card:hover img{
     opacity: 0.5;
-    transform: scale(1.1) translateX(-20%) translateY(10px);
+    transform: scale(1.1);
     transition: all .5s ease;
 }
 .place-card:hover p{
     opacity: 1;
-    transform: translateY(-380px);
+    transform: translateY(-120px);
     transition: all .5s ease-in-out;
 }
 #planImg{
 	cursor: pointer;
+}
+#topPlace{
+	margin-bottom: 50px;
 }

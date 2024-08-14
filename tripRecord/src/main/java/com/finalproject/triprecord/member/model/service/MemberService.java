@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.vo.FeedBack;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -15,6 +16,7 @@ import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 public interface MemberService {
@@ -90,6 +92,10 @@ public interface MemberService {
 	Schedule getSchedule(int scheNo);
 
 	int updateReqState(ReqSchedule req);
+	
+	ArrayList<Plan> getPlanList(int scheNo);
+
+	ArrayList<FeedBack> getFeedBackList(int reqNo);
 	//-------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -108,6 +114,9 @@ public interface MemberService {
 	Image getImgRename(HashMap<String, Object> map);
 	//플래너 취소
 	int canclePlanner(HashMap<String, Object> map);
+
+
+	
 
 
 

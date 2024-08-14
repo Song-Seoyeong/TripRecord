@@ -9,11 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
+import com.finalproject.triprecord.matching.model.service.MatchingService;
+import com.finalproject.triprecord.member.model.vo.Planner;
 import com.finalproject.triprecord.place.model.service.PlaceService;
 import com.finalproject.triprecord.place.model.vo.Place;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private MatchingService matService;
 	
 	@Autowired
 	private PlaceService pService;
@@ -27,14 +32,16 @@ public class HomeController {
 		
 		// 일정 이미지
 		Image img = pService.planImg();
-		img.setImagePath("image/noimage.png");
 		
+		// 플래너 top 5 (좋아요순)
+		ArrayList<Planner> plannerList = matService.topPlannerList();
 		
 		// 관광지 top 5
 		ArrayList<Place> pList = pService.topPlaceList();
 		
 		model.addAttribute("lList", lList);
 		model.addAttribute("img", img);
+		model.addAttribute("plList", plannerList);
 		model.addAttribute("pList", pList);
 		return "home";
 	}

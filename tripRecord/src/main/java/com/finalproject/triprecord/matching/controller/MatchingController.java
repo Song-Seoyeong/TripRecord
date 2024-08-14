@@ -23,11 +23,13 @@ import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Review;
+import com.finalproject.triprecord.matching.model.exception.MatchingException;
 import com.finalproject.triprecord.matching.model.service.MatchingService;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 import com.finalproject.triprecord.place.model.exception.PlaceException;
+import com.finalproject.triprecord.place.model.service.PlaceService;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,6 +40,9 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MatchingController {
+	
+	@Autowired
+	private PlaceService pService;
 	
 	@Autowired
 	private MatchingService matService;
@@ -205,19 +210,15 @@ public class MatchingController {
 		reqSchedule.setReqMemNo(loginUserNo);
 		reqSchedule.setScheNo(schedule.getScNo());
 		
-		System.out.println(reqSchedule);
-		
 		int result2 = matService.insertReqSchedule(reqSchedule);
 		
-		System.out.println(result2);
-		
-//		if(result1 + result2 > 0) {
+		if(result1 + result2 > 0) {
 			ra.addAttribute("pNo", pNo);
 			ra.addAttribute("page", 1);
 			return "redirect:selectPlanner.ma";
-//		} else {
-//			return "매칭익셉션";
-//		}
+		} else {
+			throw new MatchingException("리뷰 작성을 실패했습니다.");
+		}
 	} 
 	
 	
@@ -342,7 +343,7 @@ public class MatchingController {
 					e.printStackTrace();
 				}
 			}
-			throw new PlaceException("리뷰 작성을 실패했습니다.");
+			throw new MatchingException("리뷰 작성을 실패했습니다.");
 		}
 	}
 	
@@ -365,9 +366,12 @@ public class MatchingController {
 		int checkLikes = matService.checkLikes(likemap);
 		
 		String localNames = matService.selectLocalName(pNo);
+		//리뷰 이미지
+		ArrayList<Image> rImgList = matService.selectrImgList(rNo);
 		
 		Review review = matService.selectReview(rNo);
 		
+		model.addAttribute("rImgList", rImgList);
 		model.addAttribute("r", review);
 		model.addAttribute("planner", planner);
 		model.addAttribute("checkLikes", checkLikes);
@@ -379,7 +383,7 @@ public class MatchingController {
 	
 	
 	//수정 필요
-	/*
+
 	@PostMapping("updateReview.ma")
 	public String updateReview(@ModelAttribute Review review,
 							   @RequestParam("plannerNo")int pNo,
@@ -387,76 +391,81 @@ public class MatchingController {
 							   @RequestParam(value="files", required=false) ArrayList<MultipartFile> files,
 							   RedirectAttributes ra) {
 		
-		int result = matService.updateReview(review);
+		int result = pService.updateReview(review);
 		
 		ArrayList<String> deleteImg = new ArrayList<String>();
 		int delResult = 0;
-		int insertResult;
+		int insertResult = 0;
 		
-		// 이미지 삭제
-		if(delImgs != null && !delImgs.isEmpty()) {
-			for(String del : delImgs) {
-				if(!del.equals("none")) {
-					deleteImg.add(del);
-					// 구글 드라이브에서 삭제
-					gdService.deleteFile(del);
+		try {
+			// 이미지 삭제
+			if(delImgs != null && !delImgs.isEmpty()) {
+				for(String del : delImgs) {
+					if(!del.equals("none")) {
+						deleteImg.add(del);
+						// 구글 드라이브에서 삭제
+						gdService.deleteFile(del);
+					}
 				}
 			}
-		}
-		delResult = matService.deleteImage(deleteImg);
-		
-		// 이미지 추가
-		ArrayList<Image> list = new ArrayList<Image>();
-		for(int i = 0; i < files.size(); i++) {
-			MultipartFile upload = files.get(i);
+			delResult = matService.deleteReviewImage(deleteImg);
 			
-			//if(!upload.getOriginalFilename().equals("")) {
-			if(upload != null && !upload.isEmpty()) {
-	            String fileId;
-	            
-				fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
-				Image a = new Image();
-				a.setImageOriginName(upload.getOriginalFilename());
-				a.setImageRename(fileId);
-				a.setImagePath("drive://files/" + fileId);
-				a.setImageThum(2);
-				a.setImageRefType("REVIEW");
-				a.setImageRefNo(review.getReviewNo());
+			// 이미지 추가
+			ArrayList<Image> list = new ArrayList<Image>();
+			for(int i = 0; i < files.size(); i++) {
+				MultipartFile upload = files.get(i);
 				
-				list.add(a);
-			}
-		}
-		
-		if(!list.isEmpty()) {
-			insertResult = matService.insertImage(list);
-			
-			if(insertResult < 0) {
-				for(Image i : list) {
-					gdService.deleteFile(i.getImageRename());
+				//if(!upload.getOriginalFilename().equals("")) {
+				if(upload != null && !upload.isEmpty()) {
+		            String fileId;
+		            
+					fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
+					Image a = new Image();
+					a.setImageOriginName(upload.getOriginalFilename());
+					a.setImageRename(fileId);
+					a.setImagePath("drive://files/" + fileId);
+					a.setImageThum(2);
+					a.setImageRefType("REVIEW");
+					a.setImageRefNo(review.getReviewNo());
+					
+					list.add(a);
 				}
 			}
+			if(!list.isEmpty()) {
+				insertResult = matService.insertReviewImage(list);
+				
+				if(insertResult < 0) {
+					for(Image i : list) {
+						gdService.deleteFile(i.getImageRename());
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-			
-		if(result > 0) {
+		
+		if(result + delResult == 1 + deleteImg.size()) {
 			ra.addAttribute("pNo", pNo);
 			ra.addAttribute("page", 1);
 			return "redirect:selectPlanner.ma";
 		} else {
-			return null;
+			throw new MatchingException("리뷰 수정을 실패했습니다.");
 		}
-	}*/
+	}
 	
 	@PostMapping("deleteReview.ma")
-	public String deleteReview(@RequestParam("pNo")int pNo, @RequestParam("rNo")int rNo, RedirectAttributes ra) {
+	public String deleteReview(@RequestParam("pNo")int pNo,
+							   @RequestParam("rNo")int rNo,
+							   RedirectAttributes ra) {
 		
-		int result = matService.deleteReview(rNo);
+		int result = matService.deletePlannerReview(rNo);
 		
 		if(result > 0) {
 			ra.addAttribute("pNo", pNo);
 			ra.addAttribute("page",1);
 			return "redirect:selectPlanner.ma";
 		} else {
-			return null;
+			throw new MatchingException("리뷰 삭제를 실패했습니다.");
 		}
 	}
 }

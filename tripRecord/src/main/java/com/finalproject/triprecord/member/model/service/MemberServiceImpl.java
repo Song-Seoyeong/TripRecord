@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.vo.FeedBack;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -20,6 +21,7 @@ import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.dao.MemberMapper;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 @Service
@@ -211,6 +213,16 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.updateReqState(req);
 	}
 	
+	@Override
+	public ArrayList<Plan> getPlanList(int scheNo) {
+		return mMapper.getPlanList(scheNo);
+	}
+	
+	@Override
+	public ArrayList<FeedBack> getFeedBackList(int reqNo) {
+		return mMapper.getFeedBackList(reqNo);
+	}
+	
 	//----------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -256,18 +268,6 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.canclePlanner(map);
 	}
 	//----------------------------------------------------------------
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
 
 	
 

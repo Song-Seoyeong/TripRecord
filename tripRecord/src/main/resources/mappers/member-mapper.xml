@@ -362,7 +362,12 @@
 		where req_no = #{reqNo}
 	</update>
 
-
+	<!-- 상세 일정 체크 -->
+	<select id="getPlanList" resultType='Plan'>
+		select *
+		from plan
+		where sc_no = #{scheNo}
+	</select>
 
 
 

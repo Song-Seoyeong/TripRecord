@@ -105,6 +105,9 @@
 		select *
 		from image
 		where image_Ref_type = 'REVIEW'
+		<if test="rId != null">
+			and image_ref_no = #{rId}
+		</if>
 	</select>
 	
 	<select id="selectReview" resultType="Review">
@@ -113,18 +116,33 @@
 		where review_No = #{rNo}
 	</select>
 	
-	<update id="deleteReview">
+	<update id="deletePlannerReview">
 		update review
 		set review_status = 'N'
-		where review_no = #{rNo}
+		where review_no = #{rNo} and rev_ref_type = 'PLANNER'
 	</update>
 	
+	<delete id="deleteReviewImage">
+		delete from Image
+		<foreach collection="list" item="i" separator=",">
+			where Image_rename = #{i}
+		</foreach>
+	</delete>
+	
 	<insert id="insertReviewImage">
-		<selectKey keyProperty="reqNo" order="BEFORE" resultType="_int">
-			select seq_req.nextval from dual
+		insert all
+		<foreach collection="list" item="item" separator=" ">
+			into image values(new_image_id, #{item.imagePath}, #{item.imageOriginName}, #{item.imageRename}, #{item.imageThum}, #{item.imageRefType}, #{item.imageRefNo})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<insert id="insertSchedule" useGeneratedKeys="true">
+		<selectKey keyProperty="scNo" order="BEFORE" resultType="_int">
+			select seq_schedule.nextval from dual
 		</selectKey>
-		insert into req_schedule
-		values(#{reqNo}, #{reqMemNo}, #{reqPlaNo}, #{scheNo}, #{reqRef}, default)
+		insert into schedule
+		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default)
 	</insert>
 	
 	<insert id="insertReqSchedule" useGeneratedKeys="true">
@@ -135,13 +153,21 @@
 		values(#{reqNo}, #{reqMemNo}, #{reqPlaNo}, #{scheNo}, #{reqRef}, default)
 	</insert>
 	
-	<insert id="insertSchedule" useGeneratedKeys="true">
-		<selectKey keyProperty="scNo" order="BEFORE" resultType="_int">
-			select seq_schedule.nextval from dual
-		</selectKey>
-		insert into schedule
-		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default)
-	</insert>
+	<select id="topPlannerList" resultType="planner">
+		<![CDATA[
+		select *
+		from(select *
+			 from (select planner.member_no, nickname, image.image_rename, count(*) likes
+		           from planner
+		     			join planner_like on (planner_like.planner_no = planner.member_no)
+		           		join member on (planner.member_no = member.member_no)
+                        left join image on (planner.member_no = image.image_ref_no) and image.image_ref_type = 'MEMBER'
+		       	   where status = 'Y'
+		           group by planner.member_no, member.nickname, image.image_rename)
+		    order by likes desc)
+		where rownum <= 5
+		]]>
+	</select>
 	
 	
 	
