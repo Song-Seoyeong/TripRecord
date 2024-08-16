@@ -37,5 +37,11 @@ public interface PlanMapper {
 
 	int updateReserve(Properties prop);
 
+	int scheduleCount(int memberNo);
+
+	void updatePoint(int memberNo);
+
+	int detailDeletePlan(String plNo);
+
 	
 }

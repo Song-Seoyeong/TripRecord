@@ -368,16 +368,19 @@
 		from plan
 		where sc_no = #{scheNo}
 	</select>
-	
-	<!-- 피드백 리스트 -->
-	<select id="getFeedBackList" resultType='FeedBack'>
+
+	<!-- 일정 신청 사유 받아오기 -->
+	<select id="checkCancel" resultType='Cancel'>
 		select *
-		from feedback
-		where req_no = #{reqNo}
+		from cancel
+		where cancel_ref_type = 'REQSCHEDULE' and cancel_ref_no = #{reqNo}
 	</select>
 
-
-
+	<!-- 취소 사유 저장 -->
+	<insert id="insertCancel">
+		insert into cancel
+		values(seq_cancel.nextval, #{cancelMemNo}, #{cancelComent}, sysdate, #{cancelRefType}, #{cancelRefNo})
+	</insert>
 
 
 

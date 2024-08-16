@@ -6,11 +6,11 @@
 <title>내 여행노트 상세보기</title>
 <style>
 </style>
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="css/plan/detailMyTripNote.css" type="text/css" />
-<link rel="stylesheet" href="css/plan/datepicker.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+<link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
+<link rel="stylesheet" href="css/plan/datepicker.css" type="text/css" />
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 </head>
@@ -18,12 +18,17 @@
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
+	
+	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
+	<div style="height:120px;"></div>
+	
 	<form id="detailMyTripForm">
 		<div class="flex-container">
-			<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-			<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
+			<span class="secondSidebar"><a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a></span>
+        	<span class="secondSidebar"><a class="nav-link" href="myTripNote.pl">내 여행 노트</a></span>
+			
 			<div id="contain-all-div">
-				<div style="color: black; text-align:center; font-size: 36px; font-weight: 900;">내 여행노트</div>
+				<div id="title-div">내 여행노트</div>
 				<div class="contain-div" id="detailForm">
 					<div class="inline-contain-div">
 						<span class="textSpan" id="startDate-span" th:text="${s.startDate}"></span>
@@ -99,12 +104,12 @@
 											<div class="plan-checks">
 												<div class="checkbox-wrapper-46">
 													<input type="checkbox" th:id="|cbx${index.index}|" class="inp-cbx" th:checked="${p.reserve == 'Y'}"><label th:for="|cbx${index.index}|" class="cbx">
-													<span><svg viewBox="0 0 12 10" class="cbSvg" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText">예약 여부</span></label>
+													<span class="cbSvg"><svg viewBox="0 0 12 10" class="cbSvg" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText">예약 여부</span></label>
 												</div>
 											</div>
 										</div>
 										<div class="label-div">
-											<input type="text" name="memo" th:value="${p.memo}" class="plan-text memoInput" maxlength="200" placeholder="메모 입력창" style="display: none;">
+											<input type="text" name="memo" th:value="${p.memo}" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창" style="display: none;">
 											<label class="planLabel memoLabel" th:text="${p.memo}"></label>
 										</div>
 									</div>
@@ -246,7 +251,7 @@
 						
 						let checkDiv = document.createElement('div');
 						checkDiv.classList.add('plan-checks');
-						checkDiv.innerHTML = '<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx planCheck" /><label for="cbx' + index + '" class="cbx planCheck"><span><svg class="cbSvg" viewBox="0 0 12 10" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
+						checkDiv.innerHTML = '<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx planCheck" /><label for="cbx' + index + '" class="cbx planCheck"><span class="cbSvg"><svg class="cbSvg" viewBox="0 0 12 10" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
 						index++;
 						
 						let timelabelDiv = timeInput.parentElement;
@@ -257,8 +262,34 @@
 						alert('계획을 입력해 주세요.');
 					}
 		        } else if (e.target.classList.contains('trash-icon')) {
-		            let planDiv = e.target.closest('.one-plan');
-		            planDiv.remove();
+		            let onePlan = e.target.closest('.one-plan');
+		            let planDiv = e.target.closest('.planDiv');
+		            let onePlans = planDiv.querySelectorAll('.one-plan');
+		            
+		            let count = 0;
+		            
+		            for(let i = 0; i < onePlans.length; i++){
+		            	count++;
+		            }
+		            
+		            if(count > 1){
+			            plNo = onePlan.children[0].value;
+			            
+			            $.ajax({
+			            	url: 'detailDeletePlan.pl',
+			            	data: {plNo:plNo},
+			            	success: data => {
+								if(data == "1") {
+				            		onePlan.remove();
+								} else {
+									alert('일정 삭제에 실패했습니다.');
+								}
+			            	},
+			            	error: data => console.log(data)
+			            });
+		            } else {
+		            	alert('한 개의 일정은 존재해야 합니다.');
+		            }
 		            
 		        } else if (e.target.classList.contains('planLabel') || e.target.classList.contains('label-div')) {
 		        	let bgCheckDiv = document.querySelectorAll('.plan-labels');
@@ -499,7 +530,7 @@
 							let dateHtml = '<div class="date">' + value + '</div>';
 						
 							// input 입력창
-							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="200" placeholder="메모 입력창"></div></div>';
+							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
 						
 							// 1개의 계획 + 라인 + 원
 							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';

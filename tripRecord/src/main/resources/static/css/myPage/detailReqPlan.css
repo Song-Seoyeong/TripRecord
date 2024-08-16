@@ -150,17 +150,10 @@
 	color: #fff;
 	font-weight: 600;
 }
-
-#feedBackDiv{
-    min-width: 300px;
-    text-align: center;
+#infoReq{
+	font-size: 10px;
+	color: lightgray;
 }
-#feedbackTitle{
-    font-size: 30px;
-}
-#feedInfo{
-    text-align: end;
-}
-#feedBackListDiv{
-    font-size: 25px;
+#cancelComent{
+	font-size: 18px;
 }

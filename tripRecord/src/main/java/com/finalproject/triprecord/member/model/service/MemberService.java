@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.FeedBack;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
@@ -114,6 +115,10 @@ public interface MemberService {
 	Image getImgRename(HashMap<String, Object> map);
 	//플래너 취소
 	int canclePlanner(HashMap<String, Object> map);
+
+	Cancel checkCancel(int reqNo);
+
+	int insertCancel(Cancel c);
 
 
 	

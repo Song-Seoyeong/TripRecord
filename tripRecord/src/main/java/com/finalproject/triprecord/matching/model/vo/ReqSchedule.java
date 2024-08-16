@@ -15,7 +15,7 @@ public class ReqSchedule {
 	private int reqPlaNo;
 	private int scheNo;
 	private String reqRef;
-	private String reqStatus;
+	private int reqStatus;
 	
 	private String nightDay;
 	private String startDay;

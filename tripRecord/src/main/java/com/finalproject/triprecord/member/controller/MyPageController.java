@@ -26,7 +26,7 @@ import com.finalproject.triprecord.board.model.vo.CategorySelect;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
-import com.finalproject.triprecord.common.model.vo.FeedBack;
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -38,6 +38,7 @@ import com.finalproject.triprecord.member.model.exception.MemberException;
 import com.finalproject.triprecord.member.model.service.MemberService;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
+import com.finalproject.triprecord.place.model.exception.PlaceException;
 import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
@@ -462,11 +463,11 @@ public class MyPageController {
 		// 포인트
 		rs.setPoint(getDayPoint(sch.getScEndDate(), sch.getScStartDate()));
 		
-		// 피드백 리스트
-		ArrayList<FeedBack> feedList = mService.getFeedBackList(rs.getReqNo());
-		
-		// 피드백 카운트
-		rs.setFeedBackCount(feedList.size());
+		// 취소 사유
+		if(rs.getReqStatus() == 4) {
+			Cancel cancel = mService.checkCancel(rs.getReqNo());
+			model.addAttribute("cancel", cancel);
+		}
 		
 		// 상세 일정 가져오기
 		ArrayList<Plan> planList = mService.getPlanList(rs.getScheNo());
@@ -483,7 +484,6 @@ public class MyPageController {
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
 	    
-	    model.addAttribute("feedList", feedList);
 	    model.addAttribute("planList", planList);
 	    model.addAttribute("rs", rs);
 	    model.addAttribute("planner", planner);
@@ -507,21 +507,25 @@ public class MyPageController {
 		return "feedback";
 	}
 	
-	@GetMapping("updateReqSch.mp")
+	@GetMapping("cancelReqSch.mp")
 	public String updateReqSch(@ModelAttribute ReqSchedule req,
+								@RequestParam("cancelContent") String cancelContent,
 								@RequestParam("page") int page,
 								HttpSession session, RedirectAttributes ra) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		
+		// 신청진행상태 변경
 		int result = mService.updateReqState(req);
 		
-		String msg = null;
-		if(result > 0) {
-			msg = "요청이 취소되었습니다.";
-		}else {
-			msg = "요청 취소 중 에러가 발생했습니다.";
-		}
+		// 신청 취소 사유 저장
+		Cancel c = new Cancel();
+		c.setCancelRefNo(req.getReqNo());
+		c.setCancelRefType("REQSCHEDULE");
+		c.setCancelComent(cancelContent);
+		c.setCancelMemNo(memberNo);
+		int canResult = mService.insertCancel(c);
 		
+		if(result > 0 && canResult > 0) {
 		// 프로필 이미지 조회
 	    Image image = mService.existFileId(memberNo); 
 		if (image != null && image.getImageRename() != null) {
@@ -531,9 +535,11 @@ public class MyPageController {
 	        // 이미지가 없거나 리네임이 없는 경우 처리
 	        ra.addAttribute("rename", "defaultImageName"); 
 	    }
-		ra.addAttribute("msg", msg);
 		ra.addAttribute("page", page);
 		return "redirect:myPlan.mp";
+		}else {
+			throw new PlaceException("신청 내역 취소 중 에러 발생");
+		}
 	}
 
 	@GetMapping("myInquiry.mp")

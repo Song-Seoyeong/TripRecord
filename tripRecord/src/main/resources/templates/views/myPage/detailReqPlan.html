@@ -26,7 +26,6 @@
 				<div id='planTitle'>
 					<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
 					<input type='hidden' name='page' th:value='${page}'>
-					<input type='hidden' name='reqStatus' id='reqStatus' value='1'>
 					<input type='hidden' name='point' id='point' th:value='${rs.point}'>
 					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" id='localIcon'>
 						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
@@ -34,11 +33,16 @@
 					&nbsp;<b>[[${planner.localName}]]</b>로 떠나는 <b>"[[${rs.startDay}]] ~ [[${rs.endDay}]]"</b>([[${rs.nightDay}]]) 여행입니다
 				</div>
 				<hr>
+				<div id='infoReq'>
+					※ 일정 도착 후 확인을 한 경우 환불이 불가합니다&nbsp;&nbsp;※ 구매 확정시에만 내 여행 노트에서 일정을 확인 및 수정이 가능합니다&nbsp;&nbsp;※ 여행 시작일자가 지날 경우 자동으로 구매확정 됩니다
+				</div>
+				<hr>
 				<!-- 참고사항 입력한거 -->
 				<div id="note">
 					<b>참고사항(선택) : </b>
 					[[${rs.reqRef}]]
 				</div>
+				
 			</div>
 			<!-- 플래너 및 여행 일정 -->
 			<div id='planSch'>
@@ -58,39 +62,29 @@
 				</div>
 				<hr>
 				<!-- 일정 -->
-				<div id='schedule' th:if='${rs.reqStatus == "1"}' style='text-align:center;'>
+				
+				<div id='schedule' th:if='${rs.reqStatus == 1}' style='text-align:center;'>
 					플래너가 아직 일정을 생성하지 않았어요<br>
 					조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
 				</div>
-				<div id='schedule' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6" && planList != null}'>
+				<div id='schedule' th:if='${rs.reqStatus != 1 && rs.reqStatus != 4 && planList != null}'>
 					일정 생성 완료
 				</div>
-				<div id='schedule' th:if='${rs.reqStatus == "6"}' style='text-align:center;'>
+				<div id='schedule' th:if='${rs.reqStatus == 4}'>
 					신청이 취소된 여행입니다 :(
+					<hr>
+					<div id='cancelComent'>
+						<b>취소 사유 : </b>[[${cancel.cancelComent}]]
+					</div>
 				</div>
 			</div>
 			<!-- 버튼 -->
 			<div id='buttonDiv'>
-				<button type='button' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}' id="submit_button">결제</button>
-				<button type='button' th:if='${rs.reqStatus != "6"}' id="cancle_button">신청 취소</button>
+				<button type='button' th:if='${rs.reqStatus != 1 && rs.reqStatus != 4}' id="submit_button">구매확정</button>
+				<button type='button' th:if='${rs.reqStatus == 1 || rs.reqStatus == 4}' id="cancle_button">신청 취소</button>
 				<button type='button' id="back_button" onclick="back()">뒤로 가기</button>
 			</div>
 			
-			<!-- 피드백 -->
-			<div id='feedBackDiv'>
-				<div id='feedbackTitle'>피드백 리스트</div>
-				<div id='feedInfo'>※피드백은 3회로 제한됩니다※</div>
-				<hr>
-				<div id='feedBackListDiv' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
-				</div>
-				<div id='feedBackListDiv' th:if='${rs.reqStatus == "1"}'>
-					일정이 도착하면 결제 후 피드백 작성이 가능합니다 :)
-				</div>
-				<div id='feedBakcButton' th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
-					<button type='button' th:if='${rs.feedBackCount != 3}' id="submit_feed">피드백 보내기</button>
-					<button type='button' id="confimReq" data-bs-toggle="modal" data-bs-target="#exampleModal">확정</button>
-				</div>
-			</div>
 		</form>
 		
 		<!-- 확정 모달 -->
@@ -98,8 +92,8 @@
 			<div class="modal-dialog" role="document">
 	    		<div class="modal-content rounded-3 shadow">
 	      			<div class="modal-body p-4 text-center">
-	        			<h3 class="mb-0">플래너에게 받은 일정을 결제하시겠습니까?</h3>
-	        			<p class="mb-0">확인 후 [[${rs.point}]]p가 차감됩니다<br>※확정 후 환불은 문의사항 게시판을 이용해주세요※</p>
+	        			<h3 class="mb-0">플래너에게 받은 일정을 구매 확정 하시겠습니까?</h3>
+	        			<p class="mb-0">확정 후 여행 계획은 마이페이지 &gt; 내 여행 노트에서 확인이 가능합니다.<br>※확정 후 환불은 문의사항 게시판을 이용해주세요※</p>
 	      			</div>
 	      			<div class="modal-footer flex-nowrap p-0">
 	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="confim">
@@ -119,51 +113,34 @@
 	        			<h3 class="mb-0">정말로 신청을 취소하시겠습니까?</h3>
 	        			<p class="mb-0">
 	        				취소 후 신청내역은 복구할 수 없습니다
-	        				<th:block th:if='${rs.reqStatus != "1" && rs.reqStatus != "6"}'>
-	        					일정 확정 후 취소 환불은 문의게시판을 이용해주시길 바랍니다
-	        				</th:block>
 	        				<br>
 	        				필요시 재신청 해주세요
 	        			</p>
+	        			 <form id='cancelForm'>
+				        	<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
+				        	<input type='hidden' name='reqStatus' id='reqStatus' value='4'>
+				        	<input type='hidden' name='page' id='page' th:value='${page}'>
+				          <div class="mb-3">
+				            <label for="message-text" class="col-form-label">취소 사유 :</label>
+				            <textarea class="form-control" id="message-text" name='cancelContent'></textarea>
+				          </div>
+				        </form>
 	      			</div>
 	      			<div class="modal-footer flex-nowrap p-0">
 	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
-	        				<strong>네</strong>
+	        				<strong>취소 하기</strong>
 	        			</button>
 	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
 	      			</div>
 	    		</div>
-	 			</div>
+	 		</div>
 		</div>
 		<!-- 신청취소 모달 -->
-		<!-- 피드백 모달 -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <h1 class="modal-title fs-5" id="exampleModalLabel">피드백 보내기</h1>
-		      </div>
-		      <div class="modal-body">
-		        <form>
-		        	<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
-		          <div class="mb-3">
-		            <label for="message-text" class="col-form-label">피드백:</label>
-		            <textarea class="form-control" id="message-text" name='feedContent'></textarea>
-		          </div>
-		        </form>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-		        <button type="button" class="btn btn-primary">피드백 보내기</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
 	</div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
+	
 	<script th:inline='javascript'>
-		/*<![CDATA[*/
 		
 		const reqForm = document.getElementById('reqForm');
 			
@@ -195,13 +172,12 @@
 		}
 		
 		// 신청 취소
+		const cancelForm = document.getElementById('cancelForm')
        const del = document.getElementById('delete');
         if(del != null){
         	del.addEventListener('click', ()=>{
-        		const status = document.getElementById('reqStatus');
-				status.value = '6';
-				reqForm.action = "updateReqSch.mp";
-				reqForm.submit();
+				cancelForm.action = "cancelReqSch.mp";
+				cancelForm.submit();
         	})
         }
 		
@@ -217,7 +193,6 @@
 			location.href = 'selectPlanner.ma?page=1&pNo=' + this.children[0].value;
 		})
 		
-		/*]]>*/
 	</script>
 </body>
 </html>

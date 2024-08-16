@@ -84,6 +84,19 @@
 		where pl_no = #{plNo}
 	</update>
 	
+	<select id="scheduleCount" resultType="_int">
+		select count(*) from schedule where sc_writer_no = #{memberNo}
+	</select>
+	
+	<update id="updatePoint">
+		update member set member_point = member_point + 1000 where member_no = #{memberNo}
+	</update>
+	
+	<delete id="detailDeletePlan">
+		delete plan
+		where pl_no = #{plNo}
+	</delete>
+	
 	<resultMap id="scheduleMap" type="Schedule">
 		<result column="SC_WRITER_NO" property="writerNo"/>
 		<result column="local_name" property="spot"/>
