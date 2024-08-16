@@ -1,113 +1,146 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace='com.finalproject.triprecord.plan.model.dao.PlanMapper'>
-	
+<mapper
+	namespace='com.finalproject.triprecord.plan.model.dao.PlanMapper'>
+
 	<insert id="saveScheInsert">
-		<selectKey keyProperty="scNo" order="BEFORE" resultType="_int">
+		<selectKey keyProperty="scNo" order="BEFORE"
+			resultType="_int">
 			select seq_schedule.nextval from dual
 		</selectKey>
-	
-		insert into schedule 
-		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default)
+
+		insert into schedule
+		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default,
+		default)
 	</insert>
 
 
 	<insert id="savePlanInsert">
 		insert all
 		<foreach collection="list" item="l" separator=" ">
-			into plan values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo, jdbcType=VARCHAR}, #{l.reserve}, #{l.day})
+			into plan
+			values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo,
+			jdbcType=VARCHAR}, #{l.reserve}, #{l.day})
 		</foreach>
 		select * from dual
 	</insert>
-	
+
 	<select id="hashTagList" resultType="HashTag">
-		select * from hashtag where tag_type in ('PERSON', 'GENERAL')
+		select * from hashtag where
+		tag_type in ('PERSON', 'GENERAL')
 	</select>
-	
+
 	<insert id="saveHashTagInsert">
 		insert all
 		<foreach collection="list" item="h" separator=" ">
-			into select_hashtag values(SLH_NO_FUNC, #{h.tagNo}, #{h.tagRefType}, #{h.tagRefNo})
+			into
+			select_hashtag values(SLH_NO_FUNC, #{h.tagNo}, #{h.tagRefType},
+			#{h.tagRefNo})
 		</foreach>
 		select * from dual
 	</insert>
-	
+
 	<select id="myTripNoteList" resultMap="scheduleMap">
-		select sc_no, sc_local_no, local_name, sc_writer_no, sc_start_date, sc_end_date
-		from schedule 
-			join local on(local_no = sc_local_no)
-		where sc_writer_no = #{memberNo} and sc_del_status = 'N'
+		select sc_no, sc_local_no,
+		local_name, sc_writer_no, sc_start_date, sc_end_date
+		from schedule
+		join local on(local_no = sc_local_no)
+		where sc_writer_no = #{memberNo} and
+		sc_del_status = 'N'
 		order by sc_no desc
 	</select>
-	
+
 	<select id="myTripTagList" resultType="HashTag">
 		select tag_no, tag_name, tag_ref_no
 		from select_hashtag
-		    join hashtag using(tag_no)
-		where tag_ref_no in 
-			 <foreach collection="list" index="index" item="s" open="(" close=")" separator=",">
-			 	#{s.scNo}
-			 </foreach>
+		join hashtag using(tag_no)
+		where tag_ref_no in
+		<foreach collection="list" index="index" item="s" open="("
+			close=")" separator=",">
+			#{s.scNo}
+		</foreach>
 	</select>
-	
+
 	<select id="getListCount" resultType="_int">
-		select count(*) from schedule where sc_writer_no = #{memberNo} and sc_del_status = 'N'
+		select count(*) from
+		schedule where sc_writer_no = #{memberNo} and sc_del_status = 'N'
 	</select>
-	
+
 	<select id="detailMySchedule" resultMap="scheduleMap">
-		select sc_no, sc_local_no, local_name, sc_writer_no, 
-				to_char(sc_start_date, 'YYYY/MM/DD') as start_date, to_char(sc_end_date, 'YYYY/MM/DD') as end_date
-		from schedule 
-			join local on(local_no = sc_local_no)
-		where sc_no = #{scNo} and sc_del_status = 'N'
+		select sc_no,
+		sc_local_no, local_name, sc_writer_no,
+		to_char(sc_start_date, 'YYYY/MM/DD') as start_date, to_char(sc_end_date, 'YYYY/MM/DD') as
+		end_date
+		from schedule
+		join local on(local_no = sc_local_no)
+		where sc_no = #{scNo} and
+		sc_del_status = 'N'
 	</select>
-	
+
 	<select id="detailMyTripNote" resultMap="planMap">
 		select *
 		from plan
-		where sc_no = #{scNo}
+		where
+		sc_no = #{scNo}
 		order by pl_no
 	</select>
-	
+
 	<update id="deleteTripNote">
-		update schedule set sc_del_status = 'Y' where sc_no = #{scNo}
+		update schedule set sc_del_status = 'Y' where sc_no =
+		#{scNo}
 	</update>
-	
+
 	<update id="detailTripUpdate">
-		update plan 
-		set pl_place = #{place}, pl_time = #{time}, pl_memo = #{memo, jdbcType=VARCHAR}
+		update plan
+		set pl_place = #{place}, pl_time = #{time}, pl_memo = #{memo,
+		jdbcType=VARCHAR}
 		where pl_no = #{plNo}
 	</update>
-	
+
 	<update id="updateReserve">
 		update plan
 		set pl_reserve = #{status}
-		where pl_no = #{plNo}
+		where pl_no =
+		#{plNo}
 	</update>
-	
+
 	<select id="scheduleCount" resultType="_int">
-		select count(*) from schedule where sc_writer_no = #{memberNo}
+		select count(*) from
+		schedule where sc_writer_no = #{memberNo}
 	</select>
-	
+
 	<update id="updatePoint">
-		update member set member_point = member_point + 1000 where member_no = #{memberNo}
+		update member set member_point = member_point + 1000
+		where member_no = #{memberNo}
 	</update>
-	
+
 	<delete id="detailDeletePlan">
 		delete plan
 		where pl_no = #{plNo}
 	</delete>
-	
+
+	<select id="selectPlanCount" resultType="_int">
+		select count(*) from req_schedule
+		where
+		<if test="grade == 'PLANNER'">
+			req_pla_no = #{memberNo} and req_status = 1
+		</if>
+		<if test="grade == 'GENERAL'">
+			req_mem_no = #{memberNo} and req_status = 2
+		</if>
+	</select>
+
 	<resultMap id="scheduleMap" type="Schedule">
-		<result column="SC_WRITER_NO" property="writerNo"/>
-		<result column="local_name" property="spot"/>
-		<result column="SC_DEL_STATUS" property="status"/>
+		<result column="SC_WRITER_NO" property="writerNo" />
+		<result column="local_name" property="spot" />
+		<result column="SC_DEL_STATUS" property="status" />
 	</resultMap>
-	
+
 	<resultMap id="planMap" type="Plan">
-		<result column="PL_PLACE" property="place"/>
-		<result column="PL_TIME" property="time"/>
-		<result column="PL_MEMO" property="memo"/>
-		<result column="PL_RESERVE" property="reserve"/>
-		<result column="PL_DAY" property="day"/>
+		<result column="PL_PLACE" property="place" />
+		<result column="PL_TIME" property="time" />
+		<result column="PL_MEMO" property="memo" />
+		<result column="PL_RESERVE" property="reserve" />
+		<result column="PL_DAY" property="day" />
 	</resultMap>
+
 </mapper>

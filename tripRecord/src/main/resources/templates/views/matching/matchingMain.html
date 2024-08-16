@@ -18,18 +18,19 @@
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
 		</div>
-		<div class="d-flex justify-content-center">
+		<div class="sContainer d-flex justify-content-center">
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide" th:each="l : ${ localList }">
-						<div class="local-card position-relative">
+						<div class="local-card shadow position-relative">
 							<input type=hidden th:value="${l.localNo}">
-								<img class="local-img shadow position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
+								<img class="local-img position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
 							<span class="card-text position-absolute fs-1 px-3">[[${l.localName}]]
 							</span>
 						</div>
 					</div>
 				</div>
+				<div class="swiper-pagination"></div>
 				<div class="swiper-button-wrapper">
 					<div class="swiper-button-next"></div>
 		    		<div class="swiper-button-prev"></div>
@@ -40,23 +41,23 @@
 		<th:block th:if="${ pi.listCount != 0 }">
 		<div class="d-flex justify-content-center my-2">
 			<div class="w-75">
-				<div class="fs-3 p-3 w-100">
+				<div class="fs-4 p-3 w-100">
 					<div>
-		         		<div class="d-flex justify-content-center my-3">
-		         			<table class="text-center my-3">
+		         		<div class="d-flex justify-content-center">
+		         			<table class="text-center">
 			         			<tr>
 				         			<th class="d-none">번호</th>
 		         					<th width="110px">사진</th>
 					         		<th width="200px">플래너닉네임</th>
 					         		<th width="150px">지역</th>
 					         		<th width="300px">플래너 소개</th>
-					         		<th width="200px">좋아요</th>
+					         		<th width="200px">별점/좋아요</th>
 				         		</tr>
 			         		</table>
 			         	</div>
 		         	</div>
 	         		<!-- 플래너 정보 -->
-	         		<div class="d-flex justify-content-center my-3">
+	         		<div class="d-flex justify-content-center my-2">
 		         		<div class="plannerListContainer">
 			         		<table class="plannerList text-center my-3" th:each="planner : ${ list }">
 				         		<tr>
@@ -68,11 +69,19 @@
 		         					<td th:if="${planner.imageRename == null }">
 		         						<img class="rounded-circle m-3" src="image/noProfile.png"  width="75px" height="75px" alt="프로필">
 		         					</td>
-		         					
 					         		<td class="fs-4" width="200px">[[${planner.Nickname}]]</td>
 					         		<td width="150px">[[${localName[planner.memberNo]}]]</td>
 					         		<td class="sIntro fs-5" width="300px">[[${planner.sIntroContent}]]</td>
-					         		<td width="200px">[[${likes[planner.memberNo]}]]</td>
+					         		<td class="fs-5 text-start px-5" width="200px">
+					         			<th:block th:if="${star[planner.memberNo]} != null">
+					         			⭐ [[${star[planner.memberNo]}]]
+					         			</th:block>
+					         			<th:block th:if="${star[planner.memberNo]} == null">
+					         			⭐ 0.0
+					         			</th:block>
+					         			<br/>
+					         			❤️ [[${likes[planner.memberNo]}]]
+					         		</td>
 				         		</tr>
 			         		</table>
 		         		</div>
@@ -136,11 +145,17 @@ document.addEventListener("DOMContentLoaded", function() {
         slidesPerView: 4,
         slidesPerGroup: 1,
         spaceBetween: 24,
+        pagination: { 
+        	el: ".swiper-pagination", 
+        	clickable: true,
+        	},
         navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
     });
+    
+    let pRange = document.getElementsByClassName('swiper-pagination');
 });
 
 const cards = document.getElementsByClassName('local-card');
@@ -184,7 +199,7 @@ for (const card of cards) {
                     const nicknameCell = document.createElement('td');
                     nicknameCell.classList.add('fs-4');
                     nicknameCell.width = 200;
-                    nicknameCell.innerText = planner.Nickname;
+                    nicknameCell.innerText = planner.nickname;
                     
                     const localNameCell = document.createElement('td');
                     localNameCell.width = 150;
@@ -195,16 +210,23 @@ for (const card of cards) {
                     sIntroContentCell.width = 300;
                     sIntroContentCell.innerText = planner.sIntroContent;
                     
-                    const likesCell = document.createElement('td');
-                    likesCell.width = 200;
-                    likesCell.innerText = data.likes[planner.memberNo];
+                    const starLikesCell = document.createElement('td');
+                    starLikesCell.classList.add('fs-5', 'text-start', 'px-5');
+                    starLikesCell.style.width = '200px';
+                    
+                    const star = data.star[planner.memberNo] ? data.star[planner.memberNo] : 0;
+                    const starValue = star.toFixed(1);
+                    const starText = `⭐ ${starValue}`;
+                    const likesText = `❤️ ${data.likes[planner.memberNo]}`;
+                    
+                    starLikesCell.innerHTML = `${starText}<br/>${likesText}`;
                     
                     row.appendChild(memberNoCell);
                     row.appendChild(imageCell);
                     row.appendChild(nicknameCell);
                     row.appendChild(localNameCell);
                     row.appendChild(sIntroContentCell);
-                    row.appendChild(likesCell);
+                    row.appendChild(starLikesCell);
                     
                     row.addEventListener('click', function() {
                         const pNo = planner.memberNo;
@@ -242,7 +264,6 @@ for (const card of cards) {
        			const prev = document.createElement('li');
        			prev.className='page-item';
        			const beforeA = document.createElement('a');
-       			console.log(data.pi.currentPage);
        			beforeA.className = 'page-link';
        			if (data.pi.currentPage == 1) {
        				beforeA.classList.add('disabled');

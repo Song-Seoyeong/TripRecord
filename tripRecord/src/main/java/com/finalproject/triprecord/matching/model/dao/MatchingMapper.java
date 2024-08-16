@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
+import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Review;
@@ -61,5 +62,7 @@ public interface MatchingMapper {
 	int deleteReviewImage(ArrayList<String> deleteImg);
 
 	ArrayList<Planner> topPlannerList();
+
+	ArrayList<HashTag> selectTagList(int pNo);
 
 }

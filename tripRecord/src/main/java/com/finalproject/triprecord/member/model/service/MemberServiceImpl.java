@@ -280,8 +280,49 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.getReqTotalList();
 	}
 
-	
+	@Override
+	public void refundPoint(ReqSchedule r) {
+		mMapper.refundPoint(r);
+	}
 
+	@Override
+	public void updateWarning(ReqSchedule r) {
+		mMapper.updateWarning(r);
+	}
+
+	@Override
+	public void insertCalcultate(ReqSchedule r) {
+		mMapper.insertCalcultate(r);
+	}
+
+	@Override
+	public void updateReqConfirmDate(ReqSchedule r) {
+		mMapper.updateReqConfirmDate(r);
+	}
+
+	@Override
+	public void updatePayPoint(ReqSchedule r) {
+		mMapper.updatePayPoint(r);
+	}
+	
+	@Override
+	public int getRequestListCount(int pNo) {
+		return mMapper.getRequestListCount(pNo);
+	}
+
+	@Override
+	public ArrayList<ReqSchedule> selectRequestList(int pNo, PageInfo pi) {
+		
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return mMapper.selectRequestList(pNo, rowBounds);
+	}
+	
+	@Override
+	public int checkSevenSchedule(Member i) {
+		return mMapper.checkSevenSchedule(i);
+	}
 
 	
 

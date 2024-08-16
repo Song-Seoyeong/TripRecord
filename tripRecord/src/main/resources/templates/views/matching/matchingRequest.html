@@ -16,7 +16,7 @@
 <body>
 	<div th:replace="~{ ../common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ ../common/mainCategoryBar :: mainCategoryBar }"></div>
-	<div class="introduce">
+	<div class="guide">
 		<p>[[${planner.nickname}]]님에게 [[${localName}]] 여행가는 일정을 신청합니다.</p>
 	</div>
 	<div class="main-div">
@@ -36,11 +36,51 @@
 						</div>
 					</div>
 				</div>
-				<div class="introduce">
+				<div class="guide">
 					<p>플래너가 고려할 세부사항을 입력하세요 (선택)</p>
 				</div>
 				<div class="d-flex justify-content-center">
 					<textarea class="form-control w-50" id="ReviewContent" name="reqRef" placeholder="ex) 힐링 여행을 선호해요, 해산물은 못먹어요 등" rows="10"></textarea>
+				</div>
+				<div class="guide">
+					<p>&lt; 이용 약관 &gt;</p>
+				</div>
+				<div class="d-flex justify-content-center">
+					<textarea class="form-control w-50" style="resize: none;" rows="10" readonly>
+1.	고객은 결제가 완료된 후 3시간 이내에 제한 없이 요청을 취소하여 대금을 100% 환불받을 수 있습니다.
+
+2.	고객은 결제가 완료된 후 7일 이내 또는 거래 확정 전 플래너와의 협의 하에 취소 및 환불 신청할 수 있으며, 플래너는 다음의 사유에 해당하지 않는 한 고객의 취소 및 환불 신청에 응해야 합니다.
+	1)	플래너가 요청 수락 후 일정을 게시한 경우
+	2)	고객이 제공받은 일정을 수령하여 가치가 현저히 감소한 경우
+	3)	고객의 주문에 따라 개별적으로 생산되는 제품에 대하여 취소 및 환불시 플래너에게 중대한 피해가 예상되는 경우
+	4)	결제가 완료된 후 7일 이내 플래너가 일정을 제공하여 고객이 거래 확정한 경우
+	
+3.	고객은 플래너가 일정 게시를 완료하였을 때 지체 없이 거래 확정을 하여 플래너에게 대금이 원활히 지급될 수 있도록 하여야 합니다. 다음과 같은 사유로 대금이 지급되지 못하는 경우, 회사는 별도의 통지 없이 거래 확정 등의 필요한 조치를 취할 수 있습니다.
+	1)	플래너가 일정 게시를 완료하였음을 고지하였음에도 고객이 5일 이상 플래너나 회사의 연락에 응하지 아니하는 경우
+	2)	플래너가 일정 게시을 완료하여 이를 고지하였고, 고객이 이를 확인하였음에도 고객이 해당 확인 일자로부터 5일 이상 거래 확정을 하지 아니하는 경우
+	3)	기타 고객이 정당한 사유없이 거래확정을 아니하여 회사가 거래 확정처리를 하는 경우
+	회사는 고수 회원과 고객 간의 상품 공급과 이용을 위한 중개 서비스만을 제공할 뿐, 고수 회원이 마켓을 통해 취급하는 상품에 대하여 어떠한 보증을 제공하지 아니합니다.
+
+4. 회사는 본 사이트를 이용하는 플래너와 고객 중 어느 일방을 대리, 대행하거나 그 이행을 보조하는 위치에 있지 아니합니다. 회사는 거래 당사자 간 자금의 흐름에 직접 관여하거나 개입하지 않습니다.
+
+5. 회원이 본 사이트 이용 시 잘못된 정보를 입력하여 잘못된 대금지급이 이루어졌을 경우 회사는 이에 대하여 책임지지 않습니다.
+
+6. 고객 회원이 거래를 확정하면 일정 거래가 종료됩니다. 따라서 거래 확정을 통하여 대금의 지급이 완료된 이후 발생한 분쟁 또는 불만 사항은 원칙적으로 거래 당사자 간 협의를 통해 해결해야 합니다. 거래 확정 후 플래너의 정산 정보 미등록으로 인한 승인 대기 중에도 거래 확정은 철회되지 않습니다.
+
+7. 회원, 플래너, 금융기관 등과의 사이에 발생한 분쟁은 당사자 간의 해결을 원칙으로 하며, 회사는 이와 관련한 어떠한 책임도 지지 않습니다.
+
+8. 회사는 플래너와 고객 간의 거래와 관련하여 판매의사 또는 구매의사의 존부 및 진정성, 플래너가 제공하는 제품, 품질, 안전성, 적법성, 타인의 권리에 대한 비침해성 등 일체에 대하여 보증하지 아니하며, 이와 관련한 일체의 위험과 책임은 해당 플래너 또는 구매회원이 직접 부담해야 합니다.
+					</textarea>
+				</div><br/>
+				<div class="d-flex justify-content-center">
+					<div class="d-flex justify-content-left w-50">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="" id="agreement">
+							<label class="form-check-label" for="agreement">
+							  이용 약관에 동의합니다.
+							</label>
+						</div>
+					</div>
 				</div>
 					<button id="createButton" type="button">일정 신청</button>
 			</div>
@@ -65,15 +105,20 @@
 			
 			const startDate = document.getElementById('startDate');
 			const endDate = document.getElementById('endDate');
+			const agreement = document.getElementById('agreement');
 			
 			document.getElementById('createButton').addEventListener('click', calculateDateRange);
 			document.getElementById('createButton').addEventListener('click', function() {
+				
+				console.log(agreement.checked);
 				
 				if(startDate.value == ''){
 					alert('여행 출발 날짜를 선택해 주세요');
 				} else if(endDate.value == ''){
 					alert('여행 마지막 날짜를 선택해 주세요');
-				}  else if(dayDiff.value > 0){
+				} else if (!agreement.checked) {
+					alert('이용 약관에 동의해주세요');
+				} else if(dayDiff.value > 0){
 					document.getElementById('planMainForm').submit();
 				}
 				

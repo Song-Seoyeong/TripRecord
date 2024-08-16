@@ -26,7 +26,7 @@ public class CheckLoginInterceptor implements HandlerInterceptor{
 			String msg = null;
 			if(url.contains("planMain.pl") || url.contains("planDetail.pl") || url.contains("placeReviewWrite.pla") || url.contains("commuWrite.bo")
 			 		|| url.contains("insertQuestion.no") || url.contains("commuEdit.bo") || url.contains("insertBoard.bo") || url.contains("askWrite.no")
-			 		|| url.contains("editQuestion.no")) {
+			 		|| url.contains("editQuestion.no")|| url.contains("matchingRequest.ma") || url.contains("matchingReview.ma") || url.contains("updateReviewView.ma")) {
 				msg = "로그인 후 이용하세요.";
 			} else {
 				msg = "로그인 세션이 만료되어 로그인 화면으로 넘어갑니다.";

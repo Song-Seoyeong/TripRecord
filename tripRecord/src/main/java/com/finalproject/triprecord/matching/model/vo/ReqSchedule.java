@@ -1,5 +1,7 @@
 package com.finalproject.triprecord.matching.model.vo;
 
+import java.sql.Date;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +19,8 @@ public class ReqSchedule {
 	private String reqRef;
 	private int reqStatus;
 	private double payPoint;
+	private Date confirmDate;
+	private String nickname;
 	
 	private String nightDay;
 	private String startDay;

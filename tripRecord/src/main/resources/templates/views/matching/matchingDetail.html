@@ -48,24 +48,27 @@
 							</button>
 						</div>
 						<div class="mx-3 mt-2">
-							<a style="text-decoration: none; color: black;" href="#">#해시태그 인원</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그1</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그2</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그3</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그4</a>&nbsp;&nbsp;
+							<th:block th:each="t : ${tagList}" th:text="'# '+${t.tagName} + ', '"></th:block>
 						</div>
 					</div>
 				</div>
 			</div> 
 			<div id="RequestForm" class="p-3">
-				<div class="d-inline-block text-center shadow border bg-light rounded-3">
-					<h3 class="d-inline-block m-3">플래너에게 지금 견적을<br/>
-												   신청해보세요</h3><br/>
-					<form action="matchingRequest.ma">
-						<input type="hidden" name="pNo" th:value="${planner.memberNo}">
-						<input type="hidden" name="page" th:value="${pi.currentPage}">
-						<button class="btn text-white m-3" id="reviewBtn" style="background-color: #96caf0;">일정 신청</button>
-					</form>
+				<div class="requestContainer d-inline-block text-center shadow border bg-light rounded-3">
+					<th:block th:if="${session.loginUser == null || session.loginUser.memberNo != planner.MemberNo}">
+						<h3 class="d-inline-block m-3">플래너에게 지금 견적을<br/>
+													   신청해보세요</h3><br/>
+						<form action="matchingRequest.ma">
+							<input type="hidden" name="pNo" th:value="${planner.memberNo}">
+							<input type="hidden" name="page" th:value="${pi.currentPage}">
+							<button class="btn text-white m-3" id="reviewBtn" style="background-color: #96caf0;">일정 신청</button>
+						</form>
+					</th:block>
+					<th:block th:if="${session.loginUser != null && session.loginUser.memberNo == planner.MemberNo}">
+						<h3 class="d-inline-block m-3">신청된 견적<br/>
+													   확인하러 가기</h3><br/>
+						<button class="btn text-white m-3" id="goPlannerBtn" style="background-color: #96caf0;" onclick="location.href='request.mp'">플래너 페이지로 이동</button>
+					</th:block>
 				</div>
 				<br/><br/>
 				<form action="matchingReview.ma">
@@ -82,7 +85,7 @@
 		
 		<div id="reviewSumTab" class="d-flex justify-content-center">
 			<div class="container border bg-light rounded-3 m-3 w-75" >
-				<h2 class="m-5 text-center">후기([[${pi.listCount}]]) | 별점 ★ [[${AvgStar}]]</h2>
+				<h2 class="m-5 text-center"> [[${pi.listCount}]] 개의 후기 | ⭐ [[${AvgStar}]]</h2>
 			</div>
 		</div>
 		
@@ -111,29 +114,71 @@
 		
 		<!-- 후기 -->
 			
-		<div class="d-flex text-start mb-3 fs-3">[[${pi.listCount}]]개의 후기 (★ [[${AvgStar}]])</div>
+		<div class="d-flex text-start mb-3 fs-3">[[${pi.listCount}]]개의 후기 (⭐ [[${AvgStar}]])</div>
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
 				<div class="list-group w-100" th:each="r : ${ rlist }">
 					<form id="reviewForm" method="post">
-						<table class="fs-3 text-center border bg-light">
+						<table class="reviewTable fs-3 text-center bg-light">
 							<tr>
 								<td>
 									<input type="hidden" name="pNo" th:value="${planner.MemberNo}">
 									<input type="hidden" name="rNo" th:value="${r.reviewNo}">
 								</td>
-								<td>
+								<td th:if="${r.imageRename != null }">
 									<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|" width="75px" height="75px">
 								</td>
+								<td th:if="${r.imageRename == null }">
+		         					<img class="rounded-circle m-3" src="image/noProfile.png"  width="75px" height="75px" alt="프로필">
+		         				</td>
 								<td width="200px">[[${r.nickname}]]</td>
-								<td width="100px">★ [[${r.reviewStar}]]</td>
-								<td width="600px">[[${r.reviewTitle}]]</td>
+								<td class="star text-start" width="200px">
+									<th:block class="d-block" th:each="num : ${#numbers.sequence(1,r.reviewStar)}">⭐</th:block>
+								</td>
+								<td class="fs-5" width="600px">[[${r.reviewTitle}]]</td>
 								<td style="display: none;">[[${r.reviewContent}]]</td>
 								<td width="100px">
-									<th:block th:if="${ session.loginUser != null && r.MemberNo eq session.loginUser.MemberNo }">
-										<button type="button" id="updateButton" class="btn btn-primary">수정</button>
-										<button type="button" id="deleteButton" class="btn btn-danger">삭제</button>
-									</th:block>
+								
+								<div class="dropend" th:if="${ session.loginUser != null && r.MemberNo eq session.loginUser.MemberNo }">
+									<a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id='drop'>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+											<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+										</svg>
+									</a>
+			
+									<ul class="dropdown-menu">
+										<li>
+											<button type='button' id='updateButton' class='btn'>
+												<span id='beforeUp'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+														<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+													</svg>
+												</span>
+												<span id='afterUp'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+														<path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+													</svg>
+												</span>
+												&nbsp;&nbsp;&nbsp;리뷰 수정하기
+											</button>
+										</li>
+										<li>
+											<button type='button' id='deleteButton' class='btn'>
+												<span  id='beforeDel'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+														<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+													</svg>
+												</span>
+												<span id='afterDel'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+														<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+													</svg>
+												</span>
+												&nbsp;&nbsp;&nbsp;리뷰 삭제하기
+											</button>
+										</li>
+									</ul>
+								</div>
 								</td>
 							</tr>
 						</table>
@@ -193,15 +238,17 @@
 	
 	<!-- 삭제 확인 모달창 -->
 	<div id="deleteModal" class="modal fade" tabindex="-1" role="dialog">
-		<div class="modal-dialog d-flex align-items-center justify-content-center">
-			<div class="modal-content rounded-3 shadow">
-				<div class="modal-body p-4 text-center">
-					<p>정말 삭제하시겠습니까?</p>
-					<button id="deleteReview" class="btn btn-lg btn-danger w-80 m-3">예</button>
-					<button class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">아니오</button>
-				</div>
-			</div>
-		</div>
+	    <div class="modal-dialog d-flex align-items-center justify-content-center">
+	        <div class="modal-content rounded-3 shadow-lg border-0">
+	            <div class="modal-body p-4 text-center">
+	                <h5 class="mb-4">정말 삭제하시겠습니까?</h5>
+	                <div class="d-flex justify-content-center">
+	                    <button id="deleteReview" class="btn btn-danger w-40 mx-2">예</button>
+	                    <button class="btn btn-secondary w-40 mx-2" data-bs-dismiss="modal">아니오</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 	
 	
@@ -215,7 +262,8 @@ document.addEventListener('DOMContentLoaded', function() {
     for(const list of lists) {
     	if(list.querySelector('button') != null) {
 	       	const upButton = list.querySelector('button');
-	        const delButton = upButton.nextElementSibling;
+	        const delButton = upButton.parentElement.nextElementSibling.children[0];
+	        console.log(delButton);
 	        const form = list.querySelector('form');
 	    	
 	        if(upButton != null){
@@ -237,8 +285,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	        }
     	}
     }
-    // 리뷰 삭제
-
 });
 
 const reviewList = document.querySelectorAll('tr');

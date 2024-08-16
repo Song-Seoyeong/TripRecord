@@ -66,7 +66,7 @@
 	</select>
 	
 	<select id="AverageStar" resultType="_double">
-		select round(avg(review_star),2)
+		select round(avg(review_star), 1)
 		from review
 		where rev_ref_type = 'PLANNER' and review_status='Y' and rev_ref_no = #{ pNo }
 	</select>
@@ -142,7 +142,7 @@
 			select seq_schedule.nextval from dual
 		</selectKey>
 		insert into schedule
-		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default)
+		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default, default)
 	</insert>
 	
 	<insert id="insertReqSchedule" useGeneratedKeys="true">
@@ -150,10 +150,10 @@
 			select seq_req.nextval from dual
 		</selectKey>
 		insert into req_schedule
-		values(#{reqNo}, #{reqMemNo}, #{reqPlaNo}, #{scheNo}, #{reqRef}, default)
+		values(#{reqNo}, #{reqMemNo}, #{reqPlaNo}, #{scheNo}, #{reqRef}, default, null, null, #{payPoint})
 	</insert>
 	
-	<select id="topPlannerList" resultType="planner">
+	<select id="topPlannerList" resultType="Planner">
 		<![CDATA[
 		select *
 		from(select *
@@ -169,6 +169,12 @@
 		]]>
 	</select>
 	
+	<select id="selectTagList" resultType="Hashtag">
+		select *
+		from select_hashtag
+			join hashtag using (tag_no)
+		where tag_ref_type = 'PLANNER' and tag_ref_no = #{ pNo }
+	</select>
 	
 	
 	

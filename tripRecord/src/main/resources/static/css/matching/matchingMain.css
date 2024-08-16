@@ -80,3 +80,31 @@
   left:50%;
   transform:translate(-50%,-50%);
 }
+
+.swiper-button-next, .swiper-button-prev {
+	color: #96caf0 !important;
+}
+
+.swiper-wrapper {
+	height: 800px !important;
+}
+
+.sContainer {
+	height: 270px;
+}
+
+.swiper-pagination {
+	height: 30px !important;
+	position:absolute !important;
+	top: 56% !important;
+}
+
+.swiper-pagination-bullet {
+	width: 40px !important;
+	height: 4px !important;
+	border-radius : 0px !important;
+}
+
+.swiper-pagination-bullet-active {
+	background: #2F6598 !important;
+}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
+import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.plan.model.dao.PlanMapper;
 import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
@@ -107,5 +108,10 @@ public class PlanServiceImpl implements PlanService{
 		return plMapper.detailDeletePlan(plNo);
 	}
 
+	@Override
+	public int selectPlanCount(Member loginUser) {
+		return plMapper.selectPlanCount(loginUser);
+	}
+	
 	
 }

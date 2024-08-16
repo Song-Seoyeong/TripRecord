@@ -386,20 +386,7 @@ public class MyPageController {
 			SimpleDateFormat sp = new SimpleDateFormat("yy.MM.dd");
 			r.setStartDay(sp.format(sch.getScStartDate()));
 			r.setEndDay(sp.format(sch.getScEndDate()));
-			
-			// 포인트
-			r.setPoint(getDayPoint(sch.getScEndDate(), sch.getScStartDate()));
-			
-			// 날짜 체크
-			LocalDate localDate = sch.getScStartDate().toLocalDate();
-
-	        // 오늘 날짜 가져오기
-	        LocalDate today = LocalDate.now();
-
-	        // 날짜 비교
-	        if (localDate.isEqual(today)) {
-	        	
-	        }
+			r.setPayPoint((int)r.getPayPoint());
 		}
 		//System.out.println(list);
 	    //프로필 사진
@@ -471,9 +458,6 @@ public class MyPageController {
 		SimpleDateFormat sp = new SimpleDateFormat("yy.MM.dd");
 		rs.setStartDay(sp.format(sch.getScStartDate()));
 		rs.setEndDay(sp.format(sch.getScEndDate()));
-		
-		// 포인트
-		rs.setPoint(getDayPoint(sch.getScEndDate(), sch.getScStartDate()));
 		
 		// 취소 사유
 		if(rs.getReqStatus() == 4) {
@@ -720,7 +704,18 @@ public class MyPageController {
 	}
 	
 	@GetMapping("request.mp")
-	public String moveToRequest() {
+	public String moveToRequest(@RequestParam(value="page", defaultValue="1") int currentPage, Model model, HttpSession session) {
+		int pNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+		
+		int listCount = mService.getRequestListCount(pNo);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<ReqSchedule> reqList = mService.selectRequestList(pNo, pi);
+		
+		System.out.println(reqList);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("reqList", reqList);
 		return "request";
 	}
 

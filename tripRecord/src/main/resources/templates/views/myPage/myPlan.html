@@ -25,11 +25,12 @@
 				<table>
 					<thead>
 					 	<tr id='thTr'>
-							<th width='15%'>여행지</th>
-							<th width='30%'>여행 기간</th>
+							<th width='10%'>여행지</th>
+							<th width='25%'>여행 기간</th>
 							<th width='15%'>담당 플래너</th>
-							<th width='25%'>진행 상태</th>
+							<th width='15%'>진행 상태</th>
 							<th width='15%'>결제 포인트</th>
+							<th width='15%'>구매/환불일</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -39,7 +40,7 @@
 									<input type='hidden' th:value='${l.reqNo}' name='reqNo'>
 									[[${p.localName}]]
 								</td>
-								<td id="date">[[${l.startDay}]] - [[${l.endDay}]]([[${l.nightDay}]])</td>
+								<td id="date">[[${l.startDay}]] - [[${l.endDay}]]<br>([[${l.nightDay}]])</td>
 								<td id="planner">[[${p.nickname}]]</td>
 								<!-- 진행상태 -->
 								<td th:if='${l.reqStatus == 1}'>일정 기다리는 중</td>
@@ -47,8 +48,11 @@
 								<td th:if='${l.reqStatus == 3}' style='color: yellow'>구매 확정</td>
 								<td th:if='${l.reqStatus == 4}' style='color: red;'>신청 취소</td>
 								<!-- 포인트 -->
-								<td th:if='${l.reqStatus == 4}'>-</td>
-								<td th:if='${l.reqStatus != 4}'>[[${l.point}]]</td>
+								<td th:if='${l.reqStatus != 4}'>- [[${l.payPoint}]]</td>
+								<td th:if='${l.reqStatus == 4}'>+ [[${l.payPoint}]]</td>
+								<!-- 구매/환불 일자 -->
+								<td th:if='${l.confirmDate == null}'>-</td>
+								<td th:if='${l.confirmDate != null}'>[[${l.confirmDate}]]</td>
 							</th:block>
 						</tr>
 						<tr th:if='${pi.listCount == 0}'>

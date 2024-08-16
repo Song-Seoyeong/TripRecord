@@ -26,7 +26,7 @@
 				<div id='planTitle'>
 					<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
 					<input type='hidden' name='page' th:value='${page}'>
-					<input type='hidden' name='point' id='point' th:value='${rs.point}'>
+					<input type='hidden' name='payPoint' id='point' th:value='${rs.payPoint}'>
 					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" id='localIcon'>
 						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
 					</svg>
@@ -114,7 +114,7 @@
 	        			<p class="mb-0">
 	        				취소 후 신청내역은 복구할 수 없습니다
 	        				<br>
-	        				필요시 재신청 해주세요
+	        				필요시 재신청 해주세요 (환불 예정 포인트 : [[${rs.payPoint}]])
 	        			</p>
 	        			 <form id='cancelForm'>
 				        	<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>

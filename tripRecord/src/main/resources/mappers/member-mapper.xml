@@ -21,7 +21,7 @@
 	<insert id="enrollPlanner">
 		insert into request_grade
 		values(#{memberNo},
-		#{localNo}, 'PLANNER', #{plaReqContent}, #{sIntroContent}, sysdate)
+		#{localNo}, 'PLANNER', #{plaReqContent}, #{sIntroContent}, sysdate, #{account}, #{bank})
 	</insert>
 
 	<select id="checkId" resultType="_int">
@@ -384,16 +384,72 @@
 		values(seq_cancel.nextval, #{cancelMemNo}, #{cancelComent}, sysdate, #{cancelRefType}, #{cancelRefNo})
 	</insert>
 	
+	<!-- 신청 진행상태 확인용 -->
 	<select id="getReqTotalList" resultType="ReqSchedule">
 		select *
 		from req_schedule
 		where req_status = 1 or req_status = 2
 	</select>
+	
+	<!-- 환불 -->
+	<update id="refundPoint">
+		update member
+		set member_point = FLOOR(member_point + #{payPoint})
+		where member_no = #{reqMemNo}
+	</update>
 
+	<!-- 플래너 경고 추가 -->
+	<update id="updateWarning">
+		update planner
+		set warning_count = warning_count + 1
+		where member_no = #{reqPlaNo}
+	</update>
+	
+	<!-- 정산 추가 -->
+	<insert id="insertCalcultate">
+		insert into calculate
+			values(seq_calculate.nextval, #{reqPlaNo}, #{reqNo}, '구매확정 정산', default, LAST_DAY(SYSDATE), #{payPoint}, FLOOR(#{payPoint}*0.8))
+	</insert>
+	
+	<!-- 신청 테이블에 구매 확정일자 추가 -->
+	<update id="updateReqConfirmDate">
+		update req_schedule
+		set confirm_date = sysdate
+		where req_no = #{reqNo}
+	</update>
 
-
-
-
-
+	<!-- 신청 테이블에 환불 금액으로 결제 포인트 변경 -->
+	<update id="updatePayPoint">
+		update req_schedule
+		set pay_point = FLOOR(#{payPoint})
+		where req_no = #{reqNo}
+	</update>
+	
+	<select id="getRequestListCount" resultType="_int">
+		select count(*)
+		from req_schedule
+		where req_pla_no = #{ pNo }
+	</select>
+	
+	<select id="selectRequestList" resultType="reqSchedule">
+		select *
+		from req_schedule
+		join member on (req_mem_no = member_no)
+		join schedule on (sche_no = sc_no)
+		where req_pla_no = #{ pNo }
+	</select>
+	
+	<!--  -->
+	<select id="checkSevenSchedule" resultType="_int">
+		<![CDATA[
+		select count(*) 
+		from req_schedule 
+		    left join schedule on(sc_no = sche_no)
+		where ceil(sc_start_date - sysdate) <= 7 and ceil(sc_start_date - sysdate) > 0
+		
+		and req_pla_no = #{memberNo}
+		]]>
+	</select>
+	
 
 </mapper>

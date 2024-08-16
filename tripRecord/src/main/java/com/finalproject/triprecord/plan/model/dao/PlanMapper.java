@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import com.finalproject.triprecord.common.model.vo.HashTag;
+import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
@@ -42,6 +43,8 @@ public interface PlanMapper {
 	void updatePoint(int memberNo);
 
 	int detailDeletePlan(String plNo);
+
+	int selectPlanCount(Member loginUser);
 
 	
 }
