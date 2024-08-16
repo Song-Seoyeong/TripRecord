@@ -16,10 +16,10 @@ public class ReqSchedule {
 	private int scheNo;
 	private String reqRef;
 	private int reqStatus;
+	private double payPoint;
 	
 	private String nightDay;
 	private String startDay;
 	private String endDay;
-	private int point;
 	private int feedBackCount;
 }
