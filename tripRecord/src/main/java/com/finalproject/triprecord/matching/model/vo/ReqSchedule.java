@@ -18,7 +18,7 @@ public class ReqSchedule {
 	private int scheNo;
 	private String reqRef;
 	private int reqStatus;
-	private double payPoint;
+	private int payPoint;
 	private Date confirmDate;
 	private String nickname;
 	
