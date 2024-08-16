@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.FeedBack;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
@@ -268,6 +269,16 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.canclePlanner(map);
 	}
 	//----------------------------------------------------------------
+
+	@Override
+	public Cancel checkCancel(int reqNo) {
+		return mMapper.checkCancel(reqNo);
+	}
+
+	@Override
+	public int insertCancel(Cancel c) {
+		return mMapper.insertCancel(c);
+	}
 
 	
 

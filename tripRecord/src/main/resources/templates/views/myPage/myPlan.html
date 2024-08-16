@@ -28,8 +28,8 @@
 							<th width='15%'>여행지</th>
 							<th width='30%'>여행 기간</th>
 							<th width='15%'>담당 플래너</th>
-							<th width='30%'>진행 상태</th>
-							<th width='10%'>결제 포인트</th>
+							<th width='25%'>진행 상태</th>
+							<th width='15%'>결제 포인트</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -42,15 +42,13 @@
 								<td id="date">[[${l.startDay}]] - [[${l.endDay}]]([[${l.nightDay}]])</td>
 								<td id="planner">[[${p.nickname}]]</td>
 								<!-- 진행상태 -->
-								<td th:if='${l.reqStatus == "1"}'>일정 기다리는 중</td>
-								<td th:if='${l.reqStatus == "2"}' style='color: green; font-weight: bold;'>일정 도착</td>
-								<td th:if='${l.reqStatus == "3"}' style='color: yellow'>피드백 요청</td>
-								<td th:if='${l.reqStatus == "4"}' style='color: green; font-weight: bold;'>피드백 도착</td>
-								<td th:if='${l.reqStatus == "5"}' style='color: #96CAF0'>진행 종료</td>
-								<td th:if='${l.reqStatus == "6"}' style='color: red'>신청 취소</td>
+								<td th:if='${l.reqStatus == 1}'>일정 기다리는 중</td>
+								<td th:if='${l.reqStatus == 2}' style='color: #96CAF0; font-weight: bold;'>일정 도착</td>
+								<td th:if='${l.reqStatus == 3}' style='color: yellow'>구매 확정</td>
+								<td th:if='${l.reqStatus == 4}' style='color: red;'>신청 취소</td>
 								<!-- 포인트 -->
-								<td th:if='${l.reqStatus == "1" || l.reqStatus == "6"}'>-</td>
-								<td th:if='${l.reqStatus != "1" && l.reqStatus != "6"}'>[[${l.point}]]</td>
+								<td th:if='${l.reqStatus == 4}'>-</td>
+								<td th:if='${l.reqStatus != 4}'>[[${l.point}]]</td>
 							</th:block>
 						</tr>
 						<tr th:if='${pi.listCount == 0}'>
@@ -95,11 +93,6 @@
 	
 	<script th:inline='javascript'>
 		/*<![CDATA[*/
-		const msg = /*[[${msg}]]*/null;
-		
-		if(msg != null){
-			alert(msg);
-		}
 		//상세글 보기
 		const tds = document.querySelectorAll('td');
 		for(const td of tds){

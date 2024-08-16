@@ -185,6 +185,12 @@ public class PlanController {
 			tagList.add(h); //serviceImpl 에서 contains(null) 비교 후 반환함
 		}
 		
+
+		int num = plService.scheduleCount(loginUser.getMemberNo());
+		if(num == 0) {
+			plService.updatePoint(loginUser.getMemberNo());
+		}
+		
 		int result = plService.savePlanInsert(s, plList, tagList);
 		
 		if(result > 0) {
@@ -329,8 +335,12 @@ public class PlanController {
 		return result > 0 ? "1" : "0";
 	}
 	
-	
-	
+	@GetMapping("detailDeletePlan.pl")
+	@ResponseBody
+	public String detailDeletePlan(@RequestParam("plNo") String plNo) {
+		int result = plService.detailDeletePlan(plNo);
+		return result > 0 ? "1" : "0";
+	}
 	
 	
 	

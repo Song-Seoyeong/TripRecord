@@ -92,5 +92,20 @@ public class PlanServiceImpl implements PlanService{
 		return plMapper.updateReserve(prop);
 	}
 
+	@Override
+	public int scheduleCount(int memberNo) {
+		return plMapper.scheduleCount(memberNo);
+	}
+
+	@Override
+	public void updatePoint(int memberNo) {
+		plMapper.updatePoint(memberNo);
+	}
+
+	@Override
+	public int detailDeletePlan(String plNo) {
+		return plMapper.detailDeletePlan(plNo);
+	}
+
 	
 }

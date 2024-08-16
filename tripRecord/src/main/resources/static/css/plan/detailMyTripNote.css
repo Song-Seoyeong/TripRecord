@@ -54,6 +54,12 @@
 	cursor: pointer;
 }
 
+#title-div{
+	text-align: center; 
+	font-size: 36px; 
+	font-weight: 900;
+}
+
 /* 날짜, 지역 등 모든 텍스트 span */
 .textSpan{
 	margin: 5px;
@@ -142,7 +148,7 @@
 	margin-top: 30px;
 	border: 1px solid lightgray; 
 	border-radius: 10px;
-	width: 900px;
+	width: 903px;
 }
 
 /* 날짜, 지역 영역 div */
@@ -278,6 +284,9 @@
 .placeLabel{
 	font-size: 16px;
 	font-weight: 800;
+	display: block;
+    width: 155px;
+    overflow: hidden;
 }
 /* 체크 버튼 눌렀을 때의 시간 label */
 .timeLabel{
@@ -290,6 +299,9 @@
 	font-size: 12px;
     font-weight: 700;
     color: #727272;
+    display: block;
+    width: 155px;
+    overflow: hidden;
 }
 
 /* 예약 여부 */

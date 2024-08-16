@@ -77,7 +77,7 @@ public class MemberController {
 						
 					}
 					if(beforeURL.equals("enrollMember.me") || beforeURL.equals("enrollView.me")) {
-						return "redirect:hoem";
+						return "redirect:home";
 					}else {
 						return "redirect:" + beforeURL;
 					}
