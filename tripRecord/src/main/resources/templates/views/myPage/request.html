@@ -76,14 +76,12 @@
 				const parent = td.parentElement;
 				parent.style.backgroundColor='white';
 			})
-			td.addEventListener('click', ()=>{
-				const parent = td.parentElement;
-			 	//const boardNo = parent.children[0].children[0].value
-				//const cateNo = parent.children[1].children[0].value 
-				location.href='detailRequest.mp'
-					//'${contextPath}/boardView.me?bId=' + boardNo + '&page='+ ${pi.currentPage} + '&cateNo=' + cateNo;
-			})
-				
+			// 상세 보기
+	         td.addEventListener('click', ()=>{
+	            const reqNo = td.parentElement.children[0].innerText;
+	            location.href='detailRequest.mp?reqNo=' + reqNo;
+	         })
+					
 		}
 	</script>
 </body>
