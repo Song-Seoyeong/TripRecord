@@ -1,0 +1,94 @@
+@charset "UTF-8";
+
+#submit_button {
+	color: #96CAF0;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	margin-right: 5px;
+	border: 2px solid #96CAF0;
+}
+
+#submit_button:hover {
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
+}
+
+#cancle_button {
+	color: #DD5353;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	border: 2px solid #DD5353;
+}
+
+#cancle_button:hover {
+	background: #DD5353;
+	border: 2px solid #DD5353;
+	color: #fff;
+	font-weight: 600;
+}
+
+/* 여행지 참고 사항 출력창 */
+#req-ref-div{
+	margin: auto;
+    width: 800px;
+    height: 220px;
+    border: 1px solid #b9b9b9;
+    border-radius: 10px;
+}
+
+/* 아이콘 + 지역 span 감싸는 div */
+#spot-div{
+    margin-top: 20px;
+    margin-left: 40px;
+    text-align: left;
+    font-size: 35px;
+    font-weight: 600;
+    display: block;
+}
+
+#spot-div>svg{
+    margin-top: -6px;
+}
+
+#spot-span{
+	margin-left: 20px;
+}
+
+#reqMem-div{
+    font-size: 19px;
+    text-align: left;
+    margin-left: 74px;
+    margin-top: 10px;
+    border-left: 4px solid #96CAF0;
+}
+
+#reqMem{
+	margin-right: 5px;
+}
+
+/* 참고사항 div */
+#note-div{
+	margin-top: 15px;
+    text-align: left;
+    margin-left: 74px;
+    font-size: 16px;
+    margin-right: 74px;
+    border-left: 4px solid #96CAF0;
+}
+
+.inner-span{
+	margin-left: 10px;
+}
+
+.flex-container{
+	text-align:center;
+	margin-left:auto;
+}

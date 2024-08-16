@@ -25,4 +25,5 @@ public class Member {
 	private int memberPoint;
 	private String memberDrop;
 	private String localName;
+	private int warningCount;
 }

@@ -20,4 +20,5 @@ public class Planner {
 	private String nickname;
 	private String imageRename;
 	private String localName;
+	private int warningCount;
 }

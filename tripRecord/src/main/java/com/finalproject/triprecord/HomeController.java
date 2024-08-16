@@ -114,7 +114,7 @@ public class HomeController {
 					result += mService.updateReqState(r);
 					
 					
-					r.setPayPoint((int)r.getPayPoint()*1.1);
+					r.setPayPoint((int)(r.getPayPoint()*1.1));
 					
 					// 포인트 환불
 					mService.refundPoint(r);
