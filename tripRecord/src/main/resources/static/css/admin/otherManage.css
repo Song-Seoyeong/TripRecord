@@ -9,5 +9,11 @@
 
 .cancel-container{
 	width: 45%;
-	max-height: 780px;
+	max-height: 710px;
 }
+
+.list-table{
+	margin-bottom: 20px;
+	max-height: 610px;
+}
+
