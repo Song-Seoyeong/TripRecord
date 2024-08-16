@@ -22,6 +22,7 @@ import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -685,6 +686,24 @@ public class AdminController {
 		} else {
 			throw new AdminException("일정 사진 저장에 실패하였습니다.");
 		}
+	}
+	
+	
+	/** 기타 관리 */
+	// 기타 관리 페이지 이동
+	@GetMapping("otherManage.ad")
+	public String otherManageView(@RequestParam(value="page", defaultValue="1") int currentPage,
+								  HttpServletRequest request,
+								  Model model) {
+		int listCount = aService.getCancelListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
+		ArrayList<Cancel> cList = aService.selectCancelList(pi);
+		
+		model.addAttribute("cList", cList);
+		model.addAttribute("pi", pi);
+		model.addAttribute("loc", request.getRequestURI());
+		
+		return "otherManage";
 	}
 	
 	// 삭제 과정 중 비밀번호 확인

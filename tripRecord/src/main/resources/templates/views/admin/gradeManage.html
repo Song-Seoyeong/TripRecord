@@ -23,7 +23,8 @@
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
-				<li><a href="contentImgManage.ad">지역 사진 관리</a></li>
+				<li><a href="contentImgManage.ad">사진 관리</a></li>
+				<li><a href="otherManage.ad">기타 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
 				<a class="out-text" href="/home"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
@@ -103,11 +104,13 @@
 						<table class="table-user table">
 							<thead>
 								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
-									<th>번호</th>
-									<th>이름</th>
-									<th>아이디</th>
-									<th>활동 지역</th>
-									<th>취소</th>
+									<th style="width: 5%;">번호</th>
+									<th style="width: 10%;">이름</th>
+									<th style="width: 13%;">아이디</th>
+									<th style="width: 7%;">활동 지역</th>
+									<th style="width: 12%;">정산 금액</th>
+									<th style="width: 7%;">경고 횟수</th>
+									<th style="width: 6%;">취소</th>
 								</tr>
 							</thead>
 						  	<tbody>
@@ -116,6 +119,15 @@
 						      		<td>[[${p.memberName}]]</td>
 						      		<td>[[${p.memberId}]]</td>
 									<td>[[${p.localName}]]</td>
+									<td>1,000,000,000</td>
+									<td>
+										<th:block th:if="${p.warningCount >= 3}"> 
+											<span style="color: red;" th:text="${p.warningCount}"></span>
+										</th:block>
+										<th:block th:unless="${p.warningCount >= 3}"> 
+											[[${p.warningCount}]]
+										</th:block>
+									</td>
 									<td><div class="cancel-border" style="width: 70%; margin: 0 auto;">취소</div></td>
 						  		</tr>
 						  	</tbody>

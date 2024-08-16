@@ -41,7 +41,8 @@
 				<li><a href="pointManage.ad">포인트 관리</a></li>
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
-				<li><a href="contentImgManage.ad">지역 사진 관리</a></li>
+				<li><a href="contentImgManage.ad">사진 관리</a></li>
+				<li><a href="otherManage.ad">기타 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
 				<a class="out-text" href="/home"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
@@ -101,7 +102,7 @@
 									<th style="width: 7%;">강제 탈퇴</th>
 								</tr>
 							</thead>
-						  	<tbody>
+						  	<tbody th:unless="${mList.isEmpty}">
 						  		<tr class="tr-user" th:each="m : ${mList}">
 						  			<td th:each="i : ${iList}" th:if="${i.imageRefNo == m.memberNo}">
 						  				<div style="width: 100%; height: 100%" th:if="${i.imageRename == 'noImage'}">
@@ -140,9 +141,14 @@
 									<td>[[${m.memberDrop}]]</td>
 						  		</tr>
 						  	</tbody>
+						  	<tbody th:if="${mList.isEmpty}" class="table_no_hover">
+							  		<tr class="tr-user">
+							      		<td colspan="6">존재하는 게시글이 없습니다.</td>
+							  		</tr>
+							</tbody>
 						</table>
 					</div>
-					<div class="pagination-div row">
+					<div class="pagination-div row" th:unless="${mList.isEmpty}">
 						<div class="col-3"></div>
 						<nav class="d-flex col-6" aria-label="Standard pagination example" style="float: right; height: 100%; justify-content: center !important;" th:with="loc=${loc}">
 							<ul class="pagination">

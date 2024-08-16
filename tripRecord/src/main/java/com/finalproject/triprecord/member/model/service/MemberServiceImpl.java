@@ -219,11 +219,6 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.getPlanList(scheNo);
 	}
 	
-	@Override
-	public ArrayList<FeedBack> getFeedBackList(int reqNo) {
-		return mMapper.getFeedBackList(reqNo);
-	}
-	
 	//----------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -278,6 +273,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int insertCancel(Cancel c) {
 		return mMapper.insertCancel(c);
+	}
+
+	@Override
+	public ArrayList<ReqSchedule> getReqTotalList() {
+		return mMapper.getReqTotalList();
 	}
 
 	

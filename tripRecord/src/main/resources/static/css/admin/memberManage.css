@@ -23,4 +23,5 @@
 .list-table{
 	max-height: 650px;
 	margin-bottom: 20px;
+	min-width: 1100px;
 }

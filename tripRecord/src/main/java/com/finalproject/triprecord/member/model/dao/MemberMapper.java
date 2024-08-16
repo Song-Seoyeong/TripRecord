@@ -89,7 +89,7 @@ public interface MemberMapper {
 	
 	int getReqListCount(int memberNo);
 
-	ArrayList<ReqSchedule> getReqList(int memberNo, RowBounds rb);
+	ArrayList<ReqSchedule> getReqList(Integer memberNo, RowBounds rb);
 	
 	Planner getReqPlanner(int reqPlaNo);
 
@@ -101,7 +101,6 @@ public interface MemberMapper {
 	
 	ArrayList<Plan> getPlanList(int scheNo);
 	
-	ArrayList<FeedBack> getFeedBackList(int reqNo);
 	//---------------------------------------------------------
 	//플래너 페이지
 	//플래너 불러오기
@@ -125,6 +124,8 @@ public interface MemberMapper {
 	Cancel checkCancel(int reqNo);
 
 	int insertCancel(Cancel c);
+
+	ArrayList<ReqSchedule> getReqTotalList();
 
 	
 
