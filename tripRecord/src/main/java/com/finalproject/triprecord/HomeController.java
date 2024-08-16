@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.matching.model.service.MatchingService;
@@ -60,48 +61,76 @@ public class HomeController {
 	public String updateReqStatus() {
 		ArrayList<ReqSchedule> rList = mService.getReqTotalList();
 		
-		// 일정 생성 이전 리스트
-		ArrayList<ReqSchedule> beforeSchList = new ArrayList<ReqSchedule>();
-		
-		// 일정 생성 이후 리스트
-		ArrayList<ReqSchedule> afterSchList = new ArrayList<ReqSchedule>();
-		
-		for(ReqSchedule r : rList) {
-			// 신청별 플래너 정보
-			Planner p = new Planner();
-			p = mService.getReqPlanner(r.getReqPlaNo());
-			
-			// 신청별 schedule
-			Schedule sch = mService.getSchedule(r.getScheNo());
-			
-			// 날짜 체크
-			LocalDate localDate = sch.getScStartDate().toLocalDate();
-
-	        // 오늘 날짜 가져오기
-	        LocalDate today = LocalDate.now();
-
-	        // 날짜 비교
-	        if (localDate.isBefore(today)) {
-	        	if(r.getReqStatus() == 1) beforeSchList.add(r);
-	        	else afterSchList.add(r);
-	        }
-		}
 		int result = 0;
-		if(!beforeSchList.isEmpty()) {
-			for(ReqSchedule r : beforeSchList) {
-				r.setReqStatus(4);
-				result += mService.updateReqState(r);
-				
-				
-				
-			}
-		}
 		
-		if(!afterSchList.isEmpty()) {
-			for(ReqSchedule r : afterSchList) {
+		if(!rList.isEmpty()) {
+			// 일정 생성 이전 리스트
+			ArrayList<ReqSchedule> beforeSchList = new ArrayList<ReqSchedule>();
+			
+			// 일정 생성 이후 리스트
+			ArrayList<ReqSchedule> afterSchList = new ArrayList<ReqSchedule>();
+			
+			for(ReqSchedule r : rList) {
+				// 신청별 플래너 정보
+				Planner p = new Planner();
+				p = mService.getReqPlanner(r.getReqPlaNo());
 				
+				// 신청별 schedule
+				Schedule sch = mService.getSchedule(r.getScheNo());
+				
+				// 날짜 체크
+				LocalDate localDate = sch.getScStartDate().toLocalDate();
+	
+		        // 오늘 날짜 가져오기
+		        LocalDate today = LocalDate.now();
+	
+		        // 날짜 비교
+		        if (localDate.isBefore(today)) {
+		        	if(r.getReqStatus() == 1) beforeSchList.add(r);
+		        	else afterSchList.add(r);
+		        }
 			}
+			
+			if(!beforeSchList.isEmpty()) {
+				for(ReqSchedule r : beforeSchList) {
+					// 진행 상태 취소로 변경
+					r.setReqStatus(4); 
+					result += mService.updateReqState(r);
+					
+					
+					r.setPayPoint(r.getPayPoint()*1.1);
+					
+					// 포인트 환불
+					//mService.refundPoint(r);
+					
+					// 플래너 경고
+					//mService.updateWarning(r);
+					
+					// 취소 사유 추가
+					Cancel c = new Cancel();
+					c.setCancelMemNo(r.getReqPlaNo());
+					c.setCancelRefType("REQSCHEDULE");
+					c.setCancelRefNo(r.getReqNo());
+					c.setCancelComent("죄송합니다. 일정 생성 기간이 지나 자동으로 결제한 포인트의 110%가 환불되었습니다. - 환불된 포인트 : " + (int)r.getPayPoint());
+					mService.insertCancel(c);
+				}
+			}
+			
+			if(!afterSchList.isEmpty()) {
+				for(ReqSchedule r : afterSchList) {
+					// 진행 상태 구매확정으로 변경
+					r.setReqStatus(3);
+					result += mService.updateReqState(r);
+					
+				}
+			}
+			if(result == beforeSchList.size() + afterSchList.size()) {
+				return "업데이트 완료";
+			}else {
+				return "업데이트 실패";
+			}
+		}else {
+			return "업데이트할 신청 리스트가 없음";
 		}
-		return null;
 	}
 }
