@@ -1,7 +1,10 @@
 package com.finalproject.triprecord.matching.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.finalproject.triprecord.common.Pagination;
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
+import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -26,9 +30,9 @@ import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.exception.MatchingException;
 import com.finalproject.triprecord.matching.model.service.MatchingService;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
+import com.finalproject.triprecord.member.controller.MyPageController;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
-import com.finalproject.triprecord.place.model.exception.PlaceException;
 import com.finalproject.triprecord.place.model.service.PlaceService;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 import com.google.gson.Gson;
@@ -65,16 +69,20 @@ public class MatchingController {
 		ArrayList<Planner> list = matService.getPlannerList(pi, localNo);
 		ArrayList<Local> localList = matService.selectLocalList();
 		
-		//좋아요 + 플래너지역
+		//별점 + 좋아요 + 플래너지역
 		Map<Integer, String> selectLocalMap = new HashMap<>();
 		Map<Integer, Integer> plannerLikesMap = new HashMap<>();
+		Map<Integer, Double> starMap = new HashMap<>();
 		for(Planner planner : list) {
 			int pNo = planner.getMemberNo();
 			int likes = matService.countLikes(pNo);
 			String localNames = matService.selectLocalName(pNo);
+			Double AvgStar = matService.AverageStar(pNo);
 			
+			starMap.put(pNo, AvgStar);
 			plannerLikesMap.put(pNo, likes);
 			selectLocalMap.put(pNo, localNames);
+			
 		}
 		
 		model.addAttribute("localList",localList);
@@ -83,6 +91,7 @@ public class MatchingController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
 		model.addAttribute("likes", plannerLikesMap);
+		model.addAttribute("star", starMap);
 		
 		return "matchingMain";
 	}
@@ -96,14 +105,17 @@ public class MatchingController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
 		ArrayList<Planner> list = matService.getPlannerList(pi, localNo);
 		
-		//좋아요 + 지역
+		//별점 + 좋아요 + 플래너지역
 		Map<Integer, String> selectLocalMap = new HashMap<>();
 		Map<Integer, Integer> plannerLikesMap = new HashMap<>();
+		Map<Integer, Double> starMap = new HashMap<>();
 		for(Planner planner : list) {
 			int pNo = planner.getMemberNo();
 			int likes = matService.countLikes(pNo);
 			String localNames = matService.selectLocalName(pNo);
+			Double AvgStar = matService.AverageStar(pNo);
 			
+			starMap.put(pNo, AvgStar);
 			plannerLikesMap.put(pNo, likes);
 			selectLocalMap.put(pNo, localNames);
 		}
@@ -114,6 +126,7 @@ public class MatchingController {
 		json.put("loc", request.getRequestURI());
 		json.put("likes", plannerLikesMap);
 		json.put("localName", selectLocalMap);
+		json.put("star", starMap);
 		
 		Gson gson = new GsonBuilder().create();
 		return gson.toJson(json);
@@ -131,6 +144,9 @@ public class MatchingController {
 		//플래너 정보
 		Planner planner = matService.selectPlanner(pNo);
 		
+		//해시태그
+		ArrayList<HashTag> tagList = matService.selectTagList(pNo);
+		
 		//좋아요 + 지역
 		HashMap<String, Integer> likemap = new HashMap<>();
 		likemap.put("pNo", pNo);
@@ -147,6 +163,8 @@ public class MatchingController {
 		ArrayList<Review> rlist = matService.getReviewList(pi, pNo);
 		ArrayList<Image> rImgList = matService.selectrImgList();
 		
+		
+		model.addAttribute("tagList", tagList);
 		model.addAttribute("AvgStar", AvgStar);
 		model.addAttribute("pi", pi);
 		model.addAttribute("rlist", rlist);
@@ -201,6 +219,21 @@ public class MatchingController {
 			loginUserNo = loginUser.getMemberNo();
 		}
 		
+		// 금액체크
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		
+		Date scEndDate = null;
+		Date scStartDate = null;
+		try {
+			scEndDate = formatter.parse(schedule.getEndDate());
+			scStartDate = formatter.parse(schedule.getStartDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		MyPageController mc = new MyPageController();
+		int payPoint = mc.getDayPoint(scEndDate, scStartDate);
+		
 		schedule.setWriterNo(pNo);
 		schedule.setScLocalNo(lNo);
 		
@@ -209,15 +242,17 @@ public class MatchingController {
 		reqSchedule.setReqPlaNo(pNo);
 		reqSchedule.setReqMemNo(loginUserNo);
 		reqSchedule.setScheNo(schedule.getScNo());
+		reqSchedule.setPayPoint(payPoint);
 		
+		System.out.println(reqSchedule);
 		int result2 = matService.insertReqSchedule(reqSchedule);
 		
-		if(result1 + result2 > 0) {
+		if(result1 + result2 > 1) {
 			ra.addAttribute("pNo", pNo);
 			ra.addAttribute("page", 1);
 			return "redirect:selectPlanner.ma";
 		} else {
-			throw new MatchingException("리뷰 작성을 실패했습니다.");
+			throw new MatchingException("일정 요청을 실패했습니다.");
 		}
 	} 
 	
@@ -381,9 +416,6 @@ public class MatchingController {
 		return "matchingReviewUpdate";
 	}
 	
-	
-	//수정 필요
-
 	@PostMapping("updateReview.ma")
 	public String updateReview(@ModelAttribute Review review,
 							   @RequestParam("plannerNo")int pNo,

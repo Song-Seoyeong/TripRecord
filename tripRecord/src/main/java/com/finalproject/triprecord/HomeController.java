@@ -1,6 +1,5 @@
 package com.finalproject.triprecord;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -15,12 +14,15 @@ import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.matching.model.service.MatchingService;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
-import com.finalproject.triprecord.member.controller.MyPageController;
 import com.finalproject.triprecord.member.model.service.MemberService;
+import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 import com.finalproject.triprecord.place.model.service.PlaceService;
 import com.finalproject.triprecord.place.model.vo.Place;
+import com.finalproject.triprecord.plan.model.service.PlanService;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
@@ -34,8 +36,11 @@ public class HomeController {
 	@Autowired
 	private MemberService mService;
 	
+	@Autowired
+	private PlanService plService;
+	
 	@GetMapping("home")
-	public String home(Model model) {
+	public String home(Model model, HttpSession session) {
 		
 		// 여행 지역 조회수 top 5
 		ArrayList<Local> lList = pService.getTopList();
@@ -48,6 +53,17 @@ public class HomeController {
 		
 		// 관광지 top 5
 		ArrayList<Place> pList = pService.topPlaceList();
+		
+		int planCount = 0;
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(loginUser != null) {
+			if(loginUser.getGrade().equals("GENERAL")) {
+				planCount = plService.selectPlanCount(loginUser);
+			} else if (loginUser.getGrade().equals("PLANNER")) {
+				planCount = plService.selectPlanCount(loginUser);
+			}
+		}
+		model.addAttribute("planCount", planCount);
 		
 		model.addAttribute("lList", lList);
 		model.addAttribute("img", img);
@@ -85,7 +101,7 @@ public class HomeController {
 		        LocalDate today = LocalDate.now();
 	
 		        // 날짜 비교
-		        if (localDate.isBefore(today)) {
+		        if (localDate.isBefore(today) || localDate.isEqual(today)) {
 		        	if(r.getReqStatus() == 1) beforeSchList.add(r);
 		        	else afterSchList.add(r);
 		        }
@@ -98,20 +114,24 @@ public class HomeController {
 					result += mService.updateReqState(r);
 					
 					
-					r.setPayPoint(r.getPayPoint()*1.1);
+					r.setPayPoint((int)r.getPayPoint()*1.1);
 					
 					// 포인트 환불
-					//mService.refundPoint(r);
+					mService.refundPoint(r);
+					
+					// 환불 확정 날짜 + 환불 금액으로 변경
+					mService.updateReqConfirmDate(r);
+					mService.updatePayPoint(r);
 					
 					// 플래너 경고
-					//mService.updateWarning(r);
+					mService.updateWarning(r);
 					
 					// 취소 사유 추가
 					Cancel c = new Cancel();
 					c.setCancelMemNo(r.getReqPlaNo());
 					c.setCancelRefType("REQSCHEDULE");
 					c.setCancelRefNo(r.getReqNo());
-					c.setCancelComent("죄송합니다. 일정 생성 기간이 지나 자동으로 결제한 포인트의 110%가 환불되었습니다. - 환불된 포인트 : " + (int)r.getPayPoint());
+					c.setCancelComent("죄송합니다. 일정 생성 기간이 지나 자동으로 결제한 포인트의 110%가 환불되었습니다.<br> - 환불된 포인트 : " + (int)r.getPayPoint());
 					mService.insertCancel(c);
 				}
 			}
@@ -122,10 +142,15 @@ public class HomeController {
 					r.setReqStatus(3);
 					result += mService.updateReqState(r);
 					
+					// 구매 확정 날짜
+					mService.updateReqConfirmDate(r);
+					
+					// 플래너 정산에 추가
+					mService.insertCalcultate(r);
 				}
 			}
 			if(result == beforeSchList.size() + afterSchList.size()) {
-				return "업데이트 완료";
+				return "업데이트 완료(이전 일정 : " + beforeSchList.size() + ", 이후 일정 : " + afterSchList.size() + ")";
 			}else {
 				return "업데이트 실패";
 			}

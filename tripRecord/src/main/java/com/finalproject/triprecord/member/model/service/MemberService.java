@@ -114,6 +114,11 @@ public interface MemberService {
 	Image getImgRename(HashMap<String, Object> map);
 	//플래너 취소
 	int canclePlanner(HashMap<String, Object> map);
+	
+	//요청 목록 갯수 가져오기
+	int getRequestListCount(int pNo);
+	//요청 목록 가져오기
+	ArrayList<ReqSchedule> selectRequestList(int pNo, PageInfo pi);
 
 	Cancel checkCancel(int reqNo);
 
@@ -121,7 +126,17 @@ public interface MemberService {
 
 	ArrayList<ReqSchedule> getReqTotalList();
 
+	void refundPoint(ReqSchedule r);
 
+	void updateWarning(ReqSchedule r);
+
+	void insertCalcultate(ReqSchedule r);
+
+	void updateReqConfirmDate(ReqSchedule r);
+
+	void updatePayPoint(ReqSchedule r);
+
+	int checkSevenSchedule(Member loginUser);
 	
 
 

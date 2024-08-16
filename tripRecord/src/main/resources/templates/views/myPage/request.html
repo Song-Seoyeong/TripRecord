@@ -25,82 +25,17 @@
 			<thead>
 			 	<tr style="border-bottom:2px solid #96CAF0;">
 					<th><p>요청번호</p></th>
-					<th><p>여행지</p></th>
 					<th><p>여행기간</p></th>
 					<th><p>요청자</p></th>
 					<th><p>진행상태</p></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">서울</td>
-					<td id="date">30일</td>
-					<td id="planner">서현규</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">광주</td>
-					<td id="date">10일</td>
-					<td id="planner">송서영</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">부산</td>
-					<td id="date">20일</td>
-					<td id="planner">권예린</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">경기</td>
-					<td id="date">40일</td>
-					<td id="planner">황병찬</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">대전</td>
-					<td id="date">50일</td>
-					<td id="planner">강고은</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">울산</td>
-					<td id="date">30일</td>
-					<td id="planner">김정민</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">제주</td>
-					<td id="date">70일</td>
-					<td id="planner">송서영</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">경북</td>
-					<td id="date">80일</td>
-					<td id="planner">권예린</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">경남</td>
-					<td id="date">90일</td>
-					<td id="planner">황병찬</td>
-					<td id="status">완료</td>
-				</tr>
-				<tr style="border-bottom:2px solid #b9b9b9">
-					<td id="requestNumber">1</td>
-					<td id="place">강원</td>
-					<td id="date">35일</td>
-					<td id="planner">강고은</td>
-					<td id="status">완료</td>
+				<tr style="border-bottom:2px solid #b9b9b9" th:each="r : ${reqList}">
+					<td id="requestNumber">[[${r.reqNo}]]</td>
+					<td id="date">[[${r.nightDay}]]</td>
+					<td id="planner">[[${r.nickname}]]</td>
+					<td id="status">[[${r.reqStatus}]]</td>
 				</tr>
 			</tbody>
 		</table>

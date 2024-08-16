@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -57,5 +58,7 @@ public interface MatchingService {
 	int insertReqSchedule(ReqSchedule reqSchedule);
 
 	ArrayList<Planner> topPlannerList();
+
+	ArrayList<HashTag> selectTagList(int pNo);
 
 }

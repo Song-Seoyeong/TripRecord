@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -139,6 +140,11 @@ public class MatchingServiceImpl implements MatchingService {
 	@Override
 	public ArrayList<Planner> topPlannerList() {
 		return matMapper.topPlannerList();
+	}
+
+	@Override
+	public ArrayList<HashTag> selectTagList(int pNo) {
+		return matMapper.selectTagList(pNo);
 	}
 
 }

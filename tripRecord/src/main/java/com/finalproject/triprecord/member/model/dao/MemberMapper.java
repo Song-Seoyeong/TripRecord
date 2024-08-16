@@ -127,9 +127,23 @@ public interface MemberMapper {
 
 	ArrayList<ReqSchedule> getReqTotalList();
 
+	void refundPoint(ReqSchedule r);
+
+	void updateWarning(ReqSchedule r);
+
+	void insertCalcultate(ReqSchedule r);
+
+	void updateReqConfirmDate(ReqSchedule r);
+
+	void updatePayPoint(ReqSchedule r);
+
+	int getRequestListCount(int pNo);
+
+	ArrayList<ReqSchedule> selectRequestList(int pNo, RowBounds rowBounds);
 	
+	int checkSevenSchedule(Member i);
 
-
+	
 
 
 	
