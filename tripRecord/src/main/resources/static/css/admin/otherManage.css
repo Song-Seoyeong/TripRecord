@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.container-top{
+	margin-top: 30px;
+	margin-left: 55px;
+	min-width: 1450px;
+	min-height: 380px;
+}
+
+.cancel-container{
+	width: 45%;
+	max-height: 780px;
+}

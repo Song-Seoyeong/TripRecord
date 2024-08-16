@@ -323,7 +323,9 @@
 		select *
 		from req_schedule
 		join member on req_pla_no = member_no
+		<if test="memberNo != null">
 		where req_mem_no = #{memberNo}
+		</if>
 		order by req_no desc
 	</select>
 
@@ -381,6 +383,12 @@
 		insert into cancel
 		values(seq_cancel.nextval, #{cancelMemNo}, #{cancelComent}, sysdate, #{cancelRefType}, #{cancelRefNo})
 	</insert>
+	
+	<select id="getReqTotalList" resultType="ReqSchedule">
+		select *
+		from req_schedule
+		where req_status = 1 or req_status = 2
+	</select>
 
 
 

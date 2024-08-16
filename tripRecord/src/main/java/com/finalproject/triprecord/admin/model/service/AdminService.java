@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -124,6 +125,10 @@ public interface AdminService {
 	Image selectMemberImage(int memberNo);
 
 	ArrayList<Image> selectBoardImageList();
+
+	ArrayList<Cancel> selectCancelList(PageInfo pi);
+
+	int getCancelListCount();
 
 
 

@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -128,6 +129,10 @@ public interface AdminMapper {
 	Image selectMemberImage(int memberNo);
 
 	ArrayList<Image> selectBoardImageList();
+
+	ArrayList<Cancel> selectCancelList(RowBounds rowBounds);
+
+	int getCancelListCount();
 
 	
 }

@@ -80,8 +80,8 @@
 			</div>
 			<!-- 버튼 -->
 			<div id='buttonDiv'>
-				<button type='button' th:if='${rs.reqStatus != 1 && rs.reqStatus != 4}' id="submit_button">구매확정</button>
-				<button type='button' th:if='${rs.reqStatus == 1 || rs.reqStatus == 4}' id="cancle_button">신청 취소</button>
+				<button type='button' th:if='${rs.reqStatus == 2}' id="submit_button">구매확정</button>
+				<button type='button' th:if='${rs.reqStatus == 1}' id="cancle_button">신청 취소</button>
 				<button type='button' id="back_button" onclick="back()">뒤로 가기</button>
 			</div>
 			

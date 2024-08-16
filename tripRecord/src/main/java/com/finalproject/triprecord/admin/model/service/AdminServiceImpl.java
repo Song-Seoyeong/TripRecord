@@ -10,6 +10,7 @@ import com.finalproject.triprecord.admin.model.dao.AdminMapper;
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -309,6 +310,19 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public ArrayList<Image> selectBoardImageList() {
 		return aMapper.selectBoardImageList();
+	}
+	
+	@Override
+	public ArrayList<Cancel> selectCancelList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return aMapper.selectCancelList(rowBounds);
+	}
+	
+	@Override
+	public int getCancelListCount() {
+		return aMapper.getCancelListCount();
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.finalproject.triprecord.member.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -388,6 +389,17 @@ public class MyPageController {
 			
 			// 포인트
 			r.setPoint(getDayPoint(sch.getScEndDate(), sch.getScStartDate()));
+			
+			// 날짜 체크
+			LocalDate localDate = sch.getScStartDate().toLocalDate();
+
+	        // 오늘 날짜 가져오기
+	        LocalDate today = LocalDate.now();
+
+	        // 날짜 비교
+	        if (localDate.isEqual(today)) {
+	        	
+	        }
 		}
 		//System.out.println(list);
 	    //프로필 사진

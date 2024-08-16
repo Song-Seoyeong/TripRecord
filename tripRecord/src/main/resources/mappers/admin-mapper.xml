@@ -180,7 +180,7 @@
 	</update>
 	
 	<insert id="insertPlanner">
-		insert into planner values(#{memberNo}, #{localNo}, null, #{plaReqContent, jdbcType=VARCHAR}, #{sIntroContent, jdbcType=VARCHAR})
+		insert into planner values(#{memberNo}, #{localNo}, null, #{plaReqContent, jdbcType=VARCHAR}, #{sIntroContent, jdbcType=VARCHAR}, default, default)
 	</insert>
 	
 	<select id="selectQuestionList" resultType="Question">
@@ -315,6 +315,14 @@
 	
 	<select id="selectBoardImageList" resultType="Image">
 		select * from image where image_ref_type = 'BOARD'
+	</select>
+	
+	<select id="selectCancelList" resultType="Cancel">
+		select * from cancel join member on(member_no = cancel_mem_no)
+	</select>
+	
+	<select id="getCancelListCount" resultType="_int">
+		select count(*) from cancel join member on(member_no = cancel_mem_no)
 	</select>
 	
 </mapper>

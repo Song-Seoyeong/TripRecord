@@ -99,6 +99,20 @@
 			location.href = "placeDetail.pla?contentid=" + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode;
 		})
 	}
+	
+	function updateReqStatus(){
+		$.ajax({
+			url:"updateReqStatus.mp",
+			success: data=>{
+				console.log(data)
+			},
+			error: data => console.log(data)
+		})
+	}
+	
+	window.onload = () => {
+		//updateReqStatus();
+	}
 </script>
 </body>
 </html>

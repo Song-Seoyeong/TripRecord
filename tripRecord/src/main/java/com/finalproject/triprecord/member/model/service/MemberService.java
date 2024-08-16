@@ -96,7 +96,6 @@ public interface MemberService {
 	
 	ArrayList<Plan> getPlanList(int scheNo);
 
-	ArrayList<FeedBack> getFeedBackList(int reqNo);
 	//-------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
@@ -119,6 +118,8 @@ public interface MemberService {
 	Cancel checkCancel(int reqNo);
 
 	int insertCancel(Cancel c);
+
+	ArrayList<ReqSchedule> getReqTotalList();
 
 
 	
