@@ -99,7 +99,7 @@ public interface MemberService {
 	//-------------------------------------------------------------
 	//플래너페이지
 	//플래너 불러오기
-	Planner getPalnner(int memberNo);
+	Planner getPlanner(int memberNo);
 	//플래너 지역 이름 불러오기
 	Local getLocalName(int memberNo);
 	//플래너 좋아요 불러오기
@@ -138,9 +138,9 @@ public interface MemberService {
 
 	int checkSevenSchedule(Member loginUser);
 	
+	ReqSchedule detailRequest(HashMap<String, Integer> map);
 
-
-
+	
 
 	
 	

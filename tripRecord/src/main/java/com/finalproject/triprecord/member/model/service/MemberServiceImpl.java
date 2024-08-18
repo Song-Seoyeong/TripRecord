@@ -223,7 +223,7 @@ public class MemberServiceImpl implements MemberService{
 	//플래너페이지
 	//플래너 불러오기
 	@Override
-	public Planner getPalnner(int memberNo) {
+	public Planner getPlanner(int memberNo) {
 		return mMapper.getPlanner(memberNo);
 	}
 	//플래너 지역이름 불러오기
@@ -324,6 +324,10 @@ public class MemberServiceImpl implements MemberService{
 		return mMapper.checkSevenSchedule(i);
 	}
 
-	
+	// 플래너의 일정 요청 상세 불러오기
+	@Override
+	public ReqSchedule detailRequest(HashMap<String, Integer> map) {
+		return mMapper.detailRequest(map);
+	}
 
 }

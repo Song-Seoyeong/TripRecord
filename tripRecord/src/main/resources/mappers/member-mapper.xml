@@ -451,5 +451,12 @@
 		]]>
 	</select>
 	
+	<!-- 	플래너의 일정 요청 상세 보기 -->
+	<select id="detailRequest" resultType="ReqSchedule">
+		select *
+		from req_schedule
+		where req_pla_no = #{reqPlaNo} and req_no = #{reqNo}
+	</select>
+	
 
 </mapper>

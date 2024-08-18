@@ -653,7 +653,7 @@ public class MyPageController {
 		map.put("refType", "MEMBER");
 		map.put("refNo", memberNo);
 		//플래너 정보
-		Planner planner = mService.getPalnner(memberNo);
+		Planner planner = mService.getPlanner(memberNo);
 		Local local = mService.getLocalName(memberNo);
 		int likes = mService.countLikes(memberNo);
 		Image image = mService.getImgRename(map);
@@ -720,8 +720,37 @@ public class MyPageController {
 	}
 
 	@GetMapping("detailRequest.mp")
-	public String moveToDetailRequest() {
-		return "detailRequest";
+	public String moveToDetailRequest(@RequestParam("reqNo") int reqNo, /* , @RequestParam("page") int page, */
+			Model model, HttpSession session) {
+		// 플래너 정보 받아오기
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+		Planner planner = mService.getPlanner(memberNo);
+		
+		Local local = mService.getLocalName(memberNo);
+		planner.setLocalName(local.getLocalName());
+
+		model.addAttribute("planner", planner);
+
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("reqPlaNo", memberNo);
+		map.put("reqNo", reqNo);
+
+		ReqSchedule rs = mService.detailRequest(map);
+
+		if (rs != null) {
+			model.addAttribute("rs", rs);
+
+			Member reqMem = mService.getMember(rs.getReqMemNo());
+			if (reqMem != null) {
+				model.addAttribute("reqMem", reqMem);
+				return "detailRequest";
+			} else {
+				throw new MemberException("요청 신청자 불러오기에 실패하였습니다.");
+			}
+		} else {
+			throw new MemberException("요청 상세 내역 불러오기에 실패하였습니다.");
+		}
+
 	}
 
 	@GetMapping("sales.mp")
