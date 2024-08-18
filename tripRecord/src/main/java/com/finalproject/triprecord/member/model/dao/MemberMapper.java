@@ -142,15 +142,8 @@ public interface MemberMapper {
 	ArrayList<ReqSchedule> selectRequestList(int pNo, RowBounds rowBounds);
 	
 	int checkSevenSchedule(Member i);
-
 	
-
-
-	
-
-	
-
-
+	ReqSchedule detailRequest(HashMap<String, Integer> map);
 
 
 	
