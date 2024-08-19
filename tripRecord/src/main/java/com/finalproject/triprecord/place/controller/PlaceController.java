@@ -350,8 +350,9 @@ public class PlaceController {
 						gdService.deleteFile(del);
 					}
 				}
+				if(!deleteImg.isEmpty())
+					delResult = pService.delImg(deleteImg);
 			}
-			delResult = pService.delImg(deleteImg);
 			
 			// 이미지 추가
 			ArrayList<Image> list = new ArrayList<Image>();

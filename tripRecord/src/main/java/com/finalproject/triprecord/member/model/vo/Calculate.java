@@ -21,6 +21,7 @@ public class Calculate {
 	private int expectedPoint;
 	private int expectedMoney;
 	private String memberName;
+	private String bank;
 	
 //	CREATE TABLE CALCULATE(
 //		    CALCULATE_NO NUMBER PRIMARY KEY,

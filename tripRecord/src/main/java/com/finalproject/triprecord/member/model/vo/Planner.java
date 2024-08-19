@@ -23,4 +23,5 @@ public class Planner {
 	private int warningCount;
 	private String account;
 	private String bank;
+	private int plannerPoint;
 }

@@ -21,6 +21,8 @@ public class RequestGrade {
 	private String plaReqContent;
 	private String sIntroContent;
 	private Date requestDate;
+	private String account;
+	private String bank;
 	
 	private String memberName;
 	private String localName;

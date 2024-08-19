@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.finalproject.triprecord.common.controller.SendMessegeController;
+import com.finalproject.triprecord.common.controller.SendMessageController;
 import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
@@ -81,7 +81,7 @@ public class HomeController {
 		ArrayList<ReqSchedule> rList = mService.getReqTotalList();
 		
 		int result = 0;
-		SendMessegeController sm = new SendMessegeController();
+		SendMessageController sm = new SendMessageController();
 		SingleMessageSentResponse sms = null;
 			
 		if(!rList.isEmpty()) {

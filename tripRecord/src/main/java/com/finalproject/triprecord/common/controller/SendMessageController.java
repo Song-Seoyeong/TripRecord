@@ -14,13 +14,13 @@ import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
-public class SendMessegeController {
+public class SendMessageController {
 	
-	 final DefaultMessageService messageService;
+	 final DefaultMessageService MESSAGESERVICE;
 
-    public SendMessegeController() {
+    public SendMessageController() {
         // 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
-        this.messageService = NurigoApp.INSTANCE.initialize("NCSIRZZB3NMIXZCS", "EOEHWXTEYAMMZF8ABW3OURFJ4OFGMB7Z", "https://api.coolsms.co.kr");
+        this.MESSAGESERVICE = NurigoApp.INSTANCE.initialize("NCSIRZZB3NMIXZCS", "EOEHWXTEYAMMZF8ABW3OURFJ4OFGMB7Z", "https://api.coolsms.co.kr");
     }
     
     // 환불 문자
@@ -39,7 +39,7 @@ public class SendMessegeController {
         }
         message.setText(msg);
         //System.out.println("메세지 후");
-        SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
+        SingleMessageSentResponse response = this.MESSAGESERVICE.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);
 
         return response;

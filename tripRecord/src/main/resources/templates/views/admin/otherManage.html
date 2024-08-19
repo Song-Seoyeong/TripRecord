@@ -47,8 +47,8 @@
 						<table class="table-user table" id="list-table">
 							<thead>
 								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
-									<th style="width: 5%;">번호</th>
-									<th style="width: 9%;">분류</th>
+									<th style="width: 6%;">번호</th>
+									<th style="width: 10%;">분류</th>
 									<th style="width: 10%;">이름</th>
 									<th style="width: 48%;">취소 사유</th>
 									<th style="width: 1%;">취소 날짜</th>
@@ -89,9 +89,16 @@
 									</a>
 								</li>
 								<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-									<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p}, cPage=${calculatePage})}">
-										<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
-									</a>
+									<th:block th:if="${p == page}">
+										<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${p}, cPage=${calculatePage})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</th:block>
+									<th:block th:unless="${p == page}">
+										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p}, cPage=${calculatePage})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</th:block>
 								</li>
 								<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
 									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1}, cPage=${calculatePage})}" aria-label="Next">
@@ -118,6 +125,7 @@
 								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
 									<th style="width: 5%;">번호</th>
 									<th style="width: 10%;">이름</th>
+									<th style="width: 10%;">은행</th>
 									<th style="width: 12%;">정산 포인트</th>
 									<th style="width: 12%;">정산 금액</th>
 									<th style="width: 11%;">정산 일자</th>
@@ -154,9 +162,16 @@
 									</a>
 								</li>
 								<li class="page-item" th:each="p : ${#numbers.sequence(cPi.startPage, cPi.endPage)}">
-									<a class="page-link box-shadow-no" th:href="@{${loc}(page=${currentPage}, cPage=${p})}">
-										<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
-									</a>
+									<th:block th:if="${p == cPage}">
+										<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${currentPage}, cPage=${p})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</th:block>
+									<th:block th:unless="${p == cPage}">
+										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${currentPage}, cPage=${p})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</th:block>
 								</li>
 								<li class="page-item" th:if="${cPi.currentPage < cPi.maxPage}">
 									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${currentPage}, cPage=${cPi.currentPage+1)}" aria-label="Next">

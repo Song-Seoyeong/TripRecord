@@ -180,7 +180,7 @@
 	</update>
 	
 	<insert id="insertPlanner">
-		insert into planner values(#{memberNo}, #{localNo}, null, #{plaReqContent, jdbcType=VARCHAR}, #{sIntroContent, jdbcType=VARCHAR}, default, default)
+		insert into planner values(#{memberNo}, #{localNo}, null, #{plaReqContent, jdbcType=VARCHAR}, #{sIntroContent, jdbcType=VARCHAR}, default, default, #{account}, #{bank})
 	</insert>
 	
 	<select id="selectQuestionList" resultType="Question">
@@ -334,10 +334,11 @@
 	</select>
 	
 	<select id="selectCalculatePageList" resultType="Calculate">
-		select planner_no, member_name, cal_date, count(expected_point) "EXPECTED_POINT", count(expected_money) "EXPECTED_MONEY" 
+		select planner_no, member_name, cal_date, count(expected_point) "EXPECTED_POINT", count(expected_money) "EXPECTED_MONEY" , bank
 		from calculate 
 		    left join member on (planner_no = member_no)
-		group by planner_no, cal_date, member_name
+		    left join planner on (calculate.planner_no = planner.member_no)
+		group by planner_no, cal_date, member_name, bank
 	</select>
 	
 </mapper>
