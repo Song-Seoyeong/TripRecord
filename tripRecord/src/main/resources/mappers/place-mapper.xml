@@ -82,10 +82,11 @@
 	</update>
 	
 	<delete id="delImg">
-		delete from Image
-		<foreach collection="list" item="i" separator=",">
-			where Image_rename = #{i}
-		</foreach>
+    delete from Image
+    where Image_rename in
+	    <foreach collection="list" item="i" open="(" separator="," close=")">
+	        #{i}
+	    </foreach>
 	</delete>
 	
 	<select id="checkImage" resultType='_int'>

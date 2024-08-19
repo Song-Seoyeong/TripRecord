@@ -143,7 +143,7 @@
 						  	</tbody>
 						  	<tbody th:if="${mList.isEmpty}" class="table_no_hover">
 							  		<tr class="tr-user">
-							      		<td colspan="6">존재하는 게시글이 없습니다.</td>
+							      		<td colspan="6">존재하는 회원이 없습니다.</td>
 							  		</tr>
 							</tbody>
 						</table>
@@ -163,9 +163,16 @@
 									</a>
 								</li>
 								<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-									<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p})}">
-										<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
-									</a>
+									<th:block th:if="${p == page}">
+										<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${p})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</th:block>
+									<th:block th:unless="${p == page}">
+										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</th:block>
 								</li>
 								<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
 									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next">
@@ -389,8 +396,6 @@
 					
 					const imageModal = document.querySelector('#memberImageDetail');
 					const modalBody = imageModal.querySelector('.modal-body');
-					
-					console.log(image.src);
 					
 					modalBody.innerHTML = '<img src="' + image.src + '" width="300" height="300">';
 					

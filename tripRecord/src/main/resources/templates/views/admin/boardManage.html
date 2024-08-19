@@ -91,7 +91,7 @@
 							</div>
 						</div>
 						<div class="board-list-table rounded-2 list-table">
-							<table class="table-user table">
+							<table class="table-user table table-hover">
 								<thead>
 									<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
 										<th style="width: 8%;">번호</th>
@@ -103,7 +103,7 @@
 										<th style="width: 8%;">삭제</th>
 									</tr>
 								</thead>
-							  	<tbody th:unless="${list.isEmpty}">
+							  	<tbody th:unless="${list.isEmpty}" class="list-tbody">
 							  		<tr class="tr-user" th:each="list : ${list}">
 							      		<td>[[${list.boardNo}]]</td>
 							      		<td>
@@ -145,9 +145,16 @@
 										</a>
 									</li>
 									<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p}, search=${search})}">
-											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
-										</a>
+										<th:block th:if="${p == page}">
+											<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${p}, search=${search})}">
+												<span aria-hidden="true" class="pagination-color" >[[${p}]]</span>
+											</a>
+										</th:block>
+										<th:block th:unless="${p == page}">
+											<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p}, search=${search})}">
+												<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+											</a>
+										</th:block>
 									</li>
 									<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
 										<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1}, search=${search})}" aria-label="Next">
@@ -166,6 +173,12 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	
+	<div class="imgsDiv" style="display: none;">
+		<div class="imgsTable" th:each="i : ${iList}">
+			<img th:class="${i.imageRefNo}" th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" width="26" height="26">
 		</div>
 	</div>
 	
@@ -202,8 +215,30 @@
   		</div>
 	</div>
 	
+	<div class="modal fade" id="boardDetail" tabindex="-1" aria-labelledby="exampleModalCenteredScrollableTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<span class="boardTitle"></span>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" style="text-align: center;">
+					<div class="boardWriter" style="text-align: left;"></div>
+					<div class="boardContent"></div><hr>
+					<div class="boardImages display-inline-block"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="board-del">게시글 삭제</button>
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script th:inline="javascript">
-	/*<![CDATA[*/
+		/*<![CDATA[*/
+		const list = /*[[${list}]]*/null;
+		const iList = /*[[${iList}]]*/null;
 		window.onload = () => {
 			
 			/* 글 검색 */
@@ -215,18 +250,19 @@
 				}
 			});
 			
-			
 			/* 글 삭제 */
 			const btns = document.getElementsByClassName('button-border');
 			let boardNo;
 			for(const btn of btns){
-				btn.addEventListener('click', function(){
-					const tr = this.parentElement.parentElement;
-					boardNo = tr.children[0].innerText;
-					
-					$('#modal-cancel').modal('show');
-					
-				});
+				if(btn.parentElement.previousElementSibling.innerText == '활성'){
+					btn.addEventListener('click', function(){
+						const tr = this.parentElement.parentElement;
+						boardNo = tr.children[0].innerText;
+						
+						$('#modal-cancel').modal('show');
+						
+					});
+				}
 			}
 			
 			document.getElementById('cancel-ok').addEventListener('click', function(){
@@ -282,9 +318,53 @@
 			document.getElementById('cancel-no').addEventListener('click', function(){
 				document.getElementById('modalInput').value = '';
 			});
+			
+			
+			/* 글 선택 */
+			const tbody = document.querySelector('.list-tbody');
+			const tds = tbody.querySelectorAll('td');
+			let bList;
+			for(const td of tds){
+				if(td != td.parentElement.children[6]){
+					td.addEventListener('click', function(){
+						boardNo = td.parentElement.children[0].innerText;
+						
+						for(const l of list){
+							if(l.boardNo == boardNo){
+								bList = l;
+								break;
+							}
+						}
+						
+						const showModal = document.querySelector('#boardDetail');
+						showModal.querySelector('span').innerHTML = '<h3 class="overflow-ell">&nbsp;' + bList.boardTitle + '</h3>';
+						showModal.querySelector('.boardWriter').innerHTML = '<h5>' +  bList.memberName + ' | ' + (bList.boardModifyDate).replaceAll('-', '.') + '</h5><hr>';
+						showModal.querySelector('.boardContent').innerText = bList.boardContent;
+						console.log(iList);
+						let imgs = [];
+						const imgsDiv = document.querySelector('.imgsDiv').children;
+						console.log(imgsDiv);
+						for(const i of imgsDiv){
+							if(i.children[0].className == boardNo){
+								imgs.push(i.children[0]);
+							}
+						}
+						
+						const modalImg = showModal.querySelector('.boardImages');
+						modalImg.innerHTML = '';
+						for(const i of imgs){
+							modalImg.innerHTML += '<img src="' + i.src + '" width="100" height="100">';
+						}
+						
+						$(showModal).modal('show');
+					});
+				}
+			}
+			
+			document.getElementById('board-del').addEventListener('click', function(){
+				$('#modal-cancel').modal('show');
+			});
 		
-			
-			
 			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
 			const current = document.getElementsByClassName('select-board')[0];
 			
@@ -307,9 +387,7 @@
 						this.className = '';
 					}
 				});
-				
 			}
-			
 		}
 		/*]]>*/
 	</script>

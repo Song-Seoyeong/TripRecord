@@ -128,9 +128,16 @@
 									</a>
 								</li>
 								<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
-									<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p})}">
-										<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
-									</a>
+									<th:block th:if="${p == page}">
+										<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${p})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</th:block>
+									<th:block th:unless="${p == page}">
+										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p})}">
+											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+										</a>
+									</th:block>
 								</li>
 								<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
 									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next">

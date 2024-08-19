@@ -168,6 +168,7 @@ public class AdminController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
 		model.addAttribute("iList", iList);
+		model.addAttribute("page", currentPage);
 		return "memberManage";
 	}
 	
@@ -232,6 +233,7 @@ public class AdminController {
 		model.addAttribute("iList", iList);
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
+		model.addAttribute("page", currentPage);
 		return "questManage";
 	}
 	
@@ -241,11 +243,6 @@ public class AdminController {
 	public Question selectQuest(@RequestParam("qNo") int qNo) {
 		
 		Question question = aService.selectQuestion(qNo);
-		
-		if(question.getQuestionAnswer() != null) {
-			String content = question.getQuestionAnswer();
-			question.setQuestionAnswer(content.substring(0, content.length() - 4));
-		}
 		
 		return question;
 	}
@@ -372,6 +369,7 @@ public class AdminController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
 		model.addAttribute("search", search);
+		model.addAttribute("page", currentPage);
 		return "noticeManage";
 	}
 	
@@ -402,9 +400,6 @@ public class AdminController {
 	@ResponseBody
 	public Board selectNotice(@RequestParam("boardNo") int boardNo) {
 		Board notice = aService.selectNotice(boardNo);
-		
-		String content = notice.getBoardContent();
-		notice.setBoardContent(content.substring(0, content.length() - 4));
 		
 		return notice;
 	}
@@ -516,6 +511,8 @@ public class AdminController {
 		int listCount = aService.getListCount(search);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
 		ArrayList<Board> list = aService.selectBoardList(pi, search);
+		
+		ArrayList<Image> iList = aService.selectBoardImageList();
 
 	
 		model.addAttribute("totalCount", totalCount);
@@ -526,6 +523,8 @@ public class AdminController {
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
 		model.addAttribute("search", search);
+		model.addAttribute("iList", iList);
+		model.addAttribute("page", currentPage);
 		
 		return "boardManage";
 	}
@@ -703,8 +702,8 @@ public class AdminController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
 		ArrayList<Cancel> cList = aService.selectCancelList(pi);
 		
-		int CalCount = aService.getCalculateListCount();
-		PageInfo cPi = Pagination.getPageInfo(calculatePage, CalCount, 13);
+		int calCount = aService.getCalculateListCount();
+		PageInfo cPi = Pagination.getPageInfo(calculatePage, calCount, 13);
 		ArrayList<Calculate> caList = aService.selectCalculatePageList(cPi);
 		
 		model.addAttribute("cList", cList);
