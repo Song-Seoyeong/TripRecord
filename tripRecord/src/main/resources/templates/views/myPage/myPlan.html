@@ -113,7 +113,9 @@
 			})
 			td.addEventListener('click', ()=>{
 				const parent = td.parentElement;
-				location.href='detailReqPlan.mp?reqNo=' + parent.children[0].querySelector('input').value + "&page=" + /*[[${pi.currentPage}]]*/1;
+				if(parent.children.length != 1){
+					location.href='detailReqPlan.mp?reqNo=' + parent.children[0].querySelector('input').value + "&page=" + /*[[${pi.currentPage}]]*/1;
+				}
 			})
 		}
 		/*]]>*/

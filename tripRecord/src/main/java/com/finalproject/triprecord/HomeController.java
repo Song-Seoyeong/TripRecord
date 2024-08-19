@@ -133,7 +133,7 @@ public class HomeController {
 						c.setCancelMemNo(r.getReqPlaNo());
 						c.setCancelRefType("REQSCHEDULE");
 						c.setCancelRefNo(r.getReqNo());
-						c.setCancelComent("죄송합니다. 일정 생성 기간이 지나 자동으로 결제한 포인트의 110%가 환불되었습니다.<br> - 환불된 포인트 : " + (int)r.getPayPoint());
+						c.setCancelComent("죄송합니다. 일정 생성 기간이 지나 자동으로 결제한 포인트의 110%가 환불되었습니다.\n - 환불된 포인트 : " + (int)r.getPayPoint());
 						mService.insertCancel(c);
 						
 						Member m = new Member();
@@ -166,7 +166,7 @@ public class HomeController {
 					}
 				}
 				
-				
+				//System.out.println(sms);
 				
 				}catch (IOException e) {
 					// TODO Auto-generated catch block

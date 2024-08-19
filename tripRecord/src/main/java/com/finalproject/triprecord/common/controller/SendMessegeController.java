@@ -25,6 +25,7 @@ public class SendMessegeController {
     
     // 환불 문자
     public SingleMessageSentResponse sendMmsByResourcePath(ReqSchedule r, Member m, int msgType) throws IOException {
+    	//System.out.println("메세지 전");
         Message message = new Message();
         message.setFrom("01066171079");
         message.setTo(m.getPhone());
@@ -37,7 +38,7 @@ public class SendMessegeController {
         	msg += "일정 도착 후 여행 시작 일자까지 구매확정을 하지않아 자동으로 구매확정으로 전환됩니다.";
         }
         message.setText(msg);
-
+        //System.out.println("메세지 후");
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);
 
