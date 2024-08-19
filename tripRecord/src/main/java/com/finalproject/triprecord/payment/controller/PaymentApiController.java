@@ -51,20 +51,23 @@ public class PaymentApiController {
 			@RequestParam("merchantUid") String merchantUid, @RequestParam("poNo") int pointNo,
 			@RequestParam("point") int point) {
 
-		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+			Member loginUser = (Member) session.getAttribute("loginUser");
 
 			Payment payments = new Payment();
-			payments.setMemberNo(memberNo);
+			payments.setMemberNo(loginUser.getMemberNo());
 			payments.setPointNo(pointNo);
 			payments.setImpUid(impUid);
 			payments.setMerchantUid(merchantUid);
 			int sResult = pService.saveOrder(payments);
 
 			Member m = new Member();
-			m.setMemberNo(memberNo);
+			m.setMemberNo(loginUser.getMemberNo());
 			m.setMemberPoint(point);
 			int uResult = pService.updateMemberPoint(m);
-
+			
+			loginUser.setMemberPoint(loginUser.getMemberPoint() + point);
+			
+			session.setAttribute("loginUser", loginUser);
 			return sResult + uResult == 2 ? "success" : "fail";
 
 	}
@@ -73,12 +76,11 @@ public class PaymentApiController {
 	@ResponseBody
 	public String refundComplete(HttpSession session,
 			@RequestParam("merchantUidList") ArrayList<String> merchantUidList,
-			@RequestParam("cancleAmount") int cancleAmount, @RequestParam("cancelPoint") int canclePoint)throws IOException {
+			@RequestParam("cancleAmount") int cancleAmount, @RequestParam("cancelPoint") int cancelPoint)throws IOException {
 		
-		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
-		int memberPoint = ((Member) session.getAttribute("loginUser")).getMemberPoint();
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		int result = 0;
-		if (memberPoint > canclePoint) {
+		if (loginUser.getMemberPoint() > cancelPoint) {
 			for (int i = 0; i < merchantUidList.size(); i++) {
 				String token = rService.getToken(apikey, secretkey);
 				System.out.println("토큰 번호 : " + token);
@@ -86,13 +88,16 @@ public class PaymentApiController {
 				result = pService.deletePayments(merchantUidList.get(i));
 			}
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("memberNo", memberNo);
-			map.put("canclePoint", canclePoint);
+			map.put("memberNo", loginUser.getMemberNo());
+			map.put("canclePoint", cancelPoint);
 			System.out.println(map);
 			int result2 = pService.minusPoint(map);
-			System.out.println("포인트 차감 : " + result2);
+//			System.out.println("포인트 차감 : " + result2);
+//			
+//			System.out.println(result + result2);
 			
-			System.out.println(result + result2);
+			loginUser.setMemberPoint(loginUser.getMemberPoint()-cancelPoint);
+			session.setAttribute("loginUser", loginUser);
 			return result + result2 >= 2 ? "success" : "fail";
 		}else {
 			return "shortage";

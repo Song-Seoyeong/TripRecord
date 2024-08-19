@@ -62,7 +62,7 @@
 			</button>
 			<span style="float:left; font-size:40px; font-weight:900">
 				[[${session.loginUser.memberName}]]
-				<span style="font-size:20px; font-weight:100">&#91; [[${#numbers.formatDecimal(loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93;p</span>
+				<span style="font-size:20px; font-weight:100">&#91; [[${#numbers.formatDecimal(session.loginUser.memberPoint,1,'COMMA',0,'COMMA')}]] &#93;p</span>
 			</span>
 		</div>
 	</div> 
