@@ -151,7 +151,7 @@ public class PlanController {
 		
 		s.setScLocalNo(Integer.parseInt(s.getSpot())); // 지역 번호 설정 select option 에서 선택된 value 값
 		
-		System.out.println(s);
+		//System.out.println(s);
 		
 		ArrayList<Plan> plList = new ArrayList<Plan>(); // 계획 1개씩 담을 ArrayList
 		for(int i = 0, coCount = 0, dNum = 0; i < place.length; i++, coCount++) { // 장소는 무조건 있어야 하는 값 중 하나라 place.length 만큼 돌림

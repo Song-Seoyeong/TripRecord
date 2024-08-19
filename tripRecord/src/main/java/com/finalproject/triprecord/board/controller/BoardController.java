@@ -515,7 +515,7 @@ public class BoardController {
 		
 		model.addAttribute("b", b);
 		model.addAttribute("iList", iList);
-		System.out.println(b);
+		//System.out.println(b);
 		return "askEdit";
 	}
 	
@@ -525,7 +525,7 @@ public class BoardController {
 		
 		int result = bService.updateBoard(b);
 		
-		System.out.println(b);
+		//System.out.println(b);
 		
 		ArrayList<Image> list = new ArrayList<Image>();
 		ArrayList<String> deleteImg = new ArrayList<String>();

@@ -90,7 +90,7 @@ public class PaymentApiController {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("memberNo", loginUser.getMemberNo());
 			map.put("canclePoint", cancelPoint);
-			System.out.println(map);
+			//System.out.println(map);
 			int result2 = pService.minusPoint(map);
 //			System.out.println("포인트 차감 : " + result2);
 //			

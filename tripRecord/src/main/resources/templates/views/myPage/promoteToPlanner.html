@@ -188,10 +188,11 @@
 			//console.log(accountValue)
 		})
 	 	//전환 요청 확인 promotion.mp
-	 	function promotion(){
 	 		/*<![CDATA[*/
+	 	function promotion(){
 			const grade = /*[[${session.loginUser.grade}]]*/
-			/*]]>*/
+			
+			
 	 		if(grade == 'ADMIN'){
 	 			alert('현재 관리자입니다')
 	 			return false;
@@ -217,7 +218,7 @@
 		    				data : {region:region, introProfile:intro, submitContent:submit,
 		    					    bank : bankValue, account: accountValue},
 		    				success : (data) =>{ 
-		    					console.log(data)
+		    					//console.log(data)
 		    					if(data == 'PLANNER'){
 		    						alert('플래너 요청이 되어 있는 상태입니다');
 		    					}else if(data == 'ADMIN'){
@@ -259,7 +260,7 @@
 			 	}
 		 	}
 	 	}
-	 	
+		/*]]>*/
 	 </script>
 
 

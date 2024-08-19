@@ -241,9 +241,9 @@
 	<div th:replace="~{common/footer :: footer}"></div>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-			const localNo = /*[[${planner.localNo}]]*/
-			const tagList = /*[[${tagList}]]*/
-			const plannerBank = /*[[${planner.bank}]]*/
+			const localNo = /*[[${planner.localNo}]]*/1;
+			const tagList = /*[[${tagList}]]*/1;
+			const plannerBank = /*[[${planner.bank}]]*/1;
 			const tagNameList = document.getElementsByClassName('cbx');
 			const leftTagList = document.querySelectorAll('input[name="together"]');
 			const rightTagList = document.querySelectorAll('input[name="hashtag"]');
@@ -254,8 +254,8 @@
 			const curIntroImg = document.getElementById('curIntroImg');
 			const tagSet = new Set();
 			
-			let bankValue = /*[[${planner.bank}]]*/;
-			let accountValue = /*[[${planner.account}]]*/;
+			let bankValue = /*[[${planner.bank}]]*/1;
+			let accountValue = /*[[${planner.account}]]*/1;
 		/*]]>*/
 		
 		

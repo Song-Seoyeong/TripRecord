@@ -279,16 +279,16 @@
 			
 			// 현재 카테고리 표시해두기
 			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if([[${generalType}]] == "ALL"){
+				if(/*[[${generalType}]]*/1 == "ALL"){
 					categories[0].children[0].style.borderRadius = '9999px';
 					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "PAYMENT"){
+				} else if(/*[[${generalType}]]*/1 == "PAYMENT"){
 					categories[1].children[0].style.borderRadius = '9999px';
 					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "PLANNER"){
+				} else if(/*[[${generalType}]]*/1 == "PLANNER"){
 					categories[2].children[0].style.borderRadius = '9999px';
 					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "ELSE"){
+				} else if(/*[[${generalType}]]*/1 == "ELSE"){
 					categories[3].children[0].style.borderRadius = '9999px';
 					categories[3].children[0].style.backgroundColor = '#96caf0';
 				}
