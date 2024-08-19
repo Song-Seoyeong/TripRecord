@@ -23,6 +23,7 @@ td {
 	text-align: center;
 	position: relative;
 	display: flex;
+	min-height: 250px;
 }
 
 #contentsDiv {

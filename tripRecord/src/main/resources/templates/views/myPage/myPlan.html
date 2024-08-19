@@ -84,7 +84,7 @@
 			</div>
 			
 			<!-- 페이지네이션 -->
-			<nav class="d-flex justify-content-center" th:if='${list != null}'>
+			<nav class="d-flex justify-content-center" id='pagination'th:if='${list != null}'>
 	        	<ul class="pagination" th:with="loc=${ loc }">
 	        		 <!-- 이전 버튼 -->
 		            <li class="page-item">
