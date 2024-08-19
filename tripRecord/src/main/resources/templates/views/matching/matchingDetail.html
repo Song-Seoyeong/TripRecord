@@ -16,7 +16,7 @@
 		<div class="d-flex justify-content-between align-items-center">	
 			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
 			<div>
-				<button class="btn btn-secondary me-5" onclick="location.href='matchingMain.ma'">목록으로</button>
+				<button id="goList" class="btn me-5" onclick="location.href='matchingMain.ma'">목록으로</button>
 			</div>
 		</div>
 		<!-- 상단 정보 탭 전체 -->
@@ -48,7 +48,7 @@
 							</button>
 						</div>
 						<div class="mx-3 mt-2">
-							<th:block th:each="t : ${tagList}" th:text="'# '+${t.tagName} + ', '"></th:block>
+							<th:block th:each="t : ${tagList}" th:text="'#'+${t.tagName} +'&nbsp;&nbsp;'"></th:block>
 						</div>
 					</div>
 				</div>
@@ -61,13 +61,13 @@
 						<form action="matchingRequest.ma">
 							<input type="hidden" name="pNo" th:value="${planner.memberNo}">
 							<input type="hidden" name="page" th:value="${pi.currentPage}">
-							<button class="btn text-white m-3" id="reviewBtn" style="background-color: #96caf0;">일정 신청</button>
+							<button class="btn m-3" id="request">일정 신청</button>
 						</form>
 					</th:block>
 					<th:block th:if="${session.loginUser != null && session.loginUser.memberNo == planner.MemberNo}">
 						<h3 class="d-inline-block m-3">신청된 견적<br/>
 													   확인하러 가기</h3><br/>
-						<button class="btn text-white m-3" id="goPlannerBtn" style="background-color: #96caf0;" onclick="location.href='request.mp'">플래너 페이지로 이동</button>
+						<button class="btn m-3" id="goPlanner" onclick="location.href='request.mp'">플래너 페이지로 이동</button>
 					</th:block>
 				</div>
 				<br/><br/>
@@ -97,8 +97,10 @@
 		
 		<div id="content" class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column border bg-light  rounded-3 w-75" >
-				<div class="d-flex justify-content-center">
-					<img class="m-5 w-100" width="800px" src="/resources/goSchedule.jpg"/><br/>
+				<div class="d-flex justify-content-center" th:each="i : ${ iImgList }">
+					<div class="m-5 w-100" th:if="${ i.imageRename != null}">
+						<img class="w-100" width="800px" th:src="|https://drive.google.com/thumbnail?id=${ i.imageRename }&sz=w1000|"/><br/>
+					</div>
 				</div>
 				<div class="mx-5 mb-5">
 					<p>[[${planner.introContent}]]</p>
@@ -117,7 +119,7 @@
 		<div class="d-flex text-start mb-3 fs-3">[[${pi.listCount}]]개의 후기 (⭐ [[${AvgStar}]])</div>
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
-				<div class="list-group w-100" th:each="r : ${ rlist }">
+				<div class="list-group w-100" th:each="r : ${ rList }">
 					<form id="reviewForm" method="post">
 						<table class="reviewTable fs-3 text-center bg-light">
 							<tr>
@@ -146,7 +148,7 @@
 										</svg>
 									</a>
 			
-									<ul class="dropdown-menu">
+									<ul class="dropdown-menu text-center" >
 										<li>
 											<button type='button' id='updateButton' class='btn'>
 												<span id='beforeUp'>
@@ -224,9 +226,9 @@
 		<div class="modal-dialog d-flex align-items-center justify-content-center">
     		<div class="modal-content rounded-3 shadow">
       			<div class="modal-body p-4 text-center">
-        			<h3 class="mb-3" id="modalReviewTitle">리뷰 제목</h3>
+        			<h3 class="mb-3" id="modalReviewTitle"></h3>
         			<hr/>
-                	<div class="mb-0" id="modalReviewContent">리뷰 내용</div>
+                	<div class="mb-0" id="modalReviewContent"></div>
                 	<br/>
       			</div>
       			<div>
@@ -257,8 +259,6 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     const lists = document.getElementsByClassName('list-group');
-	
-	
     for(const list of lists) {
     	if(list.querySelector('button') != null) {
 	       	const upButton = list.querySelector('button');
@@ -290,30 +290,38 @@ document.addEventListener('DOMContentLoaded', function() {
 const reviewList = document.querySelectorAll('tr');
 for(const tr of reviewList) {
 	const tds = tr.children;
-		for (let i = 0; i < tds.length; i++) {
-			if(i != 6) {
-				tds[i].addEventListener('click', function(){
-			        const reviewTitle = this.parentElement.children[4].innerHTML;
-			        const reviewContent = this.parentElement.children[5].innerHTML;
-			        
-			         /*<!CDATA[*/
-			 		const rImgList = /*[[${rImgList}]]*/null;
-			 		/*]]>*/
-			 		
-			 		document.querySelector('#modalReviewTitle').innerHTML = reviewTitle;
-		       		document.querySelector('#modalReviewContent').innerHTML = reviewContent;
-		       		
-		       		const rNo = this.parentElement.children[0].children[1].value
-		            console.log(rNo);
-		            for(const rImg of rImgList){
-		            	if(rNo == rImg.imageRefNo){
-		            		document.querySelector('#modalReviewContent').innerHTML += '<img src="https://drive.google.com/thumbnail?id=' + rImg.imageRename + '&sz=w1000" width="100%" height="200"><br/><br/>'
-		            	}
-		            }
-		            $('#reviewModal').modal('show');
-				});
-			}
+	for (let i = 0; i < tds.length; i++) {
+		if(i != 6) {
+			tds[i].addEventListener('click', function(){
+				
+				/*<!CDATA[*/
+		        const rList = /*[[${ rList }]]*/null;
+		 		const rImgList = /*[[${ rImgList }]]*/null;
+		 		/*]]>*/
+	       		const rNo = this.parentElement.children[0].children[1].value
+		 		
+	       		let reviewContent = '';
+		 		let reviewTitle = '';
+		 		
+	            for(const rImg of rImgList){
+	            	if(rNo == rImg.imageRefNo){
+	            		reviewContent += '<img src="https://drive.google.com/thumbnail?id=' + rImg.imageRename + '&sz=w1000" width="100%"><br/><br/>';
+	            	}
+	            }
+	            for(const r of rList){
+		 			if(rNo == r.reviewNo){
+		 				reviewTitle = r.reviewTitle;
+		 				reviewContent += r.reviewContent;
+		 			}
+				}
+	            
+	            document.querySelector('#modalReviewTitle').innerHTML = reviewTitle;
+	            document.querySelector('#modalReviewContent').innerHTML = reviewContent;
+	            
+	            $('#reviewModal').modal('show');
+			});
 		}
+	}
 }
 
 document.getElementById('likeButton').addEventListener('click', () => {

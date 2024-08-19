@@ -112,18 +112,16 @@
 	<div style="height: 120px;">
 		<!-- 사이드바 -->
 		<div id="sidebar">
-			<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div>
+			<div th:replace="~{common/myPointSideBar :: myBoardSideBar}"></div>
 		</div>
 	</div>
 	<div class="flex-container " style="text-align: center;">
 		<div style="display: inline-block;">
 			<span class="secondSidebar"><a class="nav-link" href="myPoint.mp">결제 내역</a></span>
 			<span class="secondSidebar"><a class="nav-link" href="myPayPoint.mp">포인트 결제하기</a></span>
-			<div style="color: black; font-size: 36px; font-weight: 900;">포인트
-				결제내역</div>
+			<div style="color: black; font-size: 36px; font-weight: 900;">포인트	결제내역</div>
 			<div style="height: 40px;"></div>
-			<div
-				style="display: inline-block; width: 1000px; overflow: auto; border: 1px solid lightgray; border-radius: 10px;">
+			<div style="display: inline-block; width: 1000px; overflow: auto; border: 1px solid lightgray; border-radius: 10px;">
 				<table>
 					<thead>
 						<tr style="border-bottom: 2px solid #96CAF0;">
@@ -260,10 +258,10 @@
 	    checkAll.checked = allCheckboxes.length === document.querySelectorAll('input[name="impUidList"]:checked').length;
 
 	    // 출력
-	    console.log('impUid :', impUidList);
-	    console.log('merchantUid', merchantUidList);
-	    console.log('전체 포인트:', points);
-	    console.log('전체 결제 금액:', pays);
+	    //console.log('impUid :', impUidList);
+	   //console.log('merchantUid', merchantUidList);
+	    //console.log('전체 포인트:', points);
+	    //console.log('전체 결제 금액:', pays);
 	}
 
 	//선택시 합산 

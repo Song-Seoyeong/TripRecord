@@ -3,24 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>플래너일정 요청 자세히 보기</title>
-<style>
-	#submit_button {
-        color: #96CAF0; 
-        background-color: white; 
-        width: 80px; 
-        height: 40px; 
-        border: none; 
-        border-radius: 20px; 
-        margin-right: 5px; 
-        border: 2px solid #96CAF0;
-    }
-    #submit_button:hover {
-        background: #96CAF0;
-        border: 2px solid #96CAF0;
-        color: #fff;
-        font-weight: 600;
-    }
-</style>
+<style></style>
+<link rel="stylesheet" href="css/myPage/processRequest.css" type="text/css"/>
 </head>
 <body>
 	<!-- 헤더 -->
@@ -28,43 +12,355 @@
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	<!-- 플래너페이지 어퍼바 -->
 	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
-
-	<div class="flex-container" style="text-align:center; margin-left:auto;">
-		<div style="height:80px;"></div>
-		<!-- 여행지 참고 사항 출력창 -->
-		<div style="margin:auto; width:800px; height:220px; border:1px solid #b9b9b9; border-radius:10px;">
-			<!-- 여행지 -->
-			<div style="float:left; margin-top:20px;  margin-left:40px; font-size:40px; font-weight:800px;">
-				<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-right:-15px; margin-top:-10px;">
-					<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-				</svg>
-				여행지
+	
+	<form id="request" action="requestEnd.mp" method="post">
+		<div class="flex-container">
+			<div style="height:80px;"></div>
+			<div id="req-ref-div">
+				<div id="spot-div">
+					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-right:-15px; margin-top:-10px;">
+						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+					</svg>
+					<span id="spot-span">[[${planner.localName}]]</span>
+				</div>
+				<div id="reqMem-div" class="req-div">
+					<span id="reqMem" class="inner-span">신청인 : </span><span>[[${reqMem.nickname}]]</span>
+				</div>
+				<div id="reqDate-div" class="req-div">
+					<span id="dateText" class="inner-span">날짜 : </span><span id="date">[[${s.startDate}]] ~ [[${s.endDate}]]</span>
+				</div>
+				<div id="note-div" class="req-div">
+					<span class="inner-span">[[${rs.reqRef}]]</span>
+				</div>
 			</div>
-			<!-- 참고사항 입력한거 -->
-			<div id="note" style="margin-top:90px; margin-left:-400px;">
-				저는 해산물을 선호하지 않습니다
+			<div id="contain-sche-div">
+				<div id="planAll" class="grid">
+					<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
+						<div class="dayText" th:text="|${date.key}일차|"></div>
+						<div class="date" th:text="${date.value}"></div><input type="hidden" name="day" th:value="${date.value}"/>
+						<div class="planDiv">
+							<div class="one-plan">
+								<div class="plan-spans">
+									<span class="line"><span class="round"></span></span>
+								</div>
+								<div class="plan-inputs">
+									<div>
+										<input type="text" name="place" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창">
+									</div>
+									<div>
+										<input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창">
+									</div>
+									<div>
+										<input type="text" name="memo" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창">
+									</div>
+								</div>
+								<div class="plan-images">
+									<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png" /> 
+									<img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png" />
+								</div>
+							</div>
+						</div>
+						<div class="addButton-div">
+							<button class="placeAddButton" type="button">장소 추가</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 제출버튼 -->
+			<div id="sb-div">
+				<button id="submit_button" type="button">제출</button>
 			</div>
 		</div>
-		<!-- 여행 일정 칸 -->
-		
-		여행일정칸임돠 
-		<div style="height:40px;"></div>
-		<!-- 제출버튼 -->
-		<div>
-			<button id="submit_button" onclick="submit()">제출</button>
-		</div>
-	</div>
-		
-	<div style="margin-bottom: 500px"></div>
+		<div id="inputHiddens"></div>
+	</form>
 	
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
-	<script>
-		//진행 시 요청 진행 페이지로 이동
-		function submit(){
-			location.href="requestEnd.mp"
-		}
+	
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		const reqNo = /*[[${rs.reqNo}]]*/1;	
+		const reqMemNo = /*[[${rs.reqMemNo}]]*/1;
+		/*]]>*/
 		
+		window.onload = () => {
+			document.querySelectorAll('.placeAddButton').forEach(function(addButton) {
+				addButton.addEventListener('click', function(e){
+					let planDiv = e.target.parentElement.previousElementSibling;
+
+					const newOnePlan = document.createElement('div');
+					newOnePlan.classList.add('one-plan');
+					
+					const planSpans = document.createElement('div');
+					planSpans.classList.add('plan-spans');
+					planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
+					
+					let ii = 1;
+					const planInputs = document.createElement('div');
+					planInputs.classList.add('plan-inputs');
+					planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" name="place" placeholder="장소 입력창"></div><div><input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창"></div>';
+					ii++;
+					
+					const planImages = document.createElement('div');
+					planImages.classList.add('plan-images');
+					planImages.innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>'
+					+ ' <img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
+					
+					newOnePlan.appendChild(planSpans);
+					newOnePlan.appendChild(planInputs);
+					newOnePlan.appendChild(planImages);
+					
+					planDiv.appendChild(newOnePlan);
+				});
+			});
+			
+			let index = 0;
+			let labelDiv = '';
+			const timeReg = /^([01]\d|2[0-3]):([0-5]\d)$/;
+			
+			let originalPlace;
+			let originalTime;
+			let originalMemo;
+			
+			document.getElementById('planAll').addEventListener('click', function(e){
+				if(e.target.classList.contains('bi-pencil')) {
+					let onePlan = e.target.closest('.one-plan');
+					let labels = onePlan.querySelectorAll('.planLabel');
+
+					labels.forEach(function(label) {
+						let input = label.previousElementSibling;
+			        	console.log(input);
+						input.value = label.innerText;
+						if(label == labels[0]){
+							originalPlace = label.innerText;
+						} else if(label == labels[1]){
+							originalTime = label.innerText;
+						} else if(label == labels[2]){
+							originalMemo = label.innerText;
+						}
+						label.remove();
+						input.style.display = 'inline';
+					});
+					
+					let plLabels = onePlan.querySelector('.plan-labels');
+					plLabels.className = 'plan-inputs edit-inputs';
+					
+					let childDivs = plLabels.querySelectorAll('div');
+					
+					childDivs.forEach(function(classRemove) {
+						classRemove.classList.remove('label-div');
+					});
+					
+					onePlan.querySelector('.plan-images').innerHTML = '<img class="planInputIcon check-icon edit-image" style="width: 16px; height: 17px;" src="image/Check.png"/>&nbsp;<img class="planInputIcon trash-icon edit-image" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
+		        }
+				
+				if (e.target.classList.contains('check-icon')) {
+					let onePlan = e.target.closest('.one-plan');
+					let inputs = onePlan.querySelectorAll('input.plan-text');
+					
+					let placeInput = inputs[0];
+					let timeInput = inputs[1];
+					let memoInput = inputs[2];
+					
+					if(placeInput.value.trim() != '' && timeInput.value.trim() != ''){
+						if(!timeReg.test(timeInput.value)){
+							alert('올바른 시간을 입력해 주세요.');
+						}
+						
+						let label = null;
+						inputs.forEach(function(input) {
+							let value = input.value;
+							label = document.createElement('label');
+							label.innerText = value;
+							
+							if(input == inputs[2] && value == ""){
+								input.value = "-";
+							}
+							
+							label.classList.add('planLabel');
+							input.style.display = 'none';
+							
+							if(input == inputs[0]){
+								label.classList.add('placeLabel');
+							} else if(input == inputs[1]){
+								label.classList.add('timeLabel');
+							} else if(input == inputs[2]){
+								label.classList.add('memoLabel');
+							}
+							
+							input.parentNode.insertBefore(label, input.nextSibling);
+							label.parentElement.className = 'label-div';
+							label.parentElement.parentElement.style.background = 'none';
+						});
+
+						let icons = onePlan.querySelectorAll('img.planInputIcon');
+						icons.forEach(function(icon) {
+							icon.remove();
+						});
+						
+						onePlan.children[1].className = 'plan-labels';
+						
+					} else {
+						alert('계획을 입력해 주세요.');
+					}
+		        } else if (e.target.classList.contains('trash-icon')) {
+		            let onePlan = e.target.closest('.one-plan');
+		            let planDiv = e.target.closest('.planDiv');
+		            let onePlans = planDiv.querySelectorAll('.one-plan');
+		            
+		            let count = 0;
+		            
+		            for(let i = 0; i < onePlans.length; i++){
+		            	count++;
+		            }
+		            
+		            if(count > 1){
+			            onePlan.remove();
+		            } else {
+		            	alert('한 개의 일정은 존재해야 합니다.');
+		            }
+		            
+		        } else if (e.target.classList.contains('planLabel') || e.target.classList.contains('label-div')) {
+		        	let bgCheckDiv = document.querySelectorAll('.plan-labels');
+	        		for(const bgDiv of bgCheckDiv){
+	        			if(bgDiv.style.background != 'none') {
+	        				bgDiv.style.background = 'none';
+	        				bgDiv.nextElementSibling.innerHTML = '';
+	        			}
+	        		}
+	        		
+		        	if(e.target.classList.contains('planLabel')){
+			        	labelDiv = e.target.parentElement.parentElement;
+		        	} else {
+			        	labelDiv = e.target.parentElement;
+		        	}
+		        	
+		        	labelDiv.style.background = '#E9F5FE';
+		        	let imagesDiv = labelDiv.nextElementSibling;
+		        	labelDiv.classList.add('edit-labels');
+		        	imagesDiv.innerHTML = '<img class="bi-pencil" style="width: 16px; height: 16px;" src="image/penpen.png"/><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
+		        	
+		        }
+		    });
+			
+			document.querySelector('body').addEventListener('click', e => {
+				// label 클릭한 후 다른 곳 클릭하면 배경색 없어지고 펜이랑 휴지통 아이콘 사라지는 스크립트
+				let editLabels = document.querySelector('.edit-labels');
+				
+				if(editLabels != null){
+					let onePlan = editLabels.closest('.one-plan');
+					let labelDivs = Array.from(onePlan.querySelectorAll('.label-div'));
+					let planTexts = Array.from(onePlan.querySelectorAll('.plan-text'));
+					let planLabel = Array.from(onePlan.querySelectorAll('.planLabel'));
+					
+					if(e.target != onePlan && !planTexts.includes(e.target) && 
+					!planLabel.includes(e.target) && !labelDivs.includes(e.target)){
+						editLabels.style.background = 'none';
+						editLabels.classList.remove('edit-labels');
+						editLabels.nextElementSibling.innerHTML = '';
+					}
+					
+				}
+				
+				// 입력 완료 후 label click -> pencil icon click -> 수정 중일 때 다른 곳 클릭하면 돌아가는 스크립트
+				let editInputs = document.querySelector('.edit-inputs');
+				
+				if(editInputs != null && !e.target.classList.contains('bi')){
+					
+					let planText = Array.from(editInputs.querySelectorAll('input.plan-text'));
+					
+					if(e.target != editInputs && !planText.includes(e.target) && 
+					   editInputs.style.background != 'none'){
+						
+						editInputs.style.background = 'none';
+						editInputs.classList.remove('edit-inputs');
+						
+						if(planText[0].value.trim() == '') planText[0].value = originalPlace;
+						if(planText[1].value.trim() == '') {
+							if(!timeReg.test(originalTime)){
+								originalTime = '12:00';
+							}
+							planText[1].value = originalTime;
+						}
+						
+						if(planText[2].value.trim() == '') planText[2].value = originalMemo;
+						
+						labelChange(planText, editInputs);
+					}
+					
+				}
+			})
+			
+			function labelChange(planText, editInputs){
+				let label = null;
+				
+				let placeInput = planText[0];
+				let timeInput = planText[1];
+				let memoInput = planText[2];
+				
+				for(const input of planText){
+					let value = input.value;
+					label = document.createElement('label');
+					label.innerText = value;
+					
+					label.classList.add('planLabel');
+					input.style.display = 'none';
+					
+					if(input.classList.contains('placeInput')){
+						label.classList.add('placeLabel');
+					} else if(input.classList.contains('timeInput')){
+						label.classList.add('timeLabel');
+					} else if(input.classList.contains('memoInput')){
+						label.classList.add('memoLabel');
+					}
+					
+					input.parentNode.insertBefore(label, input.nextSibling);
+					label.parentElement.className = 'label-div';
+					label.parentElement.parentElement.style.background = 'none';
+				}
+				
+				editInputs.nextElementSibling.innerHTML = '';
+				editInputs.className = 'plan-labels';
+			}
+			
+			//진행 시 요청 진행 페이지로 이동
+			document.getElementById('submit_button').addEventListener('click', function(){
+				/*<![CDATA[*/
+				const scNo = /*[[${s.scNo}]]*/1;
+				/*]]>*/
+				
+				document.getElementById('inputHiddens').innerHTML = '<input type="hidden" name="count" id="count" value=""/><input type="hidden" name="scNo" value="' + scNo + '"/>';
+				
+				let i = 0;				
+				const dayPlans = document.querySelectorAll('#planAll .dayPlan');
+				
+				const inputCheck = document.querySelectorAll('.placeInput');
+				for(input of inputCheck){
+					if(input.style.display != 'none'){
+						alert('여행 계획을 완성해 주세요');
+						break;
+					}
+				}
+				
+				dayPlans.forEach(function(dayPlan){
+					let dayText = dayPlan.children[0].value; // n일차
+					let day = dayPlan.children[2].value; // 날짜
+					
+					let onePlans = dayPlan.getElementsByClassName('one-plan');
+					let count = onePlans.length; // 그날 계획 몇 개?
+
+					
+					let cInput = document.getElementById("count");
+					for(let j = 0; j < count; j++){
+						if(j + 1 == count){
+							cInput.value += count + ';';
+						}
+					}
+				})
+				
+				document.getElementById('request').submit();
+			})
+		}
 	</script>
 </body>
 </html>

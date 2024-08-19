@@ -10,6 +10,8 @@
    	th{font-size:24px;}
    	td{padding:15px;}
 </style>
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 </head>
 <body>
 	<!-- 헤더 -->
@@ -19,46 +21,54 @@
 	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
 	
 	<div class="flex-container" style="text-align:center; margin-left:auto;">
-		<div style="height:160px;"></div>
+		<br/>
 		<div style="display:inline-block; width:1200px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
 		<table>
 			<thead>
 			 	<tr style="border-bottom:2px solid #96CAF0;">
-					<th><p>요청번호</p></th>
-					<th><p>여행기간</p></th>
+					<th><p>No.</p></th>
 					<th><p>요청자</p></th>
+					<th><p>여행기간</p></th>
 					<th><p>진행상태</p></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr style="border-bottom:2px solid #b9b9b9" th:each="r : ${reqList}">
 					<td id="requestNumber">[[${r.reqNo}]]</td>
-					<td id="date">[[${r.nightDay}]]</td>
 					<td id="planner">[[${r.nickname}]]</td>
-					<td id="status">[[${r.reqStatus}]]</td>
+					<td class="width: 300px" id="date">[[${r.startDay}]] ~ [[${r.endDay}]]</td>
+					<td id="status" th:if="${r.reqStatus == 1}">일정 미작성</td>
+					<td id="status" th:if="${r.reqStatus == 2}">구매 확정 대기 중</td>
+					<td style="color: #2F6598; font-weight: bold;" id="status" th:if="${r.reqStatus == 3}">구매 확정</td>
+					<td style="color: red; font-weight: bold;"id="status" th:if="${r.reqStatus == 4}">신청 취소</td>
 				</tr>
 			</tbody>
-		</table>
-		<!-- 페이지네이션 -->
-		<div class="text-center" style="margin-top:25px; text-align:center;">
-			<ul class="pagination">
-				<!-- 이전링크 -->
-				<li style="margin-left:auto;"><a href='#'>&lt;</a></li>
-				<!-- 번호 이동 -->
-				<li class="pageNumber"><a href='#'>1</a></li>
-				<li class="pageNumber"><a href='#'>2</a></li>
-				<li class="pageNumber"><a href='#'>3</a></li>
-				<li class="pageNumber"><a href='#'>4</a></li>
-				<li class="pageNumber"><a href='#'>5</a></li>
-				<!-- 다음링크 -->
-				<li style="margin-right:auto;"><a href='#'>&gt;</a></li>
-			</ul>
-		</div>
-		</div>
-	</div>
-	
-	
-	<div style="margin-bottom: 300px"></div>
+		</table><br/>
+			<!-- 페이지네이션 -->
+			<nav class="d-flex justify-content-center">
+	        	<ul class="pagination" th:with="loc=${ loc }">
+	        		 <!-- 이전 버튼 -->
+		            <li class="page-item">
+		            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+		            		<span aria-hidden="true">&laquo;</span>
+		              	</a>
+		            </li>
+		            
+		             <!-- 페이지 넘버링 버튼  -->
+					<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+						<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+					</li>
+		           
+		             <!-- 다음 버튼  -->
+		            <li class="page-item">
+		            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+		            		<span aria-hidden="true">&raquo;</span>
+		            	</a>
+		            </li>
+		    	</ul>
+	        </nav>
+		</div>	
+	</div><br/>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	<script>

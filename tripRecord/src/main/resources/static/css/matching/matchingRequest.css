@@ -12,6 +12,12 @@
 	font-size: 30px;
 	margin-top: 30px;
 }
+
+.dateguide {
+	font-size: 15px;
+	color: gray;
+}
+
 /* 폼 감싸는 div */
 .main-div {
 	text-align: center;
@@ -67,22 +73,24 @@
 }
 
 /* 일정 신청 버튼 */
-#createButton {
-	margin-top: 30px;
-	background: #96CAF0;
-	border: none;
-	border-radius: 20px;
-	color: white;
-	font-weight: bold;
-	font-size: 15px;
-	padding: 12px;
-	margin-bottom: 60px;
+#insert{
+	margin: 30px 0px 60px 0px;
+	color: #2F6598; 
+    background-color: white; 
+    width: 80px; 
+    height: 40px; 
+    border: none; 
+    border-radius: 20px; 
+    margin-right: 5px; 
+    border: 2px solid #2F6598;
+}
+#insert:hover{
+	 background: #2F6598;
+     border: 2px solid #2F6598;
+     color: #fff;
+     font-weight: 600;
 }
 
-#createButton:hover {
-	cursor: pointer;
-	background: #58aae7;
-}
 
 .form-check-input {
 	border-color: #222222 !important;

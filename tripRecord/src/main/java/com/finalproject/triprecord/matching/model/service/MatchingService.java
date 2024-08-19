@@ -46,6 +46,8 @@ public interface MatchingService {
 	ArrayList<Image> selectrImgList();
 	
 	ArrayList<Image> selectrImgList(int rNo);
+	
+	ArrayList<Image> selectiImgList(int pNo);
 
 	Review selectReview(int rNo);
 	
@@ -60,5 +62,9 @@ public interface MatchingService {
 	ArrayList<Planner> topPlannerList();
 
 	ArrayList<HashTag> selectTagList(int pNo);
+
+	int checkPoint(HashMap<String, Integer> map);
+
+	
 
 }

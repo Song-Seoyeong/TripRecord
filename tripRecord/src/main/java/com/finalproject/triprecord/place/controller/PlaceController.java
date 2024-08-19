@@ -320,7 +320,7 @@ public class PlaceController {
 			model.addAttribute("p", p);
 			return "placeReviewUpdate";
 		}else {
-			throw new PlaceException("리뷰 상세 보기 중 에러 발생");
+			throw new PlaceException("리뷰 수정 페이지 이동 중 에러 발생");
 		}
 	}
 	

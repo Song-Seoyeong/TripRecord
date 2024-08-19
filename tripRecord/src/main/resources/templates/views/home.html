@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <title>여행을 기록하다</title>
 <link type="text/css" href="css/home.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon" />
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<div th:replace="~{ common/logoBar.html :: logoBar}"></div>
@@ -67,8 +67,9 @@
 		<br/>
 		<hr/>
 		<div class="contatiner d-flex justify-content-center">
-			<div class="goSchedule">
+			<div class="goSchedule position-relative">
 				<img class="goSchedule-img" th:src="|https://drive.google.com/thumbnail?id=${img.imageRename}&sz=w1000|" alt="일정 페이지 넘어가기" id='planImg'>
+				<span class="goSchedule-text fs-4 fw-bold position-absolute" id='planText'>여행 계획 세우러 가기 >></span>
 			</div>
 		</div>
 		<hr />
@@ -99,6 +100,9 @@
 	document.getElementById('planImg').addEventListener('click', function(){
 		location.href = 'planMain.pl';
 	})
+	document.getElementById('planText').addEventListener('click', function(){
+		location.href = 'planMain.pl';
+	})
 	
 	// 플래너 이미지 클릭시 이동
 	const plannerCards = document.getElementsByClassName('planner-card');
@@ -124,7 +128,7 @@
 		$.ajax({
 			url:"updateReqStatus.mp",
 			success: data=>{
-				console.log(data)
+				console.log(data.msg)
 			},
 			error: data => console.log(data)
 		})

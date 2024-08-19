@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>플래너 후기 작성하기</title>
 
-<link type='text/css' href='css/recoPlace/placeReviewWrite.css' rel='stylesheet'>
+<link type='text/css' href='css/matching/matchingReview.css' rel='stylesheet'>
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 </head>
@@ -14,39 +14,38 @@
 <div id="mainContainer" class="container-fluid justify-content-center">
 	<div class="d-flex justify-content-center mb-3">
 		<!-- 플래너 정보 -->
-			<div id="plannerInfo" class="m-3">
-				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
-					<div th:if="${planner.imageRename != null}" class="d-flex justify-content-center p-3">
-						<img class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
+		<div id="plannerInfo" class="m-3">
+			<div class="d-flex justify-content-center align-items-center shadow border bg-light rounded-3">
+				<div class="d-flex justify-content-center p-3">
+					<img th:if="${planner.imageRename != null}" class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
+				</div>
+				<div class="d-flex justify-content-center p-3">
+					<img th:if="${planner.imageRename == null}" class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
+				</div>
+				<div class="p-3">
+					<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
+					<div class="mx-3 mt-2" style="width: 400px">[[${planner.sIntroContent}]]</div>
+					<div class="mx-3">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+							<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
+							<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+						</svg> [[${localName}]]
 					</div>
-					<div class="p-3">
-						<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
-						<div class="mx-3 mt-2" style="width: 400px">[[${planner.sIntroContent}]]</div>
-						<div class="mx-3">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
-								<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
-								<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-							</svg> [[${localName}]]
-						</div>
-						<div class="mx-3 mt-2">
-							<button id="likeButton" class="btn btn-outline-danger" th:classappend="${checkLikes != 0} ? 'active' : ''">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-									<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-								</svg>
-								좋아요 <span id="likeCount">[[${likes}]]</span>
-							</button>
-						</div>
-						<div class="mx-3 mt-2">
-							<a style="text-decoration: none; color: black;" href="#">#해시태그 인원</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그1</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그2</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그3</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그4</a>&nbsp;&nbsp;
-						</div>
+					<div class="mx-3 mt-2">
+						<button id="likeButton" class="btn btn-outline-danger" th:classappend="${checkLikes != 0} ? 'active' : ''">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
+							</svg>
+							좋아요 <span id="likeCount">[[${likes}]]</span>
+						</button>
+					</div>
+					<div class="mx-3 mt-2">
+						<th:block th:each="t : ${tagList}" th:text="'#'+${t.tagName} +'&nbsp;&nbsp;'"></th:block>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
 	<!-- form 영역 -->
 	<form action="insertReview.ma" method='POST' enctype="multipart/form-data" id='reviewForm'>
@@ -56,7 +55,6 @@
 			<div id='reviewTitle'>
 				<h3>후기 제목</h3>
 				<input type='text' name='reviewTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
-				
 			</div>
 			<div id='starReview'>
 				<input type='hidden' name='reviewStar' value='0' id='reviewStar' >
@@ -178,7 +176,40 @@
 				// 새로운 별 요소들에 이벤트 리스너 다시 추가
 	            addStarClickListeners();
 			}
-			
-		})
+		});
+		document.getElementById('likeButton').addEventListener('click', () => {
+			const pNo = [[${ planner.memberNo }]];
+			const likeButton = document.getElementById('likeButton');
+		    let url = '';
+		    let changeLikes = 0;
+		    
+
+		    if (likeButton.classList.contains('active')) {
+		        url = 'deleteLikes.ma';
+		        changeLikes = -1;
+		    } else {
+		        url = 'insertLikes.ma';
+		        changeLikes = +1;
+		    }
+		    
+		    $.ajax({
+		        type: "POST",
+		        url: url,
+		        data: { pNo : pNo },
+		        dataType: 'json',
+		        success: data => {
+		            if(data.result == -1) {
+		                alert('로그인 후에 [좋아요] 할 수 있습니다.');
+		            } else if(data.result > 0) {
+		                likeButton.classList.toggle('active');
+		                
+		                let currentLike = parseInt(document.getElementById('likeCount').textContent);
+		                document.getElementById('likeCount').textContent = currentLike + changeLikes;
+		            } else {
+		                alert('[좋아요]에 실패했습니다.');
+		            }
+		        }
+		    });
+		});
 	</script>
 </html>

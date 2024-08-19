@@ -65,4 +65,8 @@ public interface MatchingMapper {
 
 	ArrayList<HashTag> selectTagList(int pNo);
 
+	int checkPoint(HashMap<String, Integer> map);
+
+	ArrayList<Image> selectiImgList(int pNo);
+
 }

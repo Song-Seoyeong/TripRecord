@@ -147,4 +147,15 @@ public class MatchingServiceImpl implements MatchingService {
 		return matMapper.selectTagList(pNo);
 	}
 
+	@Override
+	public int checkPoint(HashMap<String, Integer> map) {
+		return matMapper.checkPoint(map);
+	}
+
+	@Override
+	public ArrayList<Image> selectiImgList(int pNo) {
+		return matMapper.selectiImgList(pNo);
+	}
+
+
 }

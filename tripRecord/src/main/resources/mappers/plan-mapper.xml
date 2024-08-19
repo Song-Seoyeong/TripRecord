@@ -9,8 +9,8 @@
 		</selectKey>
 
 		insert into schedule
-		values(#{scNo}, #{scLocalNo}, #{writerNo}, #{startDate}, #{endDate}, default,
-		default)
+		values(#{scNo}, #{scLocalNo}, #{writerNo},
+		#{startDate}, #{endDate}, default, default)
 	</insert>
 
 
@@ -43,9 +43,10 @@
 		select sc_no, sc_local_no,
 		local_name, sc_writer_no, sc_start_date, sc_end_date
 		from schedule
-		join local on(local_no = sc_local_no)
+		join
+		local on(local_no = sc_local_no)
 		where sc_writer_no = #{memberNo} and
-		sc_del_status = 'N'
+		sc_del_status = 'N' and req_check = 'N'
 		order by sc_no desc
 	</select>
 
@@ -91,8 +92,8 @@
 
 	<update id="detailTripUpdate">
 		update plan
-		set pl_place = #{place}, pl_time = #{time}, pl_memo = #{memo,
-		jdbcType=VARCHAR}
+		set pl_place = #{place}, pl_time =
+		#{time}, pl_memo = #{memo, jdbcType=VARCHAR}
 		where pl_no = #{plNo}
 	</update>
 
@@ -109,7 +110,8 @@
 	</select>
 
 	<update id="updatePoint">
-		update member set member_point = member_point + 1000
+		update member
+		set member_point = member_point + 1000
 		where member_no = #{memberNo}
 	</update>
 

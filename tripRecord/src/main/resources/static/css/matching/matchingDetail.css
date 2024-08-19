@@ -2,9 +2,57 @@
 	width: 1400px;
 }
 
-button {
-	background-color: #96caf0;
+#request, #goList{
+	color: #2F6598; 
+    background-color: white; 
+    width: 100px; 
+    height: 40px; 
+    border: none; 
+    border-radius: 20px; 
+    margin-right: 5px; 
+    border: 2px solid #2F6598;
 }
+#request:hover, #goList:hover{
+	 background: #2F6598;
+     border: 2px solid #2F6598;
+     color: #fff;
+     font-weight: 600;
+}
+
+#request, #goPlanner{
+	color: #2F6598; 
+    background-color: white; 
+    width: 100px; 
+    height: 40px; 
+    border: none; 
+    border-radius: 20px; 
+    margin-right: 5px; 
+    border: 2px solid #2F6598;
+}
+#request:hover, #goPlanner:hover{
+	 background: #2F6598;
+     border: 2px solid #2F6598;
+     color: #fff;
+     font-weight: 600;
+}
+
+#goList {
+	color: #96caf0; 
+    background-color: white; 
+    width: 100px; 
+    height: 40px; 
+    border: none; 
+    border-radius: 20px; 
+    margin-right: 5px; 
+    border: 2px solid #96caf0;
+}
+#goList:hover{
+	 background: #96caf0;
+     border: 2px solid #96caf0;
+     color: #fff;
+     font-weight: 600;
+}
+
 
 .emptyReview {
 	height : 300px;
@@ -12,4 +60,124 @@ button {
 
 .requestContainer {
 	width: 330px;
+}
+
+
+.bin-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background-color: rgb(255, 95, 95);
+  border: 1px solid rgb(255, 95, 95);
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+.bin-bottom {
+  width: 15px;
+}
+.bin-top {
+  width: 17px;
+  transform-origin: right;
+  transition-duration: 0.3s;
+}
+.bin-button:hover .bin-top {
+  transform: rotate(45deg);
+}
+.bin-button:hover {
+  background-color: rgb(255, 0, 0);
+}
+.bin-button:active {
+  transform: scale(0.9);
+}
+.editBtn {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  border: none;
+  background-color: #96caf0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.editBtn::before {
+  content: "";
+  width: 200%;
+  height: 200%;
+  background-color: #2F6598;
+  position: absolute;
+  z-index: 1;
+  transform: scale(0);
+  transition: all 0.1s;
+  border-radius: 50%;
+  filter: blur(10px);
+}
+.editBtn:hover::before {
+  transform: scale(1);
+}
+
+
+.editBtn svg {
+  height: 17px;
+  fill: white;
+  z-index: 3;
+  transition: all 0.2s;
+  transform-origin: bottom;
+}
+.editBtn:hover svg {
+  transform: rotate(-15deg) translateX(5px);
+}
+.editBtn::after {
+  content: "";
+  width: 25px;
+  height: 1.5px;
+  position: absolute;
+  bottom: 19px;
+  left: -5px;
+  background-color: white;
+  border-radius: 2px;
+  z-index: 2;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease-out;
+}
+.editBtn:hover::after {
+  transform: scaleX(1);
+  left: 0px;
+  transform-origin: right;
+}
+#drop{
+	margin: 0px 5px;
+	color: black;
+}
+#drop:active {
+	box-shadow:none;
+}
+#beforeDel, #afterDel, #afterUp, #beforeUp{
+	float: left;
+}
+#afterDel, #afterUp{
+	display: none ;
+}
+#deleteButton:hover, #updateButton:hover{
+	background: #f7f7f7;
+}
+#deleteButton:hover #afterDel{
+	display: inline-block ;
+}
+#deleteButton:hover #beforeDel{
+	display: none;
+}
+#updateButton:hover #afterUp{
+	display: inline-block ;
+}
+#updateButton:hover #beforeUp{
+	display: none;
 }

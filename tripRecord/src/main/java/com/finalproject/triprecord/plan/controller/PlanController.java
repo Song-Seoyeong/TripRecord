@@ -206,14 +206,14 @@ public class PlanController {
 		int result = plService.savePlanInsert(s, plList, tagList); // serviceImpl 주의
 		
 		if(result > 0) {
-			return "redirect:/";
+			return "redirect:myTripNote.pl";
 		} else {
 			throw new PlanException("일정을 저장하던 중 오류가 발생했습니다.");
 		}
 	}
 	
 	// 마이페이지 내 일정 보기 -> 내 여행 노트 리스트
-	@GetMapping("myTripNote.pl")
+	@GetMapping("myTripNote.mp")
 	public String myTripNoteList(HttpSession session, HttpServletRequest request, 
 								Model model, @RequestParam(value="page", defaultValue="1") int currentPage) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
@@ -232,7 +232,7 @@ public class PlanController {
 	    	Date today = new Date(); // 오늘 날짜 생성
 	    	
 	    	for(int i = 0; i < sList.size(); i++) {
-	    		if(today.compareTo(sList.get(i).getScEndDate()) > 0) { // endDate 가 지났다면
+	    		if(today.compareTo(sList.get(i).getScStartDate()) > 0) { // endDate 가 지났다면
 	    			sList.get(i).setStatus("완료");	// 여행 상태 : 완료
 	    			
 	    		} else {
@@ -276,7 +276,7 @@ public class PlanController {
 	}
 	
 //	마이페이지 내 일정 보기 -> 내 여행 노트 -> 상세 조회
-	@GetMapping("detailMyTripNote.pl")
+	@GetMapping("detailMyTripNote.mp")
 	public String detailMyTripNote(@RequestParam("scNo") int scNo, @RequestParam(value="page", defaultValue="1") int page, 
 									HttpSession session, Model model, RedirectAttributes ra, HttpServletRequest req) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
@@ -313,7 +313,7 @@ public class PlanController {
 	}
 	
 	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 일정 삭제
-	@PostMapping("deleteTripNote.pl")
+	@PostMapping("deleteTripNote.mp")
 	public String deleteTripNote(@RequestParam("scNo") int scNo) {
 		int result = plService.deleteTripNote(scNo);
 		if(result > 0) {
@@ -324,7 +324,7 @@ public class PlanController {
 	}
 	
 	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 장소, 시간, 메모 수정 ajax 
-	@GetMapping("detailTripUpdate.pl")
+	@GetMapping("detailTripUpdate.mp")
 	@ResponseBody
 	public String detailTripUpdate(@RequestParam("place") String place, @RequestParam("time") String time, @RequestParam("memo") String memo, @RequestParam("plNo") String plNo) {
 		Properties prop = new Properties();
@@ -337,7 +337,7 @@ public class PlanController {
 	}
 	
 	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 예약 여부 수정 ajax 
-	@GetMapping("updateReserve.pl")
+	@GetMapping("updateReserve.mp")
 	@ResponseBody
 	public String updateReserve(@RequestParam("plNo") String plNo, @RequestParam("status") String status) {
 		Properties prop = new Properties();
@@ -347,7 +347,7 @@ public class PlanController {
 		return result > 0 ? "1" : "0";
 	}
 	
-	@GetMapping("detailDeletePlan.pl")
+	@GetMapping("detailDeletePlan.mp")
 	@ResponseBody
 	public String detailDeletePlan(@RequestParam("plNo") String plNo) {
 		int result = plService.detailDeletePlan(plNo);

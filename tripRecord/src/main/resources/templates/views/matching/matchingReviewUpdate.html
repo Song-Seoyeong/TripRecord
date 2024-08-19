@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>플래너 후기 수정하기</title>
 
-<link type='text/css' href='css/recoPlace/placeReviewUpdate.css' rel='stylesheet'>
+<link type='text/css' href='css/matching/matchingReview.css' rel='stylesheet'>
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 </head>
@@ -15,9 +15,12 @@
 	<div class="d-flex justify-content-center mb-3">
 		<!-- 플래너 정보 -->
 			<div id="plannerInfo" class="m-3">
-				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
-					<div th:if="${planner.imageRename != null}" class="d-flex justify-content-center p-3">
-						<img class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
+				<div class="d-flex justify-content-center align-items-center shadow border bg-light rounded-3">
+					<div class="d-flex justify-content-center p-3">
+						<img th:if="${planner.imageRename != null}" class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
+					</div>
+					<div class="d-flex justify-content-center p-3">
+						<img th:if="${planner.imageRename == null}" class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
 					</div>
 					<div class="p-3">
 						<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
@@ -37,11 +40,7 @@
 							</button>
 						</div>
 						<div class="mx-3 mt-2">
-							<a style="text-decoration: none; color: black;" href="#">#해시태그 인원</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그1</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그2</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그3</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그4</a>&nbsp;&nbsp;
+							<th:block th:each="t : ${tagList}" th:text="'#'+${t.tagName} +'&nbsp;&nbsp;'"></th:block>
 						</div>
 					</div>
 				</div>
@@ -51,6 +50,7 @@
 	<!-- form 영역 -->
 	<form action="updateReview.ma" method='POST' enctype="multipart/form-data" id='reviewForm'>
 		<input type="hidden" name="plannerNo" id="plannerNo" th:value=${planner.memberNo}>
+		<input type="hidden" name="reviewNo" id="plannerNo" th:value=${r.reviewNo}>
 		<input type='hidden' name='page' th:value=1>
 		<div id='inputDiv'>
 			<div id='reviewTitle'>
@@ -221,5 +221,41 @@
 			}
 			
 		});
+		
+		document.getElementById('likeButton').addEventListener('click', () => {
+			const pNo = [[${ planner.memberNo }]];
+			const likeButton = document.getElementById('likeButton');
+		    let url = '';
+		    let changeLikes = 0;
+		    
+
+		    if (likeButton.classList.contains('active')) {
+		        url = 'deleteLikes.ma';
+		        changeLikes = -1;
+		    } else {
+		        url = 'insertLikes.ma';
+		        changeLikes = +1;
+		    }
+		    
+		    $.ajax({
+		        type: "POST",
+		        url: url,
+		        data: { pNo : pNo },
+		        dataType: 'json',
+		        success: data => {
+		            if(data.result == -1) {
+		                alert('로그인 후에 [좋아요] 할 수 있습니다.');
+		            } else if(data.result > 0) {
+		                likeButton.classList.toggle('active');
+		                
+		                let currentLike = parseInt(document.getElementById('likeCount').textContent);
+		                document.getElementById('likeCount').textContent = currentLike + changeLikes;
+		            } else {
+		                alert('[좋아요]에 실패했습니다.');
+		            }
+		        }
+		    });
+		});
+		
 	</script>
 </html>

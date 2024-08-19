@@ -10,13 +10,14 @@ import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.model.vo.Cancel;
-import com.finalproject.triprecord.common.model.vo.FeedBack;
+import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
+import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 import com.finalproject.triprecord.plan.model.vo.Plan;
@@ -147,6 +148,53 @@ public interface MemberMapper {
 
 	void updateSchedule(ReqSchedule r);
 
+	Schedule detailSchedule(int scheNo);
 
+	int reqPlanInsert(ArrayList<Plan> plList);
+
+	int reqScheUpdate(int scNo);
+
+	int cancleRequest(int scNo);
+
+	int scDelStaUpdate(int scNo);
+
+	// 본인 작성 리뷰 전체
+	int getWholeReviewListCount(int memberNo);
+
+	// 본인 리뷰 불러오기
+	ArrayList<Review> getWholeReviewList(int memberNo, RowBounds rb);
 	
+	// 플래너 해쉬태그 불러오기
+	ArrayList<HashTag> getHashTag(int memberNo);
+
+	// 플래너 인트로 업데이트
+	int updatePlannerIntro(Planner planner);
+
+	// 소개 사진 유무 확인
+	int checkIntroImg(int memberNo);
+
+	// 플래너 이전 사진 rename 가져오기
+	Image existPlannerFileId(int memberNo);
+
+	// 플래너 이전 사진 데이터 db 삭제
+	int deletePlannerProfile(int memberNo);
+
+	ArrayList<HashTag> getTags();
+
+	// 해쉬태그 업데이트
+	int updateTag(HashMap<String, Object> pMap);
+
+	// 해쉬태그 삭제
+	int deleteTag(int memberNo);
+
+	// 은행 업데이트
+	int updateAccount(HashMap<String, Object> pMap);
+
+	// 정산 리스트 불러오기
+	ArrayList<Calculate> getCalcList(int memberNo, RowBounds rb);
+
+	// 정산 리스트 수
+	int calcListCount(int memberNo);
+
+
 }
