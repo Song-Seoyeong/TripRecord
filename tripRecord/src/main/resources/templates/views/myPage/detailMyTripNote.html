@@ -25,7 +25,7 @@
 	<form id="detailMyTripForm">
 		<div class="flex-container">
 			<span class="secondSidebar"><a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a></span>
-        	<span class="secondSidebar"><a class="nav-link" href="myTripNote.pl">내 여행 노트</a></span>
+        	<span class="secondSidebar"><a class="nav-link" href="myTripNote.mp">내 여행 노트</a></span>
 			
 			<div id="contain-all-div">
 				<div id="title-div">내 여행노트</div>
@@ -149,7 +149,7 @@
 			
 			document.getElementById('delete_button').addEventListener('click', function(){
 				if(confirm("정말 삭제하시겠습니까?")){
-					form.action = "deleteTripNote.pl";
+					form.action = "deleteTripNote.mp";
 					form.method = "post";
 					form.submit();
 				} else {
@@ -276,7 +276,7 @@
 			            plNo = onePlan.children[0].value;
 			            
 			            $.ajax({
-			            	url: 'detailDeletePlan.pl',
+			            	url: 'detailDeletePlan.mp',
 			            	data: {plNo:plNo},
 			            	success: data => {
 								if(data == "1") {
@@ -357,7 +357,7 @@
 		        	console.log(status);
 		        	
 		        	$.ajax({
-		        		url: 'updateReserve.pl',
+		        		url: 'updateReserve.mp',
 		        		data: {
 		        			plNo:plNo,
 		        			status:status
@@ -512,7 +512,7 @@
 				$('#spot-span').text(newSpot);
 				
 				$.ajax({
-					url: 'updateValue.pl',
+					url: 'updateValue.mp',
 					method: 'POST',
 					data: { 
 						startDate:newStartDate,
@@ -562,7 +562,7 @@
 			
 			function detailPlanUpdate(){
 				$.ajax({
-					url:'detailTripUpdate.pl',
+					url:'detailTripUpdate.mp',
 					data: {
 						place:placeLabel,
 						time:timeLabel,
