@@ -106,8 +106,15 @@
 		from image
 		where image_Ref_type = 'REVIEW'
 		<if test="rId != null">
-			and image_ref_no = #{rId}
+			and image_ref_no = #{ rId }
 		</if>
+	</select>
+	
+	<select id="selectiImgList">
+		select *
+		from image
+		where image_Ref_type = 'PLANNER'
+		and image_ref_no = #{ pNo }
 	</select>
 	
 	<select id="selectReview" resultType="Review">
@@ -124,8 +131,9 @@
 	
 	<delete id="deleteReviewImage">
 		delete from Image
-		<foreach collection="list" item="i" separator=",">
-			where Image_rename = #{i}
+		where Image_rename in
+		<foreach collection="list" item="i" open="(" separator="," close=")">
+			#{i}
 		</foreach>
 	</delete>
 	
@@ -176,6 +184,10 @@
 		where tag_ref_type = 'PLANNER' and tag_ref_no = #{ pNo }
 	</select>
 	
-	
+	<select id="checkPoint" resultType="_int">
+		select count(*)
+		from member
+		where member_No = #{loginUserNo} and member_Point >= #{payPoint}
+	</select>
 	
 </mapper>

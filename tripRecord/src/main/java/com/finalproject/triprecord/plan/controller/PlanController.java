@@ -206,7 +206,7 @@ public class PlanController {
 		int result = plService.savePlanInsert(s, plList, tagList); // serviceImpl 주의
 		
 		if(result > 0) {
-			return "redirect:/";
+			return "redirect:myTripNote.pl";
 		} else {
 			throw new PlanException("일정을 저장하던 중 오류가 발생했습니다.");
 		}
@@ -232,7 +232,7 @@ public class PlanController {
 	    	Date today = new Date(); // 오늘 날짜 생성
 	    	
 	    	for(int i = 0; i < sList.size(); i++) {
-	    		if(today.compareTo(sList.get(i).getScEndDate()) > 0) { // endDate 가 지났다면
+	    		if(today.compareTo(sList.get(i).getScStartDate()) > 0) { // endDate 가 지났다면
 	    			sList.get(i).setStatus("완료");	// 여행 상태 : 완료
 	    			
 	    		} else {

@@ -38,6 +38,7 @@ import com.finalproject.triprecord.plan.model.vo.Schedule;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -160,15 +161,17 @@ public class MatchingController {
 		Double AvgStar = matService.AverageStar(pNo);
 		int ReviewlistCount = matService.getReviewListCount(pNo);
 		PageInfo pi = Pagination.getPageInfo(currentReviewPage, ReviewlistCount, 5);
-		ArrayList<Review> rlist = matService.getReviewList(pi, pNo);
-		ArrayList<Image> rImgList = matService.selectrImgList();
+		ArrayList<Review> rList = matService.getReviewList(pi, pNo);
 		
+		ArrayList<Image> rImgList = matService.selectrImgList();
+		ArrayList<Image> iImgList = matService.selectiImgList(pNo);
 		
 		model.addAttribute("tagList", tagList);
 		model.addAttribute("AvgStar", AvgStar);
 		model.addAttribute("pi", pi);
-		model.addAttribute("rlist", rlist);
+		model.addAttribute("rList", rList);
 		model.addAttribute("rImgList", rImgList);
+		model.addAttribute("iImgList", iImgList);
 		model.addAttribute("planner", planner);
 		model.addAttribute("page", page);
 		model.addAttribute("checkLikes", checkLikes);
@@ -179,7 +182,7 @@ public class MatchingController {
 	}
 	
 	@GetMapping("matchingRequest.ma")
-	public String matchingRequest(@RequestParam("pNo") int pNo, @RequestParam("page") int page, Model model, HttpSession session) {
+	public String matchingRequest(@RequestParam("pNo") int pNo, @RequestParam("page") int page, @RequestParam(value="payPoint", defaultValue="0") int payPoint, Model model, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int loginUserNo = 0;
 		if(loginUser != null) {
@@ -198,6 +201,7 @@ public class MatchingController {
 		
 		String localNames = matService.selectLocalName(pNo);
 		
+		model.addAttribute("payPoint", payPoint);
 		model.addAttribute("planner", planner);
 		model.addAttribute("page", page);
 		model.addAttribute("checkLikes", checkLikes);
@@ -211,22 +215,24 @@ public class MatchingController {
 								@ModelAttribute ReqSchedule reqSchedule,
 								@RequestParam("pNo") int pNo,
 								@RequestParam("lNo") int lNo,
+								Model model,
 								RedirectAttributes ra,
 								HttpSession session){
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int loginUserNo = 0;
+		int loginUserPoint = 0;
 		if(loginUser != null) {
 			loginUserNo = loginUser.getMemberNo();
+			loginUserPoint = loginUser.getMemberPoint();
 		}
 		
-		// 금액체크
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat sdp = new SimpleDateFormat("yyyy/MM/dd");
 		
 		Date scEndDate = null;
 		Date scStartDate = null;
 		try {
-			scEndDate = formatter.parse(schedule.getEndDate());
-			scStartDate = formatter.parse(schedule.getStartDate());
+			scEndDate = sdp.parse(schedule.getEndDate());
+			scStartDate = sdp.parse(schedule.getStartDate());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -234,25 +240,36 @@ public class MatchingController {
 		MyPageController mc = new MyPageController();
 		int payPoint = mc.getDayPoint(scEndDate, scStartDate);
 		
-		schedule.setWriterNo(pNo);
-		schedule.setScLocalNo(lNo);
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		map.put("loginUserNo", loginUserNo);
+		map.put("payPoint", payPoint);
 		
-		int result1 = matService.insertSchedule(schedule);
-		
-		reqSchedule.setReqPlaNo(pNo);
-		reqSchedule.setReqMemNo(loginUserNo);
-		reqSchedule.setScheNo(schedule.getScNo());
-		reqSchedule.setPayPoint(payPoint);
-		
-		System.out.println(reqSchedule);
-		int result2 = matService.insertReqSchedule(reqSchedule);
-		
-		if(result1 + result2 > 1) {
+		int pointResult = matService.checkPoint(map);
+		if (pointResult > 1) {
+			schedule.setWriterNo(pNo);
+			schedule.setScLocalNo(lNo);
+			
+			int result1 = matService.insertSchedule(schedule);
+			
+			reqSchedule.setReqPlaNo(pNo);
+			reqSchedule.setReqMemNo(loginUserNo);
+			reqSchedule.setScheNo(schedule.getScNo());
+			reqSchedule.setPayPoint(payPoint);
+			
+			int result2 = matService.insertReqSchedule(reqSchedule);
+			
+			if(result1 + result2 > 2) {
+				ra.addAttribute("pNo", pNo);
+				ra.addAttribute("page", 1);
+				return "redirect:selectPlanner.ma";
+			} else {
+				throw new MatchingException("일정 요청을 실패했습니다.");
+			}
+		} else {
+			ra.addAttribute("payPoint", payPoint);
 			ra.addAttribute("pNo", pNo);
 			ra.addAttribute("page", 1);
-			return "redirect:selectPlanner.ma";
-		} else {
-			throw new MatchingException("일정 요청을 실패했습니다.");
+			return "redirect:matchingRequest.ma";
 		}
 	} 
 	
@@ -268,6 +285,9 @@ public class MatchingController {
 		//플래너 정보
 		Planner planner = matService.selectPlanner(pNo);
 		
+		//해시태그
+		ArrayList<HashTag> tagList = matService.selectTagList(pNo);
+		
 		//좋아요 + 지역
 		HashMap<String, Integer> likemap = new HashMap<>();
 		likemap.put("pNo", pNo);
@@ -277,6 +297,7 @@ public class MatchingController {
 		
 		String localNames = matService.selectLocalName(pNo);
 		
+		model.addAttribute("tagList", tagList);
 		model.addAttribute("planner", planner);
 		model.addAttribute("checkLikes", checkLikes);
 		model.addAttribute("likes", likes);
@@ -439,8 +460,11 @@ public class MatchingController {
 						gdService.deleteFile(del);
 					}
 				}
+				if(!deleteImg.isEmpty()) {
+					delResult = matService.deleteReviewImage(deleteImg);
+				}
 			}
-			delResult = matService.deleteReviewImage(deleteImg);
+			
 			
 			// 이미지 추가
 			ArrayList<Image> list = new ArrayList<Image>();
@@ -452,15 +476,15 @@ public class MatchingController {
 		            String fileId;
 		            
 					fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
-					Image a = new Image();
-					a.setImageOriginName(upload.getOriginalFilename());
-					a.setImageRename(fileId);
-					a.setImagePath("drive://files/" + fileId);
-					a.setImageThum(2);
-					a.setImageRefType("REVIEW");
-					a.setImageRefNo(review.getReviewNo());
+					Image Img = new Image();
+					Img.setImageOriginName(upload.getOriginalFilename());
+					Img.setImageRename(fileId);
+					Img.setImagePath("drive://files/" + fileId);
+					Img.setImageThum(2);
+					Img.setImageRefType("REVIEW");
+					Img.setImageRefNo(review.getReviewNo());
 					
-					list.add(a);
+					list.add(Img);
 				}
 			}
 			if(!list.isEmpty()) {
@@ -476,7 +500,7 @@ public class MatchingController {
 			e.printStackTrace();
 		}
 		
-		if(result + delResult == 1 + deleteImg.size()) {
+		if(result + insertResult + delResult == 2 + deleteImg.size()) {
 			ra.addAttribute("pNo", pNo);
 			ra.addAttribute("page", 1);
 			return "redirect:selectPlanner.ma";

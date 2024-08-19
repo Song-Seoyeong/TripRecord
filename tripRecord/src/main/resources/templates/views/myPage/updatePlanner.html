@@ -2,42 +2,71 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>플래너 수정</title>
 <style>
-	#submit_button {
-        color: #96CAF0; 
-        background-color: white; 
-        width: 80px; 
-        height: 40px; 
-        border: none; 
-        border-radius: 20px; 
-        margin-right: 5px; 
-        border: 2px solid #96CAF0;
-    }
-    #submit_button:hover {
-        background: #96CAF0;
-        border: 2px solid #96CAF0;
-        color: #fff;
-        font-weight: 600;
-    }
-    #cancle_button {
-        color: #DD5353; 
-        background-color: white; 
-        width: 80px; 
-        height: 40px; 
-        border: none; 
-        border-radius: 20px; 
-        border: 2px solid #DD5353;
-    }
-    #cancle_button:hover {
-        background: #DD5353;
-        border: 2px solid #DD5353;
-        color: #fff;
-        font-weight: 600;
-    }
-    #updateProfile{
-    	width:400px;
-    }
+#submit_button {
+	color: #96CAF0;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	margin-right: 5px;
+	border: 2px solid #96CAF0;
+}
+
+#submit_button:hover {
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
+}
+
+#cancle_button {
+	color: #DD5353;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	border: 2px solid #DD5353;
+}
+
+#cancle_button:hover {
+	background: #DD5353;
+	border: 2px solid #DD5353;
+	color: #fff;
+	font-weight: 600;
+}
+
+#updateIntroImg {
+	width: 400px;
+}
+
+#curImgDeleteText {
+	display: none;
+}
+
+#bank {
+	width: 130px;
+	height: 40px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 0;
+	border: 1px solid black;
+}
+
+#account {
+	width: 270px;
+	height: 40px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 8px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 8px;
+	border: 1px solid black;
+}
 </style>
 <link rel="stylesheet" href="css/plan/planMain.css" type="text/css">
 </head>
@@ -54,29 +83,30 @@
 		<!-- 지역 선택-->
 		<div class="location row" style="justify-content: center;">
 			<div class="col-1">
-				<a style="float:right; font-size: 25px; font-weight: 700;">활동지역</a>
+				<p style="float: right; font-size: 25px; font-weight: 700;">활동지역</p>
 			</div>
 			<div class="col-1"></div>
 			<div class="col-3">
-				<select style="width: 400px; height: 40px; border-radius: 8px;">
-					<option>지역을 선택해주세요</option>
-					<option value="seoul">서울</option>
-					<option value="busan">부산</option>
-					<option value="daegu">대구</option>
-					<option value="incheon">인천</option>
-					<option value="gwangju">광주</option>
-					<option value="daejeon">대전</option>
-					<option value="ulsan">울산</option>
-					<option value="saejong">세종</option>
-					<option value="gyeongi">경기</option>
-					<option value="ganwon">강원</option>
-					<option value="chunbuk">충북</option>
-					<option value="chunnam">충남</option>
-					<option value="jeonbuk">전북</option>
-					<option value="jeonnam">전남</option>
-					<option value="gyeonbuk">경북</option>
-					<option value="gyeonnam">경남</option>
-					<option value="jeju">제주</option>
+				<select id="local"
+					style="width: 400px; height: 40px; border-radius: 8px;">
+					<option value="0">지역을 선택해주세요</option>
+					<option value="1">서울</option>
+					<option value="6">부산</option>
+					<option value="4">대구</option>
+					<option value="2">인천</option>
+					<option value="5">광주</option>
+					<option value="3">대전</option>
+					<option value="7">울산</option>
+					<option value="8">세종</option>
+					<option value="31">경기</option>
+					<option value="32">강원</option>
+					<option value="33">충북</option>
+					<option value="34">충남</option>
+					<option value="37">전북</option>
+					<option value="38">전남</option>
+					<option value="35">경북</option>
+					<option value="36">경남</option>
+					<option value="39">제주</option>
 				</select>
 			</div>
 		</div>
@@ -84,194 +114,210 @@
 		<!-- 프로필 소개글 -->
 		<div class="introProfile row" style="justify-content: center;">
 			<div class="col-1">
-				<p style="float:right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
+				<p
+					style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
 					프로필<br>소개글
 				</p>
 			</div>
 			<div class="col-1"></div>
 			<div class="col-3">
-				<textarea style="width: 400px; height: 200px; resize: none"
-					placeholder="소개글을 작성해주세요"></textarea>
+				<textarea id="introContent"
+					style="width: 400px; height: 200px; resize: none"
+					placeholder="소개글을 작성해주세요">
+					[[${planner.introContent}]]
+				</textarea>
 			</div>
 
 		</div>
 		<div style="height: 20px;"></div>
+
+		<!-- 은행 -->
+		<div class="bankAccount row" style="justify-content: center;">
+			<div class="col-1">
+				<p
+					style="float: right; font-size: 25px; font-weight: 700; vertical-align: top;">계좌</p>
+			</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<div class='d-flex' style="justify-content: center;">
+					<select id='bank' class="form-select">
+						<option value="none">은행 선택</option>
+						<option value="kb">국민은행</option>
+						<option value="wb">우리은행</option>
+						<option value="nh">농협은행</option>
+						<option value="kakao">카카오뱅크</option>
+					</select> <input id="account" type="text" placeholder="(-)제외하고 입력" th:value="${planner.account}">
+				</div>
+			</div>
+		</div>
+		<div style="height: 40px;"></div>
+
 		<!-- 사진 -->
 		<div class="profileImage row" style="justify-content: center;">
 			<div class="col-1">
-				<p style="float:right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">프로필
+				<p
+					style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">소개글
 					사진</p>
 			</div>
 			<div class="col-1"></div>
 			<div class="col-3">
 				<div style="display: inline-block;">
-					<input class="form-control" type="file" id="updateProfile"
+					<input id="updateIntroImg" class="form-control" type="file"
 						accept='image/*'>
 				</div>
 			</div>
 		</div>
-		<div style="height:40px;"></div>
+		<div style="height: 40px;"></div>
+		<!-- 현재 사진 -->
+		<div class="profileImage row" style="justify-content: center;">
+			<div class="col-1">
+				<p
+					style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">현재
+					사진</p>
+			</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<div style="display: inline-block;">
+					<th:block th:if="${plannerIntroImage} != 'noImg'">
+						<img id="curIntroImg" class="m-5" width="200px"
+							th:src="|https://drive.google.com/thumbnail?id=${plannerIntroImage}|" />
+						<br />
+					</th:block>
+					<th:block th:if="${plannerIntroImage} == 'noImg'">
+						<img id="curIntroImg" class="m-5" width="200px"
+							src="image/noimage.png" />
+						<input type="hidden" value="none">
+						<br />
+					</th:block>
+					<span id="curImgDeleteText">삭제</span>
+				</div>
+			</div>
+		</div>
+
 		<!-- 해쉬태그 -->
-		<div class="hashtag row" id="select-contain-div" style="justify-content:center;">
-			<div id="hashtag-all-div" style="justify-content:center;">
+		<div class="contain-div" id="select-contain-div">
+			<p class="middle-title">해시태그(선택)</p>
+			<div id="inforDiv"></div>
+			<div id="hashtag-all-div">
 				<div id="checkbox-left-all">
 					<div class="checkbox-div">
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="alone"
-								type="checkbox" value="혼자서" name="together"> <label
-								class="cbx" for="alone"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 혼자서</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="lover"
-								type="checkbox" value="애인이랑" name="together"> <label
-								class="cbx" for="lover"> <span> <svg style="width: 12px; height: 10px;"></svg></span> <span># 애인이랑</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="family"
-								type="checkbox" value="가족이랑" name="together"> <label
-								class="cbx" for="family"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 가족이랑</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="friend"
-								type="checkbox" value="친구들이랑" name="together"> <label
-								class="cbx" for="friend"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 친구들이랑</span>
+						<div class="checkbox-wrapper-4 checkbox-parent-div"
+							th:each="p : ${list}" th:if="${p.tagType == 'PERSON'}">
+							<input class="inp-cbx checkbox check_input" th:id="${p.tagNo}"
+								type="checkbox" th:value="${p.tagNo}" name="together">
+							<label class="cbx" th:for="${p.tagNo}"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span>#
+									[[${p.tagName}]]</span>
 							</label>
 						</div>
 					</div>
 				</div>
 				<div id="checkbox-right-all">
-					<div class="checkbox-div">
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="맛집투어"
-								type="checkbox" value="맛집투어" name="hashtag"> <label
-								class="cbx" for="맛집투어"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 맛집투어</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="사진맛집"
-								type="checkbox" value="사진맛집" name="hashtag"> <label
-								class="cbx" for="사진맛집"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 사진맛집</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="힐링"
-								type="checkbox" value="힐링" name="hashtag"> <label
-								class="cbx" for="힐링"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 힐링</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="호화롭게"
-								type="checkbox" value="호화롭게" name="hashtag"> <label
-								class="cbx" for="호화롭게"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 호화롭게</span>
-							</label>
-						</div>
-					</div>
-					<div class="checkbox-div">
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="감성"
-								type="checkbox" value="감성" name="hashtag"> <label
-								class="cbx" for="감성"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 감성</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="액티비티"
-								type="checkbox" value="액티비티" name="hashtag"> <label
-								class="cbx" for="액티비티"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 액티비티</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="휴양지"
-								type="checkbox" value="휴양지" name="hashtag"> <label
-								class="cbx" for="휴양지"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 휴양지</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="자연"
-								type="checkbox" value="자연" name="hashtag"> <label
-								class="cbx" for="자연"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 자연</span>
-							</label>
-						</div>
-					</div>
-					<div class="checkbox-div">
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="카페투어"
-								type="checkbox" value="카페투어" name="hashtag"> <label
-								class="cbx" for="카페투어"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 카페투어</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="여행"
-								type="checkbox" value="여행" name="hashtag"> <label
-								class="cbx" for="여행"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 여행</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="격투"
-								type="checkbox" value="격투" name="hashtag"> <label
-								class="cbx" for="격투"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 격투</span>
-							</label>
-						</div>
-						<div class="checkbox-wrapper-4 checkbox-parent-div">
-							<input class="inp-cbx checkbox check_input" id="낭만"
-								type="checkbox" value="낭만" name="hashtag"> <label
-								class="cbx" for="낭만"> <span> <svg
-										style="width: 12px; height: 10px;"></svg></span> <span># 낭만</span>
+					<div class="checkbox-div right-check">
+						<div class="checkbox-wrapper-4 checkbox-parent-div"
+							th:each="p : ${list}" th:if="${p.tagType == 'GENERAL'}">
+							<input class="inp-cbx checkbox check_input" th:id="${p.tagNo}"
+								type="checkbox" th:value="${p.tagNo}" name="hashtag">
+							<label class="cbx" th:for="${p.tagNo}"> <span> <svg
+										style="width: 12px; height: 10px;"></svg></span> <span>#
+									[[${p.tagName}]]</span>
 							</label>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div id="inforDiv" style="width:760px;"></div>
 		</div>
 		<!-- 제출버튼 -->
-		<div style="height:20px;"></div>
-		<div >
-			<button id="submit_button" onclick="#">수정</button>
+		<div style="height: 20px;"></div>
+		<div>
+			<button id="submit_button" onclick="updatePlanner()">수정</button>
 			<button id="cancle_button" onclick="cancle()">취소</button>
 		</div>
 	</div>
 
 	<div style="margin-bottom: 300px"></div>
-	
+
 	<!-- 푸터 -->
-	<div th:replace="~{common/footer :: footer}" ></div>
-	<script>
+	<div th:replace="~{common/footer :: footer}"></div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+			const localNo = /*[[${planner.localNo}]]*/
+			const tagList = /*[[${tagList}]]*/
+			const plannerBank = /*[[${planner.bank}]]*/
+			const tagNameList = document.getElementsByClassName('cbx');
+			const leftTagList = document.querySelectorAll('input[name="together"]');
+			const rightTagList = document.querySelectorAll('input[name="hashtag"]');
+			const bank = document.getElementById('bank');
+			const account = document.getElementById('account');
+			let introImgValue = null;
+			const fileInput = document.getElementById('updateIntroImg');
+			const curIntroImg = document.getElementById('curIntroImg');
+			const tagSet = new Set();
+			
+			let bankValue = /*[[${planner.bank}]]*/;
+			let accountValue = /*[[${planner.account}]]*/;
+		/*]]>*/
+		
+		
 		function cancle(){
 			location.href="plannerPage.mp"
 		}
+		
+		//플래너 지역 표시
+		if(typeof localNo == 'number'){
+			localSelectOptions = document.getElementById('local').options;
+			for(let i = 0; i < localSelectOptions.length; i++){
+				if(localSelectOptions[i].value == localNo){
+					localSelectOptions[i].selected = true;
+					break;
+				}
+			}
+			
+		}
+		//해쉬태그 표시
+		for(hashTag of tagList){
+			const tag = hashTag.tagName;
+			for(tagName of tagNameList){
+				tagNameValue = tagName.children[1].innerText.substring(2)
+				if(tag.trim() == tagNameValue.trim()){
+					tagName.parentElement.children[0].checked = true;
+				}
+			}
+		}
+		
+		//은행 표시
+		if(typeof plannerBank == 'string'){
+			bankSelectOptions = bank.options;
+			for(let i = 0; i < bankSelectOptions.length; i++){
+				if(bankSelectOptions[i].value.trim() === plannerBank.trim()){
+					bankSelectOptions[i].selected = true;
+					break;
+				}
+			}
+		}
 		//해쉬태그 
 		const togetherCheck = document.querySelectorAll('[name="together"]');
+		const inforDiv = document.getElementById('inforDiv');
 		togetherCheck.forEach(function leftHashtag(checkbox) {
 			checkbox.addEventListener('click', function() {
+				let checkCount = 0;
 				togetherCheck.forEach(function(cb) {
-	            	if (cb !== checkbox) { 
-	                	cb.checked = false;
-					}
+	            	if(cb.checked){
+	            		checkCount++;
+	            	}
 				});
+				if(checkCount > 1){
+					checkbox.checked=false;
+					inforDiv.innerText='좌측 해시태그는 1개까지만 선택이 가능합니다'
+				}else{
+					inforDiv.innerText = '';
+				}
 			});
 		});
-        
+		
 		const checkboxes = document.querySelectorAll('[name="hashtag"]');
-		const inforDiv = document.getElementById('inforDiv');
 		checkboxes.forEach(function rightHashtag(checkbox) {
-			if(checkbox.type === 'checkbox'){
+			if(checkbox.type == 'checkbox'){
 				checkbox.addEventListener('click', function() {
 					let checkedCount = 0;
 					checkboxes.forEach(function(cb) {
@@ -281,7 +327,7 @@
 					});
 					if(checkedCount > 4) {
 						checkbox.checked = false;
-						inforDiv.innerText = '해시태그는 4개까지만 선택이 가능합니다.';
+						inforDiv.innerText = '우측 해시태그는 4개까지만 선택이 가능합니다.';
 					} else {
 						inforDiv.innerText = '';
 					}
@@ -289,6 +335,133 @@
 			}
 			
 		});
+		
+		//현재 이미지 삭제
+		function handleImageClick(){
+			const text = document.getElementById('curImgDeleteText')
+			//console.log(text)
+			if(curIntroImg.nextSibling.value != 'none'){
+				if (this.style.opacity == '0.5') {
+			        this.style.opacity = '1';
+			        
+			    } else {
+			        this.style.opacity = '0.5';
+			    }
+			    const opacity = this.style.opacity;
+			    if(opacity == 0.5){
+			    	introImgValue = 'selected'
+			    	text.style.display = 'inline-block'
+		    		text.style.position = 'relative';
+			        text.style.bottom = '160px'; 
+			        text.style.fontSize = '30px'
+			    }else{
+			    	introImgValue = 'unselected'
+			    		text.style.display = 'none'
+			    }
+			}
+		}
+		
+		//파일 유무에 따른 선택 가능 여부
+		curIntroImg.addEventListener('click',function(){
+			if(fileInput.files.length == 0){
+				handleImageClick.call(this);//전역 함수로 되어있어서 this.메소드 안됨
+			}
+		})
+		
+		//현재 플래너 해쉬태그의 정보
+		for(tagName of tagNameList){
+			if(tagName.parentElement.children[0].checked == true){
+				tagSet.add(tagName.previousElementSibling.value)
+			}
+		}
+		
+		//해쉬 태그 수정
+		for(leftTag of leftTagList){
+			leftTag.addEventListener('change', function(){
+				if(this.checked == true){
+					tagSet.add(this.value)
+				}else if(this.checked == false){
+					tagSet.delete(this.value)
+				}
+				tagArrayList = Array.from(tagSet);
+				//console.log(tagSet)
+			})
+		}
+		
+		for(rightTag of rightTagList){
+			rightTag.addEventListener('change', function(){
+				if(this.checked == true){
+					tagSet.add(this.value)
+				}else if(this.checked == false){
+					tagSet.delete(this.value)
+				}
+				tagArrayList = Array.from(tagSet);
+				//console.log(tagSet)
+			})
+		}
+		
+		//은행 수정
+		bank.addEventListener('change',function(){
+			bankValue = this.value;
+			
+			//console.log(bankValue)
+		})
+		account.addEventListener('input', function(){
+			 this.value = this.value.replace(/[^0-9]/g, '');
+			 if (this.value.length > 10) {
+	                this.value = this.value.slice(0, 10);
+	            }
+			 accountValue = this.value;
+			 
+			//console.log(accountValue)
+		})
+	
+		//수정
+		function updatePlanner(){
+			const localNo = document.getElementById('local').value;
+			const introContent = document.getElementById('introContent').value
+			const updateIntroImg = document.getElementById('updateIntroImg')
+			const imageData = new FormData();
+			//console.log(document.getElementById(''))
+			//console.log(updateIntroImg.files[0])
+			//console.log( imageData)
+			
+			// 이미지 파일을 FormData에 추가
+			imageData.append('file', updateIntroImg.files[0]); //fill은 키 값
+			imageData.append('lNo', localNo); 
+		    imageData.append('intro', introContent); 
+		    imageData.append('introImgValue', introImgValue);
+		    imageData.append('hashTags', Array.from(tagSet));
+		    imageData.append('account', accountValue);
+		    imageData.append('bank', bankValue);
+			//console.log("지역번호 : " + localNo)
+			//console.log("플래너 소개글 : " + introContent)
+			//console.log("현재 이미지 값 : " + introImgValue)
+			
+			$.ajax({
+				type:'post',
+				url : 'upatePlannerProfile.mp',
+				data : imageData,
+				processData : false,
+				contentType : false, 
+				success : (data)=>{
+					if(data == 'bankEmpty'){
+						alert('계좌를 입력하세요')
+					}else if(data == 'localEmpty'){
+						alert('지역을 입력하세요')
+					}
+					alert("수정 완료 되었습니다")
+					location.href="plannerPage.mp";
+				},error : (data)=>{
+					alert('정보 수정에 실패하였습니다')
+					console.log(data)
+				}
+				
+			})
+		}
+		
+		
+		
 	</script>
 </body>
 </html>

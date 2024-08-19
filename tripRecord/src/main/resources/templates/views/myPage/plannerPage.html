@@ -56,10 +56,15 @@
 			<div id="plannerInfo" class="m-3 w-75 ">
 				<div class="d-flex justify-content-center align-items-center shadow shadow border bg-light rounded-3">
 					<div class="d-flex justify-content-center p-3">
-						<img class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${rename}|" width="150px" height="150px"/>
+						<th:block th:if="${noProfile} != 'noProfile'">
+							<img class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${rename}|" width="150px" height="150px"/>
+						</th:block>
+						<th:bloc th:if="${noProfile} == 'noProfile'">
+							<img class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
+						</th:bloc>
 					</div>
 					<div class="p-3">
-						<div class="mx-3 fs-1">[[${session.loginUser.nickname}]]</div>
+						<div class="mx-3 fs-1">[[${loginUser.nickname}]]</div>
 						<div class="mx-3 mt-2" >[[${planner.sIntroContent}]]</div>
 						<div class="mx-3">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
@@ -75,12 +80,8 @@
 								좋아요 <span id="likeCount">[[${likes}]]</span>
 							</button>
 						</div>
-						<div class="mx-3 mt-2">
-							<a style="text-decoration: none; color: black;" href="#">#해시태그 인원</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그1</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그2</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그3</a>&nbsp;&nbsp;
-							<a style="text-decoration: none; color: black;" href="#">#해시태그4</a>&nbsp;&nbsp;
+						<div class="mx-3 mt-2" style="display:inline-block;" th:each="t:${tagList}">
+							<a style="text-decoration: none; color: black;">#[[${t.tagName}]]</a>
 						</div>
 					</div>
 				</div>
@@ -107,7 +108,12 @@
 		<div id="content" class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column shadow border bg-light rounded-3 w-75" >
 				<div class="d-flex justify-content-center">
-					<img class="m-5" width="800px" src="image/insadong.jpg"/><br/>
+					<th:block th:if="${plannerIntroImage} != 'noImg'">
+						<img class="m-5" width="800px" th:src="|https://drive.google.com/thumbnail?id=${plannerIntroImage}|"/><br/>
+					</th:block>
+					<th:block th:if="${plannerIntroImage} == 'noImg'">
+						<img class="m-5" width="800px" src="image/noimage.png"/><br/>
+					</th:block>
 				</div>
 				<div class="mx-5">
 					<p>[[${planner.introContent}]]</p>
@@ -127,7 +133,7 @@
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
 				<div class="list-group shadow w-100" th:each="r: ${rList}">
-					<a href="reviewDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" src="/resources/profile-basic.jpg" width="75px" height="75px">
+					<a href="reviewDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}|" width="75px" height="75px">
 						[[${r.reviewTitle}]]
 					</a>
 					<!-- 페이지네이션 -->
@@ -136,15 +142,15 @@
 					<ul class="pagination" >
 						<!-- 이전링크 -->
 						<li style="margin-left:auto;" >
-							<a th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:class="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+							<a class="movePage" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
 						</li>
 						<!-- 번호 이동 -->
 						<li class="pageNumber" th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${p})}" th:text="${p}"></a></th:block>
+							<th:block th:if="${pi.endPage != 0}"><a class="movePage" th:href="@{${loc}(page=${p})}" th:text="${p}"></a></th:block>
 						</li>
 						<!-- 다음링크 -->
 						<li style="margin-right:auto;">
-							<th:block th:if="${pi.endPage != 0}"><a th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:class="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a></th:block>
+							<th:block th:if="${pi.endPage != 0}"><a class="movePage" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a></th:block>
 						</li>
 					</ul>
 				</div>
@@ -159,16 +165,22 @@
 	<script>
 		function submitAdmin(){
 			let result = confirm("요청하시겠습니까");
-			if(result == 'true'){
+			if(result == true){
+				alert('요청 승인 시 판매자 권한을 잃게됩니다')
 				$.ajax({
 					type:"post",
 					url:"canclePlanner.mp",
-					data:{grade:"PLANNER_CANCLE"},
+					data:{grade:"PLANNER_CANCEL"},
 					success:(data)=>{
-						console.log(data)
+						if(data == 'PLANNER_CANCEL'){
+							alert('현재 요청된 상태입니다')
+						}else{
+							alert("요청이 완료되었습니다")
+						}
 					},
 					error:(data)=>{
 						console.log(data)
+						alert('오류 발생')
 					}
 				})
 				

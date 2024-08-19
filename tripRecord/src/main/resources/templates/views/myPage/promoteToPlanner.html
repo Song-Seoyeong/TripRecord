@@ -22,6 +22,27 @@
 	color: #fff;
 	font-weight: 600;
 }
+
+#bank {
+	width: 130px;
+	height: 40px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 0;
+	border: 1px solid black;
+}
+
+#account {
+	width: 270px;
+	height: 40px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 8px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 8px;
+	border: 1px solid black;
+}
+}
 </style>
 </head>
 <body>
@@ -81,12 +102,35 @@
 			</div>
 		</div>
 		<div style="height: 20px;"></div>
+		
+		<!-- 은행 -->
+		<div class="bankAccount row" style="justify-content: center;">
+			<div class="col-1">
+				<p
+					style="float: right; font-size: 25px; font-weight: 700; vertical-align: top;">계좌</p>
+			</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<div class='d-flex'>
+					<select id='bank' class="form-select">
+						<option value="none">은행 선택</option>
+						<option value="kb">국민은행</option>
+						<option value="wb">우리은행</option>
+						<option value="nh">농협은행</option>
+						<option value="kakao">카카오뱅크</option>
+					</select> <input id="account" type="text" placeholder="(-)제외하고 숫자로 10자리 입력" >
+				</div>
+			</div>
+		</div>
+		<div style="height: 40px;"></div>
+		
+		
 		<!-- 프로필 소개글 -->
 		<div class="introProfile row" style="justify-content: center;">
 			<div class="col-1">
 				<p
 					style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
-					프로필<br>소개글
+					프로필<br>소개글 
 				</p>
 			</div>
 			<div class="col-1"></div>
@@ -100,8 +144,7 @@
 		<!-- 신청글 -->
 		<div class="submitContent row" style="justify-content: center;">
 			<div class="col-1">
-				<p
-					style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">신청글</p>
+				<p style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">신청글</p>
 			</div>
 			<div class="col-1"></div>
 			<div class="col-3">
@@ -124,6 +167,26 @@
 	<div th:replace="~{common/footer :: footer}"></div>
 
 	<script th:inline="javascript">
+		const bank = document.getElementById('bank');
+		const account = document.getElementById('account');
+		bankValue = null;
+		accountValue = 0;
+		
+		//은행 수정
+		bank.addEventListener('change',function(){
+			bankValue = this.value;
+			
+			//console.log(bankValue)
+		})
+		account.addEventListener('input', function(){
+			 this.value = this.value.replace(/[^0-9]/g, '');
+			 if (this.value.length > 10) {
+	                this.value = this.value.slice(0, 10);
+	            }
+			 accountValue = this.value;
+			 
+			//console.log(accountValue)
+		})
 	 	//전환 요청 확인 promotion.mp
 	 	function promotion(){
 	 		/*<![CDATA[*/
@@ -142,12 +205,17 @@
 			 	if(region == '지역을 선택하세요'){
 			 		alert('지역을 선택하세요')
 			 		return false;
-			 	}else if(intro == "" || submit == ""){
+			 	}else if(bankValue == 'none' || accountValue == "" || accountValue.length < 10 ){
+			 		alert('계좌를 확인하세요')
+			 		return false;
+			 	}
+			 	else if(intro == "" || submit == ""){
 			 		if(confirm("소개 글 또는 신청 글이 없을 시 전환이 안 될 수있습니다")){
 			 			$.ajax({
 			 				type : 'post', 
 		    				url : 'promotion.mp',
-		    				data : {region:region, introProfile:intro, submitContent:submit},
+		    				data : {region:region, introProfile:intro, submitContent:submit,
+		    					    bank : bankValue, account: accountValue},
 		    				success : (data) =>{ 
 		    					console.log(data)
 		    					if(data == 'PLANNER'){

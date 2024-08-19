@@ -11,7 +11,7 @@ import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.common.model.vo.Cancel;
-import com.finalproject.triprecord.common.model.vo.FeedBack;
+import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
@@ -20,6 +20,7 @@ import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.common.model.vo.Review;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.dao.MemberMapper;
+import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 import com.finalproject.triprecord.plan.model.vo.Plan;
@@ -334,5 +335,108 @@ public class MemberServiceImpl implements MemberService{
 	public void updateSchedule(ReqSchedule r) {
 		mMapper.updateSchedule(r);
 	}
+	
+	@Override
+	public Schedule detailSchedule(int scheNo) {
+		return mMapper.detailSchedule(scheNo);
+	}
 
+	@Override
+	public int reqPlanInsUpd(ArrayList<Plan> plList) {
+		int result = mMapper.reqPlanInsert(plList); // plan Insert
+		if(result > 0) {
+			return mMapper.reqScheUpdate(plList.get(0).getScNo()); // 진행상태 2
+		} else {
+			return 0;
+		}
+	}
+
+	@Override
+	public int cancleRequest(int scNo) {
+		int result = mMapper.cancleRequest(scNo); // 진행상태 4
+		if(result > 0) {
+			return mMapper.scDelStaUpdate(scNo); // 삭제
+		} else {
+			return 0;
+			
+		}
+	}
+	
+	// 본인 작성 리뷰 전체
+	@Override
+	public int getWholeReviewListCount(int memberNo) {
+		return mMapper.getWholeReviewListCount(memberNo);
+	}
+	@Override
+	public ArrayList<Review> getWholeReviewList(int memberNo, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
+		return mMapper.getWholeReviewList(memberNo, rb);
+	}
+	
+	// 해쉬태그 불러오기
+	@Override
+	public ArrayList<HashTag> getHashTag(int memberNo) {
+		return mMapper.getHashTag(memberNo);
+	}
+
+	// 플래너 인트로 업데이트
+	@Override
+	public int updatePlannerIntro(Planner planner) {
+		return mMapper.updatePlannerIntro(planner);
+	}
+
+	// 소개 사진 유무 확인
+	@Override
+	public int checkIntroImg(int memberNo) {
+		return mMapper.checkIntroImg(memberNo);
+	}
+
+	// 플래너 이전 사진 rename 가져오기
+	@Override
+	public Image existPlannerFileId(int memberNo) {
+		return mMapper.existPlannerFileId(memberNo);
+	}
+
+	// 플래너 이전 사진 데이터 db 삭제
+	@Override
+	public int deletePlannerProfile(int memberNo) {
+		return mMapper.deletePlannerProfile(memberNo);
+	}
+
+	@Override
+	public ArrayList<HashTag> getTags() {
+		return mMapper.getTags();
+	}
+
+	// 해쉬태그 업데이트
+	@Override
+	public int updateTag(HashMap<String, Object> pMap) {
+		return mMapper.updateTag(pMap);
+	}
+
+	@Override
+	public int deleteTag(int memberNo) {
+		return mMapper.deleteTag(memberNo);
+	}
+
+	// 은행 수정
+	@Override
+	public int updateAccount(HashMap<String, Object> pMap) {
+		return mMapper.updateAccount(pMap);
+	}
+
+	// 정산 리스트 불러오기
+	@Override
+	public ArrayList<Calculate> getCalcList(PageInfo pi, int memberNo) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
+		return mMapper.getCalcList(memberNo, rb);
+	}
+
+	// 정산 리스트 수
+	@Override
+	public int calcListCount(int memberNo) {
+		return mMapper.calcListCount(memberNo);
+	}
 }

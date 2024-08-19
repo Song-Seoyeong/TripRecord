@@ -112,6 +112,4 @@ public class PlanServiceImpl implements PlanService{
 	public int selectPlanCount(Member loginUser) {
 		return plMapper.selectPlanCount(loginUser);
 	}
-	
-	
 }

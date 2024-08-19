@@ -90,7 +90,7 @@
 			td.addEventListener('click', ()=>{
 				const parent = td.parentElement;
 				const boardNo = parent.children[0].innerText
-				location.href='askSelect.no?boardNo=' + boardNo + '&page='+ /*[[${pi.currentPage}]]*/1
+				location.href='askSelect.no?boardNo=' + boardNo +'&myPage=myPage' +'&page='+ /*[[${pi.currentPage}]]*/1
 			})
 		}
 		
@@ -103,7 +103,6 @@
 				status.style.color = 'green';
 			}
 		})
-			
 		
 		/*]]>*/
 	</script>

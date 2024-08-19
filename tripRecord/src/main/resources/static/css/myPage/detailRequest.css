@@ -62,12 +62,19 @@
 	margin-left: 20px;
 }
 
-#reqMem-div{
-    font-size: 19px;
+.req-div{
     text-align: left;
     margin-left: 74px;
     margin-top: 10px;
     border-left: 4px solid #96CAF0;
+}
+
+#reqMem-div{
+    font-size: 19px;
+}
+
+#reqDate-div{
+	font-size: 18px;
 }
 
 #reqMem{
@@ -77,11 +84,7 @@
 /* 참고사항 div */
 #note-div{
 	margin-top: 15px;
-    text-align: left;
-    margin-left: 74px;
     font-size: 16px;
-    margin-right: 74px;
-    border-left: 4px solid #96CAF0;
 }
 
 .inner-span{

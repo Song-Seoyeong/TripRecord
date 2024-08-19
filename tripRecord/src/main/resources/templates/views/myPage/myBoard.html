@@ -3,12 +3,31 @@
 <head>
 <title>내 문의 글</title>
 <style>
-    table{width:80%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
-    ul{font-weight:900;}
-    .pageNumber{margin-left:5px; margin-right:5px;}
-   	th{font-size:24px;}
-   	td{padding:15px;}
-   	.hidden{display:none;}
+table {
+	width: 80%;
+	align: center;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+}
+
+.pageNumber {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+th {
+	font-size: 24px;
+}
+
+td {
+	padding: 15px;
+}
+
+.hidden {
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -17,59 +36,159 @@
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	<!--마이페이지 어퍼바-->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	
-	<div class="flex-container" style="text-align:center; margin-left:auto;">
-		<div style="height:120px;"></div>
-		<div style="color: black; font-size: 36px; font-weight: 900;">내 커뮤니티글 보기</div>
-		<div style="height:40px;"></div>
-		<div style="margin:auto; width:1200px; overflow:auto; border: 1px solid lightgray; border-radius:10px;" >
-			<table>
-				<thead>
-				 	<tr style="border-bottom:2px solid #96CAF0;">
-						<th>글번호</th>
-						<th>말머리</th>
-						<th>제목</th>
-						<th>작성자</th>
-						<th>작성일자</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr style="border-bottom:2px solid #b9b9b9" th:each="a: ${aList}">
-						<td>[[${a.boardNo}]]</td>
-						<td>
-							<input type="hidden" th:value="${a.generalType}">
-							[[${a.generalType}=='GIVE' ? '양도' : (${a.generalType}=='REVIEW' ? '후기': '동행')]]
-						</td>
-						<td>[[${a.boardTitle}]]</td>
-						<td>[[${a.memberName}]]</td>
-						<td>[[${a.boardModifyDate}]]</td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<!-- 페이지네이션 -->
-			<div class="text-center" style="margin-top:50px; text-align:center;" th:with="loc=${loc}">
-					<ul class="pagination" >
+
+	<div style="height: 120px;">
+		<!-- 사이드바 -->
+		<div id="sidebar">
+			<div th:replace="~{common/myBoardSidebar :: myBoardSideBar}"></div>
+		</div>
+	</div>
+	<th:block th:if="${wholeReview} != wholeReview">
+		<div class="flex-container"
+			style="text-align: center; margin-left: auto;">
+			<span class="secondSidebar"><a class="nav-link" href="myBoard.mp">커뮤니티</a></span> 
+			<span class="secondSidebar"><a class="nav-link" href="myReview.mp">작성후기</a></span>
+			<div style="color: black; font-size: 36px; font-weight: 900;">내 게시글</div>
+			<div style="height: 40px;"></div>
+			<div
+				style="margin: auto; width: 1200px; overflow: auto; border: 1px solid lightgray; border-radius: 10px;">
+				<table>
+					<thead>
+						<tr style="border-bottom: 2px solid #96CAF0;">
+							<th>글번호</th>
+							<th>말머리</th>
+							<th>제목</th>
+							<th>작성자</th>
+							<th>작성일자</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="border-bottom: 2px solid #b9b9b9" th:each="a: ${aList}">
+							<td>[[${a.boardNo}]]<input type="hidden" value="board"></td>
+							<td><input type="hidden" th:value="${a.generalType}">
+								[[${a.generalType}=='GIVE' ? '양도' : (${a.generalType}=='REVIEW'
+								? '후기': '동행')]]</td>
+							<td>[[${a.boardTitle}]]</td>
+							<td>[[${a.memberName}]]</td>
+							<td>[[${a.boardModifyDate}]]</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- 페이지네이션 -->
+				<div class="text-center"
+					style="margin-top: 50px; text-align: center;" th:with="loc=${loc}">
+					<ul class="pagination">
 						<!-- 이전링크 -->
-						<li style="margin-left:auto;" >
-							<a class="movePage" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous" th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+						<li style="margin-left: auto;"><a class="movePage"
+							th:href="@{${loc}(page=${pi.currentPage-1})}"
+							aria-label="Previous"
+							th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
 						</li>
 						<!-- 번호 이동 -->
-						<li class="pageNumber" th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<th:block th:if="${pi.endPage != 0}"><a class="movePage" th:href="@{${loc}(page=${p})}" th:text="${p}"></a></th:block>
+						<li class="pageNumber"
+							th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
+							<th:block th:if="${pi.endPage != 0}">
+								<a class="movePage" th:href="@{${loc}(page=${p})}"
+									th:text="${p}"></a>
+							</th:block>
 						</li>
 						<!-- 다음링크 -->
-						<li style="margin-right:auto;">
-							<th:block th:if="${pi.endPage != 0}"><a class="movePage" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next" th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a></th:block>
-						</li>
+						<li style="margin-right: auto;"><th:block
+								th:if="${pi.endPage != 0}">
+								<a class="movePage"
+									th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next"
+									th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
+							</th:block></li>
 					</ul>
 				</div>
+			</div>
 		</div>
+	</th:block>
+	
+	<th:block th:if="${wholeReview} == wholeReview">
+		<div class="flex-container"
+			style="text-align: center; margin-left: auto;">
+			<span class="secondSidebar"><a class="nav-link" href="myBoard.mp">커뮤니티</a></span> 
+			<span class="secondSidebar"><a class="nav-link" href="myReview.mp">작성후기</a></span>
+			<div style="color: black; font-size: 36px; font-weight: 900;">내 게시글</div>
+			<div style="height: 40px;"></div>
+			<div
+				style="margin: auto; width: 1200px; overflow: auto; border: 1px solid lightgray; border-radius: 10px;">
+				<table>
+					<thead>
+						<tr style="border-bottom: 2px solid #96CAF0;">
+							<th>글번호</th>
+							<th>말머리</th>
+							<th>제목</th>
+							<th>별점</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="border-bottom: 2px solid #b9b9b9" th:each="r: ${rList}">
+							<td>[[${r.reviewNo}]]<input type="hidden" value="review"></td>
+							<td>[[${r.revRefType} == 'PLACE' ? '장소' : '플래너']]</td>
+							<td>[[${r.reviewTitle}]]</td>
+							<td>[[${r.reviewStar}]]</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- 페이지네이션 -->
+				<div class="text-center"
+					style="margin-top: 50px; text-align: center;" th:with="loc=${loc}">
+					<ul class="pagination">
+						<!-- 이전링크 -->
+						<li style="margin-left: auto;"><a class="movePage"
+							th:href="@{${loc}(page=${pi.currentPage-1})}"
+							aria-label="Previous"
+							th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+						</li>
+						<!-- 번호 이동 -->
+						<li class="pageNumber"
+							th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
+							<th:block th:if="${pi.endPage != 0}">
+								<a class="movePage" th:href="@{${loc}(page=${p})}"
+									th:text="${p}"></a>
+							</th:block>
+						</li>
+						<!-- 다음링크 -->
+						<li style="margin-right: auto;"><th:block
+								th:if="${pi.endPage != 0}">
+								<a class="movePage"
+									th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next"
+									th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
+							</th:block></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</th:block>
+	
+	<!-- 댓글 수정 모달 -->
+	<div id="reviewModal" class="modal" tabindex="1">
+	   <div class="modal-dialog">
+	       <div class="modal-content">
+	           <div class="modal-header">
+	               <h5 class="modal-title">내 작성 후기</h5>
+	               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	           </div>
+	           <form id="uploadImage" action="#" method="post" enctype="multipart/form-data" >
+		           	<div class="modal-body">
+		           	
+		           </div>
+		           <div class="modal-footer">
+		               <button type="button" id="replace_button" onclick="updateReview()" >수정</button>
+		               <button type="button" id="close_button" data-bs-dismiss="modal">닫기</button>
+		           </div>
+	           </form>
+	       </div>
+	   </div>
 	</div>
 	
 	<div style="margin-bottom: 300px"></div>
 	<!-- 푸터 -->
-	<div th:replace="~{common/footer :: footer}" ></div>
+	<div th:replace="~{common/footer :: footer}"></div>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		//상세글 보기
@@ -86,15 +205,22 @@
 				const parent = td.parentElement;
 				parent.style.backgroundColor='white';
 			})
-			td.addEventListener('click', ()=>{
-				const parent = td.parentElement;
-				const boardNo = parent.children[0].innerText;
-				const generalType = parent.children[1].children[0].value;
-				location.href='commuSelect.bo?boardNo=' + boardNo + '&generalType='+ generalType + '&page='+ /*[[${pi.currentPage}]]*/1;
+			td.addEventListener('click', function(){
+				if(this.parentElement.children[0].children[0].value == 'review'){
+					const imageModal = new bootstrap.Modal(document.getElementById('reviewModal'));
+				    imageModal.show() 
+				}else if(this.parentElement.children[0].children[0].value == 'board'){
+					const parent = td.parentElement;
+					const boardNo = parent.children[0].innerText;
+					const generalType = parent.children[1].children[0].value;
+					location.href='commuSelect.bo?boardNo=' + boardNo + '&generalType='+ generalType + '&myPage=myPage' + '&page='+ /*[[${pi.currentPage}]]*/1;
+				}
 					
 			})
 				
 		}
 		/*]]>*/
+		
+		
 	</script>
 </body>

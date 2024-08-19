@@ -13,48 +13,49 @@
 	<!-- 플래너페이지 어퍼바 -->
 	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
 	
-	<form id="detailReqForm" action="processRequest.mp">
-		<div class="flex-container">
-			<div style="height:80px;"></div>
-			<div id="req-ref-div">
-				<div id="spot-div">
-					<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-right:-15px; margin-top:-10px;">
-						<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
-					</svg>
-					<span id="spot-span">[[${planner.localName}]]</span>
-					<input type="hidden" name="reqNo" th:value="${rs.reqNo}"/>
-				</div>
-				<div id="reqMem-div">
-					<span id="reqMem" class="inner-span">신청인 : </span><span>[[${reqMem.nickname}]]</span>
-				</div>
-				<!-- 참고사항 입력한거 -->
-				<div id="note-div"><span class="inner-span">[[${rs.reqRef}]]</span></div>
+	<div class="flex-container">
+		<div style="height:80px;"></div>
+		<div id="req-ref-div">
+			<div id="spot-div">
+				<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-right:-15px; margin-top:-10px;">
+					<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
+				</svg>
+				<span id="spot-span">[[${planner.localName}]]</span>
 			</div>
-			<div style="height:40px;"></div>
-			<!-- 제출버튼 -->
-			<div>
-				<button id="submit_button" type="button">진행</button>
-				<button id="cancle_button" type="button">거절</button>
+			<div id="reqMem-div" class="req-div">
+				<span id="reqMem" class="inner-span">신청인 : </span><span>[[${reqMem.nickname}]]</span>
 			</div>
+			<div id="reqDate-div" class="req-div">
+				<span id="dateText" class="inner-span">날짜 : </span><span id="date">[[${s.startDate}]] ~ [[${s.endDate}]]</span>
+			</div>
+			<div id="note-div" class="req-div"><span class="inner-span">[[${rs.reqRef}]]</span></div>
 		</div>
-	</form>
+		<div style="height:40px;" id="hidden"></div>
+		<!-- 제출버튼 -->
+		<div>
+			<button id="submit_button" type="button">진행</button>
+			<button id="cancle_button" type="button">거절</button>
+		</div>
+	</div>
 	<div style="margin-bottom: 500px"></div>
 	
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
-	<script>
-		const form = document.forms[0];
+	<script th:inline='javascript'>
+		/*<![CDATA[*/
+		const reqNo = /*[[${rs.reqNo}]]*/1;	
+		const scNo = /*[[${s.scNo}]]*/1;
+		/*]]>*/
 		
 		//진행 시 요청 진행 페이지로 이동
 		document.getElementById('submit_button').addEventListener('click', ()=>{
-			form.method = "POST";
-			form.submit();
+			location.href = "processRequest.mp?reqNo=" + reqNo;
 		})
 		
 		//요청 취소 시 게시글 목록으로 이동
-		function cancle(){
-			location.href="request.mp"
-		}
+		document.getElementById('cancle_button').addEventListener('click', ()=>{
+			location.href="cancleRequest.mp?reqNo=" + reqNo + '&scNo=' + scNo;
+		})
 	</script>
 </body>
 </html>

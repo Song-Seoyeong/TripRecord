@@ -21,7 +21,8 @@
 	<insert id="enrollPlanner">
 		insert into request_grade
 		values(#{memberNo},
-		#{localNo}, 'PLANNER', #{plaReqContent}, #{sIntroContent}, sysdate, #{account}, #{bank})
+		#{localNo}, 'PLANNER', #{plaReqContent}, #{sIntroContent}, sysdate,
+		#{account}, #{bank})
 	</insert>
 
 	<select id="checkId" resultType="_int">
@@ -83,11 +84,11 @@
 		insert into REQUEST_GRADE
 		<if test="grade == 'PLANNER'">
 			values(#{memberNo}, #{lNo}, #{grade}, #{content},
-			#{intro}, sysdate)
+			#{intro}, sysdate, #{account}, #{bank})
 		</if>
 		<if test="grade == 'ADMIN'">
 			values(#{memberNo}, default, #{grade}, default, default,
-			sysdate)
+			sysdate, 0, 0)
 		</if>
 	</insert>
 
@@ -272,7 +273,8 @@
 	<!-- 별점 평균 -->
 	<select id="averageStar" resultType="_double">
 		select avg(REVIEW_STAR)
-		from REVIEW
+		from
+		REVIEW
 		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and
 		REV_REF_NO =
 		#{memberNo}
@@ -281,7 +283,8 @@
 	<!-- 후기 수 -->
 	<select id="getReviewListCount" resultType="_int">
 		select count (*)
-		from REVIEW
+		from
+		REVIEW
 		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and
 		REV_REF_NO =
 		#{memberNo}
@@ -325,7 +328,8 @@
 		select *
 		from req_schedule
 		join member on req_pla_no = member_no
-		where req_mem_no = #{reqMemNo}
+		where
+		req_mem_no = #{reqMemNo}
 		<if test="reqStatus != 0">
 			and req_status = #{reqStatus}
 		</if>
@@ -363,7 +367,8 @@
 	<!-- 일정 요청 취소 -->
 	<update id="updateReqState">
 		update req_schedule
-		set req_status = #{reqStatus}, confirm_date = sysdate
+		set req_status = #{reqStatus},
+		confirm_date = sysdate
 		where req_no = #{reqNo}
 	</update>
 
@@ -371,33 +376,39 @@
 	<select id="getPlanList" resultType='Plan'>
 		select *
 		from plan
-		where sc_no = #{scheNo}
+		where sc_no
+		= #{scheNo}
 	</select>
 
 	<!-- 일정 신청 사유 받아오기 -->
 	<select id="checkCancel" resultType='Cancel'>
 		select *
 		from cancel
-		where cancel_ref_type = 'REQSCHEDULE' and cancel_ref_no = #{reqNo}
+		where
+		cancel_ref_type = 'REQSCHEDULE' and cancel_ref_no = #{reqNo}
 	</select>
 
 	<!-- 취소 사유 저장 -->
 	<insert id="insertCancel">
 		insert into cancel
-		values(seq_cancel.nextval, #{cancelMemNo}, #{cancelComent}, sysdate, #{cancelRefType}, #{cancelRefNo})
+		values(seq_cancel.nextval,
+		#{cancelMemNo}, #{cancelComent}, sysdate, #{cancelRefType},
+		#{cancelRefNo})
 	</insert>
-	
+
 	<!-- 신청 진행상태 확인용 -->
 	<select id="getReqTotalList" resultType="ReqSchedule">
 		select *
-		from req_schedule
+		from
+		req_schedule
 		where req_status = 1 or req_status = 2
 	</select>
-	
+
 	<!-- 환불 -->
 	<update id="refundPoint">
 		update member
-		set member_point = FLOOR(member_point + #{payPoint})
+		set member_point = FLOOR(member_point +
+		#{payPoint})
 		where member_no = #{reqMemNo}
 	</update>
 
@@ -407,18 +418,20 @@
 		set warning_count = warning_count + 1
 		where member_no = #{reqPlaNo}
 	</update>
-	
+
 	<!-- 정산 추가 -->
 	<insert id="insertCalcultate">
 		insert into calculate
-			values(seq_calculate.nextval, #{reqPlaNo}, #{reqNo}, '구매확정 정산', default, LAST_DAY(SYSDATE), #{payPoint}, FLOOR(#{payPoint}*0.8))
+		values(seq_calculate.nextval, #{reqPlaNo}, #{reqNo}, '구매확정 정산', default, LAST_DAY(SYSDATE),
+		#{payPoint}, FLOOR(#{payPoint}*0.8))
 	</insert>
-	
+
 	<!-- 신청 테이블에 구매 확정일자 추가 -->
 	<update id="updateReqConfirmDate">
 		update req_schedule
 		set confirm_date = sysdate
-		where req_no = #{reqNo}
+		where
+		req_no = #{reqNo}
 	</update>
 
 	<!-- 신청 테이블에 환불 금액으로 결제 포인트 변경 -->
@@ -427,22 +440,26 @@
 		set pay_point = FLOOR(#{payPoint})
 		where req_no = #{reqNo}
 	</update>
-	
+
 	<select id="getRequestListCount" resultType="_int">
 		select count(*)
-		from req_schedule
+		from
+		req_schedule
 		where req_pla_no = #{ pNo }
 	</select>
-	
-	<select id="selectRequestList" resultType="reqSchedule">
-		select *
+
+	<select id="selectRequestList" resultType="ReqSchedule">
+		select req_No,
+		req_Mem_No, req_Pla_No, sche_No, req_Ref, req_Status, confirm_Date,
+		nickname, sc_start_Date startDay, sc_End_Date endDay
 		from req_schedule
 		join member on (req_mem_no = member_no)
-		join schedule on (sche_no = sc_no)
+		join schedule on (sche_no =
+		sc_no)
 		where req_pla_no = #{ pNo }
 	</select>
-	
-	<!--  -->
+
+	<!-- -->
 	<select id="checkSevenSchedule" resultType="_int">
 		<![CDATA[
 		select count(*) 
@@ -453,19 +470,155 @@
 		and req_pla_no = #{memberNo}
 		]]>
 	</select>
-	
-	<!-- 	플래너의 일정 요청 상세 보기 -->
+
+	<!-- 플래너의 일정 요청 상세 보기, 일정 요청 진행 -->
 	<select id="detailRequest" resultType="ReqSchedule">
 		select *
 		from req_schedule
 		where req_pla_no = #{reqPlaNo} and req_no = #{reqNo}
 	</select>
-	
+
 	<!-- 구매확정 스케줄 writer 변경 -->
 	<update id="updateSchedule">
-		update schedule 
+		update schedule
 		set sc_writer_no = #{reqMemNo}
 		where sc_no = #{scheNo}
 	</update>
+
+	<select id="detailSchedule" resultType='Schedule'>
+		select sc_no,
+		sc_local_no, sc_writer_no as writer_no,
+		to_char(sc_start_date, 'YYYY-MM-DD') as start_date, to_char(sc_end_date, 'YYYY-MM-DD') as
+		end_date, req_check
+		from schedule
+		where sc_no = #{scheNo}
+	</select>
+
+	<insert id="reqPlanInsert">
+		insert all
+		<foreach collection="list" item="l" separator=" ">
+			into plan
+			values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo,
+			jdbcType=VARCHAR}, 'N', #{l.day})
+		</foreach>
+		select * from dual
+	</insert>
+
+	<update id="reqScheUpdate">
+		update req_schedule
+		set req_status = '2'
+		where sche_no
+		= #{scNo}
+	</update>
+
+	<update id="cancleRequest">
+		update req_schedule
+		set req_status = '4'
+		where sche_no
+		= #{scNo}
+	</update>
+
+	<update id="scDelStaUpdate">
+		update schedule
+		set sc_del_status = 'Y'
+		where sc_no =
+		#{scNo}
+	</update>
+
+	<!-- 본인이 쓴 전체 후기(장소, 플래너) -->
+	<select id="getWholeReviewListCount" resultType="_int">
+		select count(*)
+		from REVIEW
+		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y'
+	</select>
+
+	<!-- 본인이 쓴 전체 후기(장소, 플래너) -->
+	<select id="getWholeReviewList" resultType="Review">
+		select *
+		from REVIEW
+		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y'
+	</select>
+
+	<!-- 플래너 해쉬태그 불러오기 -->
+	<select id="getHashTag" resultType="HashTag">
+		select *
+		from SELECT_HASHTAG
+		join HASHTAG using(TAG_NO)
+		where TAG_REF_TYPE = 'PLANNER' and
+		TAG_REF_NO = #{memberNo}
+	</select>
+
+	<!-- 플래너 인트로 업데이트 -->
+	<update id="updatePlannerIntro">
+		update PLANNER
+		set INTRO_CONTENT = #{introContent},
+		LOCAL_NO = #{localNo}
+		where MEMBER_NO = #{memberNo}
+	</update>
+
+	<!-- 소개 사진 유무 확인 -->
+	<select id="checkIntroImg" resultType="_int">
+		select count(*)
+		from IMAGE
+		where IMAGE_REF_TYPE = 'PLANNER' and IMAGE_REF_NO=#{memberNo}
+	</select>
+
+	<!-- 플래너 소개 이미지 -->
+	<select id="existPlannerFileId" resultType="Image">
+		select IMAGE_RENAME
+		from IMAGE
+		where IMAGE_REF_TYPE = 'PLANNER' and IMAGE_REF_NO =
+		#{memberNo}
+	</select>
+
+	<!-- 플래너 소개 이미지 db 지우기 -->
+	<delete id="deletePlannerProfile">
+		delete
+		from IMAGE
+		where IMAGE_REF_TYPE = 'PLANNER' and
+		IMAGE_REF_NO = #{memberNo}
+	</delete>
+
+	<select id="getTags" resultType="HashTag">
+		select *
+		from HASHTAG
+	</select>
+	<!-- 해쉬태그 업데이트 -->
+	<insert id="updateTag">
+		insert into SELECT_HASHTAG
+		values(SEQ_SEL_HASH.nextval, #{tagNo}, #{refType}, #{refNo})
+	</insert>
+
+	<!-- 해쉬태그 삭제 -->
+	<delete id="deleteTag">
+		delete
+		from SELECT_HASHTAG
+		where TAG_REF_TYPE ='PLANNER' and TAG_REF_NO =
+		#{memberNo}
+	</delete>
+
+	<!-- 통장 업데이트 -->
+	<update id="updateAccount">
+		update PLANNER
+		set BANK = #{bank}, ACCOUNT =
+		#{account}
+		where MEMBER_NO = #{refNo}
+	</update>
+
+	<!-- 정산 리스트 불러오기 -->
+	<select id="getCalcList" resultType="Calculate">
+		select *
+		from CALCULATE
+		where
+		PLANNER_NO = #{memberNo}
+	</select>
+
+	<!-- 정산 수 세게 -->
+	<select id="calcListCount" resultType="_int">
+		select count(*)
+		from
+		CALCULATE
+		where PLANNER_NO = #{memberNo}
+	</select>
 
 </mapper>
