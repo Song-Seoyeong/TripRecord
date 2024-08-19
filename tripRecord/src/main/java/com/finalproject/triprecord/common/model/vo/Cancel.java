@@ -18,6 +18,7 @@ public class Cancel {
 	private Date cancelDate;
 	private String cancelRefType;
 	private int cancelRefNo;
+	private String memberName;
 	
 
 //CREATE TABLE CANCEL(

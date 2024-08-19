@@ -82,9 +82,9 @@ public interface MemberService {
 	//문의 사항 데이터
 	ArrayList<Question> getQuestionList(HashMap<String, Object> map);
 	//일정요청 리스트 수
-	int getReqListCount(int memberNo);
+	int getReqListCount(ReqSchedule rs);
 	// 일정 리스트
-	ArrayList<ReqSchedule> getReqList(PageInfo pi, int memberNo);
+	ArrayList<ReqSchedule> getReqList(PageInfo pi, ReqSchedule rs);
 	// 일정 요청 플래너 리스트
 	Planner getReqPlanner(int reqPlaNo);
 	// 일정 상세
@@ -139,6 +139,8 @@ public interface MemberService {
 	int checkSevenSchedule(Member loginUser);
 	
 	ReqSchedule detailRequest(HashMap<String, Integer> map);
+
+	void updateSchedule(ReqSchedule r);
 
 	
 

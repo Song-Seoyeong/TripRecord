@@ -278,15 +278,11 @@
 						success: data => {
 							if(data != null){
 								boardTitle = data.boardTitle;
-								boardContents = data.boardContent.split('$$@!');
 								boardWriterNo = data.boardWriterNo;
 								
 								document.getElementById('notice-title').innerText = data.boardTitle;
 								document.getElementById('notice-content').innerText = '';
-								
-								for(let i = 0; i < boardContents.length; i++){
-									document.getElementById('notice-content').innerHTML += boardContents[i];
-								}
+								document.getElementById('notice-content').innerHTML = data.boardContent;
 								
 								if(data.boardStatus == 'Y'){
 									document.getElementById('go-edit').disabled = true;

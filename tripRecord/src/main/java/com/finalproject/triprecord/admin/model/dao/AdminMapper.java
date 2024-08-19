@@ -12,9 +12,9 @@ import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Content;
 import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
-import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
 
 @Mapper
@@ -133,6 +133,12 @@ public interface AdminMapper {
 	ArrayList<Cancel> selectCancelList(RowBounds rowBounds);
 
 	int getCancelListCount();
+
+	ArrayList<Calculate> selectCalculateList();
+
+	int getCalculateListCount();
+
+	ArrayList<Calculate> selectCalculatePageList(RowBounds rowBounds);
 
 	
 }

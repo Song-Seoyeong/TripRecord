@@ -87,9 +87,9 @@ public interface MemberMapper {
 	//문의 사항 데이터 불러오기
 	ArrayList<Question> getQuestionList(HashMap<String, Object> map);
 	
-	int getReqListCount(int memberNo);
+	int getReqListCount(ReqSchedule rs);
 
-	ArrayList<ReqSchedule> getReqList(Integer memberNo, RowBounds rb);
+	ArrayList<ReqSchedule> getReqList(ReqSchedule rs, RowBounds rb);
 	
 	Planner getReqPlanner(int reqPlaNo);
 
@@ -144,6 +144,8 @@ public interface MemberMapper {
 	int checkSevenSchedule(Member i);
 	
 	ReqSchedule detailRequest(HashMap<String, Integer> map);
+
+	void updateSchedule(ReqSchedule r);
 
 
 	

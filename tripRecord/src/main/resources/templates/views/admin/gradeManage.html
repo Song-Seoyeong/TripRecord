@@ -119,7 +119,12 @@
 						      		<td>[[${p.memberName}]]</td>
 						      		<td>[[${p.memberId}]]</td>
 									<td>[[${p.localName}]]</td>
-									<td>1,000,000,000</td>
+									<td th:each="c : ${cList}" th:if="${c.plannerNo == p.memberNo}" th:unless="${cList.isEmpty}">
+										[[${#numbers.formatInteger(c.expectedMoney, 3, 'COMMA')}]]
+									</td>
+									<td th:if="${cList.isEmpty}">
+										0
+									</td>
 									<td>
 										<th:block th:if="${p.warningCount >= 3}"> 
 											<span style="color: red;" th:text="${p.warningCount}"></span>

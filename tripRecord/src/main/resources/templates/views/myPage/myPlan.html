@@ -28,7 +28,15 @@
 							<th width='10%'>여행지</th>
 							<th width='25%'>여행 기간</th>
 							<th width='15%'>담당 플래너</th>
-							<th width='15%'>진행 상태</th>
+							<th width='15%'>
+								<select class="form-select" aria-label="Sort by" name='status' id='statusSearch'>
+					                <option th:selected="${statusSearch == 0}" value="0">진행 상태</option>
+					                <option th:selected="${statusSearch == 1}" value="1">신청</option>
+					                <option th:selected="${statusSearch == 2}" value="2">일정도착</option>
+					                <option th:selected="${statusSearch == 3}" value="3">구매확정</option>
+					                <option th:selected="${statusSearch == 4}" value="4">신청취소</option>
+				           	 	</select>
+							</th>
 							<th width='15%'>결제 포인트</th>
 							<th width='15%'>구매/환불일</th>
 						</tr>
@@ -55,7 +63,7 @@
 								<td th:if='${l.confirmDate != null}'>[[${l.confirmDate}]]</td>
 							</th:block>
 						</tr>
-						<tr th:if='${pi.listCount == 0}'>
+						<tr th:if='${list == null}'>
 							<td colspan="5">
 								신청하신 리스트가 없습니다
 							</td>
@@ -65,7 +73,7 @@
 			</div>
 			
 			<!-- 페이지네이션 -->
-			<nav class="d-flex justify-content-center" th:if='${pi.listCount != 0}'>
+			<nav class="d-flex justify-content-center" th:if='${list != null}'>
 	        	<ul class="pagination" th:with="loc=${ loc }">
 	        		 <!-- 이전 버튼 -->
 		            <li class="page-item">
@@ -118,6 +126,14 @@
 				}
 			})
 		}
+		
+		const statusSearch = document.getElementById('statusSearch');
+		statusSearch.addEventListener('change', function(){
+			console.log(this.value)
+			if(this.value != ""){
+				location.href = 'myPlan.mp?statusSearch=' + this.value;
+			}
+		})
 		/*]]>*/
 	</script>
 </body>

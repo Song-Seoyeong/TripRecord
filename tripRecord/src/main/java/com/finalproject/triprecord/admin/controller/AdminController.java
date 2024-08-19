@@ -29,6 +29,7 @@ import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -256,7 +257,7 @@ public class AdminController {
 		String[] contentArr = q.getQuestionAnswer().split("\n");
 		String contentSum = "";
 		for(String content : contentArr) {
-			contentSum += content + "$$@!";
+			contentSum += content;
 		}
 		q.setQuestionAnswer(contentSum);
 		
@@ -277,10 +278,12 @@ public class AdminController {
 		ArrayList<Member> pList = aService.selectPlannerList();
 		ArrayList<Member> aList = aService.selectAdminList();
 		ArrayList<RequestGrade> rList = aService.selectRequestGradeList();
+		ArrayList<Calculate> cList = aService.selectCalculateList();
 
 		model.addAttribute("pList", pList);
-		model.addAttribute("aList", aList);
 		model.addAttribute("rList", rList);
+		model.addAttribute("aList", aList);
+		model.addAttribute("cList", cList);
 		return "gradeManage";
 	}
 	
@@ -381,7 +384,7 @@ public class AdminController {
 		String[] contentArr = b.getBoardContent().split("\n");
 		String contentSum = "";
 		for(String content : contentArr) {
-			contentSum += content + "$$@!";
+			contentSum += content;
 		}
 		b.setBoardContent(contentSum);
 		b.setBoardWriterNo(memberNo);
@@ -414,7 +417,7 @@ public class AdminController {
 		String[] contentArr = b.getBoardContent().split("\n");
 		String contentSum = "";
 		for(String content : contentArr) {
-			contentSum += content + "$$@!";
+			contentSum += content;
 		}
 		b.setBoardContent(contentSum);
 		
@@ -693,15 +696,25 @@ public class AdminController {
 	// 기타 관리 페이지 이동
 	@GetMapping("otherManage.ad")
 	public String otherManageView(@RequestParam(value="page", defaultValue="1") int currentPage,
+								  @RequestParam(value="cPage", defaultValue="1") int calculatePage,
 								  HttpServletRequest request,
 								  Model model) {
 		int listCount = aService.getCancelListCount();
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 13);
 		ArrayList<Cancel> cList = aService.selectCancelList(pi);
 		
+		int CalCount = aService.getCalculateListCount();
+		PageInfo cPi = Pagination.getPageInfo(calculatePage, CalCount, 13);
+		ArrayList<Calculate> caList = aService.selectCalculatePageList(cPi);
+		
 		model.addAttribute("cList", cList);
 		model.addAttribute("pi", pi);
+		model.addAttribute("caList", caList);
+		model.addAttribute("cPi", cPi);
+		model.addAttribute("page", currentPage);
+		model.addAttribute("cPage", calculatePage);
 		model.addAttribute("loc", request.getRequestURI());
+		
 		
 		return "otherManage";
 	}
