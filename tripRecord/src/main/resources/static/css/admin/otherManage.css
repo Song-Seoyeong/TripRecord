@@ -8,12 +8,17 @@
 }
 
 .cancel-container{
-	width: 45%;
+	width: 50%;
 	max-height: 710px;
 }
 
 .list-table{
 	margin-bottom: 20px;
 	max-height: 610px;
+}
+
+.calcul-container{
+	margin-left: 100px;
+	width: 30%
 }
 

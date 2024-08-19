@@ -154,6 +154,9 @@ public class HomeController {
 						r.setReqStatus(3);
 						result += mService.updateReqState(r);
 						
+						// 구매 확정 후 일정 회원걸로 변경
+						mService.updateSchedule(r);
+						
 						// 구매 확정 날짜
 						mService.updateReqConfirmDate(r);
 						

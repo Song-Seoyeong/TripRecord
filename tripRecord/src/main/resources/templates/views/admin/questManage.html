@@ -230,12 +230,8 @@
 							}
 							
 							if(tr.children[5].innerText == '응답'){
-								const questContents = data.questionAnswer.split('$$@!');
 								document.getElementById('detail-answer').innerText = '';
-								
-								for(let i = 0; i < questContents.length; i++){
-									document.getElementById('detail-answer').innerHTML += questContents[i];
-								}
+								document.getElementById('detail-answer').innerHTML = data.questionAnswer;
 								
 								document.getElementById('detail-answer').readOnly = true;
 								document.getElementById('button').disabled = true;

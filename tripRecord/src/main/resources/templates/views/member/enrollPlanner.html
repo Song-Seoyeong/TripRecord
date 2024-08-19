@@ -5,6 +5,8 @@
 <title>플래너 회원가입</title>
 <link type="text/css" href='css/member/enrollPlanner.css' rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <style>
 
 </style>
@@ -115,6 +117,48 @@
 					<div class="alert-div"></div>
 				</div>
 			</div>
+			<div class="inputDiv row">
+				<div class="col-3"></div>
+				<div class="col-2">
+					<label class="loginText">은행</label>
+				</div>
+				<div class="col-4">
+					<select id="bank" name="bank" class="form-select">
+						<option class="dropdown-item">국민은행</option>
+						<option class="dropdown-item">기업은행</option>
+						<option class="dropdown-item">농협</option>
+						<option class="dropdown-item">우리은행</option>
+						<option class="dropdown-item">대구은행</option>
+						<option class="dropdown-item">외환은행</option>
+						<option class="dropdown-item">SC제일은행</option>
+						<option class="dropdown-item">부산은행</option>
+						<option class="dropdown-item">새마을금고</option>
+						<option class="dropdown-item">한국씨티은행</option>
+						<option class="dropdown-item">광주은행</option>
+						<option class="dropdown-item">경남은행</option>
+						<option class="dropdown-item">수협</option>
+						<option class="dropdown-item">신협</option>
+						<option class="dropdown-item">전북은행</option>
+						<option class="dropdown-item">제주은행</option>
+						<option class="dropdown-item">산림조합</option>
+						<option class="dropdown-item">우체국</option>
+						<option class="dropdown-item">하나은행</option>
+						<option class="dropdown-item">신한은행</option>
+					</select>
+					<div class="alert-div"></div>
+				</div>
+			</div>
+			<div class="inputDiv row">
+				<div class="col-3"></div>
+				<div class="col-2">
+					<label class="loginText">계좌번호</label>
+				</div>
+				<div  class='col-4'>
+					<input id="account" type="text" name='account' placeholder="계좌번호를 입력하세요" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="14"/>
+					<div id='accountText' class="alert-div"></div>
+				</div>
+				<div class='col-3'></div>
+			</div>
 			<div class="inputDiv row" style="margin-bottom:20px;">
 				<div class='col-3'></div>
 				<div class='col-2'>
@@ -125,7 +169,21 @@
 						<option selected>활동 지역 선택</option>
 						<option value='1'>서울</option>
 						<option value='2'>부산</option>
-						<option value='3'>강원도</option>
+						<option value='4'>대구</option>
+						<option value='2'>인천</option>
+						<option value='5'>광주</option>
+						<option value='3'>대전</option>
+						<option value='7'>울산</option>
+						<option value='8'>세종</option>
+						<option value='31'>경기</option>
+						<option value='32'>강원</option>
+						<option value='33'>충북</option>
+						<option value='34'>충남</option>
+						<option value='35'>경북</option>
+						<option value='36'>경남</option>
+						<option value='37'>전북</option>
+						<option value='38'>전남</option>
+						<option value='39'>제주</option>
 					</select>
 				</div>
 				<div class='col-3'></div>
@@ -150,11 +208,31 @@
 				</div>
 				<div class='col-3'></div>
 			</div>
+			
+			<div class="mt-4">
+				<div class="row">
+					<div class="col-3"></div>
+			    <div class="col-9">
+					<h5><strong>약관</strong></h5>
+						<ul class="list-group" style="width:650px;">
+							<li class="list-group-item">1. 플래너는 거래가 이루워진 시점에서 성실하게 수행해야한다.</li>
+							<li class="list-group-item">2. 거래에 대한 역할을 성실히 수행하지 않았을 경우 불이익을 받을 수 있습니다.</li>
+						</ul>
+						<div class="form-check mt-3">
+							<input class="form-check-input" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="약관에 동의해야 합니다." type="checkbox" id="agreeCheckbox">
+							<label class="form-check-label" for="agreeCheckbox">
+								위 약관에 동의합니다.
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center align-items-center'>
 				<button class="btn btn-primary" id='enrollButton'>회원가입</button>
 				<a id='enrollPlaner' href="enrollView.me">일반 회원가입</a>
 			</div>
-	
+			<input type="hidden" name="grade" value="PLANNER">
 		</div>
 	</form>
 	<!-- 회원가입 폼 -->
@@ -181,6 +259,7 @@
 				}
 			});
 			
+			const checkBox = document.getElementById("agreeCheckbox");
 			const regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,16}$/;
 			const enrollbtn = document.getElementById("enrollButton");
 			const inputId = document.getElementsByName("memberId")[0];
@@ -194,7 +273,7 @@
 			const local = document.getElementById("local");
 			const intro = document.getElementById("short-intro");
 			const apply = document.getElementById("to-admin");
-			
+			const account = document.getElementById("account");
 			
 			enrollbtn.onclick = e =>{
 				if(inputId.value.trim() == ''){
@@ -274,7 +353,18 @@
 						domain.focus();
 						e.preventDefault();
 					}
-				} else if(local.value == '활동 지역 선택'){
+				} else if(account.value.trim() == ''){
+					for(const a of alertDivs){
+						a.innerText = "";
+						a.style.color = 'white';
+					}
+					alertDivs[8].innerText = "계좌번호를 입력해주세요";
+					alertDivs[8].style.color = 'red';
+					account.focus();
+					e.preventDefault();
+				} 
+				
+				else if(local.value == '활동 지역 선택'){
 					for(const a of alertDivs){
 						a.innerText = "";
 						a.style.color = 'white';
@@ -297,6 +387,15 @@
 					// 여기에 모달 하고싶었는데
 					alert("신청글을 빈칸으로 제출을 원하시면 '없음' 을 적어주세요");
 					e.preventDefault();
+				} else if(!checkBox.checked){
+					checkBox.focus();
+					const popover = new bootstrap.Popover(agreeCheckbox);
+					popover.show();
+		            // 5초 후 팝오버 자동 제거
+		            setTimeout(() => {
+		                popover.hide();
+		            }, 5000);
+					e.preventDefault();
 				} else if(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){
 					for(const a of alertDivs){
 						a.innerText = "";
@@ -316,7 +415,16 @@
 				}
 			}
 			
-			
+			checkBox.addEventListener('change', function() {
+				if(!checkBox.checked){
+					const popover = new bootstrap.Popover(agreeCheckbox);
+					popover.show();
+		            // 2초 후 팝오버 자동 제거
+		            setTimeout(() => {
+		                popover.hide();
+	          	  }, 2000);
+				}
+		    });
 			
 			pwdconfirm.addEventListener('focusout',()=>{
 				if(pwdconfirm.value === inputPwd.value && (pwdconfirm.value.trim() != '' || inputPwd.value.trim() != '')){

@@ -26,4 +26,5 @@ public class Member {
 	private String memberDrop;
 	private String localName;
 	private int warningCount;
+	private int checkSevenSchedule;
 }

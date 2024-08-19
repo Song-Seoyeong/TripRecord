@@ -183,15 +183,15 @@ public class MemberServiceImpl implements MemberService{
 	}
 	// 일정 요청 리스트 수
 	@Override
-	public int getReqListCount(int memberNo) {
-		return mMapper.getReqListCount(memberNo);
+	public int getReqListCount(ReqSchedule rs) {
+		return mMapper.getReqListCount(rs);
 	}
 	// 일정 요청 리스트
 	@Override
-	public ArrayList<ReqSchedule> getReqList(PageInfo pi, int memberNo) {
+	public ArrayList<ReqSchedule> getReqList(PageInfo pi, ReqSchedule rs) {
 		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
 		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
-		return mMapper.getReqList(memberNo, rb);
+		return mMapper.getReqList(rs, rb);
 	}
 	// 일정 요청 플래너
 	@Override
@@ -328,6 +328,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public ReqSchedule detailRequest(HashMap<String, Integer> map) {
 		return mMapper.detailRequest(map);
+	}
+
+	@Override
+	public void updateSchedule(ReqSchedule r) {
+		mMapper.updateSchedule(r);
 	}
 
 }

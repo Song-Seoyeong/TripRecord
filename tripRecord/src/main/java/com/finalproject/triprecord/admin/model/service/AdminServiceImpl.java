@@ -17,6 +17,7 @@ import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
 
 @Service
@@ -323,6 +324,24 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int getCancelListCount() {
 		return aMapper.getCancelListCount();
+	}
+	
+	@Override
+	public ArrayList<Calculate> selectCalculateList() {
+		return aMapper.selectCalculateList();
+	}
+	
+	@Override
+	public int getCalculateListCount() {
+		return aMapper.getCalculateListCount();
+	}
+	
+	@Override
+	public ArrayList<Calculate> selectCalculatePageList(PageInfo cPi) {
+		int offset = (cPi.getCurrentPage() - 1) * cPi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, cPi.getBoardLimit());
+		
+		return aMapper.selectCalculatePageList(rowBounds);
 	}
 	
 }

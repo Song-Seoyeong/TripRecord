@@ -20,6 +20,7 @@ public class Calculate {
 	private Date calDate;
 	private int expectedPoint;
 	private int expectedMoney;
+	private String memberName;
 	
 //	CREATE TABLE CALCULATE(
 //		    CALCULATE_NO NUMBER PRIMARY KEY,

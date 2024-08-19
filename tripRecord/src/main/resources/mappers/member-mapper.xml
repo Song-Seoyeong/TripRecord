@@ -313,9 +313,11 @@
 	<!-- 일정 요청 리스트 수 -->
 	<select id="getReqListCount" resultType='_int'>
 		select count(*)
-		from
-		req_schedule
-		where req_mem_no = #{memberNo}
+		from req_schedule
+		where req_mem_no = #{reqMemNo}
+		<if test="reqStatus != null">
+			and req_status = #{reqStatus}
+		</if>
 	</select>
 
 	<!-- 일정 요청 리스트 -->
@@ -323,8 +325,9 @@
 		select *
 		from req_schedule
 		join member on req_pla_no = member_no
-		<if test="memberNo != null">
-		where req_mem_no = #{memberNo}
+		where req_mem_no = #{reqMemNo}
+		<if test="reqStatus != 0">
+			and req_status = #{reqStatus}
 		</if>
 		order by req_no desc
 	</select>
@@ -360,7 +363,7 @@
 	<!-- 일정 요청 취소 -->
 	<update id="updateReqState">
 		update req_schedule
-		set req_status = #{reqStatus}
+		set req_status = #{reqStatus}, confirm_date = sysdate
 		where req_no = #{reqNo}
 	</update>
 
@@ -458,5 +461,11 @@
 		where req_pla_no = #{reqPlaNo} and req_no = #{reqNo}
 	</select>
 	
+	<!-- 구매확정 스케줄 writer 변경 -->
+	<update id="updateSchedule">
+		update schedule 
+		set sc_writer_no = #{reqMemNo}
+		where sc_no = #{scheNo}
+	</update>
 
 </mapper>

@@ -2,7 +2,6 @@ package com.finalproject.triprecord.member.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -359,15 +358,24 @@ public class MyPageController {
 
 	@GetMapping("myPlan.mp")
 	public String moveToMyPlan(@RequestParam(value="page", defaultValue="1") int page,
+								@RequestParam(value="statusSearch", required=false) Integer statusSearch,
 								HttpServletRequest request,
 								HttpSession session, Model model) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		
 		// 신청 리스트 불러오기
-		int listCount = mService.getReqListCount(memberNo);
+		ReqSchedule rs = new ReqSchedule();
+		rs.setReqMemNo(memberNo);
+		if(statusSearch != null) {
+			rs.setReqStatus(statusSearch);
+		}else {
+			statusSearch = 0;
+		}
+		//System.out.println(rs);
+		int listCount = mService.getReqListCount(rs);
 		PageInfo pi = Pagination.getPageInfo(page, listCount, 10);
 		
-		ArrayList<ReqSchedule> list = mService.getReqList(pi, memberNo);
+		ArrayList<ReqSchedule> list = mService.getReqList(pi, rs);
 		
 		ArrayList<Planner> pList = new ArrayList<Planner>();
 		
@@ -401,6 +409,7 @@ public class MyPageController {
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
     	model.addAttribute("list", list);
+    	model.addAttribute("statusSearch", statusSearch);
     	model.addAttribute("pList", pList);
     	model.addAttribute("pi", pi);
     	model.addAttribute("loc", request.getRequestURI());
@@ -480,27 +489,12 @@ public class MyPageController {
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
 	    
-	    model.addAttribute("planList", planList);
+	    model.addAttribute("pList", planList);
 	    model.addAttribute("rs", rs);
 	    model.addAttribute("planner", planner);
 	    model.addAttribute("sch", sch);
 	    model.addAttribute("page", page);
 	    return "detailReqPlan";
-	}
-
-	@GetMapping("feedback.mp")
-	public String moveToFeedback(HttpSession session, Model model) {
-		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
-	    Image image = mService.existFileId(memberNo); 
-	  
-	    if (image != null && image.getImageRename() != null) {
-	        String existFileId = image.getImageRename(); 
-	        model.addAttribute("rename", existFileId);
-	    } else {
-	        // 이미지가 없거나 리네임이 없는 경우 처리
-	        model.addAttribute("rename", "defaultImageName"); 
-	    }
-		return "feedback";
 	}
 	
 	@GetMapping("cancelReqSch.mp")
@@ -508,7 +502,7 @@ public class MyPageController {
 								@RequestParam("cancelContent") String cancelContent,
 								@RequestParam("page") int page,
 								HttpSession session, RedirectAttributes ra) {
-		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+		Member loginUser = (Member) session.getAttribute("loginUser");
 		
 		// 신청진행상태 변경
 		int result = mService.updateReqState(req);
@@ -518,12 +512,19 @@ public class MyPageController {
 		c.setCancelRefNo(req.getReqNo());
 		c.setCancelRefType("REQSCHEDULE");
 		c.setCancelComent(cancelContent);
-		c.setCancelMemNo(memberNo);
+		c.setCancelMemNo(loginUser.getMemberNo());
 		int canResult = mService.insertCancel(c);
+		
+		req.setReqMemNo(loginUser.getMemberNo());
+		// 포인트 환불
+		mService.refundPoint(req);
+		
+		loginUser.setMemberPoint(loginUser.getMemberPoint() + req.getPayPoint());
+		session.setAttribute("loginUser", loginUser);
 		
 		if(result > 0 && canResult > 0) {
 		// 프로필 이미지 조회
-	    Image image = mService.existFileId(memberNo); 
+	    Image image = mService.existFileId(loginUser.getMemberNo()); 
 		if (image != null && image.getImageRename() != null) {
 	        String existFileId = image.getImageRename(); 
 	        ra.addAttribute("rename", existFileId);

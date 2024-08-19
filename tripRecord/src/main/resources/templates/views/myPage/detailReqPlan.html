@@ -68,7 +68,39 @@
 					조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
 				</div>
 				<div id='schedule' th:if='${rs.reqStatus != 1 && rs.reqStatus != 4 && planList != null}'>
-					일정 생성 완료
+					<div class="contain-div">
+							<div id="planAll" class="grid">
+								<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
+									<div class="dayText" th:text="|${date.key}일차|"></div>
+									<div class="date" th:text="${date.value}"></div>
+									<div class="planDiv">
+										<div class="one-plan" th:each="p, index : ${pList}" th:if="${date.value == p.day}">
+											<input type="hidden" name="plNo" class="plNos" th:value="${p.plNo}"/>
+											<input type="hidden" name="day" th:value="${p.day}"/>
+											<div class="plan-spans">
+												<span class="line"><span class="round"></span></span>
+											</div>
+											<div class="plan-labels">
+												<div class="label-div">
+													<input type="text" name="place" th:value="${p.place}" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창" style="display: none;">
+													<label class="planLabel placeLabel" th:text=${p.place}></label>
+												</div>
+												<div class="label-div">
+													<input type="time" name="time" th:value="${p.time}" class="plan-text timeInput" placeholder="시간 입력창" style="display: none;">
+													<label class="planLabel timeLabel" th:text="${p.time}"></label>
+												</div>
+												<div class="label-div">
+													<input type="text" name="memo" th:value="${p.memo}" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창" style="display: none;">
+													<label class="planLabel memoLabel" th:text="${p.memo}"></label>
+												</div>
+											</div>
+											<div class="plan-images"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div id='schedule' th:if='${rs.reqStatus == 4}'>
 					신청이 취소된 여행입니다 :(
@@ -120,6 +152,7 @@
 				        	<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
 				        	<input type='hidden' name='reqStatus' id='reqStatus' value='4'>
 				        	<input type='hidden' name='page' id='page' th:value='${page}'>
+				        	<input type='hidden' name='payPoint' id='payPoint' th:value='${rs.payPoint}'>
 				          <div class="mb-3">
 				            <label for="message-text" class="col-form-label">취소 사유 :</label>
 				            <textarea class="form-control" id="message-text" name='cancelContent'></textarea>

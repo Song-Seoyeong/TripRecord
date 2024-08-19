@@ -21,4 +21,6 @@ public class Planner {
 	private String imageRename;
 	private String localName;
 	private int warningCount;
+	private String account;
+	private String bank;
 }

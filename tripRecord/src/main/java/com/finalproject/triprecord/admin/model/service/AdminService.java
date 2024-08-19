@@ -12,6 +12,7 @@ import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
 
 public interface AdminService {
@@ -129,6 +130,12 @@ public interface AdminService {
 	ArrayList<Cancel> selectCancelList(PageInfo pi);
 
 	int getCancelListCount();
+
+	ArrayList<Calculate> selectCalculateList();
+
+	int getCalculateListCount();
+
+	ArrayList<Calculate> selectCalculatePageList(PageInfo cPi);
 
 
 

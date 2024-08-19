@@ -325,4 +325,19 @@
 		select count(*) from cancel join member on(member_no = cancel_mem_no)
 	</select>
 	
+	<select id="selectCalculateList" resultType="Calculate">
+		select count(expected_money) "EXPECTED_MONEY", planner_no from calculate group by planner_no
+	</select>
+	
+	<select id="getCalculateListCount" resultType="_int">
+		select count(count(expected_money)) from calculate group by planner_no
+	</select>
+	
+	<select id="selectCalculatePageList" resultType="Calculate">
+		select planner_no, member_name, cal_date, count(expected_point) "EXPECTED_POINT", count(expected_money) "EXPECTED_MONEY" 
+		from calculate 
+		    left join member on (planner_no = member_no)
+		group by planner_no, cal_date, member_name
+	</select>
+	
 </mapper>
