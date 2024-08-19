@@ -319,7 +319,7 @@ public class AdminController {
 	public String gradeSuccess(@RequestParam("mNo") int mNo) {
 		RequestGrade rg = aService.selectRequestGrade(mNo);
 		
-		System.out.println(rg);
+		//System.out.println(rg);
 		if(rg != null) {
 			String grade = rg.getGrade();
 			

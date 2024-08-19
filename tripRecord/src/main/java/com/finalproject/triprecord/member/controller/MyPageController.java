@@ -386,7 +386,7 @@ public class MyPageController {
 		int listCount = mService.getReqListCount(rs);
 		PageInfo pi = Pagination.getPageInfo(page, listCount, 10);
 		
-		System.out.println(pi);
+		//System.out.println(pi);
 		
 		ArrayList<ReqSchedule> list = mService.getReqList(pi, rs);
 		
