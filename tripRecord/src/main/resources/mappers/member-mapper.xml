@@ -318,7 +318,7 @@
 		select count(*)
 		from req_schedule
 		where req_mem_no = #{reqMemNo}
-		<if test="reqStatus != null">
+		<if test="reqStatus != 0">
 			and req_status = #{reqStatus}
 		</if>
 	</select>

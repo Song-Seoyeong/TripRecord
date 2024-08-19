@@ -13,11 +13,17 @@ th {
 td {
 	padding: 15px;
 }
-
+/* .secondSidebar{
+    position: absolute;
+    left: 50%;
+    top: 470px;
+    transform: translateX(-50%);
+} */
 .flex-container {
 	text-align: center;
 	position: relative;
 	display: flex;
+	min-height: 250px;
 }
 
 #contentsDiv {
@@ -25,7 +31,7 @@ td {
 	max-width: 1400px;
 	position: absolute;
 	left: 50%;
-	top: -200px;
+	top: -80px;	
 	transform: translateX(-45%);
 }
 

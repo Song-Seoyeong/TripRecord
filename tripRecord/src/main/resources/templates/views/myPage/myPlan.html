@@ -15,13 +15,22 @@
 	<!--마이페이지 어퍼바-->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
 	<!-- 사이드바 -->
-	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
+	<div style="height:120px;">
+      <div id="sidebar">
+         <div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div>
+      </div>   
+   </div> 
 	
 	<div class="flex-container">
-		<span class="secondSidebar"><a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a></span>
-        <span class="secondSidebar"><a class="nav-link" href="myTripNote.pl">내 여행 노트</a></span>
 		<!-- 내용 -->
 		<div id='contentsDiv'>
+			<span class="secondSidebar">
+				<a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a>
+			</span>
+			<span class="secondSidebar">
+				<a class="nav-link" href="myTripNote.mp">내 여행 노트</a>
+			</span>
+			
 			<div id='divTitle'>여행 플랜 신청 리스트</div>
 			<div id='tableDiv'>
 				<table>
@@ -75,7 +84,7 @@
 			</div>
 			
 			<!-- 페이지네이션 -->
-			<nav class="d-flex justify-content-center" th:if='${list != null}'>
+			<nav class="d-flex justify-content-center" id='pagination'th:if='${list != null}'>
 	        	<ul class="pagination" th:with="loc=${ loc }">
 	        		 <!-- 이전 버튼 -->
 		            <li class="page-item">
