@@ -569,13 +569,20 @@ public class MyPageController {
 							HttpSession session, RedirectAttributes ra) {
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		
+		r = mService.getReqSchedule(r.getReqNo());
+		
 		r.setReqMemNo(loginUser.getMemberNo());
+		r.setReqStatus(3);
+		
 		// 신청 상태 변경
 		mService.updateReqState(r);
 		mService.updateReqConfirmDate(r);
 		
 		// 스케줄 작성자 변경
 		mService.updateScheduleWriter(r);
+		
+		// 플래너 정산에 추가
+		mService.insertCalcultate(r);
 	
     	ra.addAttribute("page", page);
     	ra.addAttribute("reqNo", r.getReqNo());

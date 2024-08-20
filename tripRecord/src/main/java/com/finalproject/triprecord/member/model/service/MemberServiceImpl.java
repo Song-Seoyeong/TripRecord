@@ -442,6 +442,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public int updateScheduleWriter(ReqSchedule r) {
+		//System.out.println(r);
 		return mMapper.updateScheduleWriter(r);
 	}
 }
