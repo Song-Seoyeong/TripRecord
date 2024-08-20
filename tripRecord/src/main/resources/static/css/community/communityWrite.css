@@ -99,3 +99,28 @@ textArea{
 }
 #sidebar{width:51px; height: 51px; left: 33px; top: 260px; position: fixed; border: 7px #96CAF0 solid; z-index: 50;}
 #offcanvasWithBothOptions{height:270px; top:320px; left:33px; width:250px; border:5px solid #2f6598;}
+.reImg{
+	width: 200px;
+}
+.beforeDel, .afterDel{
+	float: left;
+}
+.afterDel{
+	display: none ;
+}
+.backDel{
+    display: inline-block ;
+    transition: transform 0.5s ease-in-out;
+}
+#image{
+	margin: 20px 0px;
+}
+.deleteButton:hover .afterDel{
+	display: inline-block ;
+}
+.deleteButton:hover .beforeDel{
+	display: none;
+}
+.deleteButton:hover .backDel{
+	transform: rotate(-90deg);
+}
