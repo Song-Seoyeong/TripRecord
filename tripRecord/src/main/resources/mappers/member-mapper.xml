@@ -631,7 +631,7 @@
 	<update id="updateScheduleWriter">
 		update schedule
 		set sc_writer_no = #{reqMemNo}, req_check = 'N'
-		where sc_no = #{reqNo}
+		where sc_no = #{scheNo}
 	</update>
 
 </mapper>
