@@ -122,7 +122,7 @@ public interface MemberMapper {
 	int canclePlanner(HashMap<String, Object> map);
 	//---------------------------------------------------------
 
-	Cancel checkCancel(int reqNo);
+	Cancel checkCancel(ReqSchedule rs);
 
 	int insertCancel(Cancel c);
 

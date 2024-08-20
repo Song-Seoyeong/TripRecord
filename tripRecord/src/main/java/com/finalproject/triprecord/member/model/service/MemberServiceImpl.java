@@ -267,8 +267,8 @@ public class MemberServiceImpl implements MemberService{
 	//----------------------------------------------------------------
 
 	@Override
-	public Cancel checkCancel(int reqNo) {
-		return mMapper.checkCancel(reqNo);
+	public Cancel checkCancel(ReqSchedule rs) {
+		return mMapper.checkCancel(rs);
 	}
 
 	@Override
