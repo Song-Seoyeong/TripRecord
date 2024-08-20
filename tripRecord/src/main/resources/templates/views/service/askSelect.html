@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>문의사항 상세조회</title>
 <link type="text/css" href="css/service/askSelect.css" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
@@ -66,14 +66,12 @@
 		
 		<div style="display:flex; justify-content:left;">
 			<div class='review-text' id='reviewDiv' th:if="${ session.loginUser != null}">
-				<a href="askWrite.no" style="text-decoration-line:none;">
-					<button id='goReview'>
-						<p>문의하기</p>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
-							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
-						</svg>
-					</button>
-				</a>
+				<button id='goReview'>
+					<p>문의하기</p>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+						<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+					</svg>
+				</button>
 			</div>
 	    </div>
 		
@@ -162,7 +160,10 @@
 	<div class="text-center row">
 		<div class="col-4"></div>
 		<div class="col-1" style="margin:auto;">
-			<a href="ask.no">
+			<a href="ask.no" th:if="${myPage} != myPage">
+				<button class="edit-btn">목록</button>
+			</a>
+			<a href="myBoard.mp" th:if="${myPage} == myPage">
 				<button class="edit-btn">목록</button>
 			</a>
 		</div>
@@ -335,9 +336,7 @@
 					}
 				});
 			}
-		// if([[${myPage}]] == 1){
-			//목록 link -> mypage 
-		//}	
+			
 			const searchForm = document.getElementById("search-form");
 			const generalTypeValue = document.getElementById("generalType");
 			const categories = document.getElementsByClassName("col-3");
@@ -365,6 +364,11 @@
 					searchForm.submit();
 				})
 			}
+			
+			// 돋보기 클릭 시 검색
+			document.getElementsByClassName("x-icon")[0].addEventListener('click',()=>{
+				searchForm.submit();
+			});
 			
 			let gType = /*[[${generalType}]]*/1;
 			//console.log(gType);
@@ -410,7 +414,10 @@
 			});
 			
 			
-			
+			const reviewBtn = document.getElementById("goReview");
+			reviewBtn.addEventListener('click',()=>{
+				location.href="askWrite.no";
+			});
 			
 			
 			
