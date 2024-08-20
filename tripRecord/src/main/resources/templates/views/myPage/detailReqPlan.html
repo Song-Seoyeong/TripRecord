@@ -231,9 +231,14 @@
 		})
 		
 		const rearSchedule = document.getElementById('rearSchedule');
+		const dayPlan = document.getElementsByClassName("dayPlan");
 		if(rearSchedule != null){
 			const firstDiv = document.getElementById('firstDiv');
-			firstDiv.classList.add('marginDiv');
+			if(dayPlan.length < 6){
+				firstDiv.classList.add('marginDiv1');
+			}else if(dayPlan.length >= 6){
+				firstDiv.classList.add('marginDiv2');
+			}
 		}
 		
 	</script>

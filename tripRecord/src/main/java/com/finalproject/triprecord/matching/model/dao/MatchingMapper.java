@@ -69,4 +69,6 @@ public interface MatchingMapper {
 
 	ArrayList<Image> selectiImgList(int pNo);
 
+	int requestPayment(HashMap<String, Integer> map);
+
 }

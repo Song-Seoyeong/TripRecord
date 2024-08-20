@@ -19,17 +19,19 @@
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	<!-- 사이드바 -->
-	<div style="height:120px;">
-      <div id="sidebar">
-         <div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div>
-      </div>   
-   </div> 
+		<div style="height: 120px;">
+		<!-- 사이드바 -->
+		<div id="sidebar">
+			<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div>
+		</div>
+	</div>
 	
 	<form id="detailMyTripForm">
 		<div class="flex-container">
-			<span class="secondSidebar"><a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a></span>
-        	<span class="secondSidebar"><a class="nav-link" href="myTripNote.mp">내 여행 노트</a></span>
+			<div style="text-align: center;">
+				<span class="secondSidebar"><a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a></span>
+	        	<span class="secondSidebar"><a class="nav-link" href="myTripNote.mp">내 여행 노트</a></span>
+			</div>
 			
 			<div id="contain-all-div">
 				<div id="title-div">내 여행노트</div>
@@ -59,7 +61,7 @@
 					</div>
 					<div class="inline-contain-div edit-div">
 						<select id="selectSpotHidden" name="spot" class="form-select selectOption">
-<!-- 							selected 옵션 왜 안 되냐 -->
+							<!-- selected 옵션 왜 안 되냐 -->
 							<option class="select_opt" value="1" th:selected="${ s.spot == '서울' }">서울</option>
 							<option class="select_opt" value="2" th:selected="${ s.spot == '인천' }">인천</option>
 							<option class="select_opt" value="3" th:selected="${ s.spot == '대전' }">대전</option>
@@ -69,7 +71,7 @@
 							<option class="select_opt" value="7" th:selected="${ s.spot == '울산' }">울산</option>
 							<option class="select_opt" value="8" th:selected="${ s.spot == '세종' }">세종</option>
 							<option class="select_opt" value="31" th:selected="${ s.spot == '경기' }">경기</option>
-							<option class="select_opt" value="32" th:selected="${ s.spot == '강원' }">강원</option>
+							<option class="select_opt" value="강원" th:selected="${ s.spot == '강원' }">강원</option>
 							<option class="select_opt" value="33" th:selected="${ s.spot == '충북' }">충북</option>
 							<option class="select_opt" value="34" th:selected="${ s.spot == '충남' }">충남</option>
 							<option class="select_opt" value="35" th:selected="${ s.spot == '경북' }">경북</option>
@@ -502,6 +504,7 @@
 				$('#sdate').val(originalStart);
 				$('#edate').val(originalEnd);
 				$('#selectSpotHidden').val(originalSpot);
+				//console.log(originalSpot)
 			});
 
 // 			수정 저장하기(지역 (으)로 떠나는 여행 계획입니다 오른쪽에)

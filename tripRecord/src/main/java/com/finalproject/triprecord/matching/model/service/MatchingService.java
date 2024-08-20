@@ -65,6 +65,8 @@ public interface MatchingService {
 
 	int checkPoint(HashMap<String, Integer> map);
 
+	int requestPayment(HashMap<String, Integer> map);
+
 	
 
 }

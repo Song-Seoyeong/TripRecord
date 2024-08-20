@@ -441,7 +441,7 @@ public class MyPageController {
 
         // 밀리초를 일(day) 단위로 변환
         long day = diffInMillies / (24 * 60 * 60 * 1000);
-        
+        day = day + 1;
         return (int)(day*8000);
 	}
 	
@@ -452,7 +452,7 @@ public class MyPageController {
 
         // 밀리초를 일(day) 단위로 변환
         long diffInDays = diffInMillies / (24 * 60 * 60 * 1000);
-
+        diffInDays = diffInDays + 1;
         // 박(숙박 횟수) 계산: 1박은 1일을 제외한 일수로 계산
         long nights = diffInDays - 1;
         long days = diffInDays;

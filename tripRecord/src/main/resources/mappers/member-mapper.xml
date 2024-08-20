@@ -429,7 +429,7 @@
 	<insert id="insertCalcultate">
 		insert into calculate
 		values(seq_calculate.nextval, #{reqPlaNo}, #{reqNo}, '구매확정 정산', default, LAST_DAY(SYSDATE),
-		#{payPoint}, FLOOR(#{payPoint}*0.8))
+		#{payPoint}, FLOOR(#{payPoint}*0.8), default)
 	</insert>
 
 	<!-- 신청 테이블에 구매 확정일자 추가 -->

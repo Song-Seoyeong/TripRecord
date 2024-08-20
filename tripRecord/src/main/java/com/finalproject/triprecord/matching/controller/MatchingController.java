@@ -203,6 +203,7 @@ public class MatchingController {
 		
 		return "matchingRequest";
 	}
+	
 	@PostMapping("insertRequest.ma")
 	public String insertRequest(@ModelAttribute Schedule schedule,
 								@ModelAttribute ReqSchedule reqSchedule,
@@ -216,9 +217,8 @@ public class MatchingController {
 		if(loginUser != null) {
 			loginUserNo = loginUser.getMemberNo();
 		}
-		
+		// 결제 포인트 설정
 		SimpleDateFormat sdp = new SimpleDateFormat("yyyy/MM/dd");
-		
 		Date scEndDate = null;
 		Date scStartDate = null;
 		try {
@@ -230,23 +230,30 @@ public class MatchingController {
 		
 		MyPageController mc = new MyPageController();
 		int payPoint = mc.getDayPoint(scEndDate, scStartDate);
-		
+		// 포인트 체크
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("loginUserNo", loginUserNo);
 		map.put("payPoint", payPoint);
-		
 		int pointResult = matService.checkPoint(map);
 		if (pointResult > 0) {
-			schedule.setWriterNo(pNo);
-			schedule.setScLocalNo(lNo);
+			//포인트 결제
+			int paymentResult = matService.requestPayment(map);
+			if (paymentResult > 0) {
+				loginUser.setMemberPoint(loginUser.getMemberPoint()-payPoint);
+				schedule.setWriterNo(pNo);
+				schedule.setScLocalNo(lNo);
+			}
 			
+			//스케쥴 insert
 			int result1 = matService.insertSchedule(schedule);
-			
+			if(result1 > 0) {
 			reqSchedule.setReqPlaNo(pNo);
 			reqSchedule.setReqMemNo(loginUserNo);
 			reqSchedule.setScheNo(schedule.getScNo());
 			reqSchedule.setPayPoint(payPoint);
+			}
 			
+			//요청 insert
 			int result2 = matService.insertReqSchedule(reqSchedule);
 			
 			if(result1 + result2 > 1) {
@@ -262,7 +269,8 @@ public class MatchingController {
 			ra.addAttribute("page", 1);
 			return "redirect:matchingRequest.ma";
 		}
-	} 
+	}
+
 	
 	
 	@GetMapping("matchingReview.ma")

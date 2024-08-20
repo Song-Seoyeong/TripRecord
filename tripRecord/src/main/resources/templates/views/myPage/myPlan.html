@@ -54,14 +54,14 @@
 					</thead>
 					<tbody>
 						
-						<tr id='tbodyTr' th:if='${list != null}' th:each='l : ${list}'>
-					        <td id="place">
+						<tr class='tbodyTr' th:if='${list != null}' th:each='l : ${list}'>
+					        <td class="place">
 					            <input type='hidden' th:value='${l.reqNo}' name='reqNo'>
 					            <input type='hidden' th:value='${l.reqStatus}' name='reqStatus'>
 					            [[${l.localName}]]
 					        </td>
-					        <td id="date">[[${l.startDay}]] - [[${l.endDay}]]<br>([[${l.nightDay}]])</td>
-					        <td id="planner">[[${l.nickname}]]</td>
+					        <td class="date">[[${l.startDay}]] - [[${l.endDay}]]<br>([[${l.nightDay}]])</td>
+					        <td class="planner">[[${l.nickname}]]</td>
 					        <!-- 진행상태 -->
 					        <td th:if='${l.reqStatus == 1}'>일정 기다리는 중</td>
 					        <td th:if='${l.reqStatus == 2}' style='color: #96CAF0; font-weight: bold;'>일정 도착</td>
@@ -111,7 +111,6 @@
 		</div>
 	</div>
 	
-	<div style="margin-bottom: 300px"></div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
@@ -150,6 +149,16 @@
 		document.getElementById('myPlansideBar').addEventListener("click", ()=>{
 			console.log(123)
 		})
+		
+		const tbodyTr = document.getElementsByClassName('tbodyTr');
+		const flexDiv = document.getElementsByClassName('flex-container')[0];
+		if(tbodyTr != null){
+			if(tbodyTr.length >= 5 && tbodyTr.length < 8){
+				flexDiv.classList.add('marginDiv1')
+			}else if(tbodyTr.length >= 8){
+				flexDiv.classList.add('marginDiv2')
+			}
+		}
 		/*]]>*/
 	</script>
 </body>

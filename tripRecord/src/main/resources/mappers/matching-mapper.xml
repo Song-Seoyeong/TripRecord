@@ -187,7 +187,13 @@
 	<select id="checkPoint" resultType="_int">
 		select count(*)
 		from member
-		where member_No = #{loginUserNo} and member_Point >= #{payPoint}
+		where member_No = #{loginUserNo} and member_Point <![CDATA[>=]]> #{payPoint}
 	</select>
+	
+	<update id="requestPayment">
+		update member
+		set member_point = member_point - #{ payPoint }
+		where member_no = #{ loginUserNo }
+	</update>
 	
 </mapper>

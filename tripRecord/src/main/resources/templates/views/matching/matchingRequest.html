@@ -28,19 +28,32 @@
 					<p class="middle-title">여행 기간</p>
 					<p class="dateguide">
 					* 일주일 뒤 출발 일정부터 가능합니다.<br/>
-					* 최대 21일(3주)까지 설정 가능합니다.
+					* 최대 21일(3주)까지 설정 가능합니다.<br/>
 					</p>
+					<p style="text-decoration: underline; color: #D64949;">* 사용 포인트는 1일 당 8000 포인트 입니다.</p>
+					
+					<div class="d-flex">
+						<div id="myPointDiv">
+							내 보유 포인트 : [[${session.loginUser.memberPoint}]]
+						</div>
+						<div id="payPointDiv">
+							사용 예정 포인트 : 0
+						</div>
+					</div>
 					<div class="contain-in-div" id="calender-div">
 						<div class="datepicker" id="sdate">
-							<span>여행 출발 날짜</span> <input type="hidden" style="display:none" name="startDate" id="startDate" value="" class="datepicker">
+							<span>여행 출발 날짜</span>
+							<input type="hidden" style="display:none" name="startDate" id="startDate" value="" class="datepicker">
 						</div>
 						<div class="datepicker" id="edate">
-							<span>여행 마지막 날짜</span> <input type="hidden" style="display:none" name="endDate" id="endDate" value="" class="datepicker">
+							<span>여행 마지막 날짜</span>
+							<input type="hidden" style="display:none" name="endDate" id="endDate" value="" class="datepicker">
 							<input type="hidden" name="dayDiff" id="dayDiff" value="" />
 						</div>
 					</div>
 				</div>
-				<div class="guide">
+				<div style="height: 115px"></div>
+				<div class="guide mt-5">
 					<p>플래너가 고려할 세부사항을 입력하세요 (선택)</p>
 				</div>
 				<div class="d-flex justify-content-center">
@@ -96,9 +109,7 @@
 
 	<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 	<script th:inline="javascript">
-
-		
-		window.onload = ()=> {
+		window.onload=()=> {
 			
 			/*<![CDATA[*/
 			const payPoint = /*[[${ payPoint }]]*/0;
@@ -112,12 +123,22 @@
 			function calculateDateRange() {
 				let startDate = new Date(document.getElementById('startDate').value);
 				let endDate = new Date(document.getElementById('endDate').value);
-
-				let timeDiff = endDate.getTime() - startDate.getTime();
-
-				let dayDiff = timeDiff / (1000 * 3600 * 24);
 				
+				let timeDiff = endDate.getTime() - startDate.getTime();
+				let dayDiff = timeDiff / (1000 * 3600 * 24);
+
 				document.getElementById('dayDiff').value = dayDiff + 1;
+				
+                let point = (dayDiff + 1) * 8000;
+                if (isNaN(dayDiff) || point < 0) {
+					point = 0;
+                } else if (point > 21 * 8000) {
+                	point = 21 * 8000;
+                }
+                document.getElementById('payPointDiv').innerHTML = "사용 예정 포인트 : " + point;
+                if(havePoint < point) {
+                	document.getElementById('payPointDiv').style.color = "#D64949";
+                }
 			}
 			
 			const startDate = document.getElementById('startDate');
@@ -126,7 +147,6 @@
 			
 			document.getElementById('insert').addEventListener('click', calculateDateRange);
 			document.getElementById('insert').addEventListener('click', function() {
-				
 				if(startDate.value == ''){
 					alert('여행 출발 날짜를 선택해 주세요');
 				} else if(endDate.value == ''){
@@ -136,10 +156,9 @@
 				} else if(dayDiff.value > 0){
 					document.getElementById('planMainForm').submit();
 				}
-				
 			});
 			
-			$(document).ready(function(){ 
+			$(document).ready(function(){
 				$( ".datepicker" ).datepicker({
 					inline: true,
 					dateFormat: 'yy/mm/dd',
@@ -151,11 +170,11 @@
 					dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
 					dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
 					showMonthAfterYear: true,
-					yearSuffix: '년'
+					yearSuffix: '년',
 				});
 				
 				$('#sdate').datepicker("option", "minDate", 7);
-				$('#edate').datepicker("option", "minDate", 0);
+				$('#edate').datepicker("option", "minDate", 7);
 				
 				$('#sdate').datepicker("option", "onSelect", function (selectedDate){
 					$('#startDate').val(selectedDate);
@@ -163,12 +182,16 @@
 					$("#edate").datepicker("option", "minDate", selectedDate);
 					
 					let maxDate = $.datepicker.parseDate('yy/mm/dd', selectedDate);
-					maxDate.setDate(maxDate.getDate() + 21);
+					maxDate.setDate(maxDate.getDate() + 20);
 					$("#edate").datepicker("option", "maxDate", $.datepicker.formatDate('yy/mm/dd', maxDate));
+					
+					calculateDateRange();
 			    });
 				
 				$('#edate').datepicker("option", "onSelect", function(selectedDate){
-						$('#endDate').val(selectedDate);
+					$('#endDate').val(selectedDate);
+					
+					calculateDateRange();
 				});
 			});
 		}

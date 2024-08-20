@@ -2,11 +2,16 @@
 
 .flex-container {
 	position: relative;
-	min-height: 800px;
-	margin-bottom: 200px;
+	min-height: 700px;
+	margin-bottom: 100px;
 }
-.marginDiv{
-	margin-bottom: 400px;
+.marginDiv1{
+	margin-bottom: 200px;
+	min-height: 700px;
+}
+.marginDiv2{
+	margin-bottom: 200px;
+	min-height: 1000px;
 }
 #reqForm {
 	position: absolute;

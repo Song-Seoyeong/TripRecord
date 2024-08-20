@@ -7,7 +7,6 @@
 	height: 40px;
 	border: none;
 	border-radius: 20px;
-	margin-right: 5px;
 	border: 2px solid #96CAF0;
 }
 
@@ -33,6 +32,32 @@
 	border: 2px solid #DD5353;
 	color: #fff;
 	font-weight: 600;
+}
+
+#list_button {
+	color: #2C707E;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	border: 2px solid #2C707E;
+}
+
+#list_button:hover {
+	background: #2C707E;
+	border: 2px solid #2C707E;
+	color: #fff;
+	font-weight: 600;
+}
+
+/* 버튼 감싸는 div */
+#buttons-div {
+	width: 385px;
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 /* 여행지 참고 사항 출력창 */
@@ -62,36 +87,32 @@
 	margin-left: 20px;
 }
 
+/* 신청인, 날짜, 참고사항 각각의 div */
 .req-div{
     text-align: left;
     margin-left: 74px;
     margin-top: 10px;
     border-left: 4px solid #96CAF0;
+    height: 30px;
+    display: 30px;
+    align-items: center;
 }
 
-#reqMem-div{
-    font-size: 19px;
-}
-
-#reqDate-div{
-	font-size: 18px;
-}
-
-#reqMem{
-	margin-right: 5px;
-}
-
-/* 참고사항 div */
-#note-div{
-	margin-top: 15px;
-    font-size: 16px;
-}
-
+/* 신청인, 날짜, 신청글, 출력 텍스트 각각 전체 span */
 .inner-span{
+	font-size: 17px;
 	margin-left: 10px;
+	line-height: 30px;
 }
 
-.flex-container{
-	text-align:center;
-	margin-left:auto;
+/* 신청인, 날짜, 신청글  */
+.inf{
+	display: inline-block;
+	width: 55px;
+	font-weight: 700;
+}
+
+.flex-container {
+	text-align: center;
+	margin-left: auto;
 }
