@@ -471,7 +471,7 @@ public class MyPageController {
 			planner.setImageRename(i.getImageRename());
 		
 		Schedule sch = mService.getSchedule(rs.getScheNo());
-		System.out.println(rs);
+		//System.out.println(rs);
 		
 		// 플랜 데이트 가져오기
 		PlanController pc = new PlanController();
@@ -489,9 +489,9 @@ public class MyPageController {
 		
 		// 취소 사유
 		if(rs.getReqStatus() == 4) {
-			Cancel cancel = mService.checkCancel(rs.getReqNo());
+			Cancel cancel = mService.checkCancel(rs);
 			model.addAttribute("cancel", cancel);
-			System.out.println(cancel);
+			//System.out.println(cancel);
 		}
 		
 		// 상세 일정 가져오기

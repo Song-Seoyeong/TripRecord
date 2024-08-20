@@ -121,7 +121,7 @@ public interface MemberService {
 	//요청 목록 가져오기
 	ArrayList<ReqSchedule> selectRequestList(int pNo, PageInfo pi);
 
-	Cancel checkCancel(int reqNo);
+	Cancel checkCancel(ReqSchedule rs);
 
 	int insertCancel(Cancel c);
 
