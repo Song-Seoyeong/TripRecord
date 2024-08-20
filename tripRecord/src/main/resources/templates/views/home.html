@@ -15,21 +15,21 @@
 		<th:block th:if="${session.loginUser}">
 			<div class="main_popup" th:if="${planCount > 0 && session.loginUser.grade != 'ADMIN'}">
 				<div class="layer_cont">
-					<div class="img_wrap">
+					<div class="img-wrap" style="flex-direction: column;">
 						<th:block th:if="${session.loginUser.grade == 'PLANNER'}">
-							<div>
+							<div class="popup-alert">
 								확인하지 않은 신청글이&nbsp;<span style="color: red;">[[${planCount}]]</span>개 존재합니다.
 							</div>
 							<div>
-								<a href='request.mp' style='color: gray; text-decoration: none;'>신청 온 내역 확인하러 가기 >></a>
+								<a class="popup-link" href='request.mp'>신청 온 내역 확인하러 가기 >></a>
 							</div>
 						</th:block>
 						<th:block th:if="${session.loginUser.grade == 'GENERAL'}">
-							<div>
+							<div class="popup-alert">
 								확인하지 않은 일정이&nbsp;<span style="color: red;">[[${planCount}]]</span>개 존재합니다.
 							</div>
 							<div>
-								<a href='myPlan.mp' style='color: gray; text-decoration: none;'>신청한 내역 확인하러 가기 >></a>
+								<a class="popup-link" href='myPlan.mp'>신청한 내역 확인하러 가기 >></a>
 							</div>
 						</th:block>
 					</div>

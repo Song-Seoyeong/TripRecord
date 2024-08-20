@@ -211,3 +211,25 @@
     }
   }
 }
+
+.img-wrap{
+	width: 400px;
+	height: 100px;
+	display: flex;
+	flex-direction: column;
+}
+
+.popup-alert{
+	font-size: 20px;
+	margin-top: 22px;
+	margin-bottom: 2px;
+	padding-left: 25px;
+}
+
+.popup-link{
+	color: gray;
+	text-decoration: none;
+	border-bottom: 1px solid gray;
+	font-size: 15px;
+	margin-left: 25px;
+}
