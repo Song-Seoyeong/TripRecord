@@ -126,18 +126,80 @@
 			<hr class="border border-secondary border-1 opacity-75 w-100"/>
 		</div>
 		
-		
 		<!-- 후기 -->
-			
-		<div class="d-flex text-start mb-3 fs-3">[[${pi.listCount}]]개의 후기 (★ [[${#numbers.formatDecimal(avgStar,1,1)}]])</div>
+		<div class="d-flex text-start mb-3 fs-3">[[${pi.listCount}]]개의 후기 (⭐ [[${#numbers.formatDecimal(avgStar,1,1)}]])</div>
 		<div class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column w-75">
-				<div class="list-group shadow w-100" th:each="r: ${rList}">
-					<a href="reviewDetail.ma" class="list-group-item list-group-item-action"><img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}|" width="75px" height="75px">
-						[[${r.reviewTitle}]]
-					</a>
-					<!-- 페이지네이션 -->
+				<div class="list-group w-100" th:each="r : ${ rList }">
+					<form id="reviewForm" method="post">
+						<table class="reviewTable fs-3 text-center bg-light">
+							<tr>
+								<td>
+									<input type="hidden" name="pNo" th:value="${planner.memberNo}">
+									<input type="hidden" name="rNo" th:value="${r.reviewNo}">
+								</td>
+								<td th:if="${r.imageRename != null }">
+									<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|" width="75px" height="75px">
+								</td>
+								<td th:if="${r.imageRename == null }">
+		         					<img class="rounded-circle m-3" src="image/noProfile.png"  width="75px" height="75px" alt="프로필">
+		         				</td>
+								<td width="200px">[[${r.nickname}]]</td>
+								<td class="star text-start" width="200px">
+									<th:block class="d-block" th:each="num : ${#numbers.sequence(1,r.reviewStar)}">⭐</th:block>
+								</td>
+								<td class="fs-5" width="600px">[[${r.reviewTitle}]]</td>
+								<td style="display: none;">[[${r.reviewContent}]]</td>
+								<td width="100px">
+								
+								<div class="dropend" th:if="${ session.loginUser != null && r.MemberNo eq session.loginUser.MemberNo }">
+									<a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id='drop'>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+											<path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+										</svg>
+									</a>
+			
+									<ul class="dropdown-menu text-center" >
+										<li>
+											<button type='button' id='updateButton' class='btn'>
+												<span id='beforeUp'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+														<path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+													</svg>
+												</span>
+												<span id='afterUp'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+														<path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+													</svg>
+												</span>
+												&nbsp;&nbsp;&nbsp;리뷰 수정하기
+											</button>
+										</li>
+										<li>
+											<button type='button' id='deleteButton' class='btn'>
+												<span  id='beforeDel'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+														<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+													</svg>
+												</span>
+												<span id='afterDel'>
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+														<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+													</svg>
+												</span>
+												&nbsp;&nbsp;&nbsp;리뷰 삭제하기
+											</button>
+										</li>
+									</ul>
+								</div>
+								</td>
+							</tr>
+						</table>
+					</form><br/>
 				</div>
+			</div>
+		</div>
+				<!-- 페이지네이션 -->
 				<div class="text-center" style="margin-top:50px; text-align:center;" th:with="loc=${loc}">
 					<ul class="pagination" >
 						<!-- 이전링크 -->
@@ -154,15 +216,31 @@
 						</li>
 					</ul>
 				</div>
-			</div>
 		</div>
-	</div>
+		
+		<!-- 후기 모달창 -->
+	    <div class="modal modal-xl fade" tabindex="-1" role="dialog" id="reviewModal">
+			<div class="modal-dialog d-flex align-items-center justify-content-center">
+	    		<div class="modal-content rounded-3 shadow">
+	      			<div class="modal-body p-4">
+	        			<h3 class="mb-3 w-50 text-center" id="modalReviewTitle"></h3>
+	        			<hr/>
+	                	<div class="d-flex justify-content-center m-5" id="modalReviewContent-img"></div>
+	                	<p class="mb-0 w-100 text-start" id="modalReviewContent-text" style="white-space:pre-wrap;"></p>
+	                	<br/>
+	      			</div>
+	      			<div>
+					</div>
+	      			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">닫기</button>
+	    		</div>
+	  		</div>
+		</div>
 	
 	<div style="margin-bottom: 300px"></div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
-	<script>
+	<script th:inline="javascript">
 		function submitAdmin(){
 			let result = confirm("요청하시겠습니까");
 			if(result == true){
@@ -187,6 +265,79 @@
 				
 			}else{
 				return;
+			}
+		}
+		//좋아요 버튼
+		document.getElementById('likeButton').addEventListener('click', () => {
+			const pNo = [[${ planner.memberNo }]];
+			const likeButton = document.getElementById('likeButton');
+		    let url = '';
+		    let changeLikes = 0;
+		    
+
+		    if (likeButton.classList.contains('active')) {
+		        url = 'deleteLikes.ma';
+		        changeLikes = -1;
+		    } else {
+		        url = 'insertLikes.ma';
+		        changeLikes = +1;
+		    }
+		    
+		    $.ajax({
+		        type: "POST",
+		        url: url,
+		        data: { pNo : pNo },
+		        dataType: 'json',
+		        success: data => {
+		            if(data.result == -1) {
+		                alert('로그인 후에 [좋아요] 할 수 있습니다.');
+		            } else if(data.result > 0) {
+		                likeButton.classList.toggle('active');
+		                
+		                let currentLike = parseInt(document.getElementById('likeCount').textContent);
+		                document.getElementById('likeCount').textContent = currentLike + changeLikes;
+		            } else {
+		                alert('[좋아요]에 실패했습니다.');
+		            }
+		        }
+		    });
+		});
+		
+		const reviewList = document.querySelectorAll('tr');
+		for(const tr of reviewList) {
+			const tds = tr.children;
+			for (let i = 0; i < tds.length; i++) {
+				if(i != 6) {
+					tds[i].addEventListener('click', function(){
+						
+						/*<!CDATA[*/
+				        const rList = /*[[${ rList }]]*/null;
+				 		const rImgList = /*[[${ rImgList }]]*/null;
+				 		/*]]>*/
+			       		const rNo = this.parentElement.children[0].children[1].value
+			       		let reviewContentImg = '';
+			       		let reviewContentText = '';
+				 		let reviewTitle = '';
+				 		
+			            for(const rImg of rImgList){
+			            	if(rNo == rImg.imageRefNo){
+			            		reviewContentImg += '<img class="w-50" src="https://drive.google.com/thumbnail?id=' + rImg.imageRename + '&sz=w1000"><br/><br/>';
+			            	}
+			            }
+			            for(const r of rList){
+				 			if(rNo == r.reviewNo){
+				 				reviewTitle = r.reviewTitle;
+				 				reviewContentText += r.reviewContent;
+				 			}
+						}
+			            
+			            document.querySelector('#modalReviewTitle').innerHTML = reviewTitle;
+			            document.querySelector('#modalReviewContent-img').innerHTML = reviewContentImg;
+			            document.querySelector('#modalReviewContent-text').innerHTML = reviewContentText;
+			            
+			            $('#reviewModal').modal('show');
+					});
+				}
 			}
 		}
 	</script>

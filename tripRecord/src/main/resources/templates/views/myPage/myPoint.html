@@ -112,7 +112,7 @@
 	<div style="height: 120px;">
 		<!-- 사이드바 -->
 		<div id="sidebar">
-			<div th:replace="~{common/myPointSideBar :: myBoardSideBar}"></div>
+			<div th:replace="~{common/myPointSideBar :: myPointSideBar}"></div>
 		</div>
 	</div>
 	<div class="flex-container " style="text-align: center;">
@@ -281,7 +281,7 @@
 		      },
 		      success : (data)=>{
 		    	  if(data == 'success'){
-		    		  //console.log(data)
+		    		  console.log(data)
 		    		  alert('환불 완료 되었습니다.')
 		    		  location.reload();
 		    	  }else{

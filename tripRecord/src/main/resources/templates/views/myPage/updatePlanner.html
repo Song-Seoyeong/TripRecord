@@ -49,7 +49,7 @@
 }
 
 #bank {
-	width: 130px;
+	width: 160px;
 	height: 40px;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 0;
@@ -59,7 +59,7 @@
 }
 
 #account {
-	width: 270px;
+	width: 240px;
 	height: 40px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 8px;
@@ -112,22 +112,29 @@
 		</div>
 		<div style="height: 20px;"></div>
 		<!-- 프로필 소개글 -->
-		<div class="introProfile row" style="justify-content: center;">
+		<div class="row" style="justify-content: center;">
 			<div class="col-1">
-				<p
-					style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
+				<p style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
 					프로필<br>소개글
 				</p>
 			</div>
 			<div class="col-1"></div>
 			<div class="col-3">
-				<textarea id="introContent"
-					style="width: 400px; height: 200px; resize: none"
-					placeholder="소개글을 작성해주세요">
-[[${planner.introContent}]]
-				</textarea>
+				<textarea id="introProfile"	style="width: 400px; height: 100px; resize: none"placeholder="소개글을 작성해주세요">[[${planner.sIntroContent}]]</textarea>
 			</div>
-
+		</div>
+		<div style="height: 20px;"></div>
+		<!-- 상품 소개글 -->
+		<div class="row" style="justify-content: center;">
+			<div class="col-1">
+				<p style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
+					상품<br>소개글
+				</p>
+			</div>
+			<div class="col-1"></div>
+			<div class="col-3">
+				<textarea id="introContent" style="width: 400px; height: 200px; resize: none" placeholder="소개글을 작성해주세요">[[${planner.introContent}]]</textarea>
+			</div>
 		</div>
 		<div style="height: 20px;"></div>
 
@@ -141,11 +148,26 @@
 			<div class="col-3">
 				<div class='d-flex' style="justify-content: center;">
 					<select id='bank' class="form-select">
-						<option value="none">은행 선택</option>
-						<option value="kb">국민은행</option>
-						<option value="wb">우리은행</option>
-						<option value="nh">농협은행</option>
-						<option value="kakao">카카오뱅크</option>
+						<option value="국민은행">국민은행</option>
+						<option value="기업은행">기업은행</option>
+						<option value="농협">농협</option>
+						<option value="우리은행">우리은행</option>
+						<option value="대구은행">대구은행</option>
+						<option value="외환은행">외환은행</option>
+						<option value="제일은행">SC제일은행</option>
+						<option value="부산은행">부산은행</option>
+						<option value="새마을금고">새마을금고</option>
+						<option value="한국씨티은행">한국씨티은행</option>
+						<option value="광주은행">광주은행</option>
+						<option value="경남은행">경남은행</option>
+						<option value="수협">수협</option>
+						<option value="신협">신협</option>
+						<option value="전북은행">전북은행</option>
+						<option value="제주은행">제주은행</option>
+						<option value="산림조합">산림조합</option>
+						<option value="우체국">우체국</option>
+						<option value="하나은행">하나은행</option>
+						<option value="신한은행">신한은행</option>
 					</select> <input id="account" type="text" placeholder="(-)제외하고 입력" th:value="${planner.account}">
 				</div>
 			</div>
@@ -241,9 +263,9 @@
 	<div th:replace="~{common/footer :: footer}"></div>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-			const localNo = /*[[${planner.localNo}]]*/1;
-			const tagList = /*[[${tagList}]]*/1;
-			const plannerBank = /*[[${planner.bank}]]*/1;
+			const localNo = /*[[${planner.localNo}]]*/
+			const tagList = /*[[${tagList}]]*/
+			const plannerBank = /*[[${planner.bank}]]*/
 			const tagNameList = document.getElementsByClassName('cbx');
 			const leftTagList = document.querySelectorAll('input[name="together"]');
 			const rightTagList = document.querySelectorAll('input[name="hashtag"]');
@@ -254,10 +276,11 @@
 			const curIntroImg = document.getElementById('curIntroImg');
 			const tagSet = new Set();
 			
-			let bankValue = /*[[${planner.bank}]]*/1;
-			let accountValue = /*[[${planner.account}]]*/1;
+			
+			const text = document.getElementById('curImgDeleteText')
+			let bankValue = /*[[${planner.bank}]]*/;
+			let accountValue = /*[[${planner.account}]]*/;
 		/*]]>*/
-		
 		
 		function cancle(){
 			location.href="plannerPage.mp"
@@ -338,8 +361,6 @@
 		
 		//현재 이미지 삭제
 		function handleImageClick(){
-			const text = document.getElementById('curImgDeleteText')
-			//console.log(text)
 			if(curIntroImg.nextSibling.value != 'none'){
 				if (this.style.opacity == '0.5') {
 			        this.style.opacity = '1';
@@ -352,7 +373,7 @@
 			    	introImgValue = 'selected'
 			    	text.style.display = 'inline-block'
 		    		text.style.position = 'relative';
-			        text.style.bottom = '160px'; 
+			        text.style.bottom = '135px'; 
 			        text.style.fontSize = '30px'
 			    }else{
 			    	introImgValue = 'unselected'
@@ -365,6 +386,12 @@
 		curIntroImg.addEventListener('click',function(){
 			if(fileInput.files.length == 0){
 				handleImageClick.call(this);//전역 함수로 되어있어서 this.메소드 안됨
+			}
+		})
+		updateIntroImg.addEventListener('change',function(){
+			if(updateIntroImg.files.length > 0){
+				curIntroImg.style.opacity = '1';
+				text.style.display = 'none';
 			}
 		})
 		
@@ -408,24 +435,21 @@
 		})
 		account.addEventListener('input', function(){
 			 this.value = this.value.replace(/[^0-9]/g, '');
-			 if (this.value.length > 10) {
-	                this.value = this.value.slice(0, 10);
+			 if (this.value.length > 14) {
+	                this.value = this.value.slice(0, 14);
 	            }
 			 accountValue = this.value;
 			 
 			//console.log(accountValue)
 		})
-	
+		
 		//수정
 		function updatePlanner(){
 			const localNo = document.getElementById('local').value;
 			const introContent = document.getElementById('introContent').value
+			const introProfile = document.getElementById('introProfile').value
 			const updateIntroImg = document.getElementById('updateIntroImg')
 			const imageData = new FormData();
-			//console.log(document.getElementById(''))
-			//console.log(updateIntroImg.files[0])
-			//console.log( imageData)
-			
 			// 이미지 파일을 FormData에 추가
 			imageData.append('file', updateIntroImg.files[0]); //fill은 키 값
 			imageData.append('lNo', localNo); 
@@ -434,10 +458,8 @@
 		    imageData.append('hashTags', Array.from(tagSet));
 		    imageData.append('account', accountValue);
 		    imageData.append('bank', bankValue);
-			//console.log("지역번호 : " + localNo)
-			//console.log("플래너 소개글 : " + introContent)
-			//console.log("현재 이미지 값 : " + introImgValue)
-			
+		    imageData.append('introProfile', introProfile);
+		    
 			$.ajax({
 				type:'post',
 				url : 'upatePlannerProfile.mp',
@@ -446,9 +468,11 @@
 				contentType : false, 
 				success : (data)=>{
 					if(data == 'bankEmpty'){
-						alert('계좌를 입력하세요')
+						alert('계좌를 확인하세요')
+						return false
 					}else if(data == 'localEmpty'){
 						alert('지역을 입력하세요')
+						return false
 					}
 					alert("수정 완료 되었습니다")
 					location.href="plannerPage.mp";
@@ -456,7 +480,6 @@
 					alert('정보 수정에 실패하였습니다')
 					console.log(data)
 				}
-				
 			})
 		}
 		

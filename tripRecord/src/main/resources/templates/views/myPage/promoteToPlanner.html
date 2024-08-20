@@ -136,7 +136,7 @@
 			<div class="col-1"></div>
 			<div class="col-3">
 				<textarea id="introProfile" name="introProfile"
-					style="width: 400px; height: 200px; resize: none"
+					style="width: 400px; height: 200px; resize: none; padding-left:10px;" 
 					placeholder="간단한 소개글을 작성해주세요"></textarea>
 			</div>
 		</div>
@@ -149,7 +149,7 @@
 			<div class="col-1"></div>
 			<div class="col-3">
 				<textarea id="submitContent" name="submitContent"
-					style="width: 400px; height: 200px; resize: none"
+					style="width: 400px; height: 200px; resize: none; padding-left:10px;"
 					placeholder="간단한 소개글을 작성해주세요"></textarea>
 			</div>
 		</div>
@@ -188,11 +188,10 @@
 			//console.log(accountValue)
 		})
 	 	//전환 요청 확인 promotion.mp
-	 		/*<![CDATA[*/
 	 	function promotion(){
+	 		/*<![CDATA[*/
 			const grade = /*[[${session.loginUser.grade}]]*/
-			
-			
+			/*]]>*/
 	 		if(grade == 'ADMIN'){
 	 			alert('현재 관리자입니다')
 	 			return false;
@@ -218,7 +217,7 @@
 		    				data : {region:region, introProfile:intro, submitContent:submit,
 		    					    bank : bankValue, account: accountValue},
 		    				success : (data) =>{ 
-		    					//console.log(data)
+		    					console.log(data)
 		    					if(data == 'PLANNER'){
 		    						alert('플래너 요청이 되어 있는 상태입니다');
 		    					}else if(data == 'ADMIN'){
@@ -260,7 +259,7 @@
 			 	}
 		 	}
 	 	}
-		/*]]>*/
+	 	
 	 </script>
 
 
