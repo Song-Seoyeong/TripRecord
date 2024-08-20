@@ -46,7 +46,7 @@ public class BoardController {
 	public String community(@RequestParam(value="page", defaultValue="1") int currentPage,@RequestParam(value="generalType", defaultValue="ALL") String generalType,
 			@RequestParam(value="boardType", defaultValue="GENERAL") String boardType,
 			@RequestParam(value="localName", defaultValue="ALL") String localName,
-							Model model, HttpServletRequest req) {
+							Model model) {
 		
 		CategorySelect cs = new CategorySelect();
 		cs.setBoardType("GENERAL");
@@ -64,7 +64,6 @@ public class BoardController {
 		if(!cList.isEmpty()) {
 			model.addAttribute("cList", cList);
 			model.addAttribute("pi", pi);
-			//model.addAttribute("loc", req.getRequestURI());
 			model.addAttribute("listCount", listCount);
 			model.addAttribute("generalType","ALL");
 			model.addAttribute("boardType","GENERAL");
@@ -76,7 +75,7 @@ public class BoardController {
 	
 	@GetMapping("categorySelect.bo")
 	public String categorySelect(@ModelAttribute CategorySelect cs, @RequestParam(value="page", defaultValue="1") int currentPage,
-								 Model model, HttpServletRequest req) {
+								 Model model) {
 		
 		if(cs.getGeneralType().equals("동행") || cs.getGeneralType().equals("WITH") ) {
 			cs.setGeneralType("WITH");
@@ -106,12 +105,10 @@ public class BoardController {
 		
 		model.addAttribute("cList", cList);
 		model.addAttribute("pi",pi);
-//			model.addAttribute("loc", req.getRequestURI());
 		model.addAttribute("listCount", listCount);
 		model.addAttribute("searchWord", cs.getSearchWord());
 		model.addAttribute("generalType", cs.getGeneralType());
 		model.addAttribute("localName", cs.getLocalName());
-		//model.addAttribute("boardType", "GENERAL");    // 현재 커뮤니티 게시판 == 무조건 GENERAL
 		return "commuList";
 	}
 	
@@ -139,32 +136,31 @@ public class BoardController {
 	}
 	
 	@GetMapping("commuSelect.bo")
-   public String commuSelect(@RequestParam("generalType") String generalType,@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, HttpServletRequest req,
-         @RequestParam(value="myPage", required = false) String myPage) {
-      Member loginUser = (Member)session.getAttribute("loginUser");
-      int id = 0;
-      if(loginUser != null) {
-         id = loginUser.getMemberNo();
-      }
-      
-      Board board = bService.selectBoard(boardNo, id);
-      ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
-      Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); // 회원번호를 보내서 그 ref_type = 'MEMBER' && ref_no = 회원번호
-      Image replyProfile = bService.selectProfileImage(id); // 로그인 x -> null, 로그인 ㅇ -> 사진 있을때 image, 없을때 null
-      ArrayList<Reply> rList = bService.selectReply(boardNo);
-      
-      
-      model.addAttribute("b", board);
-      model.addAttribute("page", page);
-      model.addAttribute("rList", rList);
-      model.addAttribute("generalType", generalType);
-      model.addAttribute("writerProfile", writerProfile);
-      model.addAttribute("replyProfile", replyProfile);
-      model.addAttribute("loc", req.getRequestURI());
-      model.addAttribute("iList", iList);
-      model.addAttribute("myPage",myPage);
-      return "communitySelect";
-   }
+	   public String commuSelect(@RequestParam("generalType") String generalType,@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session,
+	         @RequestParam(value="myPage", required = false) String myPage) {
+	      Member loginUser = (Member)session.getAttribute("loginUser");
+	      int id = 0;
+	      if(loginUser != null) {
+	         id = loginUser.getMemberNo();
+	      }
+	      
+	      Board board = bService.selectBoard(boardNo, id);
+	      ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
+	      Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); // 회원번호를 보내서 그 ref_type = 'MEMBER' && ref_no = 회원번호
+	      Image replyProfile = bService.selectProfileImage(id); // 로그인 x -> null, 로그인 ㅇ -> 사진 있을때 image, 없을때 null
+	      ArrayList<Reply> rList = bService.selectReply(boardNo);
+	      
+	      
+	      model.addAttribute("b", board);
+	      model.addAttribute("page", page);
+	      model.addAttribute("rList", rList);
+	      model.addAttribute("generalType", generalType);
+	      model.addAttribute("writerProfile", writerProfile);
+	      model.addAttribute("replyProfile", replyProfile);
+	      model.addAttribute("iList", iList);
+	      model.addAttribute("myPage",myPage);
+	      return "communitySelect";
+	   }
 	
 	
 	/*
@@ -350,7 +346,7 @@ public class BoardController {
 	public String ask(@RequestParam(value="page", defaultValue="1") int currentPage,@RequestParam(value="generalType", defaultValue="ALL") String generalType,
 			@RequestParam(value="boardType", defaultValue="GENERAL") String boardType,
 			@RequestParam(value="localName", defaultValue="ALL") String localName,
-							Model model, HttpServletRequest req) {// 문의는 사이드 + 카테고리
+							Model model) {// 문의는 사이드 + 카테고리
 
 		CategorySelect cs = new CategorySelect();
 		cs.setBoardType("QUESTION");
@@ -368,7 +364,6 @@ public class BoardController {
 		if(!aList.isEmpty()) {
 			model.addAttribute("aList", aList); // 보드
 			model.addAttribute("pi",pi);
-			model.addAttribute("loc", req.getRequestURI());
 			model.addAttribute("listCount", listCount);
 			model.addAttribute("qList", qList); // 문의(글번호, 비번, 답변, 답변YN)
 			model.addAttribute("generalType","ALL");
@@ -380,31 +375,33 @@ public class BoardController {
 	}
 	
 	@GetMapping("askSelect.no")
-	public String askSelect(@RequestParam(value="generalType", defaultValue="ALL") String generalType, @RequestParam("boardNo") Integer boardNo,
-							@RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session) { // 선택한 글번호 넘겨받기
-		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int id = 0;
-		if(loginUser != null) {
-			id = loginUser.getMemberNo();
-		}
-		
-		Board board = bService.selectBoard(boardNo, id);
-		Question q = bService.selectQuestion(boardNo);
-		ArrayList<Image> iList = bService.selectImage(boardNo);
-		Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); 
-		
-		
-		model.addAttribute("n", board);
-		model.addAttribute("page", page);
-		model.addAttribute("q", q);
-		model.addAttribute("writerProfile", writerProfile);
-		model.addAttribute("generalType", generalType);
-		// model.addattribute("myPage", 1);
-		model.addAttribute("iList", iList);
-		return "askSelect";
-		
-	}
+	   public String askSelect(@RequestParam(value="generalType", defaultValue="ALL") String generalType, @RequestParam("boardNo") Integer boardNo,
+	                     @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session,
+	                     @RequestParam(value="myPage", required = false) String myPage) { // 선택한 글번호 넘겨받기
+	      
+	      Member loginUser = (Member)session.getAttribute("loginUser");
+	      int id = 0;
+	      if(loginUser != null) {
+	         id = loginUser.getMemberNo();
+	      }
+	      
+	      Board board = bService.selectBoard(boardNo, id);
+	      Question q = bService.selectQuestion(boardNo);
+	      ArrayList<Image> iList = bService.selectImage(boardNo);
+	      Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); 
+	      
+	      
+	      model.addAttribute("n", board);
+	      model.addAttribute("page", page);
+	      model.addAttribute("q", q);
+	      model.addAttribute("writerProfile", writerProfile);
+	      model.addAttribute("generalType", generalType);
+	      // model.addattribute("myPage", 1);
+	      model.addAttribute("iList", iList);
+	      model.addAttribute("myPage", myPage);
+	      return "askSelect";
+	      
+	   }
 	
 	@GetMapping("askCategorySelect.no")
 	public String askCategory(@ModelAttribute CategorySelect cs, @RequestParam(value="page", defaultValue="1") int currentPage,
@@ -608,7 +605,7 @@ public class BoardController {
 	
 	
 	@GetMapping("notice.no")
-	public String notice(@RequestParam(value="page", defaultValue="1") int currentPage, Model model, HttpServletRequest req) {// 공지는 사이드메뉴만 있음
+	public String notice(@RequestParam(value="page", defaultValue="1") int currentPage, Model model) {// 공지는 사이드메뉴만 있음
 		
 		CategorySelect cs = new CategorySelect();
 		cs.setBoardType("NOTICE");
@@ -627,7 +624,6 @@ public class BoardController {
 			model.addAttribute("nList", nList);
 			model.addAttribute("pi",pi);
 			model.addAttribute("listCount", listCount);
-			model.addAttribute("loc", req.getRequestURI());
 		}
 		return "noticeList";
 	}
@@ -647,10 +643,9 @@ public class BoardController {
 				model.addAttribute("listCount", listCount);
 				model.addAttribute("searchWord", searchWord);
 				
-				return "noticeList";
-			}else {
-				throw new BoardException("검색에 실패하였습니다.");
 			}
+				return "noticeList";
+			
 		}
 	}
 	
@@ -679,8 +674,5 @@ public class BoardController {
 		}
 	}
 	
-	@GetMapping("noticeWrite.no")
-	public String noticeWrite() {
-		return "noticeWrite";
-	}
+	
 }

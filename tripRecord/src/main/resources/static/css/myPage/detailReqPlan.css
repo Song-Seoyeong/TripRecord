@@ -5,6 +5,9 @@
 	min-height: 800px;
 	margin-bottom: 200px;
 }
+.marginDiv{
+	margin-bottom: 400px;
+}
 #reqForm {
 	position: absolute;
 	left: 50%;

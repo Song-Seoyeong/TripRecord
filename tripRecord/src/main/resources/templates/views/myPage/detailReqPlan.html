@@ -18,7 +18,7 @@
 	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
 	
 	
-	<div class="flex-container">
+	<div class="flex-container" id='firstDiv'>
 		<form id='reqForm'>
 			<!-- 여행지 참고 사항 출력창 -->
 			<div id='schContent'>
@@ -69,7 +69,7 @@
 					플래너가 아직 일정을 생성하지 않았어요<br>
 					조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
 				</div>
-				<div id='schedule' th:if='${rs.reqStatus == 2 && pList != null}'>
+				<div id='rearSchedule' th:if='${rs.reqStatus == 2 && pList != null}'>
 					<div class="contain-div">
 						<div id="planAll" class="grid">
 							<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
@@ -96,7 +96,7 @@
 							</div>
 						</div>
 					</div>
-					<div th:if='${rs.memo != null}'>
+					<div th:if='${rs.memo != null}' style='margin-top: 20px;'>
 						<b>플래너가 주는 추가 정보&#128221;</b>
 						[[${rs.memo}]]
 					</div>
@@ -122,58 +122,58 @@
 			</div>
 			
 		</form>
-		
-		<!-- 확정 모달 -->
-		<div class="modal fade" tabindex="-1" role="dialog" id="modalSubmit">
-			<div class="modal-dialog" role="document">
-	    		<div class="modal-content rounded-3 shadow">
-	      			<div class="modal-body p-4 text-center">
-	        			<h3 class="mb-0">플래너에게 받은 일정을 구매 확정 하시겠습니까?</h3>
-	        			<p class="mb-0">확정 후 여행 계획은 마이페이지 &gt; 내 여행 노트에서 확인이 가능합니다.<br>※확정 후 환불은 문의사항 게시판을 이용해주세요※</p>
-	      			</div>
-	      			<div class="modal-footer flex-nowrap p-0">
-	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="confim">
-	        				<strong>네</strong>
-	        			</button>
-	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
-	      			</div>
-	    		</div>
-	 			</div>
-		</div>
-		<!-- 확정 모달 -->
-		<!-- 신청취소 모달 -->
-		<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
-			<div class="modal-dialog" role="document">
-	    		<div class="modal-content rounded-3 shadow">
-	      			<div class="modal-body p-4 text-center">
-	        			<h3 class="mb-0">정말로 신청을 취소하시겠습니까?</h3>
-	        			<p class="mb-0">
-	        				취소 후 신청내역은 복구할 수 없습니다
-	        				<br>
-	        				필요시 재신청 해주세요 (환불 예정 포인트 : [[${rs.payPoint}]])
-	        			</p>
-	        			 <form id='cancelForm'>
-				        	<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
-				        	<input type='hidden' name='reqStatus' id='reqStatus' value='4'>
-				        	<input type='hidden' name='page' id='page' th:value='${page}'>
-				        	<input type='hidden' name='payPoint' id='payPoint' th:value='${rs.payPoint}'>
-				          <div class="mb-3">
-				            <label for="message-text" class="col-form-label">취소 사유 :</label>
-				            <textarea class="form-control" id="message-text" name='cancelContent'></textarea>
-				          </div>
-				        </form>
-	      			</div>
-	      			<div class="modal-footer flex-nowrap p-0">
-	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
-	        				<strong>취소 하기</strong>
-	        			</button>
-	        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
-	      			</div>
-	    		</div>
-	 		</div>
-		</div>
-		<!-- 신청취소 모달 -->
 	</div>
+	<!-- 확정 모달 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalSubmit">
+		<div class="modal-dialog" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">플래너에게 받은 일정을 구매 확정 하시겠습니까?</h3>
+        			<p class="mb-0">확정 후 여행 계획은 마이페이지 &gt; 내 여행 노트에서 확인이 가능합니다.<br>※확정 후 환불은 문의사항 게시판을 이용해주세요※</p>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="confim">
+        				<strong>네</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+      			</div>
+    		</div>
+ 			</div>
+	</div>
+	<!-- 확정 모달 -->
+	<!-- 신청취소 모달 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+		<div class="modal-dialog" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">정말로 신청을 취소하시겠습니까?</h3>
+        			<p class="mb-0">
+        				취소 후 신청내역은 복구할 수 없습니다
+        				<br>
+        				필요시 재신청 해주세요 (환불 예정 포인트 : [[${rs.payPoint}]])
+        			</p>
+        			 <form id='cancelForm'>
+			        	<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
+			        	<input type='hidden' name='reqStatus' id='reqStatus' value='4'>
+			        	<input type='hidden' name='page' id='page' th:value='${page}'>
+			        	<input type='hidden' name='payPoint' id='payPoint' th:value='${rs.payPoint}'>
+			          <div class="mb-3">
+			            <label for="message-text" class="col-form-label">취소 사유 :</label>
+			            <textarea class="form-control" id="message-text" name='cancelContent'></textarea>
+			          </div>
+			        </form>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
+        				<strong>취소 하기</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+      			</div>
+    		</div>
+ 		</div>
+	</div>
+	<!-- 신청취소 모달 -->
+	
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
@@ -229,6 +229,12 @@
 		planner.addEventListener('click', function(){
 			location.href = 'selectPlanner.ma?page=1&pNo=' + this.children[0].value;
 		})
+		
+		const rearSchedule = document.getElementById('rearSchedule');
+		if(rearSchedule != null){
+			const firstDiv = document.getElementById('firstDiv');
+			firstDiv.classList.add('marginDiv');
+		}
 		
 	</script>
 </body>

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>'여기' 고객센터</title>
 <link type="text/css" href="css/service/askList.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
@@ -68,14 +68,12 @@
 		
 		<div style="display:flex; justify-content:right;">
 			<div class='review-text' id='reviewDiv' th:if="${ session.loginUser != null}">
-				<a href="askWrite.no" style="text-decoration-line:none;">
-					<button id='goReview'>
-						<p>문의하기</p>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
-							<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
-						</svg>
-					</button>
-				</a>
+				<button id='goReview'>
+					<p>문의하기</p>
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+						<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+					</svg>
+				</button>
 			</div>
 	    </div>
 		
@@ -87,14 +85,14 @@
 	<div class="container py-4">
 		<div class="bd-example-snippet bd-code-snippet">
 			<div class="bd-example">
-				<table class="table table-hover">
+				<table class="table table-hover" style='text-align:center;'>
 					<thead>
 						<tr>
-							<th width="80px">글 번호</th>
-							<th>글 제목</th>
-							<th width="130px">작성자</th>
-							<th width="130px">작성일자</th>
-							<th width="80px">조회수</th>
+							<th width="10%">글 번호</th>
+							<th width="45%">글 제목</th>
+							<th width="15%x">작성자</th>
+							<th width="20%">작성일자</th>
+							<th width="10%">조회수</th>
 	          			</tr>
 	          		</thead>
 	         		<tbody id="text-test">
@@ -132,7 +130,7 @@
 		<div class='row' style='margin-bottom: 60px;'>
 			<div class='col-4'></div>
 				<nav aria-label="Page navigation example" style="display:flex; justify-content:center;">
-					<ul class="pagination" th:with="loc=${loc}" id="pagination">
+					<ul class="pagination" id="pagination">
 					</ul>
 				</nav>
 			<div class='col-4'></div>
@@ -190,7 +188,11 @@
 				const startPage = Math.max(1, currentPage - 5);
 				const endPage = Math.min(totalPages, currentPage + 4);
 				
-				buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
+				if(currentPage == 1){
+					buttons += '<li class="page-item disabled"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
+				}else{
+					buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
+				}
 				if(startPage > 1){
 					buttons += '<li class="page-item"><a class="page-link" onclick="changePage(1)">1</a></li>';
 				}
@@ -199,7 +201,6 @@
 					if(currentPage == i){
 						buttons += '<li class="page-item"><a class="page-link" style="font-size:1.1em; color:rgb(150,202,240);" onclick="changePage('+i+')">'+i+'</a></li>';
 					}else{
-						
 		                buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+i+')">'+i+'</a></li>';
 					}
 	            }
@@ -207,7 +208,11 @@
 	            if (endPage < totalPages) {
 	            	buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+endPage+')">'+endPage+'</a></li>';
 	            }
-				buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
+	            if(currentPage == totalPages){
+					buttons += '<li class="page-item disabled"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
+	            }else{
+					buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
+	            }
 	            return buttons;
 	        }
 			
@@ -248,6 +253,11 @@
 				});
 			}
 			
+			// 돋보기 클릭 시 검색
+			document.getElementsByClassName("x-icon")[0].addEventListener('click',()=>{
+				searchForm.submit();
+			});
+			
 			// 카테고리 클릭 시 이동
 			const categories = document.getElementsByClassName("col-3");
 			for(const cate of categories){
@@ -275,22 +285,19 @@
 				})
 			}
 			
-			if(/*[[${categorySelect}]]*/1 == null){
-				generalTypeValue.value = "ALL";
-			}
 			
 			// 현재 카테고리 표시해두기
 			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if(/*[[${generalType}]]*/1 == "ALL"){
+				if([[${generalType}]] == "ALL"){
 					categories[0].children[0].style.borderRadius = '9999px';
 					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "PAYMENT"){
+				} else if([[${generalType}]] == "PAYMENT"){
 					categories[1].children[0].style.borderRadius = '9999px';
 					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "PLANNER"){
+				} else if([[${generalType}]] == "PLANNER"){
 					categories[2].children[0].style.borderRadius = '9999px';
 					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "ELSE"){
+				} else if([[${generalType}]] == "ELSE"){
 					categories[3].children[0].style.borderRadius = '9999px';
 					categories[3].children[0].style.backgroundColor = '#96caf0';
 				}
@@ -328,7 +335,10 @@
 			});
 			
 			
-			 
+			const reviewBtn = document.getElementById("goReview");
+			reviewBtn.addEventListener('click',()=>{
+				location.href="askWrite.no";
+			}); 
 			
 			
 			

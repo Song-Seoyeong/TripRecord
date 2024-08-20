@@ -19,7 +19,12 @@
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
-	<div style="height:120px;"></div>
+	<!-- 사이드바 -->
+	<div style="height:120px;">
+      <div id="sidebar">
+         <div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div>
+      </div>   
+   </div> 
 	
 	<form id="detailMyTripForm">
 		<div class="flex-container">
