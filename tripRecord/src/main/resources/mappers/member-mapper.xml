@@ -373,20 +373,27 @@
 	</update>
 
 	<!-- 상세 일정 체크 -->
-	<select id="getPlanList" resultType='Plan'>
+	<select id="getPlanList" resultMap='planMap'>
 		select *
 		from plan
-		where sc_no
-		= #{scheNo}
+		where sc_no = #{scheNo}
 	</select>
 
-	<!-- 일정 신청 사유 받아오기 -->
+	<!-- 일정 취소 사유 받아오기 -->
 	<select id="checkCancel" resultType='Cancel'>
 		select *
 		from cancel
 		where
 		cancel_ref_type = 'REQSCHEDULE' and cancel_ref_no = #{reqNo}
 	</select>
+	
+	<resultMap id="planMap" type="Plan">
+		<result column="PL_PLACE" property="place" />
+		<result column="PL_TIME" property="time" />
+		<result column="PL_MEMO" property="memo" />
+		<result column="PL_RESERVE" property="reserve" />
+		<result column="PL_DAY" property="day" />
+	</resultMap>
 
 	<!-- 취소 사유 저장 -->
 	<insert id="insertCancel">
@@ -620,5 +627,11 @@
 		CALCULATE
 		where PLANNER_NO = #{memberNo}
 	</select>
+	
+	<update id="updateScheduleWriter">
+		update schedule
+		set sc_writer_no = #{reqMemNo}, req_check = 'N'
+		where sc_no = #{reqNo}
+	</update>
 
 </mapper>

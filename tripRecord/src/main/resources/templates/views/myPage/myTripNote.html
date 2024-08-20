@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <title>내 여행노트</title>
 <style>
-    table{width:80%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
+    table{width:80%; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
     .pageNumber{margin-left:5px; margin-right:5px;}
    	th{font-size:24px;}
    	td{padding:15px;}
    	.flex-container{text-align: center;}
    	.noneList:hover{background-color: white; cursor: default;}
    	#container-in-div{display:inline-block;}
-   	#main-div{display:inline-block; width:1000px; height:800px; border: 1px solid lightgray; border-radius:10px;}
+   	#main-div{display:inline-block; width:1000px; height:700px; margin-top: 40px; border: 1px solid lightgray; border-radius:10px;}
    	#title-div{color: black; font-size: 36px; font-weight: 900;}
-   	#thTr{border-bottom: 2px solid #96CAF0;}
+   	#thTr{border-bottom: 2px solid #96CAF0; height: 60px;}
    	#tdTr{border-bottom: 2px solid #b9b9b9;}
 </style>
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
@@ -41,7 +41,6 @@
 			</span>
         	
 			<div id="title-div">내 여행노트</div>
-			<div style="height:40px;"></div>
 			<div id="main-div">
 				<table>
 					<thead>
@@ -67,7 +66,7 @@
 				</table>
 				
 				<!-- 페이지네이션 -->
-				<nav class="d-flex justify-content-center">
+				<nav class="d-flex justify-content-center" style="margin-top: 60px;">
 		        	<ul class="pagination" th:with="loc=${ loc }">
 		        		 <!-- 이전 버튼 -->
 			            <li class="page-item">

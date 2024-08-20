@@ -25,6 +25,8 @@
 				<!-- 여행지 -->
 				<div id='planTitle'>
 					<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
+					<input type='hidden' name='reqStatus' value='3'>
+					<input type='hidden' name='scheNo' th:value='${rs.scheNo}'>
 					<input type='hidden' name='page' th:value='${page}'>
 					<input type='hidden' name='payPoint' id='point' th:value='${rs.payPoint}'>
 					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" id='localIcon'>
@@ -67,46 +69,48 @@
 					플래너가 아직 일정을 생성하지 않았어요<br>
 					조금만 기다려주시면 멋진 여행 계획을 세워드릴게요&#128521;
 				</div>
-				<div id='schedule' th:if='${rs.reqStatus != 1 && rs.reqStatus != 4 && planList != null}'>
+				<div id='schedule' th:if='${rs.reqStatus == 2 && pList != null}'>
 					<div class="contain-div">
-							<div id="planAll" class="grid">
-								<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
-									<div class="dayText" th:text="|${date.key}일차|"></div>
-									<div class="date" th:text="${date.value}"></div>
-									<div class="planDiv">
-										<div class="one-plan" th:each="p, index : ${pList}" th:if="${date.value == p.day}">
-											<input type="hidden" name="plNo" class="plNos" th:value="${p.plNo}"/>
-											<input type="hidden" name="day" th:value="${p.day}"/>
-											<div class="plan-spans">
-												<span class="line"><span class="round"></span></span>
+						<div id="planAll" class="grid">
+							<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
+								<div class="dayText" th:text="|${date.key}일차|"></div>
+								<div class="date" th:text="${date.value}"></div>
+								<div class="planDiv">
+									<div class="one-plan" th:each="p: ${pList}" th:if="${date.value == p.day}">
+										<div class="plan-spans">
+											<span class="line"><span class="round"></span></span>
+										</div>
+										<div class="plan-labels">
+											<div class="label-div">
+												<label class="planLabel placeLabel" th:text=${p.place}></label>
 											</div>
-											<div class="plan-labels">
-												<div class="label-div">
-													<input type="text" name="place" th:value="${p.place}" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창" style="display: none;">
-													<label class="planLabel placeLabel" th:text=${p.place}></label>
-												</div>
-												<div class="label-div">
-													<input type="time" name="time" th:value="${p.time}" class="plan-text timeInput" placeholder="시간 입력창" style="display: none;">
-													<label class="planLabel timeLabel" th:text="${p.time}"></label>
-												</div>
-												<div class="label-div">
-													<input type="text" name="memo" th:value="${p.memo}" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창" style="display: none;">
-													<label class="planLabel memoLabel" th:text="${p.memo}"></label>
-												</div>
+											<div class="label-div">
+												<label class="planLabel timeLabel" th:text="${p.time}"></label>
 											</div>
-											<div class="plan-images"></div>
+											<div class="label-div">
+												<label class="planLabel memoLabel" th:text="${p.memo}"></label>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+					<div th:if='${rs.memo != null}'>
+						<b>플래너가 주는 추가 정보&#128221;</b>
+						[[${rs.memo}]]
+					</div>
+				</div>
+				<div id='schedule' th:if='${rs.reqStatus == 3}'>
+					구매 확정이 완료되었습니다. "마이페이지 ➜ 내 여행 노트"에서 상세 일정을 확인하실 수 있습니다. 
 				</div>
 				<div id='schedule' th:if='${rs.reqStatus == 4}'>
 					신청이 취소된 여행입니다 :(
 					<hr>
 					<div id='cancelComent'>
-						<b>취소 사유 : </b>[[${cancel.cancelComent}]]
+						<b>취소 사유 : </b>
+						<th:block th:if='${cancel.cancelComent== null}'>사유가 등록되어있지않습니다.</th:block>
+						<th:block th:if='${cancel.cancelComent != null}'>[[${cancel.cancelComent}]]</th:block>
 					</div>
 				</div>
 			</div>
@@ -191,7 +195,7 @@
         	confim.addEventListener('click', ()=>{
         		const status = document.getElementById('reqStatus');
 				status.value = '2';
-				reqForm.action = "feedback.mp";
+				reqForm.action = "reqConfirm.mp";
 				reqForm.submit();
         	})
         }

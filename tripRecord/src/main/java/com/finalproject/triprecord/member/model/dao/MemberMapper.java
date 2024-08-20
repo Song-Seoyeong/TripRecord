@@ -196,5 +196,7 @@ public interface MemberMapper {
 	// 정산 리스트 수
 	int calcListCount(int memberNo);
 
+	int updateScheduleWriter(ReqSchedule r);
+
 
 }

@@ -6,9 +6,8 @@
 <title>내 여행노트 상세보기</title>
 <style>
 </style>
-<link rel="stylesheet" href="css/plan/detailMyTripNote.css" type="text/css" />
+<link rel="stylesheet" href="css/myPage/detailMyTripNote.css" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.css" rel="stylesheet">
 <link rel="stylesheet" href="css/plan/datepicker.css" type="text/css" />
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
@@ -55,23 +54,24 @@
 					</div>
 					<div class="inline-contain-div edit-div">
 						<select id="selectSpotHidden" name="spot" class="form-select selectOption">
-							<option class="select_opt" value="1" th:selected="${ spot == '서울' }">서울</option>
-							<option class="select_opt" value="2" th:selected="${ spot == '인천' }">인천</option>
-							<option class="select_opt" value="3" th:selected="${ spot == '대전' }">대전</option>
-							<option class="select_opt" value="4" th:selected="${ spot == '대구' }">대구</option>
-							<option class="select_opt" value="5" th:selected="${ spot == '광주' }">광주</option>
-							<option class="select_opt" value="6" th:selected="${ spot == '부산' }">부산</option>
-							<option class="select_opt" value="7" th:selected="${ spot == '울산' }">울산</option>
-							<option class="select_opt" value="8" th:selected="${ spot == '세종' }">세종</option>
-							<option class="select_opt" value="31" th:selected="${ spot == '경기' }">경기</option>
-							<option class="select_opt" value="32" th:selected="${ spot == '강원' }">강원</option>
-							<option class="select_opt" value="33" th:selected="${ spot == '충북' }">충북</option>
-							<option class="select_opt" value="34" th:selected="${ spot == '충남' }">충남</option>
-							<option class="select_opt" value="35" th:selected="${ spot == '경북' }">경북</option>
-							<option class="select_opt" value="36" th:selected="${ spot == '경남' }">경남</option>
-							<option class="select_opt" value="37" th:selected="${ spot == '전북' }">전북</option>
-							<option class="select_opt" value="38" th:selected="${ spot == '전남' }">전남</option>
-							<option class="select_opt" value="39" th:selected="${ spot == '제주' }">제주</option>
+<!-- 							selected 옵션 왜 안 되냐 -->
+							<option class="select_opt" value="1" th:selected="${ s.spot == '서울' }">서울</option>
+							<option class="select_opt" value="2" th:selected="${ s.spot == '인천' }">인천</option>
+							<option class="select_opt" value="3" th:selected="${ s.spot == '대전' }">대전</option>
+							<option class="select_opt" value="4" th:selected="${ s.spot == '대구' }">대구</option>
+							<option class="select_opt" value="5" th:selected="${ s.spot == '광주' }">광주</option>
+							<option class="select_opt" value="6" th:selected="${ s.spot == '부산' }">부산</option>
+							<option class="select_opt" value="7" th:selected="${ s.spot == '울산' }">울산</option>
+							<option class="select_opt" value="8" th:selected="${ s.spot == '세종' }">세종</option>
+							<option class="select_opt" value="31" th:selected="${ s.spot == '경기' }">경기</option>
+							<option class="select_opt" value="32" th:selected="${ s.spot == '강원' }">강원</option>
+							<option class="select_opt" value="33" th:selected="${ s.spot == '충북' }">충북</option>
+							<option class="select_opt" value="34" th:selected="${ s.spot == '충남' }">충남</option>
+							<option class="select_opt" value="35" th:selected="${ s.spot == '경북' }">경북</option>
+							<option class="select_opt" value="36" th:selected="${ s.spot == '경남' }">경남</option>
+							<option class="select_opt" value="37" th:selected="${ s.spot == '전북' }">전북</option>
+							<option class="select_opt" value="38" th:selected="${ s.spot == '전남' }">전남</option>
+							<option class="select_opt" value="39" th:selected="${ s.spot == '제주' }">제주</option>
 						</select> <span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
 					</div>
 					<div class="editButton-div">
@@ -134,6 +134,7 @@
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}"></div>
 	
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		let page = /*[[${page}]]*/1;
@@ -153,7 +154,7 @@
 					form.method = "post";
 					form.submit();
 				} else {
-					//console.log('좋습니다');
+					console.log('좋습니다');
 				}
 				
 			});
@@ -309,9 +310,9 @@
 		        	labelDiv.style.background = '#E9F5FE';
 		        	let imagesDiv = labelDiv.nextElementSibling;
 		        	labelDiv.classList.add('edit-labels');
-		        	imagesDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/></svg><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
+		        	imagesDiv.innerHTML = '<img src="image/pencilIcon.png" style="width: 16px; height: 16px;" class="pencil-icon"/><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
 		        	
-		        } else if(e.target.classList.contains('bi-pencil-square')) {
+		        } else if(e.target.classList.contains('pencil-icon')) {
 		        	let onePlan = e.target.closest('.one-plan');
 					let labels = onePlan.querySelectorAll('.planLabel');
 
@@ -354,7 +355,7 @@
 		        	if(!checkbox.checked) status = 'Y';
 		        	else status = 'N';
 		        	
-		        	//console.log(status);
+		        	console.log(status);
 		        	
 		        	$.ajax({
 		        		url: 'updateReserve.mp',

@@ -124,10 +124,8 @@
 			const endDate = document.getElementById('endDate');
 			const agreement = document.getElementById('agreement');
 			
-			document.getElementById('createButton').addEventListener('click', calculateDateRange);
-			document.getElementById('createButton').addEventListener('click', function() {
-				
-				//console.log(agreement.checked);
+			document.getElementById('insert').addEventListener('click', calculateDateRange);
+			document.getElementById('insert').addEventListener('click', function() {
 				
 				if(startDate.value == ''){
 					alert('여행 출발 날짜를 선택해 주세요');

@@ -131,7 +131,7 @@ form{
 	background-color: #58aae7;
 }
 
-.check-icon:hover, .trash-icon:hover, .bi:hover{
+.check-icon:hover, .trash-icon:hover, .edit-icon:hover{
 	cursor: pointer;
 }
 

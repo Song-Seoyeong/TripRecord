@@ -17,10 +17,20 @@
 				<div class="layer_cont">
 					<div class="img_wrap">
 						<th:block th:if="${session.loginUser.grade == 'PLANNER'}">
-							확인하지 않은 신청글이&nbsp;<span style="color: red;">[[${planCount}]]</span>개 존재합니다.
+							<div>
+								확인하지 않은 신청글이&nbsp;<span style="color: red;">[[${planCount}]]</span>개 존재합니다.
+							</div>
+							<div>
+								<a href='request.mp' style='color: gray; text-decoration: none;'>신청 온 내역 확인하러 가기 >></a>
+							</div>
 						</th:block>
 						<th:block th:if="${session.loginUser.grade == 'GENERAL'}">
-							확인하지 않은 일정이&nbsp;<span style="color: red;">[[${planCount}]]</span>개 존재합니다.
+							<div>
+								확인하지 않은 일정이&nbsp;<span style="color: red;">[[${planCount}]]</span>개 존재합니다.
+							</div>
+							<div>
+								<a href='myPlan.mp' style='color: gray; text-decoration: none;'>신청한 내역 확인하러 가기 >></a>
+							</div>
 						</th:block>
 					</div>
 					<div class="btn_wrap">

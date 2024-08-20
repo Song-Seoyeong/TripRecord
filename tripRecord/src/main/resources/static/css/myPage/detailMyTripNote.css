@@ -50,7 +50,7 @@
 	background-color: #58aae7;
 }
 
-.check-icon:hover, .trash-icon:hover, .bi:hover{
+.check-icon:hover, .trash-icon:hover, .pencil-icon:hover{
 	cursor: pointer;
 }
 

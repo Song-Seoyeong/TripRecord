@@ -28,7 +28,16 @@ public class MatchingServiceImpl implements MatchingService {
 	public int getPlannerListCount(int localNo) {
 		return matMapper.getPlannerListCount(localNo);
 	}
-
+	
+	@Override
+	public ArrayList<Planner> getPlannerList(PageInfo pi, int localNo) {
+			
+		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return matMapper.getPlannerList(localNo, rowBounds);
+	}
+	
 	@Override
 	public int countLikes(int pNo) {
 		return matMapper.countLikes(pNo);
@@ -49,14 +58,7 @@ public class MatchingServiceImpl implements MatchingService {
 		return matMapper.selectPlanner(pNo);
 	}
 
-	@Override
-	public ArrayList<Planner> getPlannerList(PageInfo pi, int localNo) {
-		
-		int offset = (pi.getCurrentPage()-1)*pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return matMapper.getPlannerList(localNo, rowBounds);
-	}
+
 
 	@Override
 	public int insertLikes(HashMap<String, Integer> map) {

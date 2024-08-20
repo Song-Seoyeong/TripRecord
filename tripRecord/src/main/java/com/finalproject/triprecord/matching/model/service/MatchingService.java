@@ -16,6 +16,8 @@ import com.finalproject.triprecord.plan.model.vo.Schedule;
 public interface MatchingService {
 
 	int getPlannerListCount(int localNo);
+	
+	ArrayList<Planner> getPlannerList(PageInfo pi, int localNo);
 
 	int countLikes(int pNo);
 	
@@ -24,8 +26,6 @@ public interface MatchingService {
 	String selectLocalName(int pNo);
 
 	Planner selectPlanner(int pNo);
-
-	ArrayList<Planner> getPlannerList(PageInfo pi, int localNo);
 
 	int insertLikes(HashMap<String, Integer> map);
 

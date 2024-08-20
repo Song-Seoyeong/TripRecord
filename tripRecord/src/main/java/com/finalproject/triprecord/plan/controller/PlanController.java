@@ -151,8 +151,6 @@ public class PlanController {
 		
 		s.setScLocalNo(Integer.parseInt(s.getSpot())); // 지역 번호 설정 select option 에서 선택된 value 값
 		
-		//System.out.println(s);
-		
 		ArrayList<Plan> plList = new ArrayList<Plan>(); // 계획 1개씩 담을 ArrayList
 		for(int i = 0, coCount = 0, dNum = 0; i < place.length; i++, coCount++) { // 장소는 무조건 있어야 하는 값 중 하나라 place.length 만큼 돌림
 			
@@ -206,7 +204,7 @@ public class PlanController {
 		int result = plService.savePlanInsert(s, plList, tagList); // serviceImpl 주의
 		
 		if(result > 0) {
-			return "redirect:myTripNote.pl";
+			return "redirect:/";
 		} else {
 			throw new PlanException("일정을 저장하던 중 오류가 발생했습니다.");
 		}
@@ -232,7 +230,7 @@ public class PlanController {
 	    	Date today = new Date(); // 오늘 날짜 생성
 	    	
 	    	for(int i = 0; i < sList.size(); i++) {
-	    		if(today.compareTo(sList.get(i).getScStartDate()) > 0) { // endDate 가 지났다면
+	    		if(today.compareTo(sList.get(i).getScEndDate()) > 0) { // endDate 가 지났다면
 	    			sList.get(i).setStatus("완료");	// 여행 상태 : 완료
 	    			
 	    		} else {
@@ -291,6 +289,7 @@ public class PlanController {
 	    }
 	    
 	    Schedule s = plService.detailMySchedule(scNo);
+	    //System.out.println(s);
 	    
 	    HashMap<Integer, String> dates = dateFunction(s.getStartDate(), s.getEndDate());
 	    
@@ -317,7 +316,7 @@ public class PlanController {
 	public String deleteTripNote(@RequestParam("scNo") int scNo) {
 		int result = plService.deleteTripNote(scNo);
 		if(result > 0) {
-			return "redirect:myTripNote.pl";
+			return "redirect:myTripNote.mp";
 		} else {
 			throw new PlanException("일정 삭제에 실패하였습니다.");
 		}

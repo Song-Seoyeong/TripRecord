@@ -20,7 +20,8 @@
 
 /* 제출 버튼 감싸는 div */
 #sb-div{
-	margin-top: 40px;
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 
 /* 여행지 참고 사항 출력창 */

@@ -37,8 +37,8 @@
 					<thead>
 					 	<tr id='thTr'>
 							<th width='10%'>여행지</th>
-							<th width='25%'>여행 기간</th>
-							<th width='15%'>담당 플래너</th>
+							<th width='23%'>여행 기간</th>
+							<th width='17%'>담당 플래너</th>
 							<th width='15%'>
 								<select class="form-select" aria-label="Sort by" name='status' id='statusSearch'>
 					                <option th:selected="${statusSearch == 0}" value="0">진행 상태</option>
@@ -53,27 +53,28 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr id='tbodyTr' th:if='${list != null}' th:each='l :${list}'>
-							<th:block  th:each='p : ${pList}' th:if='${l.reqPlaNo == p.memberNo}'>
-								<td id="place">
-									<input type='hidden' th:value='${l.reqNo}' name='reqNo'>
-									[[${p.localName}]]
-								</td>
-								<td id="date">[[${l.startDay}]] - [[${l.endDay}]]<br>([[${l.nightDay}]])</td>
-								<td id="planner">[[${p.nickname}]]</td>
-								<!-- 진행상태 -->
-								<td th:if='${l.reqStatus == 1}'>일정 기다리는 중</td>
-								<td th:if='${l.reqStatus == 2}' style='color: #96CAF0; font-weight: bold;'>일정 도착</td>
-								<td th:if='${l.reqStatus == 3}' style='color: yellow'>구매 확정</td>
-								<td th:if='${l.reqStatus == 4}' style='color: red;'>신청 취소</td>
-								<!-- 포인트 -->
-								<td th:if='${l.reqStatus != 4}'>- [[${l.payPoint}]]</td>
-								<td th:if='${l.reqStatus == 4}'>+ [[${l.payPoint}]]</td>
-								<!-- 구매/환불 일자 -->
-								<td th:if='${l.confirmDate == null}'>-</td>
-								<td th:if='${l.confirmDate != null}'>[[${l.confirmDate}]]</td>
-							</th:block>
+						
+						<tr id='tbodyTr' th:if='${list != null}' th:each='l : ${list}'>
+					        <td id="place">
+					            <input type='hidden' th:value='${l.reqNo}' name='reqNo'>
+					            <input type='hidden' th:value='${l.reqStatus}' name='reqStatus'>
+					            [[${l.localName}]]
+					        </td>
+					        <td id="date">[[${l.startDay}]] - [[${l.endDay}]]<br>([[${l.nightDay}]])</td>
+					        <td id="planner">[[${l.nickname}]]</td>
+					        <!-- 진행상태 -->
+					        <td th:if='${l.reqStatus == 1}'>일정 기다리는 중</td>
+					        <td th:if='${l.reqStatus == 2}' style='color: #96CAF0; font-weight: bold;'>일정 도착</td>
+					        <td th:if='${l.reqStatus == 3}' style='color: #2F6598; font-weight: bold;'>구매 확정</td>
+					        <td th:if='${l.reqStatus == 4}' style='color: red;'>신청 취소</td>
+					        <!-- 포인트 -->
+					        <td th:if='${l.reqStatus != 4}'>- [[${l.payPoint}]]</td>
+					        <td th:if='${l.reqStatus == 4}'>+ [[${l.payPoint}]]</td>
+					        <!-- 구매/환불 일자 -->
+					        <td th:if='${l.confirmDate == null}'>-</td>
+					        <td th:if='${l.confirmDate != null}'>[[${l.confirmDate}]]</td>
 						</tr>
+
 						<tr th:if='${list == null}'>
 							<td colspan="5">
 								신청하신 리스트가 없습니다

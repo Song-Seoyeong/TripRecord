@@ -24,11 +24,11 @@
 			<!-- 플래너 정보 -->
 			<div id="plannerInfo" class="m-3">
 				<div class="d-flex justify-content-center align-items-center shadow border bg-light rounded-3">
-					<div class="d-flex justify-content-center p-3">
-						<img th:if="${planner.imageRename != null}" class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
+					<div class="d-flex justify-content-center p-3" th:if="${planner.imageRename != null}">
+						<img id="ProfileImg" class="rounded-circle mx-3" style="object-fit: cover;" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
 					</div>
-					<div class="d-flex justify-content-center p-3">
-						<img th:if="${planner.imageRename == null}" class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
+					<div class="d-flex justify-content-center p-3" th:if="${planner.imageRename == null}">
+						<img class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
 					</div>
 					<div class="p-3">
 						<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
@@ -72,7 +72,7 @@
 				</div>
 				<br/><br/>
 				<form action="matchingReview.ma">
-					<input type="hidden" name="pNo" th:value="${planner.memberNo}">
+					<input type="hidden" name="pNo" th:value="${ planner.memberNo }">
 					<button class="btn" id="reviewBtn">>> 후기 작성하러 가기</button>
 				</form>
 			</div>
@@ -102,7 +102,7 @@
 						<img class="w-100" width="800px" th:src="|https://drive.google.com/thumbnail?id=${ i.imageRename }&sz=w1000|"/><br/>
 					</div>
 				</div>
-				<div class="mx-5 mb-5">
+				<div class="m-5">
 					<p>[[${planner.introContent}]]</p>
 				</div>
 			</div>
@@ -222,13 +222,14 @@
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 	
 	<!-- 후기 모달창 -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="reviewModal">
+    <div class="modal modal-xl fade" tabindex="-1" role="dialog" id="reviewModal">
 		<div class="modal-dialog d-flex align-items-center justify-content-center">
     		<div class="modal-content rounded-3 shadow">
-      			<div class="modal-body p-4 text-center">
-        			<h3 class="mb-3" id="modalReviewTitle"></h3>
+      			<div class="modal-body p-4">
+        			<h3 class="mb-3 text-center" id="modalReviewTitle"></h3>
         			<hr/>
-                	<div class="mb-0" id="modalReviewContent"></div>
+                	<div class="mb-0" id="modalReviewContent-img"></div>
+                	<p class="mb-0 w-100 text-start" id="modalReviewContent-text" style="white-space:pre-wrap;"></p>
                 	<br/>
       			</div>
       			<div>
@@ -277,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	           	delButton.addEventListener('click', function(){
 	           		$('#deleteModal').modal('show');
 	                document.getElementById('deleteReview').onclick = function() {
-	                //console.log(form);
+	                console.log(form);
 	                form.action = 'deleteReview.ma';
 	                form.submit();
 	                }
@@ -300,23 +301,25 @@ for(const tr of reviewList) {
 		 		/*]]>*/
 	       		const rNo = this.parentElement.children[0].children[1].value
 		 		
-	       		let reviewContent = '';
+	       		let reviewContentImg = '';
+	       		let reviewContentText = '';
 		 		let reviewTitle = '';
 		 		
 	            for(const rImg of rImgList){
 	            	if(rNo == rImg.imageRefNo){
-	            		reviewContent += '<img src="https://drive.google.com/thumbnail?id=' + rImg.imageRename + '&sz=w1000" width="100%"><br/><br/>';
+	            		reviewContentImg += '<img src="https://drive.google.com/thumbnail?id=' + rImg.imageRename + '&sz=w1000" width="100%"><br/><br/>';
 	            	}
 	            }
 	            for(const r of rList){
 		 			if(rNo == r.reviewNo){
 		 				reviewTitle = r.reviewTitle;
-		 				reviewContent += r.reviewContent;
+		 				reviewContentText += r.reviewContent;
 		 			}
 				}
 	            
 	            document.querySelector('#modalReviewTitle').innerHTML = reviewTitle;
-	            document.querySelector('#modalReviewContent').innerHTML = reviewContent;
+	            document.querySelector('#modalReviewContent-img').innerHTML = reviewContentImg;
+	            document.querySelector('#modalReviewContent-text').innerHTML = reviewContentText;
 	            
 	            $('#reviewModal').modal('show');
 			});
@@ -325,7 +328,7 @@ for(const tr of reviewList) {
 }
 
 document.getElementById('likeButton').addEventListener('click', () => {
-	const pNo = /*[[${ planner.memberNo }]]*/1;
+	const pNo = [[${ planner.memberNo }]];
 	const likeButton = document.getElementById('likeButton');
     let url = '';
     let changeLikes = 0;

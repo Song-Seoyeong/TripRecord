@@ -64,10 +64,10 @@
 				         			<td class="d-none">[[${planner.memberNo}]]</td>
 				         			
 		         					<td th:if="${planner.imageRename != null }">
-		         						<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}&sz=w1000|"  width="75px" height="75px" alt="프로필">
+		         						<img class="rounded-circle m-3" style="object-fit: cover;" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}&sz=w1000|" width="75px" height="75px" alt="프로필">
 		         					</td>	
 		         					<td th:if="${planner.imageRename == null }">
-		         						<img class="rounded-circle m-3" src="image/noProfile.png"  width="75px" height="75px" alt="프로필">
+		         						<img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px" alt="프로필">
 		         					</td>
 					         		<td class="fs-4" width="200px">[[${planner.Nickname}]]</td>
 					         		<td width="150px">[[${localName[planner.memberNo]}]]</td>
