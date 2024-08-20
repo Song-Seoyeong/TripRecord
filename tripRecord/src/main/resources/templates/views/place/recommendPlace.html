@@ -511,14 +511,14 @@
    				ul.append(li);
    				
    			}
-   			
+   			console.log(data.pi)
    			const li3 = document.createElement('li');
    			li3.className='page-item';
    			const afterA = document.createElement('a');
    			afterA.className = 'page-link';
    			afterA.href = 'recoPlace.pla?page=' + (data.pi.currentPage + 1) + "&arrange=" + data.arrange + "&contentTypeId=" + data.selectedKeyword + "&areaCode=" + data.areaCode + "&keyword=" + data.keyword;
    			afterA.ariaLabel = "Next";
-   			if(data.pi.currentPage == data.pi.endPage){
+   			if(data.pi.maxPage == data.pi.endPage){
    				afterA.style.pointerEvents = 'none'; // 클릭 비활성화
    				afterA.style.cursor = 'not-allowed'; // 마우스 커서 변경
    				afterA.style.opacity = '0.5';

@@ -102,7 +102,7 @@
 		           
 		             <!-- 다음 버튼  -->
 		            <li class="page-item">
-		            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+		            	<a class="page-link" th:classappend="${pi.maxPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
 		            		<span aria-hidden="true">&raquo;</span>
 		            	</a>
 		            </li>

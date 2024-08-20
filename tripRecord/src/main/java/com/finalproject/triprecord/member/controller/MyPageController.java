@@ -36,6 +36,7 @@ import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
 import com.finalproject.triprecord.common.model.vo.Review;
+import com.finalproject.triprecord.matching.model.service.MatchingService;
 import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.exception.MemberException;
 import com.finalproject.triprecord.member.model.service.MemberService;
@@ -64,6 +65,9 @@ public class MyPageController {
 	
 	@Autowired
 	private GoogleDriveService gdService;
+	
+	@Autowired
+	private MatchingService matService;
 	
 //////////마이페이지 //////////
 	@GetMapping("myPage.mp")
@@ -751,6 +755,9 @@ public class MyPageController {
 			model.addAttribute("plannerIntroImage", exist.getImageRename());
 		}
 		
+		ArrayList<Image> rImgList = matService.selectrImgList();
+		model.addAttribute("rImgList", rImgList);
+		
 		Member loginUser = mService.getMember(memberNo);
 		model.addAttribute("loginUser", loginUser);
 		return "plannerPage";
@@ -1034,7 +1041,8 @@ public class MyPageController {
 			@RequestParam(value = "introImgValue", required = false) String introImgValue,
 			@RequestParam(value="hashTags",required = false) ArrayList<Integer> hashTags,
 			@RequestParam(value="bank", required=false) String bank,
-			@RequestParam(value="account", required=false) String account) throws IOException {
+			@RequestParam(value="account", required=false) String account,
+			@RequestParam(value="introProfile", required=false) String sIntroContent) throws IOException {
 		Planner planner = new Planner();
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		HashMap<String, Object> pMap = new HashMap<String, Object>();
@@ -1044,7 +1052,7 @@ public class MyPageController {
 		String existFileId = null;
 		int hashTag = 0;
 		//계좌 수정
-		if(bank == null || "null".equals(bank) || "none".equals(bank) || account.isEmpty() || account.isBlank() || "null".equals(account) || account.length() != 10) {
+		if(bank == null || "null".equals(bank) || "none".equals(bank) || account.isEmpty() || account.isBlank() || "null".equals(account) || account.length() < 14) {
 			return "bankEmpty";
 		}else if(lNo == 0){
 			return "localEmpty";
@@ -1058,7 +1066,7 @@ public class MyPageController {
 			planner.setMemberNo(memberNo);
 			planner.setIntroContent(intro);
 			planner.setLocalNo(lNo);
-
+			planner.setSIntroContent(sIntroContent);
 			mService.updatePlannerIntro(planner);
 			//해쉬태그
 			if(hashTags != null && !hashTags.isEmpty()) {
@@ -1092,12 +1100,14 @@ public class MyPageController {
 					planner.setMemberNo(memberNo);
 					planner.setIntroContent(intro);
 					planner.setLocalNo(lNo);
+					planner.setSIntroContent(sIntroContent);
 					mService.updatePlannerIntro(planner);
 				//기존 이미지 안 지우는거
 				}else {
 					planner.setMemberNo(memberNo);
 					planner.setIntroContent(intro);
 					planner.setLocalNo(lNo);
+					planner.setSIntroContent(sIntroContent);
 					mService.updatePlannerIntro(planner);
 				}
 				return "success3";
