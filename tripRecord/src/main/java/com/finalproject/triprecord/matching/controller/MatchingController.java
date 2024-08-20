@@ -55,12 +55,6 @@ public class MatchingController {
 	@Autowired
 	private GoogleDriveService gdService;
 	
-	@GetMapping("homeView.ma")
-	@ResponseBody
-	public String homeView() {
-		return null;
-	}
-	
 	@GetMapping("matchingMain.ma")
 	public String matchingMain(@RequestParam(value="page", defaultValue="1") int currentPage, @RequestParam(value="localNo", defaultValue="1")int localNo, Model model, HttpServletRequest request, HttpSession session) {
 		
@@ -77,13 +71,12 @@ public class MatchingController {
 		for(Planner planner : list) {
 			int pNo = planner.getMemberNo();
 			int likes = matService.countLikes(pNo);
-			String localNames = matService.selectLocalName(pNo);
+			String localName = matService.selectLocalName(pNo);
 			Double AvgStar = matService.AverageStar(pNo);
 			
 			starMap.put(pNo, AvgStar);
 			plannerLikesMap.put(pNo, likes);
-			selectLocalMap.put(pNo, localNames);
-			
+			selectLocalMap.put(pNo, localName);
 		}
 		
 		model.addAttribute("localList",localList);
@@ -220,10 +213,8 @@ public class MatchingController {
 								HttpSession session){
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int loginUserNo = 0;
-		int loginUserPoint = 0;
 		if(loginUser != null) {
 			loginUserNo = loginUser.getMemberNo();
-			loginUserPoint = loginUser.getMemberPoint();
 		}
 		
 		SimpleDateFormat sdp = new SimpleDateFormat("yyyy/MM/dd");
@@ -245,7 +236,7 @@ public class MatchingController {
 		map.put("payPoint", payPoint);
 		
 		int pointResult = matService.checkPoint(map);
-		if (pointResult > 1) {
+		if (pointResult > 0) {
 			schedule.setWriterNo(pNo);
 			schedule.setScLocalNo(lNo);
 			
@@ -258,7 +249,7 @@ public class MatchingController {
 			
 			int result2 = matService.insertReqSchedule(reqSchedule);
 			
-			if(result1 + result2 > 2) {
+			if(result1 + result2 > 1) {
 				ra.addAttribute("pNo", pNo);
 				ra.addAttribute("page", 1);
 				return "redirect:selectPlanner.ma";
@@ -304,50 +295,6 @@ public class MatchingController {
 		model.addAttribute("localName", localNames);
 		
 		return "matchingReview";
-	}
-	
-	@PostMapping(value="insertLikes.ma", produces="application/json; charset=UTF-8")
-	@ResponseBody
-	public String insertLikes(@RequestParam("pNo") int pNo, HttpSession session) {
-		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int loginUserNo = 0;
-		if(loginUser != null) {
-			loginUserNo = loginUser.getMemberNo();
-		}
-		
-		JSONObject json = new JSONObject();
-		if(loginUserNo == 0) {
-			json.put("result", -1);
-			return json.toString();
-		}
-		
-	    HashMap<String, Integer> map = new HashMap<>();
-	    map.put("pNo", pNo);
-	    map.put("loginUserNo", loginUserNo);
-	    
-	    int result = matService.insertLikes(map);
-	    
-	    json.put("result", result);
-	    return json.toString();
-	}
-	
-	@PostMapping(value="deleteLikes.ma", produces="application/json; charset=UTF-8")
-	@ResponseBody
-	public String deleteLikes(@RequestParam("pNo") int pNo, HttpSession session) {
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int loginUserNo = 0;
-		if(loginUser != null) {
-			loginUserNo = loginUser.getMemberNo();
-		}
-		HashMap<String, Integer> map = new HashMap<>();
-		map.put("pNo", pNo);
-		map.put("loginUserNo", loginUserNo);
-		
-		int result = matService.deleteLikes(map);
-			JSONObject json = new JSONObject();
-			json.put("result", result);
-		return json.toString();
 	}
 	
 	@PostMapping("insertReview.ma")
@@ -447,8 +394,9 @@ public class MatchingController {
 		int result = pService.updateReview(review);
 		
 		ArrayList<String> deleteImg = new ArrayList<String>();
-		int delResult = 0;
+		
 		int insertResult = 0;
+		int delResult = 0;
 		
 		try {
 			// 이미지 삭제
@@ -487,6 +435,7 @@ public class MatchingController {
 					list.add(Img);
 				}
 			}
+			
 			if(!list.isEmpty()) {
 				insertResult = matService.insertReviewImage(list);
 				
@@ -496,11 +445,12 @@ public class MatchingController {
 					}
 				}
 			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		if(result + insertResult + delResult == 2 + deleteImg.size()) {
+		if(result + delResult == 1 + deleteImg.size()) {
 			ra.addAttribute("pNo", pNo);
 			ra.addAttribute("page", 1);
 			return "redirect:selectPlanner.ma";
@@ -523,5 +473,49 @@ public class MatchingController {
 		} else {
 			throw new MatchingException("리뷰 삭제를 실패했습니다.");
 		}
+	}
+	
+	@PostMapping(value="insertLikes.ma", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String insertLikes(@RequestParam("pNo") int pNo, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int loginUserNo = 0;
+		if(loginUser != null) {
+			loginUserNo = loginUser.getMemberNo();
+		}
+		
+		JSONObject json = new JSONObject();
+		if(loginUserNo == 0) {
+			json.put("result", -1);
+			return json.toString();
+		}
+		
+	    HashMap<String, Integer> map = new HashMap<>();
+	    map.put("pNo", pNo);
+	    map.put("loginUserNo", loginUserNo);
+	    
+	    int result = matService.insertLikes(map);
+	    
+	    json.put("result", result);
+	    return json.toString();
+	}
+	
+	@PostMapping(value="deleteLikes.ma", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public String deleteLikes(@RequestParam("pNo") int pNo, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int loginUserNo = 0;
+		if(loginUser != null) {
+			loginUserNo = loginUser.getMemberNo();
+		}
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("pNo", pNo);
+		map.put("loginUserNo", loginUserNo);
+		
+		int result = matService.deleteLikes(map);
+			JSONObject json = new JSONObject();
+			json.put("result", result);
+		return json.toString();
 	}
 }

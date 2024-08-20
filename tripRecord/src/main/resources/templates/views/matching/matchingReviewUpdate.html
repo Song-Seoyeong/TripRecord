@@ -17,10 +17,10 @@
 			<div id="plannerInfo" class="m-3">
 				<div class="d-flex justify-content-center align-items-center shadow border bg-light rounded-3">
 					<div class="d-flex justify-content-center p-3">
-						<img th:if="${planner.imageRename != null}" class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
+						<img th:if="${planner.imageRename != null}" class="rounded-circle mx-3" id="ProfileImg" style="object-fit: cover;" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
 					</div>
 					<div class="d-flex justify-content-center p-3">
-						<img th:if="${planner.imageRename == null}" class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
+						<img th:if="${planner.imageRename == null}" class="rounded-circle mx-3" id="ProfileImg" src="image/noProfile.png" width="150px" height="150px"/>
 					</div>
 					<div class="p-3">
 						<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>
@@ -69,7 +69,7 @@
 			</div>
 			<div id='reviewContent'>
 				<h3>후기 내용</h3>
-				<textArea name='reviewContent' id='content' class='reviewInput' required>[[${r.reviewContent}]]</textArea>
+				<textArea name='reviewContent' id='content' class='reviewInput' required th:text="${r.reviewContent}" style="white-space:pre-wrap;"></textArea>
 			</div>
 			<div id='imgReview'>
 			<h3>후기 사진</h3>
@@ -203,7 +203,7 @@
 					const hidden = this.nextElementSibling;
 					const img = this.previousElementSibling;
 					this.innerHTML = "";
-					//console.log(hidden);
+					console.log(hidden);
 					/*console.log(this);
 					console.log(img); */
 					if(hidden.value == 'none'){
@@ -223,7 +223,7 @@
 		});
 		
 		document.getElementById('likeButton').addEventListener('click', () => {
-			const pNo = /*[[${ planner.memberNo }]]*/1;
+			const pNo = [[${ planner.memberNo }]];
 			const likeButton = document.getElementById('likeButton');
 		    let url = '';
 		    let changeLikes = 0;

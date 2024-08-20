@@ -17,10 +17,10 @@
 		<div id="plannerInfo" class="m-3">
 			<div class="d-flex justify-content-center align-items-center shadow border bg-light rounded-3">
 				<div class="d-flex justify-content-center p-3">
-					<img th:if="${planner.imageRename != null}" class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" width="150px" height="150px"/>
+					<img th:if="${planner.imageRename != null}" id="ProfileImg" class="rounded-circle mx-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}|" style="object-fit: cover;" width="150px" height="150px"/>
 				</div>
 				<div class="d-flex justify-content-center p-3">
-					<img th:if="${planner.imageRename == null}" class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
+					<img th:if="${planner.imageRename == null}" id="ProfileImg" class="rounded-circle mx-3" src="image/noProfile.png" width="150px" height="150px"/>
 				</div>
 				<div class="p-3">
 					<div class="mx-3 fs-1">[[${planner.Nickname}]] 플래너</div>

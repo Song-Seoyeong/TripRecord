@@ -21,9 +21,12 @@ public class ReqSchedule {
 	private int payPoint;
 	private Date confirmDate;
 	private String nickname;
+	private String memo;
 	
 	private String nightDay;
 	private String startDay;
 	private String endDay;
 	private int feedBackCount;
+	private String localName;
+	
 }

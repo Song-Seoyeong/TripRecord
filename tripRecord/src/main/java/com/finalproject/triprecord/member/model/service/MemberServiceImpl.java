@@ -439,4 +439,9 @@ public class MemberServiceImpl implements MemberService{
 	public int calcListCount(int memberNo) {
 		return mMapper.calcListCount(memberNo);
 	}
+
+	@Override
+	public int updateScheduleWriter(ReqSchedule r) {
+		return mMapper.updateScheduleWriter(r);
+	}
 }

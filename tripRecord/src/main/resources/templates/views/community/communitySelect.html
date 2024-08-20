@@ -179,7 +179,10 @@
 	<div class="text-center row">
 		<div class="col-5"></div>
 		<div class="col-1" style="margin:auto;">
-			<a href="community.bo">
+			<a href="community.bo" th:if="${myPage} != myPage">
+				<button class="edit-btn">목록</button>
+			</a>
+			<a href="myBoard.mp" th:if="${myPage} == myPage">
 				<button class="edit-btn">목록</button>
 			</a>
 		</div>
@@ -394,21 +397,21 @@
 				})
 			}
 
-			if(/*[[${categorySelect}]]*/1 == null){
+			if([[${categorySelect}]] == null){
 				generalTypeValue.value = "ALL";
 			}
 			
 			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if(/*[[${generalType}]]*/1 == "ALL"){
+				if([[${generalType}]] == "ALL"){
 					categories[0].children[0].style.borderRadius = '9999px';
 					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "WITH"){
+				} else if([[${generalType}]] == "WITH"){
 					categories[1].children[0].style.borderRadius = '9999px';
 					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "GIVE"){
+				} else if([[${generalType}]] == "GIVE"){
 					categories[2].children[0].style.borderRadius = '9999px';
 					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "REVIEW"){
+				} else if([[${generalType}]] == "REVIEW"){
 					categories[3].children[0].style.borderRadius = '9999px';
 					categories[3].children[0].style.backgroundColor = '#96caf0';
 				}

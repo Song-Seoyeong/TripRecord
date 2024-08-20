@@ -130,7 +130,7 @@ public class HomeController {
 						
 						// 취소 사유 추가
 						Cancel c = new Cancel();
-						c.setCancelMemNo(r.getReqPlaNo());
+						c.setCancelMemNo(r.getReqMemNo());
 						c.setCancelRefType("REQSCHEDULE");
 						c.setCancelRefNo(r.getReqNo());
 						c.setCancelComent("죄송합니다. 일정 생성 기간이 지나 자동으로 결제한 포인트의 110%가 환불되었습니다.\n - 환불된 포인트 : " + (int)r.getPayPoint());

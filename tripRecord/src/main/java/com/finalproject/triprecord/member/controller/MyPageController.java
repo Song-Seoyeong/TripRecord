@@ -43,6 +43,7 @@ import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 import com.finalproject.triprecord.place.model.exception.PlaceException;
+import com.finalproject.triprecord.plan.controller.PlanController;
 import com.finalproject.triprecord.plan.model.vo.Plan;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
@@ -390,13 +391,14 @@ public class MyPageController {
 		
 		ArrayList<ReqSchedule> list = mService.getReqList(pi, rs);
 		
-		ArrayList<Planner> pList = new ArrayList<Planner>();
 		
 		for(ReqSchedule r : list) {
 			// 신청별 플래너 정보
 			Planner p = new Planner();
 			p = mService.getReqPlanner(r.getReqPlaNo());
-			pList.add(p);
+			
+			r.setNickname(p.getNickname());
+			r.setLocalName(p.getLocalName());
 			
 			// 신청별 schedule
 			Schedule sch = mService.getSchedule(r.getScheNo());
@@ -423,7 +425,6 @@ public class MyPageController {
 	    }
     	model.addAttribute("list", list);
     	model.addAttribute("statusSearch", statusSearch);
-    	model.addAttribute("pList", pList);
     	model.addAttribute("pi", pi);
     	model.addAttribute("loc", request.getRequestURI());
 		return "myPlan";
@@ -472,14 +473,19 @@ public class MyPageController {
 		Schedule sch = mService.getSchedule(rs.getScheNo());
 		//System.out.println(sch);
 		
+		// 플랜 데이트 가져오기
+		PlanController pc = new PlanController();
+		SimpleDateFormat sp = new SimpleDateFormat("yyyy/MM/dd");
+		HashMap<Integer, String> dates = pc.dateFunction(sp.format(sch.getScStartDate()), sp.format(sch.getScEndDate()));
+		
 		// 여행 기간
 		String nightDay = getNightDay(sch.getScEndDate(), sch.getScStartDate());
 		rs.setNightDay(nightDay);
 		
 		// 출발/도착 일자
-		SimpleDateFormat sp = new SimpleDateFormat("yy.MM.dd");
-		rs.setStartDay(sp.format(sch.getScStartDate()));
-		rs.setEndDay(sp.format(sch.getScEndDate()));
+		SimpleDateFormat sp2 = new SimpleDateFormat("yy.MM.dd");
+		rs.setStartDay(sp2.format(sch.getScStartDate()));
+		rs.setEndDay(sp2.format(sch.getScEndDate()));
 		
 		// 취소 사유
 		if(rs.getReqStatus() == 4) {
@@ -490,6 +496,10 @@ public class MyPageController {
 		// 상세 일정 가져오기
 		ArrayList<Plan> planList = mService.getPlanList(rs.getScheNo());
 		
+		for(Plan plan:planList) {
+			plan.setDay(plan.getDay().split(" ")[0]);
+		}
+		//System.out.println(planList);
 		
 		// 사용자 프로필 사진
 		Image image = mService.existFileId(memberNo); 
@@ -506,6 +516,7 @@ public class MyPageController {
 	    model.addAttribute("rs", rs);
 	    model.addAttribute("planner", planner);
 	    model.addAttribute("sch", sch);
+	    model.addAttribute("dates", dates);
 	    model.addAttribute("page", page);
 	    return "detailReqPlan";
 	}
@@ -550,6 +561,25 @@ public class MyPageController {
 		}else {
 			throw new PlaceException("신청 내역 취소 중 에러 발생");
 		}
+	}
+	
+	@GetMapping("reqConfirm.mp")
+	public String reqConfirm(@ModelAttribute ReqSchedule r,
+							@RequestParam("page") int page,
+							HttpSession session, RedirectAttributes ra) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		
+		r.setReqMemNo(loginUser.getMemberNo());
+		// 신청 상태 변경
+		mService.updateReqState(r);
+		mService.updateReqConfirmDate(r);
+		
+		// 스케줄 작성자 변경
+		mService.updateScheduleWriter(r);
+	
+    	ra.addAttribute("page", page);
+    	ra.addAttribute("reqNo", r.getReqNo());
+    	return "redirect:detailReqPlan.mp";
 	}
 
 	@GetMapping("myInquiry.mp")

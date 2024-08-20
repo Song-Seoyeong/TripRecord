@@ -139,30 +139,32 @@ public class BoardController {
 	}
 	
 	@GetMapping("commuSelect.bo")
-	public String commuSelect(@RequestParam("generalType") String generalType,@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, HttpServletRequest req) {
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int id = 0;
-		if(loginUser != null) {
-			id = loginUser.getMemberNo();
-		}
-		
-		Board board = bService.selectBoard(boardNo, id);
-		ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
-		Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); // 회원번호를 보내서 그 ref_type = 'MEMBER' && ref_no = 회원번호
-		Image replyProfile = bService.selectProfileImage(id); // 로그인 x -> null, 로그인 ㅇ -> 사진 있을때 image, 없을때 null
-		ArrayList<Reply> rList = bService.selectReply(boardNo);
-		
-		
-		model.addAttribute("b", board);
-		model.addAttribute("page", page);
-		model.addAttribute("rList", rList);
-		model.addAttribute("generalType", generalType);
-		model.addAttribute("writerProfile", writerProfile);
-		model.addAttribute("replyProfile", replyProfile);
-		model.addAttribute("loc", req.getRequestURI());
-		model.addAttribute("iList", iList);
-		return "communitySelect";
-	}
+   public String commuSelect(@RequestParam("generalType") String generalType,@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session, HttpServletRequest req,
+         @RequestParam(value="myPage", required = false) String myPage) {
+      Member loginUser = (Member)session.getAttribute("loginUser");
+      int id = 0;
+      if(loginUser != null) {
+         id = loginUser.getMemberNo();
+      }
+      
+      Board board = bService.selectBoard(boardNo, id);
+      ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
+      Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); // 회원번호를 보내서 그 ref_type = 'MEMBER' && ref_no = 회원번호
+      Image replyProfile = bService.selectProfileImage(id); // 로그인 x -> null, 로그인 ㅇ -> 사진 있을때 image, 없을때 null
+      ArrayList<Reply> rList = bService.selectReply(boardNo);
+      
+      
+      model.addAttribute("b", board);
+      model.addAttribute("page", page);
+      model.addAttribute("rList", rList);
+      model.addAttribute("generalType", generalType);
+      model.addAttribute("writerProfile", writerProfile);
+      model.addAttribute("replyProfile", replyProfile);
+      model.addAttribute("loc", req.getRequestURI());
+      model.addAttribute("iList", iList);
+      model.addAttribute("myPage",myPage);
+      return "communitySelect";
+   }
 	
 	
 	/*
