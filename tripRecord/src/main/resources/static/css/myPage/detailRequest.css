@@ -18,7 +18,7 @@
 	font-weight: 600;
 }
 
-#cancle_button {
+#cancel_button {
 	color: #DD5353;
 	background-color: white;
 	width: 80px;
@@ -28,7 +28,7 @@
 	border: 2px solid #DD5353;
 }
 
-#cancle_button:hover {
+#cancel_button:hover {
 	background: #DD5353;
 	border: 2px solid #DD5353;
 	color: #fff;

@@ -445,4 +445,22 @@ public class MemberServiceImpl implements MemberService{
 		//System.out.println(r);
 		return mMapper.updateScheduleWriter(r);
 	}
+	
+	// Plan 넣기
+	@Override
+	public int reqPlanInsert(ArrayList<Plan> plList) {
+		return mMapper.reqPlanInsert(plList); // plan Insert
+	}
+
+	// 메모 넣기, 진행 상태, 날짜 변경
+	@Override
+	public int reqScheUpdate(ReqSchedule rs) {
+		return mMapper.reqScheUpdate(rs);
+	}
+	
+	// del_status N 변경
+	@Override
+	public int scDelStaUpdate(int scheNo) {
+		return mMapper.scDelStaUpdate(scheNo);
+	}
 }

@@ -192,7 +192,14 @@ public interface MemberService {
 	
 	//-------------------------------------------------------------
 	
+	// Plan 넣기
+	int reqPlanInsert(ArrayList<Plan> plList);
 
+	// 메모 넣기, 진행 상태, 날짜 변경
+	int reqScheUpdate(ReqSchedule rs);
+
+	// del_status N 변경
+	int scDelStaUpdate(int scheNo);
 	
 
 

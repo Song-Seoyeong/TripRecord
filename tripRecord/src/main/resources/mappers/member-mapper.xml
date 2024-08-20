@@ -383,8 +383,7 @@
 	<select id="checkCancel" resultType='Cancel'>
 		select *
 		from cancel
-		where
-		cancel_ref_type = 'REQSCHEDULE' and cancel_ref_no = #{reqNo}
+		where cancel_ref_no = #{reqNo} and cancel_ref_type = 'REQSCHEDULE'
 	</select>
 	
 	<resultMap id="planMap" type="Plan">
@@ -501,36 +500,34 @@
 		where sc_no = #{scheNo}
 	</select>
 
+	<!-- 플래너가 작성한 Plan insert -->
 	<insert id="reqPlanInsert">
 		insert all
 		<foreach collection="list" item="l" separator=" ">
 			into plan
-			values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo,
-			jdbcType=VARCHAR}, 'N', #{l.day})
+			values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo, jdbcType=VARCHAR}, 'N', #{l.day})
 		</foreach>
 		select * from dual
 	</insert>
 
+	<!-- 플래너가 작성한 일정 memo 와 status, 날짜 변경 -->
 	<update id="reqScheUpdate">
 		update req_schedule
 		set req_status = '2'
-		where sche_no
-		= #{scNo}
+			<if test="memo != null">
+				, memo = #{memo}
+			</if>
+			, confirm_date = sysdate
+		where req_no = #{reqNo}
 	</update>
-
-	<update id="cancleRequest">
-		update req_schedule
-		set req_status = '4'
-		where sche_no
-		= #{scNo}
-	</update>
-
+	
+	<!-- 플래너가 일정 요청 거절 schedule 상태값 변경 -->
 	<update id="scDelStaUpdate">
 		update schedule
 		set sc_del_status = 'Y'
-		where sc_no =
-		#{scNo}
+		where sc_no = #{scNo}
 	</update>
+
 
 	<!-- 본인이 쓴 전체 후기(장소, 플래너) -->
 	<select id="getWholeReviewListCount" resultType="_int">
@@ -633,5 +630,5 @@
 		set sc_writer_no = #{reqMemNo}, req_check = 'N'
 		where sc_no = #{scheNo}
 	</update>
-
+	
 </mapper>

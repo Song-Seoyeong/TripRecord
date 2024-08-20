@@ -30,7 +30,7 @@
 					<span id="dateText" class="inner-span">날짜 : </span><span id="date">[[${s.startDate}]] ~ [[${s.endDate}]]</span>
 				</div>
 				<div id="note-div" class="req-div">
-					<span class="inner-span">[[${rs.reqRef}]]</span>
+					<span class="inner-span">[[${rs.reqRef}]]</span><input type="hidden" name="reqNo" th:value="${rs.reqNo}"/>
 				</div>
 			</div>
 			<div id="contain-sche-div">
@@ -65,6 +65,10 @@
 						</div>
 					</div>
 				</div>
+			</div>
+<!-- 			메모 입력 -->
+			<div id="memo-div">
+				<textarea name="reqMemo" id="reqMemo" maxlength="1000" placeholder="신청인에게 보낼 메모를 입력해 주세요"></textarea>
 			</div>
 			<!-- 제출버튼 -->
 			<div id="sb-div">
@@ -123,7 +127,7 @@
 			let originalMemo;
 			
 			document.getElementById('planAll').addEventListener('click', function(e){
-				if(e.target.classList.contains('bi-pencil')) {
+				if(e.target.classList.contains('pencil-icon')) {
 					let onePlan = e.target.closest('.one-plan');
 					let labels = onePlan.querySelectorAll('.planLabel');
 
@@ -238,7 +242,7 @@
 		        	labelDiv.style.background = '#E9F5FE';
 		        	let imagesDiv = labelDiv.nextElementSibling;
 		        	labelDiv.classList.add('edit-labels');
-		        	imagesDiv.innerHTML = '<img class="bi-pencil" style="width: 16px; height: 16px;" src="image/penpen.png"/><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
+		        	imagesDiv.innerHTML = '<img src="image/pencilIcon.png" style="width: 16px; height: 16px;" class="pencil-icon"/><br/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
 		        	
 		        }
 		    });
@@ -265,7 +269,7 @@
 				// 입력 완료 후 label click -> pencil icon click -> 수정 중일 때 다른 곳 클릭하면 돌아가는 스크립트
 				let editInputs = document.querySelector('.edit-inputs');
 				
-				if(editInputs != null && !e.target.classList.contains('bi')){
+				if(editInputs != null && !e.target.classList.contains('pencil-icon')){
 					
 					let planText = Array.from(editInputs.querySelectorAll('input.plan-text'));
 					

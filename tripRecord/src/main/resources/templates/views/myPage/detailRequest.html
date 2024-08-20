@@ -34,9 +34,43 @@
 		<!-- 제출버튼 -->
 		<div>
 			<button id="submit_button" type="button">진행</button>
-			<button id="cancle_button" type="button">거절</button>
+			<button id="cancel_button" type="button">거절</button>
 		</div>
 	</div>
+	<!-- 신청취소 모달 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalChoice">
+		<div class="modal-dialog" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">정말로 요청을 거절하시겠습니까?</h3>
+        			<p class="mb-0">
+        				요청 거절 후 요청내역은 복구할 수 없습니다
+        				<br>
+        				취소 예정 포인트 : [[${rs.payPoint}]]
+        			</p>
+        			 <form id='cancelForm'>
+			        	<input type='hidden' name='reqNo' th:value='${rs.reqNo}'>
+			        	<input type='hidden' name='reqStatus' id='reqStatus' value='4'>
+			        	<input type='hidden' name='scheNo' th:value='${rs.scheNo}'>
+<!-- 			        	<input type='hidden' name='page' id='page' th:value='${page}'> -->
+			        	<input type='hidden' name='payPoint' id='payPoint' th:value='${rs.payPoint}'>
+			          <div class="mb-3">
+			            <label for="message-text" class="col-form-label">취소 사유 :</label>
+			            <textarea class="form-control" id="message-text" name='cancelContent'></textarea>
+			          </div>
+			        </form>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="delete">
+        				<strong>취소 하기</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+      			</div>
+    		</div>
+ 		</div>
+	</div>
+	<!-- 신청취소 모달 -->
+	
 	<div style="margin-bottom: 500px"></div>
 	
 	<!-- 푸터 -->
@@ -52,10 +86,28 @@
 			location.href = "processRequest.mp?reqNo=" + reqNo;
 		})
 		
-		//요청 취소 시 게시글 목록으로 이동
-		document.getElementById('cancle_button').addEventListener('click', ()=>{
-			location.href="cancleRequest.mp?reqNo=" + reqNo + '&scNo=' + scNo;
-		})
+		//신청 취소 시 모달
+		const canBtn = document.getElementById('cancel_button');
+		if(canBtn != null){
+			canBtn.addEventListener('click', ()=>{
+	        	$('#modalChoice').modal('show');
+			})
+		}
+		
+		// 신청 취소
+		const cancelForm = document.getElementById('cancelForm')
+		const del = document.getElementById('delete');
+        if(del != null){
+        	del.addEventListener('click', ()=>{
+        		if(document.getElementById('message-text').value.trim() == ''){
+        			alert('취소 사유를 입력해 주세요');
+        		} else {
+					cancelForm.action = "cancelRequest.mp";
+					cancelForm.submit();
+        		}
+        	})
+        }
+        
 	</script>
 </body>
 </html>
