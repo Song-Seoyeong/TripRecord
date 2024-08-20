@@ -17,11 +17,16 @@ td {
 	text-align: center;
 	position: relative;
 	display: flex;
-	min-height: 250px;
     width: 80%;
 	margin-left: 300px;
+	margin-bottom: 500px;
 }
-
+.marginDiv1{
+	margin-bottom: 700px;
+}
+.marginDiv2{
+	margin-bottom: 900px;
+}
 #contentsDiv {
 	width: 100%;
 	max-width: 1400px;
@@ -48,6 +53,6 @@ td {
 	border-bottom: 2px solid #96CAF0;
 }
 
-#tbodyTr {
+.tbodyTr {
 	border-bottom: 2px solid #b9b9b9
 }

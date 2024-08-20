@@ -198,7 +198,13 @@ public class PlanController {
 		// 처음 일정 작성하는 거면 기특하다구 포인트 줘야 됨
 		int num = plService.scheduleCount(loginUser.getMemberNo());
 		if(num == 0) {
-			plService.updatePoint(loginUser.getMemberNo());
+			plService.updatePoint(loginUser.getMemberNo()); // db 로그인 업데이트
+			loginUser.setMemberPoint(loginUser.getMemberPoint() + 1000);
+			
+			Member m = new Member();
+			m.setMemberId(loginUser.getMemberId());
+			m.setMemberPwd(loginUser.getMemberPwd());
+			mService.login(m);
 		}
 		
 		int result = plService.savePlanInsert(s, plList, tagList); // serviceImpl 주의
@@ -268,7 +274,7 @@ public class PlanController {
 	        model.addAttribute("rename", existFileId);
 	    } else {
 	        // 이미지가 없거나 리네임이 없는 경우 처리
-	        model.addAttribute("rename", "defaultImageName"); 
+	        model.addAttribute("noProfile", "noProfile"); 
 	    }
 		return "myTripNote";
 	}
@@ -285,7 +291,7 @@ public class PlanController {
 	    	model.addAttribute("rename", existFileId);
 	    } else {
 	    	// 이미지가 없거나 리네임이 없는 경우 처리
-	    	model.addAttribute("rename", "defaultImageName"); 
+	    	model.addAttribute("noProfile", "noProfile"); 
 	    }
 	    
 	    Schedule s = plService.detailMySchedule(scNo);
@@ -308,17 +314,6 @@ public class PlanController {
 	    } else {
 	    	throw new PlanException("일정 상세 조회에 실패하였습니다.");
 	    }
-	}
-	
-	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 일정 삭제
-	@PostMapping("deleteTripNote.mp")
-	public String deleteTripNote(@RequestParam("scNo") int scNo) {
-		int result = plService.deleteTripNote(scNo);
-		if(result > 0) {
-			return "redirect:myTripNote.mp";
-		} else {
-			throw new PlanException("일정 삭제에 실패하였습니다.");
-		}
 	}
 	
 	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 장소, 시간, 메모 수정 ajax 

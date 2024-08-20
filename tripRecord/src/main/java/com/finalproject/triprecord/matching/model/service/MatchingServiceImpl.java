@@ -148,7 +148,12 @@ public class MatchingServiceImpl implements MatchingService {
 	public ArrayList<HashTag> selectTagList(int pNo) {
 		return matMapper.selectTagList(pNo);
 	}
-
+	
+	@Override
+	public int requestPayment(HashMap<String, Integer> map) {
+		return matMapper.requestPayment(map);
+	}
+	
 	@Override
 	public int checkPoint(HashMap<String, Integer> map) {
 		return matMapper.checkPoint(map);
@@ -158,6 +163,7 @@ public class MatchingServiceImpl implements MatchingService {
 	public ArrayList<Image> selectiImgList(int pNo) {
 		return matMapper.selectiImgList(pNo);
 	}
+
 
 
 }

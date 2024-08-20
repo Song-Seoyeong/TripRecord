@@ -299,7 +299,7 @@ for (const card of cards) {
        			const afterA = document.createElement('a');
        			
        			afterA.className = 'page-link';
-       			if (data.pi.currentPage == data.pi.endPage) {
+       			if (data.pi.currentPage == data.pi.maxPage) {
        				afterA.classList.add('disabled');
        			}
        			afterA.href = 'matchingMain.ma?page=' + (data.pi.currentPage + 1) + '&localNo=' + localNo;

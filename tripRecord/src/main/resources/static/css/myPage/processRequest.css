@@ -68,34 +68,29 @@
 	margin-left: 20px;
 }
 
+/* 신청인, 날짜, 참고사항 각각의 div */
 .req-div{
     text-align: left;
     margin-left: 74px;
     margin-top: 10px;
     border-left: 4px solid #96CAF0;
+    height: 30px;
+    display: 30px;
+    align-items: center;
 }
 
-#reqMem-div{
-    font-size: 19px;
-}
-
-#reqDate-div{
-	font-size: 18px;
-}
-
-#reqMem{
-	margin-right: 5px;
-}
-
-/* 참고사항 div */
-#note-div{
-	margin-top: 15px;
-    font-size: 16px;
-}
-
-/* 신청인, 참고사항 텍스트 span */
+/* 신청인, 날짜, 신청글, 출력 텍스트 각각 전체 span */
 .inner-span{
+	font-size: 17px;
 	margin-left: 10px;
+	line-height: 30px;
+}
+
+/* 신청인, 날짜, 신청글  */
+.inf{
+	display: inline-block;
+	width: 55px;
+	font-weight: 700;
 }
 
 /* 전체 감싸고 있는 div */

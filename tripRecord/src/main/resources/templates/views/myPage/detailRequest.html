@@ -23,18 +23,24 @@
 				<span id="spot-span">[[${planner.localName}]]</span>
 			</div>
 			<div id="reqMem-div" class="req-div">
-				<span id="reqMem" class="inner-span">신청인 : </span><span>[[${reqMem.nickname}]]</span>
-			</div>
-			<div id="reqDate-div" class="req-div">
-				<span id="dateText" class="inner-span">날짜 : </span><span id="date">[[${s.startDate}]] ~ [[${s.endDate}]]</span>
-			</div>
-			<div id="note-div" class="req-div"><span class="inner-span">[[${rs.reqRef}]]</span></div>
+					<span id="reqMem" class="inner-span inf">신청인</span><span class="colon">: </span><span class="inner-span">[[${reqMem.nickname}]]</span>
+				</div>
+				<div id="reqDate-div" class="req-div">
+					<span id="dateText" class="inner-span inf">날짜</span><span class="colon">: </span><span id="date" class="inner-span">[[${s.startDate}]] ~ [[${s.endDate}]]</span>
+				</div>
+				<div id="note-div" class="req-div">
+					<span class="inner-span inf">신청글</span><span class="colon">: </span>
+					<span class="inner-span">[[${rs.reqRef}]]</span><input type="hidden" name="reqNo" th:value="${rs.reqNo}"/>
+				</div>
 		</div>
 		<div style="height:40px;" id="hidden"></div>
 		<!-- 제출버튼 -->
-		<div>
-			<button id="submit_button" type="button">진행</button>
-			<button id="cancel_button" type="button">거절</button>
+		<div id="buttons-div">
+			<th:block th:if="${rs.reqStatus eq 1}">
+				<button id="submit_button" type="button" onclick="submit()">진행</button>
+				<button id="cancel_button" type="button" onclick="cancel()">거절</button>
+			</th:block>
+			<button id="list_button" type="button">목록</button>
 		</div>
 	</div>
 	<!-- 신청취소 모달 -->
@@ -82,17 +88,21 @@
 		/*]]>*/
 		
 		//진행 시 요청 진행 페이지로 이동
-		document.getElementById('submit_button').addEventListener('click', ()=>{
+		function submit() {
 			location.href = "processRequest.mp?reqNo=" + reqNo;
-		})
+		}
+		
+		function cancel() {
+			$('#modalChoice').modal('show');
+		}
 		
 		//신청 취소 시 모달
-		const canBtn = document.getElementById('cancel_button');
-		if(canBtn != null){
-			canBtn.addEventListener('click', ()=>{
-	        	$('#modalChoice').modal('show');
-			})
-		}
+// 		const canBtn = document.getElementById('cancel_button');
+// 		if(canBtn != null){
+// 			canBtn.addEventListener('click', ()=>{
+// 	        	$('#modalChoice').modal('show');
+// 			})
+// 		}
 		
 		// 신청 취소
 		const cancelForm = document.getElementById('cancelForm')
@@ -108,6 +118,10 @@
         	})
         }
         
+        document.getElementById('list_button').addEventListener('click', ()=>{
+			location.href = "request.mp";
+		})
+		
 	</script>
 </body>
 </html>
