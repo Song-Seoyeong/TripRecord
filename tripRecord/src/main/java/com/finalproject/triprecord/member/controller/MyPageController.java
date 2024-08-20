@@ -471,7 +471,7 @@ public class MyPageController {
 			planner.setImageRename(i.getImageRename());
 		
 		Schedule sch = mService.getSchedule(rs.getScheNo());
-		//System.out.println(sch);
+		System.out.println(rs);
 		
 		// 플랜 데이트 가져오기
 		PlanController pc = new PlanController();
@@ -491,6 +491,7 @@ public class MyPageController {
 		if(rs.getReqStatus() == 4) {
 			Cancel cancel = mService.checkCancel(rs.getReqNo());
 			model.addAttribute("cancel", cancel);
+			System.out.println(cancel);
 		}
 		
 		// 상세 일정 가져오기
@@ -891,8 +892,8 @@ public class MyPageController {
 	
 	// 제출 버튼 누른 곳
 	@PostMapping("requestEnd.mp")
-	public String moveToRequestEnd(@RequestParam("scNo") int scNo, @ModelAttribute Plan p, 
-									HttpSession session, @RequestParam("count") String count) {
+	public String moveToRequestEnd(@RequestParam("scNo") int scNo, @RequestParam("reqNo") int reqNo, @RequestParam("reqMemo") String reqMemo, 
+									@ModelAttribute Plan p, HttpSession session, @RequestParam("count") String count) {
 //		
 //		// 밑에 있는 것들은 전부 , 로 이어져서 들어오기 때문에 split 사용하였음, 밑에서 배열 돌려야 함
 		String place[] = p.getPlace().split(",");
@@ -902,12 +903,12 @@ public class MyPageController {
 //		// 16일 계획 2개, 17일 계획 1개라면 2024-08-16, 2024-08-16, 2024-08-17... (중복되는 거 맞음)
 //
 		String cStr[] = count.split(";"); // count 안에 한 날짜에 몇 개 담겼는지 += 구분자(;) 로 들어옴. 16일 계획 2개, 17일 계획 1개라면 2, 1
-
+		
 		Integer coNum[] = new Integer[cStr.length]; // 날짜만큼 plan 만들기 위해서 Integer 숫자 하나 만듬
 		for (int i = 0; i < cStr.length; i++) {
 			coNum[i] = Integer.parseInt(cStr[i]); // cStr 이랑 같은 값 들어있는데 타입만 다름
 		}
-
+		
 		ArrayList<Plan> plList = new ArrayList<Plan>(); // 계획 1개씩 담을 ArrayList
 		for (int i = 0, coCount = 0, dNum = 0; i < place.length; i++, coCount++) { // 장소는 무조건 있어야 하는 값 중 하나라
 																					// place.length 만큼 돌림
@@ -931,25 +932,59 @@ public class MyPageController {
 
 			plList.add(pl);
 		}
-		int result = mService.reqPlanInsUpd(plList);
-		if(result > 0) {
-			// 여기에 model 추가
+		
+		int result = mService.reqPlanInsert(plList);
+		
+		if (result > 0) {
+			ReqSchedule rs = new ReqSchedule();
+			rs.setReqNo(reqNo);
+			rs.setMemo(reqMemo);
 			
-			return "requestEnd";
+			result = mService.reqScheUpdate(rs);
+			if(result > 0) {
+				
+				return "requestEnd";
+			} else {
+				throw new MemberException("일정 요청 정보 업데이트에 실패하였습니다.");
+			}
 		} else {
 			throw new MemberException("일정 저장에 실패하였습니다.");
 		}
-		
+
 	}
 	
 	// 요청 거절
-	@GetMapping("cancleRequest.mp")
-	public String cancleRequest(@RequestParam("scNo") int scNo) {
-		int result = mService.cancleRequest(scNo); // impl 에서 req_schedule 이랑 schedule 2번
+	@GetMapping("cancelRequest.mp")
+	public String cancelRequest(@ModelAttribute ReqSchedule req, @RequestParam("cancelContent") String cancelContent,
+				/*@RequestParam("page") int page,*/ HttpSession session, RedirectAttributes ra) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+
+		// 신청진행상태 변경
+		int result = mService.updateReqState(req);
 		if(result > 0) {
-			return "redirect:request.mp";
+			// 신청 취소 사유 저장
+			Cancel c = new Cancel();
+			c.setCancelRefNo(req.getReqNo());
+			c.setCancelRefType("REQSCHEDULE");
+			c.setCancelComent(cancelContent);
+			c.setCancelMemNo(loginUser.getMemberNo());
+			
+			int canResult = mService.insertCancel(c);
+			
+			if(canResult > 0) {
+				req.setReqMemNo(loginUser.getMemberNo());
+				mService.refundPoint(req); // 포인트 환불
+				loginUser.setMemberPoint(loginUser.getMemberPoint() + req.getPayPoint());
+				session.setAttribute("loginUser", loginUser);
+				
+				result = mService.scDelStaUpdate(req.getScheNo());
+				
+				return "redirect:request.mp"; 
+			} else {
+				throw new MemberException("취소 과정 진행 중 오류가 발생하였습니다.");
+			}
 		} else {
-			throw new MemberException("요청 취소 과정 진행 중 오류가 발생했습니다.");
+			throw new MemberException("취소 과정 진행 중 오류가 발생하였습니다.");
 		}
 	}
 

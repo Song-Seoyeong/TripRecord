@@ -156,7 +156,9 @@ public interface MemberMapper {
 
 	int cancleRequest(int scNo);
 
-	int scDelStaUpdate(int scNo);
+
+	// del_status N 변경
+	int scDelStaUpdate(int scheNo);
 
 	// 본인 작성 리뷰 전체
 	int getWholeReviewListCount(int memberNo);
@@ -197,6 +199,11 @@ public interface MemberMapper {
 	int calcListCount(int memberNo);
 
 	int updateScheduleWriter(ReqSchedule r);
+	
+	// Plan 넣기
+
+	// 메모 넣기, 진행 상태, 날짜 변경
+	int reqScheUpdate(ReqSchedule rs);
 
 
 }

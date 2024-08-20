@@ -18,6 +18,23 @@
 	font-weight: 600;
 }
 
+/* 메모 입력칸 감싸는 div */
+#memo-div{
+	margin-top: 30px;
+	width: 1000px;
+	height: 150px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#reqMemo{
+	width: 1000px;
+	height: 150px;
+	border: 1px solid #b9b9b9;
+    border-radius: 10px;
+    resize: none;
+}
+
 /* 제출 버튼 감싸는 div */
 #sb-div{
 	margin-top: 50px;
