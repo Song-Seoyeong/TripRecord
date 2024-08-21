@@ -36,6 +36,7 @@
 		</if>
 	</select>
 	
+	
 	<select id="getCategorySelectBoardList" resultType="Board">
 		select *
 		from board
@@ -152,6 +153,11 @@
 		<!-- i=0 : 문의 목록, i != 0 : 문의 상세 조회 -->
 	</select>
 	
+	<select id="getGeneralAsk" resultType="GeneralBoard">
+		select *
+		from general_ask
+	</select>
+	
 	<select id="getaskCategoryListCount" resultType="_int">
 		select count(*)
 		from board
@@ -218,7 +224,7 @@
 	
 	<update id="updateQuestion">
 		update question
-		set question_pwd = #{boardCount}
+		set question_pwd = #{boardTitle}
 		where question_no = #{boardNo}
 	</update>
 	

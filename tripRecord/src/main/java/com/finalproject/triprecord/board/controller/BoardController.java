@@ -21,6 +21,7 @@ import com.finalproject.triprecord.board.model.exception.BoardException;
 import com.finalproject.triprecord.board.model.service.BoardService;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.CategorySelect;
+import com.finalproject.triprecord.board.model.vo.GeneralBoard;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.board.model.vo.Reply;
 import com.finalproject.triprecord.common.Pagination;
@@ -58,7 +59,6 @@ public class BoardController {
 		ArrayList<Board> cList = bService.getBoardList(cs, pi); // 메소드 안에 해당 타입 넣으면 그거 가져옴
 		// GENERAL, QUESTION, NOTICE -> 일반, 문의, 공지
 		// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
-		
 		
 		
 		if(!cList.isEmpty()) {
@@ -102,6 +102,7 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> cList = bService.getCategorySelectBoardList(cs, pi);
 		
+
 		
 		model.addAttribute("cList", cList);
 		model.addAttribute("pi",pi);
@@ -254,8 +255,8 @@ public class BoardController {
 						gdService.deleteFile(del);
 					}
 				}
+				delResult = bService.delImg(deleteImg);
 			}
-			delResult = bService.delImg(deleteImg);
 			
 			// 이미지 추가
 			for(int i = 0; i < files.size(); i++) {
@@ -359,6 +360,16 @@ public class BoardController {
 		ArrayList<Board> aList = bService.getBoardList(cs, pi); // 메소드 안에 해당 타입 넣으면 그거 가져옴
 		// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
 		ArrayList<Question> qList = bService.getQuestionList(0); // 0 보내면 Question 전체리스트, 숫자 보내면 해당 번호 가져오기
+		ArrayList<GeneralBoard> gb = bService.getGeneralAsk();
+		
+		for(GeneralBoard g : gb) {
+			for(Board bb : aList) {
+				if(bb.getBoardNo() == g.getGeneralNo()) {
+					bb.setGeneralType(g.getGeneralType());
+				}
+			}
+		}
+		
 		
 		
 		if(!aList.isEmpty()) {
@@ -430,6 +441,15 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> cList = bService.getCategorySelectQuestionList(cs, pi);
 		ArrayList<Question> qList = bService.getQuestionList(0);
+		ArrayList<GeneralBoard> gb = bService.getGeneralAsk();
+		
+		for(GeneralBoard g : gb) {
+			for(Board bb : cList) {
+				if(bb.getBoardNo() == g.getGeneralNo()) {
+					bb.setGeneralType(g.getGeneralType());
+				}
+			}
+		}
 		
 		model.addAttribute("aList", cList);
 		model.addAttribute("pi",pi);
@@ -514,24 +534,21 @@ public class BoardController {
 		
 		model.addAttribute("b", b);
 		model.addAttribute("iList", iList);
-		//System.out.println(b);
 		return "askEdit";
 	}
 	
 	@PostMapping("updateQuestion.no")
-	public String updateQuestion(@ModelAttribute Board b, @RequestParam("pwd") Integer pwd, @RequestParam(value="delImg", required=false) ArrayList<String> delImgs,
+	public String updateQuestion(@ModelAttribute Board b, @RequestParam("pwd") String pwd, @RequestParam(value="delImg", required=false) ArrayList<String> delImgs,
 								@RequestParam(value="files", required=false) ArrayList<MultipartFile> files, RedirectAttributes ra) {
 		
 		int result = bService.updateBoard(b);
-		
-		//System.out.println(b);
 		
 		ArrayList<Image> list = new ArrayList<Image>();
 		ArrayList<String> deleteImg = new ArrayList<String>();
 		
 		Board t = new Board();
 		t.setBoardNo(b.getBoardNo());
-		t.setBoardCount(pwd);
+		t.setBoardTitle(pwd);
 		bService.updateQuestion(t);
 		
 		int delResult = 0;
@@ -547,8 +564,8 @@ public class BoardController {
 						gdService.deleteFile(del);
 					}
 				}
+				delResult = bService.delImg(deleteImg);
 			}
-			delResult = bService.delImg(deleteImg);
 			
 			// 이미지 추가
 			for(int i = 0; i < files.size(); i++) {

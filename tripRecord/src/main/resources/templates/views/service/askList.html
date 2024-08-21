@@ -89,14 +89,16 @@
 					<thead>
 						<tr>
 							<th width="10%">글 번호</th>
+							<th width="10%">분류</th>
 							<th width="45%">글 제목</th>
-							<th width="15%x">작성자</th>
-							<th width="20%">작성일자</th>
+							<th width="20%x">작성자</th>
+							<th width="15%">작성일자</th>
 							<th width="10%">조회수</th>
 	          			</tr>
 	          		</thead>
 	         		<tbody id="text-test">
 	         			<tr th:if="${ #strings.isEmpty(aList)}">
+	         				<td></td>
 	         				<td></td>
 	         				<td>문의사항이 아직 없어요.</td>
 	         				<td></td>
@@ -108,6 +110,9 @@
           					<th:block th:each="q : ${qList}">
 	          					<tr th:if="${a.boardNo == q.questionNo}">
 			            			<td>[[${ a.boardNo }]]</td>
+			            			<td th:if="${a.generalType == 'PAYMENT'}">동행</td>
+			            			<td th:if="${a.generalType == 'PLANNER'}">양도</td>
+			            			<td th:if="${a.generalType == 'ELSE'}">후기</td>
 			            			<td>[[${ a.boardTitle }]]</td>
 			            			<td>[[${ a.nickname }]]</td>
 			            			<td>[[${ a.boardModifyDate }]]</td>

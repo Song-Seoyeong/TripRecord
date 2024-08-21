@@ -22,7 +22,7 @@ public class Question {
 	private String questionAnswer;
 	private String questionSuccess;
 	private int questionNo;
-	private int questionPwd;
+	private String questionPwd;
 	private String generalType;
 	
 	private String memberName;
