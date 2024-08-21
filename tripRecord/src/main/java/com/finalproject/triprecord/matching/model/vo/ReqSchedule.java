@@ -28,5 +28,6 @@ public class ReqSchedule {
 	private String endDay;
 	private int feedBackCount;
 	private String localName;
-	
+	private String memberName;
+	private String plannerName;	
 }

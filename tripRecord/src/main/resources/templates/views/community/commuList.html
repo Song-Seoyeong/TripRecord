@@ -165,8 +165,6 @@
 	
 	
 	<script th:inline="javascript">
-		/*<![CDATA[*/
-		window.onload=()=>{
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			const localNameValue = document.getElementById("localName");
 			const generalTypeValue = document.getElementById("generalType");
@@ -180,6 +178,7 @@
 			const currentPage = parseInt(params.get('page')) || 1;
 			const totalItems = parseInt("[[${listCount}]]") || 1;
 			const totalPages = Math.ceil(totalItems / 10);
+			const generalType = params.get('generalType') || '';
 
 			
 			// 페이지 네이션 생성 부분
@@ -267,38 +266,35 @@
 					cate.children[0].style.backgroundColor = 'white';
 				});
 				cate.addEventListener('click', function(){
-					if(this.innerText == "동행") {
+					if(this.children[0].innerText == "동행") {
 						generalTypeValue.value = "WITH";
-					} else if(this.innerText == "양도") {
+					} else if(this.children[0].innerText == "양도") {
 						generalTypeValue.value = "GIVE";
-					} else if(this.innerText == "후기") {
+					} else if(this.children[0].innerText == "후기") {
 						generalTypeValue.value = "REVIEW";
-					} else if(this.innerText == "전체") {
+					} else if(this.children[0].innerText == "전체") {
 						generalTypeValue.value = "ALL";
 					}
 					
-					//console.log(generalTypeValue.value);
+					//console.log(this.children[0].innerText);
 					searchForm.submit();
 				})
 			}
-
 			
-			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if(/*[[${generalType}]]*/1 == "ALL"){
-					categories[0].children[0].style.borderRadius = '9999px';
-					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "WITH"){
-					categories[1].children[0].style.borderRadius = '9999px';
-					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "GIVE"){
-					categories[2].children[0].style.borderRadius = '9999px';
-					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if(/*[[${generalType}]]*/1 == "REVIEW"){
-					categories[3].children[0].style.borderRadius = '9999px';
-					categories[3].children[0].style.backgroundColor = '#96caf0';
-				}
-			});
-			
+			// 현재 카테고리 표시
+			if(generalType == "ALL" || generalType == ""){
+				categories[0].children[0].style.borderRadius = '9999px';
+				categories[0].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "WITH"){
+				categories[1].children[0].style.borderRadius = '9999px';
+				categories[1].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "GIVE"){
+				categories[2].children[0].style.borderRadius = '9999px';
+				categories[2].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "REVIEW"){
+				categories[3].children[0].style.borderRadius = '9999px';
+				categories[3].children[0].style.backgroundColor = '#96caf0';
+			}
 			// 돋보기 클릭 시 검색
 			document.getElementsByClassName("x-icon")[0].addEventListener('click',()=>{
 				searchForm.submit();
@@ -307,9 +303,9 @@
 			// 게시글 클릭 시 이동
 			const tds = document.getElementById("text-test").querySelectorAll('td');
 			for(const td of tds){
-				td.addEventListener('click', function(){
+				td.addEventListener('click', function(e){
 					
-					console.log(123)
+					//console.log(123)
 					const boardNo = this.parentElement.children[0].innerText;
 					let generalT = "";
 					for(const c of /*[[${cList}]]*/1){
@@ -317,19 +313,18 @@
 							generalT = c.generalType;
 						}
 					}
-					
 					location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=" + generalT + "&page=" + /*[[${pi.currentPage}]]*/1; 
 					
 				})
 			}
 			
 			const reviewBtn = document.getElementById("goReview");
-			reviewBtn.addEventListener('click',()=>{
-				location.href="commuWrite.bo";
-			});
+			if(reviewBtn != null){
+				reviewBtn.addEventListener('click',()=>{
+					location.href="commuWrite.bo";
+				});
+			}
 			
-		}
-		/*]]>*/
 	</script>
 	
 	

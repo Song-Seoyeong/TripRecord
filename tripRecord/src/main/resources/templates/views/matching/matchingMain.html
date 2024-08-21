@@ -24,9 +24,8 @@
 					<div class="swiper-slide" th:each="l : ${ localList }">
 						<div class="local-card shadow position-relative">
 							<input type=hidden th:value="${l.localNo}">
-								<img class="local-img position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
-							<span class="card-text position-absolute fs-2 px-3">[[${l.localName}]]
-							</span>
+							<img class="local-img position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
+							<div class="card-text position-absolute fs-2 px-3">[[${l.localName}]]</div>
 						</div>
 					</div>
 				</div>

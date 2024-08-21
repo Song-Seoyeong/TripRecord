@@ -3,7 +3,7 @@
 .container-left{
 	float: left;
 	margin-left: 55px;
-	margin-top: 20px;
+	margin-top: 5px;
 	height: 748px;
 	width: 35%;
 }
@@ -15,11 +15,11 @@
 .content-list{
 	margin: 5px auto;
 	width: 95%;
-	height: 480px;
+	height: 380px;
 }
 
 .list-table{
-	max-height: 472px;
+	max-height: 370px;
 	overflow-y: auto;
 }
 
@@ -47,14 +47,25 @@
 
 .add-container{
 	width: 70%;
+	margin-top: 10px;
 }
+
 
 .content-add{
 	margin: 5px auto;
 	width: 95%;
-	height: 150px;
+	height: 100px;
 }
 
+.insert-container{
+	width: 70%;
+	margin-top: 20px;
+}
+
+.insert-add{
+	margin: 5px auto;
+	width: 95%;
+}
 .form-add{
 	width: 100%;
 }
@@ -74,7 +85,7 @@
 	float:left;
 	width: 22%;
 	height: 748px;
-	margin-top: 20px;
+	margin-top: 5px;
 	margin-left: 55px;
 }
 
@@ -96,7 +107,7 @@
 	float:left;
 	width: 30%;
 	height: 748px;
-	margin-top: 20px;
+	margin-top: 5px;
 	margin-left: 55px;
 }
 

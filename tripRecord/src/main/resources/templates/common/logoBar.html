@@ -120,7 +120,7 @@ body {
       line-height: 25px;
       vertical-align: bottom;
       opacity: 0.8;
-    }
+    } 
   }
 }
 
@@ -198,41 +198,39 @@ body {
 	</div>
 	
 	
-	
-	
-	
-	<th:block th:if="${session.loginUser}">
-			<div class="main_popup" id="plannerModal">
-				<div class="layer_cont">
-					<div class="img-wrap" style="flex-direction: column;">
-						<th:block th:if="${session.loginUser.grade == 'PLANNER'}">
-							<div class="popup-alert">
-								확인하지 않은 신청글이&nbsp;<span style="color: red;"></span>개 존재합니다.
-							</div>
-							<div>
-								<a class="popup-link" href='request.mp'>신청 온 내역 확인하러 가기 >></a>
-							</div>
-						</th:block>
-						<th:block th:if="${session.loginUser.grade == 'GENERAL'}">
-							<div class="popup-alert">
-								확인하지 않은 일정이&nbsp;<span style="color: red;"></span>개 존재합니다.
-							</div>
-							<div>
-								<a class="popup-link" href='myPlan.mp'>신청한 내역 확인하러 가기 >></a>
-							</div>
-						</th:block>
+
+
+
+	<div class="main_popup" id="plannerModal" th:if="${session.loginUser != null}">
+		<div class="layer_cont">
+			<div class="img-wrap" style="flex-direction: column;">
+				<th:block th:if="${session.loginUser.grade == 'PLANNER'}">
+					<div class="popup-alert">
+						확인하지 않은 신청글이&nbsp;<span style="color: red;"></span>개 존재합니다.
 					</div>
-					<div class="btn_wrap">
-						<!-- 다시 로그인 전까지 안보기 -->
-						<button class="btn_today_close popup_btn" id="OK"><span>다음에 확인하기</span></button>
-						<!-- 그냥 닫기 --->
-						<button class="btn_close popup_btn" id="close">close</button>
+					<div>
+						<a class="popup-link" href='request.mp'>신청 온 내역 확인하러 가기 >></a>
 					</div>
-				</div>
+				</th:block>
+				<th:block th:if="${session.loginUser.grade == 'GENERAL'}">
+					<div class="popup-alert">
+						확인하지 않은 일정이&nbsp;<span style="color: red;"></span>개 존재합니다.
+					</div>
+					<div>
+						<a class="popup-link" href='myPlan.mp'>신청한 내역 확인하러 가기 >></a>
+					</div>
+				</th:block>
 			</div>
-		</th:block>
-	
-	
+			<div class="btn_wrap">
+				<!-- 다시 로그인 전까지 안보기 -->
+				<button class="btn_today_close popup_btn" id="OK"><span >다음에 확인하기</span></button>
+				<!-- 그냥 닫기 --->
+				<button class="btn_close popup_btn" id="close">close</button>
+			</div>
+		</div>
+	</div>
+
+
 	
 	
 	
@@ -247,21 +245,23 @@ body {
 		}
 		window.addEventListener('DOMContentLoaded',(e)=>{
 			let noti = sessionStorage.getItem("noti");
-			document.querySelector("span").innerText = noti;
 			if(noti != null){
-				document.getElementById("plannerModal").classList.add("on");
-				document.getElementById("OK").addEventListener('click',()=>{
-			    	// ok 버튼을 누르면 세션 삭제
-			    	document.getElementById("plannerModal").classList.remove("on");
-					sessionStorage.removeItem("noti");
-				});
-				document.getElementsByClassName("popup-link")[0].addEventListener('click',()=>{
-					document.getElementById("plannerModal").classList.remove("on");
-					sessionStorage.removeItem("noti");
-				});
-				document.getElementById("close").addEventListener('click',()=>{
-					document.getElementById("plannerModal").classList.remove("on");
-				});
+				document.querySelector("span").innerText = noti;
+				if(noti != null){
+					document.getElementById("plannerModal").classList.add("on");
+					document.getElementById("OK").addEventListener('click',()=>{
+				    	// ok 버튼을 누르면 세션 삭제
+				    	document.getElementById("plannerModal").classList.remove("on");
+						sessionStorage.removeItem("noti");
+					});
+					document.getElementsByClassName("popup-link")[0].addEventListener('click',()=>{
+						document.getElementById("plannerModal").classList.remove("on");
+						sessionStorage.removeItem("noti");
+					});
+					document.getElementById("close").addEventListener('click',()=>{
+						document.getElementById("plannerModal").classList.remove("on");
+					});
+				}
 			}
 		});
 		

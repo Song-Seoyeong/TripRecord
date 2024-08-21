@@ -24,6 +24,7 @@
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
 				<li><a href="contentImgManage.ad">사진 관리</a></li>
+				<li><a href="planManage.ad">일정 관리</a></li>
 				<li><a href="otherManage.ad">기타 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
@@ -119,11 +120,8 @@
 						      		<td>[[${p.memberName}]]</td>
 						      		<td>[[${p.memberId}]]</td>
 									<td>[[${p.localName}]]</td>
-									<td th:each="c : ${cList}" th:if="${c.plannerNo == p.memberNo}" th:unless="${cList.isEmpty}">
-										[[${#numbers.formatInteger(c.expectedMoney, 3, 'COMMA')}]]
-									</td>
-									<td th:if="${cList.isEmpty}">
-										0
+									<td th:each="c : ${cList}" th:if="${c.plannerNo == p.memberNo}">
+										<span th:text="${c.expectedMoney == 0 ? '0' : #numbers.formatInteger(c.expectedMoney, 3, 'COMMA')}"><</span>
 									</td>
 									<td>
 										<th:block th:if="${p.warningCount >= 3}"> 

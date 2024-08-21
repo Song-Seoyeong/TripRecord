@@ -2,6 +2,7 @@ package com.finalproject.triprecord.member.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -204,6 +205,8 @@ public interface MemberMapper {
 
 	// 메모 넣기, 진행 상태, 날짜 변경
 	int reqScheUpdate(ReqSchedule rs);
-
+	
+	// 마이페이지 -> 내 일정 상세 보기 -> 지역 수정
+	int updateTripLocal(Properties prop);
 
 }

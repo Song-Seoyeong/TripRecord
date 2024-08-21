@@ -110,9 +110,9 @@
           					<th:block th:each="q : ${qList}">
 	          					<tr th:if="${a.boardNo == q.questionNo}">
 			            			<td>[[${ a.boardNo }]]</td>
-			            			<td th:if="${a.generalType == 'PAYMENT'}">동행</td>
-			            			<td th:if="${a.generalType == 'PLANNER'}">양도</td>
-			            			<td th:if="${a.generalType == 'ELSE'}">후기</td>
+			            			<td th:if="${a.generalType == 'PAYMENT'}">결제</td>
+			            			<td th:if="${a.generalType == 'PLANNER'}">플래너</td>
+			            			<td th:if="${a.generalType == 'ELSE'}">기타</td>
 			            			<td>[[${ a.boardTitle }]]</td>
 			            			<td>[[${ a.nickname }]]</td>
 			            			<td>[[${ a.boardModifyDate }]]</td>
@@ -187,6 +187,7 @@
 			const currentPage = parseInt(params.get('page')) || 1;
 			const totalItems = parseInt("[[${listCount}]]") || 1;
 			const totalPages = Math.ceil(totalItems / 10);
+			const generalType = params.get('generalType') || '';
 			
 			function createPagination(currentPage, totalPages){
 				let buttons = '';
@@ -275,13 +276,13 @@
 					cate.children[0].style.backgroundColor = 'white';
 				});
 				cate.addEventListener('click', function(){
-					if(this.innerText == '결제'){
+					if(this.children[0].innerText == '결제'){
 						generalTypeValue.value = "PAYMENT";
-					} else if(this.innerText == "플래너") {
+					} else if(this.children[0].innerText == "플래너") {
 						generalTypeValue.value = "PLANNER";
-					} else if(this.innerText == "기타") {
+					} else if(this.children[0].innerText == "기타") {
 						generalTypeValue.value = "ELSE";
-					} else if(this.innerText == "전체") {
+					} else if(this.children[0].innerText == "전체") {
 						generalTypeValue.value = "ALL";
 					}
 					
@@ -290,24 +291,20 @@
 				})
 			}
 			
-			
-			// 현재 카테고리 표시해두기
-			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if([[${generalType}]] == "ALL"){
-					categories[0].children[0].style.borderRadius = '9999px';
-					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "PAYMENT"){
-					categories[1].children[0].style.borderRadius = '9999px';
-					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "PLANNER"){
-					categories[2].children[0].style.borderRadius = '9999px';
-					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "ELSE"){
-					categories[3].children[0].style.borderRadius = '9999px';
-					categories[3].children[0].style.backgroundColor = '#96caf0';
-				}
-			});
-			
+			// 현재 카테고리 표시
+			if(generalType == "ALL" || generalType == ""){
+				categories[0].children[0].style.borderRadius = '9999px';
+				categories[0].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "PAYMENT"){
+				categories[1].children[0].style.borderRadius = '9999px';
+				categories[1].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "PLANNER"){
+				categories[2].children[0].style.borderRadius = '9999px';
+				categories[2].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "ELSE"){
+				categories[3].children[0].style.borderRadius = '9999px';
+				categories[3].children[0].style.backgroundColor = '#96caf0';
+			}
 			
 			
 			
@@ -341,10 +338,11 @@
 			
 			
 			const reviewBtn = document.getElementById("goReview");
-			reviewBtn.addEventListener('click',()=>{
-				location.href="askWrite.no";
-			}); 
-			
+			if(reviewBtn != null){
+				reviewBtn.addEventListener('click',()=>{
+					location.href="commuWrite.bo";
+				});
+			}
 			
 			
 			

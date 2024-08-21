@@ -112,3 +112,6 @@
 .swiper-pagination-bullet-active {
 	background: #2F6598 !important;
 }
+.rounded-circle {
+   object-fit: cover;
+}

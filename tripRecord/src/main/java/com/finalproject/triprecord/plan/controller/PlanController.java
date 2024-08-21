@@ -3,7 +3,6 @@ package com.finalproject.triprecord.plan.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -295,6 +294,7 @@ public class PlanController {
 	    }
 	    
 	    Schedule s = plService.detailMySchedule(scNo);
+	    System.out.println(s);
 	    
 	    HashMap<Integer, String> dates = dateFunction(s.getStartDate(), s.getEndDate());
 	    
@@ -314,6 +314,17 @@ public class PlanController {
 	    } else {
 	    	throw new PlanException("일정 상세 조회에 실패하였습니다.");
 	    }
+	}
+	
+	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 일정 삭제
+	@PostMapping("deleteTripNote.mp")
+	public String deleteTripNote(@RequestParam("scNo") int scNo) {
+		int result = plService.deleteTripNote(scNo);
+		if(result > 0) {
+			return "redirect:myTripNote.mp";
+		} else {
+			throw new PlanException("일정 삭제에 실패하였습니다.");
+		}
 	}
 	
 	// 마이페이지 -> 내 여행 노트 -> 상세 보기 -> 장소, 시간, 메모 수정 ajax 
