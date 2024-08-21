@@ -16,7 +16,22 @@
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 	
 	<!-- 완전 큰 로그인 글자 -->
-	<div id="bigTitle" class='text-center'>플래너 회원가입</div>
+	<div id="bigTitle" class='text-center'>플래너 회원가입
+	
+	<!--  -->
+	<div style="display:flex; justify-content:right;">
+       	<div class='review-text' id='reviewDiv'>
+			<button id='goReview'>
+				<p>일반 회원가입</p>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+					<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+				</svg>
+			</button>
+		</div>
+    </div>
+    <!--  -->
+	
+	</div>
 	
 	<!-- 회원가입 폼 -->
 	<form action="enrollPlanner.me" id="enrollPlanner" method="POST">
@@ -168,7 +183,7 @@
 					<select name='localNo' id='local' class="form-select">
 						<option selected>활동 지역 선택</option>
 						<option value='1'>서울</option>
-						<option value='2'>부산</option>
+						<option value='6'>부산</option>
 						<option value='4'>대구</option>
 						<option value='2'>인천</option>
 						<option value='5'>광주</option>
@@ -231,7 +246,6 @@
 			
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center align-items-center'>
 				<button class="btn btn-primary" id='enrollButton'>회원가입</button>
-				<a id='enrollPlaner' href="enrollView.me">일반 회원가입</a>
 			</div>
 			<input type="hidden" name="grade" value="PLANNER">
 		</div>
@@ -440,7 +454,10 @@
 			});
 			
 			
-			
+			//일반 회원가입 화면이동
+			document.getElementById("goReview").addEventListener('click',()=>{
+				location.href="enrollView.me";
+			})
 			
 			
 			

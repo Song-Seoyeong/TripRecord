@@ -118,7 +118,7 @@ public class PlaceController {
 		//System.out.println(image.split("\\(|\\)")[1]);
 		
 		// api에서 이미지를 제공 해주면 이미지 저장
-		if(checkImage == 0 && !image.equals("()")) {
+		if(checkImage == 0 && image != null && !image.equals("()")) {
 			Image i = new Image();
 			i.setImageRefNo(contentid);
 			i.setImagePath(image.split("\\(|\\)")[1]);

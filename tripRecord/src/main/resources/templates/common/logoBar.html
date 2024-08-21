@@ -36,6 +36,116 @@ body {
 	font-weight: bold;
 	font-size: 1.3em;
 }
+
+/* 팝업 버튼 스타일 */
+.popup_btn {
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* 메인 팝업 스타일 */
+.main_popup {
+  position: fixed;
+  z-index: 1005;
+  border: 1px solid black;
+/*   -webkit-box-shadow: 0px 0px 14px 6px #96caf0; */
+/*   box-shadow: 0px 0px 14px 6px #96caf0; */
+  display: none;
+  float: right;
+  right: 200px;
+  top: 80px;
+
+  /* 팝업이 열릴 때의 스타일 */
+  &.on {
+    display: block;
+    background-color: #fff;
+  }
+
+  /* 이미지 랩퍼 스타일 */
+  .img_wrap {
+    width: 400px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 닫기 버튼 스타일 */
+  .btn_close {
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 0;
+    border: 0;
+    background: none;
+
+    /* 닫기 버튼의 대각선 선 스타일 */
+    &::before {
+      content: "";
+      width: 2px;
+      height: 32px;
+      background-color: #333;
+      position: absolute;
+      top: 0;
+      left: 22px;
+      transform: rotate(45deg);
+    }
+    &::after {
+      content: "";
+      width: 32px;
+      height: 2px;
+      background-color: #333;
+      position: absolute;
+      top: 15px;
+      left: 7px;
+      transform: rotate(45deg);
+    }
+  }
+
+  /* 오늘 닫기 버튼 스타일 */
+  .btn_today_close {
+    width: 100%;
+    height: 25px;
+    background-color: #2F6598;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    display: block;
+
+    span {
+      display: block;
+      line-height: 25px;
+      vertical-align: bottom;
+      opacity: 0.8;
+    }
+  }
+}
+
+.img-wrap{
+	width: 400px;
+	height: 100px;
+	display: flex;
+	flex-direction: column;
+}
+
+.popup-alert{
+	font-size: 20px;
+	margin-top: 22px;
+	margin-bottom: 2px;
+	padding-left: 25px;
+}
+
+.popup-link{
+	color: gray;
+	text-decoration: none;
+	border-bottom: 1px solid gray;
+	font-size: 15px;
+	margin-left: 25px;
+}
+
 </style>
 
 <!-- **필수** 부트스트랩 : 상단 태그 **필수** -->
@@ -89,23 +199,38 @@ body {
 	
 	
 	
-	<!-- 삭제 모달 -->
-	<div class="modal fade" tabindex="-1" role="dialog" id="plannerModal">
-		<div class="modal-dialog" role="document">
-    		<div class="modal-content rounded-3 shadow">
-      			<div class="modal-body p-4 text-center">
-        			<h3 class="mb-0" id="okCheck"></h3>
-        			<p class="mb-0"></p>
-      			</div>
-      			<div class="modal-footer flex-nowrap p-0" style="justify-content:center;">
-        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" id="OK">
-        				<strong>알겠습니다</strong>
-        			</button>
-      			</div>
-    		</div>
-  		</div>
-	</div>
-	<!-- 삭제 모달 -->
+	
+	
+	<th:block th:if="${session.loginUser}">
+			<div class="main_popup" id="plannerModal">
+				<div class="layer_cont">
+					<div class="img-wrap" style="flex-direction: column;">
+						<th:block th:if="${session.loginUser.grade == 'PLANNER'}">
+							<div class="popup-alert">
+								확인하지 않은 신청글이&nbsp;<span style="color: red;"></span>개 존재합니다.
+							</div>
+							<div>
+								<a class="popup-link" href='request.mp'>신청 온 내역 확인하러 가기 >></a>
+							</div>
+						</th:block>
+						<th:block th:if="${session.loginUser.grade == 'GENERAL'}">
+							<div class="popup-alert">
+								확인하지 않은 일정이&nbsp;<span style="color: red;"></span>개 존재합니다.
+							</div>
+							<div>
+								<a class="popup-link" href='myPlan.mp'>신청한 내역 확인하러 가기 >></a>
+							</div>
+						</th:block>
+					</div>
+					<div class="btn_wrap">
+						<!-- 다시 로그인 전까지 안보기 -->
+						<button class="btn_today_close popup_btn" id="OK"><span>다음에 확인하기</span></button>
+						<!-- 그냥 닫기 --->
+						<button class="btn_close popup_btn" id="close">close</button>
+					</div>
+				</div>
+			</div>
+		</th:block>
 	
 	
 	
@@ -117,21 +242,25 @@ body {
 		if(msg !== 'null' && msg !== null && msg !== ''){
 			
 			sessionStorage.setItem("noti", msg);
-			//alert(sessionStorage.getItem("noti"));
 		    
-// 		    sessionStorage.removeItem("notification");
 		    msg = '';
 		}
-		//$('#plannerModal').modal('show');
 		window.addEventListener('DOMContentLoaded',(e)=>{
 			let noti = sessionStorage.getItem("noti");
-			document.getElementById("okCheck").innerText = noti;
+			document.querySelector("span").innerText = noti;
 			if(noti != null){
-				$('#plannerModal').modal('show');
+				document.getElementById("plannerModal").classList.add("on");
 				document.getElementById("OK").addEventListener('click',()=>{
 			    	// ok 버튼을 누르면 세션 삭제
+			    	document.getElementById("plannerModal").classList.remove("on");
 					sessionStorage.removeItem("noti");
-			    	$('#plannerModal').modal('hide');
+				});
+				document.getElementsByClassName("popup-link")[0].addEventListener('click',()=>{
+					document.getElementById("plannerModal").classList.remove("on");
+					sessionStorage.removeItem("noti");
+				});
+				document.getElementById("close").addEventListener('click',()=>{
+					document.getElementById("plannerModal").classList.remove("on");
 				});
 			}
 		});
