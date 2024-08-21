@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>일정 관리</title>
+<link href="/css/admin/planManage.css" rel="stylesheet"
+	type="text/css" />
+<link href="/css/admin/adminAll.css" rel="stylesheet" type="text/css" />
+<!-- 파비콘 -->
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon" />
+<!-- 끝 -->
+<style>
+.selectState {
+	display: inline-block;
+	background: lightgray;
+	width: 40%;
+	border: 1px solid #2F6598;
+	cursor: pointer;
+}
+
+.unselectState {
+	display: inline-block;
+	background: none;
+	width: 40%;
+	border: 1px solid #2F6598;
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+	<div th:replace="~{common/adminHeader :: header}"></div>
+	<div class="container-box"
+		style="margin: 0; padding: 0px; width: 100%;">
+		<div class="board-list">
+			<ul class="board-list-ul">
+				<li><a href="dashBoard.ad">대시보드</a></li>
+				<li><a href="memberManage.ad">회원 관리</a></li>
+				<li><a href="questManage.ad">문의사항 관리</a></li>
+				<li><a href="gradeManage.ad">등급 관리</a></li>
+				<li><a href="noticeManage.ad">공지사항 관리</a></li>
+				<li><a href="pointManage.ad">포인트 관리</a></li>
+				<li><a href="boardManage.ad">게시판 관리</a></li>
+				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+				<li><a href="contentImgManage.ad">사진 관리</a></li>
+				<li class="select-board"><a href="planManage.ad">일정 관리</a></li>
+				<li><a href="otherManage.ad">기타 관리</a></li>
+			</ul>
+			<div class="out-adminPage">
+			<a class="out-text" href="/home">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
+	 				<path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1" />
+					<path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117M11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5M4 1.934V15h6V1.077z" />
+				</svg>&nbsp; 관리자 페이지 나가기</a>
+			</div>
+		</div>
+		<div class="board-main">
+			<div class="title-board display-4">
+				<h1 style="display: inline; font-size: 2.5rem !important;">일정 관리</h1>
+			</div>
+			<div class="main-container display-flex">
+				<div class="container-left">
+					<div class="list-container">
+						<div class="title-div">
+							<span class="title-text">일정 목록</span>
+						</div>
+						<div class="content-list">
+							<div class="point-list-table rounded-2 list-table">
+								<table class="table-user table table-hover">
+									<thead>
+										<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
+											<th style="width: 9%;">번호</th>
+											<th style="width: 14%;">신청 회원</th>
+											<th style="width: 14%;">플래너</th>
+											<th style="width: 20%;">상태</th>
+											<th style="width: 10%;">확정 날짜</th>
+											<th style="width: 15%;">금액</th>
+										</tr>
+									</thead>
+								  	<tbody class="tbody" style="cursor: pointer;">
+								  		<tr class="tr-user" th:each="r : ${rList}">
+								      		<td>[[${r.reqNo}]]</td>
+								      		<td>[[${r.memberName}]]</td>
+											<td>[[${r.plannerName}]]</td>
+											<td>
+												<th:block th:if="${r.reqStatus == 1}">
+													일정 신청
+												</th:block>
+												<th:block th:if="${r.reqStatus == 2}">
+													일정 생성 완료
+												</th:block>
+												<th:block th:if="${r.reqStatus == 3}">
+													구매 확정
+												</th:block>
+												<th:block th:if="${r.reqStatus == 4}">
+													취소
+												</th:block>
+											</td>
+											<td>[[${#strings.replace(r.confirmDate, '-', '.')}]]</td>
+											<td>
+												<span th:text="${r.payPoint == 0 ? '0' : #numbers.formatInteger(r.payPoint, 3, 'COMMA')}"></span>
+											</td>
+								  		</tr>
+								  	</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="pagination-div row" th:unless="${rList.isEmpty}">
+							<div class="col-3"></div>
+							<nav class="d-flex col-6" aria-label="Standard pagination example" style="float: right; height: 100%; justify-content: center !important;" th:with="loc=${loc}">
+								<ul class="pagination">
+									<li class="page-item" th:if="${pi.currentPage > 1}">
+										<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage-1})}" aria-label="Previous">
+											<span aria-hidden="true" class="pagination-color">&laquo;</span>
+										</a>
+									</li>
+									<li class="page-item" th:unless="${pi.currentPage > 1}">
+										<a class="page-link box-shadow-none" aria-label="Previous" style="cursor: pointer;">
+											<span aria-hidden="true" class="pagination-color">&laquo;</span>
+										</a>
+									</li>
+									<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
+										<th:block th:if="${p == page}">
+											<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${p})}">
+												<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+											</a>
+										</th:block>
+										<th:block th:unless="${p == page}">
+											<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p})}">
+												<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
+											</a>
+										</th:block>
+									</li>
+									<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
+										<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1})}" aria-label="Next">
+											<span aria-hidden="true" class="pagination-color">&raquo;</span>
+										</a>
+									</li>
+									<li class="page-item" th:unless="${pi.currentPage < pi.maxPage}">
+										<a class="page-link box-shadow-none" aria-label="Next" style="cursor: pointer;">
+											<span aria-hidden="true" class="pagination-color">&raquo;</span>
+										</a>
+									</li>
+								</ul>
+							</nav>
+							<div class="col-3"></div>
+						</div>
+					</div>
+				</div>
+				<div class="container-right" style="display: none;">
+					<div class="detail-container">
+						<div class="title-div">
+							<span class="title-text">일정 상세</span>
+							<span class="title-text-icon">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+									<path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+								</svg>
+							</span>
+						</div>
+						<div class="content-detail">
+							<div style="margin: 20px auto; width: 98%;">
+								<h5 style="border-bottom: 1px solid #2F6598; padding-left: 5px; font-weight: bold; color: #2F6598;">일정</h5>
+								<div class="detail-rearSchedule">
+									<div class="detail-content grid">
+										<div class="detail-plan-all">
+											<div class="detail-plan g-col-6 g-col-md-4"> <!-- div <- 이쪽은 이제 건들 ㄴㄴ -->
+												<div class="dayText">1일차</div>
+												<div class="date">2024-08-27</div>
+												<div class="plan"> <!-- planDiv <- 이쪽으로 onePlan이 쌓이게 해야됨 -->
+													<div class="one-plan">
+														<div class="plan-spans">
+															<span class="line"><span class="round"></span></span>
+														</div>
+														<div class="plan-labels">
+															<div class="label-div">
+																<label class="planLabel placeLabel">성심당</label>
+															</div>
+															<div class="label-div">
+																<label class="planLabel timeLabel">19:25</label>
+															</div>
+															<div class="label-div">
+																<label class="planLabel memoLabel">빵드세요</label>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div style="margin: 20px auto; width: 96%;">
+								<h5 style="border-bottom: 1px solid #2F6598; padding-left: 5px; font-weight: bold; color: #2F6598;">플래너 추가 정보</h5>
+								<div class="planner-add">
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		const rList = /*[[${rList}]]*/null;
+		/*]]>*/
+		
+		window.onload = () => {
+			/* 상세 일정 보기 */
+			const tbody = document.querySelector('tbody');
+			const tds = tbody.querySelectorAll('td');
+			const detailContainer = document.querySelector('.container-right');
+			let detailPlan;
+			for(const td of tds){
+				const tr = td.parentElement;
+				const stats = tr.children[3].innerText;
+				const no = tr.children[0].innerText; 
+				if(stats == '구매 확정'){
+					td.addEventListener('click', function(){
+						for(const r of rList){
+							if(r.reqNo == no){
+								detailPlan = r;
+								break;
+							}
+						}
+						
+						$.ajax({
+							type: 'POST',
+							url: 'selectPlan.ad',
+							data: {
+								scNo: detailPlan.scheNo
+							},
+							success: data => {
+								const detailAll = document.querySelector('.detail-plan-all');
+								
+								let date = 0;
+								let dayCount = 1;
+								detailAll.innerHTML = '';
+								
+								let planDiv;
+								for(const plan of data){
+									
+									if(plan.day != date){
+										<!-- 가장 큰 틀 생성 --> 
+										const div = document.createElement('div');
+										div.className = 'detail-plan g-col-6 g-col-md-4';
+										
+										<!-- 다음 날짜로 비교 -->
+										date = plan.day;
+										
+										<!-- 일차 -->
+										const dayDiv = document.createElement('div');
+										dayDiv.className = 'dayText';
+										dayDiv.innerText = dayCount + '일차';
+										dayCount++;
+										
+										<!-- 날짜 -->
+										const dateDiv = document.createElement('div');
+										dateDiv.className = 'date';
+										dateDiv.innerText = plan.day.split(' ')[0];
+										
+										<!-- 일정 -->
+										planDiv = document.createElement('div');
+										planDiv.className = 'plan';
+										
+										div.append(dayDiv);
+										div.append(dateDiv);
+										div.append(planDiv);
+										
+										detailAll.appendChild(div);
+									}
+									
+									<!-- 상세 내역 틀-->
+									<!-- 큰 틀 -->
+									const onePlan = document.createElement('div');
+									onePlan.className = 'one-plan';
+									
+									<!-- 막대기 / 원형 틀 -->
+									const planSpans = document.createElement('div');
+									planSpans.className = 'plan-spans';
+									
+									<!-- 막대기 -->
+									const lineSpan = document.createElement('span');
+									lineSpan.className = 'line';
+									
+									<!-- 원형 -->
+									const roundSpan = document.createElement('span');
+									roundSpan.className = 'round';
+									
+									<!-- 막대기 안에 원형 -->
+									lineSpan.append(roundSpan);
+									
+									<!-- 막대기 / 원형 틀 안에 막대기 -->
+									planSpans.append(lineSpan);
+									
+									
+									<!-- 장소 / 시간 / 메모 틀 -->
+									const planLabels = document.createElement('div');
+									planLabels.className = 'plan-labels';
+									
+									<!-- 장소 틀 -->
+									const placeDiv = document.createElement('div');
+									placeDiv.className = 'label-div';
+									
+									<!-- 장소 -->
+									const placeLabel = document.createElement('label');
+									placeLabel.className = 'planLabel placeLabel';
+									placeLabel.innerText = plan.place;
+									
+									<!-- 시간 틀 -->
+									const timeDiv = document.createElement('div');
+									timeDiv.className = 'label-div';
+									
+									<!-- 시간 -->
+									const timeLabel = document.createElement('label');
+									timeLabel.className = 'planLabel timeLabel';
+									timeLabel.innerText = plan.time;
+									
+									<!-- 메모 틀 -->
+									const memoDiv = document.createElement('div');
+									memoDiv.className = 'label-div';
+									
+									<!-- 메모 -->
+									const memoLabel = document.createElement('div');
+									memoLabel.className = 'planLabel memoLabel';
+									memoLabel.innerText = plan.memo;
+									
+									<!-- 삽입 -->
+									placeDiv.append(placeLabel);
+									timeDiv.append(timeLabel);
+									memoDiv.append(memoLabel);
+									planLabels.append(placeDiv);
+									planLabels.append(timeDiv);
+									planLabels.append(memoDiv);
+									
+									onePlan.append(planSpans);
+									onePlan.append(planLabels);
+									
+									planDiv.append(onePlan);
+									
+									
+								}
+								
+								detailContainer.style.display = 'block';
+							}
+						});
+					});
+				}
+			}
+			
+			/* 상세 폼 닫기 */			
+			const iconDiv = document.getElementsByClassName('title-text-icon');
+			for(const div of iconDiv){
+				const svgs = div.children;
+				for(const svg of svgs){
+					svg.addEventListener('click', function(){
+						detailContainer.style.display = 'none';
+					});
+				}
+			}
+			
+			const listLi = document.getElementsByClassName('board-list-ul')[0].children;
+			const current = document.getElementsByClassName('select-board')[0];
+			
+			for(const li of listLi){
+				const a = li.children[0];
+				li.addEventListener('mouseenter', function() {
+					current.style.transitionDuration = '300ms';
+					li.style.transitionDuration = '300ms';
+					if(li.className != 'select-board'){
+						current.className = '';
+						this.className = 'select-board';
+						
+					}
+				});
+				
+				li.addEventListener('mouseleave', function(){
+					li.style.transitionDuration = '300ms';
+					if(li.className == 'select-board' && li != current){
+						current.className = 'select-board';
+						this.className = '';
+					}
+				});
+				
+			}
+			
+		}
+	</script>
+</body>
+</html>

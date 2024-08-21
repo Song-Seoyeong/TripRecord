@@ -24,6 +24,7 @@
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
 				<li><a href="contentImgManage.ad">사진 관리</a></li>
+				<li><a href="planManage.ad">일정 관리</a></li>
 				<li><a href="otherManage.ad">기타 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
@@ -267,7 +268,7 @@
 			const boxs = document.getElementsByClassName('button-border');
 			let boardNo;
 			let boardTitle;
-			let boardContents;
+			let boardContent;
 			let boardWriterNo;
 			for(const td of tds){
 				td.addEventListener('click', function(){
@@ -286,6 +287,7 @@
 							if(data != null){
 								boardTitle = data.boardTitle;
 								boardWriterNo = data.boardWriterNo;
+								boardContent = data.boardContent;
 								
 								document.getElementById('notice-title').innerText = data.boardTitle;
 								document.getElementById('notice-content').innerText = '';
@@ -323,9 +325,7 @@
 				if(/*[[${session.loginUser.memberNo}]]*/'user01' == boardWriterNo){
 					document.getElementById('modify-title').innerText = boardTitle;
 					
-					for(let i = 0; i < boardContents.length; i++){
-						document.getElementById('modify-content').innerHTML += boardContents[i];
-					}
+					document.getElementById('modify-content').innerHTML = boardContent;
 					
 					document.getElementById('modify-no').value = boardNo;
 					document.getElementById('modify-title').focus();

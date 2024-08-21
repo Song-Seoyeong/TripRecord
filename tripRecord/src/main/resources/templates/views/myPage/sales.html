@@ -2,15 +2,46 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>판매내역</title>
 <style>
-    table{width:90%; align:center; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
-    
-    ul{font-weight:900;}
-    .pageNumber{margin-left:5px; margin-right:5px;}
-    th{font-size:24px;}
-    td{padding:15px;}
-    .hidden {display: none;}
+table {
+	width: 90%;
+	align: center;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+}
+
+ul {
+	font-weight: 900;
+}
+
+.pageNumber {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+th {
+	font-size: 24px;
+}
+
+td {
+	padding: 15px;
+}
+
+.hidden {
+	display: none;
+}
+
+.notComplete {
+	color: red
+}
+
+.complete {
+	color: green
+}
 </style>
 </head>
 <body>
@@ -19,63 +50,68 @@
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	<!-- 플래너페이지 어퍼바 -->
 	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
-	
-	<div class="flex-container" style="text-align:center; margin-left:auto;">
-		<div style="height:160px;"></div>
-		<div style="display:inline-block; width:1200px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
-		<table>
-			<thead>
-			 	<tr style="border-bottom:2px solid #96CAF0;">
-					<th>요청번호</th>
-					<th>포인트</th>
-					<th>정산금액</th>
-					<th>확정일자</th>
-					<th>정산일자</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr style="border-bottom:2px solid #b9b9b9" th:each="s : ${sList}">
-					<td>[[${s}]]</td>
-					<td>15억p</td>
-					<td>10억</td>
-					<td>2099.11.31</td>
-					<td>2099.12.31</td>
-				</tr>
-			</tbody>
-		</table>
+
+	<div class="flex-container"
+		style="text-align: center; margin-left: auto;">
+		<div style="height: 160px;"></div>
+		<div
+			style="display: inline-block; width: 1200px; overflow; border: 1px solid lightgray; border-radius: 10px;">
+			<table>
+				<thead>
+					<tr style="border-bottom: 2px solid #96CAF0;">
+						<th>요청번호</th>
+						<th>포인트</th>
+						<th>정산금액</th>
+						<th>확정일자</th>
+						<th>정산일자</th>
+						<th>정산여부</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr style="border-bottom: 2px solid #b9b9b9" th:each="s : ${sList}">
+						<td>[[${s.calculateNo}]]</td>
+						<td>[[${#numbers.formatDecimal(s.expectedPoint,3,'COMMA',0,'COMMA')}]]</td>
+						<td>[[${#numbers.formatDecimal(s.expectedMoney,3,'COMMA',0,'COMMA')}]]</td>
+						<td>[[${s.confirmDate}]]</td>
+						<td>[[${s.calDate}]]</td>
+						<td th:classappend="${s.status} == 'N' ? 'notComplete' : 'complete'">[[${s.status} == 'N' ? '미지급': '지급 완료']]</td>
+					</tr>
+				</tbody>
+			</table>
 			<!-- 페이지네이션 -->
-				<div class="text-center"
-					style="margin-top: 50px; text-align: center;" th:with="loc=${loc}">
-					<ul class="pagination">
-						<!-- 이전링크 -->
-						<li style="margin-left: auto;"><a class="movePage"
-							th:href="@{${loc}(page=${pi.currentPage-1})}"
-							aria-label="Previous"
-							th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
-						</li>
-						<!-- 번호 이동 -->
-						<li class="pageNumber"
-							th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<th:block th:if="${pi.endPage != 0}">
-								<a class="movePage" th:href="@{${loc}(page=${p})}" th:text="${p}"></a>
-							</th:block>
-						</li>
-						<!-- 다음링크 -->
-						<li style="margin-right: auto;"><th:block
-								th:if="${pi.endPage != 0}">
-								<a class="movePage" th:href="@{${loc}(page=${pi.currentPage+1})}"
-									aria-label="Next"
-									th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
-							</th:block></li>
-					</ul>
-				</div>
+			<div class="text-center"
+				style="margin-top: 50px; text-align: center;" th:with="loc=${loc}">
+				<ul class="pagination">
+					<!-- 이전링크 -->
+					<li style="margin-left: auto;"><a class="movePage"
+						th:href="@{${loc}(page=${pi.currentPage-1})}"
+						aria-label="Previous"
+						th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+					</li>
+					<!-- 번호 이동 -->
+					<li class="pageNumber"
+						th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}"><th:block
+							th:if="${pi.endPage != 0}">
+							<a class="movePage" th:href="@{${loc}(page=${p})}" th:text="${p}"></a>
+						</th:block></li>
+					<!-- 다음링크 -->
+					<li style="margin-right: auto;"><th:block
+							th:if="${pi.endPage != 0}">
+							<a class="movePage" th:href="@{${loc}(page=${pi.currentPage+1})}"
+								aria-label="Next"
+								th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
+						</th:block></li>
+				</ul>
+			</div>
 		</div>
 	</div>
-	
-	
+
+
 	<div style="margin-bottom: 300px"></div>
-	
+
 	<!-- 푸터 -->
-	<div th:replace="~{common/footer :: footer}" ></div>
+	<div th:replace="~{common/footer :: footer}"></div>
+
+
 </body>
 </html>

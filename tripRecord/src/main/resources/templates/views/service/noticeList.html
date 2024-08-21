@@ -228,9 +228,11 @@
 			
 			
 			const reviewBtn = document.getElementById("goReview");
-			reviewBtn.addEventListener('click',()=>{
-				location.href="noticeManage.ad";
-			});
+			if(reviewBtn != null){
+				reviewBtn.addEventListener('click',()=>{
+					location.href="commuWrite.bo";
+				});
+			}
 			
 		}
 	

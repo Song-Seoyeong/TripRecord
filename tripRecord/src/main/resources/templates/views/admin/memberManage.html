@@ -42,6 +42,7 @@
 				<li><a href="boardManage.ad">게시판 관리</a></li>
 				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
 				<li><a href="contentImgManage.ad">사진 관리</a></li>
+				<li><a href="planManage.ad">일정 관리</a></li>
 				<li><a href="otherManage.ad">기타 관리</a></li>
 			</ul>
 			<div class="out-adminPage">
@@ -92,13 +93,14 @@
 							<thead>
 								<tr style="border-bottom: 1px solid #96caf0; border-bottom-width: medium;">
 									<th style="width: 7%;">프로필</th>
-									<th style="width: 10%;">이름</th>
-									<th style="width: 11%;">아이디</th>
-									<th style="width: 20%;">닉네임</th>
+									<th style="width: 8%;">이름</th>
+									<th style="width: 7%;">아이디</th>
+									<th style="width: 16%;">닉네임</th>
 									<th style="width: 10%;">전화번호</th>
 									<th style="width: 10%;">가입 날짜</th>
 									<th style="width: 7%;">상태 정보</th>
 									<th style="width: 5%;">등급</th>
+									<th style="width: 9%;">포인트</th>
 									<th style="width: 7%;">강제 탈퇴</th>
 								</tr>
 							</thead>
@@ -138,6 +140,7 @@
 											관리자
 										</th:block>
 									</td>
+									<td><span th:text="${m.memberPoint == 0 ? '0' : #numbers.formatInteger(m.memberPoint, 3, 'COMMA')}"></span></td>
 									<td>[[${m.memberDrop}]]</td>
 						  		</tr>
 						  	</tbody>

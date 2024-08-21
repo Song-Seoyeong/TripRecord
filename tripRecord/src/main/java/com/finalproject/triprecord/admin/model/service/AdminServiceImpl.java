@@ -17,8 +17,10 @@ import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
+import com.finalproject.triprecord.plan.model.vo.Plan;
 
 @Service
 public class AdminServiceImpl implements AdminService{
@@ -222,10 +224,16 @@ public class AdminServiceImpl implements AdminService{
 	
 	@Override
 	public ArrayList<Member> selectMemberList(PageInfo pi) {
-		int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		if(pi != null) {
+			int offset = (pi.getCurrentPage() - 1)*pi.getBoardLimit();
+			RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+			
+			return aMapper.selectMemberList(rowBounds);
+		} else {
+			return aMapper.selectMemberList();
+		}
 				
-		return aMapper.selectMemberList(rowBounds);
 	}
 	
 	@Override
@@ -342,6 +350,29 @@ public class AdminServiceImpl implements AdminService{
 		RowBounds rowBounds = new RowBounds(offset, cPi.getBoardLimit());
 		
 		return aMapper.selectCalculatePageList(rowBounds);
+	}
+	
+	@Override
+	public int updateMemberPoint(Member m) {
+		return aMapper.updateMemberPoint(m);
+	}
+	
+	@Override
+	public ArrayList<ReqSchedule> selectReqScheduleList(PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return aMapper.selectReqScheduleList(rowBounds);
+	}
+	
+	@Override
+	public int getReqScheduleListCount() {
+		return aMapper.getReqScheduleListCount();
+	}
+	
+	@Override
+	public ArrayList<Plan> selectPlan(int scNo) {
+		return aMapper.selectPlan(scNo);
 	}
 	
 }

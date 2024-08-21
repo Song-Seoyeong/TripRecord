@@ -12,8 +12,10 @@ import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
+import com.finalproject.triprecord.plan.model.vo.Plan;
 
 public interface AdminService {
 
@@ -136,6 +138,14 @@ public interface AdminService {
 	int getCalculateListCount();
 
 	ArrayList<Calculate> selectCalculatePageList(PageInfo cPi);
+
+	int updateMemberPoint(Member m);
+
+	ArrayList<ReqSchedule> selectReqScheduleList(PageInfo pi);
+
+	int getReqScheduleListCount();
+
+	ArrayList<Plan> selectPlan(int scNo);
 
 
 

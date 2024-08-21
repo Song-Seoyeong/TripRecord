@@ -2,6 +2,7 @@ package com.finalproject.triprecord.member.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -462,5 +463,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int scDelStaUpdate(int scheNo) {
 		return mMapper.scDelStaUpdate(scheNo);
+	}
+	
+	// 마이페이지 -> 내 일정 상세 보기 -> 지역 수정
+	@Override
+	public int updateTripLocal(Properties prop) {
+		return mMapper.updateTripLocal(prop);
 	}
 }

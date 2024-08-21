@@ -1,0 +1,21 @@
+	<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace='com.finalproject.triprecord.reconciliation.model.dao.ReconciliationMapper'>
+	<select id="getCalcList">
+		select *
+		from CALCULATE
+		where STATUS = 'N'
+	</select>
+	
+	<update id="updatePlannerPoint">
+		update PLANNER
+		set PLANNER_POINT = PLANNER_POINT + #{expectedMoney}
+		where MEMBER_NO = #{plannerNo}
+	</update>
+	
+	<update id="updateCalcStatus">
+		update CALCULATE
+		set STATUS = 'Y'
+		where STATUS = 'N' and PLANNER_NO = #{plannerNo}
+	</update>
+	
+</mapper>

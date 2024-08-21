@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -1052,7 +1053,7 @@ public class MyPageController {
 		String existFileId = null;
 		int hashTag = 0;
 		//계좌 수정
-		if(bank == null || "null".equals(bank) || "none".equals(bank) || account.isEmpty() || account.isBlank() || "null".equals(account) || account.length() < 14) {
+		if(bank == null || "null".equals(bank) || "none".equals(bank) || account.isEmpty() || account.isBlank() || "null".equals(account) || account.length() <= 9) {
 			return "bankEmpty";
 		}else if(lNo == 0){
 			return "localEmpty";
@@ -1138,5 +1139,17 @@ public class MyPageController {
 				}
 			}
 		}
+	}
+	
+	// 마이페이지 -> 내 일정 상세 보기 -> 수정
+	@GetMapping("updateDetailTripLocal.mp")
+	@ResponseBody
+	public String updateTripLocal(@RequestParam("scNo") String scNo, @RequestParam("spot") String scLocalNo) {
+		Properties prop = new Properties();
+		prop.setProperty("scNo", scNo);
+		prop.setProperty("scLocalNo", scLocalNo);
+		
+		int result = mService.updateTripLocal(prop);
+		return result > 0 ? "success" : "fail";
 	}
 }

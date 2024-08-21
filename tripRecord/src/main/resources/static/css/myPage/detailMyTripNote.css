@@ -1,33 +1,7 @@
 @charset "UTF-8";
 
-#back_button {
-	color: #2C707E;
-	background-color: white;
-	width: 80px;
-	height: 40px;
-	border: none;
-	border-radius: 20px;
-	margin-right: 5px;
-	border: 2px solid #2C707E;
-}
-
-#back_button:hover {
-	background: #2C707E;
-	border: 2px solid #2C707E;
-	color: #fff;
-	font-weight: 600;
-}
-
-/* 수정 버튼 감싸는 div */
-.editButton-div{
-	text-align: right;
-	margin-right: 30px;
-	margin-bottom: 20px;
-	position: relative;
-	top: -47px;
-}
-
-#editButton {
+/* 수정, 완료 버튼 */
+.runButton{
 	color: #96CAF0;
 	background-color: white;
 	width: 80px;
@@ -38,16 +12,57 @@
 	border: 2px solid #96CAF0;
 }
 
-#editButton:hover {
+.runButton:hover{
 	background: #96CAF0;
 	border: 2px solid #96CAF0;
 	color: #fff;
 	font-weight: 600;
 }
 
-/* 수정 완료 버튼 */
-#completeButton:hover{
-	background-color: #58aae7;
+/* 수정 버튼 눌렀을 때 나오는 취소 버튼 */
+.notButton{
+	color: #DD5353;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	border: 2px solid #DD5353;
+}
+
+.notButton:hover {
+	background: #DD5353;
+	border: 2px solid #DD5353;
+	color: #fff;
+	font-weight: 600;
+}
+
+/* 수정 버튼 감싸는 div */
+.editButton-div{
+	text-align: right;
+	margin-right: 30px;
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.cancelBtn{
+	background: white;
+	color: black;
+	border: 2px solid black;
+}
+
+.cancelBtn:hover{
+	background: black;
+	color: white;
+	border: 2px solid black;
+}
+
+#change_local{
+	width: fit-content;
+}
+
+#rnEdB{
+	top: -47px;
 }
 
 .check-icon:hover, .trash-icon:hover, .pencil-icon:hover{
@@ -90,44 +105,6 @@
 	cursor: pointer;
 }
 
-/* 수정, 완료 버튼 */
-.runButton{
-	border-radius: 12px;
-	border: none;
-	background-color: #96caf0;
-	font-weight: bold;
-	color: white;
-	padding: 8px;
-	font-size: 15px;
-}
-
-/* 수정 버튼 눌렀을 때 나오는 취소 버튼 */
-.notButton{
-	border-radius: 12px;
-	border: none;
-	padding: 8px;
-	font-weight: bold;
-	background-color: gray;
-	margin-left: 10px;
-	font-size: 15px;
-}
-
-#delete_button {
-	color: #DD5353;
-	background-color: white;
-	width: 80px;
-	height: 40px;
-	border: none;
-	border-radius: 20px;
-	border: 2px solid #DD5353;
-}
-
-#delete_button:hover {
-	background: #DD5353;
-	border: 2px solid #DD5353;
-	color: #fff;
-	font-weight: 600;
-}
 
 #buttons-div{
 	margin-top: 60px;

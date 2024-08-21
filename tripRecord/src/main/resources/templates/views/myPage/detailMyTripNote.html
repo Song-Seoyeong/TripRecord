@@ -46,44 +46,44 @@
 						<span class="textSpan" id="spot-span" th:text="${s.spot}"></span>
 						<span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
 					</div>
-					<div class="editButton-div">
-						<button type="button" class="runButton" id="editButton">수정</button>
+					<div class="editButton-div" id="rnEdB">
+<!-- 						<button type="button" class="runButton" id="editButton" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">수정</button> -->
+						<button type="button" class="runButton" id="editButton" data-bs-toggle="modal" data-bs-target="#exampleModal">수정</button>
 						<input type="hidden" name="scNo" th:value="${s.scNo}" id="scNo"/>
 					</div>				
 				</div>
 				
 				<div class="contain-div" id="editForm" style="display: none;">
 					<div class="inline-contain-div edit-div">
-						<input type="text" id="sdate" class="datepicker" name="startDate" th:value="${s.startDate}" /> 
+						<span class="textSpan" id="startDate-span" th:text="${s.startDate}"></span>
 						<span class="textSpan">-</span> 
-						<input type="text" id="edate" class="datepicker" name="endDate" th:value="${s.endDate}" /> 
+						<span class="textSpan" id="endDate-span" th:text="${s.endDate}"></span> 
 						<span class="textSpan">동안</span>
 					</div>
 					<div class="inline-contain-div edit-div">
 						<select id="selectSpotHidden" name="spot" class="form-select selectOption">
-							<!-- selected 옵션 왜 안 되냐 -->
-							<option class="select_opt" value="1" th:selected="${ s.spot == '서울' }">서울</option>
-							<option class="select_opt" value="2" th:selected="${ s.spot == '인천' }">인천</option>
-							<option class="select_opt" value="3" th:selected="${ s.spot == '대전' }">대전</option>
-							<option class="select_opt" value="4" th:selected="${ s.spot == '대구' }">대구</option>
-							<option class="select_opt" value="5" th:selected="${ s.spot == '광주' }">광주</option>
-							<option class="select_opt" value="6" th:selected="${ s.spot == '부산' }">부산</option>
-							<option class="select_opt" value="7" th:selected="${ s.spot == '울산' }">울산</option>
-							<option class="select_opt" value="8" th:selected="${ s.spot == '세종' }">세종</option>
-							<option class="select_opt" value="31" th:selected="${ s.spot == '경기' }">경기</option>
+							<option class="select_opt" value="서울" th:selected="${ s.spot == '서울' }">서울</option>
+							<option class="select_opt" value="인천" th:selected="${ s.spot == '인천' }">인천</option>
+							<option class="select_opt" value="대전" th:selected="${ s.spot == '대전' }">대전</option>
+							<option class="select_opt" value="대구" th:selected="${ s.spot == '대구' }">대구</option>
+							<option class="select_opt" value="광주" th:selected="${ s.spot == '광주' }">광주</option>
+							<option class="select_opt" value="부산" th:selected="${ s.spot == '부산' }">부산</option>
+							<option class="select_opt" value="울산" th:selected="${ s.spot == '울산' }">울산</option>
+							<option class="select_opt" value="세종" th:selected="${ s.spot == '세종' }">세종</option>
+							<option class="select_opt" value="경기" th:selected="${ s.spot == '경기' }">경기</option>
 							<option class="select_opt" value="강원" th:selected="${ s.spot == '강원' }">강원</option>
-							<option class="select_opt" value="33" th:selected="${ s.spot == '충북' }">충북</option>
-							<option class="select_opt" value="34" th:selected="${ s.spot == '충남' }">충남</option>
-							<option class="select_opt" value="35" th:selected="${ s.spot == '경북' }">경북</option>
-							<option class="select_opt" value="36" th:selected="${ s.spot == '경남' }">경남</option>
-							<option class="select_opt" value="37" th:selected="${ s.spot == '전북' }">전북</option>
-							<option class="select_opt" value="38" th:selected="${ s.spot == '전남' }">전남</option>
-							<option class="select_opt" value="39" th:selected="${ s.spot == '제주' }">제주</option>
+							<option class="select_opt" value="충북" th:selected="${ s.spot == '충북' }">충북</option>
+							<option class="select_opt" value="충남" th:selected="${ s.spot == '충남' }">충남</option>
+							<option class="select_opt" value="경북" th:selected="${ s.spot == '경북' }">경북</option>
+							<option class="select_opt" value="경남" th:selected="${ s.spot == '경남' }">경남</option>
+							<option class="select_opt" value="전북" th:selected="${ s.spot == '전북' }">전북</option>
+							<option class="select_opt" value="전남" th:selected="${ s.spot == '전남' }">전남</option>
+							<option class="select_opt" value="제주" th:selected="${ s.spot == '제주' }">제주</option>
 						</select> <span class="textSpan">(으)로 떠나는 여행 계획입니다</span>
 					</div>
 					<div class="editButton-div">
 						<button type="button" id="completeButton" class="runButton">완료</button>
-						<button type="button" id="cancelButton" class="notButton">취소</button>
+						<button type="button" id="cancelButton" class="notButton cancelBtn">취소</button>
 					</div>
 				</div>
 				
@@ -130,14 +130,47 @@
 					</div>
 				</div>
 			</div>
+			
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header" style="padding: 16px;">
+							<h1 class="modal-title fs-5" id="exampleModalLabel" style="font-size: 18px;">현재는 지역만 수정 가능합니다 &#128583;</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<span>날짜를 수정하려면 새로운 일정을 작성해 주세요</span>
+						</div>
+						<div class="modal-footer" style="padding: 10px;">
+							<button type="button" id="change_local" class="runButton" data-bs-dismiss="modal" style="width: fin-content;">지역만 변경</button>
+							<button type="button" class="notButton" data-bs-toggle="modal" data-bs-target="#exampleModal2">뭐?!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header" style="padding: 16px;">
+							<h5 class="modal-title fs-5" id="exampleModalLabel2" style="font-size: 18px;">최대한 빠르게 날짜도 수정 가능하도록 업데이트 하겠습니다! &#128549;</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-footer" style="padding: 10px;">
+							<button type="button" id="close" class="notButton cancelBtn" data-bs-dismiss="modal">닫기</button>
+							<button type="button" id="plan_move" class="runButton" style="width: fit-content;">일정 생성하러 가기</button>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- 제출버튼 -->
 			<div id="buttons-div">
-				<button id="back_button" type="button">뒤로가기</button>
-				<button id="delete_button" type="button">삭제</button>
+				<button id="back_button" class="runButton" type="button">뒤로가기</button>
+				<button id="delete_button" class="notButton" type="button">삭제</button>
 			</div>
 		</div>
 	</form>
-	<div style="margin-bottom: 400px"></div>
+	<div id="inputHiddens" style="margin-bottom: 400px"></div>
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}"></div>
 	
@@ -146,6 +179,10 @@
 		/*<![CDATA[*/
 		let page = /*[[${page}]]*/1;
 		/*]]>*/
+		
+		document.getElementById('plan_move').addEventListener('click', () => {
+			location.href = "planMain.pl";
+		})
 		
 		document.getElementById('back_button').addEventListener('click', () =>{
 			 window.history.back();
@@ -362,8 +399,6 @@
 		        	if(!checkbox.checked) status = 'Y';
 		        	else status = 'N';
 		        	
-		        	console.log(status);
-		        	
 		        	$.ajax({
 		        		url: 'updateReserve.mp',
 		        		data: {
@@ -493,7 +528,7 @@
 			
 			const detailForm = document.getElementById('detailForm');
 			const editForm = document.getElementById('editForm');
-			document.getElementById('editButton').addEventListener('click', () => {
+			document.getElementById('change_local').addEventListener('click', () => {
 				detailForm.style.display = 'none';
 				editForm.style.display = 'block';
 				
@@ -504,7 +539,6 @@
 				$('#sdate').val(originalStart);
 				$('#edate').val(originalEnd);
 				$('#selectSpotHidden').val(originalSpot);
-				//console.log(originalSpot)
 			});
 
 // 			수정 저장하기(지역 (으)로 떠나는 여행 계획입니다 오른쪽에)
@@ -512,55 +546,49 @@
 				detailForm.style.display = 'block';
 				editForm.style.display = 'none';
 				
-				let newStartDate = $("#sdate").val();
-				let newEndDate = $("#edate").val();
 				let newSpot = $('#selectSpotHidden option:checked').text();
 				
-				$('#startDate-span').text(newStartDate);
-				$('#endDate-span').text(newEndDate);
 				$('#spot-span').text(newSpot);
 				
+				let spotVal;
+				switch(newSpot){
+				case '서울' : spotVal = 1; break;
+				case '인천' : spotVal = 2; break;
+				case '대전' : spotVal = 3; break;
+				case '대구' : spotVal = 4; break;
+				case '광주' : spotVal = 5; break;
+				case '부산' : spotVal = 6; break;
+				case '울산' : spotVal = 7; break;
+				case '세종' : spotVal = 8; break;
+				case '경기' : spotVal = 31; break;
+				case '강원' : spotVal = 32; break;
+				case '충북' : spotVal = 33; break;
+				case '충남' : spotVal = 34; break;
+				case '경북' : spotVal = 35; break;
+				case '경남' : spotVal = 36; break;
+				case '전북' : spotVal = 37; break;
+				case '전남' : spotVal = 38; break;
+				default : spotVal = 39;
+				}
+				
+				const scNo = document.getElementById('scNo').value;
+				
 				$.ajax({
-					url: 'updateValue.mp',
-					method: 'POST',
-					data: { 
-						startDate:newStartDate,
-						endDate:newEndDate,
-						spot:newSpot
+					url: 'updateDetailTripLocal.mp',
+					data: {
+						scNo:scNo,
+						spot:spotVal
 					},
-					success: function(map) {
-						let p = map.p;
-						let dates = map.dates;
-						
-						$('#planAll').empty();
-						$.each(dates, function(key, value) {
-							// n일차 + 날짜
-							let dayTextHtml = '<div class="dayText">' + key + '일차</div>';
-							let dateHtml = '<div class="date">' + value + '</div>';
-						
-							// input 입력창
-							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
-						
-							// 1개의 계획 + 라인 + 원
-							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
-						
-							// 버튼
-							let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
-							
-							// planDiv 안에 1개 계획 넣기
-							let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
-						
-							// 1일차를 감싸는 계획 div
-							let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
-						
-							$('#planAll').append(newDayPlan);
-						});
+					success: data => {
+						if(data == 'success'){
+							$('#spot').val(newSpot);
+						} else {
+							alert('지역 수정 중 오류가 발생하였습니다');
+						}
 					},
 					error: data => console.log(data)
 				})
 				
-				
-				$('#spot').val(newSpot);
 			})
 			
 // 			수정 취소

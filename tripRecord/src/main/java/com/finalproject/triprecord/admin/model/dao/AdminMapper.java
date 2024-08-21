@@ -14,8 +14,10 @@ import com.finalproject.triprecord.common.model.vo.HashTag;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.common.model.vo.Point;
+import com.finalproject.triprecord.matching.model.vo.ReqSchedule;
 import com.finalproject.triprecord.member.model.vo.Calculate;
 import com.finalproject.triprecord.member.model.vo.Member;
+import com.finalproject.triprecord.plan.model.vo.Plan;
 
 @Mapper
 public interface AdminMapper {
@@ -139,6 +141,16 @@ public interface AdminMapper {
 	int getCalculateListCount();
 
 	ArrayList<Calculate> selectCalculatePageList(RowBounds rowBounds);
+
+	ArrayList<Member> selectMemberList();
+
+	int updateMemberPoint(Member m);
+
+	ArrayList<ReqSchedule> selectReqScheduleList(RowBounds rowBounds);
+
+	int getReqScheduleListCount();
+
+	ArrayList<Plan> selectPlan(int scNo);
 
 	
 }

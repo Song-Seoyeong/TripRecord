@@ -2,6 +2,7 @@ package com.finalproject.triprecord.member.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 
 import com.finalproject.triprecord.admin.model.vo.RequestGrade;
 import com.finalproject.triprecord.board.model.vo.Board;
@@ -201,7 +202,8 @@ public interface MemberService {
 	// del_status N 변경
 	int scDelStaUpdate(int scheNo);
 	
-
+	// 마이페이지 -> 내 일정 상세 보기 -> 지역 수정
+	int updateTripLocal(Properties prop);
 
 	
 
