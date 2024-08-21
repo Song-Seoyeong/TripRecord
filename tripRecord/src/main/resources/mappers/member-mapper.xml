@@ -553,12 +553,13 @@
 	</select>
 
 	<!-- 플래너 인트로 업데이트 -->
-	<update id="updatePlannerIntro">
-		update PLANNER
-		set INTRO_CONTENT = #{introContent},
-		LOCAL_NO = #{localNo}
-		where MEMBER_NO = #{memberNo}
-	</update>
+   <update id="updatePlannerIntro">
+      update PLANNER
+      set INTRO_CONTENT = #{introContent},
+      LOCAL_NO = #{localNo},
+      S_INTRO_CONTENT = #{sIntroContent}
+      where MEMBER_NO = #{memberNo}
+   </update>
 
 	<!-- 소개 사진 유무 확인 -->
 	<select id="checkIntroImg" resultType="_int">

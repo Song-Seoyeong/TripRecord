@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.finalproject.triprecord.board.model.dao.BoardMapper;
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.CategorySelect;
+import com.finalproject.triprecord.board.model.vo.GeneralBoard;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.board.model.vo.Reply;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -192,6 +193,13 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void firstBoardPoint(int memberNo) {
 		bMapper.firstBoardPoint(memberNo);
+	}
+
+	
+	// plus
+	@Override
+	public ArrayList<GeneralBoard> getGeneralAsk() {
+		return bMapper.getGeneralAsk();
 	}
 
 

@@ -63,8 +63,10 @@ body {
 
 		<!-- 로그인 유무에 따라 변경 -->
 		<div class="col-4 text-end" th:if="${ session.loginUser == null }">
-			<a href="enrollView.me" class="memberLink">회원가입</a>
-			&nbsp;&nbsp;|&nbsp;&nbsp; <a href="loginView.me" class="memberLink">로그인</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="enrollPlannerView.me" class="memberLink">플래너 가입</a>
+			&nbsp;&nbsp;|&nbsp;&nbsp; <a href="enrollView.me" class="memberLink">회원가입</a>
+			&nbsp;&nbsp;|&nbsp;&nbsp; <a href="loginView.me" class="memberLink">로그인</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
 		</div>
 		<div class="col-4 text-end"
 			th:if="${ session.loginUser != null and session.loginUser.grade == 'GENERAL' }">

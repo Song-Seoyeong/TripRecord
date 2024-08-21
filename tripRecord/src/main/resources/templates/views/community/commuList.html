@@ -110,14 +110,16 @@
 					<thead>
 						<tr>
 							<th width="10%">글 번호</th>
+							<th width="10%">분류</th>
 							<th width="45%">글 제목</th>
-							<th width="15%x">작성자</th>
-							<th width="20%">작성일자</th>
+							<th width="20%x">작성자</th>
+							<th width="15%">작성일자</th>
 							<th width="10%">조회수</th>
 	          			</tr>
 	          		</thead>
 	         		<tbody id="text-test">
 	         			<tr th:if="${ #lists.isEmpty(cList)}">
+	         				<td></td>
 	         				<td></td>
 	         				<td>게시글이 아직 없어요.</td>
 	         				<td></td>
@@ -127,6 +129,9 @@
 	         		<!-- 이거 반복 -->
 	          			<tr th:each=" b : ${cList}">
 	            			<td>[[${ b.boardNo }]]</td>
+	            			<td th:if="${b.generalType == 'WITH'}">동행</td>
+	            			<td th:if="${b.generalType == 'GIVE'}">양도</td>
+	            			<td th:if="${b.generalType == 'REVIEW'}">후기</td>
 	            			<td>[[${ b.boardTitle }]]</td>
 	            			<td>[[${ b.nickname }]]</td>
 	            			<td>[[${ b.boardModifyDate }]]</td>

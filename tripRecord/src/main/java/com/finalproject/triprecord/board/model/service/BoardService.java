@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.board.model.vo.CategorySelect;
+import com.finalproject.triprecord.board.model.vo.GeneralBoard;
 import com.finalproject.triprecord.board.model.vo.Question;
 import com.finalproject.triprecord.board.model.vo.Reply;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -74,6 +75,11 @@ public interface BoardService {
 	int countBoardList(int memberNo);
 
 	void firstBoardPoint(int memberNo);
+
+	
+	
+	//추가
+	ArrayList<GeneralBoard> getGeneralAsk();
 
 
 
