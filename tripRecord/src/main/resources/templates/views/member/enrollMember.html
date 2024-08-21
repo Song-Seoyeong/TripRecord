@@ -18,8 +18,24 @@
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 	
 	<!-- 완전 큰 로그인 글자 -->
-	<div id="bigTitle" class='text-center'>회원가입</div>
+	<div id="bigTitle" class='text-center'>회원가입
 	
+	<!--  -->
+	<div style="display:flex; justify-content:right;">
+       	<div class='review-text' id='reviewDiv'>
+			<button id='goReview'>
+				<p>플래너 회원가입</p>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
+					<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
+				</svg>
+			</button>
+		</div>
+    </div>
+    <!--  -->
+	
+	</div>
+	
+    
 	<!-- 회원가입 폼 -->
 	<form action="enrollMember.me" method="post">
 		<div id='enrollDiv'>
@@ -62,7 +78,7 @@
 					<label class="loginText">이름</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='memberName' placeholder="이름를 입력하세요">
+					<input type="text" name='memberName' placeholder="이름을 입력하세요">
 					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -73,7 +89,7 @@
 					<label class="loginText">닉네임</label>
 				</div>
 				<div  class='col-4'>
-					<input type="text" name='nickname' placeholder="닉네임를 입력하세요">
+					<input type="text" name='nickname' placeholder="닉네임을 입력하세요">
 					<div class="alert-div"></div>
 				</div>
 				<div class='col-3'></div>
@@ -135,7 +151,6 @@
 			
 			<div class='d-grid gap-2 d-md-flex justify-content-md-center align-items-center'>
 				<button class="btn btn-primary" id='enrollButton'>회원가입</button>
-				<a id='enrollPlaner' href="enrollPlannerView.me">플래너 회원가입</a>
 			</div>
 			<input type="hidden" name="grade" value="GENERAL">
 		</div>
@@ -311,6 +326,10 @@
 			});
 			
 			
+			//플래너 회원가입 화면이동
+			document.getElementById("goReview").addEventListener('click',()=>{
+				location.href="enrollPlannerView.me";
+			})
 			
 			
 		}

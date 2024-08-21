@@ -2,15 +2,21 @@
 	width: 1400px;
 }
 
-#plannerList:hover {
+.plannerList:hover {
 	cursor: pointer;
 }
 
+.plannerList {
+	vertical-align: middle;
+}
+
 .plannerList .sIntro {
-	max-width: 300px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	font-size:15px;
 }
 
 .local-card{

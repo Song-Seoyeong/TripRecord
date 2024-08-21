@@ -100,3 +100,88 @@ input{
 	height:35px;
 }
 .alert-div{height:25px;}
+.review-text{
+	width: 900px;
+}
+#goReview{
+	margin-bottom: 40px;
+}
+#goReview {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  top:-40px;
+  left:680px;
+}
+
+#goReview {
+  --primary-color: #111;
+  
+  --hovered-color: black;
+  
+  position: relative;
+  display: flex;
+  font-weight: 600;
+  font-size: 20px;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+#goReview p {
+  margin: 0;
+  position: relative;
+  font-size: 17px;
+  color: gray;
+}
+
+#goReview::after {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: 0;
+  bottom: -7px;
+  height: 2px;
+  transition: 0.1s ease-out;
+}
+
+#goReview p::before {
+  position: absolute;
+  /*   box-sizing: border-box; */
+  content: "일반 회원가입";
+  width: 0%;
+  inset: 0;
+  color: var(--hovered-color);
+  overflow: hidden;
+  transition: 0.03s ease-out;
+}
+
+#goReview:hover::after {
+  width: 100%;
+}
+#goReview::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  left: 0;
+  bottom: -7px;
+  height: 2px;
+  transition: 0.1s ease-out;
+}
+
+#goReview:hover p::before {
+  width: 100%;
+}
+
+#goReview:hover svg {
+  transform: translateX(4px);
+  color: var(--hovered-color);
+}
+
+#goReview svg {
+  color: gray;
+  transition: 0.1s;
+  position: relative;
+  width: 15px;
+}

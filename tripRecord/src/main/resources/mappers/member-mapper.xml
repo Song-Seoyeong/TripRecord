@@ -248,9 +248,10 @@
 	<!-- 플래너 불러오기 -->
 	<select id="getPlanner">
 		select *
-		from PLANNER
-		join MEMBER using(MEMBER_NO)
-		where MEMBER_NO = #{memberNo} and status = 'Y'
+		from planner
+		join member using(member_no)
+		left
+		join image on image_ref_no = member_no and image_ref_type = 'MEMBER'
 	</select>
 
 	<!-- 플래너 지역 불러오기 -->
@@ -293,10 +294,13 @@
 	<!-- 후기 불러오기 -->
 	<select id="getReviewList" resultType="Review">
 		select *
-		from REVIEW
-		where
-		REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and REV_REF_NO =
-		#{memberNo}
+		from review
+		join
+		member using(member_no)
+		left join image on image_ref_no = member_no and
+		image_ref_type = 'MEMBER'
+		where rev_ref_type = 'PLANNER' and
+		review_status='Y' and rev_ref_no = #{ pNo }
 	</select>
 
 	<!-- 플래너 프로필 이미지 불러오기 -->
@@ -376,16 +380,18 @@
 	<select id="getPlanList" resultMap='planMap'>
 		select *
 		from plan
-		where sc_no = #{scheNo}
+		where sc_no
+		= #{scheNo}
 	</select>
 
 	<!-- 일정 취소 사유 받아오기 -->
 	<select id="checkCancel" resultType='Cancel'>
 		select *
 		from cancel
-		where cancel_ref_no = #{reqNo} and cancel_ref_type = 'REQSCHEDULE'
+		where
+		cancel_ref_no = #{reqNo} and cancel_ref_type = 'REQSCHEDULE'
 	</select>
-	
+
 	<resultMap id="planMap" type="Plan">
 		<result column="PL_PLACE" property="place" />
 		<result column="PL_TIME" property="time" />
@@ -428,7 +434,8 @@
 	<!-- 정산 추가 -->
 	<insert id="insertCalcultate">
 		insert into calculate
-		values(seq_calculate.nextval, #{reqPlaNo}, #{reqNo}, '구매확정 정산', default, LAST_DAY(SYSDATE),
+		values(seq_calculate.nextval,
+		#{reqPlaNo}, #{reqNo}, '구매확정 정산', default, LAST_DAY(SYSDATE),
 		#{payPoint}, FLOOR(#{payPoint}*0.8), default)
 	</insert>
 
@@ -465,16 +472,21 @@
 		where req_pla_no = #{ pNo }
 	</select>
 
-	<!-- -->
+	<!-- 로그인시 일정 날짜 체크 -->
 	<select id="checkSevenSchedule" resultType="_int">
-		<![CDATA[
-		select count(*) 
-		from req_schedule 
-		    left join schedule on(sc_no = sche_no)
-		where ceil(sc_start_date - sysdate) <= 7 and ceil(sc_start_date - sysdate) > 0
-		
-		and req_pla_no = #{memberNo}
-		]]>
+      <![CDATA[
+      select count(*) 
+      from req_schedule 
+          left join schedule on(sc_no = sche_no)
+      where ceil(sc_start_date - sysdate) <= 7 and ceil(sc_start_date - sysdate) > 0
+      and req_status = 1
+      ]]>
+		<if test="grade == 'PLANNER'">
+			and req_pla_no = #{memberNo}
+		</if>
+		<if test="grade == 'GENERAL'">
+			and req_mem_no = #{memberNo}
+		</if>
 	</select>
 
 	<!-- 플래너의 일정 요청 상세 보기, 일정 요청 진행 -->
@@ -488,13 +500,15 @@
 	<update id="updateSchedule">
 		update schedule
 		set sc_writer_no = #{reqMemNo}
-		where sc_no = #{scheNo}
+		where
+		sc_no = #{scheNo}
 	</update>
 
 	<select id="detailSchedule" resultType='Schedule'>
 		select sc_no,
 		sc_local_no, sc_writer_no as writer_no,
-		to_char(sc_start_date, 'YYYY-MM-DD') as start_date, to_char(sc_end_date, 'YYYY-MM-DD') as
+		to_char(sc_start_date,
+		'YYYY-MM-DD') as start_date, to_char(sc_end_date, 'YYYY-MM-DD') as
 		end_date, req_check
 		from schedule
 		where sc_no = #{scheNo}
@@ -505,7 +519,8 @@
 		insert all
 		<foreach collection="list" item="l" separator=" ">
 			into plan
-			values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo, jdbcType=VARCHAR}, 'N', #{l.day})
+			values(pl_no_func, #{l.scNo}, #{l.place}, #{l.time}, #{l.memo,
+			jdbcType=VARCHAR}, 'N', #{l.day})
 		</foreach>
 		select * from dual
 	</insert>
@@ -514,18 +529,19 @@
 	<update id="reqScheUpdate">
 		update req_schedule
 		set req_status = '2'
-			<if test="memo != null">
-				, memo = #{memo}
-			</if>
-			, confirm_date = sysdate
+		<if test="memo != null">
+			, memo = #{memo}
+		</if>
+		, confirm_date = sysdate
 		where req_no = #{reqNo}
 	</update>
-	
+
 	<!-- 플래너가 일정 요청 거절 schedule 상태값 변경 -->
 	<update id="scDelStaUpdate">
 		update schedule
 		set sc_del_status = 'Y'
-		where sc_no = #{scNo}
+		where sc_no =
+		#{scNo}
 	</update>
 
 
@@ -553,13 +569,13 @@
 	</select>
 
 	<!-- 플래너 인트로 업데이트 -->
-   <update id="updatePlannerIntro">
-      update PLANNER
-      set INTRO_CONTENT = #{introContent},
-      LOCAL_NO = #{localNo},
-      S_INTRO_CONTENT = #{sIntroContent}
-      where MEMBER_NO = #{memberNo}
-   </update>
+	<update id="updatePlannerIntro">
+		update PLANNER
+		set INTRO_CONTENT = #{introContent},
+		LOCAL_NO = #{localNo},
+		S_INTRO_CONTENT = #{sIntroContent}
+		where MEMBER_NO = #{memberNo}
+	</update>
 
 	<!-- 소개 사진 유무 확인 -->
 	<select id="checkIntroImg" resultType="_int">
@@ -598,7 +614,8 @@
 	<delete id="deleteTag">
 		delete
 		from SELECT_HASHTAG
-		where TAG_REF_TYPE ='PLANNER' and TAG_REF_NO =
+		where TAG_REF_TYPE
+		='PLANNER' and TAG_REF_NO =
 		#{memberNo}
 	</delete>
 
@@ -625,11 +642,12 @@
 		CALCULATE
 		where PLANNER_NO = #{memberNo}
 	</select>
-	
+
 	<update id="updateScheduleWriter">
 		update schedule
-		set sc_writer_no = #{reqMemNo}, req_check = 'N'
+		set sc_writer_no = #{reqMemNo},
+		req_check = 'N'
 		where sc_no = #{scheNo}
 	</update>
-	
+
 </mapper>

@@ -71,7 +71,9 @@
 		         					</td>
 					         		<td class="fs-4" width="200px">[[${planner.Nickname}]]</td>
 					         		<td width="150px">[[${localName[planner.memberNo]}]]</td>
-					         		<td class="sIntro fs-5" width="300px">[[${planner.sIntroContent}]]</td>
+					         		<td width="300px">
+					         			<div class="sIntro">[[${planner.sIntroContent}]]</div>
+					         		</td>
 					         		<td class="fs-5 text-start px-5" width="200px">
 					         			<th:block th:if="${star[planner.memberNo]} != null">
 					         			⭐ [[${star[planner.memberNo]}]]
@@ -206,9 +208,12 @@ for (const card of cards) {
                     localNameCell.innerText = data.localName[planner.memberNo];
                     
                     const sIntroContentCell = document.createElement('td');
-                    sIntroContentCell.classList.add('sIntro', 'fs-5');
-                    sIntroContentCell.width = 300;
-                    sIntroContentCell.innerText = planner.sIntroContent;
+                    sIntroContentCell.style.width = '300px';
+
+                    const sIntroDiv = document.createElement('div');
+                    sIntroDiv.classList.add('sIntro');
+                    sIntroDiv.innerText = planner.sIntroContent;
+                    sIntroContentCell.appendChild(sIntroDiv);
                     
                     const starLikesCell = document.createElement('td');
                     starLikesCell.classList.add('fs-5', 'text-start', 'px-5');

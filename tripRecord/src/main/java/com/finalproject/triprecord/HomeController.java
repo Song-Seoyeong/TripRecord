@@ -57,16 +57,6 @@ public class HomeController {
 		// 관광지 top 5
 		ArrayList<Place> pList = pService.topPlaceList();
 		
-		int planCount = 0;
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		if(loginUser != null) {
-			if(loginUser.getGrade().equals("GENERAL")) {
-				planCount = plService.selectPlanCount(loginUser);
-			} else if (loginUser.getGrade().equals("PLANNER")) {
-				planCount = plService.selectPlanCount(loginUser);
-			}
-		}
-		model.addAttribute("planCount", planCount);
 		
 		model.addAttribute("lList", lList);
 		model.addAttribute("img", img);
