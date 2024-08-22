@@ -116,7 +116,7 @@
 			</div>
 			<!-- 버튼 -->
 			<div id='buttonDiv'>
-				<input type='hidden' th:value='${rCount}' id='${rCount}'>
+				<input type='hidden' th:value='${rCount}' id='rCount'>
 				<button type='button' th:if='${rs.reqStatus == 2}' id="submit_button">구매확정</button>
 				<button type='button' th:if='${rs.reqStatus == 1}' id="cancle_button">신청 취소</button>
 				<button type='button' th:if='${rs.reqStatus == 3 || rs.reqStatus == 4}' id="review_button" onclick="review()">리뷰 작성</button>
@@ -247,15 +247,14 @@
 		
 		// 플래너 리뷰 쓰러가기
 		function review(){
-			const rCount = document.getElementById('rCount');
+			const rCount = document.getElementById('rCount').value;
+			console.log(rCount)
 			if(rCount == 0){
 				const plaNo = document.getElementsByName('plaNo')[0].value;
 				const reqNo = document.getElementsByName('reqNo')[0].value;
 				location.href="matchingReview.ma?pNo=" + plaNo + "&reqNo=" + reqNo;
 			}else{
-				canBtn.addEventListener('click', ()=>{
-		        	$('#modalReview').modal('show');
-				})
+		        $('#modalReview').modal('show');
 			}
 		}
 		
