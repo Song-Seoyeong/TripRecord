@@ -23,7 +23,7 @@
 		<div style="height:120px;"></div>
 		<div style="color: black; font-size: 36px; font-weight: 900;">내 문의글 보기</div>
 		<div style="height:40px;"></div>
-		<div style="display:inline-block; width:1200px; overflow:auto; border: 1px solid lightgray; border-radius:10px;" >
+		<div style="display:inline-block; width:1200px; overflow:auto; " >
 			<table>
 				<thead>
 				 	<tr style="border-bottom:2px solid #96CAF0;">
@@ -35,14 +35,19 @@
 					</tr>
 				</thead>
 				<tbody>
-					<th:block th:each=" q : ${qList}">
-							<tr style="border-bottom:2px solid #b9b9b9" >
-								<td>[[${q.boardNo}]]</td>
-								<td>[[${q.boardTitle}]]</td>
-								<td>[[${q.memberName}]]</td>
-								<td>[[${q.boardCreateDate}]]</td>
-								<td id="questionSuccess">[[${q.questionSuccess}=='N'? '진행중' : '답변 완료']]</td>
-							</tr>
+					<th:block th:if="${nothing == 'no'}">
+						<tr style="border-bottom:2px solid #b9b9b9" th:each=" q : ${qList}">
+							<td>[[${q.boardNo}]]</td>
+							<td>[[${q.boardTitle}]]</td>
+							<td>[[${q.memberName}]]</td>
+							<td>[[${q.boardCreateDate}]]</td>
+							<td id="questionSuccess">[[${q.questionSuccess}=='N'? '진행중' : '답변 완료']]</td>
+						</tr>
+					</th:block>
+					<th:block th:if="${ nothing == 'yes'}">
+						<tr style="border-bottom: 2px solid #b9b9b9">
+							<td colspan="5">작성한 문의글이 없어요 &#128549; </td>
+						</tr>
 					</th:block>
 				</tbody>
 			</table>
@@ -74,24 +79,27 @@
 	/*<![CDATA[*/
 		//상세글 보기
 		const tds = document.querySelectorAll('td');
-		for(const td of tds){
-			//마우스오버시 게시글 목록 배경 변환	
-			td.addEventListener('mouseover',function(){
-				const parent = td.parentElement;
-				parent.style.backgroundColor='#ECEBEB';
-				parent.style.cursor='pointer';
-			})
-			//마우스아웃 시 게시글 목록 배경 변환
-			td.addEventListener('mouseout',function(){
-				const parent = td.parentElement;
-				parent.style.backgroundColor='white';
-			})
-			
-			td.addEventListener('click', ()=>{
-				const parent = td.parentElement;
-				const boardNo = parent.children[0].innerText
-				location.href='askSelect.no?boardNo=' + boardNo +'&myPage=myPage' +'&page='+ /*[[${pi.currentPage}]]*/1
-			})
+		const nothing = /*[[${nothing}]]*/null;
+		if(nothing == 'no'){
+			for(const td of tds){
+				//마우스오버시 게시글 목록 배경 변환	
+				td.addEventListener('mouseover',function(){
+					const parent = td.parentElement;
+					parent.style.backgroundColor='#ECEBEB';
+					parent.style.cursor='pointer';
+				})
+				//마우스아웃 시 게시글 목록 배경 변환
+				td.addEventListener('mouseout',function(){
+					const parent = td.parentElement;
+					parent.style.backgroundColor='white';
+				})
+				
+				td.addEventListener('click', ()=>{
+					const parent = td.parentElement;
+					const boardNo = parent.children[0].innerText
+					location.href='askSelect.no?boardNo=' + boardNo +'&myPage=myPage' +'&page='+ /*[[${pi.currentPage}]]*/1
+				})
+			}
 		}
 		
 		//답변 여부에 따른 글자 색

@@ -463,7 +463,7 @@ public class MyPageController {
 
 	@GetMapping("detailReqPlan.mp")
 	public String moveToDetailReqPlan(@RequestParam("reqNo")int reqNo,
-									  @RequestParam("page") int page,
+									  @RequestParam(value="page", defaultValue="1") int page,
 									   HttpSession session, Model model) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 	    
@@ -672,21 +672,56 @@ public class MyPageController {
 		int listCount = mService.getListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> aList = mService.getBoardList(map, pi);// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
-
-		if (aList != null) {
-			model.addAttribute("aList", aList); // 보드
+		if (!aList.isEmpty()) {
+			model.addAttribute("aList", aList);
+			model.addAttribute("nothing", "no");// 보드
+			model.addAttribute("review", "board");
 		} else {
-			model.addAttribute("nothing", null);
+			model.addAttribute("nothing", "yes");
+			model.addAttribute("review", "board");
 		}
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", req.getRequestURI());
 		model.addAttribute("loginUser", loginUser);
-		model.addAttribute("wholeReview", "none");
 		return "myBoard";
 	}
 	
-	@GetMapping("myReview.mp")
-	public String moveToMyReview(HttpSession session, Model model, HttpServletRequest req,
+	@GetMapping("myPlannerReview.mp")
+	public String moveToMyPlannerReview(HttpSession session, Model model, HttpServletRequest req,
+			@RequestParam(value = "page", defaultValue = "1") int currentPage) {
+		
+		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+		Member loginUser = mService.getMember(memberNo);
+		Image image = mService.existFileId(memberNo);
+
+		if (image != null && image.getImageRename() != null) {
+			String existFileId = image.getImageRename();
+			model.addAttribute("rename", existFileId);
+		} else {
+			// 이미지가 없거나 리네임이 없는 경우 처리
+			model.addAttribute("noProfile", "noProfile");
+		}
+		int plannerListCount = mService.getPlannerReviewListCount(memberNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, plannerListCount, 10);
+		ArrayList<Review> plList = mService.getPlannerReviewList(memberNo, pi);
+		
+		if (!plList.isEmpty()) {
+			model.addAttribute("plList", plList); // review
+			model.addAttribute("review", "plannerReview");
+			model.addAttribute("nothing", "no");
+						
+		} else {
+			model.addAttribute("review", "plannerReview");
+			model.addAttribute("nothing", "yes");
+		}
+		model.addAttribute("pi", pi);
+		model.addAttribute("loc", req.getRequestURI());
+		model.addAttribute("loginUser", loginUser);
+		return "myBoard";
+	}
+	
+	@GetMapping("myPlaceReview.mp")
+	public String moveToMyPlaceReview(HttpSession session, Model model, HttpServletRequest req,
 			@RequestParam(value = "page", defaultValue = "1") int currentPage) {
 		
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
@@ -701,21 +736,23 @@ public class MyPageController {
 			model.addAttribute("noProfile", "noProfile");
 		}
 		
-		int listCount = mService.getWholeReviewListCount(memberNo);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-		ArrayList<Review> rList = mService.getWholeReviewList(memberNo, pi);
-		
-		if (rList != null) {
-			model.addAttribute("rList", rList); // review
-			model.addAttribute("wholeReview", "wholeReview");
+		int placeListCount = mService.getPlaceReviewListCount(memberNo);
+		PageInfo pi = Pagination.getPageInfo(currentPage, placeListCount, 10);
+		ArrayList<Review> prList = mService.getPlaceReviewList(memberNo, pi);
+		if (!prList.isEmpty()) {
+			model.addAttribute("prList", prList); // review
+			model.addAttribute("review", "placeReview");
+			model.addAttribute("nothing", "no");
 		} else {
-			model.addAttribute("nothing", null);
+			model.addAttribute("review", "placeReview");
+			model.addAttribute("nothing", "yes");
 		}
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", req.getRequestURI());
 		model.addAttribute("loginUser", loginUser);
 		return "myBoard";
 	}
+	
 
 	//////////플래너 페이지 ////////// 
 	@GetMapping("plannerPage.mp")

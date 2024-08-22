@@ -110,9 +110,9 @@
           					<th:block th:each="q : ${qList}">
 	          					<tr th:if="${a.boardNo == q.questionNo}">
 			            			<td>[[${ a.boardNo }]]</td>
-			            			<td th:if="${a.generalType == 'PAYMENT'}">동행</td>
-			            			<td th:if="${a.generalType == 'PLANNER'}">양도</td>
-			            			<td th:if="${a.generalType == 'ELSE'}">후기</td>
+			            			<td th:if="${a.generalType == 'PAYMENT'}">결제</td>
+			            			<td th:if="${a.generalType == 'PLANNER'}">플래너</td>
+			            			<td th:if="${a.generalType == 'ELSE'}">기타</td>
 			            			<td>[[${ a.boardTitle }]]</td>
 			            			<td>[[${ a.nickname }]]</td>
 			            			<td>[[${ a.boardModifyDate }]]</td>

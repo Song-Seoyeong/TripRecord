@@ -162,10 +162,16 @@ public interface MemberMapper {
 	int scDelStaUpdate(int scheNo);
 
 	// 본인 작성 리뷰 전체
-	int getWholeReviewListCount(int memberNo);
+	int getPlaceReviewListCount(int memberNo);
 
 	// 본인 리뷰 불러오기
-	ArrayList<Review> getWholeReviewList(int memberNo, RowBounds rb);
+	ArrayList<Review> getPlaceReviewList(int memberNo, RowBounds rb);
+
+	// 플래너 리뷰 수 불러오기
+	int getPlannerReviewListCount(int memberNo);
+
+	// 플래너 리뷰 불러오기
+	ArrayList<Review> getPlannerReviewList(int memberNo, RowBounds rb);
 	
 	// 플래너 해쉬태그 불러오기
 	ArrayList<HashTag> getHashTag(int memberNo);

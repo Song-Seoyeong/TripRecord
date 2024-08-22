@@ -4,333 +4,375 @@ body {
 	margin: 0;
 	line-height: normal;
 }
+
 .div {
-  	width: 80%;
-  	position: relative;
-  	height: 336px;
-  	display: flex;
-  	flex-direction: column;
-  	align-items: center;
-  	justify-content: center;
-  	padding: 160px 24px;
-  	box-sizing: border-box;
-  	background-size: 100%;
-  	background-repeat: no-repeat;
-  	background-position: center;
-  	text-align: center;
-  	font-size: 60px;
-  	color: white;
-  	margin: 70px auto;
-  	border-radius: 30px;
+	width: 80%;
+	position: relative;
+	height: 336px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 160px 24px;
+	box-sizing: border-box;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	text-align: center;
+	font-size: 60px;
+	color: white;
+	margin: 70px auto;
+	border-radius: 30px;
 }
+
 .title {
-  	align-self: stretch;
-  	position: relative;
-  	letter-spacing: -0.05em;
-  	/* mix-blend-mode: difference; */
-  	/* -webkit-text-stroke: 0.2px black; */
-  	background: #96caf0;
-  	opacity: 0.9;
-  	border-radius: 10px;
-  	padding:5px;
-  	padding-left: 15px;
-  	padding-right: 15px;
+	align-self: stretch;
+	position: relative;
+	letter-spacing: -0.05em;
+	/* mix-blend-mode: difference; */
+	/* -webkit-text-stroke: 0.2px black; */
+	background: #96caf0;
+	opacity: 0.9;
+	border-radius: 10px;
+	padding: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
+
 .subtitle {
-  	align-self: stretch;
-  	position: relative;
-  	font-size: 27px;
-  	line-height: 120%;
-  	margin-top:20px;
+	align-self: stretch;
+	position: relative;
+	font-size: 27px;
+	line-height: 120%;
+	margin-top: 20px;
 }
+
 .text-content-title {
-  	display: flex;
-  	flex-direction: column;
-  	align-items: center;
-  	justify-content: flex-start;
-  	gap: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 8px;
 }
-#outputDiv{
+
+#outputDiv {
 	width: 50%;
 	min-width: 900px;
 	margin: 15px auto;
 	padding: 0px;
 }
 
-#reviewTitle{
+#reviewTitle {
 	width: 100%;
-	padding-left:20px;
+	padding-left: 20px;
 }
-#reviewContent{
+
+#reviewContent {
 	width: 100%;
-	padding-left:20px;
+	padding-left: 20px;
 	margin: 20px 0px;
 	min-height: 300px;
 }
-#placeImg{
-	width:100%;
+
+#placeImg {
+	width: 100%;
 	margin: 20px auto;
 }
+
 .image-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0px auto;
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0px auto;
 }
+
 .image-container {
-    position: relative;
-    width:270px;
-    margin: 5px;
+	position: relative;
+	width: 270px;
+	height:210px;
+	margin: 5px;
 }
+
 .image-container img {
-    display: block;
-    max-width: 270px;
-    cursor: pointer;
+	display: block;
+	max-width: 270px;
+	cursor: pointer;
 }
+
 .more-images {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 270px;
-    height: 200px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 270px;
+	height: 210px;
+	background: rgba(0, 0, 0, 0.5);
+	color: white;
+	font-size: 24px;
+	cursor: pointer;
+	margin: 5px;
 }
+
 .modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    justify-content: center;
-    align-items: center;
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	justify-content: center;
+	align-items: center;
 }
+
 .modal img {
-    max-width: 80%;
-    max-height: 80%;
+	max-width: 80%;
+	max-height: 80%;
 }
+
 .carousel-item img {
-    margin: auto;
+	margin: auto;
 }
-#imgReview{
+
+#imgReview {
 	margin: 50px auto;
 }
-#listButton{
+
+#listButton {
 	margin: 50px;
 }
-#starAndProfile{
-	width:100%;
+
+#starAndProfile {
+	width: 100%;
 	height: 30px;
 }
+
 #profile {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Adjust if needed */
-    text-align: end;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end; /* Adjust if needed */
+	text-align: end;
 }
-#starReview img{
-	height:25px;
-	width:25px;
+
+#starReview img {
+	height: 25px;
+	width: 25px;
 }
-#profileImg img{
+
+#profileImg img {
 	width: 42px;
 	height: 42px;
-    object-fit: cover;
+	object-fit: cover;
 }
-#profileImg{
-	display: flex; 
-    align-items: center;
-    justify-content: center;
+
+#profileImg {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	border: 2px solid #2F6598;
 	border-radius: 50%;
 	height: 40px;
-    width: 40px;
-    overflow: hidden;
-    margin-right: 10px;
+	width: 40px;
+	overflow: hidden;
+	margin-right: 10px;
 }
 
-
-
 .button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  font-weight: 600;
-  display: flex;
-  padding:0;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 0px 0px 4px #2F6598;
-  cursor: pointer;
-  transition-duration: 0.3s;
-  overflow: hidden;
-  position: relative;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: none;
+	font-weight: 600;
+	display: flex;
+	padding: 0;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0px 0px 0px 4px #2F6598;
+	cursor: pointer;
+	transition-duration: 0.3s;
+	overflow: hidden;
+	position: relative;
 }
 
 .backIcon {
 	width: 50px;
-  	transition-duration: 0.1s;
+	transition-duration: 0.1s;
 }
 
 .button:hover {
-  width: 100px;
-  border-radius: 50px;
-  transition-duration: 0.3s;
-  background-color: #2F6598;
-  align-items: center;
+	width: 100px;
+	border-radius: 50px;
+	transition-duration: 0.3s;
+	background-color: #2F6598;
+	align-items: center;
 }
 
 .button:hover .backIcon {
-  /* width: 20px; */
-  transition-duration: 0.1s;
-  transform: translateY(-200%);
+	/* width: 20px; */
+	transition-duration: 0.1s;
+	transform: translateY(-200%);
 }
 
 .button::before {
-  position: absolute;
-  bottom: -20px;
-  content: "뒤로 가기";
-  color: white;
-  /* transition-duration: .3s; */
-  font-size: 0px;
+	position: absolute;
+	bottom: -20px;
+	content: "뒤로 가기";
+	color: white;
+	/* transition-duration: .3s; */
+	font-size: 0px;
 }
 
 .button:hover::before {
-  font-size: 13px;
-  opacity: 1;
-  bottom: unset;
-  /* transform: translateY(-30px); */
-  transition-duration: 0.3s;
+	font-size: 13px;
+	opacity: 1;
+	bottom: unset;
+	/* transform: translateY(-30px); */
+	transition-duration: 0.3s;
 }
-#writerButton{
+
+#writerButton {
 	display: flex;
 	justify-content: flex-end;
 	gap: 15px;
 }
 
 .bin-button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 15px;
-  background-color: rgb(255, 95, 95);
-  border: 1px solid rgb(255, 95, 95);
-  cursor: pointer;
-  transition-duration: 0.3s;
-}
-.bin-bottom {
-  width: 15px;
-}
-.bin-top {
-  width: 17px;
-  transform-origin: right;
-  transition-duration: 0.3s;
-}
-.bin-button:hover .bin-top {
-  transform: rotate(45deg);
-}
-.bin-button:hover {
-  background-color: rgb(255, 0, 0);
-}
-.bin-button:active {
-  transform: scale(0.9);
-}
-.editBtn {
-  width: 50px;
-  height: 50px;
-  border-radius: 15px;
-  border: none;
-  background-color: #96caf0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s;
-}
-.editBtn::before {
-  content: "";
-  width: 200%;
-  height: 200%;
-  background-color: #2F6598;
-  position: absolute;
-  z-index: 1;
-  transform: scale(0);
-  transition: all 0.1s;
-  border-radius: 50%;
-  filter: blur(10px);
-}
-.editBtn:hover::before {
-  transform: scale(1);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 50px;
+	height: 50px;
+	border-radius: 15px;
+	background-color: rgb(255, 95, 95);
+	border: 1px solid rgb(255, 95, 95);
+	cursor: pointer;
+	transition-duration: 0.3s;
 }
 
+.bin-bottom {
+	width: 15px;
+}
+
+.bin-top {
+	width: 17px;
+	transform-origin: right;
+	transition-duration: 0.3s;
+}
+
+.bin-button:hover .bin-top {
+	transform: rotate(45deg);
+}
+
+.bin-button:hover {
+	background-color: rgb(255, 0, 0);
+}
+
+.bin-button:active {
+	transform: scale(0.9);
+}
+
+.editBtn {
+	width: 50px;
+	height: 50px;
+	border-radius: 15px;
+	border: none;
+	background-color: #96caf0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	transition: all 0.3s;
+}
+
+.editBtn::before {
+	content: "";
+	width: 200%;
+	height: 200%;
+	background-color: #2F6598;
+	position: absolute;
+	z-index: 1;
+	transform: scale(0);
+	transition: all 0.1s;
+	border-radius: 50%;
+	filter: blur(10px);
+}
+
+.editBtn:hover::before {
+	transform: scale(1);
+}
 
 .editBtn svg {
-  height: 17px;
-  fill: white;
-  z-index: 3;
-  transition: all 0.2s;
-  transform-origin: bottom;
+	height: 17px;
+	fill: white;
+	z-index: 3;
+	transition: all 0.2s;
+	transform-origin: bottom;
 }
+
 .editBtn:hover svg {
-  transform: rotate(-15deg) translateX(5px);
+	transform: rotate(-15deg) translateX(5px);
 }
+
 .editBtn::after {
-  content: "";
-  width: 25px;
-  height: 1.5px;
-  position: absolute;
-  bottom: 19px;
-  left: -5px;
-  background-color: white;
-  border-radius: 2px;
-  z-index: 2;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.5s ease-out;
+	content: "";
+	width: 25px;
+	height: 1.5px;
+	position: absolute;
+	bottom: 19px;
+	left: -5px;
+	background-color: white;
+	border-radius: 2px;
+	z-index: 2;
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 0.5s ease-out;
 }
+
 .editBtn:hover::after {
-  transform: scaleX(1);
-  left: 0px;
-  transform-origin: right;
+	transform: scaleX(1);
+	left: 0px;
+	transform-origin: right;
 }
-#drop{
+
+#drop {
 	margin: 0px 5px;
 	color: black;
 }
+
 #drop:active {
-	box-shadow:none;
+	box-shadow: none;
 }
-#beforeDel, #afterDel, #afterUp, #beforeUp{
+
+#beforeDel, #afterDel, #afterUp, #beforeUp {
 	float: left;
 }
-#afterDel, #afterUp{
-	display: none ;
+
+#afterDel, #afterUp {
+	display: none;
 }
-#deleteButton:hover, #updateButton:hover{
+
+#deleteButton:hover, #updateButton:hover {
 	background: #f7f7f7;
 }
-#deleteButton:hover #afterDel{
-	display: inline-block ;
+
+#deleteButton:hover #afterDel {
+	display: inline-block;
 }
-#deleteButton:hover #beforeDel{
+
+#deleteButton:hover #beforeDel {
 	display: none;
 }
-#updateButton:hover #afterUp{
-	display: inline-block ;
+
+#updateButton:hover #afterUp {
+	display: inline-block;
 }
-#updateButton:hover #beforeUp{
+
+#updateButton:hover #beforeUp {
 	display: none;
 }
-.btn{
-    width: 100%;
-    font-size: 13px;
+
+.btn {
+	width: 100%;
+	font-size: 13px;
 }

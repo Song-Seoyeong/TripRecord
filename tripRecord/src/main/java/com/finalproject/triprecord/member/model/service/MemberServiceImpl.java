@@ -365,14 +365,26 @@ public class MemberServiceImpl implements MemberService{
 	
 	// 본인 작성 리뷰 전체
 	@Override
-	public int getWholeReviewListCount(int memberNo) {
-		return mMapper.getWholeReviewListCount(memberNo);
+	public int getPlaceReviewListCount(int memberNo) {
+		return mMapper.getPlaceReviewListCount(memberNo);
 	}
 	@Override
-	public ArrayList<Review> getWholeReviewList(int memberNo, PageInfo pi) {
+	public ArrayList<Review> getPlaceReviewList(int memberNo, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
-		return mMapper.getWholeReviewList(memberNo, rb);
+		return mMapper.getPlaceReviewList(memberNo, rb);
+	}
+	//플래너 후기 수 불러오기
+	@Override
+	public int getPlannerReviewListCount(int memberNo) {
+		return mMapper.getPlannerReviewListCount(memberNo);
+	}
+	//플래너 후기 불러오기
+	@Override
+	public ArrayList<Review> getPlannerReviewList(int memberNo, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, pi.getBoardLimit());
+		return mMapper.getPlannerReviewList(memberNo, rb);
 	}
 	
 	// 해쉬태그 불러오기

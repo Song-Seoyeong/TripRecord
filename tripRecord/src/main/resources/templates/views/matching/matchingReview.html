@@ -51,6 +51,7 @@
 	<form action="insertReview.ma" method='POST' enctype="multipart/form-data" id='reviewForm'>
 		<input type="hidden" name="plannerNo" id="plannerNo" th:value=${planner.memberNo}>
 		<input type='hidden' name='page' th:value=1>
+		<input type='hidden' name='reqRefNo' th:value='${reqNo}'>
 		<div id='inputDiv'>
 			<div id='reviewTitle'>
 				<h3>후기 제목</h3>
