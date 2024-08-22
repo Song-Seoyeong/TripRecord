@@ -120,6 +120,7 @@
 	display: block;
 	max-width: 270px;
 	cursor: pointer;
+    height: 210px;
 }
 
 .more-images {
