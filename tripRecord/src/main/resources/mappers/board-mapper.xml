@@ -216,10 +216,7 @@
 	
 	<delete id="deleteImg">
 		delete from image
-		where image_rename in
-		<foreach collection="list" item="i" separator="," open="(" close=")">
-			#{i}
-		</foreach>
+		where image_rename = #{deleteImg}
 	</delete>
 	
 	<update id="updateQuestion">

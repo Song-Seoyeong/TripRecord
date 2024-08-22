@@ -2,6 +2,10 @@
 	width: 1400px;
 }
 
+.rounded-circle {
+	object-fit: cover;
+}
+
 .plannerList:hover {
 	cursor: pointer;
 }
@@ -111,7 +115,4 @@
 
 .swiper-pagination-bullet-active {
 	background: #2F6598 !important;
-}
-.rounded-circle {
-   object-fit: cover;
 }

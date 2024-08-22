@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.common.controller.SendMessageController;
 import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Image;
@@ -21,7 +22,6 @@ import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.member.model.vo.Planner;
 import com.finalproject.triprecord.place.model.service.PlaceService;
 import com.finalproject.triprecord.place.model.vo.Place;
-import com.finalproject.triprecord.plan.model.service.PlanService;
 import com.finalproject.triprecord.plan.model.vo.Schedule;
 
 import jakarta.servlet.http.HttpSession;
@@ -39,8 +39,6 @@ public class HomeController {
 	@Autowired
 	private MemberService mService;
 	
-	@Autowired
-	private PlanService plService;
 	
 	@GetMapping("home")
 	public String home(Model model, HttpSession session) {
@@ -57,11 +55,31 @@ public class HomeController {
 		// 관광지 top 5
 		ArrayList<Place> pList = pService.topPlaceList();
 		
+		String type = "GENERAL";
+		
+		// 최신 게시물 10개
+		ArrayList<Board> bList = pService.getNewBoList(type);
+		for(Board b : bList) {
+			if(b.getGeneralType().equals("REVIEW")) {
+				b.setGeneralType("후기");
+			}else if(b.getGeneralType().equals("WITH")) {
+				b.setGeneralType("동행");
+			}else {
+				b.setGeneralType("양도");
+			}
+		}
+		
+		// 공지사항 최근글 10개
+		type = "NOTICE";
+		ArrayList<Board> nList = pService.getNewBoList(type);
+		
 		
 		model.addAttribute("lList", lList);
 		model.addAttribute("img", img);
 		model.addAttribute("plList", plannerList);
 		model.addAttribute("pList", pList);
+		model.addAttribute("bList", bList);
+		model.addAttribute("nList", nList);
 		return "home";
 	}
 	

@@ -3,6 +3,7 @@ package com.finalproject.triprecord.place.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Review;
@@ -55,5 +56,8 @@ public interface PlaceService {
 	int checkReview(int memNo);
 
 	void givePoint(int memNo);
+
+	ArrayList<Board> getNewBoList(String type);
+
 
 }

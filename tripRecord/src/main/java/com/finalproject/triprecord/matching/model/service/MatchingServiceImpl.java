@@ -164,6 +164,11 @@ public class MatchingServiceImpl implements MatchingService {
 		return matMapper.selectiImgList(pNo);
 	}
 
+	@Override
+	public int requestCount(int loginUserNo) {
+		return matMapper.requestCount(loginUserNo);
+	}
+
 
 
 }

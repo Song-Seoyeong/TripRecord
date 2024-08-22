@@ -247,11 +247,11 @@
 	<!-- 플래너페이지 -->
 	<!-- 플래너 불러오기 -->
 	<select id="getPlanner">
-		select *
-		from planner
-		join member using(member_no)
-		left
-		join image on image_ref_no = member_no and image_ref_type = 'MEMBER'
+		select * 
+		from PLANNER 
+		join MEMBER using(MEMBER_NO) 
+		left join image on image_ref_no = member_no and image_ref_type = 'MEMBER' 
+		where MEMBER_NO = #{memberNo}
 	</select>
 
 	<!-- 플래너 지역 불러오기 -->
@@ -312,8 +312,9 @@
 	</select>
 
 	<!-- 플래너 취소 -->
-	<insert id="canclePlanner">
-
+	<insert id="cancelPlanner"> 
+		insert into REQUEST_GRADE 
+		values(#{memberNo}, #{lNo}, #{grade}, default, default, sysdate, #{account},#{bank}) 
 	</insert>
 	<!-- 여기까지 플래너 페이지 -->
 
@@ -574,7 +575,8 @@
 		set INTRO_CONTENT = #{introContent},
 		LOCAL_NO = #{localNo},
 		S_INTRO_CONTENT = #{sIntroContent}
-		where MEMBER_NO = #{memberNo}
+		where
+		MEMBER_NO = #{memberNo}
 	</update>
 
 	<!-- 소개 사진 유무 확인 -->
@@ -649,5 +651,17 @@
 		req_check = 'N'
 		where sc_no = #{scheNo}
 	</update>
+
+	<update id="updateTripLocal">
+		update schedule
+		set sc_local_No = #{scLocalNo}
+		where sc_no = #{scNo}
+	</update>
+	
+	<select id="checkReviewCount" resultType='_int'>
+		select count(*)
+		from review
+		where member_no = #{reqMemNo} and req_ref_no = #{reqNo}
+	</select>
 
 </mapper>

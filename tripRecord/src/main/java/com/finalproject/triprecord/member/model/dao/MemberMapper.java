@@ -120,7 +120,7 @@ public interface MemberMapper {
 	//플래너 프로필 이미지 불러오기
 	Image getImgRename(HashMap<String, Object> map);
 	//플래너 취소
-	int canclePlanner(HashMap<String, Object> map);
+	int cancelPlanner(HashMap<String, Object> map);
 	//---------------------------------------------------------
 
 	Cancel checkCancel(ReqSchedule rs);
@@ -208,5 +208,7 @@ public interface MemberMapper {
 	
 	// 마이페이지 -> 내 일정 상세 보기 -> 지역 수정
 	int updateTripLocal(Properties prop);
+
+	int checkReviewCount(ReqSchedule rs);
 
 }

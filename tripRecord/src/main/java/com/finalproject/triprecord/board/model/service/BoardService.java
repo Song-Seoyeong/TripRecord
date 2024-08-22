@@ -60,7 +60,7 @@ public interface BoardService {
 
 	int updateBoard(Board b);
 
-	int delImg(ArrayList<String> deleteImg);
+	int delImg(String del);
 
 	void updateQuestion(Integer pwd);
 

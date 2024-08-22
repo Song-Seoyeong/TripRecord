@@ -1,117 +1,143 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace='com.finalproject.triprecord.place.model.dao.PlaceMapper'>
+<mapper
+	namespace='com.finalproject.triprecord.place.model.dao.PlaceMapper'>
 
 	<select id="getLocalList" resultType='Local'>
-		select * 
+		select *
 		from local
 	</select>
-	
+
 	<select id="checkPlace">
 		select count(*)
 		from reco_place
-		where place_no = #{placeNo} and local_no = #{localNo}
+		where place_no =
+		#{placeNo} and local_no = #{localNo}
 	</select>
-	
+
 	<select id="selectPlace" resultType='Place'>
 		select *
 		from reco_place
-		left join image on (place_no = image_ref_no)
-		where place_no = #{placeNo} and local_no = #{localNo}
+		left
+		join image on (place_no = image_ref_no)
+		where place_no = #{placeNo} and
+		local_no = #{localNo}
 	</select>
-	
+
 	<insert id="insertPlace">
 		insert into reco_place
-			values(#{placeNo}, #{localNo}, #{contentTypeId}, default, default, #{placeName})
+		values(#{placeNo}, #{localNo}, #{contentTypeId}, default, default, #{placeName})
 	</insert>
-	
+
 	<update id="updatePlaceCount">
 		update reco_place
-			set place_count = place_count + 1
-			where place_no = #{placeNo} and local_no = #{localNo} and content_type_id = #{contentTypeId}
+		set place_count = place_count + 1
+		where place_no = #{placeNo} and local_no = #{localNo} and content_type_id =
+		#{contentTypeId}
 	</update>
-	
+
 	<select id="selectReviewList" resultType='Review'>
 		SELECT *
 		FROM review r
 		LEFT JOIN member m ON r.member_no = m.member_no
-		LEFT JOIN image i ON m.member_no = i.image_ref_no AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL)
-		WHERE r.REV_REF_TYPE = 'PLACE' AND r.REV_REF_NO = #{contentid} and review_status = 'Y'
-		ORDER BY r.review_no DESC
+		LEFT JOIN image i ON
+		m.member_no = i.image_ref_no AND (i.image_ref_type = 'MEMBER' OR
+		i.image_ref_type IS NULL)
+		WHERE r.REV_REF_TYPE = 'PLACE' AND
+		r.REV_REF_NO = #{contentid} and review_status = 'Y'
+		ORDER BY
+		r.review_no DESC
 	</select>
-	
+
 	<insert id="insertReview" useGeneratedKeys="true">
-		<selectKey keyProperty="reviewNo" order="BEFORE" resultType="_int">
+		<selectKey keyProperty="reviewNo" order="BEFORE"
+			resultType="_int">
 			select seq_review.nextval from dual
 		</selectKey>
 		insert into review
-			values(#{reviewNo}, #{memberNo}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{revRefType}, #{revRefNo}, default)
+		values(#{reviewNo}, #{memberNo}, #{reviewTitle}, #{reviewContent}, #{reviewStar},
+		#{revRefType}, #{revRefNo}, default, null)
 	</insert>
-	
+
 	<insert id="insertImage">
 		insert all
 		<foreach collection="list" item="item" separator=" ">
-			into image values(new_image_id, #{item.imagePath}, #{item.imageOriginName}, #{item.imageRename}, #{item.imageThum}, #{item.imageRefType}, #{item.imageRefNo})
+			into image
+			values(new_image_id, #{item.imagePath}, #{item.imageOriginName},
+			#{item.imageRename}, #{item.imageThum}, #{item.imageRefType},
+			#{item.imageRefNo})
 		</foreach>
 		select * from dual
 	</insert>
-	
+
 	<select id="selectReview" resultType='Review'>
 		SELECT *
 		FROM review r
-		LEFT JOIN member m ON r.member_no = m.member_no
-		LEFT JOIN image i ON m.member_no = i.image_ref_no AND (i.image_ref_type = 'MEMBER' OR i.image_ref_type IS NULL)
-		WHERE review_no = #{rId} and review_Status = 'Y'
+		LEFT
+		JOIN member m ON r.member_no = m.member_no
+		LEFT JOIN image i ON
+		m.member_no = i.image_ref_no AND (i.image_ref_type = 'MEMBER' OR
+		i.image_ref_type IS NULL)
+		WHERE review_no = #{rId} and review_Status =
+		'Y'
 	</select>
-	
+
 	<select id="selectImage" resultType='Image'>
 		select *
 		from Image
-		where image_ref_type = 'REVIEW' and image_ref_no = #{rId}
+		where
+		image_ref_type = 'REVIEW' and image_ref_no = #{rId}
 	</select>
-	
+
 	<update id="deleteReview">
 		update review
 		set review_status = 'N'
-		where review_no = #{rId} and rev_ref_type = 'PLACE'
+		where review_no =
+		#{rId} and rev_ref_type = 'PLACE'
 	</update>
-	
+
 	<update id="updateReview">
 		update review
-		set review_title = #{reviewTitle}, review_content = #{reviewContent}, review_star = #{reviewStar}
-		where review_no = #{reviewNo}
+		set review_title = #{reviewTitle},
+		review_content = #{reviewContent}, review_star = #{reviewStar}
+		where
+		review_no = #{reviewNo}
 	</update>
-	
+
 	<delete id="delImg">
-    delete from Image
-    where Image_rename in
-	    <foreach collection="list" item="i" open="(" separator="," close=")">
-	        #{i}
-	    </foreach>
+		delete from Image
+		where Image_rename in
+		<foreach collection="list" item="i" open="(" separator=","
+			close=")">
+			#{i}
+		</foreach>
 	</delete>
-	
+
 	<select id="checkImage" resultType='_int'>
 		select count(*)
-			from image
-			where image_ref_no = #{contentid} and image_ref_type = 'RECOPLACE'
+		from image
+		where image_ref_no = #{contentid} and image_ref_type = 'RECOPLACE'
 	</select>
-	
+
 	<insert id="insertPlaImage">
 		insert into image
-		values(new_image_id, #{imagePath}, #{imageOriginName}, #{imageOriginName}, 1, #{imageRefType}, #{imageRefNo})
+		values(new_image_id, #{imagePath},
+		#{imageOriginName}, #{imageOriginName}, 1, #{imageRefType},
+		#{imageRefNo})
 	</insert>
-	
+
 	<select id="checkName" resultType='_int'>
 		select count(*)
 		from reco_place
 		where place_no = #{placeNo} and place_name = #{placeName}
 	</select>
-	
+
 	<update id="updatePlaName">
 		update reco_place
 		set place_name = #{placeName}
-		where place_no = #{placeNo}
+		where
+		place_no = #{placeNo}
 	</update>
-	
+
 	<select id="getTopList" resultType='Local'>
 		<![CDATA[
 		select *
@@ -125,7 +151,7 @@
 		    where rownum <= 5
 		]]>
 	</select>
-	
+
 	<select id="topPlaceList" resultType='Place'>
 		<![CDATA[
 		select *
@@ -136,7 +162,7 @@
 		where rownum <= 5
 		]]>
 	</select>
-	
+
 	<select id="selectPlaceList" resultType='Place'>
 		<![CDATA[
 		select *
@@ -145,22 +171,40 @@
 		where local_no = #{localNo} and rownum <= 5
 		]]>
 	</select>
-	
+
 	<select id="planImg" resultType="Image">
 		select *
 		from image
-		where image_ref_type = 'PLAN' and image_ref_no = 1
+		where
+		image_ref_type = 'PLAN' and image_ref_no = 1
 	</select>
-	
+
 	<select id="checkReview" resultType='_int'>
 		select count(*)
 		from review
 		where member_no = #{memNo} and rev_ref_type = 'PLACE'
 	</select>
-	
+
 	<update id="givePoint">
 		update member
 		set member_point = member_point + 1000
-		where member_no = #{memNo} 
+		where member_no = #{memNo}
 	</update>
+
+	<select id="getNewBoList" resultType='Board'>
+	    SELECT *
+	    FROM (
+	        SELECT *
+	        FROM board
+	        JOIN member ON board.board_writer_no = member.member_no
+	        <if test="type == 'GENERAL'">
+	            JOIN GENERAL_BO ON board.board_no = GENERAL_BO.general_no
+	        </if>
+	        WHERE board.board_type = #{type} and board.board_status = 'N'
+	        ORDER BY board.board_no DESC
+	    )
+		<![CDATA[
+	    WHERE ROWNUM <= 10
+	    ]]>
+	</select>
 </mapper>

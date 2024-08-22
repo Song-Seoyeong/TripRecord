@@ -24,9 +24,10 @@
 					<div class="swiper-slide" th:each="l : ${ localList }">
 						<div class="local-card shadow position-relative">
 							<input type=hidden th:value="${l.localNo}">
-							<img class="local-img position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
-							<div class="card-text position-absolute fs-2 px-3">[[${l.localName}]]</div>
+								<img class="local-img position-absolute" th:src="|https://drive.google.com/thumbnail?id=${l.imageRename}&sz=w1000|" th:alt="${l.localName}">
+							<span class="card-text position-absolute fs-2 px-3">[[${l.localName}]]</span>
 						</div>
+						
 					</div>
 				</div>
 				<div class="swiper-pagination"></div>
@@ -63,7 +64,7 @@
 				         			<td class="d-none">[[${planner.memberNo}]]</td>
 				         			
 		         					<td th:if="${planner.imageRename != null }">
-		         						<img class="rounded-circle m-3" style="object-fit: cover;" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}&sz=w1000|" width="75px" height="75px" alt="프로필">
+		         						<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${planner.imageRename}&sz=w1000|" width="75px" height="75px" alt="프로필">
 		         					</td>	
 		         					<td th:if="${planner.imageRename == null }">
 		         						<img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px" alt="프로필">
@@ -94,7 +95,7 @@
         	<ul class="pagination" th:with="loc=${ loc }">
         		 <!-- 이전 버튼 -->
 	            <li class="page-item">
-	            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+	            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 }, localNo=${ localNo })}" aria-label="Previous">
 	            		<span aria-hidden="true">&laquo;</span>
 	              	</a>
 	            </li>
@@ -102,12 +103,12 @@
 	             <!-- 페이지 넘버링 버튼  -->
 	            	
 				<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
-					<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+					<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p }, localNo=${ localNo })}">[[${ p }]]</a>
 				</li>
 	           
 	             <!-- 다음 버튼  -->
 	            <li class="page-item">
-	            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+	            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 }, localNo=${ localNo } )}" aria-label="Next">
 	            		<span aria-hidden="true">&raquo;</span>
 	            	</a>
 	            </li>
@@ -138,6 +139,10 @@ window.onload = () => {
 		});
 	}
 }
+
+/*<![CDATA[*/
+const localName = /*[[${localList}]]*/1;
+/*]]>*/
 
 
 document.addEventListener("DOMContentLoaded", function() {

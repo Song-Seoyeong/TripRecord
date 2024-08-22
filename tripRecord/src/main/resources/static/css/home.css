@@ -3,6 +3,8 @@
 #mainContainer {
 	width: 1400px;
 	margin-top: 50px;
+	padding: 30px;
+	margin-bottom: 50px;
 }
 
 .goSchedule {
@@ -124,3 +126,55 @@
 	margin-bottom: 50px;
 }
 
+#fixed-width {
+	width: 700px; /* 고정 너비 설정 */
+	height: 430px;
+    margin-top:20px;
+}
+#fixed-width2 {
+	width: 450px; /* 고정 너비 설정 */
+	height: 410px;
+    margin-top:20px;
+}
+
+.vertical-line {
+	width: 1px; /* 선의 너비 */
+	background-color: lightgray; /* 선의 색상 */
+	margin: 0 60px; /* 선과 양쪽 div 사이의 간격 */
+	height: 390px;
+}
+
+.container {
+	display: flex;
+	align-items: center; /* 세로 정렬을 가운데로 맞춤 */
+}
+
+.truncate {
+	white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+	overflow: hidden; /* 넘치는 텍스트를 숨김 */
+	text-overflow: ellipsis; /* 잘린 텍스트를 ...로 표시 */
+	max-width: 100%; /* 부모 요소의 너비에 맞춤 */
+}
+
+table {
+	text-align: center;
+	table-layout: fixed;
+	width: 100%;
+	margin-top: 20px;
+}
+
+table thead{
+    border-bottom: 1px solid lightblue ;
+    
+}
+
+tr td{
+    padding-top: 8px;
+}
+tr td:hover{
+	cursor:pointer;
+}
+.justify-content-between a{
+    text-decoration: none ;
+    color: gray; 
+}

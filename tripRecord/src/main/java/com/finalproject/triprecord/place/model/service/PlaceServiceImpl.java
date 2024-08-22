@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Review;
@@ -135,5 +136,11 @@ public class PlaceServiceImpl implements PlaceService {
 	public void givePoint(int memNo) {
 		pMapper.givePoint(memNo);
 	}
+
+	@Override
+	public ArrayList<Board> getNewBoList(String type) {
+		return pMapper.getNewBoList(type);
+	}
+
 
 }

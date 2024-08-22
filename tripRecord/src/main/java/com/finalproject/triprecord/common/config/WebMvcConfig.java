@@ -17,9 +17,9 @@ public class WebMvcConfig implements WebMvcConfigurer{
 	private final CheckPlannerSevenDaysSchedule checkPlannerSevenDaysSchedule;
 	
 	 @Autowired
-	    public WebMvcConfig(CheckPlannerSevenDaysSchedule checkPlannerSevenDaysSchedule) {
-	        this.checkPlannerSevenDaysSchedule = checkPlannerSevenDaysSchedule;
-	    }
+    public WebMvcConfig(CheckPlannerSevenDaysSchedule checkPlannerSevenDaysSchedule) {
+        this.checkPlannerSevenDaysSchedule = checkPlannerSevenDaysSchedule;
+    }
 
 	
 	@Override
@@ -37,7 +37,8 @@ public class WebMvcConfig implements WebMvcConfigurer{
 		.addPathPatterns("/*.pl")
 		.addPathPatterns("/updateReviewView.pla", "/updatePlaReview.pla", "/insertPlaReview.pla", "/placeReviewWrite.pla")
 		.addPathPatterns("/matchingRequest.ma", "/matchingReview.ma", "/matchingReviewView.ma")
-		.addPathPatterns("/commuWrite.bo", "insertQuestion.no", "commuEdit.bo", "insertBoard.bo", "askWrite.no", "editQuestion.no");
+		.addPathPatterns("/commuWrite.bo", "insertQuestion.no", "commuEdit.bo", "insertBoard.bo", "askWrite.no", "editQuestion.no")
+		.addPathPatterns("/*.mp");
         
         registry.addInterceptor(checkPlannerSevenDaysSchedule)
         		.addPathPatterns("/login.me");

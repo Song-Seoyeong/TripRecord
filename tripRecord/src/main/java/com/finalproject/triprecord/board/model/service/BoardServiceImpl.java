@@ -156,7 +156,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int delImg(ArrayList<String> deleteImg) {
+	public int delImg(String deleteImg) {
 		return bMapper.deleteImg(deleteImg);
 	}
 

@@ -507,6 +507,13 @@ public class MyPageController {
 		}
 		//System.out.println(planList);
 		
+		
+		// 리뷰 여부 가져오기
+		int reviewCount = 0;
+		if(rs.getReqStatus() == 4 || rs.getReqStatus() == 3) {
+			reviewCount = mService.checkReviewCount(rs);
+		}
+		
 		// 사용자 프로필 사진
 		Image image = mService.existFileId(memberNo); 
 	  
@@ -518,6 +525,7 @@ public class MyPageController {
 	        model.addAttribute("rename", "defaultImageName"); 
 	    }
 	    
+	    model.addAttribute("rCount", reviewCount);
 	    model.addAttribute("pList", planList);
 	    model.addAttribute("rs", rs);
 	    model.addAttribute("planner", planner);
@@ -553,17 +561,18 @@ public class MyPageController {
 		session.setAttribute("loginUser", loginUser);
 		
 		if(result > 0 && canResult > 0) {
-		// 프로필 이미지 조회
-	    Image image = mService.existFileId(loginUser.getMemberNo()); 
-		if (image != null && image.getImageRename() != null) {
-	        String existFileId = image.getImageRename(); 
-	        ra.addAttribute("rename", existFileId);
-	    } else {
-	        // 이미지가 없거나 리네임이 없는 경우 처리
-	        ra.addAttribute("rename", "defaultImageName"); 
-	    }
-		ra.addAttribute("page", page);
-		return "redirect:myPlan.mp";
+			// 프로필 이미지 조회
+		    Image image = mService.existFileId(loginUser.getMemberNo()); 
+			if (image != null && image.getImageRename() != null) {
+		        String existFileId = image.getImageRename(); 
+		        ra.addAttribute("rename", existFileId);
+		    } else {
+		        // 이미지가 없거나 리네임이 없는 경우 처리
+		        ra.addAttribute("rename", "defaultImageName"); 
+		    }
+			ra.addAttribute("page", page);
+			return "redirect:myPlan.mp";
+		
 		}else {
 			throw new PlaceException("신청 내역 취소 중 에러 발생");
 		}
@@ -765,9 +774,9 @@ public class MyPageController {
 	
 	}
 	
-	@PostMapping("canclePlanner.mp")
+	@PostMapping("cancelPlanner.mp")
 	@ResponseBody
-	public String canclePlanner(HttpSession session, @RequestParam("grade") String grade) {
+	public String cancelPlanner(HttpSession session, @RequestParam("grade") String grade) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		Planner planner = mService.getPlanner(memberNo);
 		RequestGrade rg = mService.checkRequest(memberNo);
@@ -779,7 +788,9 @@ public class MyPageController {
 			map.put("memberNo", memberNo);
 			map.put("grade", grade);
 			map.put("lNo", planner.getLocalNo());
-			result = mService.canclePlanner(map);
+			map.put("account", planner.getAccount());
+			map.put("bank", planner.getBank());
+			result = mService.cancelPlanner(map);
 		}
 
 		return result > 0 ? "success" : "fail";
@@ -797,7 +808,7 @@ public class MyPageController {
 		for(ReqSchedule r : reqList) {
 			String StartDay = (r.getStartDay()).split(" ")[0];
 			r.setStartDay(StartDay);
-			String EndDay = (r.getStartDay()).split(" ")[0];
+			String EndDay = (r.getEndDay()).split(" ")[0];
 			r.setEndDay(EndDay);
 		}
 		

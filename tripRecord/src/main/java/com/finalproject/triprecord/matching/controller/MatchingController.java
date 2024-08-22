@@ -79,6 +79,7 @@ public class MatchingController {
 			selectLocalMap.put(pNo, localName);
 		}
 		
+		model.addAttribute("localNo",localNo);
 		model.addAttribute("localList",localList);
 		model.addAttribute("localName", selectLocalMap);
 		model.addAttribute("list",list);
@@ -156,6 +157,7 @@ public class MatchingController {
 		PageInfo pi = Pagination.getPageInfo(currentReviewPage, ReviewlistCount, 5);
 		ArrayList<Review> rList = matService.getReviewList(pi, pNo);
 		
+		//프로필 사진 + 소개글 사진
 		ArrayList<Image> rImgList = matService.selectrImgList();
 		ArrayList<Image> iImgList = matService.selectiImgList(pNo);
 		

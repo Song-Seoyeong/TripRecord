@@ -88,11 +88,11 @@
 				<table class="table table-hover" style='text-align:center;'>
 					<thead>
 						<tr>
-							<th width="10%">글 번호</th>
+							<th width="8%">글 번호</th>
 							<th width="10%">분류</th>
-							<th width="45%">글 제목</th>
-							<th width="20%x">작성자</th>
-							<th width="15%">작성일자</th>
+							<th width="42%">글 제목</th>
+							<th width="18%x">작성자</th>
+							<th width="12%">작성일자</th>
 							<th width="10%">조회수</th>
 	          			</tr>
 	          		</thead>
@@ -110,9 +110,9 @@
           					<th:block th:each="q : ${qList}">
 	          					<tr th:if="${a.boardNo == q.questionNo}">
 			            			<td>[[${ a.boardNo }]]</td>
-			            			<td th:if="${a.generalType == 'PAYMENT'}">결제</td>
-			            			<td th:if="${a.generalType == 'PLANNER'}">플래너</td>
-			            			<td th:if="${a.generalType == 'ELSE'}">기타</td>
+			            			<td th:if="${a.generalType == 'PAYMENT'}">동행</td>
+			            			<td th:if="${a.generalType == 'PLANNER'}">양도</td>
+			            			<td th:if="${a.generalType == 'ELSE'}">후기</td>
 			            			<td>[[${ a.boardTitle }]]</td>
 			            			<td>[[${ a.nickname }]]</td>
 			            			<td>[[${ a.boardModifyDate }]]</td>
@@ -187,12 +187,11 @@
 			const currentPage = parseInt(params.get('page')) || 1;
 			const totalItems = parseInt("[[${listCount}]]") || 1;
 			const totalPages = Math.ceil(totalItems / 10);
-			const generalType = params.get('generalType') || '';
 			
 			function createPagination(currentPage, totalPages){
 				let buttons = '';
-				const startPage = Math.max(1, currentPage - 5);
-				const endPage = Math.min(totalPages, currentPage + 4);
+				const startPage = Math.max(1, currentPage - 10);
+				const endPage = Math.min(totalPages, currentPage + 9);
 				
 				if(currentPage == 1){
 					buttons += '<li class="page-item disabled"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
@@ -276,13 +275,13 @@
 					cate.children[0].style.backgroundColor = 'white';
 				});
 				cate.addEventListener('click', function(){
-					if(this.children[0].innerText == '결제'){
+					if(this.innerText == '결제'){
 						generalTypeValue.value = "PAYMENT";
-					} else if(this.children[0].innerText == "플래너") {
+					} else if(this.innerText == "플래너") {
 						generalTypeValue.value = "PLANNER";
-					} else if(this.children[0].innerText == "기타") {
+					} else if(this.innerText == "기타") {
 						generalTypeValue.value = "ELSE";
-					} else if(this.children[0].innerText == "전체") {
+					} else if(this.innerText == "전체") {
 						generalTypeValue.value = "ALL";
 					}
 					
@@ -290,6 +289,7 @@
 					searchForm.submit();
 				})
 			}
+			
 			
 			// 현재 카테고리 표시
 			if(generalType == "ALL" || generalType == ""){
@@ -305,6 +305,7 @@
 				categories[3].children[0].style.borderRadius = '9999px';
 				categories[3].children[0].style.backgroundColor = '#96caf0';
 			}
+			
 			
 			
 			
@@ -338,11 +339,10 @@
 			
 			
 			const reviewBtn = document.getElementById("goReview");
-			if(reviewBtn != null){
-				reviewBtn.addEventListener('click',()=>{
-					location.href="commuWrite.bo";
-				});
-			}
+			reviewBtn.addEventListener('click',()=>{
+				location.href="askWrite.no";
+			}); 
+			
 			
 			
 			

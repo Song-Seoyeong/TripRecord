@@ -262,8 +262,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 	//플래너 취소
 	@Override
-	public int canclePlanner(HashMap<String, Object> map) {
-		return mMapper.canclePlanner(map);
+	public int cancelPlanner(HashMap<String, Object> map) {
+		return mMapper.cancelPlanner(map);
 	}
 	//----------------------------------------------------------------
 
@@ -469,5 +469,10 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int updateTripLocal(Properties prop) {
 		return mMapper.updateTripLocal(prop);
+	}
+
+	@Override
+	public int checkReviewCount(ReqSchedule rs) {
+		return mMapper.checkReviewCount(rs);
 	}
 }
