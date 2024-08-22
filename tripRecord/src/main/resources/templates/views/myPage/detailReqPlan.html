@@ -116,8 +116,10 @@
 			</div>
 			<!-- 버튼 -->
 			<div id='buttonDiv'>
+				<input type='hidden' th:value='${rCount}' id='${rCount}'>
 				<button type='button' th:if='${rs.reqStatus == 2}' id="submit_button">구매확정</button>
 				<button type='button' th:if='${rs.reqStatus == 1}' id="cancle_button">신청 취소</button>
+				<button type='button' th:if='${rs.reqStatus == 3 || rs.reqStatus == 4}' id="review_button" onclick="review()">리뷰 작성</button>
 				<button type='button' id="back_button" onclick="back()">뒤로 가기</button>
 			</div>
 			
@@ -174,6 +176,25 @@
 	</div>
 	<!-- 신청취소 모달 -->
 	
+	<!-- 후기 있을 때 모달 -->
+	<div class="modal fade" tabindex="-1" role="dialog" id="modalReview">
+		<div class="modal-dialog" role="document">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4 text-center">
+        			<h3 class="mb-0">이미 리뷰를 작성한 신청 내역입니다</h3>
+        			<p class="mb-0">확※리뷰는 신청당 한번만 작성하실 수 있습니다.※</p>
+      			</div>
+      			<div class="modal-footer flex-nowrap p-0">
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="goReviewList">
+        				<strong>리뷰 페이지 보러가기</strong>
+        			</button>
+        			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">아니오</button>
+      			</div>
+    		</div>
+ 			</div>
+	</div>
+	<!-- 후기 있을 때 모달 -->
+	
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
@@ -222,6 +243,27 @@
 		//뒤로 가기
 		function back(){
 			location.href="myPlan.mp?page=" + /*[[${page}]]*/1;
+		}
+		
+		// 플래너 리뷰 쓰러가기
+		function review(){
+			const rCount = document.getElementById('rCount');
+			if(rCount == 0){
+				const plaNo = document.getElementsByName('plaNo')[0].value;
+				const reqNo = document.getElementsByName('reqNo')[0].value;
+				location.href="matchingReview.ma?pNo=" + plaNo + "&reqNo=" + reqNo;
+			}else{
+				canBtn.addEventListener('click', ()=>{
+		        	$('#modalReview').modal('show');
+				})
+			}
+		}
+		
+		const goReviewList = document.getElementById('goReviewList');
+		if(goReviewList != null){
+			goReviewList.addEventListener('click', ()=>{
+				location.href = "myReview.mp"
+			})
 		}
 		
 		// 플래너 프로필 이동

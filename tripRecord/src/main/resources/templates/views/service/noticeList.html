@@ -28,16 +28,6 @@
 				<img class="x-icon" alt="" src="image/Search.png">
 			</div>
 		</div>
-		<div style="display:flex; justify-content:right;">
-	       	<div class='review-text' id='reviewDiv' th:if="${ session.loginUser != null && session.loginUser.grade == 'ADMIN'}">
-				<button id='goReview'>
-					<p>공지사항 작성</p>
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4">
-						<path stroke-linecap="round"  stroke-linejoin="round"  d="M14 5l7 7m0 0l-7 7m7-7H3" ></path>
-					</svg>
-				</button>
-			</div>
-	    </div>
 		
 	
 		<!-- 왼쪽 사이드 바 -->
@@ -183,8 +173,8 @@
 			
 			function createPagination(currentPage, totalPages){
 				let buttons = '';
-				const startPage = Math.max(1, currentPage - 5);
-				const endPage = Math.min(totalPages, currentPage + 4);
+				const startPage = Math.max(1, currentPage - 10);
+				const endPage = Math.min(totalPages, currentPage + 9);
 				
 				if(currentPage == 1){
 					buttons += '<li class="page-item disabled"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
@@ -227,12 +217,6 @@
 			paginationUl.innerHTML = createPagination(currentPage, totalPages);
 			
 			
-			const reviewBtn = document.getElementById("goReview");
-			if(reviewBtn != null){
-				reviewBtn.addEventListener('click',()=>{
-					location.href="commuWrite.bo";
-				});
-			}
 			
 		}
 	

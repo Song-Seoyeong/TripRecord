@@ -63,6 +63,59 @@
 				<input type="hidden" name="areacode" th:value="${p.localNo}"/>
 			</div>
 		</div>
+		
+		<hr />
+		<div class="container d-flex justify-content-center">
+			<div id="fixed-width">
+				<div class="d-flex justify-content-between align-items-center">
+					<h2>최신 게시물</h2>
+					<a href="community.bo" style="text-align: end;">더보기+</a>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<th width="10%">번호</th>
+							<th width="10%">분류</th>
+							<th width="45%">제목</th>
+							<th width="20%">작성자</th>
+							<th width="15%">조회수</th>
+	          			</tr>
+	          		</thead>
+	         		<tbody id="text-test">
+	         			<tr th:each='b : ${bList}'>
+	         				<td>[[${b.boardNo}]]</td>
+	         				<td>[[${b.generalType}]]</td>
+	         				<td class="truncate">[[${b.boardTitle}]]</td>
+	         				<td class="truncate">[[${b.nickname}]]</td>
+	         				<td>[[${b.boardCount}]]</td>
+	         			</tr>
+				</table>
+			</div>
+			  
+			<div class="vertical-line"></div> <!-- 세로 선을 위한 div -->
+			
+			<div id="fixed-width2">
+				<div class="d-flex justify-content-between align-items-center">
+					<h2>공지사항</h2>
+					<a href="notice.no" style="text-align: end;">더보기+</a>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<th width="10%">번호</th>
+							<th width="45%">제목</th>
+							<th width="10%">조회수</th>
+	          			</tr>
+	          		</thead>
+	         		<tbody id="text-test">
+	         			<tr th:each='n : ${nList}'>
+	         				<td>[[${n.boardNo}]]</td>
+	         				<td class="truncate">[[${n.boardTitle}]]</td>
+	         				<td>[[${n.boardCount}]]</td>
+	         			</tr>
+				</table>
+			</div>
+		</div>
 	</div>
 	<div th:replace="~{ common/footer.html :: footer }"></div>
 
@@ -101,6 +154,26 @@
 			const contenttypeid = this.children[3].value;
 			const areacode = this.children[4].value;
 			location.href = "placeDetail.pla?contentid=" + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode;
+		})
+	}
+	
+	// 최근 게시물 이동
+	const boTds = document.getElementById('fixed-width').querySelectorAll('td');
+	for(td of boTds){
+		td.addEventListener('click', function(){
+			//console.log(this)
+			const boardNo = this.parentElement.children[0].innerText;
+			location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=All";
+		})
+	}
+	
+	// 공지 글 이동
+	const noTds = document.getElementById('fixed-width2').querySelectorAll('td');
+	for(td of noTds){
+		td.addEventListener('click', function(){
+			//console.log(this)
+			const boardNo = this.parentElement.children[0].innerText;
+			location.href="noticeSelect.no?boardNo=" + boardNo;
 		})
 	}
 	

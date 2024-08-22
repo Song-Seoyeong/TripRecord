@@ -253,9 +253,9 @@ public class BoardController {
 						deleteImg.add(del);
 						// 구글 드라이브에서 삭제
 						gdService.deleteFile(del);
+						delResult += bService.delImg(del);///////////////////////////////////////
 					}
 				}
-				delResult = bService.delImg(deleteImg);
 			}
 			
 			// 이미지 추가
@@ -562,9 +562,9 @@ public class BoardController {
 						deleteImg.add(del);
 						// 구글 드라이브에서 삭제
 						gdService.deleteFile(del);
+						delResult = bService.delImg(del);///////////////////////////////////////////////
 					}
 				}
-				delResult = bService.delImg(deleteImg);
 			}
 			
 			// 이미지 추가

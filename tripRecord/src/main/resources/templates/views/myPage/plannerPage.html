@@ -14,6 +14,19 @@
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
 	<!-- 플래너페이지 어퍼바 -->
 	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
+	<div class="container-fluid justify-content-center" style="width: 1400px">
+		<div class="d-flex justify-content-between align-items-center">   
+	        <div class="fs-2 my-3 ms-5">
+	           <button id="submitAdmin" style="font-size:20px; border:none; background:white;"onclick="submitAdmin()">일반회원 전환 요청하기</button>
+	        </div>
+	        <div>
+	           <div style="height:20px;"></div>
+	           <button class="btn btn-secondary me-5" id="revision_button" onclick="location.href='updatePlanner.mp'"><span>수정</span></button>
+	        </div>
+	    </div>
+	</div>
+	
+	
 	
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">	
@@ -181,12 +194,12 @@
 				alert('요청 승인 시 판매자 권한을 잃게됩니다')
 				$.ajax({
 					type:"post",
-					url:"canclePlanner.mp",
+					url:"cancelPlanner.mp",
 					data:{grade:"PLANNER_CANCEL"},
 					success:(data)=>{
 						if(data == 'PLANNER_CANCEL'){
 							alert('현재 요청된 상태입니다')
-						}else{
+						} else {
 							alert("요청이 완료되었습니다")
 						}
 					},

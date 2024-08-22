@@ -211,3 +211,7 @@
 #updateButton:hover #beforeUp{
 	display: none;
 }
+
+#modalReviewContent-text, .sIntro {
+	white-space:pre-wrap;
+}

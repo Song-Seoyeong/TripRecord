@@ -20,6 +20,7 @@ public class Review {
 	private String revRefType;
 	private int revRefNo;
 	private String reviewStatus;
+	private int reqRefNo;
 }
 
 

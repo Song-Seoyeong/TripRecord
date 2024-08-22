@@ -90,7 +90,7 @@
 			select seq_review.nextval from dual
 		</selectKey>
 		insert into review
-		values(#{reviewNo}, #{memberNo}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{revRefType}, #{revRefNo}, default)
+		values(#{reviewNo}, #{memberNo}, #{reviewTitle}, #{reviewContent}, #{reviewStar}, #{revRefType}, #{revRefNo}, default, #{reqRefNo})
 	</insert>
 	
 	<insert id="insertImage">
@@ -195,5 +195,11 @@
 		set member_point = member_point - #{ payPoint }
 		where member_no = #{ loginUserNo }
 	</update>
+	
+	<select id="requestCount" resultType="_int">
+		select count(*)
+		from req_schedule
+		where req_mem_no = #{loginUserNo}
+	</select>
 	
 </mapper>

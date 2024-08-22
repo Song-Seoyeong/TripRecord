@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.finalproject.triprecord.board.model.vo.Board;
 import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.Local;
 import com.finalproject.triprecord.common.model.vo.Review;
@@ -58,5 +59,7 @@ public interface PlaceMapper {
 	int checkReview(int memNo);
 
 	void givePoint(int memNo);
+
+	ArrayList<Board> getNewBoList(String type);
 
 }

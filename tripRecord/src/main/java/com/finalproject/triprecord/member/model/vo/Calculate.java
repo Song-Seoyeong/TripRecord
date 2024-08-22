@@ -22,6 +22,7 @@ public class Calculate {
 	private int expectedMoney;
 	private String memberName;
 	private String bank;
+	private String status;
 	
 //	CREATE TABLE CALCULATE(
 //		    CALCULATE_NO NUMBER PRIMARY KEY,

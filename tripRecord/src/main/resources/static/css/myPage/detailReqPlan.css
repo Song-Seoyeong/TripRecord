@@ -125,6 +125,24 @@
 	font-weight: 600;
 }
 
+#review_button {
+	color: #96CAF0;
+	background-color: white;
+	width: 80px;
+	height: 40px;
+	border: none;
+	border-radius: 20px;
+	margin-right: 5px;
+	border: 2px solid #96CAF0;
+}
+
+#review_button:hover {
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
+}
+
 #cancle_button {
 	color: #DD5353;
 	background-color: white;

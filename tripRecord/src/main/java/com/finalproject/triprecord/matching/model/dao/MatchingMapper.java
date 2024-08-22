@@ -71,4 +71,6 @@ public interface MatchingMapper {
 
 	int requestPayment(HashMap<String, Integer> map);
 
+	int requestCount(int loginUserNo);
+
 }

@@ -19,6 +19,7 @@
 
 .list-table{
 	max-height: 620px;
+	min-width: 540px;
 }
 
 .container-right{
@@ -36,6 +37,7 @@
 	margin: 10px auto;
 	width: 98%;
 	height: 680px;
+	min-width: 939.67px;
 	overflow-y: auto;
 }
 
