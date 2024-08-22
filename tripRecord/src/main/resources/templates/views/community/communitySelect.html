@@ -148,8 +148,9 @@
 			
 		</div>
 		<div class='text-start' id='placeContent'>
-			[[${b.boardContent}]]
+			<p style="white-space:pre-wrap;">[[${b.boardContent}]]</p>
 		</div>
+		
 		
 		<form method="post" id="updel">
 			<input type="hidden" th:value="${b.boardNo}" name="boardNo">

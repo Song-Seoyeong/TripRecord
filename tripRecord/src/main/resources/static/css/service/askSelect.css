@@ -24,7 +24,9 @@
 	min-width: 1000px;
 	margin: 30px auto;
 }
-
+.carousel-item img {
+    margin: auto;
+}
 #content3 {
 	height: 70px;
 	width: 70%;

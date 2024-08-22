@@ -128,53 +128,54 @@ public class MatchingController {
 	}
 	
 	@GetMapping("selectPlanner.ma")
-	public String selectPlanner(@RequestParam(value="page", defaultValue="1") int currentReviewPage, @RequestParam("pNo") int pNo, @RequestParam("page") int page, Model model, HttpSession session) {
-		
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		int loginUserNo = 0;
-		if(loginUser != null) {
-			loginUserNo = loginUser.getMemberNo();
-		}
-		
-		//플래너 정보
-		Planner planner = matService.selectPlanner(pNo);
-		
-		//해시태그
-		ArrayList<HashTag> tagList = matService.selectTagList(pNo);
-		
-		//좋아요 + 지역
-		HashMap<String, Integer> likemap = new HashMap<>();
-		likemap.put("pNo", pNo);
-		likemap.put("loginUserNo", loginUserNo);
-		int likes = matService.countLikes(pNo);
-		int checkLikes = matService.checkLikes(likemap);
-		
-		String localNames = matService.selectLocalName(pNo);
-		
-		//후기 + 별점
-		Double AvgStar = matService.AverageStar(pNo);
-		int ReviewlistCount = matService.getReviewListCount(pNo);
-		PageInfo pi = Pagination.getPageInfo(currentReviewPage, ReviewlistCount, 5);
-		ArrayList<Review> rList = matService.getReviewList(pi, pNo);
-		
-		//프로필 사진 + 소개글 사진
-		ArrayList<Image> rImgList = matService.selectrImgList();
-		ArrayList<Image> iImgList = matService.selectiImgList(pNo);
-		
-		model.addAttribute("tagList", tagList);
-		model.addAttribute("AvgStar", AvgStar);
-		model.addAttribute("pi", pi);
-		model.addAttribute("rList", rList);
-		model.addAttribute("rImgList", rImgList);
-		model.addAttribute("iImgList", iImgList);
-		model.addAttribute("planner", planner);
-		model.addAttribute("page", page);
-		model.addAttribute("checkLikes", checkLikes);
-		model.addAttribute("likes", likes);
-		model.addAttribute("localName", localNames);
-		
-		return "matchingDetail";
-	}
+	   public String selectPlanner(@RequestParam(value="page", defaultValue="1") int currentReviewPage, @RequestParam("pNo") int pNo, @RequestParam("page") int page, Model model, HttpSession session
+	         ,@RequestParam(value="myPage", required=false) String myPage) {
+	      
+	      Member loginUser = (Member)session.getAttribute("loginUser");
+	      int loginUserNo = 0;
+	      if(loginUser != null) {
+	         loginUserNo = loginUser.getMemberNo();
+	      }
+	      
+	      //플래너 정보
+	      Planner planner = matService.selectPlanner(pNo);
+	      
+	      //해시태그
+	      ArrayList<HashTag> tagList = matService.selectTagList(pNo);
+	      
+	      //좋아요 + 지역
+	      HashMap<String, Integer> likemap = new HashMap<>();
+	      likemap.put("pNo", pNo);
+	      likemap.put("loginUserNo", loginUserNo);
+	      int likes = matService.countLikes(pNo);
+	      int checkLikes = matService.checkLikes(likemap);
+	      
+	      String localNames = matService.selectLocalName(pNo);
+	      
+	      //후기 + 별점
+	      Double AvgStar = matService.AverageStar(pNo);
+	      int ReviewlistCount = matService.getReviewListCount(pNo);
+	      PageInfo pi = Pagination.getPageInfo(currentReviewPage, ReviewlistCount, 5);
+	      ArrayList<Review> rList = matService.getReviewList(pi, pNo);
+	      
+	      ArrayList<Image> rImgList = matService.selectrImgList();
+	      ArrayList<Image> iImgList = matService.selectiImgList(pNo);
+	      
+	      model.addAttribute("tagList", tagList);
+	      model.addAttribute("AvgStar", AvgStar);
+	      model.addAttribute("pi", pi);
+	      model.addAttribute("rList", rList);
+	      model.addAttribute("rImgList", rImgList);
+	      model.addAttribute("iImgList", iImgList);
+	      model.addAttribute("planner", planner);
+	      model.addAttribute("page", page);
+	      model.addAttribute("checkLikes", checkLikes);
+	      model.addAttribute("likes", likes);
+	      model.addAttribute("localName", localNames);
+	      model.addAttribute("myPage", "myPage");
+	      
+	      return "matchingDetail";
+	   }
 	
 	@GetMapping("matchingRequest.ma")
 	public String matchingRequest(@RequestParam("pNo") int pNo, @RequestParam("page") int page, @RequestParam(value="payPoint", defaultValue="0") int payPoint, Model model, HttpSession session) {
