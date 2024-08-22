@@ -21,6 +21,9 @@ public class Review {
 	private int revRefNo;
 	private String reviewStatus;
 	private int reqRefNo;
+	
+	private int contentTypeId;
+	private int localNo;
 }
 
 

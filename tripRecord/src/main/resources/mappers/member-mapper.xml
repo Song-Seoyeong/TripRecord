@@ -280,35 +280,35 @@
 		REV_REF_NO =
 		#{memberNo}
 	</select>
-
-	<!-- 후기 수 -->
-	<select id="getReviewListCount" resultType="_int">
-		select count (*)
-		from
-		REVIEW
-		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and
-		REV_REF_NO =
-		#{memberNo}
+	
+	<!-- 본인이 쓴 전체 후기(장소) -->
+	<select id="getPlaceReviewListCount" resultType="_int">
+		select count(*)
+		from REVIEW
+		join RECO_PLACE on(REV_REF_NO = PLACE_NO) 
+		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE = 'PLACE'
 	</select>
 
-	<!-- 후기 불러오기 -->
-	<select id="getReviewList" resultType="Review">
-		select *
-		from review
-		join
-		member using(member_no)
-		left join image on image_ref_no = member_no and
-		image_ref_type = 'MEMBER'
-		where rev_ref_type = 'PLANNER' and
-		review_status='Y' and rev_ref_no = #{ pNo }
+	<!-- 본인이 쓴 전체 후기(장소) -->
+	<select id="getPlaceReviewList" resultType="Review">
+		 select * 
+		 from REVIEW 
+		 join RECO_PLACE on(REV_REF_NO = PLACE_NO) 
+		 where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE = 'PLACE'
+	</select>
+	
+	<!-- 본인이 쓴 전체 후기(플래너) -->
+	<select id="getPlannerReviewListCount" resultType="_int">
+		select count(*)
+		from REVIEW
+		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y'  and REV_REF_TYPE = 'PLANNER'
 	</select>
 
-	<!-- 플래너 프로필 이미지 불러오기 -->
-	<select id="getImgRename" resultType="Image">
-		select IMAGE_RENAME
-		from
-		IMAGE
-		where IMAGE_REF_TYPE = #{refType} and IMAGE_REF_NO = #{refNo}
+	<!-- 본인이 쓴 전체 후기(플래너) -->
+	<select id="getPlannerReviewList" resultType="Review">
+		 select * 
+		 from REVIEW 
+		 where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE = 'PLANNER' 
 	</select>
 
 	<!-- 플래너 취소 -->

@@ -41,8 +41,7 @@
 				<hr>
 				<!-- 참고사항 입력한거 -->
 				<div id="note"  style="white-space:pre-wrap;">
-					<b>참고사항(선택) : </b>
-					[[${rs.reqRef}]]
+					<b>참고사항(선택) : </b>[[${rs.reqRef}]]
 				</div>
 				
 			</div>
@@ -182,7 +181,7 @@
     		<div class="modal-content rounded-3 shadow">
       			<div class="modal-body p-4 text-center">
         			<h3 class="mb-0">이미 리뷰를 작성한 신청 내역입니다</h3>
-        			<p class="mb-0">확※리뷰는 신청당 한번만 작성하실 수 있습니다.※</p>
+        			<p class="mb-0">※리뷰는 신청당 한번만 작성하실 수 있습니다.※</p>
       			</div>
       			<div class="modal-footer flex-nowrap p-0">
         			<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end" id="goReviewList">
@@ -248,7 +247,7 @@
 		// 플래너 리뷰 쓰러가기
 		function review(){
 			const rCount = document.getElementById('rCount').value;
-			console.log(rCount)
+			//console.log(rCount)
 			if(rCount == 0){
 				const plaNo = document.getElementsByName('plaNo')[0].value;
 				const reqNo = document.getElementsByName('reqNo')[0].value;
@@ -261,7 +260,7 @@
 		const goReviewList = document.getElementById('goReviewList');
 		if(goReviewList != null){
 			goReviewList.addEventListener('click', ()=>{
-				location.href = "myReview.mp"
+				location.href = "myPlannerReview.mp"
 			})
 		}
 		

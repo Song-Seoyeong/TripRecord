@@ -277,7 +277,7 @@ public class MatchingController {
 	
 	
 	@GetMapping("matchingReview.ma")
-	public String matchingReview(@RequestParam("pNo") int pNo, Model model, HttpSession session) {
+	public String matchingReview(@RequestParam("pNo") int pNo, @RequestParam("reqNo") int reqNo, Model model, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int loginUserNo = 0;
 		if(loginUser != null) {
@@ -298,7 +298,7 @@ public class MatchingController {
 		int checkLikes = matService.checkLikes(likemap);
 		
 		String localNames = matService.selectLocalName(pNo);
-		
+		model.addAttribute("reqNo", reqNo);
 		model.addAttribute("tagList", tagList);
 		model.addAttribute("planner", planner);
 		model.addAttribute("checkLikes", checkLikes);
@@ -347,8 +347,8 @@ public class MatchingController {
 		}
 		if(result + iResult == 1 + list.size()) {
 			ra.addAttribute("page", 1);
-			ra.addAttribute("pNo", pNo);
-			return "redirect:selectPlanner.ma";
+			ra.addAttribute("reqNo", r.getReqRefNo());
+			return "redirect:detailReqPlan.mp";
 		} else {
 			for(Image a : list) {
 				try {

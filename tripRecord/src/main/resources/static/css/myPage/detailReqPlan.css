@@ -29,7 +29,10 @@
 }
 
 #note {
-	font-size: 20px;
+	font-size: 18px;
+	display: flex;
+    justify-content: start;
+    align-content: start;
 }
 
 #planSch {

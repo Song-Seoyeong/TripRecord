@@ -150,11 +150,17 @@ public interface MemberService {
 
 	int cancleRequest(int scNo);
 
-	// 본인 작성 리뷰 전체
-	int getWholeReviewListCount(int memberNo);
+	// 본인 장소 리뷰 전체
+	int getPlaceReviewListCount(int memberNo);
 
-	// 전체 후기 불러오기
-	ArrayList<Review> getWholeReviewList(int memberNo, PageInfo pi);
+	// 장소 후기 불러오기
+	ArrayList<Review> getPlaceReviewList(int memberNo, PageInfo pi);
+	
+	//플래너 후기 수 불러오기
+	int getPlannerReviewListCount(int memberNo);
+	
+	//플래너 후기 불러오기
+	ArrayList<Review> getPlannerReviewList(int memberNo, PageInfo pi);
 
 	// 해쉬 태그 가져오기
 	ArrayList<HashTag> getHashTag(int memberNo);
