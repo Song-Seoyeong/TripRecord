@@ -112,6 +112,9 @@ body {
     max-width: 80%;
     max-height: 80%;
 }
+.carousel-item img {
+    margin: auto;
+}
 #imgReview{
 	margin: 50px auto;
 }

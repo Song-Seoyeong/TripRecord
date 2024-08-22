@@ -1,6 +1,6 @@
 @charset "UTF-8";
 .offcanvas-body>p:hover{cursor:pointer;}
-#content{text-align:center;width:50%;
+#content{width:50%;
 		min-width:1000px;
 		margin:30px auto;}
 
@@ -61,11 +61,9 @@
 }
 .reviewInput{
 	border: 1px solid #CECECE;
-	background: FCFCFC;
 	border-radius: 10px;
+	width:500px;
 	height: 40px;
-	width: 100%;
-	min-width: 400px;
 	padding:20px;
 }
 #reviewContent{

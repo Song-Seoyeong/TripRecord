@@ -85,7 +85,7 @@
 	<div class="container py-4">
 		<div class="bd-example-snippet bd-code-snippet">
 			<div class="bd-example">
-				<table class="table table-hover" style='text-align:center;'>
+				<table class="table table-hover" style='text-align:center; vertical-align:middle;'>
 					<thead>
 						<tr>
 							<th width="8%">글 번호</th>
@@ -184,6 +184,7 @@
 			const paginationUl = document.getElementById('pagination');
 			
 			const params = new URLSearchParams(window.location.search);
+			const generalType = params.get('generalType') || "";
 			const currentPage = parseInt(params.get('page')) || 1;
 			const totalItems = parseInt("[[${listCount}]]") || 1;
 			const totalPages = Math.ceil(totalItems / 10);
@@ -269,19 +270,47 @@
 				cate.addEventListener('mouseover', function(){
 					cate.children[0].style.borderRadius = '9999px';
 					cate.children[0].style.backgroundColor = '#96caf0';
+					// 현재 카테고리 표시
+					if(generalType == "ALL" || generalType == ""){
+						categories[0].children[0].style.borderRadius = '9999px';
+						categories[0].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "PAYMENT"){
+						categories[1].children[0].style.borderRadius = '9999px';
+						categories[1].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "PLANNER"){
+						categories[2].children[0].style.borderRadius = '9999px';
+						categories[2].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "ELSE"){
+						categories[3].children[0].style.borderRadius = '9999px';
+						categories[3].children[0].style.backgroundColor = '#96caf0';
+					}
 				});
 				cate.addEventListener('mouseout', function(){
 					cate.children[0].style.borderRadius = '0';
 					cate.children[0].style.backgroundColor = 'white';
+					// 현재 카테고리 표시
+					if(generalType == "ALL" || generalType == ""){
+						categories[0].children[0].style.borderRadius = '9999px';
+						categories[0].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "PAYMENT"){
+						categories[1].children[0].style.borderRadius = '9999px';
+						categories[1].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "PLANNER"){
+						categories[2].children[0].style.borderRadius = '9999px';
+						categories[2].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "ELSE"){
+						categories[3].children[0].style.borderRadius = '9999px';
+						categories[3].children[0].style.backgroundColor = '#96caf0';
+					}
 				});
 				cate.addEventListener('click', function(){
-					if(this.innerText == '결제'){
+					if(this.children[0].innerText == '결제'){
 						generalTypeValue.value = "PAYMENT";
-					} else if(this.innerText == "플래너") {
+					} else if(this.children[0].innerText == "플래너") {
 						generalTypeValue.value = "PLANNER";
-					} else if(this.innerText == "기타") {
+					} else if(this.children[0].innerText == "기타") {
 						generalTypeValue.value = "ELSE";
-					} else if(this.innerText == "전체") {
+					} else if(this.children[0].innerText == "전체") {
 						generalTypeValue.value = "ALL";
 					}
 					

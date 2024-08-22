@@ -14,7 +14,7 @@
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 
 	<!-- 타이틀 영역 -->
-	<div class="div" id='imageTitle' th:if="${p.imagePath == null}" th:style='background-image: url(image/noimageBackground.png)'>
+	<div class="div" id='imageTitle' th:if="${p.imagePath == null}" style='background-image: url(image/noimageBackground.png)'>
 		<div class="text-content-title">
 			<span><b class="title" id='title'>"[[${p.placeName}]]" 후기</b></span>
 		</div>
@@ -50,7 +50,7 @@
 			</div>
 			<div id='reviewContent'>
 				<h3>리뷰 내용</h3>
-				<textArea name='reviewContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required>[[${r.reviewContent}]]</textArea>
+				<textArea name='reviewContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required style="white-space:pre-wrap;">[[${r.reviewContent}]]</textArea>
 			</div>
 			<div id='imgReview'>
 				<h3>리뷰 사진</h3>

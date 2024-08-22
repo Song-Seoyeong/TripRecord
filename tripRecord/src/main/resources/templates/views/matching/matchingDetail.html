@@ -15,8 +15,11 @@
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">	
 			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
-			<div>
-				<button id="goList" class="btn me-5" th:onclick="|location.href='@{matchingMain.ma(localNo=${planner.localNo})}'|">목록으로</button>
+			<div th:if="${myPage} == null">
+				<button id="goList" class="btn me-5" onclick="location.href='matchingMain.ma'">목록으로</button>
+			</div>
+			<div th:if="${myPage} == myPage">
+				<button id="goList" class="btn me-5" onclick="location.href='myPlannerReview.mp'">목록으로</button>
 			</div>
 		</div>
 		<!-- 상단 정보 탭 전체 -->
@@ -72,7 +75,8 @@
 				</div>
 				<br/><br/>
 				<th:block th:if="${session.loginUser == null || session.loginUser.memberNo != planner.MemberNo}">
-					<form action="myPlan.mp">
+					<form action="matchingReview.ma">
+						<input type="hidden" name="pNo" th:value="${ planner.memberNo }">
 						<button class="btn" id="reviewBtn">>> 후기 작성하러 가기</button>
 					</form>
 				</th:block>
@@ -229,7 +233,7 @@
         			<h3 class="mb-3 text-start" id="modalReviewTitle"></h3>
         			<hr/>
                 	<div class="d-flex justify-content-center m-5" id="modalReviewContent-img"></div>
-                	<p class="mb-0 w-100 text-start" id="modalReviewContent-text"></p>
+                	<p class="mb-0 w-100 text-start" id="modalReviewContent-text" style="white-space:pre-wrap;"></p>
                 	<br/>
       			</div>
       			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">닫기</button>
