@@ -84,13 +84,13 @@
 				}
 			})
 			
-			const maxBytes = 60;
+			const maxBytes = 150;
 			
 			title.addEventListener('focusout', function(){
 				let currentBytes = calculateBytes(title.value);
 
                 if (currentBytes > maxBytes) {
-                	alert("제목은 30자내로 입력해주세요");
+                	alert("제목은 50자내로 입력해주세요");
                     while (currentBytes > maxBytes) {
                         title.value = title.value.slice(0, -1);
                         currentBytes = calculateBytes(title.value);
