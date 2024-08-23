@@ -256,7 +256,7 @@
 	<div class="container py-4">
 		<div class="bd-example-snippet bd-code-snippet">
 			<div class="bd-example" style="border:none;">
-				<table class="table table-hover">
+				<table class="table">
 					<thead>
 						<tr>
 							<th></th>
@@ -341,7 +341,8 @@
 			const boardType = document.getElementById("general");
 			
 			const pagination = document.getElementById('pagination');
-			
+			const params = new URLSearchParams(window.location.search);
+			const generalType = params.get('generalType') || "";
 			
 			// 사이드 메뉴 클릭 시 이동
 			for(const sideP of sideMenus){
@@ -398,25 +399,21 @@
 				})
 			}
 
-			if([[${categorySelect}]] == null){
-				generalTypeValue.value = "ALL";
-			}
 			
-			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
-				if([[${generalType}]] == "ALL"){
-					categories[0].children[0].style.borderRadius = '9999px';
-					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "WITH"){
-					categories[1].children[0].style.borderRadius = '9999px';
-					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "GIVE"){
-					categories[2].children[0].style.borderRadius = '9999px';
-					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if([[${generalType}]] == "REVIEW"){
-					categories[3].children[0].style.borderRadius = '9999px';
-					categories[3].children[0].style.backgroundColor = '#96caf0';
-				}
-			});
+			// 현재 카테고리 표시
+			if(generalType == "ALL" || generalType == ""){
+				categories[0].children[0].style.borderRadius = '9999px';
+				categories[0].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "WITH"){
+				categories[1].children[0].style.borderRadius = '9999px';
+				categories[1].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "GIVE"){
+				categories[2].children[0].style.borderRadius = '9999px';
+				categories[2].children[0].style.backgroundColor = '#96caf0';
+			} else if(generalType == "REVIEW"){
+				categories[3].children[0].style.borderRadius = '9999px';
+				categories[3].children[0].style.backgroundColor = '#96caf0';
+			}
 			
 			// 수정버튼
 			const form = document.getElementById("updel");

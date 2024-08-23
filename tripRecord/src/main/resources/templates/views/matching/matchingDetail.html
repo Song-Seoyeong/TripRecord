@@ -291,8 +291,10 @@ const goList = document.getElementById('goList');
 
 goList.addEventListener('click', function() {
 	console.log(beforeURL)
-    if (beforeURL) {
-       // window.location.href = beforeURL;
+    if (beforeURL.includes(".mp")) {
+       window.location.href = beforeURL;
+    }else{
+    	location.href = "matchingMain.ma"
     }
 });
 
