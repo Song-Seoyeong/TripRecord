@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.payment.model.dao.PaymentMapper;
@@ -32,5 +33,10 @@ public class PaymentService {
 
 	public int deletePayments(String string) {
 		return pMapper.deletePayments(string);
+	}
+
+	public int insertCancelReason(Cancel cancel) {
+		return pMapper.insertCancelReason(cancel);
+		
 	}
 }

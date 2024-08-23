@@ -138,7 +138,9 @@
 							<td><input type="checkbox" id="impUid" name="impUidList"
 								th:value="${pm.impUid}"></td>
 							<td><input type="hidden" th:value="${pm.merchantUid}">
-								[[${pm.merchantUid}]]</td>
+								<input type="hidden" th:value="${pm.payNo}">
+								[[${pm.merchantUid}]] 
+								</td>
 							<td><input type="hidden" th:value="${pm.poPrice}">
 								[[${#numbers.formatDecimal(pm.poPrice,3,'COMMA',0,'COMMA')}]]</td>
 							<td><input type="hidden" th:value="${pm.poPoint}">
@@ -147,33 +149,31 @@
 						</tr>
 					</tbody>
 				</table>
-
+				
 				<!-- 페이지네이션 -->
-				<div class="text-center"
-					style="margin-top: 50px; text-align: center;" th:with="loc=${loc}">
-					<ul class="pagination">
-						<!-- 이전링크 -->
-						<li style="margin-left: auto;"><a class="movePage"
-							th:href="@{${loc}(page=${pi.currentPage-1})}"
-							aria-label="Previous"
-							th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
+				<div style="height:20px;"></div>
+				<nav class="d-flex justify-content-center">
+		        	<ul class="pagination" th:with="loc=${ loc }">
+		        		 <!-- 이전 버튼 -->
+			            <li class="page-item">
+			            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+			            		<span aria-hidden="true">&laquo;</span>
+			              	</a>
+			            </li>
+			             <!-- 페이지 넘버링 버튼  -->
+						<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+							<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
 						</li>
-						<!-- 번호 이동 -->
-						<li class="pageNumber"
-							th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}">
-							<th:block th:if="${pi.endPage != 0}">
-								<a class="movePage" th:href="@{${loc}(page=${p})}" th:text="${p}"></a>
-							</th:block>
-						</li>
-						<!-- 다음링크 -->
-						<li style="margin-right: auto;"><th:block
-								th:if="${pi.endPage != 0}">
-								<a class="movePage" th:href="@{${loc}(page=${pi.currentPage+1})}"
-									aria-label="Next"
-									th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
-							</th:block></li>
-					</ul>
-				</div>
+			           
+			             <!-- 다음 버튼  -->
+			            <li class="page-item">
+			            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+			            		<span aria-hidden="true">&raquo;</span>
+			            	</a>
+			            </li>
+			    	</ul>
+		        </nav>
+				
 			</div>
 			<div style="width: 1000px;">
 				<button id="payCancle" class="noselect" style="float: right">
@@ -188,6 +188,22 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 취소 사유 모달창 -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="reviewModal">
+		<div class="modal-dialog d-flex align-items-center justify-content-center">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4">
+        			<h3 class="mb-3 text-start">결제 취소 사유</h3>
+	        			<hr/>
+	        			<textarea style="width:100%; height:100px; resize:none;" id="cancelReasonText"></textarea>
+                	<br/>
+      			</div>
+      			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal"  onclick="canclePay()">결제 취소</button>
+      			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">닫기</button>
+    		</div>
+  		</div>
+	</div>
 
 	<div style="margin-bottom: 300px"></div>
 
@@ -197,8 +213,10 @@
 	<script>
 	let merchantUidList = [];
 	let impUidList = [];
+	let payNoList = [];
 	let points = 0;
 	let pays = 0;
+	let cancelReason = null;
 
 	// 체크박스 모두 선택
 	document.querySelector('input[id="checkAll"]').addEventListener('change', function() {
@@ -208,7 +226,7 @@
 	    });
 	    updateTotals();
 	});
-
+	
 	// 합산 및 배열 업데이트
 	function updateTotals() {
 	    // 초기화
@@ -216,6 +234,7 @@
 	    pays = 0;
 	    const impUidSet = new Set();
 	    const merchantUidSet = new Set();
+	    const payNoSet = new Set();
 
 	    // 현재 체크된 체크박스 처리
 	    document.querySelectorAll('input[name="impUidList"]:checked').forEach(checkbox => {
@@ -223,13 +242,15 @@
 	        const payValue = checkbox.parentElement.parentElement.children[2].children[0].value;
 	        const impUidValue = checkbox.value;
 	        const merchantValue = checkbox.parentElement.parentElement.children[1].children[0].value;
-
+	        const payNoValue = checkbox.parentElement.parentElement.children[1].children[1].value;
+	        
 	        const pointNumber = parseFloat(pointValue);
 	        const payNumber = parseFloat(payValue);
 
 	        // set 중복된 번호 제거를 위해 이용
 	        impUidSet.add(impUidValue);
 	        merchantUidSet.add(merchantValue);
+	        payNoSet.add(payNoValue);
 
 	        // 충전금액, 결제금액 합산
 	        points += pointNumber;
@@ -241,34 +262,41 @@
 	        if (!checkbox.checked) {
 	            const impUidValue = checkbox.value;
 	            const merchantValue = checkbox.parentElement.parentElement.children[1].children[0].value;
-
+	            const payNoValue = checkbox.parentElement.parentElement.children[1].children[1].value;
+	            
 	            // 언체크된 체크박스에 대해 배열에서 제거
 	            impUidSet.delete(impUidValue);
 	            merchantUidSet.delete(merchantValue);
+	            payNoSet.delete(payNoValue);
 	        }
 	    });
 
 	   // 결제 관련 데이터 배열 입력
 	    impUidList = Array.from(impUidSet);
 	    merchantUidList = Array.from(merchantUidSet);
-
+	    payNoList = Array.from(payNoSet);
+	    
 	    // 체크 박스 전부 체크 아닐 시 상단 체크 상태 unchecked
 	    const allCheckboxes = document.querySelectorAll('input[name="impUidList"]');
 	    const checkAll = document.querySelector('input[id="checkAll"]');
 	    checkAll.checked = allCheckboxes.length === document.querySelectorAll('input[name="impUidList"]:checked').length;
 
 	    // 출력
-	    //console.log('impUid :', impUidList);
-	   //console.log('merchantUid', merchantUidList);
-	    //console.log('전체 포인트:', points);
-	    //console.log('전체 결제 금액:', pays);
+	    console.log('impUid :', impUidList);
+	    console.log('merchantUid', merchantUidList);
+	    console.log('전체 포인트:', points);
+	    console.log('전체 결제 금액:', pays);
+	    console.log('결제 번호 : ', payNoList)
 	}
 
 	//선택시 합산 
 	document.querySelectorAll('input[name="impUidList"]').forEach(checkbox => {
 	    checkbox.addEventListener('change', updateTotals);
 	});
-		
+	
+	document.getElementById('cancelReasonText').addEventListener('change', function(){
+		cancelReason = document.getElementById('cancelReasonText').value
+	})	
 	
 		//환불 기능
 		function canclePay(){
@@ -278,15 +306,20 @@
 		      data: {merchantUidList: merchantUidList, // 예: ORD20180131-0000011
 		        	cancleAmount: pays , // 환불금액
 		        	cancelPoint: points,  // 차감 포인트
+		        	cancelReason : cancelReason,
+		        	payNoList : payNoList
 		      },
 		      success : (data)=>{
 		    	  if(data == 'success'){
 		    		  console.log(data)
 		    		  alert('환불 완료 되었습니다.')
 		    		  location.reload();
-		    	  }else{
+		    	  }else if(data == 'fail'){
 		    		  alert('환불에 실패하셨습니다')
-		    		  loaction.reload();
+		    		  location.reload();
+		    	  }else if(data = 'shortage'){
+		    		  alert('잔액이 부족합니다')
+		    		  location.reload();
 		    	  }
 		      },
 		      error : (data) =>{
@@ -302,12 +335,14 @@
 				if(merchantUidList.length == 0){
 					alert("선택사항이 없습니다")
 				}else{
-					canclePay();
+					$('#reviewModal').modal('show');
+					const cancelReason = document.getElementById('cancelReasonText').value
 				}
 			}else{
 				return false;
 			}
 		})
+		
 	</script>
 </body>
 </html>

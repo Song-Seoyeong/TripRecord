@@ -6,13 +6,12 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.finalproject.triprecord.common.model.vo.Cancel;
 import com.finalproject.triprecord.common.model.vo.Payment;
 import com.finalproject.triprecord.member.model.vo.Member;
 import com.finalproject.triprecord.payment.model.service.PaymentService;
@@ -76,24 +75,40 @@ public class PaymentApiController {
 	@ResponseBody
 	public String refundComplete(HttpSession session,
 			@RequestParam("merchantUidList") ArrayList<String> merchantUidList,
-			@RequestParam("cancleAmount") int cancleAmount, @RequestParam("cancelPoint") int cancelPoint)throws IOException {
+			@RequestParam("cancleAmount") int cancleAmount, @RequestParam("cancelPoint") int cancelPoint,
+			@RequestParam("cancelReason") String cancelReason,
+			@RequestParam("payNoList")ArrayList<Integer> payNoList)throws IOException {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int result = 0;
-		if (loginUser.getMemberPoint() > cancelPoint) {
+//		System.out.println("유저 포인트 : " + loginUser.getMemberPoint());
+//		System.out.println("환불 포인트 : " + cancelPoint);
+//		System.out.println("환불할 결제 번호 : " + payNoList);
+//		System.out.println("회원 현 포인트 : " + loginUser.getMemberPoint());
+		if (loginUser.getMemberPoint() >= cancelPoint) {
+			for(int i = 0 ; i < payNoList.size(); i++) {
+				//취소 회원 번호, 취소 사유, 취소 구분 타입,
+				Cancel cancel = new Cancel();
+				cancel.setCancelMemNo(loginUser.getMemberNo());
+				cancel.setCancelComent(cancelReason);
+				cancel.setCancelRefNo(payNoList.get(i));
+				cancel.setCancelRefType("PAYMENT");
+				pService.insertCancelReason(cancel);
+			}
+			
 			for (int i = 0; i < merchantUidList.size(); i++) {
 				String token = rService.getToken(apikey, secretkey);
 				System.out.println("토큰 번호 : " + token);
 				rService.refundRequest(token, merchantUidList.get(i));
 				result = pService.deletePayments(merchantUidList.get(i));
+				
+				
 			}
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("memberNo", loginUser.getMemberNo());
 			map.put("canclePoint", cancelPoint);
-			//System.out.println(map);
 			int result2 = pService.minusPoint(map);
 //			System.out.println("포인트 차감 : " + result2);
-//			
 //			System.out.println(result + result2);
 			
 			loginUser.setMemberPoint(loginUser.getMemberPoint()-cancelPoint);

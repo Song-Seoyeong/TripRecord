@@ -22,8 +22,9 @@
 		where MERCHANT_UID = #{string}
 	</delete>
 	
-	
-	
-	
+	<insert id="insertCancelReason">
+		insert into CANCEL
+		values(SEQ_CANCEL.nextval, #{cancelMemNo}, #{cancelComent}, sysdate, #{cancelRefType}, #{cancelRefNo})
+	</insert>
 	
 </mapper>

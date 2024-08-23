@@ -79,30 +79,28 @@ td {
 				</tbody>
 			</table>
 			<!-- 페이지네이션 -->
-			<div class="text-center"
-				style="margin-top: 50px; text-align: center;" th:with="loc=${loc}">
-				<ul class="pagination">
-					<!-- 이전링크 -->
-					<li style="margin-left: auto;"><a class="movePage"
-						th:href="@{${loc}(page=${pi.currentPage-1})}"
-						aria-label="Previous"
-						th:classAppend="${pi.currentPage == pi.startPage ? 'hidden' : ''}">&lt;</a>
-					</li>
-					<!-- 번호 이동 -->
-					<li class="pageNumber"
-						th:each="p:${#numbers.sequence(pi.startPage, pi.endPage)}"><th:block
-							th:if="${pi.endPage != 0}">
-							<a class="movePage" th:href="@{${loc}(page=${p})}" th:text="${p}"></a>
-						</th:block></li>
-					<!-- 다음링크 -->
-					<li style="margin-right: auto;"><th:block
-							th:if="${pi.endPage != 0}">
-							<a class="movePage" th:href="@{${loc}(page=${pi.currentPage+1})}"
-								aria-label="Next"
-								th:classAppend="${pi.currentPage == pi.endPage ? 'hidden' : ''}">&gt;</a>
-						</th:block></li>
-				</ul>
-			</div>
+				<div style="height:20px;"></div>
+				<nav class="d-flex justify-content-center">
+		        	<ul class="pagination" th:with="loc=${ loc }">
+		        		 <!-- 이전 버튼 -->
+			            <li class="page-item">
+			            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
+			            		<span aria-hidden="true">&laquo;</span>
+			              	</a>
+			            </li>
+			             <!-- 페이지 넘버링 버튼  -->
+						<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+							<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+						</li>
+			           
+			             <!-- 다음 버튼  -->
+			            <li class="page-item">
+			            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+			            		<span aria-hidden="true">&raquo;</span>
+			            	</a>
+			            </li>
+			    	</ul>
+		        </nav>
 		</div>
 	</div>
 

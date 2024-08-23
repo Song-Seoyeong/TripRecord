@@ -92,6 +92,9 @@
     	<!-- 사이드바 -->
     	<div id="sidebar">
     		<div th:replace="~{common/myPageSideBar :: myPageSideBar}"></div>
+    		<br/>
+    		<br/>
+    		<a style="color:lightgray; margin-left:50px; cursor:pointer;" onclick="deleteBtn()">회원탈퇴</a>
     	</div>
     </div>
     <div class="flex-container">
@@ -181,7 +184,6 @@
 	           <!-- 수정/탈퇴 버튼 -->
 	           <div class="text-center">
 	               <button id="revision_button"> 수정</button>
-	               <button type="button" id="delete_button" onclick="deleteBtn()">탈퇴</button>
 	           </div>
     </div>
     
