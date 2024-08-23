@@ -42,7 +42,7 @@
 		<!-- > 모양 -->
 			<div class="offcanvas offcanvas-start" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 				<div class="offcanvas-header">
-					<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+					<h5 class="offcanvas-title" id="staticBackdropLabel">고객센터</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
 				<div class="offcanvas-body">
@@ -306,16 +306,16 @@
 				cate.addEventListener('click', function(){
 					if(this.innerText == '결제'){
 						generalTypeValue.value = "PAYMENT";
-					} else if(this.children[0].innerText == "플래너") {
+					} else if(this.innerText == "플래너") {
 						generalTypeValue.value = "PLANNER";
-					} else if(this.children[0].innerText == "기타") {
+					} else if(this.innerText == "기타") {
 						generalTypeValue.value = "ELSE";
-					} else if(this.children[0].innerText == "전체") {
+					} else if(this.innerText == "전체") {
 						generalTypeValue.value = "ALL";
 					}
 					
-					//console.log(generalTypeValue.value);
-					searchForm.submit();
+					console.log(generalTypeValue.value);
+// 					searchForm.submit();
 				})
 			}
 			

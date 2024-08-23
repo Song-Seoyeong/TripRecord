@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .offcanvas-body>p:hover{cursor:pointer;}
 #content{width:50%;
-		min-width:1000px;
+		min-width:100%;
 		margin:30px auto;}
 
 #commu-select{padding-top:20px; padding-bottom:20px;
@@ -56,13 +56,15 @@
 	padding: 0px;
 }
 #reviewTitle{
+	display:flex;
 	width: 100%;
 	padding-left:20px;
+	gap:10px;
 }
 .reviewInput{
 	border: 1px solid #CECECE;
 	border-radius: 10px;
-	width:500px;
+	flex-grow:1;
 	height: 40px;
 	padding:20px;
 }

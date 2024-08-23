@@ -21,8 +21,8 @@
 	<div th:replace="~{common/plannerUpperBar :: plannerUpperBar}"></div>
 	
 	<div class="flex-container" style="text-align:center; margin-left:auto;">
-		<br/>
-		<div style="display:inline-block; width:1200px; height:800px; border: 1px solid lightgray; border-radius:10px;" >
+		<div style="height: 120px;"></div>
+		<div style="display:inline-block; width:1200px; height:800px;" >
 		<table>
 			<thead>
 			 	<tr style="border-bottom:2px solid #96CAF0;">
@@ -42,10 +42,15 @@
 					<td style="color: #2F6598; font-weight: bold;" id="status" th:if="${r.reqStatus == 3}">구매 확정</td>
 					<td style="color: red; font-weight: bold;"id="status" th:if="${r.reqStatus == 4}">신청 취소</td>
 				</tr>
+				<th:block th:if="${pi.listCount} == 0">
+				<tr style="border-bottom: 2px solid #b9b9b9">
+					<td colspan="5">요청 내역이 없어요 &#128549; </td>
+				</tr>
+			</th:block>
 			</tbody>
 		</table><br/>
 			<!-- 페이지네이션 -->
-			<nav class="d-flex justify-content-center">
+			<nav class="d-flex justify-content-center" th:if="${pi.listCount} != 0">
 	        	<ul class="pagination" th:with="loc=${ loc }">
 	        		 <!-- 이전 버튼 -->
 		            <li class="page-item">

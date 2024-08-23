@@ -202,5 +202,10 @@ public class BoardServiceImpl implements BoardService{
 		return bMapper.getGeneralAsk();
 	}
 
+	@Override
+	public int updateGeneralAsk(Board b) {
+		return bMapper.updateGeneralAsk(b);
+	}
+
 
 }

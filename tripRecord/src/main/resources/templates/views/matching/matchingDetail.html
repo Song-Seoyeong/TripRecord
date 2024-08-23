@@ -290,8 +290,9 @@ const beforeURL = document.referrer;
 const goList = document.getElementById('goList');
 
 goList.addEventListener('click', function() {
+	console.log(beforeURL)
     if (beforeURL) {
-        window.location.href = beforeURL;
+       // window.location.href = beforeURL;
     }
 });
 
@@ -338,7 +339,9 @@ for(const tr of reviewList) {
 }
 
 document.getElementById('likeButton').addEventListener('click', () => {
-	const pNo = [[${ planner.memberNo }]];
+	/*<![CDATA[*/
+	const pNo = /*[[${ planner.memberNo }]]*/1;
+	/*]]>*/
 	const likeButton = document.getElementById('likeButton');
     let url = '';
     let changeLikes = 0;

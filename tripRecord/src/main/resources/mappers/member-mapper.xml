@@ -304,20 +304,25 @@
 
 	<!-- 본인이 쓴 전체 후기(플래너) -->
 	<select id="getPlannerReviewListCount" resultType="_int">
-		select
-		count(*)
-		from REVIEW
-		where MEMBER_NO = #{memberNo} and REVIEW_STATUS =
-		'Y' and REV_REF_TYPE = 'PLANNER'
+		SELECT count(*)
+		FROM REVIEW r
+		JOIN MEMBER m ON r.REV_REF_NO = m.MEMBER_NO
+		JOIN
+		PLANNER p ON r.REV_REF_NO = p.MEMBER_NO
+		WHERE r.MEMBER_NO = 8 AND
+		r.REVIEW_STATUS = 'Y' AND r.REV_REF_TYPE = 'PLANNER'
 	</select>
 
 	<!-- 본인이 쓴 전체 후기(플래너) -->
 	<select id="getPlannerReviewList" resultType="Review">
-		select *
-		from REVIEW
-		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE
-		=
-		'PLANNER'
+		SELECT *
+		FROM REVIEW
+		r
+		JOIN MEMBER m ON r.REV_REF_NO = m.MEMBER_NO
+		JOIN PLANNER p ON
+		r.REV_REF_NO = p.MEMBER_NO
+		WHERE r.MEMBER_NO = 8 AND r.REVIEW_STATUS =
+		'Y' AND r.REV_REF_TYPE = 'PLANNER'
 	</select>
 
 	<!-- 플래너 취소 -->

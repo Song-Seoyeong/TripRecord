@@ -1,174 +1,127 @@
 @charset "UTF-8";
+#content{width:50%;
+		min-width:100%;
+		margin:30px auto;}
 
-#content {
-	width: 50%;
-	min-width: 1000px;
-	margin: 30px auto;
-}
-
-#commu-select {
-	padding-top: 20px;
-	padding-bottom: 20px;
-	width: 500px;
-	margin-left: auto;
-	margin-right: auto;
-	display: flex;
-	text-align: center;
-}
-
+#commu-select{padding-top:20px; padding-bottom:20px;
+			  width:500px; margin-left:auto; margin-right:auto;
+			  display:flex; text-align:center;}
 .search {
-	flex: 1;
-	border-radius: 9999px;
-	background-color: #fff;
-	border: 1px solid #d9d9d9;
-	overflow: hidden;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-start;
-	padding: 12px 16px;
-	gap: 8px;
+  	flex: 1;
+  	border-radius: 9999px;
+  	background-color: #fff;
+  	border: 1px solid #d9d9d9;
+  	overflow: hidden;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 12px 16px;
+  	gap: 8px;
 }
-
 .search-filter {
-	width: 327px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 24px;
+  	width: 327px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	gap: 24px;
 }
-
-#search-com {
-	flex: 1;
-	border-radius: 9999px;
-	background-color: #fff;
-	border: 1px solid #d9d9d9;
-	overflow: hidden;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: flex-start;
-	padding: 12px 16px;
-	gap: 8px;
-	width: 80%;
-	border: none;
-	outline: none;
-}
-
+#search-com{flex: 1;
+  	border-radius: 9999px;
+  	background-color: #fff;
+  	border: 1px solid #d9d9d9;
+  	overflow: hidden;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 12px 16px;
+  	gap: 8px;
+  	width:80%;
+  	border:none;
+  	outline:none;
+  	}
 .filter-bar {
-	align-self: stretch;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	display: flex;
-	margin-bottom: 16px;
+  	align-self: stretch;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: center;
+  	display: flex;
+  	margin-bottom: 16px;
+  	height:40px;
 }
-
-#search {
-	border: none;
-	outline: none;
-}
-
-#inputDiv {
+#search{border:none;outline:none;}
+#inputDiv{
 	width: 50%;
 	min-width: 900px;
 	margin: 15px auto;
 	padding: 0px;
 }
-
-#reviewTitle {
-	width: 100%;
-	padding-left: 20px;
+#reviewTitle{
+	display: flex;
+    width: 100%;
+    padding-left: 20px;
+    gap: 10px; /* 요소 간 간격을 추가합니다. */
 }
-
-.reviewInput {
+.reviewInput{
 	border: 1px solid #CECECE;
-	border-radius: 10px;
-	width: 500px;
-	height: 40px;
-	padding: 20px;
+    border-radius: 10px;
+    flex-grow: 1; /* 남은 공간을 모두 차지하도록 합니다. */
+    height: 40px;
+    padding: 20px;
 }
-
-#reviewContent {
+#reviewContent{
 	width: 100%;
-	padding-left: 20px;
+	padding-left:20px;
 	margin: 20px 0px;
 }
-
-textArea {
+textArea{
 	resize: none;
-	min-height: 400px;
-	height: 50%;
+	min-height:400px;
+	height: 50%; 
 }
-
-#imgReview {
+#imgReview{
 	width: 100%;
-	padding-left: 20px;
+	padding-left:20px;
 	margin: 30px 0px;
 }
-
-#insert {
-	background: none;
+#insert{
+	background:none;
 	border: 2px solid #2F6598;
 	color: #2F6598;
-	width: 70px;
+	width:70px;
 	font-weight: blod;
 }
-
-#insert:hover {
+#insert:hover{
 	background: #2F6598;
 	border: 2px solid #2F6598;
 	color: #fff;
 }
-
-#sidebar {
-	width: 51px;
-	height: 51px;
-	left: 33px;
-	top: 260px;
-	position: fixed;
-	border: 7px #96CAF0 solid;
-	z-index: 50;
-}
-
-#offcanvasWithBothOptions {
-	height: 270px;
-	top: 320px;
-	left: 33px;
-	width: 250px;
-	border: 5px solid #2f6598;
-}
-
-.reImg {
+#sidebar{width:51px; height: 51px; left: 33px; top: 260px; position: fixed; border: 7px #96CAF0 solid; z-index: 50;}
+#offcanvasWithBothOptions{height:270px; top:320px; left:33px; width:250px; border:5px solid #2f6598;}
+.reImg{
 	width: 200px;
 }
-
-.beforeDel, .afterDel {
+.beforeDel, .afterDel{
 	float: left;
 }
-
-.afterDel {
-	display: none;
+.afterDel{
+	display: none ;
 }
-
-.backDel {
-	display: inline-block;
-	transition: transform 0.5s ease-in-out;
+.backDel{
+    display: inline-block ;
+    transition: transform 0.5s ease-in-out;
 }
-
-#image {
+#image{
 	margin: 20px 0px;
 }
-
-.deleteButton:hover .afterDel {
-	display: inline-block;
+.deleteButton:hover .afterDel{
+	display: inline-block ;
 }
-
-.deleteButton:hover .beforeDel {
+.deleteButton:hover .beforeDel{
 	display: none;
 }
-
-.deleteButton:hover .backDel {
+.deleteButton:hover .backDel{
 	transform: rotate(-90deg);
 }

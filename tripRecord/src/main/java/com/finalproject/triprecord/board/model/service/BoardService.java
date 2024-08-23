@@ -81,6 +81,8 @@ public interface BoardService {
 	//추가
 	ArrayList<GeneralBoard> getGeneralAsk();
 
+	int updateGeneralAsk(Board b);
+
 
 
 }

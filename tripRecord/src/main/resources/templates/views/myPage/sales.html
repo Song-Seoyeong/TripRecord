@@ -53,9 +53,9 @@ td {
 
 	<div class="flex-container"
 		style="text-align: center; margin-left: auto;">
-		<div style="height: 160px;"></div>
+		<div style="height: 120px;"></div>
 		<div
-			style="display: inline-block; width: 1200px; overflow; border: 1px solid lightgray; border-radius: 10px;">
+			style="display: inline-block; width: 1200px; overflow;">
 			<table>
 				<thead>
 					<tr style="border-bottom: 2px solid #96CAF0;">
@@ -68,7 +68,7 @@ td {
 					</tr>
 				</thead>
 				<tbody>
-					<tr style="border-bottom: 2px solid #b9b9b9" th:each="s : ${sList}">
+					<tr style="border-bottom: 2px solid #b9b9b9" th:each="s : ${sList}" >
 						<td>[[${s.calculateNo}]]</td>
 						<td>[[${#numbers.formatDecimal(s.expectedPoint,3,'COMMA',0,'COMMA')}]]</td>
 						<td>[[${#numbers.formatDecimal(s.expectedMoney,3,'COMMA',0,'COMMA')}]]</td>
@@ -76,6 +76,11 @@ td {
 						<td>[[${s.calDate}]]</td>
 						<td th:classappend="${s.status} == 'N' ? 'notComplete' : 'complete'">[[${s.status} == 'N' ? '미지급': '지급 완료']]</td>
 					</tr>
+					<th:block th:if="${pi.listCount} == 0">
+						<tr style="border-bottom: 2px solid #b9b9b9">
+							<td colspan="6">정산 내역이 없어요 &#128549; </td>
+						</tr>
+					</th:block>
 				</tbody>
 			</table>
 			<!-- 페이지네이션 -->

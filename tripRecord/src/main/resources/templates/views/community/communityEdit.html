@@ -18,9 +18,6 @@
 	
 	
 	
-	<!-- 미완성 -->
-	<!-- 미완성 -->
-	<!-- 미완성 -->
 	
 	
 	
@@ -33,7 +30,15 @@
 			<div class="col-4"></div>
 			<div class="col-3"></div>
 			<div class='col-1'>
-				<select class="form-select" aria-label="Sort by" name="localName" style="width:100px;">
+				
+			</div>
+			<div class="col-3"></div>
+		</div>
+		<br><br>
+	
+		<div id='inputDiv'>
+			<div id='reviewTitle' style="gap:10px;">
+				<select class="form-select" aria-label="Sort by" name="localName" style="width:100px;height:40px;">
 		               <option value="서울">서울</option>
 		               <option value="부산" th:selected="${b.localName == '부산'}">부산</option>
 		               <option value="대구" th:selected="${b.localName == '대구'}">대구</option>
@@ -52,22 +57,12 @@
 		               <option value="전남" th:selected="${b.localName == '전남'}">전남</option>
 		               <option value="제주" th:selected="${b.localName == '제주'}">제주</option>
 				</select>
-			</div>
-			<div class='col-1'>
-				<select class="form-select" aria-label="Sort by" name="generalType" style="width:100px;">
-		               <option selected>말머리</option>
+				<select class="form-select" aria-label="Sort by" name="generalType" style="width:100px;height:40px;">
 		               <option value="WITH" th:selected="${b.generalType == 'WITH'}">동행</option>
 		               <option value="GIVE" th:selected="${b.generalType == 'GIVE'}">양도</option>
 		               <option value="REVIEW" th:selected="${b.generalType == 'REVIEW'}">후기</option>
 				</select>
-			</div>
-			<div class="col-3"></div>
-		</div>
-		<br><br>
-	
-		<div id='inputDiv'>
-			<div id='reviewTitle'>
-				<h3>제목</h3>
+				<h3 style="padding-left:30px;">제목</h3>
 				<input type='text' name='boardTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' th:value="${b.boardTitle}" required>
 			</div>
 			<div id='reviewContent'>
@@ -75,7 +70,7 @@
 				<textArea name='boardContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required>[[${b.boardContent}]]</textArea>
 			</div>
 			<div id='imgReview'>
-				<h3>사진</h3>
+				<h3>사진 (여러장 선택 가능)</h3>
 				<div id='image' th:if='${iList != null}'>
 					<th:block  th:each='i : ${iList}'>
 						<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" th:alt="${i.imageOriginName}" class='reImg'>

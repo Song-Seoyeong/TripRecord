@@ -41,7 +41,7 @@
 	
 			<div class="offcanvas offcanvas-start" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 				<div class="offcanvas-header">
-					<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+					<h5 class="offcanvas-title" id="staticBackdropLabel">고객센터</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
 				<div class="offcanvas-body">
@@ -157,7 +157,7 @@
 	
 
 	<input type="hidden" th:value="${n.boardNo}" name="boardNo">
-	<div class="text-center row">
+	<div class="text-center">
 		<div class="col-4"></div>
 		<div class="col-1" style="margin:auto;">
 			<a href="ask.no" th:if="${myPage} != myPage">
@@ -370,19 +370,19 @@
 				searchForm.submit();
 			});
 			
-			let gType = /*[[${generalType}]]*/1;
-			//console.log(gType);
+			let gType = /*[[${generalType}]]*/'ALL';
+			console.log(gType);
 			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
 				if(gType == "ALL"){
 					categories[0].children[0].style.borderRadius = '9999px';
 					categories[0].children[0].style.backgroundColor = '#96caf0';
-				} else if(gType == "WITH"){
+				} else if(gType == "PAYMENT"){
 					categories[1].children[0].style.borderRadius = '9999px';
 					categories[1].children[0].style.backgroundColor = '#96caf0';
-				} else if(gType == "GIVE"){
+				} else if(gType == "PLANNER"){
 					categories[2].children[0].style.borderRadius = '9999px';
 					categories[2].children[0].style.backgroundColor = '#96caf0';
-				} else if(gType == "REVIEW"){
+				} else if(gType == "ELSE"){
 					categories[3].children[0].style.borderRadius = '9999px';
 					categories[3].children[0].style.backgroundColor = '#96caf0';
 				}
