@@ -377,11 +377,24 @@
 	</select>
 
 	<select id="selectCalculateList" resultType="Calculate">
-		select
-		NVL(sum(expected_money), 0) "EXPECTED_MONEY", member_no "planner_no"
-        from calculate
-            right join planner on (member_no = planner_no)
-        group by member_no
+		<![CDATA[
+			SELECT
+   			 	NVL(SUM(CASE 
+			 			WHEN cal_date IS NULL OR cal_date > SYSDATE THEN 0
+			 			ELSE expected_money
+			         END), 0) AS EXPECTED_MONEY,
+			    planner_no AS planner_no
+			FROM (
+			    SELECT
+			        NVL(SUM(expected_money), 0) AS expected_money,
+			        member_no AS planner_no,
+			        cal_date
+			    FROM calculate
+			    RIGHT JOIN planner ON (member_no = planner_no)
+			    GROUP BY member_no, cal_date
+			)
+			GROUP BY planner_no
+		]]>
 	</select>
 
 	<select id="getCalculateListCount" resultType="_int">

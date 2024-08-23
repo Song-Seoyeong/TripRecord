@@ -137,8 +137,8 @@
 						  			<td>[[${p.plannerNo}]]</td>
 						  			<td>[[${p.memberName}]]</td>
 						  			<td>[[${p.bank}]]</td>
-						  			<td>[[${p.expectedPoint}]]</td>
-						  			<td>[[${p.expectedMoney}]]</td>
+						  			<td>[[${#numbers.formatInteger(p.expectedPoint, 3, 'COMMA')}]]</td>
+						  			<td>[[${#numbers.formatInteger(p.expectedMoney, 3, 'COMMA')}]]</td>
 						  			<td>[[${#strings.replace(p.calDate, '-', '.')}]]</td>
 						  		</tr>
 						  	</tbody>

@@ -247,10 +247,11 @@
 	<!-- 플래너페이지 -->
 	<!-- 플래너 불러오기 -->
 	<select id="getPlanner">
-		select * 
-		from PLANNER 
-		join MEMBER using(MEMBER_NO) 
-		left join image on image_ref_no = member_no and image_ref_type = 'MEMBER' 
+		select *
+		from PLANNER
+		join MEMBER using(MEMBER_NO)
+		left
+		join image on image_ref_no = member_no and image_ref_type = 'MEMBER'
 		where MEMBER_NO = #{memberNo}
 	</select>
 
@@ -280,41 +281,50 @@
 		REV_REF_NO =
 		#{memberNo}
 	</select>
-	
+
 	<!-- 본인이 쓴 전체 후기(장소) -->
 	<select id="getPlaceReviewListCount" resultType="_int">
 		select count(*)
 		from REVIEW
-		join RECO_PLACE on(REV_REF_NO = PLACE_NO) 
-		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE = 'PLACE'
+		join RECO_PLACE on(REV_REF_NO = PLACE_NO)
+		where MEMBER_NO =
+		#{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE =
+		'PLACE'
 	</select>
 
 	<!-- 본인이 쓴 전체 후기(장소) -->
 	<select id="getPlaceReviewList" resultType="Review">
-		 select * 
-		 from REVIEW 
-		 join RECO_PLACE on(REV_REF_NO = PLACE_NO) 
-		 where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE = 'PLACE'
+		select *
+		from REVIEW
+		join RECO_PLACE on(REV_REF_NO = PLACE_NO)
+		where MEMBER_NO = #{memberNo}
+		and REVIEW_STATUS = 'Y' and REV_REF_TYPE =
+		'PLACE'
 	</select>
-	
+
 	<!-- 본인이 쓴 전체 후기(플래너) -->
 	<select id="getPlannerReviewListCount" resultType="_int">
-		select count(*)
+		select
+		count(*)
 		from REVIEW
-		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y'  and REV_REF_TYPE = 'PLANNER'
+		where MEMBER_NO = #{memberNo} and REVIEW_STATUS =
+		'Y' and REV_REF_TYPE = 'PLANNER'
 	</select>
 
 	<!-- 본인이 쓴 전체 후기(플래너) -->
 	<select id="getPlannerReviewList" resultType="Review">
-		 select * 
-		 from REVIEW 
-		 where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE = 'PLANNER' 
+		select *
+		from REVIEW
+		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE
+		=
+		'PLANNER'
 	</select>
 
 	<!-- 플래너 취소 -->
-	<insert id="cancelPlanner"> 
-		insert into REQUEST_GRADE 
-		values(#{memberNo}, #{lNo}, #{grade}, default, default, sysdate, #{account},#{bank}) 
+	<insert id="cancelPlanner">
+		insert into REQUEST_GRADE
+		values(#{memberNo}, #{lNo},
+		#{grade}, default, default, sysdate, #{account},#{bank})
 	</insert>
 	<!-- 여기까지 플래너 페이지 -->
 
@@ -480,14 +490,23 @@
       from req_schedule 
           left join schedule on(sc_no = sche_no)
       where ceil(sc_start_date - sysdate) <= 7 and ceil(sc_start_date - sysdate) > 0
-      and req_status = 1
       ]]>
 		<if test="grade == 'PLANNER'">
+			and req_status = 1
 			and req_pla_no = #{memberNo}
 		</if>
 		<if test="grade == 'GENERAL'">
+			and req_status = 2
 			and req_mem_no = #{memberNo}
 		</if>
+	</select>
+
+	<!-- 플래너 프로필 이미지 불러오기 -->
+	<select id="getImgRename" resultType="Image">
+		select IMAGE_RENAME
+		from
+		IMAGE
+		where IMAGE_REF_TYPE = #{refType} and IMAGE_REF_NO = #{refNo}
 	</select>
 
 	<!-- 플래너의 일정 요청 상세 보기, 일정 요청 진행 -->
@@ -586,6 +605,28 @@
 		where IMAGE_REF_TYPE = 'PLANNER' and IMAGE_REF_NO=#{memberNo}
 	</select>
 
+	<!-- 후기 수 -->
+	<select id="getReviewListCount" resultType="_int">
+		select count (*)
+		from
+		REVIEW
+		where REV_REF_TYPE = 'PLANNER' and REVIEW_STATUS='Y' and
+		REV_REF_NO =
+		#{memberNo}
+	</select>
+
+	<!-- 후기 불러오기 -->
+	<select id="getReviewList" resultType="Review">
+		select *
+		from review
+		join
+		member using(member_no)
+		left join image on image_ref_no = member_no and
+		image_ref_type = 'MEMBER'
+		where rev_ref_type = 'PLANNER' and
+		review_status='Y' and rev_ref_no = #{ pNo }
+	</select>
+
 	<!-- 플래너 소개 이미지 -->
 	<select id="existPlannerFileId" resultType="Image">
 		select IMAGE_RENAME
@@ -655,12 +696,14 @@
 	<update id="updateTripLocal">
 		update schedule
 		set sc_local_No = #{scLocalNo}
-		where sc_no = #{scNo}
+		where
+		sc_no = #{scNo}
 	</update>
-	
+
 	<select id="checkReviewCount" resultType='_int'>
 		select count(*)
-		from review
+		from
+		review
 		where member_no = #{reqMemNo} and req_ref_no = #{reqNo}
 	</select>
 
