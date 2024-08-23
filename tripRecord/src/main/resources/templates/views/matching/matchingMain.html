@@ -16,6 +16,7 @@
 	
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">
+			<div class="d-none" id="localNoDiv"></div>
 			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
 		</div>
 		<div class="sContainer d-flex justify-content-center">
@@ -38,10 +39,19 @@
 			</div>
 		</div>
 		<hr/>
+		<div class="d-flex justify-content-end">
+			<select class="form-select" style = "width : 200px">
+				<option class="filter-list selected" value="0" selected>정렬 기준</option>
+				<option class="filter-list" value="1">좋아요 순</option>
+				<option class="filter-list" value="2">별점 순</option>
+				<option class="filter-list" value="3">후기 많은 순</option>
+			</select>
+		</div>
+		
 		<th:block th:if="${ pi.listCount != 0 }">
 		<div class="d-flex justify-content-center my-2">
 			<div class="w-75">
-				<div class="fs-4 p-3 w-100">
+				<div class="fs-5 p-3 w-100">
 					<div>
 		         		<div class="d-flex justify-content-center">
 		         			<table class="text-center">
@@ -51,7 +61,7 @@
 					         		<th width="200px">플래너닉네임</th>
 					         		<th width="150px">지역</th>
 					         		<th width="300px">플래너 소개</th>
-					         		<th width="200px">별점/좋아요</th>
+					         		<th width="200px" style="font-size: 15px">❤️ 좋아요 ⭐ 별점 📝 후기수</th>
 				         		</tr>
 			         		</table>
 			         	</div>
@@ -70,19 +80,19 @@
 		         						<img class="rounded-circle m-3" src="image/noProfile.png" width="75px" height="75px" alt="프로필">
 		         					</td>
 					         		<td class="fs-4" width="200px">[[${planner.Nickname}]]</td>
-					         		<td width="150px">[[${localName[planner.memberNo]}]]</td>
+					         		<td width="150px">[[${planner.localName}]]</td>
 					         		<td width="300px">
 					         			<div class="sIntro">[[${planner.sIntroContent}]]</div>
 					         		</td>
 					         		<td class="fs-5 text-start px-5" width="200px">
+					         			❤️ [[${likes[planner.memberNo]}]]<br/>
 					         			<th:block th:if="${star[planner.memberNo]} != null">
-					         			⭐ [[${star[planner.memberNo]}]]
+					         			⭐ [[${star[planner.memberNo]}]]<br/>
 					         			</th:block>
 					         			<th:block th:if="${star[planner.memberNo]} == null">
-					         			⭐ 0.0
+					         			⭐ 0.0<br/>
 					         			</th:block>
-					         			<br/>
-					         			❤️ [[${likes[planner.memberNo]}]]
+				         				📝 [[${rCount[planner.memberNo]}]]
 					         		</td>
 				         		</tr>
 			         		</table>
@@ -139,14 +149,10 @@ window.onload = () => {
 		});
 	}
 }
-
 /*<![CDATA[*/
 const localName = /*[[${localList}]]*/1;
 /*]]>*/
-
-
 document.addEventListener("DOMContentLoaded", function() {
-
     var mySwiper = new Swiper('.swiper-container', {
         slidesPerView: 5,
         slidesPerGroup: 1,
@@ -159,178 +165,212 @@ document.addEventListener("DOMContentLoaded", function() {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
+        loop : true,
     });
-    
     let pRange = document.getElementsByClassName('swiper-pagination');
 });
 
 const cards = document.getElementsByClassName('local-card');
 for (const card of cards) {
     card.addEventListener('click', function() {
-        const localNo = this.children[0].value;
-        $.ajax({
-            url: 'localImgClick.ma',
-            method: 'GET',
-            data: { localNo: localNo },
-            dataType: 'json',
-            success: function(data) {
-                const plannerListContainer = document.getElementsByClassName('plannerListContainer')[0];
-                plannerListContainer.innerHTML = '';
-                
-                const list = data.list;
-                list.forEach(planner => {
-                    const table = document.createElement('table');
-                    table.classList.add('plannerList', 'text-center', 'my-3');
-                    
-                    const row = document.createElement('tr');
-                    
-                    const memberNoCell = document.createElement('td');
-                    memberNoCell.classList.add('d-none');
-                    memberNoCell.innerText = planner.memberNo;
-                    
-                    const imageCell = document.createElement('td');
-                    const img = document.createElement('img');
-                    img.classList.add('rounded-circle', 'm-3');
-                    img.width = 75;
-                    img.height = 75;
-                    img.alt = '프로필';
-                    
-                    if (planner.imageRename) {
-                        img.src = `https://drive.google.com/thumbnail?id=${planner.imageRename}`;
-                    } else {
-                        img.src = 'image/noProfile.png';
-                    }
-                    imageCell.appendChild(img);
-                    
-                    const nicknameCell = document.createElement('td');
-                    nicknameCell.classList.add('fs-4');
-                    nicknameCell.width = 200;
-                    nicknameCell.innerText = planner.nickname;
-                    
-                    const localNameCell = document.createElement('td');
-                    localNameCell.width = 150;
-                    localNameCell.innerText = data.localName[planner.memberNo];
-                    
-                    const sIntroContentCell = document.createElement('td');
-                    sIntroContentCell.style.width = '300px';
+    	const localNo = this.children[0].value;
+    	const condition = 0;
+        getPlannerList(localNo, condition);
+    });
+}
 
-                    const sIntroDiv = document.createElement('div');
-                    sIntroDiv.classList.add('sIntro');
-                    sIntroDiv.innerText = planner.sIntroContent;
-                    sIntroContentCell.appendChild(sIntroDiv);
-                    
-                    const starLikesCell = document.createElement('td');
-                    starLikesCell.classList.add('fs-5', 'text-start', 'px-5');
-                    starLikesCell.style.width = '200px';
-                    
-                    const star = data.star[planner.memberNo] ? data.star[planner.memberNo] : 0;
-                    const starValue = star.toFixed(1);
-                    const starText = `⭐ ${starValue}`;
-                    const likesText = `❤️ ${data.likes[planner.memberNo]}`;
-                    
-                    starLikesCell.innerHTML = `${starText}<br/>${likesText}`;
-                    
-                    row.appendChild(memberNoCell);
-                    row.appendChild(imageCell);
-                    row.appendChild(nicknameCell);
-                    row.appendChild(localNameCell);
-                    row.appendChild(sIntroContentCell);
-                    row.appendChild(starLikesCell);
-                    
-                    row.addEventListener('click', function() {
-                        const pNo = planner.memberNo;
-                        location.href = "selectPlanner.ma?pNo=" + pNo + "&page=" + 1;
-                    });
-                    
-                    table.appendChild(row);
-                    plannerListContainer.appendChild(table);
+const filterList = document.querySelector('select');
+console.log(filterList);
+const localNoDiv = document.getElementById('localNoDiv');
+filterList.addEventListener('change', function(){
+	let localNo = localNoDiv.innerText;
+	const condition = this.value;
+	
+	if(localNo == '') {
+ 	    const url = new URL(window.location);
+ 	    const urlParams = url.searchParams;
+ 	    localNo = urlParams.get('localNo');
+ 	    if(localNo == null) {
+ 	    	localNo = 1;
+ 	    }
+	}
+	getPlannerList(localNo, condition);
+});
+
+
+function getPlannerList(localNo, condition) {
+	$.ajax({
+        url: 'getClickList.ma',
+        method: 'GET',
+        data: { localNo: localNo, condition: condition },
+        dataType: 'json',
+        success: function(data) {
+        	
+        	localNoDiv.innerText = data.localNo;
+        	
+        	const filterlist = document.getElementsByClassName('filter-list');
+        	for (const item of filterlist) {
+        		item.addEventListener('click', function(){
+        		});
+        	}
+        	
+            const plannerListContainer = document.getElementsByClassName('plannerListContainer')[0];
+            plannerListContainer.innerHTML = '';
+            
+            const list = data.list;
+            list.forEach(planner => {
+                const table = document.createElement('table');
+                table.classList.add('plannerList', 'text-center', 'my-3');
+                
+                const row = document.createElement('tr');
+                
+                const memberNoCell = document.createElement('td');
+                memberNoCell.classList.add('d-none');
+                memberNoCell.innerText = planner.memberNo;
+                
+                const imageCell = document.createElement('td');
+                const img = document.createElement('img');
+                img.classList.add('rounded-circle', 'm-3');
+                img.width = 75;
+                img.height = 75;
+                img.alt = '프로필';
+                
+                if (planner.imageRename) {
+                    img.src = `https://drive.google.com/thumbnail?id=${planner.imageRename}`;
+                } else {
+                    img.src = 'image/noProfile.png';
+                }
+                imageCell.appendChild(img);
+                
+                const nicknameCell = document.createElement('td');
+                nicknameCell.classList.add('fs-4');
+                nicknameCell.width = 200;
+                nicknameCell.innerText = planner.nickname;
+                
+                const localNameCell = document.createElement('td');
+                localNameCell.width = 150;
+                localNameCell.innerText = planner.localName;
+                
+                const sIntroContentCell = document.createElement('td');
+                sIntroContentCell.style.width = '300px';
+
+                const sIntroDiv = document.createElement('div');
+                sIntroDiv.classList.add('sIntro');
+                sIntroDiv.innerText = planner.sIntroContent;
+                sIntroContentCell.appendChild(sIntroDiv);
+                
+                const starLikesReviewCell = document.createElement('td');
+                starLikesReviewCell.classList.add( 'text-start', 'px-5');
+                starLikesReviewCell.style.width = '200px';
+                
+                const star = data.star[planner.memberNo] ? data.star[planner.memberNo] : 0;
+                const starValue = star.toFixed(1);
+                const starText = `⭐ ${starValue}`;
+                const likesText = `❤️ ${data.likes[planner.memberNo]}`;
+                console.log(data);
+                const reviewCount = data.rCount[planner.memberNo] ? data.rCount[planner.memberNo] : 0;
+                const reviewText = `📝 ${data.rCount[planner.memberNo]}`;
+                
+                starLikesReviewCell.innerHTML = `${likesText}<br/>${starText}<br/>${reviewText}`;
+                
+                row.appendChild(memberNoCell);
+                row.appendChild(imageCell);
+                row.appendChild(nicknameCell);
+                row.appendChild(localNameCell);
+                row.appendChild(sIntroContentCell);
+                row.appendChild(starLikesReviewCell);
+                
+                row.addEventListener('click', function() {
+                    const pNo = planner.memberNo;
+                    location.href = "selectPlanner.ma?pNo=" + pNo + "&page=" + 1;
                 });
                 
-                // 페이지네이션
-                const pagination = document.querySelector('nav');
-                pagination.innerHTML = '';
-                
-           		if(data.pi.listCount == 0){
-           			plannerListContainer.innerHTML = '';
-           			
-           		    const spacer = document.createElement('div');
-           		    spacer.style.height = '100px';
-           		    plannerListContainer.appendChild(spacer);
+                table.appendChild(row);
+                plannerListContainer.appendChild(table);
+            });
+            
+            // 페이지네이션
+            const pagination = document.querySelector('nav');
+            pagination.innerHTML = '';
+            
+       		if(data.pi.listCount == 0){
+       			plannerListContainer.innerHTML = '';
+       			
+       		    const spacer = document.createElement('div');
+       		    spacer.style.height = '100px';
+       		    plannerListContainer.appendChild(spacer);
 
-           		    const messageDiv = document.createElement('div');
-           		    messageDiv.classList.add('d-flex', 'justify-content-center', 'm-3');
-           		    messageDiv.style.height = '300px';
+       		    const messageDiv = document.createElement('div');
+       		    messageDiv.classList.add('d-flex', 'justify-content-center', 'm-3');
+       		    messageDiv.style.height = '300px';
 
-           		    const message = document.createElement('h1');
-           		    message.innerText = '등록된 플래너가 없습니다.';
+       		    const message = document.createElement('h1');
+       		    message.innerText = '등록된 플래너가 없습니다.';
 
-           		    messageDiv.appendChild(message);
-           		    plannerListContainer.appendChild(messageDiv);
-            	} else if(data.pi.listCount != 0) {
-                const ul = document.createElement('ul');
-       			ul.className='pagination';
-       			
-       			const prev = document.createElement('li');
-       			prev.className='page-item';
-       			const beforeA = document.createElement('a');
-       			beforeA.className = 'page-link';
-       			if (data.pi.currentPage == 1) {
-       				beforeA.classList.add('disabled');
-       			}
-       			beforeA.href = 'matchingMain.ma?page=' + (data.pi.currentPage - 1) + '&localNo=' + localNo;
-       			beforeA.ariaLabel = "Previous";
-       			const prevArrow = document.createElement('span');
-       			prevArrow.ariaHidden = "true";
-       			prevArrow.innerHTML = "&laquo;";
-       			
-       			beforeA.append(prevArrow);
-       			prev.append(beforeA);
-       			ul.append(prev);
-       			
-       			for(let i = data.pi.startPage ; i <= data.pi.endPage ; i++){
-    	   			const li = document.createElement('li');
-    	   			li.className='page-item';
-       				const a = document.createElement('a');
-       				a.className='page-link';
-       				a.href = 'matchingMain.ma?page=' + i + "&localNo=" + localNo;
-       				a.innerText = i;
-       				if(i == data.pi.currentPage){
-       					a.style.fontWeight = "bold";
-       					a.style.fontSize = '1.1em'
-       					a.style.color = "#96caf0";
-       				}
-       				li.append(a);
-       				ul.append(li);
-       			}
-       			
-       			const next = document.createElement('li');
-       			next.className='page-item';
-       			const afterA = document.createElement('a');
-       			
-       			afterA.className = 'page-link';
-       			if (data.pi.currentPage == data.pi.maxPage) {
-       				afterA.classList.add('disabled');
-       			}
-       			afterA.href = 'matchingMain.ma?page=' + (data.pi.currentPage + 1) + '&localNo=' + localNo;
-       			afterA.ariaLabel = "Next";
-       			const nextArrow = document.createElement('span');
-       			nextArrow.ariaHidden = "true";
-       			nextArrow.innerHTML = "&raquo;";
-       			
-       			afterA.append(nextArrow);
-       			next.append(afterA);
-       			ul.append(next);
-       			
-       			pagination.appendChild(ul);
-       			
-                }
-                
-                
-            },
-            error: function(error) {
-                console.log(error);
+       		    messageDiv.appendChild(message);
+       		    plannerListContainer.appendChild(messageDiv);
+        	} else if(data.pi.listCount != 0) {
+            const ul = document.createElement('ul');
+   			ul.className='pagination';
+   			
+   			const prev = document.createElement('li');
+   			prev.className='page-item';
+   			const beforeA = document.createElement('a');
+   			beforeA.className = 'page-link';
+   			if (data.pi.currentPage == 1) {
+   				beforeA.classList.add('disabled');
+   			}
+   			beforeA.href = 'matchingMain.ma?page=' + (data.pi.currentPage - 1) + '&localNo=' + localNo;
+   			beforeA.ariaLabel = "Previous";
+   			const prevArrow = document.createElement('span');
+   			prevArrow.ariaHidden = "true";
+   			prevArrow.innerHTML = "&laquo;";
+   			
+   			beforeA.append(prevArrow);
+   			prev.append(beforeA);
+   			ul.append(prev);
+   			
+   			for(let i = data.pi.startPage ; i <= data.pi.endPage ; i++){
+	   			const li = document.createElement('li');
+	   			li.className='page-item';
+   				const a = document.createElement('a');
+   				a.className='page-link';
+   				a.href = 'matchingMain.ma?page=' + i + "&localNo=" + localNo;
+   				a.innerText = i;
+   				if(i == data.pi.currentPage){
+   					a.style.fontWeight = "bold";
+   					a.style.fontSize = '1.1em'
+   					a.style.color = "#96caf0";
+   				}
+   				li.append(a);
+   				ul.append(li);
+   			}
+   			
+   			const next = document.createElement('li');
+   			next.className='page-item';
+   			const afterA = document.createElement('a');
+   			
+   			afterA.className = 'page-link';
+   			if (data.pi.currentPage == data.pi.maxPage) {
+   				afterA.classList.add('disabled');
+   			}
+   			afterA.href = 'matchingMain.ma?page=' + (data.pi.currentPage + 1) + '&localNo=' + localNo;
+   			afterA.ariaLabel = "Next";
+   			const nextArrow = document.createElement('span');
+   			nextArrow.ariaHidden = "true";
+   			nextArrow.innerHTML = "&raquo;";
+   			
+   			afterA.append(nextArrow);
+   			next.append(afterA);
+   			ul.append(next);
+   			
+   			pagination.appendChild(ul);
+   			
             }
-        });
+        },
+        error: function(error) {
+            console.log(error);
+        }
     });
 }
 

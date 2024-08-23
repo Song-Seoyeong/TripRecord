@@ -2,6 +2,7 @@ package com.finalproject.triprecord.matching.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -20,6 +21,8 @@ public interface MatchingMapper {
 	int getPlannerListCount(int localNo);
 
 	ArrayList<Planner> getPlannerList(int localNo, RowBounds rowBounds);
+	
+	ArrayList<Planner> getPlannerList(Map<String, Integer> listMap, RowBounds rowBounds);
 
 	int countLikes(int pNo);
 	

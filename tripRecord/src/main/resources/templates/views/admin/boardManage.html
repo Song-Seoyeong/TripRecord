@@ -341,10 +341,8 @@
 						showModal.querySelector('span').innerHTML = '<h3 class="overflow-ell">&nbsp;' + bList.boardTitle + '</h3>';
 						showModal.querySelector('.boardWriter').innerHTML = '<h5>' +  bList.memberName + ' | ' + (bList.boardModifyDate).replaceAll('-', '.') + '</h5><hr>';
 						showModal.querySelector('.boardContent').innerText = bList.boardContent;
-						//console.log(iList);
 						let imgs = [];
 						const imgsDiv = document.querySelector('.imgsDiv').children;
-						//console.log(imgsDiv);
 						for(const i of imgsDiv){
 							if(i.children[0].className == boardNo){
 								imgs.push(i.children[0]);

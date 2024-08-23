@@ -313,7 +313,6 @@ public class AdminController {
 	public String gradeSuccess(@RequestParam("mNo") int mNo) {
 		RequestGrade rg = aService.selectRequestGrade(mNo);
 
-		// System.out.println(rg);
 		if (rg != null) {
 			String grade = rg.getGrade();
 
@@ -580,8 +579,8 @@ public class AdminController {
 		}
 	}
 
-	/** 지역 사진 관리 */
-	// 지역 사진 관리 페이지 이동
+	/** 사진 관리 */
+	// 사진 관리 페이지 이동
 	@GetMapping("contentImgManage.ad")
 	public String contentImgManageView(Model model) {
 
@@ -593,7 +592,7 @@ public class AdminController {
 		return "contentImgManage";
 	}
 
-	// 지역 사진 삭제 / 추가
+	// 지역 사진 변경
 	@PostMapping("insertLocalImg.ad")
 	public String insertLocalImg(@RequestParam("localNo") int localNo,
 			@RequestParam("formFile") ArrayList<MultipartFile> file) {
@@ -642,7 +641,7 @@ public class AdminController {
 		}
 	}
 
-	// 일정 사진 삭제 / 추가
+	// 일정 사진 변경
 	@PostMapping("insertPlanImg.ad")
 	public String insertPlanImg(@RequestParam("planNo") int planNo,
 			@RequestParam("planFormFile") ArrayList<MultipartFile> file) {
@@ -715,6 +714,7 @@ public class AdminController {
 	}
 	
 	/** 일정 */
+	// 일정 관리 페이지 이동
 	@GetMapping("planManage.ad")
 	public String planManageView(@RequestParam(value="page", defaultValue="1") int currentPage,
 								 Model model) {
@@ -728,6 +728,7 @@ public class AdminController {
 		return "planManage";
 	}
 	
+	// 일정 선택
 	@PostMapping("selectPlan.ad")
 	@ResponseBody
 	public ArrayList<Plan> selectPlan(@RequestParam("scNo") int scNo) {

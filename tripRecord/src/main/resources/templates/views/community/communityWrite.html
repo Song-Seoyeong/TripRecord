@@ -27,10 +27,8 @@
 	</div>
 	
 	<form action="insertBoard.bo" method="POST" enctype="multipart/form-data">
-		<div class="row filter-bar">
-			<div class="col-4"></div>
-			<div class="col-3"></div>
-			<div class='col-1'>
+		<div id='inputDiv'>
+			<div id='reviewTitle'>
 				<select class="form-select" aria-label="Sort by" name="localName" style="width:100px;">
 		               <option value="서울">서울</option>
 		               <option value="부산">부산</option>
@@ -50,21 +48,12 @@
 		               <option value="전남">전남</option>
 		               <option value="제주">제주</option>
 				</select>
-			</div>
-			<div class='col-1'>
 				<select class="form-select" aria-label="Sort by" name="generalType" style="width:100px;">
 		               <option value="all" selected>말머리</option>
 		               <option value="WITH">동행</option>
 		               <option value="GIVE">양도</option>
 		               <option value="REVIEW">후기</option>
 				</select>
-			</div>
-			<div class="col-3"></div>
-		</div>
-		<br><br>
-	
-		<div id='inputDiv'>
-			<div id='reviewTitle'>
 				<h3>제목</h3>
 				<input type='text' name='boardTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
 			</div>

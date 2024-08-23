@@ -4,6 +4,11 @@
 	width: 1400px;
 }
 
+.form-control {
+	box-shadow:none !important;
+	border:2px solid black !important;
+}
+
 /* 안내문구 제목 */
 .guide {
 	font-family: 'NanumBarunGothic';
@@ -63,7 +68,7 @@
 #calender-div {
 	margin-left: auto;
 	margin-right: auto;
-	border: 3px solid gray;
+	border: 3px solid black;
 	border-radius: 10px;
 	height: 430px;
 	text-align: center;
@@ -77,7 +82,7 @@
 	margin: 30px 0px 60px 0px;
 	color: #2F6598; 
     background-color: white; 
-    width: 80px; 
+    width: 90px; 
     height: 40px; 
     border: none; 
     border-radius: 20px; 

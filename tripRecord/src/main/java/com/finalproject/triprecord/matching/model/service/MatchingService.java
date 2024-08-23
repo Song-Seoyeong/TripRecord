@@ -18,6 +18,8 @@ public interface MatchingService {
 	int getPlannerListCount(int localNo);
 	
 	ArrayList<Planner> getPlannerList(PageInfo pi, int localNo);
+	
+	ArrayList<Planner> getPlannerList(PageInfo pi, Map<String, Integer> listMap);
 
 	int countLikes(int pNo);
 	

@@ -56,126 +56,136 @@ public class MatchingController {
 	private GoogleDriveService gdService;
 	
 	@GetMapping("matchingMain.ma")
-	public String matchingMain(@RequestParam(value="page", defaultValue="1") int currentPage, @RequestParam(value="localNo", defaultValue="1")int localNo, Model model, HttpServletRequest request, HttpSession session) {
+	public String matchingMain(@RequestParam(value="page", defaultValue="1") int currentPage,
+							   @RequestParam(value="localNo", defaultValue="1")int localNo,
+							   @RequestParam(value="condition", defaultValue="0") int condition,
+							   Model model, HttpServletRequest request, HttpSession session) {
 		
 		int listCount = matService.getPlannerListCount(localNo);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
-		ArrayList<Planner> list = matService.getPlannerList(pi, localNo);
+		
+		Map<String, Integer> listMap = new HashMap<>(	);
+		listMap.put("localNo", localNo);
+		listMap.put("condition", condition);
+		ArrayList<Planner> list = matService.getPlannerList(pi, listMap);
 		ArrayList<Local> localList = matService.selectLocalList();
 		
 		//별점 + 좋아요 + 플래너지역
-		Map<Integer, String> selectLocalMap = new HashMap<>();
 		Map<Integer, Integer> plannerLikesMap = new HashMap<>();
 		Map<Integer, Double> starMap = new HashMap<>();
+		Map<Integer, Integer> reviewCountMap = new HashMap<>();
 		for(Planner planner : list) {
 			int pNo = planner.getMemberNo();
 			int likes = matService.countLikes(pNo);
-			String localName = matService.selectLocalName(pNo);
 			Double AvgStar = matService.AverageStar(pNo);
+			int CountReview = matService.getReviewListCount(pNo);
 			
 			starMap.put(pNo, AvgStar);
 			plannerLikesMap.put(pNo, likes);
-			selectLocalMap.put(pNo, localName);
+			reviewCountMap.put(pNo, CountReview);
 		}
 		
 		model.addAttribute("localNo",localNo);
 		model.addAttribute("localList",localList);
-		model.addAttribute("localName", selectLocalMap);
 		model.addAttribute("list",list);
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", request.getRequestURI());
 		model.addAttribute("likes", plannerLikesMap);
 		model.addAttribute("star", starMap);
+		model.addAttribute("rCount",reviewCountMap);
 		
 		return "matchingMain";
 	}
 	
-	@GetMapping("localImgClick.ma")
+	@GetMapping("getClickList.ma")
 	@ResponseBody
-	public String localImgClick(@RequestParam(value="page", defaultValue="1") int currentPage, @RequestParam(value="localNo", defaultValue="1")int localNo, HttpServletRequest request, HttpSession session) {
-		
+	public String getClickList(@RequestParam(value="page", defaultValue="1") int currentPage,
+								@RequestParam(value="localNo", defaultValue="1")int localNo,
+								@RequestParam(value="condition", defaultValue="0") int condition,
+								HttpServletRequest request, HttpSession session) {
 		int listCount = matService.getPlannerListCount(localNo);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 5);
-		ArrayList<Planner> list = matService.getPlannerList(pi, localNo);
+		Map<String, Integer> listMap = new HashMap<>(	);
+		listMap.put("localNo", localNo);
+		listMap.put("condition", condition);
+		ArrayList<Planner> list = matService.getPlannerList(pi, listMap);
 		
 		//별점 + 좋아요 + 플래너지역
-		Map<Integer, String> selectLocalMap = new HashMap<>();
 		Map<Integer, Integer> plannerLikesMap = new HashMap<>();
 		Map<Integer, Double> starMap = new HashMap<>();
+		Map<Integer, Integer> reviewCountMap = new HashMap<>();
 		for(Planner planner : list) {
 			int pNo = planner.getMemberNo();
 			int likes = matService.countLikes(pNo);
-			String localNames = matService.selectLocalName(pNo);
 			Double AvgStar = matService.AverageStar(pNo);
+			int CountReview = matService.getReviewListCount(pNo);
 			
 			starMap.put(pNo, AvgStar);
 			plannerLikesMap.put(pNo, likes);
-			selectLocalMap.put(pNo, localNames);
+			reviewCountMap.put(pNo, CountReview);
 		}
+		
 		
 		Map<String, Object> json = new HashMap<>();
 		json.put("list", list);
 		json.put("pi", pi);
 		json.put("loc", request.getRequestURI());
 		json.put("likes", plannerLikesMap);
-		json.put("localName", selectLocalMap);
 		json.put("star", starMap);
+		json.put("localNo", localNo);
+		json.put("rCount", reviewCountMap);
 		
 		Gson gson = new GsonBuilder().create();
 		return gson.toJson(json);
 	}
 	
 	@GetMapping("selectPlanner.ma")
-	   public String selectPlanner(@RequestParam(value="page", defaultValue="1") int currentReviewPage, @RequestParam("pNo") int pNo, @RequestParam("page") int page, Model model, HttpSession session
-	         ,@RequestParam(value="myPage", required=false) String myPage) {
-	      
-	      Member loginUser = (Member)session.getAttribute("loginUser");
-	      int loginUserNo = 0;
-	      if(loginUser != null) {
-	         loginUserNo = loginUser.getMemberNo();
-	      }
-	      
-	      //플래너 정보
-	      Planner planner = matService.selectPlanner(pNo);
-	      
-	      //해시태그
-	      ArrayList<HashTag> tagList = matService.selectTagList(pNo);
-	      
-	      //좋아요 + 지역
-	      HashMap<String, Integer> likemap = new HashMap<>();
-	      likemap.put("pNo", pNo);
-	      likemap.put("loginUserNo", loginUserNo);
-	      int likes = matService.countLikes(pNo);
-	      int checkLikes = matService.checkLikes(likemap);
-	      
-	      String localNames = matService.selectLocalName(pNo);
-	      
-	      //후기 + 별점
-	      Double AvgStar = matService.AverageStar(pNo);
-	      int ReviewlistCount = matService.getReviewListCount(pNo);
-	      PageInfo pi = Pagination.getPageInfo(currentReviewPage, ReviewlistCount, 5);
-	      ArrayList<Review> rList = matService.getReviewList(pi, pNo);
-	      
-	      ArrayList<Image> rImgList = matService.selectrImgList();
-	      ArrayList<Image> iImgList = matService.selectiImgList(pNo);
-	      
-	      model.addAttribute("tagList", tagList);
-	      model.addAttribute("AvgStar", AvgStar);
-	      model.addAttribute("pi", pi);
-	      model.addAttribute("rList", rList);
-	      model.addAttribute("rImgList", rImgList);
-	      model.addAttribute("iImgList", iImgList);
-	      model.addAttribute("planner", planner);
-	      model.addAttribute("page", page);
-	      model.addAttribute("checkLikes", checkLikes);
-	      model.addAttribute("likes", likes);
-	      model.addAttribute("localName", localNames);
-	      model.addAttribute("myPage", "myPage");
-	      
-	      return "matchingDetail";
-	   }
+	public String selectPlanner(@RequestParam(value="page", defaultValue="1") int currentReviewPage, @RequestParam("pNo") int pNo, @RequestParam("page") int page, Model model, HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int loginUserNo = 0;
+		if(loginUser != null) {
+			loginUserNo = loginUser.getMemberNo();
+		}
+		
+		//플래너 정보
+		Planner planner = matService.selectPlanner(pNo);
+		
+		//해시태그
+		ArrayList<HashTag> tagList = matService.selectTagList(pNo);
+		
+		//좋아요 + 지역
+		HashMap<String, Integer> likemap = new HashMap<>();
+		likemap.put("pNo", pNo);
+		likemap.put("loginUserNo", loginUserNo);
+		int likes = matService.countLikes(pNo);
+		int checkLikes = matService.checkLikes(likemap);
+		
+		//후기 + 별점
+		Double AvgStar = matService.AverageStar(pNo);
+		int ReviewlistCount = matService.getReviewListCount(pNo);
+		PageInfo pi = Pagination.getPageInfo(currentReviewPage, ReviewlistCount, 5);
+		ArrayList<Review> rList = matService.getReviewList(pi, pNo);
+		
+		//프로필 사진 + 소개글 사진
+		ArrayList<Image> rImgList = matService.selectrImgList();
+		ArrayList<Image> iImgList = matService.selectiImgList(pNo);
+		
+		model.addAttribute("tagList", tagList);
+		model.addAttribute("AvgStar", AvgStar);
+		model.addAttribute("pi", pi);
+		model.addAttribute("rList", rList);
+		model.addAttribute("rImgList", rImgList);
+		model.addAttribute("iImgList", iImgList);
+		model.addAttribute("planner", planner);
+		model.addAttribute("page", page);
+		model.addAttribute("checkLikes", checkLikes);
+		model.addAttribute("likes", likes);
+		
+		return "matchingDetail";
+	}
 	
 	@GetMapping("matchingRequest.ma")
 	public String matchingRequest(@RequestParam("pNo") int pNo, @RequestParam("page") int page, @RequestParam(value="payPoint", defaultValue="0") int payPoint, Model model, HttpSession session) {
@@ -195,14 +205,11 @@ public class MatchingController {
 		int likes = matService.countLikes(pNo);
 		int checkLikes = matService.checkLikes(likemap);
 		
-		String localNames = matService.selectLocalName(pNo);
-		
 		model.addAttribute("payPoint", payPoint);
 		model.addAttribute("planner", planner);
 		model.addAttribute("page", page);
 		model.addAttribute("checkLikes", checkLikes);
 		model.addAttribute("likes", likes);
-		model.addAttribute("localName", localNames);
 		
 		return "matchingRequest";
 	}
@@ -297,13 +304,11 @@ public class MatchingController {
 		int likes = matService.countLikes(pNo);
 		int checkLikes = matService.checkLikes(likemap);
 		
-		String localNames = matService.selectLocalName(pNo);
 		model.addAttribute("reqNo", reqNo);
 		model.addAttribute("tagList", tagList);
 		model.addAttribute("planner", planner);
 		model.addAttribute("checkLikes", checkLikes);
 		model.addAttribute("likes", likes);
-		model.addAttribute("localName", localNames);
 		
 		return "matchingReview";
 	}
@@ -315,7 +320,7 @@ public class MatchingController {
 		r.setMemberNo(memNo);
 		r.setRevRefNo(pNo);
 		r.setRevRefType("PLANNER");
-		
+		System.out.println(r);
 		int result = matService.insertReview(r);
 		
 		ArrayList<Image> list = new ArrayList<Image>();
@@ -347,8 +352,8 @@ public class MatchingController {
 		}
 		if(result + iResult == 1 + list.size()) {
 			ra.addAttribute("page", 1);
-			ra.addAttribute("reqNo", r.getReqRefNo());
-			return "redirect:detailReqPlan.mp";
+			ra.addAttribute("pNo", pNo);
+			return "redirect:selectPlanner.ma";
 		} else {
 			for(Image a : list) {
 				try {
@@ -379,7 +384,6 @@ public class MatchingController {
 		int likes = matService.countLikes(pNo);
 		int checkLikes = matService.checkLikes(likemap);
 		
-		String localNames = matService.selectLocalName(pNo);
 		//리뷰 이미지
 		ArrayList<Image> rImgList = matService.selectrImgList(rNo);
 		
@@ -390,7 +394,6 @@ public class MatchingController {
 		model.addAttribute("planner", planner);
 		model.addAttribute("checkLikes", checkLikes);
 		model.addAttribute("likes", likes);
-		model.addAttribute("localName", localNames);
 		
 		return "matchingReviewUpdate";
 	}
