@@ -70,7 +70,7 @@ public class MyPageController {
 	@Autowired
 	private MatchingService matService;
 	
-//////////마이페이지 //////////
+	//////////마이페이지 //////////
 	@GetMapping("myPage.mp")
 	public String moveToMyPage(HttpSession session, Model model) {
 	
@@ -1200,4 +1200,13 @@ public class MyPageController {
 		int result = mService.updateTripLocal(prop);
 		return result > 0 ? "success" : "fail";
 	}
+	
+	// 마이페이지 -> 내 일정 상세 보기 -> 새로운 일정 추가
+	@GetMapping("insertPlan.mp")
+	@ResponseBody
+	public String insertPlan(@ModelAttribute Plan p) {
+		int result = mService.insertPlan(p);
+		return result > 0 ? "success" : "fail";
+	}
+
 }

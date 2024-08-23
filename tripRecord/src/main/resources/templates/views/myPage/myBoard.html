@@ -148,7 +148,7 @@ td {
 					</table>
 					<!-- 페이지네이션 -->
 					<div style="height:20px;"></div>
-					<nav class="d-flex justify-content-center">
+					<nav class="d-flex justify-content-center" th:if="${pi.listCount} != 0">
 			        	<ul class="pagination" th:with="loc=${ loc }">
 			        		 <!-- 이전 버튼 -->
 				            <li class="page-item">
@@ -218,7 +218,7 @@ td {
 					</table>
 					<!-- 페이지네이션 -->
 					<div style="height:20px;"></div>
-					<nav class="d-flex justify-content-center">
+					<nav class="d-flex justify-content-center" th:if="${pi.listCount} != 0">
 			        	<ul class="pagination" th:with="loc=${ loc }">
 			        		 <!-- 이전 버튼 -->
 				            <li class="page-item">
@@ -289,7 +289,7 @@ td {
 					</table>
 					<!-- 페이지네이션 -->
 					<div style="height:20px;"></div>
-					<nav class="d-flex justify-content-center">
+					<nav class="d-flex justify-content-center" th:if="${pi.listCount} != 0">
 			        	<ul class="pagination" th:with="loc=${ loc }">
 			        		 <!-- 이전 버튼 -->
 				            <li class="page-item">

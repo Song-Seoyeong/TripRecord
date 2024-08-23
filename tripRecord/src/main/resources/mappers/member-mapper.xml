@@ -496,7 +496,7 @@
 			and req_pla_no = #{memberNo}
 		</if>
 		<if test="grade == 'GENERAL'">
-			and req_status = 2
+			and req_status in (1, 2)
 			and req_mem_no = #{memberNo}
 		</if>
 	</select>
@@ -706,5 +706,12 @@
 		review
 		where member_no = #{reqMemNo} and req_ref_no = #{reqNo}
 	</select>
+
+	<!-- 마이페이지 - 내 일정 상세 보기 - 새로운 일정 추가 -->
+	<insert id="insertPlan">
+		insert into plan
+		values(pl_no_func, #{scNo}, #{place},
+		#{time}, #{memo, jdbcType=VARCHAR}, 'N', #{day})
+	</insert>
 
 </mapper>

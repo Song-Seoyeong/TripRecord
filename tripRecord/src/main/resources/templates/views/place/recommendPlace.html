@@ -423,6 +423,7 @@
 					const areaCode = placeId.split('/')[2].split('!')[0];
 					const image = placeId.split('!')[1];
 					const title = encodeURI(encodeURIComponent(placeId.split('!')[2]));
+					const keyword = updateInKeyword();
 					/* console.log(contentid)
 					console.log(contenttypeid) */
 					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&image=(" + image + ")&title=" + title;
