@@ -636,10 +636,9 @@ public class MyPageController {
 
 		if (!qList.isEmpty()) {
 			model.addAttribute("qList", qList); // 문의(글번호, 비번, 답변, 답변YN)
-//			model.addAttribute("listCount", listCount);
-//			model.addAttribute("generalType","ALL");
+			model.addAttribute("nothing", "no");
 		} else {
-			model.addAttribute("nothing", null);
+			model.addAttribute("nothing", "yes");
 		}
 		model.addAttribute("pi", pi);
 		model.addAttribute("loc", req.getRequestURI());

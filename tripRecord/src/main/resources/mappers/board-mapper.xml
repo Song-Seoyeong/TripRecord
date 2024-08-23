@@ -253,4 +253,10 @@
 		where member_no = #{memberNo}
 	</update>
 	
+	<update id="updateGeneralAsk">
+		update general_ask
+		set general_type = #{generalType}
+		where general_no = #{boardNo}
+	</update>
+	
 </mapper>

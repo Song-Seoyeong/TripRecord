@@ -40,7 +40,7 @@
 	
 			<div class="offcanvas offcanvas-start" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 				<div class="offcanvas-header">
-					<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+					<h5 class="offcanvas-title" id="staticBackdropLabel">고객센터</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
 				<div class="offcanvas-body">
@@ -169,6 +169,9 @@
 			const params = new URLSearchParams(window.location.search);
 			const currentPage = parseInt(params.get('page')) || 1;
 			const totalItems = parseInt("[[${listCount}]]") || 1;
+			
+			console.log(totalItems);
+			
 			const totalPages = Math.ceil(totalItems / 10);
 			
 			function createPagination(currentPage, totalPages){
@@ -206,6 +209,7 @@
 			
 			
 			window.changePage = function(pageNumber){
+				console.log("체인지페이지");
 				const pageInput = document.createElement('input');
 				pageInput.type="hidden";
 				pageInput.name = 'page';

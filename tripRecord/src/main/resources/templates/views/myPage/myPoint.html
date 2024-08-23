@@ -121,7 +121,7 @@
 			<span class="secondSidebar"><a class="nav-link" href="myPayPoint.mp">포인트 결제하기</a></span>
 			<div style="color: black; font-size: 36px; font-weight: 900;">포인트	결제내역</div>
 			<div style="height: 40px;"></div>
-			<div style="display: inline-block; width: 1000px; overflow: auto; border: 1px solid lightgray; border-radius: 10px;">
+			<div style="display: inline-block; width: 1000px; overflow: auto;">
 				<table>
 					<thead>
 						<tr style="border-bottom: 2px solid #96CAF0;">
@@ -133,20 +133,26 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr style="border-bottom: 2px solid #b9b9b9"
-							th:each="pm:${pmList}">
-							<td><input type="checkbox" id="impUid" name="impUidList"
-								th:value="${pm.impUid}"></td>
-							<td><input type="hidden" th:value="${pm.merchantUid}">
-								<input type="hidden" th:value="${pm.payNo}">
-								[[${pm.merchantUid}]] 
-								</td>
-							<td><input type="hidden" th:value="${pm.poPrice}">
-								[[${#numbers.formatDecimal(pm.poPrice,3,'COMMA',0,'COMMA')}]]</td>
-							<td><input type="hidden" th:value="${pm.poPoint}">
-								[[${#numbers.formatDecimal(pm.poPoint,3,'COMMA',0,'COMMA')}]]</td>
-							<td>[[${pm.payDate}]]</td>
-						</tr>
+						<th:bock th:if="${pi.listCount} != 0">
+							<tr style="border-bottom: 2px solid #b9b9b9" th:each="pm:${pmList}">
+								<td><input type="checkbox" id="impUid" name="impUidList"
+									th:value="${pm.impUid}"></td>
+								<td><input type="hidden" th:value="${pm.merchantUid}">
+									<input type="hidden" th:value="${pm.payNo}">
+									[[${pm.merchantUid}]] 
+									</td>
+								<td><input type="hidden" th:value="${pm.poPrice}">
+									[[${#numbers.formatDecimal(pm.poPrice,3,'COMMA',0,'COMMA')}]]</td>
+								<td><input type="hidden" th:value="${pm.poPoint}">
+									[[${#numbers.formatDecimal(pm.poPoint,3,'COMMA',0,'COMMA')}]]</td>
+								<td>[[${pm.payDate}]]</td>
+							</tr>
+						</th:bock>
+						<th:block th:if="${pi.listCount} == 0">
+								<tr style="border-bottom: 2px solid #b9b9b9">
+									<td colspan="5">결제내역이 없어요 &#128549; </td>
+								</tr>
+						</th:block>
 					</tbody>
 				</table>
 				

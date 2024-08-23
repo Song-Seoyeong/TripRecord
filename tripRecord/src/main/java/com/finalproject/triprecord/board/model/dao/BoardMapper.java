@@ -84,4 +84,6 @@ public interface BoardMapper {
 	
 	//plus
 	ArrayList<GeneralBoard> getGeneralAsk();
+
+	int updateGeneralAsk(Board b);
 }

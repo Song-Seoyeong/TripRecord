@@ -8,6 +8,8 @@
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <style>
 
+.col-1>select:focus{box-shadow:none !important; border:2px solid black !important;}
+select:focus{box-shadow:none !important; border:2px solid black !important;}
 
 </style>
 </head>
@@ -16,20 +18,14 @@
 	<div th:replace="~{ common/mainCategoryBar :: mainCategoryBar }"></div>
 	
 	
-	
-	
-	
-	
-	
-	
 	<div class="text-center" style="padding-top:60px; padding-bottom:100px;">
 		<b style="font-size:70px;">글 쓰기</b>
 	</div>
 	
 	<form action="insertBoard.bo" method="POST" enctype="multipart/form-data">
 		<div id='inputDiv'>
-			<div id='reviewTitle'>
-				<select class="form-select" aria-label="Sort by" name="localName" style="width:100px;">
+			<div id='reviewTitle' style="gap:10px;">
+				<select class="form-select" aria-label="Sort by" name="localName" style="width:100px;height:40px;">
 		               <option value="서울">서울</option>
 		               <option value="부산">부산</option>
 		               <option value="대구">대구</option>
@@ -48,14 +44,14 @@
 		               <option value="전남">전남</option>
 		               <option value="제주">제주</option>
 				</select>
-				<select class="form-select" aria-label="Sort by" name="generalType" style="width:100px;">
+				<select class="form-select" aria-label="Sort by" name="generalType" style="width:100px;height:40px;">
 		               <option value="all" selected>말머리</option>
 		               <option value="WITH">동행</option>
 		               <option value="GIVE">양도</option>
 		               <option value="REVIEW">후기</option>
 				</select>
-				<h3>제목</h3>
-				<input type='text' name='boardTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required>
+				<h3 style="padding-left:30px;">제목</h3>
+				<input type='text' name='boardTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required style="flex-grow:1">
 			</div>
 			<div id='reviewContent'>
 				<h3>내용</h3>

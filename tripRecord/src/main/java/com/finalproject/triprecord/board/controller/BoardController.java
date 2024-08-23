@@ -164,9 +164,6 @@ public class BoardController {
 	   }
 	
 	
-	/*
-	 * BOARD.BOARD_NO = GENERAL_BO.GENERAL_NO
-	 */
 	
 	public int returnBoardNo() {
 		return bService.selectBoardNo(); // 단순히 seq_board.currval 을 가져오려고 만듬
@@ -191,7 +188,6 @@ public class BoardController {
 		for(int i = 0; i < files.size(); i++) {
 			MultipartFile upload = files.get(i);
 			
-			//if(!upload.getOriginalFilename().equals("")) {
 			if(upload != null && !upload.isEmpty()) {
 	            String fileId;
 	            
@@ -219,7 +215,7 @@ public class BoardController {
 		if(result + result2 + iResult == 2 + list.size()) {
 			return "redirect:community.bo";
 		}else {
-			bService.deleteBoard(bNo); // 이미지 넣기 실패해서 글도 삭제 ?
+			bService.deleteBoard(bNo);
 			for(Image a : list) {
 				try {
 					gdService.deleteFile(a.getImageRename());
@@ -253,7 +249,7 @@ public class BoardController {
 						deleteImg.add(del);
 						// 구글 드라이브에서 삭제
 						gdService.deleteFile(del);
-						delResult += bService.delImg(del);///////////////////////////////////////
+						delResult += bService.delImg(del);
 					}
 				}
 			}
@@ -262,7 +258,6 @@ public class BoardController {
 			for(int i = 0; i < files.size(); i++) {
 				MultipartFile upload = files.get(i);
 				
-				//if(!upload.getOriginalFilename().equals("")) {
 				if(upload != null && !upload.isEmpty()) {
 		            String fileId;
 		            
@@ -390,6 +385,7 @@ public class BoardController {
 	                     @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session,
 	                     @RequestParam(value="myPage", required = false) String myPage) { // 선택한 글번호 넘겨받기
 	      
+		
 	      Member loginUser = (Member)session.getAttribute("loginUser");
 	      int id = 0;
 	      if(loginUser != null) {
@@ -400,14 +396,19 @@ public class BoardController {
 	      Question q = bService.selectQuestion(boardNo);
 	      ArrayList<Image> iList = bService.selectImage(boardNo);
 	      Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); 
+	      ArrayList<GeneralBoard> gb = bService.getGeneralAsk();
 	      
+	      for(GeneralBoard gg :gb) {
+	    	  if(gg.getGeneralNo() == board.getBoardNo()) {
+	    		  board.setGeneralType(gg.getGeneralType());
+	    	  }
+	      }
 	      
 	      model.addAttribute("n", board);
 	      model.addAttribute("page", page);
 	      model.addAttribute("q", q);
 	      model.addAttribute("writerProfile", writerProfile);
-	      model.addAttribute("generalType", generalType);
-	      // model.addattribute("myPage", 1);
+	      model.addAttribute("generalType", board.getGeneralType());
 	      model.addAttribute("iList", iList);
 	      model.addAttribute("myPage", myPage);
 	      return "askSelect";
@@ -542,6 +543,7 @@ public class BoardController {
 								@RequestParam(value="files", required=false) ArrayList<MultipartFile> files, RedirectAttributes ra) {
 		
 		int result = bService.updateBoard(b);
+		int askResult = bService.updateGeneralAsk(b);
 		
 		ArrayList<Image> list = new ArrayList<Image>();
 		ArrayList<String> deleteImg = new ArrayList<String>();
@@ -562,7 +564,7 @@ public class BoardController {
 						deleteImg.add(del);
 						// 구글 드라이브에서 삭제
 						gdService.deleteFile(del);
-						delResult = bService.delImg(del);///////////////////////////////////////////////
+						delResult = bService.delImg(del);
 					}
 				}
 			}
@@ -616,7 +618,7 @@ public class BoardController {
 		// 문의사항 : 보드 스테이터스 바꾸기 + 이미지 삭제하기
 		bService.deleteBoard(boardNo);
 		int result = bService.deleteImg(boardNo);
-		return "redirect:askList.no";
+		return "redirect:ask.no";
 	}
 	
 	
@@ -647,24 +649,21 @@ public class BoardController {
 	
 	@GetMapping("noticeSearch.no")
 	public String noticeSearch(@RequestParam(value="page", defaultValue="1") int currentPage,@RequestParam("searchWord") String searchWord, Model model) {
-		if(searchWord.trim() == "") {
-			return "redirect:notice.no";
-		}else {
-			int listCount = bService.getNoticeListCount(searchWord);
-			PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
-			ArrayList<Board> nList = bService.getNoticeSelect(searchWord,pi);
-			
-			if(!nList.isEmpty()) {
-				model.addAttribute("nList", nList);
-				model.addAttribute("pi", pi);
-				model.addAttribute("listCount", listCount);
-				model.addAttribute("searchWord", searchWord);
-				
-			}
-				return "noticeList";
+		int listCount = bService.getNoticeListCount(searchWord);
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
+		ArrayList<Board> nList = bService.getNoticeSelect(searchWord,pi);
+		
+		if(!nList.isEmpty()) {
+			model.addAttribute("nList", nList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("listCount", listCount);
+			model.addAttribute("searchWord", searchWord);
 			
 		}
+		return "noticeList";
+			
 	}
+
 	
 	@GetMapping("noticeSelect.no")
 	public String noticeSelect(@RequestParam("boardNo") Integer boardNo, @RequestParam(value="page", defaultValue="1") int page, Model model, HttpSession session) { // 선택한 공지 글번호 가져오기

@@ -39,7 +39,7 @@
 	
 			<div class="offcanvas offcanvas-start" data-bs-backdrop="false" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
 				<div class="offcanvas-header">
-					<h5 class="offcanvas-title" id="staticBackdropLabel">지역</h5>
+					<h5 class="offcanvas-title" id="staticBackdropLabel">고객센터</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
 				<div class="offcanvas-body">
@@ -62,12 +62,11 @@
 		</div>
 		<div class='row' style="padding:30px; border-bottom:5px solid #96caf0;">
 			<div class="col-2">
-				<!-- <img src="#"> 프로필사진 -->
 				[[${n.boardModifyDate}]]
 			</div>
 			<div class="col-2">조회수 : [[${n.boardCount}]]</div>
 			<div class="col-6"></div>
-			<div class="col-2">[[${n.nickname}]]</div>
+			<div class="col-2">관리자</div>
 		</div>
 		<div class='text-start' id='placeContent'>
 			<p style="white-space:pre-wrap;">[[${n.boardContent}]]</p>
@@ -75,7 +74,7 @@
 		
 	</div>
 	<input type="hidden" th:value="${n.boardNo}">
-	<div class="text-center row">
+	<div class="text-center">
 		<div class="col-4"></div>
 		<div class="col-1" style="margin:auto;"></div>
 		<div class="col-1" style="margin:auto;">
