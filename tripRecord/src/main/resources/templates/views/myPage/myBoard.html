@@ -199,7 +199,7 @@ td {
 							<th:block th:if="${nothing == 'no'}">
 								<tr style="border-bottom: 2px solid #b9b9b9" th:each="pr: ${prList}">
 									<td>[[${pr.reviewNo}]]<input type="hidden" value="placeReview"></td>
-									<td>[[${pr.localNo} ==1 ? '서울' : (${pr.localNo} == 6 ? '부산': (${pr.localNo}==4 ? '대구': (${pr.localNo}==2?'인천' : (${pr.localNo}==5?'광주':(${pr.localNo}==3?'대전':(${pr.localNo}==7?'울산':(${pr.localNo}==8?'세종':(${pr.localNo}==31?'경기':(${pr.localNo}==32?'강원':(${pr.localNo}==33?'충북':(${pr.localNo}==34?'충남':(${pr.localNo}==35?'경북':(${pr.localNo}==36?'경남':(${pr.localNo}==37?'전북':(${pr.localNo}==38?'전남':(${pr.localNo}==39?'제주'))))))))))))))))]] <input
+									<td>[[${pr.placeName}]]<input
 										type="hidden" th:value="${pr.revRefNo}" /> <input type="hidden"
 										th:value="${pr.contentTypeId}" /> <input type="hidden"
 										th:value="${pr.localNo}" /> <input type="hidden"
@@ -261,7 +261,7 @@ td {
 						<thead>
 							<tr style="border-bottom: 2px solid #96CAF0;">
 								<th>글번호</th>
-								<th>말머리</th>
+								<th>플래너</th>
 								<th>제목</th>
 								<th>별점 </th>
 							</tr>
@@ -270,7 +270,7 @@ td {
 							<th:block th:if="${nothing == 'no'}">
 								<tr style="border-bottom: 2px solid #b9b9b9" th:each="pl: ${plList}">
 									<td>[[${pl.reviewNo}]]<input type="hidden" value="plannerReview"></td>
-									<td>[[${pl.revRefType} == 'PLACE' ? '장소' : '플래너']]
+									<td>[[${pl.nickname}]]
 										<input type="hidden" th:value="${pl.revRefNo}" /> 
 										<input type="hidden" th:value="${pl.reviewContent}" /> 
 										<input type="hidden" th:value="${pl.localNo}" /> 

@@ -24,6 +24,7 @@ public class Review {
 	
 	private int contentTypeId;
 	private int localNo;
+	private String placeName;
 }
 
 
