@@ -5,7 +5,10 @@
 	margin-top: 40px;
 	min-width: 1450px;
 }
-
+select:focus {
+	box-shadow: none !important;
+	border: 2px solid black !important;
+}
 .sum-quest{
 	width: 15%;
 	margin-left: 55px;

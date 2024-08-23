@@ -294,7 +294,6 @@ public class PlanController {
 	    }
 	    
 	    Schedule s = plService.detailMySchedule(scNo);
-	    System.out.println(s);
 	    
 	    HashMap<Integer, String> dates = dateFunction(s.getStartDate(), s.getEndDate());
 	    

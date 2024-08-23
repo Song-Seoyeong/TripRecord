@@ -65,8 +65,15 @@
 	top: -47px;
 }
 
-.check-icon:hover, .trash-icon:hover, .pencil-icon:hover{
+.check-icon:hover, .trash-icon:hover, .bi:hover, .bi-pencil:hover{
 	cursor: pointer;
+}
+
+/* 연필 아이콘 감싸는 span */
+.pencil{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #title-div{
@@ -89,22 +96,6 @@
 #selectSpotHidden:hover{
 	cursor: pointer;
 }
-
-/* 수정 버튼 클릭 시 나오는 날짜 선택 datepicker input */
-.datepicker{
-	width: 150px;
-	text-align: center;
-	font-size: smaller;
-	font-weight: bold;
-	border: 2px solid #2F6598;
-	border-radius: 5px;
-	color: midnightblue;
-}
-
-.datepicker:hover{
-	cursor: pointer;
-}
-
 
 #buttons-div{
 	margin-top: 60px;
@@ -174,13 +165,31 @@
 	display: inline-block; 
 	position: relative;
 	top: 15px;
-	margin-left: 38px;
+	margin-left: 30px;
+	border: none;
+	border-radius: 20px;
 }
 /* 체크, 삭제 || 수정, 삭제 아이콘 감싸는 div */
 .plan-images{ 
-	display: inline-block; 
-	position: relative;
-	margin-left: 2px;
+    position: relative;
+    height: 40px;
+    width: 18px;
+    margin-left: 2px;
+    display: inline-grid;
+    align-items: baseline;
+    top: -15px;
+    justify-content: space-evenly;
+    align-content: space-around;
+}
+
+/* 수정하려고 할 때 labels */
+.edit-labels{
+	height: 67px;
+}
+
+/* 수정하려고 할 때 inputs */
+.edit-inputs{
+	height: 112px;
 }
 
 #plan-flex-div{
@@ -244,17 +253,12 @@
 	margin: 3px;
 }
 
-/* plan-inputs 대체 되는 label 감싼 div */
-.plan-labels{
-	position: relative;
-	margin-left: 30px;
-	border: none;
-	border-radius: 20px;
-}
 
 /* input 입력 후 체크 버튼 눌렀을 시 변경된 label 한 개 감싸는 div*/
 .label-div{
-	margin-left: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	overflow: hidden;
 }
 
 /* 체크 버튼 눌렀을 때의 장소 label */
@@ -374,6 +378,7 @@
 /* 계획 1개 전체 div */
 .one-plan{
 	height: 128px;
+	width: 250px;
 }
 
 /* 장소 입력 input */

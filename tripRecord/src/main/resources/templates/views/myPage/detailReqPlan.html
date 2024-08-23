@@ -266,9 +266,11 @@
 		
 		// 플래너 프로필 이동
 		const planner = document.getElementById('planner');
-		planner.addEventListener('click', function(){
-			location.href = 'selectPlanner.ma?page=1&pNo=' + this.children[0].value;
-		})
+		for(const chi of planner.children){
+			chi.addEventListener('click', function(){
+				location.href = 'selectPlanner.ma?page=1&pNo=' + planner.children[0].value;
+			})
+		}
 		
 		const rearSchedule = document.getElementById('rearSchedule');
 		const dayPlan = document.getElementsByClassName("dayPlan");

@@ -487,4 +487,10 @@ public class MemberServiceImpl implements MemberService{
 	public int checkReviewCount(ReqSchedule rs) {
 		return mMapper.checkReviewCount(rs);
 	}
+	
+	// 마이페이지 -> 내 일정 상세 보기 -> 새로운 일정 추가
+	@Override
+	public int insertPlan(Plan p) {
+		return mMapper.insertPlan(p);
+	}
 }

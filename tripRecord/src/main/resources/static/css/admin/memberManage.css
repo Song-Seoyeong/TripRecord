@@ -25,3 +25,7 @@
 	margin-bottom: 20px;
 	min-width: 1120px;
 }
+select:focus {
+	box-shadow: none !important;
+	border: 2px solid black !important;
+}

@@ -304,7 +304,7 @@
 					}
 				});
 				cate.addEventListener('click', function(){
-					if(this.children[0].innerText == '결제'){
+					if(this.innerText == '결제'){
 						generalTypeValue.value = "PAYMENT";
 					} else if(this.children[0].innerText == "플래너") {
 						generalTypeValue.value = "PLANNER";
@@ -353,6 +353,20 @@
 				});
 			}
 			
+			
+			document.getElementById("modalInput").addEventListener('keydown',function(event){
+				if(event.key === 'Enter'){
+					if($('#modalInput').val() == ''){
+						alert("비밀번호를 적어주세요");
+					} else{
+						if($('#modalInput').val() == pwdCheck.value){
+							location.href="askSelect.no?boardNo=" + boardNo + "&generalType=" + generalTypeValue.value + "&page=" + /*[[${pi?.currentPage}]]*/1;
+						}else{
+							alert("비밀번호가 다릅니다");
+						}
+					}
+				}
+			});
 			
 			document.getElementById("ask-submit").addEventListener('click',()=>{
 				if($('#modalInput').val() == ''){
