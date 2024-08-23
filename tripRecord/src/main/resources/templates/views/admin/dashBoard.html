@@ -156,7 +156,6 @@
 			const data = /*[[${datedata}]]*/null;
 			/* ]]> */
 			
-			//console.log(data);
 			
 			// 오늘 날짜를 불러오는 함수
 			const today = new Date();
@@ -164,11 +163,9 @@
 			// 날짜를 yy-MM-dd로 나타나게 해주는 함수
 			const getDateFormat = date => {
 				const year = (date.getFullYear() + "").slice(-2);
-				console.log(year);
 				const month = ('0' + (date.getMonth() + 1)).slice(-2);
 				const day = ('0' + date.getDate()).slice(-2);
 				
-				console.log(year + '-' + month + '-' + day);
 				return year + '-' + month + '-' + day;
 			}
 			
@@ -200,7 +197,6 @@
 			
 			// 어제 날짜를 출력하는 코드
 			// today.getDate() - n -> n일 전을 밀리세컨드(ms)로 표현
-			// console.log(getDateFormat(new Date(new Date().setDate(today.getDate() - 1))));
 			
 			const months = () => {
 				// Graphs
@@ -296,7 +292,6 @@
 				});
 			}
 			
-			console.log(data[getDateFormat(today)]);
 			const enter = () => {
 				
 				// Graphs

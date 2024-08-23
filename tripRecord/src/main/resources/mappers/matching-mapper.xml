@@ -12,14 +12,39 @@
 	</select>
 
 	<select id="getPlannerList" resultType="Planner">
-		select *
-		from planner
-        join member using(member_no)
-        left join image on image_ref_no = member_no and image_ref_type = 'MEMBER'
-        where status = 'Y'
-		<if test="localNo != '0' and localNo != null">
-			and local_No = #{localNo}
+		SELECT *
+		FROM planner 
+		JOIN member on planner.member_no = member.member_no
+		JOIN local using (local_No)
+		LEFT JOIN image ON image.image_ref_no = planner.member_no AND image_ref_type = 'MEMBER'
+		<if test="condition != null and condition == 1">
+		LEFT JOIN (
+			SELECT planner_no, COUNT(*) AS countlikes
+		    FROM planner_like
+		    GROUP BY planner_no
+		) likes ON likes.planner_no = planner.member_no
 		</if>
+		<if test="condition != null and condition == 2">
+		LEFT JOIN (
+		    SELECT rev_ref_no AS planner_no, AVG(review_star) AS avgstar
+		    FROM review
+		    WHERE review_status = 'Y'
+		    GROUP BY rev_ref_no
+		) review_avg ON review_avg.planner_no = planner.member_no
+		</if>
+		<if test="condition != null and condition == 3">
+		LEFT JOIN (
+		    SELECT rev_ref_no AS planner_no, COUNT(*) AS reviewCount
+		    FROM review
+		    WHERE review_status = 'Y'
+		    GROUP BY rev_ref_no
+		) reviewCounts ON reviewCounts.planner_no = planner.member_no
+		</if>
+		where local_no = #{localNo}
+		<if test="condition != null and condition == 1">order by countlikes desc</if>
+		<if test="condition != null and condition == 2">order by Avgstar desc nulls last</if>
+		<if test="condition != null and condition == 3">order by reviewCount desc nulls last</if>
+		<if test="condition == null">order by member.member_No desc</if>
 	</select>
 	
 	<select id="countLikes" resultType="_int">
@@ -44,13 +69,6 @@
 		where planner_no = #{ pNo } and member_no = #{ loginUserNo }
 	</delete>
 	
-	<select id="selectLocalName" resultType="string">
-		select local_name
-		from local
-		join planner using (local_no)
-		where member_no = #{ pNo }
-	</select>
-	
 	<select id="selectLocalList" resultType="Local">
 		select *
 		from local
@@ -61,6 +79,7 @@
 		select *
 		from planner
 		join member using(member_no)
+		JOIN local using (local_No)
 		left join image on image_ref_no = member_no and image_ref_type = 'MEMBER'
 		where member_no = #{pNo}
 	</select>

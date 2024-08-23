@@ -15,11 +15,8 @@
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">	
 			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
-			<div th:if="${myPage} == null">
-				<button id="goList" class="btn me-5" onclick="location.href='matchingMain.ma'">목록으로</button>
-			</div>
-			<div th:if="${myPage} == myPage">
-				<button id="goList" class="btn me-5" onclick="location.href='myPlannerReview.mp'">목록으로</button>
+			<div>
+				<button id="goList" class="btn me-5">목록으로</button>
 			</div>
 		</div>
 		<!-- 상단 정보 탭 전체 -->
@@ -40,7 +37,7 @@
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
 								<path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"/>
 								<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-							</svg> [[${localName}]]
+							</svg> [[${planner.localName}]]
 						</div>
 						<div class="mx-3 mt-2">
 							<button id="likeButton" class="btn btn-outline-danger" th:classappend="${checkLikes != 0} ? 'active' : ''">
@@ -75,8 +72,7 @@
 				</div>
 				<br/><br/>
 				<th:block th:if="${session.loginUser == null || session.loginUser.memberNo != planner.MemberNo}">
-					<form action="matchingReview.ma">
-						<input type="hidden" name="pNo" th:value="${ planner.memberNo }">
+					<form action="myPlan.mp">
 						<button class="btn" id="reviewBtn">>> 후기 작성하러 가기</button>
 					</form>
 				</th:block>
@@ -233,7 +229,7 @@
         			<h3 class="mb-3 text-start" id="modalReviewTitle"></h3>
         			<hr/>
                 	<div class="d-flex justify-content-center m-5" id="modalReviewContent-img"></div>
-                	<p class="mb-0 w-100 text-start" id="modalReviewContent-text" style="white-space:pre-wrap;"></p>
+                	<p class="mb-0 w-100 text-start" id="modalReviewContent-text"></p>
                 	<br/>
       			</div>
       			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">닫기</button>
@@ -287,6 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	        	});
 	        }
     	}
+    }
+});
+
+const beforeURL = document.referrer;
+const goList = document.getElementById('goList');
+
+goList.addEventListener('click', function() {
+    if (beforeURL) {
+        window.location.href = beforeURL;
     }
 });
 

@@ -17,7 +17,7 @@
 	<div th:replace="~{ ../common/logoBar :: logoBar }"></div>
 	<div th:replace="~{ ../common/mainCategoryBar :: mainCategoryBar }"></div>
 	<div class="guide">
-		<p>[[${planner.nickname}]]님에게 [[${localName}]] 여행가는 일정을 신청합니다.</p>
+		<p>[[${planner.nickname}]]님에게 [[${planner.localName}]] 여행가는 일정을 신청합니다.</p>
 	</div>
 	<div class="main-div">
 		<form id="planMainForm" action="insertRequest.ma" method="POST">
@@ -100,7 +100,6 @@
 					</div>
 				</div>
 					<button id="insert" type="button">일정 신청</button>
-					
 			</div>
 		</form>
 	</div>
