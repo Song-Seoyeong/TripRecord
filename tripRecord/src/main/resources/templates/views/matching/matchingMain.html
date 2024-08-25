@@ -17,6 +17,7 @@
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="d-none" id="localNoDiv"></div>
+			<div id="conditionDiv"></div>
 			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
 		</div>
 		<div class="sContainer d-flex justify-content-center">
@@ -105,7 +106,7 @@
         	<ul class="pagination" th:with="loc=${ loc }">
         		 <!-- 이전 버튼 -->
 	            <li class="page-item">
-	            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 }, localNo=${ localNo })}" aria-label="Previous">
+	            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" aria-label="Previous">
 	            		<span aria-hidden="true">&laquo;</span>
 	              	</a>
 	            </li>
@@ -113,12 +114,12 @@
 	             <!-- 페이지 넘버링 버튼  -->
 	            	
 				<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
-					<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p }, localNo=${ localNo })}">[[${ p }]]</a>
+					<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link">[[${ p }]]</a>
 				</li>
 	           
 	             <!-- 다음 버튼  -->
 	            <li class="page-item">
-	            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 }, localNo=${ localNo } )}" aria-label="Next">
+	            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" aria-label="Next">
 	            		<span aria-hidden="true">&raquo;</span>
 	            	</a>
 	            </li>
@@ -175,13 +176,13 @@ for (const card of cards) {
     card.addEventListener('click', function() {
     	const localNo = this.children[0].value;
     	const condition = 0;
-        getPlannerList(localNo, condition);
+        getPlannerList(localNo, condition, 1);
     });
 }
 
 const filterList = document.querySelector('select');
-console.log(filterList);
 const localNoDiv = document.getElementById('localNoDiv');
+
 filterList.addEventListener('change', function(){
 	let localNo = localNoDiv.innerText;
 	const condition = this.value;
@@ -194,19 +195,23 @@ filterList.addEventListener('change', function(){
  	    	localNo = 1;
  	    }
 	}
-	getPlannerList(localNo, condition);
+	getPlannerList(localNo, condition, 1);
 });
 
+function consoleCheck(e) {
+	console.log(e);
+}
 
-function getPlannerList(localNo, condition) {
+function getPlannerList(localNo, condition, page) {
 	$.ajax({
         url: 'getClickList.ma',
-        method: 'GET',
+        method: 'get',
         data: { localNo: localNo, condition: condition },
         dataType: 'json',
         success: function(data) {
         	
         	localNoDiv.innerText = data.localNo;
+        	conditionDiv.innerText = data.pi.currentPage;
         	
         	const filterlist = document.getElementsByClassName('filter-list');
         	for (const item of filterlist) {
@@ -267,7 +272,7 @@ function getPlannerList(localNo, condition) {
                 const starValue = star.toFixed(1);
                 const starText = `⭐ ${starValue}`;
                 const likesText = `❤️ ${data.likes[planner.memberNo]}`;
-                console.log(data);
+
                 const reviewCount = data.rCount[planner.memberNo] ? data.rCount[planner.memberNo] : 0;
                 const reviewText = `📝 ${data.rCount[planner.memberNo]}`;
                 
@@ -290,83 +295,89 @@ function getPlannerList(localNo, condition) {
             });
             
             // 페이지네이션
-            const pagination = document.querySelector('nav');
-            pagination.innerHTML = '';
-            
-       		if(data.pi.listCount == 0){
-       			plannerListContainer.innerHTML = '';
-       			
-       		    const spacer = document.createElement('div');
-       		    spacer.style.height = '100px';
-       		    plannerListContainer.appendChild(spacer);
-
-       		    const messageDiv = document.createElement('div');
-       		    messageDiv.classList.add('d-flex', 'justify-content-center', 'm-3');
-       		    messageDiv.style.height = '300px';
-
-       		    const message = document.createElement('h1');
-       		    message.innerText = '등록된 플래너가 없습니다.';
-
-       		    messageDiv.appendChild(message);
-       		    plannerListContainer.appendChild(messageDiv);
-        	} else if(data.pi.listCount != 0) {
-            const ul = document.createElement('ul');
-   			ul.className='pagination';
-   			
-   			const prev = document.createElement('li');
-   			prev.className='page-item';
-   			const beforeA = document.createElement('a');
-   			beforeA.className = 'page-link';
-   			if (data.pi.currentPage == 1) {
-   				beforeA.classList.add('disabled');
-   			}
-   			beforeA.href = 'matchingMain.ma?page=' + (data.pi.currentPage - 1) + '&localNo=' + localNo;
-   			beforeA.ariaLabel = "Previous";
-   			const prevArrow = document.createElement('span');
-   			prevArrow.ariaHidden = "true";
-   			prevArrow.innerHTML = "&laquo;";
-   			
-   			beforeA.append(prevArrow);
-   			prev.append(beforeA);
-   			ul.append(prev);
-   			
-   			for(let i = data.pi.startPage ; i <= data.pi.endPage ; i++){
-	   			const li = document.createElement('li');
-	   			li.className='page-item';
-   				const a = document.createElement('a');
-   				a.className='page-link';
-   				a.href = 'matchingMain.ma?page=' + i + "&localNo=" + localNo;
-   				a.innerText = i;
-   				if(i == data.pi.currentPage){
-   					a.style.fontWeight = "bold";
-   					a.style.fontSize = '1.1em'
-   					a.style.color = "#96caf0";
-   				}
-   				li.append(a);
-   				ul.append(li);
-   			}
-   			
-   			const next = document.createElement('li');
-   			next.className='page-item';
-   			const afterA = document.createElement('a');
-   			
-   			afterA.className = 'page-link';
-   			if (data.pi.currentPage == data.pi.maxPage) {
-   				afterA.classList.add('disabled');
-   			}
-   			afterA.href = 'matchingMain.ma?page=' + (data.pi.currentPage + 1) + '&localNo=' + localNo;
-   			afterA.ariaLabel = "Next";
-   			const nextArrow = document.createElement('span');
-   			nextArrow.ariaHidden = "true";
-   			nextArrow.innerHTML = "&raquo;";
-   			
-   			afterA.append(nextArrow);
-   			next.append(afterA);
-   			ul.append(next);
-   			
-   			pagination.appendChild(ul);
-   			
-            }
+			const pagination = document.querySelector('nav');
+			pagination.innerHTML = '';
+			
+			if (data.pi.listCount === 0) {
+			    plannerListContainer.innerHTML = '';
+			
+			    const spacer = document.createElement('div');
+			    spacer.style.height = '100px';
+			    plannerListContainer.appendChild(spacer);
+			
+			    const messageDiv = document.createElement('div');
+			    messageDiv.classList.add('d-flex', 'justify-content-center', 'm-3');
+			    messageDiv.style.height = '300px';
+			
+			    const message = document.createElement('h1');
+			    message.innerText = '등록된 플래너가 없습니다.';
+			
+			    messageDiv.appendChild(message);
+			    plannerListContainer.appendChild(messageDiv);
+			} else {
+			    const ul = document.createElement('ul');
+			    ul.className = 'pagination';
+			
+			    // 이전 버튼
+			    const prev = document.createElement('li');
+			    prev.className = 'prev page-item';
+			    const beforeBtn = document.createElement('a');
+			    beforeBtn.className = 'page-link';
+			    beforeBtn.innerHTML = "&laquo;";
+			    if (data.pi.currentPage == 1) {
+			        prev.classList.add('disabled');
+			        beforeBtn.setAttribute('aria-disabled', 'true');
+			    } 
+			    beforeBtn.addEventListener('click', function() {
+		            getPlannerList(localNo, condition, data.pi.currentPage - 1);
+		            window.location.href = `matchingMain.ma?page=${data.pi.currentPage - 1}&localNo=${localNo}&condition=${condition}`;
+		        });
+			    
+			    
+			    prev.appendChild(beforeBtn);
+			    ul.appendChild(prev);
+			
+			    // 페이지 넘버링 버튼
+			    for (let i = data.pi.startPage; i <= data.pi.endPage; i++) {
+			        const li = document.createElement('li');
+			        li.className = 'page-item';
+			        const pageBtn = document.createElement('a');
+			        pageBtn.className = 'page-link';
+			        pageBtn.innerText = i;
+			        if (i == data.pi.currentPage) {
+			            pageBtn.style.fontWeight = "bold";
+			            pageBtn.style.fontSize = '1.1em';
+			            pageBtn.style.color = "#96caf0";
+			        }
+			        pageBtn.addEventListener('click', function() {
+			            getPlannerList(localNo, condition, i);
+			            window.location.href = `matchingMain.ma?page=${i}&localNo=${localNo}&condition=${condition}`;
+			        });
+			        
+			        li.appendChild(pageBtn);
+			        ul.appendChild(li);
+			    }
+			
+			    // 다음 버튼
+			    const next = document.createElement('li');
+			    next.className = 'next page-item';
+			    const afterBtn = document.createElement('a');
+			    afterBtn.className = 'page-link';
+			    afterBtn.innerHTML = "&raquo;";
+			    if (data.pi.currentPage == data.pi.maxPage) {
+			        next.classList.add('disabled');
+			    }
+			    afterBtn.addEventListener('click', function() {
+		            getPlannerList(localNo, condition, data.pi.currentPage + 1);
+		            window.location.href = `matchingMain.ma?page=${data.pi.currentPage + 1}&localNo=${localNo}&condition=${condition}`;
+		        });
+			    
+			    
+			    next.appendChild(afterBtn);
+			    ul.appendChild(next);
+			
+			    pagination.appendChild(ul);
+			}
         },
         error: function(error) {
             console.log(error);

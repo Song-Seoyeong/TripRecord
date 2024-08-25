@@ -4,8 +4,64 @@
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 <meta charset="UTF-8">
+<!-- <link type="text/css" href='css/myPage/myPlan.css' rel="stylesheet"> -->
 <title>여행 플랜 신청 리스트</title>
-<link type="text/css" href='css/myPage/myPlan.css' rel="stylesheet">
+<style>
+	table {
+	width: 80%;
+	text-align: center;
+	margin-left:auto; 
+	margin-right:auto; 
+	margin-top:30px;
+	}
+	th {
+		font-size: 24px;
+	}
+	
+	td {
+		padding: 15px;
+	}
+	.flex-container {
+		text-align: center;
+		margin-left:auto;
+	}
+	.marginDiv1{
+		margin-bottom: 700px;
+	}
+	.marginDiv2{
+		margin-bottom: 900px;
+	}
+	#contentsDiv {
+		width: 100%;
+		max-width: 1400px;
+		/* position: absolute;
+		left: 50%;
+		top: -50px;	
+		transform: translateX(-52%); */
+	}
+	
+	#divTitle {
+		color: black;
+		font-size: 36px;
+		font-weight: 900;
+	}
+	
+	#tableDiv {
+		display: inline-block;
+		width: 1000px;
+		max-height: 800px;
+		min-height: 300px;
+	}
+	
+	#thTr {
+		border-bottom: 2px solid #96CAF0;
+	}
+	
+	.tbodyTr {
+		border-bottom: 2px solid #b9b9b9;
+	}
+
+</style>
 </head>
 <body>
 	<!-- 헤더 -->
@@ -21,17 +77,14 @@
       </div>   
    </div> 
 	
-	<div class="flex-container">
+	<div class="flex-container" >
 		<!-- 내용 -->
-		<div id='contentsDiv'>
-			<span class="secondSidebar">
-				<a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a>
-			</span>
-			<span class="secondSidebar">
-				<a class="nav-link" href="myTripNote.mp">내 여행 노트</a>
-			</span>
+		<div id='contentsDiv' style="display: inline-block;">
+			<span class="secondSidebar"><a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a>	</span>
+			<span class="secondSidebar"><a class="nav-link" href="myTripNote.mp">내 여행 노트</a></span>
 			
 			<div id='divTitle'>여행 플랜 신청 리스트</div>
+			<div style="height: 40px;"></div>
 			<div id='tableDiv'>
 				<table>
 					<thead>
@@ -76,9 +129,9 @@
 						</tr>
 
 						<tr th:if='${pi.listCount == 0}'>
-							<td colspan="5">
-								신청하신 리스트가 없습니다
-							</td>
+							<tr style="border-bottom: 2px solid #b9b9b9">
+									<td colspan="6">신청하신 리스트가 없어요 &#128549; </td>
+								</tr>
 						</tr>
 					</tbody>
 				</table>
@@ -118,24 +171,27 @@
 		/*<![CDATA[*/
 		//상세글 보기
 		const tds = document.querySelectorAll('td');
-		for(const td of tds){
-			//마우스오버시 게시글 목록 배경 변환	
-			td.addEventListener('mouseover',function(){
-				const parent = td.parentElement;
-				parent.style.backgroundColor='#ECEBEB';
-				parent.style.cursor='pointer';
-			})
-			//마우스아웃 시 게시글 목록 배경 변환
-			td.addEventListener('mouseout',function(){
-				const parent = td.parentElement;
-				parent.style.backgroundColor='white';
-			})
-			td.addEventListener('click', ()=>{
-				const parent = td.parentElement;
-				if(parent.children.length != 1){
-					location.href='detailReqPlan.mp?reqNo=' + parent.children[0].querySelector('input').value + "&page=" + /*[[${pi.currentPage}]]*/1;
-				}
-			})
+		const nothing = /*[[${pi.listCount}]]*/0;
+		if(nothing != 0){
+			for(const td of tds){
+				//마우스오버시 게시글 목록 배경 변환	
+				td.addEventListener('mouseover',function(){
+					const parent = td.parentElement;
+					parent.style.backgroundColor='#ECEBEB';
+					parent.style.cursor='pointer';
+				})
+				//마우스아웃 시 게시글 목록 배경 변환
+				td.addEventListener('mouseout',function(){
+					const parent = td.parentElement;
+					parent.style.backgroundColor='white';
+				})
+				td.addEventListener('click', ()=>{
+					const parent = td.parentElement;
+					if(parent.children.length != 1){
+						location.href='detailReqPlan.mp?reqNo=' + parent.children[0].querySelector('input').value + "&page=" + /*[[${pi.currentPage}]]*/1;
+					}
+				})
+			}
 		}
 		
 		const statusSearch = document.getElementById('statusSearch');
