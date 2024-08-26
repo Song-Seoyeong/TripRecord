@@ -35,25 +35,27 @@
 				<span class="inner-span">[[${rs.reqRef}]]</span><input type="hidden" name="reqNo" th:value="${rs.reqNo}"/>
 			</div>
 		</div>
-		<div th:if="c != null" id="cancel-div">
-			<div class="title-div">
-				<img src="image/face-icon.png" style="width: 35px; height: 35px;" alt="슬픈표정아이콘"/>
-				<span id="cancel-span">취소된 요청</span>
-			</div>
-			<div class="req-div">
-				<span class="inner-span inf">요청인</span><span class="colon">: </span>
-				<span class="inner-span">
-					<th:block th:if="${c.cancelMemNo == reqMem.memberNo}">[[${reqMem.nickName}]]</th:block>
-					<th:block th:unless="${c.cancelMemNo == reqMem.memberNo}">[[${session.loginUser.nickname}]]</th:block>
-				</span>
-			</div>
-			<div class="req-div">
-				<span class="inner-span inf">사유</span><span class="colon">: </span>
-				<span class="inner-span">[[${c.cancelComent}]]</span>
-			</div>
-			<div class="req-div">
-				<span class="inner-span inf">날짜</span><span class="colon">: </span>
-				<span class="inner-span">[[${c.cancelDate}]]</span>
+		<div th:if="${c != null}" id="cancel-div">
+			<div id="cancel-inner-div">
+				<div class="title-div">
+					<img src="image/face-icon.png" style="width: 35px; height: 35px;" alt="슬픈표정아이콘"/>
+					<span id="cancel-span">취소된 요청</span>
+				</div>
+				<div class="req-div">
+					<span class="inner-span inf">요청인</span><span class="colon">: </span>
+					<span class="inner-span">
+						<th:block th:if="${c.cancelMemNo == reqMem.memberNo}">[[${reqMem.nickName}]]</th:block>
+						<th:block th:unless="${c.cancelMemNo == reqMem.memberNo}">[[${session.loginUser.nickname}]]</th:block>
+					</span>
+				</div>
+				<div class="req-div comentDiv">
+					<span class="inner-span inf">사유</span><span class="colon">: </span>
+					<div class="coment"><span class="inner-span">[[${c.cancelComent}]]</span></div>
+				</div>
+				<div class="req-div">
+					<span class="inner-span inf">날짜</span><span class="colon">: </span>
+					<span class="inner-span">[[${c.cancelDate}]]</span>
+				</div>
 			</div>
 		</div>
 		<div id="hidden"></div>

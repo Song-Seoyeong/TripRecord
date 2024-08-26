@@ -55,7 +55,7 @@
 #search{border:none;outline:none;}
 .col-3:hover{cursor:pointer;}
 #text-test>tr{height:50px;}
-.offcanvas-body:hover{cursor:pointer;}
+.offcanvas-body>p:hover{cursor:pointer;}
 .col-3>div{font-size:25px;}
 #content1-div{display:flex;width:35%;border-radius:9999px; border:0.5px solid lightgray; align-items:center;}
 #sidebar{width:51px; height: 51px; left: 33px; top: 260px; position: fixed; z-index: 50;}

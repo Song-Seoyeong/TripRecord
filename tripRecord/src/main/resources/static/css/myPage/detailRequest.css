@@ -54,6 +54,7 @@
 /* 버튼 감싸는 div */
 #buttons-div {
 	width: 385px;
+	margin-top: 60px;
 	margin-left: auto;
 	margin-right: auto;
 	display: flex;
@@ -88,8 +89,14 @@
 	margin-left: 20px;
 }
 
+/* 취소된 요청 전체 감싸는 div */
 #cancel-span{
 	margin-left: 6px;
+}
+
+/* 취소된 요청 내부 감싸는 div */
+#cancel-inner-div{
+    margin-bottom: 25px;
 }
 
 /* 신청인, 날짜, 참고사항 각각의 div */
@@ -99,8 +106,6 @@
     margin-top: 10px;
     border-left: 4px solid #96CAF0;
     height: 30px;
-    display: 30px;
-    align-items: center;
 }
 
 /* 신청인, 날짜, 신청글, 출력 텍스트 각각 전체 span */
@@ -117,12 +122,22 @@
 	font-weight: 700;
 }
 
+.comentDiv{
+	height: fit-content;
+}
+
+/* 취소 사유 감싸는 div*/
+.coment{
+    display: inline-table;
+    width: 600px;
+}
+
 #cancel-div{
 	border: 1px solid #b9b9b9;
     border-radius: 10px;
     margin-top: 60px;
     width: 800px;
-    height: 220px;
+    min-height: 220px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 60px;
