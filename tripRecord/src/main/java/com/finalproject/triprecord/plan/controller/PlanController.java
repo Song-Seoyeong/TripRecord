@@ -209,7 +209,7 @@ public class PlanController {
 		int result = plService.savePlanInsert(s, plList, tagList); // serviceImpl 주의
 		
 		if(result > 0) {
-			return "redirect:/";
+			return "redirect:myTripNote.mp";
 		} else {
 			throw new PlanException("일정을 저장하던 중 오류가 발생했습니다.");
 		}

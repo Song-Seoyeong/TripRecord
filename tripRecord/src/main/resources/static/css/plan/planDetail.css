@@ -231,26 +231,6 @@ form{
 	margin-bottom: 60px;
 }
 
-/* 저장, 삭제 버튼 */
-/* .planDetailButton{ */
-/* 	border-radius: 18px; */
-/* 	border: none; */
-/* 	font-weight: bold; */
-/* 	font-size: 14px; */
-/* 	padding: 10px; */
-/* } */
-
-/* 일정 저장 버튼 */
-/* #saveButton{ */
-/* 	background-color: #96caf0; */
-/* 	color: white; */
-/* 	margin-left: 50%; */
-/* } */
-
-/* #saveButton:hover{ */
-/* 	background-color: #58aae7; */
-/* } */
-
 /* 수정 버튼 누를 때 나오는 지역 select */
 #selectSpotHidden{
 	width: fit-content;
@@ -282,7 +262,6 @@ form{
 	background-color: white;
 	width: 80px;
 	height: 40px;
-	border: none;
 	border-radius: 20px;
 	margin-right: 5px;
 	border: 2px solid #96CAF0;
@@ -311,6 +290,10 @@ form{
 	background: black;
 	color: white;
 	border: 2px solid black;
+}
+
+#saveButton{
+	width: 85px;
 }
 
 /* 해시태그 전체 감싸는 div */
@@ -454,13 +437,20 @@ form{
 /* 장소 추가 버튼 */
 .placeAddButton{
 	margin-bottom: 30px;
-    border: none;
-    border-radius: 20px;
-    background: #96CAF0;
-    color: white;
-    font-weight: bold;
-    font-size: 13px;
-    padding: 8px;
+	border: 2px solid #96CAF0;
+	border-radius: 20px;
+	background: #fff;
+	color: #96CAF0;
+	font-weight: bold;
+	font-size: 13px;
+	padding: 8px;
+}
+
+.placeAddButton:hover{
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
 }
 
 /*여기부터 추천 장소*/

@@ -725,4 +725,11 @@
 		from PLANNER
 		where MEMBER_NO = #{memberNo}
 	</delete>
+	
+	<!-- 플래너 페이지 - 요청 상세 - 요청 취소일 시 사유 가지고 오기 -->
+	<select id="cancelReqSelect">
+		select *
+		from cancel
+		where cancel_ref_type = 'REQSCHEDULE' and cancel_ref_no = #{reqNo}
+	</select>
 </mapper>

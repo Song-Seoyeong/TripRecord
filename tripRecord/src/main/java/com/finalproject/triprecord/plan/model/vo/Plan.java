@@ -1,7 +1,5 @@
 package com.finalproject.triprecord.plan.model.vo;
 
-import java.time.LocalDate;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,4 +17,6 @@ public class Plan {
 	private String memo;
 	private String reserve;
 	private String day;
+	
+	private String plannerMemo;
 }

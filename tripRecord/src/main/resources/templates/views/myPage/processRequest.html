@@ -134,7 +134,6 @@
 
 					labels.forEach(function(label) {
 						let input = label.previousElementSibling;
-			        	console.log(input);
 						input.value = label.innerText;
 						if(label == labels[0]){
 							originalPlace = label.innerText;
@@ -329,44 +328,47 @@
 			}
 			
 			//진행 시 요청 진행 페이지로 이동
-			document.getElementById('submit_button').addEventListener('click', function(){
+			document.getElementById('submit_button').addEventListener('click', function(e){
 				/*<![CDATA[*/
 				const scNo = /*[[${s.scNo}]]*/1;
 				/*]]>*/
-				
 				document.getElementById('inputHiddens').innerHTML = '<input type="hidden" name="count" id="count" value=""/><input type="hidden" name="scNo" value="' + scNo + '"/>';
 				
-				let i = 0;				
 				const dayPlans = document.querySelectorAll('#planAll .dayPlan');
 				
 				const inputCheck = document.querySelectorAll('.placeInput');
+				
+				let i = 0;				
 				for(input of inputCheck){
 					if(input.style.display != 'none'){
+						i++;
 						alert('여행 계획을 완성해 주세요');
 						break;
-					} else {
-						dayPlans.forEach(function(dayPlan){
-							let dayText = dayPlan.children[0].value; // n일차
-							let day = dayPlan.children[2].value; // 날짜
-							
-							let onePlans = dayPlan.getElementsByClassName('one-plan');
-							let count = onePlans.length; // 그날 계획 몇 개?
-		
-							
-							let cInput = document.getElementById("count");
-							for(let j = 0; j < count; j++){
-								if(j + 1 == count){
-									cInput.value += count + ';';
-								}
-							}
-						})
-						
-						document.getElementById('request').submit();
-						
 					}
+				}
+				if(i == 0) {
+					submit(dayPlans);
 				}
 				
 			})
+			
+			function submit(dayPlans){
+				dayPlans.forEach(function(dayPlan){
+					let dayText = dayPlan.children[0].value; // n일차
+					let day = dayPlan.children[2].value; // 날짜
+					
+					let onePlans = dayPlan.getElementsByClassName('one-plan');
+					let count = onePlans.length; // 그날 계획 몇 개?
+					
+					let cInput = document.getElementById("count");
+					for(let j = 0; j < count; j++){
+						if(j + 1 == count){
+							cInput.value += count + ';';
+						}
+					}
+				})
+				document.getElementById('request').submit();
+			}
 		}
 	</script>
 </body>

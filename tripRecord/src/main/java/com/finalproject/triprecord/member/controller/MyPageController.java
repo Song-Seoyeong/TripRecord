@@ -870,6 +870,10 @@ public class MyPageController {
 		map.put("reqNo", reqNo);
 
 		ReqSchedule rs = mService.detailRequest(map);
+		Cancel c = null;
+		if(rs.getReqStatus() == 4) {
+			c = mService.cancelReqSelect(rs.getReqNo());
+		}
 
 		if (rs != null) {
 			model.addAttribute("rs", rs);
@@ -880,17 +884,15 @@ public class MyPageController {
 				Member reqMem = mService.getMember(rs.getReqMemNo());
 				if (reqMem != null) {
 					model.addAttribute("reqMem", reqMem);
+					model.addAttribute("c", c);
 					return "detailRequest";
-				} else {
-					throw new MemberException("요청 신청자 불러오기에 실패하였습니다.");
 				}
 			} else {
 				throw new MemberException("요청 일정 불러오기에 실패하였습니다.");
 			}
-		} else {
-			throw new MemberException("요청 상세 내역 불러오기에 실패하였습니다.");
+			
 		}
-
+		throw new MemberException("요청 일정 불러오기에 실패하였습니다.");
 	}
 
 	// 플래너 정보, 지역 가져오기
@@ -951,14 +953,13 @@ public class MyPageController {
 	@PostMapping("requestEnd.mp")
 	public String moveToRequestEnd(@RequestParam("scNo") int scNo, @RequestParam("reqNo") int reqNo, @RequestParam("reqMemo") String reqMemo, 
 									@ModelAttribute Plan p, HttpSession session, @RequestParam("count") String count) {
-//		
-//		// 밑에 있는 것들은 전부 , 로 이어져서 들어오기 때문에 split 사용하였음, 밑에서 배열 돌려야 함
+		// 밑에 있는 것들은 전부 , 로 이어져서 들어오기 때문에 split 사용하였음, 밑에서 배열 돌려야 함
 		String place[] = p.getPlace().split(",");
 		String time[] = p.getTime().split(",");
 		String memo[] = p.getMemo().split(",");
 		String day[] = p.getDay().split(","); // 계획 1개에 해당하는 day
-//		// 16일 계획 2개, 17일 계획 1개라면 2024-08-16, 2024-08-16, 2024-08-17... (중복되는 거 맞음)
-//
+//			// 16일 계획 2개, 17일 계획 1개라면 2024-08-16, 2024-08-16, 2024-08-17... (중복되는 거 맞음)
+
 		String cStr[] = count.split(";"); // count 안에 한 날짜에 몇 개 담겼는지 += 구분자(;) 로 들어옴. 16일 계획 2개, 17일 계획 1개라면 2, 1
 		
 		Integer coNum[] = new Integer[cStr.length]; // 날짜만큼 plan 만들기 위해서 Integer 숫자 하나 만듬
@@ -999,8 +1000,7 @@ public class MyPageController {
 			
 			result = mService.reqScheUpdate(rs);
 			if(result > 0) {
-				
-				return "requestEnd";
+				return "redirect:request.mp";
 			} else {
 				throw new MemberException("일정 요청 정보 업데이트에 실패하였습니다.");
 			}
@@ -1009,7 +1009,7 @@ public class MyPageController {
 		}
 
 	}
-	
+
 	// 요청 거절
 	@GetMapping("cancelRequest.mp")
 	public String cancelRequest(@ModelAttribute ReqSchedule req, @RequestParam("cancelContent") String cancelContent,

@@ -377,11 +377,18 @@
 /* 장소 추가 버튼 */
 .placeAddButton{
 	margin-bottom: 30px;
-    border: none;
-    border-radius: 20px;
-    background: #96CAF0;
-    color: white;
-    font-weight: bold;
-    font-size: 13px;
-    padding: 8px;
+	border: 2px solid #96CAF0;
+	border-radius: 20px;
+	background: #fff;
+	color: #96CAF0;
+	font-weight: bold;
+	font-size: 13px;
+	padding: 8px;
+}
+
+.placeAddButton:hover{
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
 }

@@ -450,6 +450,10 @@
 		where sche_no = #{scNo}
 	</select>
 	
+	<select id="selectReqSchedule" resultType="ReqSchedule">
+		select * from req_schedule where sche_no = #{scNo}
+	</select>
+	
 	<resultMap id="planMap" type="Plan">
 		<result column="PL_PLACE" property="place" />
 		<result column="PL_TIME" property="time" />

@@ -499,4 +499,10 @@ public class MemberServiceImpl implements MemberService{
 	public int deletePlanner(Member m) {
 		return mMapper.deletePlanner(m);
 	}
+	
+	// 플래너 페이지 -> 요청 상세 -> 요청 취소일 시 사유 가지고 오기
+	@Override
+	public Cancel cancelReqSelect(int reqNo) {
+		return mMapper.cancelReqSelect(reqNo);
+	}
 }

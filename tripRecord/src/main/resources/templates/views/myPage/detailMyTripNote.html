@@ -104,14 +104,8 @@
 										<div class="label-div">
 											<label class="planLabel placeLabel" th:text=${p.place}></label>
 										</div>
-										<div class="label-div">
-											<label class="planLabel timeLabel" th:text="${p.time}"></label>
-											<div class="plan-checks">
-												<div class="checkbox-wrapper-46">
-													<input type="checkbox" th:id="|cbx${index.index}|" class="inp-cbx" th:checked="${p.reserve == 'Y'}"><label th:for="|cbx${index.index}|" class="cbx">
-													<span class="cbSvg"><svg viewBox="0 0 12 10" class="cbSvg" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText">예약 여부</span></label>
-												</div>
-											</div>
+										<div class="label-div">													<!-- 동적 생선된 div랑 위치 맞추기 위해 엔터 안 씀 -->
+											<label class="planLabel timeLabel" th:text="${p.time}"></label><div class="plan-checks"><div class="checkbox-wrapper-46"><input type="checkbox" th:id="|cbx${index.index}|" class="inp-cbx" th:checked="${p.reserve == 'Y'}"><label th:for="|cbx${index.index}|" class="cbx"><span class="cbSvg"><svg viewBox="0 0 12 10" class="cbSvg" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText">예약 여부</span></label></div></div>
 										</div>
 										<div class="label-div">
 											<label class="planLabel memoLabel" th:text="${p.memo}"></label>
@@ -578,7 +572,7 @@
 				
 				let checkDiv = document.createElement('div');
 				checkDiv.classList.add('plan-checks');
-				checkDiv.innerHTML = '<div class="checkbox-wrapper-46">&nbsp;<input type="checkbox" id="cbx' + index + '" class="inp-cbx planCheck" /><label for="cbx' + index + '" class="cbx planCheck"><span><svg viewBox="0 0 12 10" class="cbx" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
+				checkDiv.innerHTML = '&nbsp;<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx planCheck" /><label for="cbx' + index + '" class="cbx planCheck"><span><svg viewBox="0 0 12 10" class="cbx" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
 				index++;
 				
 				let planLabelsDiv = editInputs.children[1];

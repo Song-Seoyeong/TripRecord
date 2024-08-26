@@ -375,4 +375,9 @@ public class AdminServiceImpl implements AdminService{
 		return aMapper.selectPlan(scNo);
 	}
 	
+	@Override
+	public ReqSchedule selectReqSchedule(int scNo) {
+		return aMapper.selectReqSchedule(scNo);
+	}
+	
 }

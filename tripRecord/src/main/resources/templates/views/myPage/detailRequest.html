@@ -16,24 +16,47 @@
 	<div class="flex-container">
 		<div style="height:80px;"></div>
 		<div id="req-ref-div">
-			<div id="spot-div">
+			<div class="title-div">
 				<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="margin-right:-15px; margin-top:-10px;">
 					<path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
 				</svg>
-				<span id="spot-span">[[${planner.localName}]]</span>
+				<span id="local-span">[[${planner.localName}]]</span>
 			</div>
 			<div id="reqMem-div" class="req-div">
-					<span id="reqMem" class="inner-span inf">신청인</span><span class="colon">: </span><span class="inner-span">[[${reqMem.nickname}]]</span>
-				</div>
-				<div id="reqDate-div" class="req-div">
-					<span id="dateText" class="inner-span inf">날짜</span><span class="colon">: </span><span id="date" class="inner-span">[[${s.startDate}]] ~ [[${s.endDate}]]</span>
-				</div>
-				<div id="note-div" class="req-div">
-					<span class="inner-span inf">신청글</span><span class="colon">: </span>
-					<span class="inner-span">[[${rs.reqRef}]]</span><input type="hidden" name="reqNo" th:value="${rs.reqNo}"/>
-				</div>
+				<span id="reqMem" class="inner-span inf">신청인</span><span class="colon">: </span>
+				<span class="inner-span">[[${reqMem.nickname}]]</span>
+			</div>
+			<div id="reqDate-div" class="req-div">
+				<span id="dateText" class="inner-span inf">날짜</span><span class="colon">: </span>
+				<span id="date" class="inner-span">[[${s.startDate}]] ~ [[${s.endDate}]]</span>
+			</div>
+			<div id="note-div" class="req-div">
+				<span class="inner-span inf">신청글</span><span class="colon">: </span>
+				<span class="inner-span">[[${rs.reqRef}]]</span><input type="hidden" name="reqNo" th:value="${rs.reqNo}"/>
+			</div>
 		</div>
-		<div style="height:40px;" id="hidden"></div>
+		<div th:if="c != null" id="cancel-div">
+			<div class="title-div">
+				<img src="image/face-icon.png" style="width: 35px; height: 35px;" alt="슬픈표정아이콘"/>
+				<span id="cancel-span">취소된 요청</span>
+			</div>
+			<div class="req-div">
+				<span class="inner-span inf">요청인</span><span class="colon">: </span>
+				<span class="inner-span">
+					<th:block th:if="${c.cancelMemNo == reqMem.memberNo}">[[${reqMem.nickName}]]</th:block>
+					<th:block th:unless="${c.cancelMemNo == reqMem.memberNo}">[[${session.loginUser.nickname}]]</th:block>
+				</span>
+			</div>
+			<div class="req-div">
+				<span class="inner-span inf">사유</span><span class="colon">: </span>
+				<span class="inner-span">[[${c.cancelComent}]]</span>
+			</div>
+			<div class="req-div">
+				<span class="inner-span inf">날짜</span><span class="colon">: </span>
+				<span class="inner-span">[[${c.cancelDate}]]</span>
+			</div>
+		</div>
+		<div id="hidden"></div>
 		<!-- 제출버튼 -->
 		<div id="buttons-div">
 			<th:block th:if="${rs.reqStatus eq 1}">
@@ -95,14 +118,6 @@
 		function cancel() {
 			$('#modalChoice').modal('show');
 		}
-		
-		//신청 취소 시 모달
-// 		const canBtn = document.getElementById('cancel_button');
-// 		if(canBtn != null){
-// 			canBtn.addEventListener('click', ()=>{
-// 	        	$('#modalChoice').modal('show');
-// 			})
-// 		}
 		
 		// 신청 취소
 		const cancelForm = document.getElementById('cancelForm')
