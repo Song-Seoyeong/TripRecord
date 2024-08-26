@@ -490,6 +490,7 @@
 		join schedule on (sche_no =
 		sc_no)
 		where req_pla_no = #{ pNo }
+		 order by  req_no desc
 	</select>
 
 	<!-- 로그인시 일정 날짜 체크 -->
