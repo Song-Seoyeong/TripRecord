@@ -814,7 +814,7 @@ public class MyPageController {
 	
 	@PostMapping("cancelPlanner.mp")
 	@ResponseBody
-	public String cancelPlanner(HttpSession session, @RequestParam("grade") String grade) {
+	public String cancelPlanner(HttpSession session, @RequestParam("grade") String grade, @RequestParam("cancelReason") String cancelReason) {
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		Planner planner = mService.getPlanner(memberNo);
 		RequestGrade rg = mService.checkRequest(memberNo);
@@ -828,6 +828,7 @@ public class MyPageController {
 			map.put("lNo", planner.getLocalNo());
 			map.put("account", planner.getAccount());
 			map.put("bank", planner.getBank());
+			map.put("cancelReason", cancelReason);
 			result = mService.cancelPlanner(map);
 		}
 

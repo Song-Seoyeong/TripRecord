@@ -116,10 +116,26 @@
 					<div class='d-flex'>
 						<select id='bank' class="form-select">
 							<option value="none">은행 선택</option>
-							<option value="kb">국민은행</option>
-							<option value="wb">우리은행</option>
-							<option value="nh">농협은행</option>
-							<option value="kakao">카카오뱅크</option>
+							<option value="국민은행">국민은행</option>
+							<option value="기업은행">기업은행</option>
+							<option value="농협">농협</option>
+							<option value="우리은행">우리은행</option>
+							<option value="대구은행">대구은행</option>
+							<option value="외환은행">외환은행</option>
+							<option value="SC제일은행">SC제일은행</option>
+							<option value="부산은행">부산은행</option>
+							<option value="새마을금고">새마을금고</option>
+							<option value="한국씨티은행">한국씨티은행</option>
+							<option value="광주은행">광주은행</option>
+							<option value="경남은행">경남은행</option>
+							<option value="수협">수협</option>
+							<option value="신협">신협</option>
+							<option value="전북은행">전북은행</option>
+							<option value="제주은행">제주은행</option>
+							<option value="산림조합">산림조합</option>
+							<option value="우체국">우체국</option>
+							<option value="하나은행">하나은행</option>
+							<option value="신한은행">신한은행</option>
 						</select> <input id="account" type="text" placeholder="(-)제외하고 숫자로 10자리 입력" >
 					</div>
 				</div>
@@ -184,7 +200,7 @@
 		account.addEventListener('input', function(){
 			 this.value = this.value.replace(/[^0-9]/g, '');
 			 if (this.value.length > 10) {
-	                this.value = this.value.slice(0, 10);
+	                this.value = this.value.slice(0, 14);
 	            }
 			 accountValue = this.value;
 			 
@@ -217,7 +233,7 @@
 			 			$.ajax({
 			 				type : 'post', 
 		    				url : 'promotion.mp',
-		    				data : {region:region, introProfile:intro, submitContent:submit,
+		    				data :{region:region, introProfile:intro, submitContent:submit,
 		    					    bank : bankValue, account: accountValue},
 		    				success : (data) =>{ 
 		    					console.log(data)
@@ -242,7 +258,7 @@
 			 			$.ajax({
 			 				type : 'post', 
 		    				url : 'promotion.mp',
-		    				data : {region:region, introProfile:intro, submitContent:submit},
+		    				data : {region:region, introProfile:intro, submitContent:submit, bank : bankValue, account: accountValue},
 		    				success : (data) =>{ 
 		    					if(data == 'PLANNER'){
 		    						alert('플래너 요청이 되어 있는 상태입니다');

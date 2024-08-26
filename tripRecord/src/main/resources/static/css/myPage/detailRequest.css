@@ -65,9 +65,10 @@
 #req-ref-div{
 	margin: auto;
     width: 800px;
-    height: 220px;
+    min-height: 220px;
     border: 1px solid #b9b9b9;
     border-radius: 10px;
+    margin-top: 60px;
 }
 
 /* 아이콘 + 지역 span 감싸는 div */
@@ -95,7 +96,7 @@
 }
 
 /* 취소된 요청 내부 감싸는 div */
-#cancel-inner-div{
+.inner-contain-div{
     margin-bottom: 25px;
 }
 

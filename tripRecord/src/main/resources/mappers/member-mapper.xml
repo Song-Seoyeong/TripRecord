@@ -236,7 +236,8 @@
 		join BOARD on(QUESTION_NO = BOARD_NO)
 		join MEMBER
 		on(BOARD_WRITER_NO = MEMBER_NO)
-		where BOARD_WRITER_NO = #{memberNo} and BOARD_STATUS='N'
+		where BOARD_WRITER_NO = #{memberNo} and
+		BOARD_STATUS='N'
 		<if test="i != 0">
 			and QUESTION_NO = #{i}
 		</if>
@@ -304,12 +305,14 @@
 
 	<!-- 본인이 쓴 전체 후기(플래너) -->
 	<select id="getPlannerReviewListCount" resultType="_int">
-		SELECT count(*)
+		SELECT
+		count(*)
 		FROM REVIEW r
 		JOIN MEMBER m ON r.REV_REF_NO = m.MEMBER_NO
 		JOIN
 		PLANNER p ON r.REV_REF_NO = p.MEMBER_NO
-		WHERE r.MEMBER_NO = #{memberNo} AND
+		WHERE r.MEMBER_NO = #{memberNo}
+		AND
 		r.REVIEW_STATUS = 'Y' AND r.REV_REF_TYPE = 'PLANNER'
 	</select>
 
@@ -321,7 +324,8 @@
 		JOIN MEMBER m ON r.REV_REF_NO = m.MEMBER_NO
 		JOIN PLANNER p ON
 		r.REV_REF_NO = p.MEMBER_NO
-		WHERE r.MEMBER_NO = #{memberNo} AND r.REVIEW_STATUS =
+		WHERE r.MEMBER_NO = #{memberNo} AND
+		r.REVIEW_STATUS =
 		'Y' AND r.REV_REF_TYPE = 'PLANNER'
 	</select>
 
@@ -329,7 +333,7 @@
 	<insert id="cancelPlanner">
 		insert into REQUEST_GRADE
 		values(#{memberNo}, #{lNo},
-		#{grade}, default, default, sysdate, #{account},#{bank})
+		#{grade}, #{cancelReason}, default, sysdate, #{account},#{bank})
 	</insert>
 	<!-- 여기까지 플래너 페이지 -->
 
@@ -718,18 +722,19 @@
 		values(pl_no_func, #{scNo}, #{place},
 		#{time}, #{memo, jdbcType=VARCHAR}, 'N', #{day})
 	</insert>
-	
-	<!-- 추가 사항: 회원 탈퇴 시 플래너 삭제  -->
+
+	<!-- 추가 사항: 회원 탈퇴 시 플래너 삭제 -->
 	<delete id="deletePlanner">
-		delete 
+		delete
 		from PLANNER
 		where MEMBER_NO = #{memberNo}
 	</delete>
-	
+
 	<!-- 플래너 페이지 - 요청 상세 - 요청 취소일 시 사유 가지고 오기 -->
 	<select id="cancelReqSelect">
 		select *
 		from cancel
-		where cancel_ref_type = 'REQSCHEDULE' and cancel_ref_no = #{reqNo}
+		where cancel_ref_type =
+		'REQSCHEDULE' and cancel_ref_no = #{reqNo}
 	</select>
 </mapper>
