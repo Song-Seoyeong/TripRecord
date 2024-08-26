@@ -12,7 +12,12 @@ body {
 	transform: rotate(45deg);
 	margin: 200px auto;
 }
-
+.loaderText{
+	transform: rotate(-45deg);
+	position: absolute;
+	left: 70px;
+	bottom: 40px;
+}
 .loader:before, .loader:after {
 	content: "";
 	position: absolute;

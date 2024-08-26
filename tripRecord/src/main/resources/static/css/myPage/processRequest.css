@@ -45,13 +45,14 @@
 #req-ref-div{
 	margin: auto;
     width: 800px;
-    height: 220px;
+    min-height: 220px;
     border: 1px solid #b9b9b9;
     border-radius: 10px;
+    margin-top: 60px;
 }
 
 /* 아이콘 + 지역 span 감싸는 div */
-#spot-div{
+.title-div{
     margin-top: 20px;
     margin-left: 40px;
     text-align: left;
@@ -60,23 +61,28 @@
     display: block;
 }
 
-#spot-div>svg{
+/* 위치 아이콘 */
+.title-div>svg{
     margin-top: -6px;
 }
 
-#spot-span{
+/* 지역 텍스트 */
+#local-span{
 	margin-left: 20px;
+}
+
+/* 요청 내부 전체 감싸는 div */
+.inner-contain-div{
+    margin-bottom: 25px;
 }
 
 /* 신청인, 날짜, 참고사항 각각의 div */
 .req-div{
-    text-align: left;
+   text-align: left;
     margin-left: 74px;
     margin-top: 10px;
     border-left: 4px solid #96CAF0;
     height: 30px;
-    display: 30px;
-    align-items: center;
 }
 
 /* 신청인, 날짜, 신청글, 출력 텍스트 각각 전체 span */
@@ -91,6 +97,17 @@
 	display: inline-block;
 	width: 55px;
 	font-weight: 700;
+}
+
+/* 신청글 전체 감싸는 div */
+.comentDiv{
+	height: fit-content;
+}
+
+/* 신청글 감싸는 div*/
+.coment{
+    display: inline-table;
+    width: 600px;
 }
 
 /* 전체 감싸고 있는 div */

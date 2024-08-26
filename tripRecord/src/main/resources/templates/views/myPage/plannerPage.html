@@ -17,7 +17,7 @@
 	<div class="container-fluid justify-content-center" style="width: 1400px">
 		<div class="d-flex justify-content-between align-items-center">   
 	        <div class="fs-2 my-3 ms-5">
-	           <button id="submitAdmin" style="font-size:20px; border:none; background:white;"onclick="submitAdmin()">일반회원 전환 요청하기</button>
+	           <button id="submitAdmin" style="font-size:20px; border:none; background:white;">일반회원 전환 요청하기</button>
 	        </div>
 	        <div>
 	           <div style="height:20px;"></div>
@@ -184,18 +184,37 @@
 			</div>
 		</th:block>
 	</div>
+	
+	<!-- 취소 사유 모달창 -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="reviewModal">
+		<div class="modal-dialog d-flex align-items-center justify-content-center">
+    		<div class="modal-content rounded-3 shadow">
+      			<div class="modal-body p-4">
+        			<h3 class="mb-3 text-start">취소 사유</h3>
+	        			<hr/>
+	        			<textarea style="width:100%; height:100px; resize:none;" id="cancelReasonText"></textarea>
+                	<br/>
+      			</div>
+      			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal"  onclick="submitAdmin()">요청</button>
+      			<button type="button" class="btn btn-lg btn-light w-80 m-3" data-bs-dismiss="modal">닫기</button>
+    		</div>
+  		</div>
+	</div>
+	
 	<!-- 푸터 -->
 	<div th:replace="~{common/footer :: footer}" ></div>
 	
 	<script th:inline="javascript">
+	let cancelReason = null;
 		function submitAdmin(){
-			let result = confirm("요청하시겠습니까");
-			if(result == true){
+			if(cancelReason.length == 0){
+				alert('사유를 입력하세요')
+			}else{
 				alert('요청 승인 시 판매자 권한을 잃게됩니다')
 				$.ajax({
 					type:"post",
 					url:"cancelPlanner.mp",
-					data:{grade:"PLANNER_CANCEL"},
+					data:{grade:"PLANNER_CANCEL", cancelReason : cancelReason},
 					success:(data)=>{
 						if(data == 'PLANNER_CANCEL'){
 							alert('현재 요청된 상태입니다')
@@ -208,11 +227,10 @@
 						alert('오류 발생')
 					}
 				})
-			} else {
-				return;
+				
 			}
 		}
-		
+			
 		// 미리보기 경고
 		function previewAlert(){
 			alert('미리보기 페이지에서는 불가능합니다.')
@@ -232,7 +250,20 @@
 			li.addEventListener('click', previewAlert);
 		}
 		
+		document.getElementById('cancelReasonText').addEventListener('change', function(){
+			cancelReason = document.getElementById('cancelReasonText').value
+		})	
 		
+		const submitBtn = document.getElementById('submitAdmin')
+		submitBtn.addEventListener('click',function(){
+			if(confirm("일반회원 요청을 하시겠습니까")){
+				$('#reviewModal').modal('show');
+				cancelReason = document.getElementById('cancelReasonText').value
+				
+			}else{
+				return false;
+			}
+		})
 	</script>
 </body>
 </html>
