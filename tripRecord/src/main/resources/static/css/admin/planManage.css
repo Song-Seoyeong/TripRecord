@@ -184,3 +184,19 @@
 	width: 98%;
 	margin: 0 auto;
 }
+
+#planner-add-text{
+	border: 1px solid lightgray; 
+	height: 100px; 
+	overflow-y: auto; 
+	resize: none;
+	width: 100%;
+	margin: 0 auto; 
+	padding: 0.625rem;
+	border-radius: 0;
+}
+
+#planner-add-text:focus{
+	border: 1px solid lightgray !important;
+	border-radius: 0 !important;
+}

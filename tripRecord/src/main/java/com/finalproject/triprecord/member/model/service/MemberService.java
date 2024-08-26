@@ -218,4 +218,7 @@ public interface MemberService {
 	
 	//탈퇴 시 플래너 탈퇴
 	int deletePlanner(Member m);
+	
+	// 플래너 페이지 -> 요청 상세 -> 요청 취소일 시 사유 가지고 오기
+	Cancel cancelReqSelect(int reqNo);
 }

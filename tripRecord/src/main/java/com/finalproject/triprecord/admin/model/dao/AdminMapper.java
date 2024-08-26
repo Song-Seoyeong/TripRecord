@@ -152,5 +152,7 @@ public interface AdminMapper {
 
 	ArrayList<Plan> selectPlan(int scNo);
 
+	ReqSchedule selectReqSchedule(int scNo);
+
 	
 }

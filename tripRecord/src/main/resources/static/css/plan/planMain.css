@@ -19,7 +19,8 @@
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 10px;
-	width: 45%;
+	min-width: 700px;
+	width: 43%;
 	text-align: left;
 }
 /* 여행기간과 날짜 감싸는 div */
@@ -273,18 +274,20 @@ keyframes wave-4 { 50% {
 /* 일정 생성 버튼 */
 #createButton {
 	margin-top: 30px;
-	background: #96CAF0;
-	border: none;
+	color: #96CAF0;
+	background-color: white;
+	width: 85px;
+	height: 40px;
 	border-radius: 20px;
-	color: white;
-	font-weight: bold;
-	font-size: 15px;
-	padding: 12px;
+	margin-right: 5px;
+	border: 2px solid #96CAF0;
 	margin-bottom: 60px;
 }
 
 #createButton:hover {
-	cursor: pointer;
-	background: #58aae7;
+	background: #96CAF0;
+	border: 2px solid #96CAF0;
+	color: #fff;
+	font-weight: 600;
 }
 

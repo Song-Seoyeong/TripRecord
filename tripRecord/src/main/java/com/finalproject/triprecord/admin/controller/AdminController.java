@@ -733,6 +733,12 @@ public class AdminController {
 	@ResponseBody
 	public ArrayList<Plan> selectPlan(@RequestParam("scNo") int scNo) {
 		ArrayList<Plan> p = aService.selectPlan(scNo);
+		ReqSchedule rs = aService.selectReqSchedule(scNo);
+		
+		for(Plan plan : p) {
+			plan.setPlannerMemo(rs.getMemo());
+			break;
+		}
 		
 		return p != null ? p : null;
 	}

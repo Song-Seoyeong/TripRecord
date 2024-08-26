@@ -192,7 +192,9 @@
 							<div style="margin: 20px auto; width: 96%;">
 								<h5 style="border-bottom: 1px solid #2F6598; padding-left: 5px; font-weight: bold; color: #2F6598;">플래너 추가 정보</h5>
 								<div class="planner-add">
-									
+									<textarea class="form-control box-shadow-none" id="planner-add-text" readonly>
+										
+									</textarea>
 								</div>
 							</div>
 						</div>
@@ -240,7 +242,7 @@
 								let date = 0;
 								let dayCount = 1;
 								detailAll.innerHTML = '';
-								
+								document.getElementById('planner-add-text').value = '';
 								let planDiv;
 								for(const plan of data){
 									
@@ -342,7 +344,9 @@
 									
 									planDiv.append(onePlan);
 									
-									
+									if(plan.plannerMemo != null){
+										document.getElementById('planner-add-text').value = plan.plannerMemo;
+									}
 								}
 								
 								detailContainer.style.display = 'block';
