@@ -2,6 +2,10 @@
 	cursor: pointer;
 }
 
+.page-item a {
+	color: black;
+}
+
 #mainContainer {
 	width: 1400px;
 }
@@ -78,7 +82,7 @@
 	width: 100px;
 }
 
-.swiper-container {width: 1250px; height: 250px;}
+.swiper-container {width: 1250px; height: 270px;}
 .swiper-container {overflow: hidden;}
 .swiper-slide {opacity:1; transition:opacity 0.3s;}
 
@@ -98,17 +102,17 @@
 }
 
 .swiper-wrapper {
-	height: 800px !important;
+	height: 300px !important;
 }
 
 .sContainer {
-	height: 270px;
+	height: 300px;
 }
 
 .swiper-pagination {
 	height: 30px !important;
 	position:absolute !important;
-	top: 500px !important;
+	top: 515px !important;
 }
 
 .swiper-pagination-bullet {
