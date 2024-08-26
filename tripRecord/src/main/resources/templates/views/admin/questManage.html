@@ -99,16 +99,23 @@
 						      				기타
 						      			</th:block>
 						      		</td>
-						      		<td><span class="overflow-ell">[[${q.boardTitle}]]</span></td>
+						      		<td>
+						      			<span class="overflow-ell">
+						      				<abbr th:title="${q.boardTitle}" class="abbr" style="text-decoration: none;">[[${q.boardTitle}]]</abbr>
+					      				</span>
+				      				</td>
 						      		<td>[[${q.memberName}]]</td>
 									<td>[[${#strings.replace(q.boardCreateDate, '-', '.')}]]</td>
-									<td>
+									<td th:if="${q.boardStatus == 'N'}">
 										<th:block th:if="${q.questionSuccess == 'N'}">
 											<span class="no-answer">미응답</span>
 										</th:block>
 										<th:block th:if="${q.questionSuccess == 'Y'}">
 											응답
 										</th:block>
+									</td>
+									<td th:unless="${q.boardStatus == 'N'}">
+										삭제됨
 									</td>
 						  		</tr>
 						  	</tbody>
@@ -168,17 +175,23 @@
 						<input type="hidden" name="boardNo" id="qNo"/>
 						<div class="quest-detail">
 							<div class="title-div-quest">
+								<span class="title-text-quest">문의 제목</span>
+							</div>
+							<div class="form-floating quest-title-div">
+						  		<textarea class="form-control box-shadow-none quest-textarea" id="title-quest" style="width:100%; height: 100%; padding-top: 0.625rem !important;"readonly></textarea>
+							</div>
+							<div class="title-div-quest">
 								<span class="title-text-quest">문의 내용</span>
 							</div>
 							<div class="form-floating quest-detail-div">
-						  		<textarea class="form-control box-shadow-none quest-textarea" id="detail-quest" style="width:100%; height: 100%;"readonly></textarea>
+						  		<textarea class="form-control box-shadow-none quest-textarea" id="detail-quest" style="width:100%; height: 100%; padding-top: 0.625rem !important;"readonly></textarea>
 							</div>
 					  		<div class="form-image" style="width: 87%; margin: 5px auto 0; height: 30px;"></div>
 							<div class="title-div-answer">
 								<span class="title-text-answer">답변 작성</span>
 							</div>
 							<div class="form-floating answer-detail-div">
-							  	<textarea class="form-control box-shadow-none quest-textarea" name="questionAnswer" id="detail-answer" style="width:100%; height: 100%;"></textarea>
+							  	<textarea class="form-control box-shadow-none quest-textarea" name="questionAnswer" id="detail-answer" style="width:100%; height: 100%; padding-top: 0.625rem !important;"></textarea>
 							</div>
 							<button class="btn btn-outline-secondary answer-reg" id="button">등록</button>
 						</div>
@@ -224,6 +237,7 @@
 					success: data => {
 						if(data != null){
 							document.getElementById('qNo').value = data.boardNo;
+							document.getElementById('title-quest').innerText = data.boardTitle;
 							document.getElementById('detail-quest').innerText = data.boardContent;
 							const formImg = document.getElementsByClassName('form-image')[0];
 							formImg.innerHTML = '';
@@ -237,7 +251,7 @@
 								}
 							}
 							
-							if(tr.children[5].innerText == '응답'){
+							if(tr.children[5].innerText == '응답' || tr.children[5].innerText == '삭제됨'){
 								document.getElementById('detail-answer').innerText = '';
 								document.getElementById('detail-answer').innerHTML = data.questionAnswer;
 								

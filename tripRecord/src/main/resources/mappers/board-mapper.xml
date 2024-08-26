@@ -200,6 +200,7 @@
 			left join member on(board_writer_no = member_no)
 		where board_status = 'N' and board_type = 'NOTICE'
 		and board_title like '%${searchWord}%'
+		order by board_no desc
 	</select>
 	
 	<select id="selectQuestion" resultType="Question">

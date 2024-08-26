@@ -436,6 +436,7 @@
             join member member on (req_mem_no = member.member_no) 
             join planner on (planner.member_no = req_pla_no)
             join member planner_mem on (planner.member_no = planner_mem.member_no)
+        order by req_no desc
 	</select>
 	
 	<select id="getReqScheduleListCount" resultType="_int">

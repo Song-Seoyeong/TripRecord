@@ -163,7 +163,7 @@
 			<a href="ask.no" th:if="${myPage} != myPage">
 				<button class="edit-btn">목록</button>
 			</a>
-			<a href="myBoard.mp" th:if="${myPage} == myPage">
+			<a href="myInquiry.mp" th:if="${myPage} == myPage">
 				<button class="edit-btn">목록</button>
 			</a>
 		</div>
@@ -241,7 +241,9 @@
 			<div class="col-2" th:if="${q.questionSuccess == 'N'}">답변이 달리면 수정이 불가능합니다.</div>
 		</div>
 		<div class='text-start' id='placeContent2'>
-		[[${q.questionAnswer}]]
+			<p style="white-space:pre-wrap;">
+				[[${q.questionAnswer}]]
+			</p>
 			<th:block th:if="${ q.questionAnswer == null}">아직 답변이 없습니다.</th:block>
 		</div>
 	</div>

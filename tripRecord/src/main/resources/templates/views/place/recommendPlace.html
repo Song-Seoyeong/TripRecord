@@ -157,9 +157,11 @@
 		const arrange = params.get('arrange') || 'A';
 		const contentTypeId = params.get('contentTypeId') || '';
 		const areaCode = params.get('areaCode') || '';
-		const keyword = params.get('keyword') || "";
+		let keyword = params.get('keyword') || "";
+		
 		let selectedKeyword = "";
 		
+		//console.log(contentTypeId)
 		// 페이지 첫 로딩시 함수 호출
 		placeApi(page, arrange, contentTypeId, areaCode, keyword);
 
@@ -423,10 +425,11 @@
 					const areaCode = placeId.split('/')[2].split('!')[0];
 					const image = placeId.split('!')[1];
 					const title = encodeURI(encodeURIComponent(placeId.split('!')[2]));
-					const keyword = updateInKeyword();
+					const keyword = encodeURI(encodeURIComponent(updateInKeyword()));
+					//console.log(keyword)
 					/* console.log(contentid)
 					console.log(contenttypeid) */
-					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&image=(" + image + ")&title=" + title;
+					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&keyword=" + keyword + "&image=(" + image + ")&title=" + title;
 				})
 			}
 		}
@@ -512,7 +515,7 @@
    				ul.append(li);
    				
    			}
-   			console.log(data.pi)
+   			//console.log(data.pi)
    			const li3 = document.createElement('li');
    			li3.className='page-item';
    			const afterA = document.createElement('a');

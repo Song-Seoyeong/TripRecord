@@ -262,8 +262,10 @@ public class MyPageController {
 		int vR = mService.deleteReview(m);
 		int rsR = mService.deleteReqSchedule(m);
 		int rgR = mService.deleteReqGrade(m);
-
-		if (mR > 0 && bR > 0 && rR > 0 && sR > 0 && vR > 0 && rsR > 0 && rgR > 0) {
+		//추가 사항
+		int dP = mService.deletePlanner(m);
+		
+		if (mR > 0 && bR > 0 && rR > 0 && sR > 0 && vR > 0 && rsR > 0 && rgR > 0 && dP > 0) {
 			return "success";
 		} else {
 			return "fail";
