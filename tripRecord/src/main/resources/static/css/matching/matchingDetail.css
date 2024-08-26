@@ -11,6 +11,10 @@
 	width: 1400px;
 }
 
+.page-item a {
+	color: black;
+}
+
 #request, #goList{
 	color: #2F6598; 
     background-color: white; 

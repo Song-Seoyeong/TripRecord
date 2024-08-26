@@ -5,9 +5,11 @@
 <title>내 여행노트</title>
 <style>
     table{width:80%; text-align: center; margin-left:auto; margin-right:auto; margin-top:30px;}
-    .pageNumber{margin-left:5px; margin-right:5px;}
    	th{font-size:24px;}
    	td{padding:15px;}
+   	ul{font-weight:900;}
+   	.pageNumber{margin-left: 5px; margin-right: 5px;}
+   	.page-item a {color: black;}
    	.flex-container{text-align: center;}
    	.noneList:hover{background-color: white; cursor: default;}
    	#container-in-div{display:inline-block;}
@@ -68,19 +70,19 @@
 				<!-- 페이지네이션 -->
 				<nav class="d-flex justify-content-center" style="margin-top: 60px;" th:if='${pi.listCount != 0}'>
 		        	<ul class="pagination" th:with="loc=${ loc }">
-		        		 <!-- 이전 버튼 -->
+<!-- 		        		 이전 버튼 -->
 			            <li class="page-item">
 			            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
 			            		<span aria-hidden="true">&laquo;</span>
 			              	</a>
 			            </li>
 			            
-			             <!-- 페이지 넘버링 버튼  -->
+<!-- 			             페이지 넘버링 버튼  -->
 						<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
 							<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
 						</li>
 			           
-			             <!-- 다음 버튼  -->
+<!-- 			             다음 버튼  -->
 			            <li class="page-item">
 			            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
 			            		<span aria-hidden="true">&raquo;</span>
