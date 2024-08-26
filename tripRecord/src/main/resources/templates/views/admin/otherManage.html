@@ -57,13 +57,15 @@
 							</thead>
 							<tbody th:unless="${cList.isEmpty}">
 						  		<tr class="tr-user" th:each="c : ${cList}">
-						  			<td>[[${c.cancelRefNo}]]</td>
+						  			<td>[[${c.cancelNo}]]</td>
 						  			<td>
-						  				<th:block th:text="${c.cancelRefType == 'POINT' ? '포인트' : '일정 신청'}"></th:block>
+						  				<th:block th:text="${c.cancelRefType == 'PAYMENT' ? '포인트' : '일정 신청'}"></th:block>
 						  			</td>
 						  			<td>[[${c.memberName}]]</td>
-						  			<td><span class="overflow-ell">
-						  				<abbr th:title="${c.cancelComent}" class="abbr" style="text-decoration: none;">[[${c.cancelComent}]]</abbr></span>
+						  			<td>
+						  				<span class="overflow-ell">
+						  					<abbr th:title="${c.cancelComent}" class="abbr" style="text-decoration: none;">[[${c.cancelComent}]]</abbr>
+						  				</span>
 						  			</td>
 						  			<td>[[${#strings.replace(c.cancelDate, '-', '.')}]]</td>
 						  		</tr>

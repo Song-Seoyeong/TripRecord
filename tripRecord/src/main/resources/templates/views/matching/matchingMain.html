@@ -17,7 +17,6 @@
 	<div id="mainContainer" class="container-fluid justify-content-center">
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="d-none" id="localNoDiv"></div>
-			<div id="conditionDiv"></div>
 			<div class="fs-2 my-3 ms-5">플래너 정보 📖✏️</div>
 		</div>
 		<div class="sContainer d-flex justify-content-center">
@@ -211,7 +210,6 @@ function getPlannerList(localNo, condition, page) {
         success: function(data) {
         	
         	localNoDiv.innerText = data.localNo;
-        	conditionDiv.innerText = data.pi.currentPage;
         	
         	const filterlist = document.getElementsByClassName('filter-list');
         	for (const item of filterlist) {

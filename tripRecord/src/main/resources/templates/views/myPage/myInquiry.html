@@ -31,7 +31,6 @@
 				 	<tr style="border-bottom:2px solid #96CAF0;">
 						<th>글번호</th>
 						<th>제목</th>
-						<th>작성자</th>
 						<th>작성일자</th>
 						<th>진행상태</th>
 					</tr>
@@ -41,7 +40,6 @@
 						<tr style="border-bottom:2px solid #b9b9b9" th:each=" q : ${qList}">
 							<td>[[${q.boardNo}]]</td>
 							<td>[[${q.boardTitle}]]</td>
-							<td>[[${q.memberName}]]</td>
 							<td>[[${q.boardCreateDate}]]</td>
 							<td id="questionSuccess">[[${q.questionSuccess}=='N'? '진행중' : '답변 완료']]</td>
 						</tr>

@@ -493,4 +493,10 @@ public class MemberServiceImpl implements MemberService{
 	public int insertPlan(Plan p) {
 		return mMapper.insertPlan(p);
 	}
+	
+	//플래너 탈퇴 시 삭제
+	@Override
+	public int deletePlanner(Member m) {
+		return mMapper.deletePlanner(m);
+	}
 }

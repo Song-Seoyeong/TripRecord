@@ -128,10 +128,8 @@
 					        <td th:if='${l.confirmDate != null}'>[[${l.confirmDate}]]</td>
 						</tr>
 
-						<tr th:if='${pi.listCount == 0}'>
-							<tr style="border-bottom: 2px solid #b9b9b9">
-									<td colspan="6">신청하신 리스트가 없어요 &#128549; </td>
-								</tr>
+						<tr style="border-bottom: 2px solid #b9b9b9" th:if='${pi.listCount == 0}'>
+							<td colspan="6">신청하신 리스트가 없어요 &#128549; </td>
 						</tr>
 					</tbody>
 				</table>

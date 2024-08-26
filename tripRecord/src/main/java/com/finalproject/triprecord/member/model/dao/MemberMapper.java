@@ -219,4 +219,7 @@ public interface MemberMapper {
 
 	// 마이페이지 -> 내 일정 상세 보기 -> 새로운 일정 추가
 	int insertPlan(Plan p);
+	
+	//탈퇴 시 플래너 탈퇴
+	int deletePlanner(Member m);
 }

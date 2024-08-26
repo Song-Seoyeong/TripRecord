@@ -48,17 +48,24 @@ select:focus {
 
 .title-div-quest{
 	width: 90%;
-	margin: 20px auto 0;
+	margin: 10px auto 0;
 	font-size: 20px;
 	border-bottom: 3px solid #96caf0;
 	padding-left: 10px;
 	font-weight: bold;
 }
 
+.quest-title-div{
+	width: 87%;
+	margin: 5px auto 0;
+	height: 60px;
+	border: 1px solid #2F6598;
+}
+
 .quest-detail-div{
 	width: 87%;
 	margin: 5px auto 0;
-	height: 250px;
+	height: 200px;
 	border: 1px solid #2F6598;
 }
 
@@ -70,7 +77,7 @@ select:focus {
 
 .title-div-answer{
 	width: 90%;
-	margin: 20px auto 0;
+	margin: 5px auto 0;
 	font-size: 20px;
 	border-bottom: 3px solid #96caf0;
 	padding-left: 10px;

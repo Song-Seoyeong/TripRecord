@@ -37,7 +37,9 @@ public class PlaceController {
 	
 	@GetMapping("recoPlace.pla")
 	public String recoPlacelist(@RequestParam(value="page", defaultValue="1") int page,
-								@RequestParam(value="localNo", defaultValue="") String areacode, Model model) {
+								@RequestParam(value="localNo", defaultValue="") String areacode,
+								@RequestParam(value="contenttypeid", defaultValue="") String contenttypeid,
+								Model model) {
 		ArrayList<Local> list = pService.getLocalList();
 		
 		ArrayList<Local> topList = pService.getTopList();
@@ -47,6 +49,7 @@ public class PlaceController {
 			model.addAttribute("list", list);
 			model.addAttribute("page", page);
 			model.addAttribute("areaCode", areacode);
+			model.addAttribute("contentTypeId", contenttypeid);
 			return "recommendPlace";
 		}else {
 			throw new PlaceException("추천장소 이동 중 에러 발생");
@@ -62,18 +65,16 @@ public class PlaceController {
 							  @RequestParam(value="title", required=false) String title,
 							  Model model) {
 		String name = null;
-		if(title != null ) {
-			try {
+		try {
+			if(title != null ) {
 				name = URLDecoder.decode(title,"UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				name = name.split("\\(|\\[|\\{")[0];
 			}
-			name = name.split("\\(|\\[|\\{")[0];
-			
-			
-		}
 		
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Place ckPla = new Place();
 		ckPla.setPlaceNo(contentid);
 		ckPla.setLocalNo(areacode);

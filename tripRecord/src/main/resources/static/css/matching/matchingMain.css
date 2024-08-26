@@ -1,5 +1,5 @@
-.lsr {
-	font-size: 11px;
+.page-link:hover {
+	cursor: pointer;
 }
 
 #mainContainer {

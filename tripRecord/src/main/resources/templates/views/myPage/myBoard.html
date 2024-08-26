@@ -126,7 +126,6 @@ td {
 								<th>글번호</th>
 								<th>말머리</th>
 								<th>제목</th>
-								<th>작성자</th>
 								<th>작성일자</th>
 							</tr>
 						</thead>
@@ -137,7 +136,6 @@ td {
 									<td><input type="hidden" th:value="${a.generalType}">
 										[[${a.generalType}=='GIVE' ? '양도' : (${a.generalType}=='REVIEW' ? '후기': '동행')]]</td>
 									<td>[[${a.boardTitle}]]</td>
-									<td>[[${a.memberName}]]</td>
 									<td>[[${a.boardModifyDate}]]</td>
 								</tr>
 							</th:block>
@@ -345,7 +343,7 @@ td {
 						const contenttypeid = this.parentElement.children[1].children[1].value;
 						const areacode = this.parentElement.children[1].children[2].value;
 						const reviewNo = this.parentElement.children[1].children[3].value;
-						location.href = 'placeReviewDetail.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode + "&reviewNo=" + reviewNo + "&myPage=myPage" +"&page=" + /*[[${pi.currentPage}]]*/  ;
+						location.href = 'placeDetail.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode + "&reviewNo=" + reviewNo + "&myPage=myPage" +"&page=" + /*[[${pi.currentPage}]]*/  ;
 					}else if(this.parentElement.children[0].children[0].value == 'board'){
 						const parent = td.parentElement;
 						const boardNo = parent.children[0].innerText;

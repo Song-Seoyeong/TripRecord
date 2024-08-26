@@ -102,21 +102,21 @@
 	<!-- 회원 탈퇴 -->
 	<update id="deleteMember">
 		update MEMBER
-		set STATUS = 'N'
+		set STATUS = 'N', GRADE = 'GENERAL'
 		where MEMBER_NO =
 		#{memberNo}
 	</update>
 	<!-- 회원 탈퇴 시 게시글 삭제 -->
 	<update id="deleteBoard">
 		update BOARD
-		set BOARD_STATUS = 'N'
+		set BOARD_STATUS = 'Y'
 		where
 		BOARD_WRITER_NO = #{memberNo}
 	</update>
 	<!-- 회원 탈퇴 시 댓글삭제 -->
 	<update id="deleteReply">
 		update REPLY
-		set REPLY_STATUS = 'N'
+		set REPLY_STATUS = 'Y'
 		where
 		REPLY_WRITER_NO = #{memberNo}
 	</update>
@@ -124,7 +124,7 @@
 	<!-- 회원 탈퇴 시 일정삭제 -->
 	<update id="deleteSchedule">
 		update SCHEDULE
-		set SC_DEL_STATUS = 'N'
+		set SC_DEL_STATUS = 'Y'
 		where
 		SC_WRITER_NO = #{memberNo}
 	</update>
@@ -236,7 +236,7 @@
 		join BOARD on(QUESTION_NO = BOARD_NO)
 		join MEMBER
 		on(BOARD_WRITER_NO = MEMBER_NO)
-		where BOARD_WRITER_NO = #{memberNo}
+		where BOARD_WRITER_NO = #{memberNo} and BOARD_STATUS='N'
 		<if test="i != 0">
 			and QUESTION_NO = #{i}
 		</if>
@@ -309,7 +309,7 @@
 		JOIN MEMBER m ON r.REV_REF_NO = m.MEMBER_NO
 		JOIN
 		PLANNER p ON r.REV_REF_NO = p.MEMBER_NO
-		WHERE r.MEMBER_NO = 8 AND
+		WHERE r.MEMBER_NO = #{memberNo} AND
 		r.REVIEW_STATUS = 'Y' AND r.REV_REF_TYPE = 'PLANNER'
 	</select>
 
@@ -321,7 +321,7 @@
 		JOIN MEMBER m ON r.REV_REF_NO = m.MEMBER_NO
 		JOIN PLANNER p ON
 		r.REV_REF_NO = p.MEMBER_NO
-		WHERE r.MEMBER_NO = 8 AND r.REVIEW_STATUS =
+		WHERE r.MEMBER_NO = #{memberNo} AND r.REVIEW_STATUS =
 		'Y' AND r.REV_REF_TYPE = 'PLANNER'
 	</select>
 
@@ -718,5 +718,11 @@
 		values(pl_no_func, #{scNo}, #{place},
 		#{time}, #{memo, jdbcType=VARCHAR}, 'N', #{day})
 	</insert>
-
+	
+	<!-- 추가 사항: 회원 탈퇴 시 플래너 삭제  -->
+	<delete id="deletePlanner">
+		delete 
+		from PLANNER
+		where MEMBER_NO = #{memberNo}
+	</delete>
 </mapper>
