@@ -100,12 +100,12 @@
 		<div style="padding:30px; border-bottom:5px solid #96caf0; display:flex; align-items:center;">
 			<div class="col-2">[[${b.boardModifyDate}]]</div>
 			<div class="col-2">조회수 : [[${b.boardCount}]]</div>
-			<div class="col-6"></div>
+			<div class="col-5"></div>
 			<div class="profileImg" id="prof">
 				<img th:if="${writerProfile == null}" src="image/noProfile.png">
 				<img th:if="${writerProfile != null}" th:src="|https://drive.google.com/thumbnail?id=${writerProfile.imageRename}&sz=w1000|">
 			</div>
-			<div class="col-1" th:text="${b.nickname}"></div>
+			<div class="col-2" th:text="${b.nickname}"></div>
 			<div class="dropend" th:if='${session.loginUser != null && session.loginUser.memberNo == b.boardWriterNo}'>
 				<a role="button" data-bs-toggle="dropdown" aria-expanded="false" id='drop'>
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -645,9 +645,11 @@
 			}
 			
 			const reviewBtn = document.getElementById("goReview");
-			reviewBtn.addEventListener('click',()=>{
-				location.href="commuWrite.bo";
-			});
+			if(reviewBtn != null){
+				reviewBtn.addEventListener('click',()=>{
+					location.href="commuWrite.bo";
+				});
+			}
 			
 			
 			

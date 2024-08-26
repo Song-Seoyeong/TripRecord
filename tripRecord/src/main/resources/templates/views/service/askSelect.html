@@ -417,9 +417,11 @@
 			
 			
 			const reviewBtn = document.getElementById("goReview");
-			reviewBtn.addEventListener('click',()=>{
-				location.href="askWrite.no";
-			});
+			if(reviewBtn != null){
+				reviewBtn.addEventListener('click',()=>{
+					location.href="askWrite.no";
+				});
+			}
 			
 			
 			

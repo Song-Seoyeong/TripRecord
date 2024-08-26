@@ -7,9 +7,7 @@
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <style>
-
-
-
+tr>td{cursor:pointer;}
 </style>
 </head>
 <body id="commuBody">
@@ -352,9 +350,11 @@
 			}
 			
 			const reviewBtn = document.getElementById("goReview");
-			reviewBtn.addEventListener('click',()=>{
-				location.href="commuWrite.bo";
-			});
+			if(reviewBtn != null){
+				reviewBtn.addEventListener('click',()=>{
+					location.href="commuWrite.bo";
+				});
+			}
 			
 		}
 		/*]]>*/
