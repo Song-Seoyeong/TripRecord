@@ -9,9 +9,6 @@
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <style>
 
-
-
-
 </style>
 </head>
 <body id="commuBody">
@@ -75,10 +72,10 @@
 <!-- 사이드 바 -->
 
 	<div id="commu-select" class="row">
-		<div class="col-3"><div>전체</div></div>
-		<div class="col-3"><div>동행</div></div>
-		<div class="col-3"><div>양도</div></div>
-		<div class="col-3"><div>후기</div></div>
+		<div class="col-3 commu"><div>전체</div></div>
+		<div class="col-3 commu"><div>동행</div></div>
+		<div class="col-3 commu"><div>양도</div></div>
+		<div class="col-3 commu"><div>후기</div></div>
 		
 		<div style="display:flex; justify-content:right;">
 	       	<div class='review-text' id='reviewDiv' th:if="${ session.loginUser != null}">
@@ -98,14 +95,16 @@
 			<b style="font-size:40px;">[[${b.boardTitle}]]</b>
 		</div>
 		<div style="padding:30px; border-bottom:5px solid #96caf0; display:flex; align-items:center;">
-			<div class="col-2">[[${b.boardModifyDate}]]</div>
+			<div class="col-3">작성일자 : [[${b.boardModifyDate}]]</div>
 			<div class="col-2">조회수 : [[${b.boardCount}]]</div>
-			<div class="col-5"></div>
-			<div class="profileImg" id="prof">
-				<img th:if="${writerProfile == null}" src="image/noProfile.png">
-				<img th:if="${writerProfile != null}" th:src="|https://drive.google.com/thumbnail?id=${writerProfile.imageRename}&sz=w1000|">
+			<div class="col-4"></div>
+			<div class="col-3" style="display:flex;align-items:center;">
+				<div class="profileImg" id="prof">
+					<img th:if="${writerProfile == null}" src="image/noProfile.png">
+					<img th:if="${writerProfile != null}" th:src="|https://drive.google.com/thumbnail?id=${writerProfile.imageRename}&sz=w1000|">
+				</div>
+				[[${b.nickname}]]
 			</div>
-			<div class="col-2" th:text="${b.nickname}"></div>
 			<div class="dropend" th:if='${session.loginUser != null && session.loginUser.memberNo == b.boardWriterNo}'>
 				<a role="button" data-bs-toggle="dropdown" aria-expanded="false" id='drop'>
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -254,14 +253,14 @@
 	<!-- 댓글 -->
 	
 	<div class="container py-4">
-		<div class="bd-example-snippet bd-code-snippet">
-			<div class="bd-example" style="border:none;">
-				<table class="table">
+		<div>
+			<div style="border:none;">
+				<table class="table" style="vertical-align:middle;">
 					<thead>
-						<tr>
-							<th></th>
+						<tr style="text-align:center;">
+							<th width="1px;"></th>
+							<th width="150px">작성자</th>
 							<th width="680px">댓글 내용</th>
-							<th width="130px">작성자</th>
 							<th width="130px">작성일자</th>
 							<th width="25px" style="border:none;width:20px;"></th>
 							<th width="25px" style="border:none;width:20px;"></th>
@@ -270,10 +269,19 @@
 	         		<tbody id="text-test">
 	         		<!-- 이거 반복 -->
 	          			<tr th:each=" r : ${rList}">
-	            			<td><input type="hidden" th:value="${r.replyNo}"></td>
+	            			<td>
+	            				<input type="hidden" th:value="${r.replyNo}">
+	            			</td>
+	            			<td style="display:flex; align-items:center;">
+	            				<th:block th:each=" p : ${profImgs}">
+		            				<div class="profileImg" th:if="${r.replyWriterNo == p.imageRefNo}">
+		            					<img th:src='|https://drive.google.com/thumbnail?id=${p.imageRename}&sz=w1000|'/>
+		            				</div>
+	            				</th:block>
+	            				[[${r.nickname}]]
+	            			</td>
 	            			<td th:text="${r.replyContent}"></td>
-	            			<td th:text="${r.nickname}"></td>
-	            			<td th:text="${r.replyModifyDate}"></td>
+	            			<td th:text="${r.replyModifyDate}" style="text-align:center;"></td>
 	            			<td style="border:none; width:20px;">
 		            			<th:block th:if="${session.loginUser == null || r.replyWriterNo != session.loginUser.memberNo}"></th:block>
 		            			<th:block th:if="${session.loginUser != null && r.replyWriterNo == session.loginUser.memberNo}">
@@ -296,7 +304,7 @@
 	        	</table>
 	       	</div>
 		</div>
-		
+		<br>
 		<div id='reviewContent'>
 			<h3>댓글 작성</h3>
 			<br>
@@ -331,9 +339,7 @@
 	
 	<script th:inline="javascript">
 		/*<![CDATA[*/
-//		window.onload=()=>{
 			
-			//console.log(document.querySelector('.profileImg'));	
 	
 			const sideMenus = document.getElementsByClassName('offcanvas-body')[0].children;
 			const localNameValue = document.getElementById("localName");
@@ -370,17 +376,37 @@
 			}
 			
 			const comSelDiv = document.getElementById("commu-select");
-			const categories = document.getElementsByClassName("col-3");
+			const categories = document.getElementsByClassName("commu");
 			
 			// 검색 아래에 카테고리 클릭 시 이동, 모양 변화 (동행, 양도, 후기)
 			for(const cate of categories){
 				cate.addEventListener('mouseover', function(){
 					cate.children[0].style.borderRadius = '9999px';
 					cate.children[0].style.backgroundColor = '#96caf0';
+					if(generalType == "WITH"){
+						categories[1].children[0].style.borderRadius = '9999px';
+						categories[1].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "GIVE"){
+						categories[2].children[0].style.borderRadius = '9999px';
+						categories[2].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "REVIEW"){
+						categories[3].children[0].style.borderRadius = '9999px';
+						categories[3].children[0].style.backgroundColor = '#96caf0';
+					}
 				});
 				cate.addEventListener('mouseout', function(){
 					cate.children[0].style.borderRadius = '0';
 					cate.children[0].style.backgroundColor = 'white';
+					if(generalType == "WITH"){
+						categories[1].children[0].style.borderRadius = '9999px';
+						categories[1].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "GIVE"){
+						categories[2].children[0].style.borderRadius = '9999px';
+						categories[2].children[0].style.backgroundColor = '#96caf0';
+					} else if(generalType == "REVIEW"){
+						categories[3].children[0].style.borderRadius = '9999px';
+						categories[3].children[0].style.backgroundColor = '#96caf0';
+					}
 				});
 				cate.addEventListener('click', function(){
 					if(this.innerText == "동행") {
@@ -549,10 +575,12 @@
 			
 				const myTd = targetSVG.parentElement.parentElement;
 				const replyNo = myTd.parentElement.children[0].children[0].value;
-				const contentTd = myTd.parentElement.children[1];
+				const contentTd = myTd.parentElement.children[2];
 				if(targetSVG  != null){
 					if(targetSVG.className.baseVal.includes('pencil')){ // 펜슬 아이콘 클릭했을 때
 						if(document.getElementsByClassName('bi-check-lg').length > 0){
+// 							let beforeText = targetSVG.parentElement.parentElement.parentElement.children[2].innerText;
+// 							console.log("bi-check");
 							changePencilTrash();
 						}
 						
@@ -587,7 +615,7 @@
 									alert('댓글 수정 중 오류가 발생했습니다.');
 								}
 							},
-							error: data => console.log(data)
+							error: data => alert("댓글 수정 중 오류가 발생했습니다.");
 						});
 					} else if(targetSVG.className.baseVal.includes('x')){
 						changePencilTrash();
@@ -599,7 +627,6 @@
 			
 			// 이미지 모달 변경
 			const images = document.getElementsByClassName("image-container"); // div class="image-container"
-//			console.log(images.length);
 			const gallery = document.getElementById("image-gallery");
 			const modal = new bootstrap.Modal(document.getElementById('imageModal'));
 			const carouselIndicators = document.querySelector('.carousel-indicators');
@@ -651,27 +678,43 @@
 				});
 			}
 			
+			//프로필 이미지 없을 때 작동
+			const trs = tbody.children;
+			for(const trImg of trs){
+				if(trImg.children[1].children[0] == null){
+					const imgDiv = document.createElement('div');
+					imgDiv.classList.add('profileImg');
+					
+					let nickname = trImg.children[1].innerText;
+					trImg.children[1].innerText = '';
+					const img = document.createElement('img');
+					img.src = 'image/noProfile.png';
+					imgDiv.append(img);
+					
+					trImg.children[1].append(imgDiv);
+					trImg.children[1].append(nickname);
+				}
+			}
+
 			
-			
-			
-//		}
-		// window.onload 밖
 		
 		
 		const changePencilTrash = (type) => {
+// 			console.log(typeof type);
 			const beforeCheck = document.getElementsByClassName('bi-check-lg')[0];// 이전에 있던 check icon
 			const beforeCheckSpan = beforeCheck.parentElement; // 이전에 있던 check icon을 감싸는 span
 			const beforeXSpan = beforeCheckSpan.parentElement.nextElementSibling.children[0]; // 이전에 있던 check icon을 감싸는 span의 다음 span(x의 span)
 			const beforeTd = beforeCheckSpan.parentElement;// check 를 감싸고 있던 td 
 			const beforeId = beforeTd.parentElement.children[0].innerText; // 이전에 클릭했던 댓글 번호
-			const beforeContent = beforeTd.parentElement.children[1].children[0].value;//.value; // 이전에 클릭했던 댓글 내용
-			const beforeContentTd = beforeTd.parentElement.children[1]; // 컨텐츠가 들어가있는 td
+			const beforeContent = beforeTd.parentElement.children[2].children[0].value;//.value; // 이전에 클릭했던 댓글 내용
+			const beforeContentTd = beforeTd.parentElement.children[2]; // 컨텐츠가 들어가있는 td
 			
+// 			console.log(beforeContent);
 			
 			beforeCheckSpan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>';
 			beforeXSpan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg>';
 			
-			if(type == undefined)	{
+			if(type === undefined)	{
 				beforeContentTd.innerHTML = beforeContent;
 			} else { 
 				beforeContentTd.innerHTML = type;

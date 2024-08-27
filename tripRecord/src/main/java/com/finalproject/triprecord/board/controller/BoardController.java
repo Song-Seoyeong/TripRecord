@@ -59,12 +59,13 @@ public class BoardController {
 		ArrayList<Board> cList = bService.getBoardList(cs, pi); // 메소드 안에 해당 타입 넣으면 그거 가져옴
 		// GENERAL, QUESTION, NOTICE -> 일반, 문의, 공지
 		// GENERAL -> 동행 WITH, 양도 GIVE, 후기 REVIEW
-		
+		ArrayList<Image> profImgs = bService.getProfileImageList();
 		
 		if(!cList.isEmpty()) {
 			model.addAttribute("cList", cList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("listCount", listCount);
+			model.addAttribute("profImgs", profImgs);
 			model.addAttribute("generalType","ALL");
 			model.addAttribute("boardType","GENERAL");
 		} else {
@@ -101,7 +102,7 @@ public class BoardController {
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount, 10);
 		ArrayList<Board> cList = bService.getCategorySelectBoardList(cs, pi);
-		
+		ArrayList<Image> profImgs = bService.getProfileImageList();
 
 		
 		model.addAttribute("cList", cList);
@@ -110,6 +111,7 @@ public class BoardController {
 		model.addAttribute("searchWord", cs.getSearchWord());
 		model.addAttribute("generalType", cs.getGeneralType());
 		model.addAttribute("localName", cs.getLocalName());
+		model.addAttribute("profImgs", profImgs);
 		return "commuList";
 	}
 	
@@ -148,6 +150,7 @@ public class BoardController {
 	      Board board = bService.selectBoard(boardNo, id);
 	      ArrayList<Image> iList = bService.selectImage(boardNo); // 무조건 BOARD 니까 boardNo 만 보내면 가능
 	      Image writerProfile = bService.selectProfileImage(board.getBoardWriterNo()); // 회원번호를 보내서 그 ref_type = 'MEMBER' && ref_no = 회원번호
+	      ArrayList<Image> profImgs = bService.getProfileImageList();
 	      Image replyProfile = bService.selectProfileImage(id); // 로그인 x -> null, 로그인 ㅇ -> 사진 있을때 image, 없을때 null
 	      ArrayList<Reply> rList = bService.selectReply(boardNo);
 	      
@@ -157,6 +160,7 @@ public class BoardController {
 	      model.addAttribute("rList", rList);
 	      model.addAttribute("generalType", generalType);
 	      model.addAttribute("writerProfile", writerProfile);
+	      model.addAttribute("profImgs", profImgs);
 	      model.addAttribute("replyProfile", replyProfile);
 	      model.addAttribute("iList", iList);
 	      model.addAttribute("myPage",myPage);
