@@ -8,6 +8,30 @@
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <style>
 tr>td{cursor:pointer;}
+#profile {
+	display: flex;
+	align-items: center;
+	text-align: end;
+}
+
+.profileImg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.profileImg {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid #2F6598;
+	border-radius: 50%;
+	height: 40px;
+	width: 40px;
+	overflow: hidden;
+	margin-right: 10px;
+	flex: 0 0 auto;
+}
 </style>
 </head>
 <body id="commuBody">
@@ -131,7 +155,14 @@ tr>td{cursor:pointer;}
 	            			<td th:if="${b.generalType == 'GIVE'}">양도</td>
 	            			<td th:if="${b.generalType == 'REVIEW'}">후기</td>
 	            			<td>[[${ b.boardTitle }]]</td>
-	            			<td>[[${ b.nickname }]]</td>
+	            			<td style="display:flex; align-items:center;">
+	            				<th:block th:each=" p : ${profImgs}">
+		            				<div class="profileImg" th:if="${b.boardWriterNo == p.imageRefNo}">
+		            					<img th:src='|https://drive.google.com/thumbnail?id=${p.imageRename}&sz=w1000|'/>
+		            				</div>
+	            				</th:block>
+	            				[[${b.nickname}]]
+	            			</td>
 	            			<td>[[${ b.boardModifyDate }]]</td>
 	            			<td>[[${ b.boardCount }]]</td>
 	          			</tr>
@@ -355,6 +386,28 @@ tr>td{cursor:pointer;}
 					location.href="commuWrite.bo";
 				});
 			}
+			
+			
+			//작성자 옆 프로필 이미지
+			const tbody = document.querySelector('tbody');
+			console.log(tbody);
+			const trs = tbody.children;
+			for(const trImg of trs){
+				if(trImg.children[3].children[0] == null){
+					const imgDiv = document.createElement('div');
+					imgDiv.classList.add('profileImg');
+					
+					let nickname = trImg.children[3].innerText;
+					trImg.children[3].innerText = '';
+					const img = document.createElement('img');
+					img.src = 'image/noProfile.png';
+					imgDiv.append(img);
+					
+					trImg.children[3].append(imgDiv);
+					trImg.children[3].append(nickname);
+				}
+			}
+			
 			
 		}
 		/*]]>*/

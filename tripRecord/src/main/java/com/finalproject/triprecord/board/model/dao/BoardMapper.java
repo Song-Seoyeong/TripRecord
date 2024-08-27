@@ -82,8 +82,10 @@ public interface BoardMapper {
 	void firstBoardPoint(int memberNo);
 
 	
-	//plus
 	ArrayList<GeneralBoard> getGeneralAsk();
 
 	int updateGeneralAsk(Board b);
+
+	//plus
+	ArrayList<Image> getProfileImageList();
 }
