@@ -1143,6 +1143,7 @@ public class MyPageController {
 				if (introImgValue.equals("selected")) {
 					exist = mService.existPlannerFileId(memberNo);
 					existFileId = exist.getImageRename();
+					System.out.println(existFileId);
 					gdService.deleteFile(existFileId);
 					mService.deletePlannerProfile(memberNo);
 					

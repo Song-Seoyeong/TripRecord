@@ -234,12 +234,15 @@ select:focus {
 	</div>
 
 
-	
+<!-- 	<div th:replace="~{common/loginLog :: loginLog}"></div> -->
 	
 	
 	
 	<script th:inline="javascript">
+		/*<![CDATA[*/
+		let loginUser = /*[[${session.loginUser}]]*/'null';
 		let msg = /*[[${session.notification}]]*/ 'null';
+		/*]]>*/
 		if(msg !== 'null' && msg !== null && msg !== ''){
 			
 			sessionStorage.setItem("noti", msg);
@@ -268,6 +271,21 @@ select:focus {
 			}
 		});
 		
+		const loginUrl = document.referrer;
+		if(loginUrl.split('/')[3] == 'loginView.me'){
+			$.ajax({
+				type: 'POST',
+				url: 'loginLogPrint.me',
+				data: {
+					loginUser: loginUser.memberId
+				},
+				success: data => {
+					console.log('yes');
+				},
+				error: data => console.log('error')
+				
+			});
+		}
 	</script>
 	
 </body>

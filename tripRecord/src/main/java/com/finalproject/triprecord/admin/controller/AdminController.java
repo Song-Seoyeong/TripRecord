@@ -602,14 +602,14 @@ public class AdminController {
 			try {
 				for (Image i : list) {
 					if (i.getImageRefNo() == localNo) {
-						gdService.deleteFile(i.getImageRename());
-
 						i.setImageRefType("LOCAL");
 						aService.deleteImg(i);
+
+						gdService.deleteFile(i.getImageRename());
 					}
 				}
 			} catch (IOException e) {
-
+				System.out.println("사진 지워지지 않음");
 			}
 		}
 
@@ -650,10 +650,10 @@ public class AdminController {
 		if (i != null) {
 			try {
 				if (i.getImageRefNo() == planNo) {
-					gdService.deleteFile(i.getImageRename());
-
 					i.setImageRefType("PLAN");
 					aService.deleteImg(i);
+
+					gdService.deleteFile(i.getImageRename());
 				}
 			} catch (IOException e) {
 
