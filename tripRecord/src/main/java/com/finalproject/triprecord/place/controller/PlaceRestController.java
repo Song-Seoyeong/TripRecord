@@ -3,15 +3,11 @@ package com.finalproject.triprecord.place.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,16 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finalproject.triprecord.common.Pagination;
-import com.finalproject.triprecord.common.model.vo.Image;
 import com.finalproject.triprecord.common.model.vo.PageInfo;
-import com.finalproject.triprecord.place.model.service.PlaceService;
-import com.finalproject.triprecord.place.model.vo.Place;
 
 @RestController
 public class PlaceRestController {
-	
-	@Autowired
-	private PlaceService pService;
 	
 	public static final String SERVICEKEY = "BLrXOBbtbM7aAzBv8Cw6JpcKbQICvl4WGca4%2F4EXvcBWkVtqqtW4UgPuJgEBE4BkaIQcO0OjCqWmVo5gO8KGVQ%3D%3D";
 	
@@ -54,25 +44,20 @@ public class PlaceRestController {
 		parameter += "&_type=json";
 		
 		String operation = "";
-		//System.out.println(keyword);
 		
-		if(keyword == null || keyword.isEmpty()){
-			operation = "areaBasedList1";
-		}else {
-			operation = "searchKeyword1";
-			try {
-				parameter += "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		String adrr = basicUrl + operation + parameter;
-		//System.out.println(adrr);
-		StringBuffer sb = new StringBuffer();
-		
+		Map<String, Object> jsonMap = null;
 		try {
+			if(keyword == null || keyword.isEmpty()){
+				operation = "areaBasedList1";
+			}else {
+				operation = "searchKeyword1";
+					parameter += "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+			}
+			
+			String adrr = basicUrl + operation + parameter;
+			StringBuffer sb = new StringBuffer();
+		
+		
 			URL url = new URL(adrr); // 생성한 주소를 url에 담아 URL 객체 생성
 			
 			HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
@@ -87,22 +72,16 @@ public class PlaceRestController {
 			}
 			
 			urlConnection.disconnect();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		// JSON 문자열을 Map으로 변환
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> jsonMap = null;
-        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
-        try {
+			// JSON 문자열을 Map으로 변환
+	        ObjectMapper mapper = new ObjectMapper();
+	        
+	        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
             jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        System.out.println(jsonMap);
-//       System.out.println(jsonMap.get("response"));
         Map<String, Object> responseMap = (Map<String, Object>) jsonMap.get("response");
         Map<String, Object> bodyMap = (Map<String, Object>) responseMap.get("body");
         int totalCount = (Integer) bodyMap.get("totalCount");
