@@ -83,7 +83,7 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("updateReqStatus.mp")
+	@GetMapping("updateReqStatus.home")
 	@ResponseBody
 	public String updateReqStatus() {
 		ArrayList<ReqSchedule> rList = mService.getReqTotalList();
