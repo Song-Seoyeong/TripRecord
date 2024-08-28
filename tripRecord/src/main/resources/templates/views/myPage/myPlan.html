@@ -1,170 +1,180 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
-<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
+<link rel="icon" href="image/icon_case.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon" />
 <meta charset="UTF-8">
 <!-- <link type="text/css" href='css/myPage/myPlan.css' rel="stylesheet"> -->
 <title>여행 플랜 신청 리스트</title>
 <style>
-	table {
-	width: 80%;
+th {
+	font-size: 24px;
+}
+
+td {
+	padding: 15px;
+}
+
+.flex-container {
 	text-align: center;
-	margin-left:auto; 
-	margin-right:auto; 
-	margin-top:30px;
-	}
-	th {
-		font-size: 24px;
-	}
-	
-	td {
-		padding: 15px;
-	}
-	.flex-container {
-		text-align: center;
-		margin-left:auto;
-	}
-	.marginDiv1{
-		margin-bottom: 700px;
-	}
-	.marginDiv2{
-		margin-bottom: 900px;
-	}
-	#contentsDiv {
-		width: 100%;
-		max-width: 1400px;
-		/* position: absolute;
+	margin-left: auto;
+}
+
+.marginDiv1 {
+	margin-bottom: 700px;
+}
+
+.marginDiv2 {
+	margin-bottom: 900px;
+}
+
+#contentsDiv {
+	width: 100%;
+	max-width: 1400px;
+	/* position: absolute;
 		left: 50%;
 		top: -50px;	
 		transform: translateX(-52%); */
-	}
-	
-	#divTitle {
-		color: black;
-		font-size: 36px;
-		font-weight: 900;
-	}
-	
-	#tableDiv {
-		display: inline-block;
-		width: 1000px;
-		max-height: 800px;
-		min-height: 300px;
-	}
-	
-	#thTr {
-		border-bottom: 2px solid #96CAF0;
-	}
-	
-	.tbodyTr {
-		border-bottom: 2px solid #b9b9b9;
-	}
+}
 
+#divTitle {
+	color: black;
+	font-size: 36px;
+	font-weight: 900;
+}
+
+#tableDiv {
+	display: inline-block;
+	width: 80%;
+	max-height: 1200px;
+	min-height: 300px;
+	margin: 30px auto;
+	text-align: center;
+}
+table{
+	margin-left :auto;
+	margin-right: auto;
+}
+
+#thTr {
+	border-bottom: 2px solid #96CAF0;
+}
+
+.tbodyTr {
+	border-bottom: 2px solid #b9b9b9;
+}
 </style>
 </head>
 <body>
 	<!-- 헤더 -->
 	<div th:replace="~{common/logoBar :: logoBar }"></div>
 	<div th:replace="~{common/mainCategoryBar :: mainCategoryBar}"></div>
-	
+
 	<!--마이페이지 어퍼바-->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
 	<!-- 사이드바 -->
-	<div style="height:120px;">
-      <div id="sidebar">
-         <div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div>
-      </div>   
-   </div> 
-	
-	<div class="flex-container" >
+	<div style="height: 120px;">
+		<div id="sidebar">
+			<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div>
+		</div>
+	</div>
+
+	<div class="flex-container">
 		<!-- 내용 -->
 		<div id='contentsDiv' style="display: inline-block;">
-			<span class="secondSidebar"><a class="nav-link" href="myPlan.mp">플래너일정요청리스트</a>	</span>
-			<span class="secondSidebar"><a class="nav-link" href="myTripNote.mp">내 여행 노트</a></span>
-			
+			<span class="secondSidebar"><a class="nav-link"
+				href="myPlan.mp">여행 플랜 신청 리스트</a></span> <span class="secondSidebar"><a
+				class="nav-link" href="myTripNote.mp">내 여행 노트</a></span>
+
 			<div id='divTitle'>여행 플랜 신청 리스트</div>
 			<div style="height: 40px;"></div>
 			<div id='tableDiv'>
 				<table>
 					<thead>
-					 	<tr id='thTr'>
+						<tr id='thTr'>
 							<th width='10%'>여행지</th>
 							<th width='23%'>여행 기간</th>
 							<th width='17%'>담당 플래너</th>
-							<th width='15%'>
-								<select class="form-select" aria-label="Sort by" name='status' id='statusSearch'>
-					                <option th:selected="${statusSearch == 0}" value="0">진행 상태</option>
-					                <option th:selected="${statusSearch == 1}" value="1">신청</option>
-					                <option th:selected="${statusSearch == 2}" value="2">일정도착</option>
-					                <option th:selected="${statusSearch == 3}" value="3">구매확정</option>
-					                <option th:selected="${statusSearch == 4}" value="4">신청취소</option>
-				           	 	</select>
-							</th>
+							<th width='15%'><select class="form-select"
+								aria-label="Sort by" name='status' id='statusSearch'>
+									<option th:selected="${statusSearch == 0}" value="0">진행
+										상태</option>
+									<option th:selected="${statusSearch == 1}" value="1">신청</option>
+									<option th:selected="${statusSearch == 2}" value="2">일정도착</option>
+									<option th:selected="${statusSearch == 3}" value="3">구매확정</option>
+									<option th:selected="${statusSearch == 4}" value="4">신청취소</option>
+							</select></th>
 							<th width='15%'>결제 포인트</th>
 							<th width='15%'>구매/환불일</th>
 						</tr>
 					</thead>
 					<tbody>
-						
+
 						<tr class='tbodyTr' th:if='${list != null}' th:each='l : ${list}'>
-					        <td class="place">
-					            <input type='hidden' th:value='${l.reqNo}' name='reqNo'>
-					            <input type='hidden' th:value='${l.reqStatus}' name='reqStatus'>
-					            [[${l.localName}]]
-					        </td>
-					        <td class="date">[[${l.startDay}]] - [[${l.endDay}]]<br>([[${l.nightDay}]])</td>
-					        <td class="planner">[[${l.nickname}]]</td>
-					        <!-- 진행상태 -->
-					        <td th:if='${l.reqStatus == 1}'>일정 기다리는 중</td>
-					        <td th:if='${l.reqStatus == 2}' style='color: #96CAF0; font-weight: bold;'>일정 도착</td>
-					        <td th:if='${l.reqStatus == 3}' style='color: #2F6598; font-weight: bold;'>구매 확정</td>
-					        <td th:if='${l.reqStatus == 4}' style='color: red;'>신청 취소</td>
-					        <!-- 포인트 -->
-					        <td th:if='${l.reqStatus != 4}'>- [[${l.payPoint}]]</td>
-					        <td th:if='${l.reqStatus == 4}'>+ [[${l.payPoint}]]</td>
-					        <!-- 구매/환불 일자 -->
-					        <td th:if='${l.confirmDate == null}'>-</td>
-					        <td th:if='${l.confirmDate != null}'>[[${l.confirmDate}]]</td>
+							<td class="place"><input type='hidden' th:value='${l.reqNo}'
+								name='reqNo'> <input type='hidden'
+								th:value='${l.reqStatus}' name='reqStatus'>
+								[[${l.localName}]]</td>
+							<td class="date">[[${l.startDay}]] - [[${l.endDay}]]<br>([[${l.nightDay}]])
+							</td>
+							<td class="planner">[[${l.nickname}]]</td>
+							<!-- 진행상태 -->
+							<td th:if='${l.reqStatus == 1}'>일정 기다리는 중</td>
+							<td th:if='${l.reqStatus == 2}'
+								style='color: #96CAF0; font-weight: bold;'>일정 도착</td>
+							<td th:if='${l.reqStatus == 3}'
+								style='color: #2F6598; font-weight: bold;'>구매 확정</td>
+							<td th:if='${l.reqStatus == 4}' style='color: red;'>신청 취소</td>
+							<!-- 포인트 -->
+							<td th:if='${l.reqStatus != 4}'>- [[${l.payPoint}]]</td>
+							<td th:if='${l.reqStatus == 4}'>+ [[${l.payPoint}]]</td>
+							<!-- 구매/환불 일자 -->
+							<td th:if='${l.confirmDate == null}'>-</td>
+							<td th:if='${l.confirmDate != null}'>[[${l.confirmDate}]]</td>
 						</tr>
 
-						<tr style="border-bottom: 2px solid #b9b9b9" th:if='${pi.listCount == 0}'>
-							<td colspan="6">신청하신 리스트가 없어요 &#128549; </td>
+						<tr style="border-bottom: 2px solid #b9b9b9"
+							th:if='${pi.listCount == 0}'>
+							<td colspan="6">신청하신 리스트가 없어요 &#128549;</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			
+
 			<!-- 페이지네이션 -->
-			<nav class="d-flex justify-content-center" id='pagination'th:if='${pi.listCount != 0}'>
-	        	<ul class="pagination" th:with="loc=${ loc }">
-	        		 <!-- 이전 버튼 -->
-		            <li class="page-item">
-		            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage-1 })}" aria-label="Previous">
-		            		<span aria-hidden="true">&laquo;</span>
-		              	</a>
-		            </li>
-		            
-		             <!-- 페이지 넘버링 버튼  -->
-		            	
-					<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
-						<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
+			<nav class="d-flex justify-content-center" id='pagination'
+				th:if='${pi.listCount != 0}'>
+				<ul class="pagination" th:with="loc=${ loc }">
+					<!-- 이전 버튼 -->
+					<li class="page-item"><a class="page-link"
+						th:classappend="${pi.currentPage == 1} ? 'disabled'"
+						th:href="@{ ${loc}(page=${ pi.currentPage-1 })}"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+					</a></li>
+
+					<!-- 페이지 넘버링 버튼  -->
+
+					<li class="page-item"
+						th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
+						<a
+						th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''"
+						class="page-link" th:href="@{ ${loc}(page=${ p })}">[[${ p }]]</a>
 					</li>
-		           
-		             <!-- 다음 버튼  -->
-		            <li class="page-item">
-		            	<a class="page-link" th:classappend="${pi.maxPage == pi.endPage} ? 'disabled'" th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
-		            		<span aria-hidden="true">&raquo;</span>
-		            	</a>
-		            </li>
-		    	</ul>
-	        </nav>
+
+					<!-- 다음 버튼  -->
+					<li class="page-item"><a class="page-link"
+						th:classappend="${pi.maxPage == pi.endPage} ? 'disabled'"
+						th:href="@{ ${loc}(page=${ pi.currentPage+1 })}" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
 		</div>
 	</div>
-	
+
 	<!-- 푸터 -->
-	<div th:replace="~{common/footer :: footer}" ></div>
-	
+	<div th:replace="~{common/footer :: footer}"></div>
+
 	<script th:inline='javascript'>
 		/*<![CDATA[*/
 		//상세글 보기

@@ -176,7 +176,7 @@
 	
 	
 	<input type="hidden" th:value="${b.boardNo}" name="boardNo">
-	<div class="text-center">
+	<div class="text-center" style="padding-bottom:24px;">
 		<div class="col-5"></div>
 		<div class="col-1" style="margin:auto;">
 			<a href="community.bo" th:if="${myPage} != myPage">
@@ -272,7 +272,7 @@
 	            			<td>
 	            				<input type="hidden" th:value="${r.replyNo}">
 	            			</td>
-	            			<td style="display:flex; align-items:center; height:70px;">
+	            			<td style="display:flex; align-items:center; height:80px;">
 	            				<th:block th:each=" p : ${profImgs}">
 		            				<div class="profileImg" th:if="${r.replyWriterNo == p.imageRefNo}">
 		            					<img th:src='|https://drive.google.com/thumbnail?id=${p.imageRename}&sz=w1000|'/>
@@ -495,7 +495,7 @@
 							const writerTd = document.createElement('td');
 							writerTd.style.display = 'flex';
 							writerTd.style.alignItems = 'center';
-							writerTd.style.height = '70px';
+							writerTd.style.height = '80px';
 							let div = null;
 							for(const pImage of imgList){
 								if(pImage.imageRefNo == r.replyWriterNo){
@@ -569,7 +569,6 @@
 						eventTarget.querySelector('path').setAttribute('fill', 'rgb(000, 153, 204)');
 					}
 				}
-				
 			});
 			
 			tbody.addEventListener('mouseout', e => {
