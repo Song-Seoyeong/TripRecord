@@ -757,60 +757,58 @@ public class MyPageController {
 
 	//////////플래너 페이지 ////////// 
 	@GetMapping("plannerPage.mp")
-	public String moveToPlannerPage(HttpSession session, Model model, HttpServletRequest req,
-									@RequestParam(value = "page", defaultValue = "1") int currentReviewPage) {
-		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
-	
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("refType", "MEMBER");
-		map.put("refNo", memberNo);
-		// 플래너 정보
-		Planner planner = mService.getPlanner(memberNo);
-		Local local = mService.getLocalName(memberNo);
-		int likes = mService.countLikes(memberNo);
-		Image image = mService.getImgRename(map);
-	
-		if (image != null && image.getImageRename() != null) {
-			String existFileId = image.getImageRename();
-			model.addAttribute("rename", existFileId);
-		} else {
-			// 이미지가 없거나 리네임이 없는 경우 처리
-			model.addAttribute("noProfile", "noProfile");
-		}
-	
-		model.addAttribute("planner", planner);
-		model.addAttribute("local", local);
-		model.addAttribute("likes", likes);
-		// 플래너 소개
-	
-		// 플래너 후기 + 별점
-		Double avgStar = mService.averageStar(memberNo);
-		int reviewlistCount = mService.getReviewListCount(memberNo);
-		PageInfo pi = Pagination.getPageInfo(currentReviewPage, reviewlistCount, 5);
-		ArrayList<Review> list = mService.getReviewList(pi, memberNo);
-		model.addAttribute("pi", pi);
-		model.addAttribute("avgStar", avgStar);
-		model.addAttribute("rList", list);
-		// 플래너 해쉬태그 불러오기
-		ArrayList<HashTag> tagList = mService.getHashTag(memberNo);
-		model.addAttribute("tagList", tagList);
-	
-		// 플래너 소개 이미지 불러오기
-		Image exist = mService.existPlannerFileId(memberNo);
-		if (exist == null) {
-			model.addAttribute("plannerIntroImage", "noImg");
-		} else {
-			model.addAttribute("plannerIntroImage", exist.getImageRename());
-		}
-		
-		ArrayList<Image> rImgList = matService.selectrImgList();
-		model.addAttribute("rImgList", rImgList);
-		
-		Member loginUser = mService.getMember(memberNo);
-		model.addAttribute("loginUser", loginUser);
-		return "plannerPage";
-	
-	}
+   public String moveToPlannerPage(HttpSession session, Model model, HttpServletRequest req,
+                           @RequestParam(value = "page", defaultValue = "1") int currentReviewPage) {
+      int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
+   
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      map.put("refType", "MEMBER");
+      map.put("refNo", memberNo);
+      // 플래너 정보
+      Planner planner = mService.getPlanner(memberNo);
+      int likes = mService.countLikes(memberNo);
+      Image image = mService.getImgRename(map);
+   
+      if (image != null && image.getImageRename() != null) {
+         String existFileId = image.getImageRename();
+         model.addAttribute("rename", existFileId);
+      } else {
+         // 이미지가 없거나 리네임이 없는 경우 처리
+         model.addAttribute("noProfile", "noProfile");
+      }
+   
+      model.addAttribute("planner", planner);
+      model.addAttribute("likes", likes);
+      // 플래너 소개
+   
+      // 플래너 후기 + 별점
+      Double avgStar = mService.averageStar(memberNo);
+      int reviewlistCount = mService.getReviewListCount(memberNo);
+      PageInfo pi = Pagination.getPageInfo(currentReviewPage, reviewlistCount, 5);
+      ArrayList<Review> list = mService.getReviewList(pi, memberNo);
+      model.addAttribute("pi", pi);
+      model.addAttribute("avgStar", avgStar);
+      model.addAttribute("rList", list);
+      // 플래너 해쉬태그 불러오기
+      ArrayList<HashTag> tagList = mService.getHashTag(memberNo);
+      model.addAttribute("tagList", tagList);
+   
+      // 플래너 소개 이미지 불러오기
+      Image exist = mService.existPlannerFileId(memberNo);
+      if (exist == null) {
+         model.addAttribute("plannerIntroImage", "noImg");
+      } else {
+         model.addAttribute("plannerIntroImage", exist.getImageRename());
+      }
+      
+      ArrayList<Image> rImgList = matService.selectrImgList();
+      model.addAttribute("rImgList", rImgList);
+      
+      Member loginUser = mService.getMember(memberNo);
+      model.addAttribute("loginUser", loginUser);
+      return "plannerPage";
+   
+   }
 	
 	@PostMapping("cancelPlanner.mp")
 	@ResponseBody

@@ -251,6 +251,7 @@
 		select *
 		from PLANNER
 		join MEMBER using(MEMBER_NO)
+		join LOCAL using(local_no)
 		left
 		join image on image_ref_no = member_no and image_ref_type = 'MEMBER'
 		where MEMBER_NO = #{memberNo}
