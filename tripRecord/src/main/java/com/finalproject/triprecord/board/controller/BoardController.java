@@ -361,6 +361,8 @@ public class BoardController {
 		ArrayList<Question> qList = bService.getQuestionList(0); // 0 보내면 Question 전체리스트, 숫자 보내면 해당 번호 가져오기
 		ArrayList<GeneralBoard> gb = bService.getGeneralAsk();
 		
+		ArrayList<Image> profImgs = bService.getProfileImageList();
+		
 		for(GeneralBoard g : gb) {
 			for(Board bb : aList) {
 				if(bb.getBoardNo() == g.getGeneralNo()) {
@@ -376,6 +378,7 @@ public class BoardController {
 			model.addAttribute("pi",pi);
 			model.addAttribute("listCount", listCount);
 			model.addAttribute("qList", qList); // 문의(글번호, 비번, 답변, 답변YN)
+			model.addAttribute("profImgs", profImgs);
 			model.addAttribute("generalType","ALL");
 			//model.addAttribute("boardType","GENERAL");
 		} else {
@@ -414,6 +417,7 @@ public class BoardController {
 	      model.addAttribute("writerProfile", writerProfile);
 	      model.addAttribute("generalType", board.getGeneralType());
 	      model.addAttribute("iList", iList);
+	      
 	      model.addAttribute("myPage", myPage);
 	      return "askSelect";
 	      
@@ -447,6 +451,7 @@ public class BoardController {
 		ArrayList<Board> cList = bService.getCategorySelectQuestionList(cs, pi);
 		ArrayList<Question> qList = bService.getQuestionList(0);
 		ArrayList<GeneralBoard> gb = bService.getGeneralAsk();
+		ArrayList<Image> profImgs = bService.getProfileImageList();
 		
 		for(GeneralBoard g : gb) {
 			for(Board bb : cList) {
@@ -461,6 +466,7 @@ public class BoardController {
 		model.addAttribute("listCount", listCount);
 		model.addAttribute("qList", qList);
 		model.addAttribute("searchWord", cs.getSearchWord());
+		model.addAttribute("profImgs", profImgs);
 		model.addAttribute("generalType", cs.getGeneralType());
 		return "askList";
 	}

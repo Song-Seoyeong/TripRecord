@@ -260,4 +260,10 @@
 		where general_no = #{boardNo}
 	</update>
 	
+	<select id="getProfileImageList" resultType="Image">
+		select *
+		from Image
+		where image_ref_type = 'MEMBER'
+	</select>
+	
 </mapper>
