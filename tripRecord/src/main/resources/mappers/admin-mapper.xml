@@ -404,8 +404,9 @@
 
 	<select id="selectCalculatePageList" resultType="Calculate">
 		<![CDATA[
-		SELECT aggregated.planner_no, aggregated.cal_date, aggregated.EXPECTED_POINT, aggregated.EXPECTED_MONEY, member.member_name, planner.bank
+		SELECT aggregated.calculate_no, aggregated.planner_no, aggregated.cal_date, aggregated.EXPECTED_POINT, aggregated.EXPECTED_MONEY, member.member_name, planner.bank
 		FROM (SELECT
+                calculate.CALCULATE_NO,
 				calculate.planner_no,
 				to_char(calculate.cal_date, 'YYYY-MM-DD') AS cal_date,
 				SUM(calculate.expected_point) AS EXPECTED_POINT,
@@ -414,13 +415,15 @@
 				calculate
 				GROUP BY
 				calculate.planner_no,
-				to_char(calculate.cal_date, 'YYYY-MM-DD')
+				to_char(calculate.cal_date, 'YYYY-MM-DD'),
+                calculate.CALCULATE_NO
 				) aggregated
 		LEFT JOIN
 			member ON aggregated.planner_no = member.member_no
 		LEFT JOIN
 			planner ON aggregated.planner_no = planner.member_no
 		where aggregated.cal_date < sysdate
+        order by aggregated.calculate_no desc
 		]]>
 	</select>
 	

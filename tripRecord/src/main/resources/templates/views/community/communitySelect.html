@@ -272,7 +272,7 @@
 	            			<td>
 	            				<input type="hidden" th:value="${r.replyNo}">
 	            			</td>
-	            			<td style="display:flex; align-items:center;">
+	            			<td style="display:flex; align-items:center; height:70px;">
 	            				<th:block th:each=" p : ${profImgs}">
 		            				<div class="profileImg" th:if="${r.replyWriterNo == p.imageRefNo}">
 		            					<img th:src='|https://drive.google.com/thumbnail?id=${p.imageRename}&sz=w1000|'/>
@@ -471,7 +471,7 @@
 			});
 			
 			
-			
+			const imgList = /*[[${profImgs}]]*/1;
 			
 			// 댓글 작성 ajax
 			document.getElementById('insert').addEventListener('click',()=>{
@@ -492,11 +492,32 @@
 							input.type="hidden";
 							input.value=r.replyNo;
 							noTd.append(input);
+							const writerTd = document.createElement('td');
+							writerTd.style.display = 'flex';
+							writerTd.style.alignItems = 'center';
+							writerTd.style.height = '70px';
+							let div = null;
+							for(const pImage of imgList){
+								if(pImage.imageRefNo == r.replyWriterNo){
+									div = document.createElement('div');
+									div.classList.add('profileImg');
+									const imgTag = document.createElement('img');
+									imgTag.src = 'https://drive.google.com/thumbnail?id=' + pImage.imageRename + '&sz=w1000';
+									div.append(imgTag);
+								}
+							}
+							if(div == null){
+								writerTd.append(r.nickname);
+								writerTd.append(div);
+							} else{
+								writerTd.append(div);
+								writerTd.append(r.nickname);
+							}
+							
 							const contentTd = document.createElement('td');
 							contentTd.innerText = r.replyContent;
-							const writerTd = document.createElement('td');
-							writerTd.innerText = r.nickname;
 							const dateTd = document.createElement('td');
+							dateTd.style.textAlign = 'center';
 							dateTd.innerText = r.replyModifyDate;
 							
 							const iconTd = document.createElement('td');
@@ -506,21 +527,23 @@
 							iconTd2.style.border = 'none';
 							iconTd2.style.width = '20px';
 							if(r.replyWriterNo == /*[[${session.loginUser == null ? '' : session.loginUser.memberNo}]]*/1){
-								iconTd.innerHTML = '<span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg></span> &nbsp; ';
+								iconTd.innerHTML = '<span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg></span>';
 								iconTd2.innerHTML = '<span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg></span><input type="hidden" value="' + r.replyContent + '" id="replyContent"/>';
 							}
 							
 							tr.append(noTd);
-							tr.append(contentTd);
 							tr.append(writerTd);
+							tr.append(contentTd);
 							tr.append(dateTd);
 							tr.append(iconTd);
 							tr.append(iconTd2);
 							
-							
 							tbody.append(tr);
 						}
 						document.getElementById('content3').value="";
+						
+						noImageProfile(); // 프로필 이미지가 없으면 넣기
+						
 					},
 					error: (xhr, status, data) => {
 						if (xhr.responseText.includes("로그인 후 이용하세요") || xhr.responseText.includes("로그인 세션이 만료")) {
@@ -562,6 +585,7 @@
 				}
 			});
 			
+			let beforeText; // 연필 눌렀을 때 이전 댓글 내용을 저장하려고 함
 			
 			tbody.addEventListener('click', e => {
 				const eventTarget = e.target;
@@ -578,13 +602,11 @@
 				const contentTd = myTd.parentElement.children[2];
 				if(targetSVG  != null){
 					if(targetSVG.className.baseVal.includes('pencil')){ // 펜슬 아이콘 클릭했을 때
-						if(document.getElementsByClassName('bi-check-lg').length > 0){
-// 							let beforeText = targetSVG.parentElement.parentElement.parentElement.children[2].innerText;
-// 							console.log("bi-check");
-							changePencilTrash();
+						if(document.getElementsByClassName('bi-check-lg').length > 0){ // 다른 댓글을 수정하던중이었으면
+							changePencilTrash(beforeText);
 						}
+						beforeText = contentTd.innerText;
 						
-					
 						contentTd.innerHTML = '<textarea rows="2" cols="30" style="resize:none">' + contentTd.innerText + '</textarea>';
 						myTd.children[0].innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022"/></svg>';
 						myTd.nextElementSibling.children[0].innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16"><path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/></svg>';
@@ -615,10 +637,10 @@
 									alert('댓글 수정 중 오류가 발생했습니다.');
 								}
 							},
-							error: data => alert("댓글 수정 중 오류가 발생했습니다.");
+							error: data => alert("댓글 수정 중 오류가 발생했습니다.")
 						});
 					} else if(targetSVG.className.baseVal.includes('x')){
-						changePencilTrash();
+						changePencilTrash(beforeText);
 					}
 				}
 			})
@@ -678,29 +700,36 @@
 				});
 			}
 			
-			//프로필 이미지 없을 때 작동
-			const trs = tbody.children;
-			for(const trImg of trs){
-				if(trImg.children[1].children[0] == null){
-					const imgDiv = document.createElement('div');
-					imgDiv.classList.add('profileImg');
-					
-					let nickname = trImg.children[1].innerText;
-					trImg.children[1].innerText = '';
-					const img = document.createElement('img');
-					img.src = 'image/noProfile.png';
-					imgDiv.append(img);
-					
-					trImg.children[1].append(imgDiv);
-					trImg.children[1].append(nickname);
+			function noImageProfile(){
+				//프로필 이미지 없을 때 작동
+				const trs = tbody.children;
+				for(const trImg of trs){
+					if(trImg.children[1].children[0] == null){
+						const imgDiv = document.createElement('div');
+						imgDiv.classList.add('profileImg');
+						
+						let nickname = trImg.children[1].innerText;
+// 						console.log(nickname);
+						if(nickname.includes("null")){
+							nickname = nickname.replace("null","");
+						}
+						trImg.children[1].innerText = '';
+						const img = document.createElement('img');
+						img.src = 'image/noProfile.png';
+						imgDiv.append(img);
+						
+						trImg.children[1].append(imgDiv);
+						trImg.children[1].append(nickname);
+					}
 				}
 			}
 
-			
+			window.onload=()=>{
+				noImageProfile();
+			}
 		
 		
 		const changePencilTrash = (type) => {
-// 			console.log(typeof type);
 			const beforeCheck = document.getElementsByClassName('bi-check-lg')[0];// 이전에 있던 check icon
 			const beforeCheckSpan = beforeCheck.parentElement; // 이전에 있던 check icon을 감싸는 span
 			const beforeXSpan = beforeCheckSpan.parentElement.nextElementSibling.children[0]; // 이전에 있던 check icon을 감싸는 span의 다음 span(x의 span)
@@ -709,7 +738,6 @@
 			const beforeContent = beforeTd.parentElement.children[2].children[0].value;//.value; // 이전에 클릭했던 댓글 내용
 			const beforeContentTd = beforeTd.parentElement.children[2]; // 컨텐츠가 들어가있는 td
 			
-// 			console.log(beforeContent);
 			
 			beforeCheckSpan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/></svg>';
 			beforeXSpan.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16"><path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/></svg>';
@@ -718,7 +746,6 @@
 				beforeContentTd.innerHTML = beforeContent;
 			} else { 
 				beforeContentTd.innerHTML = type;
-				//beforeTd.children[3].value = type;
 			}
 			
 		}

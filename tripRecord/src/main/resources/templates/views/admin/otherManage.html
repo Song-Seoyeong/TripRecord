@@ -42,7 +42,7 @@
 			<div class="container-top display-flex">
 				<div class="cancel-container">
 					<div class="title-div">
-						<span class="title-text">취소 내역 목록</span>
+						<span class="title-text">취소 내역</span>
 					</div>
 					<div class="user-table rounded-2 list-table">
 						<table class="table-user table" id="list-table">
@@ -136,7 +136,7 @@
 							</thead>
 							<tbody th:unless="${caList.isEmpty}">
 						  		<tr class="tr-user" th:each="p : ${caList}">
-						  			<td>[[${p.plannerNo}]]</td>
+						  			<td>[[${p.calculateNo}]]</td>
 						  			<td>[[${p.memberName}]]</td>
 						  			<td>[[${p.bank}]]</td>
 						  			<td>[[${#numbers.formatInteger(p.expectedPoint, 3, 'COMMA')}]]</td>
