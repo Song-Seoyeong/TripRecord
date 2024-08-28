@@ -123,7 +123,9 @@ body {
 	justify-content: center;
 	align-items: center;
 }
-
+.modal-body{
+    height: 800px;
+}
 .modal img {
 	max-width: 80%;
 	max-height: 80%;
