@@ -300,7 +300,9 @@ keyframes pulse-ytk0dhmd {to { transform:perspective(336px)translateZ(168px);
 	justify-content: center;
 	align-items: center;
 }
-
+.modal-body{
+    height: 800px;
+}
 .modal img {
 	max-width: 80%;
 	max-height: 80%;

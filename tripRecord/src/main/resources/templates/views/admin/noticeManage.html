@@ -71,7 +71,7 @@
 							      		<td>[[${n.boardNo}]]</td>
 							      		<td><span class="overflow-ell">[[${n.boardTitle}]]</span></td>
 							      		<td>[[${n.memberName}]]</td>
-							      		<td>[[${#strings.replace(n.boardModifyDate, '-', '.')}]]</td>
+							      		<td>[[${#strings.replace(n.boardCreateDate, '-', '.')}]]</td>
 							      		<td><span th:text="${n.boardStatus == 'N' ? '' : '삭제됨'}"></span></td>
 							  		</tr>
 							  	</tbody>

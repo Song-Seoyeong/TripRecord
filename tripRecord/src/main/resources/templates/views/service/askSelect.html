@@ -84,14 +84,16 @@
 			<b style="font-size:40px;">[[${n.boardTitle}]]</b>
 		</div>
 		<div style="padding:30px; border-bottom:5px solid #96caf0; display:flex; align-items:center;">
-			<div class="col-2">[[${n.boardModifyDate}]]</div>
-			<div class="col-2">조회수 : [[${n.boardCount}]]</div>
+			<div class="col-2">작성일자 : [[${n.boardModifyDate}]]</div>
+			<div class="col-2"></div>
 			<div class="col-6"></div>
-			<div class="profileImg" id="prof">
-				<img th:if="${writerProfile == null}" src="image/noProfile.png">
-				<img th:if="${writerProfile != null}" th:src="|https://drive.google.com/thumbnail?id=${writerProfile.imageRename}&sz=w1000|">
+			<div class="col-3" style="display:flex;align-items:center;">
+				<div class="profileImg" id="prof">
+					<img th:if="${writerProfile == null}" src="image/noProfile.png">
+					<img th:if="${writerProfile != null}" th:src="|https://drive.google.com/thumbnail?id=${writerProfile.imageRename}&sz=w1000|">
+				</div>
+				[[${n.nickname}]]
 			</div>
-			<div class="col-1" th:text="${n.nickname}"></div>
 			<div class="dropend" th:if='${session.loginUser != null && session.loginUser.memberNo == n.boardWriterNo}'>
 				<a role="button" data-bs-toggle="dropdown" aria-expanded="false" id='drop'>
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
@@ -290,6 +292,7 @@
 				const carouselImage = document.createElement('img');
 	            carouselImage.src = images[a].children[0].src;
 	            carouselImage.classList.add('d-block', 'w-100');
+	            carouselImage.style.height = '475px';
 	            carouselItem.appendChild(carouselImage);
 				
 	            carouselInner.appendChild(carouselItem);
