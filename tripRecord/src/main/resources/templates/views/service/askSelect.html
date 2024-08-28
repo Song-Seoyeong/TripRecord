@@ -87,7 +87,7 @@
 			<div class="col-2">작성일자 : [[${n.boardModifyDate}]]</div>
 			<div class="col-2"></div>
 			<div class="col-6"></div>
-			<div class="col-3" style="display:flex;align-items:center;">
+			<div class="col-2" style="display:flex;align-items:center;">
 				<div class="profileImg" id="prof">
 					<img th:if="${writerProfile == null}" src="image/noProfile.png">
 					<img th:if="${writerProfile != null}" th:src="|https://drive.google.com/thumbnail?id=${writerProfile.imageRename}&sz=w1000|">

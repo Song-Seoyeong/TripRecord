@@ -82,7 +82,7 @@
 						<nav class="d-flex col-6" aria-label="Standard pagination example" style="float: right; height: 100%; justify-content: center !important;" th:with="loc=${loc}">
 							<ul class="pagination">
 								<li class="page-item" th:if="${pi.currentPage > 1}">
-									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage-1}, cPage=${calculatePage})}" aria-label="Previous">
+									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage-1}, cPage=${cPage})}" aria-label="Previous">
 										<span aria-hidden="true" class="pagination-color">&laquo;</span>
 									</a>
 								</li>
@@ -93,18 +93,18 @@
 								</li>
 								<li class="page-item" th:each="p : ${#numbers.sequence(pi.startPage, pi.endPage)}">
 									<th:block th:if="${p == page}">
-										<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${p}, cPage=${calculatePage})}">
+										<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${p}, cPage=${cPage})}">
 											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
 										</a>
 									</th:block>
 									<th:block th:unless="${p == page}">
-										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p}, cPage=${calculatePage})}">
+										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${p}, cPage=${cPage})}">
 											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
 										</a>
 									</th:block>
 								</li>
 								<li class="page-item" th:if="${pi.currentPage < pi.maxPage}">
-									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1}, cPage=${calculatePage})}" aria-label="Next">
+									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${pi.currentPage+1}, cPage=${cPage})}" aria-label="Next">
 										<span aria-hidden="true" class="pagination-color">&raquo;</span>
 									</a>
 								</li>
@@ -156,7 +156,7 @@
 						<nav class="d-flex col-6" aria-label="Standard pagination example" style="float: right; height: 100%; justify-content: center !important;" th:with="loc=${loc}">
 							<ul class="pagination">
 								<li class="page-item" th:if="${cPi.currentPage > 1}">
-									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${currentPage}, cPage=${cPi.currentPage-1})}" aria-label="Previous">
+									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${page}, cPage=${cPi.currentPage-1})}" aria-label="Previous">
 										<span aria-hidden="true" class="pagination-color">&laquo;</span>
 									</a>
 								</li>
@@ -167,18 +167,18 @@
 								</li>
 								<li class="page-item" th:each="p : ${#numbers.sequence(cPi.startPage, cPi.endPage)}">
 									<th:block th:if="${p == cPage}">
-										<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${currentPage}, cPage=${p})}">
+										<a class="page-link box-shadow-no" style="background:#EDEDED;" th:href="@{${loc}(page=${page}, cPage=${p})}">
 											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
 										</a>
 									</th:block>
 									<th:block th:unless="${p == cPage}">
-										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${currentPage}, cPage=${p})}">
+										<a class="page-link box-shadow-no" th:href="@{${loc}(page=${page}, cPage=${p})}">
 											<span aria-hidden="true" class="pagination-color">[[${p}]]</span>
 										</a>
 									</th:block>
 								</li>
 								<li class="page-item" th:if="${cPi.currentPage < cPi.maxPage}">
-									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${currentPage}, cPage=${cPi.currentPage+1)}" aria-label="Next">
+									<a class="page-link box-shadow-none" th:href="@{${loc}(page=${page}, cPage=${cPi.currentPage+1)}" aria-label="Next">
 										<span aria-hidden="true" class="pagination-color">&raquo;</span>
 									</a>
 								</li>

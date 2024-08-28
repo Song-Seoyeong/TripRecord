@@ -68,15 +68,6 @@ public class MemberController {
 				session.setAttribute("loginUser", loginUser);
 
 				if (!loginUser.getGrade().equals("ADMIN")) {
-					Date date = new Date();
-					SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-
-					try {
-						gdService.logActivity(
-								format.format(date) + " [INFO] - " + loginUser.getMemberId() + "님이 로그인하였습니다.");
-					} catch (IOException e) {
-
-					}
 					if (beforeURL.contains(".me")) {
 						return "redirect:home";
 					} else {
@@ -189,6 +180,22 @@ public class MemberController {
 			return "redirect:loginView.me";
 		} else {
 			return "error";
+		}
+	}
+	
+	@PostMapping("loginLogPrint.me")
+	@ResponseBody
+	public void loginLogPrint(@RequestParam("loginUser") String loginUser) {
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+		
+		System.out.println("들어갔어유");
+		System.out.println(loginUser);
+		try {
+			gdService.logActivity(
+					format.format(date) + " [INFO] - " + loginUser + "님이 로그인하였습니다.");
+		} catch (IOException e) {
+
 		}
 	}
 }
