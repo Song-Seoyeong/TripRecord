@@ -262,7 +262,6 @@ document.addEventListener('DOMContentLoaded', function() {
     	if(list.querySelector('button') != null) {
 	       	const upButton = list.querySelector('button');
 	        const delButton = upButton.parentElement.nextElementSibling.children[0];
-	        console.log(delButton);
 	        const form = list.querySelector('form');
 	    	
 	        if(upButton != null){
@@ -276,7 +275,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	           	delButton.addEventListener('click', function(){
 	           		$('#deleteModal').modal('show');
 	                document.getElementById('deleteReview').onclick = function() {
-	                console.log(form);
 	                form.action = 'deleteReview.ma';
 	                form.submit();
 	                }
@@ -290,10 +288,9 @@ const beforeURL = document.referrer;
 const goList = document.getElementById('goList');
 
 goList.addEventListener('click', function() {
-	console.log(beforeURL)
     if (beforeURL.includes(".mp")) {
        window.location.href = beforeURL;
-    }else{
+    } else {
     	location.href = "matchingMain.ma"
     }
 });
@@ -311,8 +308,6 @@ for(const tr of reviewList) {
 		 		/*]]>*/
 	       		const rNo = this.parentElement.children[0].children[1].value
 	       		const stars = this.parentElement.children[3].innerText
-	       		console.log(rNo);
-	       		console.log(stars);
 		 		
 	       		let reviewContentImg = '';
 	       		let reviewContentText = '';
@@ -323,13 +318,14 @@ for(const tr of reviewList) {
 	            		reviewContentImg += '<img class="w-50" src="https://drive.google.com/thumbnail?id=' + rImg.imageRename + '&sz=w1000"><br/><br/>';
 	            	}
 	            }
+	            
+	            
 	            for(const r of rList){
 		 			if(rNo == r.reviewNo){
 		 				reviewTitle = r.reviewTitle + ' ( ' + stars + ' )';
 		 				reviewContentText += r.reviewContent;
 		 			}
 				}
-	            
 	            document.querySelector('#modalReviewTitle').innerHTML = reviewTitle;
 	            document.querySelector('#modalReviewContent-img').innerHTML = reviewContentImg;
 	            document.querySelector('#modalReviewContent-text').innerHTML = reviewContentText;

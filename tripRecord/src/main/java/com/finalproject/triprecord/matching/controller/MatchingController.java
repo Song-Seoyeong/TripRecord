@@ -320,7 +320,6 @@ public class MatchingController {
 		r.setMemberNo(memNo);
 		r.setRevRefNo(pNo);
 		r.setRevRefType("PLANNER");
-		//System.out.println(r);
 		int result = matService.insertReview(r);
 		
 		ArrayList<Image> list = new ArrayList<Image>();
