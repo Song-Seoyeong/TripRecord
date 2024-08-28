@@ -10,6 +10,30 @@
 <style>
 .disabled{cursor: not-allowed; pointer-events: none;}
 a:hover{cursor:pointer;}
+#profile {
+	display: flex;
+	align-items: center;
+	text-align: end;
+}
+
+.profileImg img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.profileImg {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid #2F6598;
+	border-radius: 50%;
+	height: 40px;
+	width: 40px;
+	overflow: hidden;
+	margin-right: 10px;
+	flex: 0 0 auto;
+}
 </style>
 </head>
 <body id="commuBody">
@@ -91,10 +115,10 @@ a:hover{cursor:pointer;}
 						<tr>
 							<th width="8%">글 번호</th>
 							<th width="10%">분류</th>
-							<th width="42%">글 제목</th>
+							<th width="52%">글 제목</th>
 							<th width="18%x">작성자</th>
 							<th width="12%">작성일자</th>
-							<th width="10%">조회수</th>
+							<th></th>
 	          			</tr>
 	          		</thead>
 	         		<tbody id="text-test">
@@ -115,9 +139,16 @@ a:hover{cursor:pointer;}
 			            			<td th:if="${a.generalType == 'PLANNER'}">플래너</td>
 			            			<td th:if="${a.generalType == 'ELSE'}">기타</td>
 			            			<td>[[${ a.boardTitle }]]</td>
-			            			<td>[[${ a.nickname }]]</td>
+			            			<td style="display:flex; align-items:center;height:70px;">
+			            				<th:block th:each=" p : ${profImgs}">
+				            				<div class="profileImg" th:if="${a.boardWriterNo == p.imageRefNo}">
+				            					<img th:src='|https://drive.google.com/thumbnail?id=${p.imageRename}&sz=w1000|'/>
+				            				</div>
+			            				</th:block>
+			            				[[${ a.nickname }]]
+			            			</td>
 			            			<td>[[${ a.boardModifyDate }]]</td>
-<!-- 문의는 조회수가 필요없을거같은데 -->	<td>[[${ a.boardCount }]]
+									<td>
 			            				<input type="hidden" th:value="${q.questionPwd}" th:id="|pwd${a.boardNo}|">
 			            			</td>
 	          					</tr>
@@ -389,7 +420,24 @@ a:hover{cursor:pointer;}
 				}); 
 			}
 			
-			
+			//작성자 옆 프로필 이미지
+			const tbody = document.querySelector('tbody');
+			const trsss = tbody.children;
+			for(const trImg of trsss){
+				if(trImg.children[3].children[0] == null){
+					const imgDiv = document.createElement('div');
+					imgDiv.classList.add('profileImg');
+					
+					let nickname = trImg.children[3].innerText;
+					trImg.children[3].innerText = '';
+					const img = document.createElement('img');
+					img.src = 'image/noProfile.png';
+					imgDiv.append(img);
+					
+					trImg.children[3].append(imgDiv);
+					trImg.children[3].append(nickname);
+				}
+			}
 			
 			
 		}
