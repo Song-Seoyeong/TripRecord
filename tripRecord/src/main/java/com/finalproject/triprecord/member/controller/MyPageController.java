@@ -309,13 +309,15 @@ public class MyPageController {
 		} else {
 			Image exist = mService.existFileId(memberNo);
 			String existFileId = exist.getImageRename();
+			mService.deleteProfile(memberNo);
+			
 			try {
 				gdService.deleteFile(existFileId);
-				mService.deleteProfile(memberNo);
-				iResult = mService.insertProfile(i);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			iResult = mService.insertProfile(i);
 			if (iResult > 0) {
 				model.addAttribute("rename", rename);
 				return "success1";
@@ -1091,7 +1093,7 @@ public class MyPageController {
 			@RequestParam(value="hashTags",required = false) ArrayList<Integer> hashTags,
 			@RequestParam(value="bank", required=false) String bank,
 			@RequestParam(value="account", required=false) String account,
-			@RequestParam(value="introProfile", required=false) String sIntroContent) throws IOException {
+			@RequestParam(value="introProfile", required=false) String sIntroContent){
 		Planner planner = new Planner();
 		int memberNo = ((Member) session.getAttribute("loginUser")).getMemberNo();
 		HashMap<String, Object> pMap = new HashMap<String, Object>();
@@ -1131,7 +1133,12 @@ public class MyPageController {
 			}
 			// 사진 업로드
 			if (file != null && !file.isEmpty()) {
-					fileId = gdService.uploadFile(file.getInputStream(), file.getOriginalFilename());
+					try {
+						fileId = gdService.uploadFile(file.getInputStream(), file.getOriginalFilename());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					i.setImageOriginName(file.getOriginalFilename());
 					i.setImageRename(fileId);
 					i.setImagePath("drive://files/" + fileId);
@@ -1143,17 +1150,21 @@ public class MyPageController {
 				if (introImgValue.equals("selected")) {
 					exist = mService.existPlannerFileId(memberNo);
 					existFileId = exist.getImageRename();
-					System.out.println(existFileId);
-					gdService.deleteFile(existFileId);
 					mService.deletePlannerProfile(memberNo);
+					try {
+						gdService.deleteFile(existFileId);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					planner.setMemberNo(memberNo);
 					planner.setIntroContent(intro);
 					planner.setLocalNo(lNo);
 					planner.setSIntroContent(sIntroContent);
 					mService.updatePlannerIntro(planner);
-				//기존 이미지 안 지우는거
-				}else {
+				
+				}else {//기존 이미지 안 지우는거
 					planner.setMemberNo(memberNo);
 					planner.setIntroContent(intro);
 					planner.setLocalNo(lNo);
@@ -1177,7 +1188,12 @@ public class MyPageController {
 				exist = mService.existPlannerFileId(memberNo);
 				existFileId = exist.getImageRename();
 				
-					gdService.deleteFile(existFileId);
+					try {
+						gdService.deleteFile(existFileId);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					mService.deletePlannerProfile(memberNo);
 					iResult = mService.insertProfile(i);
 				

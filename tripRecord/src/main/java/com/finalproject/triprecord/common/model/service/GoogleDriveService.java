@@ -1,7 +1,6 @@
 package com.finalproject.triprecord.common.model.service;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,8 +29,12 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.Permission;
+import com.google.api.services.drive.model.PermissionList;
+import com.google.api.services.drive.model.User;
 
 @Service
 public class GoogleDriveService {
@@ -204,15 +207,20 @@ public class GoogleDriveService {
             .execute();
     }
     
+    
     public void deleteFile(String fileId) throws IOException {
         try {
+
+            // 파일 삭제
             service.files().delete(fileId).execute();
             System.out.println("File deleted: " + fileId);
+
         } catch (IOException e) {
             System.err.println("Failed to delete file: " + e.getMessage());
             throw e;
         }
     }
+
     
     public CustomResource downloadImage(String fileId) throws IOException {
         File fileMetadata = service.files().get(fileId).execute();
