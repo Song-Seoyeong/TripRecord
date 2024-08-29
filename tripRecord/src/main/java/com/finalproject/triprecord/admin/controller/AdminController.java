@@ -599,18 +599,18 @@ public class AdminController {
 		ArrayList<Image> list = aService.selectLocalImage();
 
 		if (!list.isEmpty()) {
-			try {
-				for (Image i : list) {
-					if (i.getImageRefNo() == localNo) {
-						i.setImageRefType("LOCAL");
-						aService.deleteImg(i);
+			for (Image i : list) {
+				if (i.getImageRefNo() == localNo) {
+					i.setImageRefType("LOCAL");
+					aService.deleteImg(i);
 
+					try {
 						gdService.deleteFile(i.getImageRename());
-						System.out.println("여기는 오나");
+					//System.out.println("여기는 오나");
+					} catch (IOException e) {
+						//System.out.println("사진 지워지지 않음");
 					}
 				}
-			} catch (IOException e) {
-				System.out.println("사진 지워지지 않음");
 			}
 		}
 
@@ -649,15 +649,15 @@ public class AdminController {
 		Image i = aService.selectPlanImage();
 
 		if (i != null) {
-			try {
-				if (i.getImageRefNo() == planNo) {
-					i.setImageRefType("PLAN");
-					aService.deleteImg(i);
+			if (i.getImageRefNo() == planNo) {
+				i.setImageRefType("PLAN");
+				aService.deleteImg(i);
 
+				try {
 					gdService.deleteFile(i.getImageRename());
+				} catch (IOException e) {
+					
 				}
-			} catch (IOException e) {
-
 			}
 		}
 

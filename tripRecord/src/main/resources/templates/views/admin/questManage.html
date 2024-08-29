@@ -242,6 +242,9 @@
 							const formImg = document.getElementsByClassName('form-image')[0];
 							formImg.innerHTML = '';
 							
+							if(document.getElementById('detail-answer').value != ''){
+								document.getElementById('detail-answer').value = '';
+							}
 							for(const image of images){
 								if(image.imageRefNo == data.boardNo){
 									fileId = image.imageRename;
@@ -252,8 +255,9 @@
 							}
 							
 							if(tr.children[5].innerText == '응답' || tr.children[5].innerText == '삭제됨'){
+								
 								document.getElementById('detail-answer').innerText = '';
-								document.getElementById('detail-answer').innerHTML = data.questionAnswer;
+								document.getElementById('detail-answer').value = data.questionAnswer;
 								
 								document.getElementById('detail-answer').readOnly = true;
 								document.getElementById('button').disabled = true;
@@ -262,6 +266,7 @@
 								document.getElementById('detail-answer').readOnly = false;
 								document.getElementById('button').disabled = false;
 							}
+							
 						}
 					},
 				});
