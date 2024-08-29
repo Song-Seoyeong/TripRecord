@@ -1030,10 +1030,8 @@ public class MyPageController {
 			int canResult = mService.insertCancel(c);
 			
 			if(canResult > 0) {
-				req.setReqMemNo(loginUser.getMemberNo());
+				req = mService.getReqSchedule(req.getReqNo());
 				mService.refundPoint(req); // 포인트 환불
-				loginUser.setMemberPoint(loginUser.getMemberPoint() + req.getPayPoint());
-				session.setAttribute("loginUser", loginUser);
 				
 				result = mService.scDelStaUpdate(req.getScheNo());
 				

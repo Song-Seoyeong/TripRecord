@@ -5,44 +5,46 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <title>마이페이지 사이드바</title>
 <style>
-	.nav-link {
-		color: black;
-	}
-	
-	.nav-link:hover {
-		font-weight: 900;
-		color:black;
-	}
-	
-	#myPagesideBar {
-		display: inline-flex;
-		padding: 16px;
-		border: 1px lightgray solid;
-		border-radius: 8px;
-		margin-top: 70px;
-		margin-left: 50px;
-	}
-	#admin{
-		cursor:pointer;
-	}
-	#admin:hover{
-		color:#black
-	}
+.nav-link {
+	color: black;
+}
 
-	.secondSidebar{
-		text-align:center; 
-		margin:20px; 
-		display:none;
+.nav-link:hover {
+	font-weight: 900;
+	color: black;
+}
+
+#myPagesideBar {
+	display: inline-flex;
+	padding: 16px;
+	border: 1px lightgray solid;
+	border-radius: 8px;
+	margin-top: 70px;
+	margin-left: 50px;
+}
+
+#admin {
+	cursor: pointer;
+}
+
+#admin:hover {
+	color: black;
+}
+
+.secondSidebar {
+	text-align: center;
+	margin: 20px;
+	display: none;
+}
+
+@media screen and (max-width: 1600px) {
+	#sidebar {
+		display: none;
 	}
-	
-	@media screen and (max-width: 1600px){
-		#sidebar{
-			display:none;
-		}
-		.secondSidebar{
-			display:inline-block;
-		}
+	.secondSidebar {
+		display: inline-block;
 	}
+}
 </style>
 </head>
 <body>
@@ -50,7 +52,8 @@
 	<!-- 사이드바 -->
 	<div id="myPagesideBar">
 		<ul class="nav flex-column" style="float: left;">
-			<li style="border-bottom: 2px lightgray solid; width: 200px; text-align:center;"><h4>내
+			<li
+				style="border-bottom: 2px lightgray solid; width: 200px; text-align: center;"><h4>내
 					정보</h4></li>
 			<li class="nav-item"><a class="nav-link" href="myPage.mp">내
 					정보 수정</a></li>
@@ -58,11 +61,8 @@
 					변경</a></li>
 			<li class="nav-item"><a class="nav-link"
 				href="promoteToPlanner.mp">플래너 전환하기</a></li>
-			<li class="nav-item">
-				<a class="nav-link" id="admin" onclick="submitAdmin()">
-					관리자 전환 요청하기
-				</a>
-			</li>
+			<li class="nav-item"><a class="nav-link" id="admin"
+				onclick="submitAdmin()"> 관리자 전환 요청하기 </a></li>
 		</ul>
 	</div>
 
@@ -71,7 +71,6 @@
 			/*<![CDATA[*/
 			const grade = /*[[${session.loginUser.grade}]]*/null;
 			/*]]>*/
-			if (confirm("요청하시겠습니까")) {
 				if(grade == 'ADMIN'){
 					alert('현재 관리자입니다')
 					return false;
@@ -79,26 +78,27 @@
 					alert('현재 플래너입니다')
 					return false;
 				}else{
-					$.ajax({
-						type:'post',
-						url : 'submitAdmin.mp',
-						data : {grade:'ADMIN'},
-						success : (data) =>{
-							if(data == 'PLANNER'){
-	    						alert('플래너 요청이 되어 있는 상태입니다');
-	    					}else if(data == 'ADMIN'){
-	    						alert('관리자 요청이 되어 있는 상태입니다.');
-	    					}else{
-		    					alert('관리자 요청이 완료되었습니다');
-	    					}
-						},
-						error : (data) =>{
-		   					alert('관리자 요청이 실패되었습니다')	    						
-	    				}
-					})
+					if (confirm("요청하시겠습니까")) {
+						$.ajax({
+							type:'post',
+							url : 'submitAdmin.mp',
+							data : {grade:'ADMIN'},
+							success : (data) =>{
+								if(data == 'PLANNER'){
+		    						alert('플래너 요청이 되어 있는 상태입니다');
+		    					}else if(data == 'ADMIN'){
+		    						alert('관리자 요청이 되어 있는 상태입니다.');
+		    					}else{
+			    					alert('관리자 요청이 완료되었습니다');
+		    					}
+							},
+							error : (data) =>{
+			   					alert('관리자 요청이 실패되었습니다')	    						
+		    				}
+						})
+				}else {
+					return false;
 				}
-			}else {
-				return false;
 			}
 		}
 	</script>

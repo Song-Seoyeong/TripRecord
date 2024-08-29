@@ -30,7 +30,7 @@
 	<form action="insertPlaReview.pla" method='POST' enctype="multipart/form-data" id='reviewForm'>
 		<div id='inputDiv'>
 			<div id='reviewTitle'>
-				<h3>리뷰 제목</h3>
+				<h3>후기 제목</h3>
 				<input type='text' name='reviewTitle' id='reTitle' placeholder='제목을 입력하세요' class='reviewInput' required>
 				<input type='hidden' name='revRefNo' th:value='${contentid}'>
 				<input type='hidden' name='contenttypeid' th:value='${contenttypeid}'>
@@ -48,11 +48,11 @@
 				</div>
 			</div>
 			<div id='reviewContent'>
-				<h3>리뷰 내용</h3>
+				<h3>후기 내용</h3>
 				<textArea name='reviewContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required></textArea>
 			</div>
 			<div id='imgReview'>
-				<h3>리뷰 사진</h3>
+				<h3>후기 사진</h3>
 				<input type='file' accept="image/*" multiple id="files" name='files' class="form-control">
 			</div>
 			<div class='d-grid gap-2 d-md-flex justify-content-md-end'>
