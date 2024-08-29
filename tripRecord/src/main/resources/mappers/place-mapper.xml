@@ -165,10 +165,14 @@
 
 	<select id="selectPlaceList" resultType='Place'>
 		<![CDATA[
-		select *
-		from reco_place
-			left join image on place_no = image_ref_no and image_ref_type = 'RECOPLACE'
-		where local_no = #{localNo} and rownum <= 5
+			select *
+			from (
+				select *
+				from reco_place
+					left join image on place_no = image_ref_no and image_ref_type = 'RECOPLACE'
+				where local_no = #{localNo}
+				ORDER BY DBMS_RANDOM.VALUE)
+			where rownum <= 5
 		]]>
 	</select>
 

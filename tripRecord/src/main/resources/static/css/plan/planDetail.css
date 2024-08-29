@@ -460,24 +460,25 @@ form{
 	color: black;
 }
 .local-card{
-	height: 240px;
-	margin: 3px 10px;
-	cursor: pointer;
-	overflow: hidden;
-	border-radius: 10px;
+   width: 220px !important;
+   height: 240px;
+   margin: 3px 10px;
+   cursor: pointer;
+   overflow: hidden;
+   border-radius: 10px;
+   margin-bottom: 50px;
 }
 
 .card-text{
-	bottom: 0;
-	right: 0;
-	background: #96caf0;
-	opacity: .9;
-	border-radius: 5px;
-	color: white;
+   bottom: 0;
+   right: 0;
+   background: #96caf0;
+   opacity: .9;
+   border-radius: 5px;
+   color: white;
 }
 
 .local-img{
-	width: 100%;
     height: 250px;
     object-fit: cover;
     transition: all .5s ease;
@@ -485,7 +486,7 @@ form{
 }
 
 .local-img:hover{
-	object-fit: cover;
+   object-fit: cover;
     border-radius: 5px;
     transform: scale(1.1);
     transition: all .5s ease;
