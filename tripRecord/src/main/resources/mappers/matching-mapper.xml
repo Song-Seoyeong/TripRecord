@@ -184,13 +184,14 @@
 		<![CDATA[
 		select *
 		from(select *
-			 from (select planner.member_no, nickname, image.image_rename, count(*) likes
+			 from (select planner.member_no, nickname, image.image_rename, local.local_name, count(*) likes
 		           from planner
 		     			join planner_like on (planner_like.planner_no = planner.member_no)
 		           		join member on (planner.member_no = member.member_no)
+		           		join local on (planner.local_no = local.local_no)
                         left join image on (planner.member_no = image.image_ref_no) and image.image_ref_type = 'MEMBER'
 		       	   where status = 'Y'
-		           group by planner.member_no, member.nickname, image.image_rename)
+		           group by planner.member_no, member.nickname, image.image_rename, local.local_name)
 		    order by likes desc)
 		where rownum <= 5
 		]]>

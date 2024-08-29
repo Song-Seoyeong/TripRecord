@@ -43,6 +43,16 @@
 	border-radius: 10px;
 }
 
+.planner-card-local {
+	bottom: 36px;
+	right: 0;
+	background: #2F6598;
+	opacity: .9;
+	border-radius: 5px;
+	color: white;
+}
+
+
 .planner-card-text {
 	bottom: 0;
 	right: 0;

@@ -97,7 +97,7 @@
 		<div id="content" class="d-flex justify-content-center my-3">
 			<div class="d-flex flex-column border bg-light  rounded-3 w-75" >
 				<div class="d-flex justify-content-center">
-					<div class="m-5 w-100">
+					<div class="m-5 w-100" th:if="${ plannerIntroImage != 'noImg'}">
 						<img class="w-100" width="800px" th:src="|https://drive.google.com/thumbnail?id=${ plannerIntroImage }&sz=w1000|"/><br/>
 					</div>
 				</div>
