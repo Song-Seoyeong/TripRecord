@@ -176,6 +176,14 @@
 				return month;
 			}
 			
+			// yyMM 형식으로 결제 금액을 조회하는 함수
+			const getPayMonthFormat = date => {
+				const year = (date.getFullYear() + "");
+				const month = ('0' + (date.getMonth() + 1)).slice(-2);
+				
+				return year + month;
+			}
+			
 			// 날짜를 dd로 나타나게 해주는 함수
 			const getDayFormat = date => {
 				const day = ('0' + date.getDate()).slice(-2);
@@ -183,6 +191,14 @@
 				return day;
 			}
 			
+			// yyMMdd 형식으로 결제 금액을 조회하는 함수
+			const getPayDayFormat = date => {
+				const year = (date.getFullYear() + "");
+				const month = ('0' + (date.getMonth() + 1)).slice(-2);
+				const day = ('0' + date.getDate()).slice(-2);
+				
+				return year + month + day;
+			}
 			
 			// n일 전 날짜를 출력하는 코드
 			// 날짜와 며칠 전인지 전부 지정해서 넣으면 됨
@@ -203,7 +219,7 @@
 				const ctx = document.getElementById('month-stats').getContext('2d');
 				
 				const getSafeMonthStats = (date) => {
-			        const monthFormat = getMonthFormat(date);
+			        const monthFormat = getPayMonthFormat(date);
 			        return monthStats[monthFormat] || 0;
 			    };
 			    
@@ -250,7 +266,10 @@
 				const ctx = document.getElementById('days-stats').getContext('2d');
 				
 				const getSafeDayStats = (date) => {
-			        const dayFormat = getDayFormat(date);
+			        const dayFormat = getPayDayFormat(date);
+			        console.log(dayStats);
+			        console.log(dayFormat);
+			        
 			        return dayStats[dayFormat] || 0;
 			    };
 			    
@@ -269,7 +288,7 @@
 					data: {
 						labels: days,
 						datasets: [{
-							label: '월별 매출',
+							label: '일별 매출',
 							data: dataPoints,
 							backgroundColor: '#96caf0',
 							borderColor: '#96caf0',

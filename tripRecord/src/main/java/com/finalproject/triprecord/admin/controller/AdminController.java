@@ -71,7 +71,10 @@ public class AdminController {
 		ArrayList<Payment> mpList = aService.selectMonthStats();
 		String date;
 		for (Payment p : mpList) {
-			date = String.valueOf(p.getPayDate()).split("-")[1];
+			String year = String.valueOf(p.getPayDate()).split("-")[0];
+			String month = String.valueOf(p.getPayDate()).split("-")[1];
+			
+			date = year + month;
 
 			if (monthStats.containsKey(date)) {
 				monthStats.put(date, monthStats.get(date) + p.getPoPrice());
@@ -82,7 +85,7 @@ public class AdminController {
 
 		String day;
 		for (Payment p : mpList) {
-			day = String.valueOf(p.getPayDate()).split("-")[2];
+			day = String.valueOf(p.getPayDate()).replace("-", "");
 			if (dayStats.containsKey(day)) {
 				dayStats.put(day, dayStats.get(day) + p.getPoPrice());
 			} else {
