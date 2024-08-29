@@ -163,7 +163,6 @@
 		
 		let selectedKeyword = "";
 		
-		//console.log(contentTypeId)
 		// 페이지 첫 로딩시 함수 호출
 		placeApi(page, arrange, contentTypeId, areaCode, keyword);
 
@@ -184,7 +183,6 @@
 		    		key = updateInSelectKeyword();
 		    		word = updateInKeyword();
 			    	if (this.checked) {
-			    		//console.log(word)
 			    		localCheckboxes.forEach(cb => {
 	                        if (cb !== this && cb.checked) {
 	                        	alert("하나만 선택해주세요");
@@ -210,7 +208,6 @@
 		    		word = updateInKeyword();
 		    		
 			    	if (this.checked) {
-			    		//console.log(word)
 			    		keywordCheckboxes.forEach(cb => {
 	                        if (cb !== this && cb.checked) {
 	                        	alert("하나만 선택해주세요");
@@ -223,13 +220,11 @@
 				    	 placeApi(1, arr, "", area, word);
 				    	 updateTags('keyword', 'selected-keywords', 'keywords-section');
 	                }
-			    	//console.log(selectedKeywords);
 			    });
 			});
 			
 			// 필터 검색 함수
 			document.getElementsByName('arrange')[0].addEventListener('change', function(){
-				//console.log(this.value);
 				const arrange = this.value;
 				key = updateInSelectKeyword();
 				area = updateInAreaCode();
@@ -241,7 +236,6 @@
 			// 검색어 함수
 			const searchKeyword = document.getElementById('search');
 			searchKeyword.addEventListener('keyup', e =>{
-				//console.log(e.key)
 				if(e.key == "Enter"){
 					search(searchKeyword)
 				}
@@ -258,7 +252,6 @@
 					arr = updateInArrange();
 		    		key = updateInSelectKeyword();
 		    		word = updateInKeyword();
-					//console.log(this.children[0].value)
 					placeApi(1, arrange, key, this.children[0].value, word);
 				})
 			}
@@ -319,13 +312,10 @@
 		
 		// 검색 태그 변경 함수
 		function updateTags(name, targetId, sectionId){
-		    //console.log(`updateTags 호출됨: name=${name}, targetId=${targetId}, sectionId=${sectionId}`);
 
 		    const targetDiv = document.getElementById(targetId);
 		    const sectionDiv = document.getElementById(sectionId);
 		    
-		   /*  console.log('targetDiv:', targetDiv);
-		    console.log('sectionDiv:', sectionDiv); */
 		    
 		    if (!targetDiv || !sectionDiv) {
 		        console.error(`Element not found: targetId=${targetId}, sectionId=${sectionId}`);
@@ -333,7 +323,6 @@
 		    }
 		    
 		   	const paramName = sectionDiv.id.split("s")[0];
-		   	//console.log(paramName);
 		    
 		    targetDiv.innerHTML = '';
 			
@@ -344,8 +333,6 @@
 		    	checkedCheckboxes = document.querySelectorAll(`input[name='keyword']:checked`);
 		    }
 		    
-		    //const checkedCheckboxes = document.querySelectorAll(`input[name=paramName]:checked`);
-		    //console.log(checkedCheckboxes);
 		    if (checkedCheckboxes.length > 0) {
 		        sectionDiv.style.display = 'block';
 		    } else {
@@ -375,7 +362,6 @@
 		            	area = updateInAreaCode();
 			            placeApi(1, arr, "", area, word);
 		            }
-		            //console.log(checkbox.value);
 		        });
 	
 		        tagDiv.appendChild(tagText);
@@ -387,8 +373,6 @@
 		
 		// API 함수
 		function placeApi(page, arrange, selectedKeyword, areaCode, keyword){
-			// console.log(page)
-			// console.log(arrange)
 			if(areaCode != "" || selectedKeyword != "" || keyword != ""){
 	   			changeSearch(areaCode, selectedKeyword, keyword)
    			}
@@ -397,7 +381,6 @@
 		   		type: "GET",
 		   		data: {page: page, arrange: arrange, selectedKeyword : selectedKeyword, areaCode:areaCode, keyword:keyword},
 		   		success: function(data){
-		   			//console.log(data)
 		   			
 		   			contentCardList.innerHTML = "";
 		   			pagination.innerHTML = "";
@@ -428,9 +411,6 @@
 					const image = placeId.split('!')[1];
 					const title = encodeURI(encodeURIComponent(placeId.split('!')[2]));
 					const keyword = encodeURI(encodeURIComponent(updateInKeyword()));
-					//console.log(keyword)
-					/* console.log(contentid)
-					console.log(contenttypeid) */
 					location.href = 'placeDetail.pla?page=' + page + '&contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areaCode + "&keyword=" + keyword + "&image=(" + image + ")&title=" + title;
 				})
 			}
@@ -517,7 +497,6 @@
    				ul.append(li);
    				
    			}
-   			//console.log(data.pi)
    			const li3 = document.createElement('li');
    			li3.className='page-item';
    			const afterA = document.createElement('a');
@@ -569,7 +548,6 @@
    			searchTitle.innerHTML = ""
    			let localName = "";
 			
-   			//console.log(totalCount)
    			
 	   			switch(areaCode){
 	   			case "1": localName = '서울'; break;
@@ -591,7 +569,6 @@
 	   			case "39": localName = "제주"; break;
 	   			}
 	   			
-	   			//console.log(localName)
 	   			
 	   			let type = "";
 	   			switch(selectedKeyword){

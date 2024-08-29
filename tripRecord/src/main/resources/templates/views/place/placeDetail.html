@@ -227,14 +227,11 @@
 				type: 'GET',
 				data: {contentid : contentid, contenttypeid : contenttypeid},
 				success: data =>{
-					//console.log(data);
 					const item = data.response.body.items.item[0];
 					
 					const title = document.getElementById('title');
 					title.innerHTML = item.title;
 					
-					/* const subTitle = document.getElementById('subTitle');
-					subTitle.innerHTML = item.overview.split(".")[0]; */
 					
 					const imageTitle = document.getElementById('imageTitle');
 					if(item.firstimage === ""){
@@ -278,9 +275,7 @@
 				data:{contentid:contentid, contenttypeid:contenttypeid},
 				type: "GET",
 				success: data =>{
-					//console.log(data);
 					const item = data.response.body.items.item[0];
-					//console.log(item.contenttypeid);
 					
 					if(item.contenttypeid == 12){ //관광지
 						if(item.chkpet != ""){
@@ -642,7 +637,6 @@
 				data: {contentid:contentid, contenttypeid:contenttypeid},
 				type: 'GET',
 				success: data =>{
-					//console.log(data);
 					const imageGallery = document.getElementById('image-gallery');
 					
 					
@@ -664,7 +658,6 @@
 					}
 					imageModal();
 					
-					//<div class="image-container"><img src="image/insadong1.jpg" alt="Image 1"></div>
 				},
 				error: data => console.log(data)
 			})
@@ -676,7 +669,6 @@
 		       Array.from(reviewCard).forEach(card =>{
 		    	   card.addEventListener('click', () =>{
 			    	  const reviewNo = card.children[0].value;
-			    	   //console.log(reviewNo)
 			    	   location.href = 'placeReviewDetail.pla?contentid=' + contentid + "&contenttypeid=" + contenttypeid + "&areacode=" + areacode + "&page=" + page + "&reviewNo=" + reviewNo;
 			       })
 		       })

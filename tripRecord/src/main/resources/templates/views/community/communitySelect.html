@@ -370,7 +370,6 @@
 					if(this.innerText.split(' ')[1] == "전국") {
 						localNameValue.value = "ALL";
 					}
-					//console.log(localNameValue.value);
 					location.href="categorySelect.bo?localName=" + localNameValue.value + "&generalType=" + generalTypeValue.value + "&boardType=" + boardType.value + "&page=1";
 				});
 			}
@@ -419,7 +418,6 @@
 						generalTypeValue.value = "ALL";
 					}
 					
-					//console.log(generalTypeValue.value);
 					
 					location.href="categorySelect.bo?localName=" + localNameValue.value + "&generalType=" + generalTypeValue.value + "&boardType=" + boardType.value + "&page=1";
 				})
@@ -709,7 +707,6 @@
 						imgDiv.classList.add('profileImg');
 						
 						let nickname = trImg.children[1].innerText;
-// 						console.log(nickname);
 						if(nickname.includes("null")){
 							nickname = nickname.replace("null","");
 						}

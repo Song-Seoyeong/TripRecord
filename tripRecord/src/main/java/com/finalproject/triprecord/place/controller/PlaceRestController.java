@@ -92,7 +92,6 @@ public class PlaceRestController {
         jsonMap.put("selectedKeyword", selectedKeyword);
         jsonMap.put("areaCode", areaCode);
         jsonMap.put("keyword", keyword);
-        //System.out.println(jsonMap);
         
         return jsonMap;
 	}
@@ -116,7 +115,6 @@ public class PlaceRestController {
 		
 		String adrr = basicUrl + operation + parameter;
 		
-		//System.out.println(adrr);
 		
 		StringBuffer sb = new StringBuffer();
 		
@@ -149,10 +147,6 @@ public class PlaceRestController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       // System.out.println(jsonMap);
-//       System.out.println(jsonMap.get("response"));
-        Map<String, Object> responseMap = (Map<String, Object>) jsonMap.get("response");
-        Map<String, Object> bodyMap = (Map<String, Object>) responseMap.get("body");
         
         return jsonMap;
 	}
@@ -177,7 +171,6 @@ public class PlaceRestController {
 		
 		String adrr = basicUrl + operation + parameter;
 		
-		//System.out.println(adrr);
 		
 		StringBuffer sb = new StringBuffer();
 		
@@ -210,7 +203,6 @@ public class PlaceRestController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       //System.out.println(jsonMap);
         
         return jsonMap;
 	}
@@ -230,7 +222,6 @@ public class PlaceRestController {
 		
 		String adrr = basicUrl + operation + parameter;
 		
-		// System.out.println(adrr);
 		
 		StringBuffer sb = new StringBuffer();
 		
@@ -263,8 +254,6 @@ public class PlaceRestController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       //System.out.println(jsonMap);
-//       System.out.println(jsonMap.get("response"));
         return jsonMap;
 	}
 }

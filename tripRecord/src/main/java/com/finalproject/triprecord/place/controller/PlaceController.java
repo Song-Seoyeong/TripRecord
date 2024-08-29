@@ -43,7 +43,6 @@ public class PlaceController {
 		ArrayList<Local> list = pService.getLocalList();
 		
 		ArrayList<Local> topList = pService.getTopList();
-		//System.out.println(topList);
 		if(list != null) {
 			model.addAttribute("topList", topList);
 			model.addAttribute("list", list);
@@ -116,7 +115,6 @@ public class PlaceController {
 		// db에 이미지 정보 저장되어있는지 확인
 		int checkImage = pService.checkImage(contentid);
 		
-		//System.out.println(image.split("\\(|\\)")[1]);
 		
 		// api에서 이미지를 제공 해주면 이미지 저장
 		if(checkImage == 0 && image != null && !image.equals("()")) {
@@ -129,7 +127,6 @@ public class PlaceController {
 			pService.insertPlaImage(i);
 		}
 		
-		//System.out.println(list);
 		if(p != null) {
 			model.addAttribute("p", p);
 			model.addAttribute("list", list);
@@ -146,14 +143,12 @@ public class PlaceController {
 								   @RequestParam(value="page", defaultValue="1") int page,
 								  @RequestParam("areacode") int areacode,
 								   Model model) {
-		//System.out.println("여기인가");
 		
 		Place p =new Place();
 		p.setLocalNo(areacode);
 		p.setPlaceNo(contentid);
 		
 		p = pService.selectPlaceImg(p);
-		//System.out.println(p);
 		
 		model.addAttribute("contentid", contentid);
 		model.addAttribute("contenttypeid", contenttypeid);
@@ -170,7 +165,6 @@ public class PlaceController {
 								  @RequestParam(value="page", defaultValue="1") int page,
 								  @RequestParam("areacode") int areacode,
 								  HttpServletRequest request, RedirectAttributes ra) {
-		//System.out.println(files);
 		
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		r.setMemberNo(loginUser.getMemberNo());
@@ -179,7 +173,6 @@ public class PlaceController {
 		// 첫 리뷰인지 확인
 		int checkRe = pService.checkReview(loginUser.getMemberNo());
 		
-		//System.out.println(checkRe);
 		if(checkRe == 0) {
 			pService.givePoint(loginUser.getMemberNo());
 			loginUser.setMemberPoint(loginUser.getMemberPoint() + 1000);
@@ -255,14 +248,10 @@ public class PlaceController {
 		
 		p = pService.selectPlaceImg(p);
 		
-		//System.out.println(p);
 		
 		Review r = pService.selectReview(rId);
 		ArrayList<Image> list = pService.selectImage(rId);
 		
-		//System.out.println(rId);
-		//System.out.println(list);
-		//System.out.println(r);
 		if(r != null && list != null) {
 			model.addAttribute("page", page);
 			model.addAttribute("r", r);

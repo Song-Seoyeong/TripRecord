@@ -209,7 +209,7 @@
 	 	//전환 요청 확인 promotion.mp
 	 	function promotion(){
 	 		/*<![CDATA[*/
-			const grade = /*[[${session.loginUser.grade}]]*/
+			const grade = /*[[${session.loginUser.grade}]]*/null;
 			/*]]>*/
 	 		if(grade == 'ADMIN'){
 	 			alert('현재 관리자입니다')

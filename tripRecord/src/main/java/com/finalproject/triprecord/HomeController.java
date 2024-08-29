@@ -177,7 +177,6 @@ public class HomeController {
 					}
 				}
 				
-				//System.out.println(sms);
 				
 				}catch (IOException e) {
 					// TODO Auto-generated catch block

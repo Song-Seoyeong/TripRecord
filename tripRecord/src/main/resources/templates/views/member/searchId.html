@@ -104,11 +104,9 @@
 							data: {'memberName':name, 'phone':phone},
 							success: function(data) {
 								if($.isEmptyObject(data)){
-									//console.log(data);
 									memberName.innerText = '아이디가 존재하지 않습니다.';
 									$('#id-space').text("");
 								} else{
-									//console.log(data);
 									memberName.innerText = data.memberName + '님의 아이디는';
 									$('#id-space').text("'" + data.memberId + "'입니다.");
 								}

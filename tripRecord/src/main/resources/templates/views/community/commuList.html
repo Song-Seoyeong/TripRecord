@@ -279,7 +279,6 @@ tr>td{cursor:pointer;}
 					if(this.innerText.split(' ')[1] == "전국") {
 						localNameValue.value = "ALL";
 					}
-					//console.log(localNameValue.value);
 					searchForm.submit();
 				});
 			}
@@ -335,7 +334,6 @@ tr>td{cursor:pointer;}
 						generalTypeValue.value = "ALL";
 					}
 					
-					//console.log(generalTypeValue.value);
 					searchForm.submit();
 				})
 			}
@@ -366,7 +364,6 @@ tr>td{cursor:pointer;}
 			for(const td of tds){
 				td.addEventListener('click', function(){
 					
-					//console.log(123)
 					const boardNo = this.parentElement.children[0].innerText;
 					let generalT = "";
 					for(const c of /*[[${cList}]]*/1){
