@@ -171,7 +171,7 @@
 /* 체크, 삭제 || 수정, 삭제 아이콘 감싸는 div */
 .plan-images{ 
     position: relative;
-    height: 40px;
+    height: 45px;
     width: 18px;
     margin-left: 2px;
     display: inline-grid;
@@ -214,6 +214,12 @@
 	margin-right: 25px;
 	margin-top: 20px;
 	width: 250px;
+}
+
+/* n일차(하루) 감싸는 div*/
+.planDiv{
+	width: 220px;
+	margin-bottom: 30px;
 }
 
 /* 날짜, 지역 각각을 감싸는 div */
