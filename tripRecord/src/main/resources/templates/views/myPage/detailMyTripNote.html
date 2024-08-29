@@ -189,6 +189,8 @@
 					form.action = "deleteTripNote.mp";
 					form.method = "post";
 					form.submit();
+				} else {
+					console.log('좋습니다');
 				}
 				
 			});
@@ -377,15 +379,16 @@
 					   !e.target.classList.contains('plan-text') &&
 					   !e.target.classList.contains('check-icon')){
 						
-						let editInputs = document.querySelector('.edit-inputs');
-						if(editInputs == null){
+						if(document.querySelector('.edit-inputs') == null){
 							// input 없을 때
 							editLabels.style.background = 'none';
 							editLabels.classList.remove('edit-labels');
+							editLabels.nextElementSibling.classList.remove('edit-images');
 							editLabels.nextElementSibling.innerHTML = '';
 							
 						} else {
 							// input 있을 때
+							let editInputs = document.querySelector('.edit-inputs');
 							
 							if(!e.target.classList.contains('check-icon') &&
 							   !labelDivs.includes(e.target) &&
@@ -475,6 +478,7 @@
 					
 					let planImg = onePlan.querySelector('.plan-images');
 					planImg.innerHTML = '';
+					planImg.className = 'plan-images'; // edit-images가 있을 수 있음
 					
 					let checkDiv = document.createElement('div');
 					checkDiv.classList.add('plan-checks');
@@ -570,7 +574,7 @@
 				
 				let checkDiv = document.createElement('div');
 				checkDiv.classList.add('plan-checks');
-				checkDiv.innerHTML = '&nbsp;<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx planCheck" /><label for="cbx' + index + '" class="cbx planCheck"><span><svg viewBox="0 0 12 10" class="cbx" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
+				checkDiv.innerHTML = '<div class="checkbox-wrapper-46"><input type="checkbox" id="cbx' + index + '" class="inp-cbx planCheck" /><label for="cbx' + index + '" class="cbx planCheck"><span class="cbSvg"><svg class="cbSvg" viewBox="0 0 12 10" height="10px" width="12px"><polyline points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span class="reserveText"> 예약 여부</span></label></div>';
 				index++;
 				
 				let planLabelsDiv = editInputs.children[1];

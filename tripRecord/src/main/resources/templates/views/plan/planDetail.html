@@ -121,7 +121,7 @@
 	
 	<hr>
 	<div class='menuTitle clE'><h3>여기가 추천하는 관광 SPOT &#x2728;</h3></div>
-	<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-5">
+	<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
 		<div class="local-card position-relative" th:each='p : ${pList}'>
 			<input type='hidden' name='areacode' th:value="${p.localNo}">
 			<input type='hidden' name='contentid' th:value="${p.placeNo}">
@@ -196,6 +196,7 @@
 		        	labelDiv.style.background = '#E9F5FE';
 		        	labelDiv.classList.add('edit-labels');
 		        	let imagesDiv = labelDiv.nextElementSibling;
+		        	console.log(imagesDiv);
 		        	imagesDiv.classList.add('edit-images');
 		        	imagesDiv.innerHTML = '<img class="bi-pencil" src="image/pencilIcon.png" width="16px" height="16px"/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
 		        } else if(e.target.classList.contains('bi-pencil')) {
@@ -261,6 +262,7 @@
 							// input 없을 때
 							editLabels.style.background = 'none';
 							editLabels.classList.remove('edit-labels');
+							editLabels.nextElementSibling.classList.remove('edit-images');
 							editLabels.nextElementSibling.innerHTML = '';
 						} else {
 							// input 있을 때
@@ -274,7 +276,9 @@
 										
 								editInputs.style.background = 'none';
 								editInputs.classList.remove('edit-inputs');
-	
+								let editImg = onePlan.querySelector('.edit-images');
+								editImg.classList.remove('edit-images');
+								
 								if(planText[0].value.trim() == '') planText[0].value = originalPlace;
 								if(planText[1].value.trim() == '') {
 									if(!timeReg.test(originalTime)){
@@ -282,7 +286,12 @@
 									}
 									planText[1].value = originalTime;
 								}
-								if(planText[2].value.trim() == '') planText[2].value = originalMemo;
+								if(planText[2].value.trim() == '') {
+									if(originalMemo == undefined){
+										originalMemo = '';
+									}
+									planText[2].value = originalMemo;
+								}
 								
 								labelChange(planText, editInputs);
 							}
@@ -337,6 +346,7 @@
 					
 					let planImg = onePlan.querySelector('.plan-images');
 					planImg.innerHTML = '';
+					planImg.className = 'plan-images'; // edit-images가 있을 수 있음
 					
 					let checkDiv = document.createElement('div');
 					checkDiv.classList.add('plan-checks');
@@ -347,6 +357,8 @@
 					timelabelDiv.appendChild(checkDiv);
 					
 					onePlan.children[1].className = 'plan-labels';
+					onePlan.children[2].className = 'plan-images';
+					
 				} else {
 					alert('계획을 입력해 주세요.');
 				}
@@ -408,8 +420,8 @@
 				editInputs.className = 'plan-labels';
 				
 				let planImg = editInputs.nextElementSibling;
-				planImg.innerHTML = '';
 				planImg.className = 'plan-images';
+				planImg.innerHTML = '';
 			}
 			
 			originalStart = '';

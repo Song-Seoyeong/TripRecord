@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>플래너일정 요청 자세히 보기</title>
+<style></style>
 <link rel="stylesheet" href="css/myPage/processRequest.css" type="text/css"/>
 </head>
 <body>
@@ -263,6 +264,7 @@
 					!planLabel.includes(e.target) && !labelDivs.includes(e.target)){
 						editLabels.style.background = 'none';
 						editLabels.classList.remove('edit-labels');
+						editLabels.nextElementSibling.classList.remove('edit-images');
 						editLabels.nextElementSibling.innerHTML = '';
 					}
 					
@@ -289,7 +291,12 @@
 							planText[1].value = originalTime;
 						}
 						
-						if(planText[2].value.trim() == '') planText[2].value = originalMemo;
+						if(planText[2].value.trim() == '') {
+							if(originalMemo == undefined){
+								originalMemo = '';
+							}
+							planText[2].value = originalMemo;
+						}
 						
 						labelChange(planText, editInputs);
 					}
