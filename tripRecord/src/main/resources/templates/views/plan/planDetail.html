@@ -121,7 +121,7 @@
 	
 	<hr>
 	<div class='menuTitle clE'><h3>여기가 추천하는 관광 SPOT &#x2728;</h3></div>
-	<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
+	<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-5">
 		<div class="local-card position-relative" th:each='p : ${pList}'>
 			<input type='hidden' name='areacode' th:value="${p.localNo}">
 			<input type='hidden' name='contentid' th:value="${p.placeNo}">

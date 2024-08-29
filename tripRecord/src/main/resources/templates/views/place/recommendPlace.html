@@ -102,7 +102,7 @@
 		<div class="section-product-grid">
 			<!-- 장소 top 5 -->
 			<div class='menuTitle'><h3>여기가 추천하는 여행지 Top 5 &#x2728;</h3></div>
-			<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-6">
+			<div class="local-container d-flex justify-content-center row-cols-1 row-cols-md-5">
 				<div class="local-card position-relative" th:each='t : ${topList}'>
 					<input type='hidden' name='areacode' th:value="${t.localNo}">
 					<img class="local-img shadow position-absolute" th:if="${t.imageRename == null}" src="image/noimage.png" th:alt="${t.localName}">

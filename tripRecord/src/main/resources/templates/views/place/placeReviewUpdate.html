@@ -30,7 +30,7 @@
 	<form action="updatePlaReview.pla" method='POST' enctype="multipart/form-data" id='reviewForm'>
 		<div id='inputDiv'>
 			<div id='reviewTitle'>
-				<h3>리뷰 제목</h3>
+				<h3>후기 제목</h3>
 				<input type='text' name='reviewTitle' id='title' placeholder='제목을 입력하세요' class='reviewInput' required th:value="${r.reviewTitle}">
 				<input type='hidden' name='reviewNo' th:value='${r.reviewNo}' id='reviewNo'>
 				<input type='hidden' name='revRefNo' th:value='${contentid}' id='contentid'>
@@ -49,11 +49,11 @@
 				</div>
 			</div>
 			<div id='reviewContent'>
-				<h3>리뷰 내용</h3>
+				<h3>후기 내용</h3>
 				<textArea name='reviewContent' id='content' placeholder='내용을 입력하세요' class='reviewInput' required style="white-space:pre-wrap;">[[${r.reviewContent}]]</textArea>
 			</div>
 			<div id='imgReview'>
-				<h3>리뷰 사진</h3>
+				<h3>후기 사진</h3>
 				<div id='image' th:if='${list != null}'>
 					<th:block  th:each='i : ${list}'>
 						<img th:src="|https://drive.google.com/thumbnail?id=${i.imageRename}&sz=w1000|" th:alt="${i.imageOriginName}" class='reImg'>
