@@ -204,16 +204,10 @@ table{
 		
 		const statusSearch = document.getElementById('statusSearch');
 		statusSearch.addEventListener('change', function(){
-			//console.log(this.value)
 			if(this.value != ""){
 				location.href = 'myPlan.mp?statusSearch=' + this.value;
 			}
 		})
-		
-		document.getElementById('myPlansideBar').addEventListener("click", ()=>{
-			console.log(123)
-		})
-		
 		const tbodyTr = document.getElementsByClassName('tbodyTr');
 		const flexDiv = document.getElementsByClassName('flex-container')[0];
 		if(tbodyTr != null){

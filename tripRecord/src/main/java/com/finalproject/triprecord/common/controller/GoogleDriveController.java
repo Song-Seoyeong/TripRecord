@@ -30,7 +30,7 @@ public class GoogleDriveController {
             }
 
             String filename = image.getFileName();
-            System.out.println(filename);
+            //System.out.println(filename);
             String contentType = "image/jpeg"; // Default content type; adjust if needed
 
             return ResponseEntity.ok()

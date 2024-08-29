@@ -309,7 +309,6 @@
 						type: "post",
 						data: {id:id},
 						success: (data) => {
-							//console.log(data);
 							if(data == 0 && regId.test(id)){
 								alertDivs[0].innerText = '사용 가능한 아이디입니다';
 								alertDivs[0].style.color = 'green'
@@ -348,7 +347,6 @@
 			if(!regPwd.test(pwd.value)){
 				alertDivs[1].innerText = '영어 대소문자/숫자/특수문자를 모두 포함하여 8~15자 이내로 생성해주세요';
 				alertDivs[1].style.color = 'red';
-				console.log("얼른 제대로 바꿔주세요");
 				
 				return false;
 			} else {

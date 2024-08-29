@@ -81,10 +81,6 @@ public class PaymentApiController {
 		
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int result = 0;
-//		System.out.println("유저 포인트 : " + loginUser.getMemberPoint());
-//		System.out.println("환불 포인트 : " + cancelPoint);
-//		System.out.println("환불할 결제 번호 : " + payNoList);
-//		System.out.println("회원 현 포인트 : " + loginUser.getMemberPoint());
 		if (loginUser.getMemberPoint() >= cancelPoint) {
 			for(int i = 0 ; i < payNoList.size(); i++) {
 				//취소 회원 번호, 취소 사유, 취소 구분 타입,
@@ -98,7 +94,6 @@ public class PaymentApiController {
 			
 			for (int i = 0; i < merchantUidList.size(); i++) {
 				String token = rService.getToken(apikey, secretkey);
-				System.out.println("토큰 번호 : " + token);
 				rService.refundRequest(token, merchantUidList.get(i));
 				result = pService.deletePayments(merchantUidList.get(i));
 				
@@ -108,8 +103,6 @@ public class PaymentApiController {
 			map.put("memberNo", loginUser.getMemberNo());
 			map.put("canclePoint", cancelPoint);
 			int result2 = pService.minusPoint(map);
-//			System.out.println("포인트 차감 : " + result2);
-//			System.out.println(result + result2);
 			
 			loginUser.setMemberPoint(loginUser.getMemberPoint()-cancelPoint);
 			session.setAttribute("loginUser", loginUser);

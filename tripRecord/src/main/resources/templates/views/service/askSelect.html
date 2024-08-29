@@ -270,7 +270,6 @@
 		
 		// 이미지 모달 변경
 		const images = document.getElementsByClassName("image-container"); // div class="image-container"
-	//	console.log(images.length);
 		const gallery = document.getElementById("image-gallery");
 		const modal = new bootstrap.Modal(document.getElementById('imageModal'));
 		const carouselIndicators = document.querySelector('.carousel-indicators');
@@ -333,7 +332,6 @@
 			}
 			for(const sideP of sideMenus){
 				sideP.addEventListener('click',function(){
-					//console.log(this.innerText.split(' ')[1]);
 					if(this.innerText.split(' ')[1] == "문의사항"){
 						location.href="ask.no";
 					} else{
@@ -365,7 +363,6 @@
 						generalTypeValue.value = "ALL";
 					}
 					
-					//console.log(generalTypeValue.value);
 					searchForm.submit();
 				})
 			}
@@ -376,7 +373,6 @@
 			});
 			
 			let gType = /*[[${generalType}]]*/'ALL';
-			console.log(gType);
 			document.getElementById("commuBody").addEventListener("mouseover", ()=>{
 				if(gType == "ALL"){
 					categories[0].children[0].style.borderRadius = '9999px';

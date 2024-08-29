@@ -161,7 +161,6 @@
 	const boTds = document.getElementById('fixed-width').querySelectorAll('td');
 	for(td of boTds){
 		td.addEventListener('click', function(){
-			//console.log(this)
 			const boardNo = this.parentElement.children[0].innerText;
 			location.href="commuSelect.bo?boardNo=" + boardNo + "&generalType=All";
 		})
@@ -171,7 +170,6 @@
 	const noTds = document.getElementById('fixed-width2').querySelectorAll('td');
 	for(td of noTds){
 		td.addEventListener('click', function(){
-			//console.log(this)
 			const boardNo = this.parentElement.children[0].innerText;
 			location.href="noticeSelect.no?boardNo=" + boardNo;
 		})

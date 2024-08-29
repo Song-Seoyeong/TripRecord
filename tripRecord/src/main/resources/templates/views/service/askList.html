@@ -282,7 +282,6 @@ a:hover{cursor:pointer;}
 			}
 			for(const sideP of sideMenus){
 				sideP.addEventListener('click',function(){
-					//console.log(this.innerText.split(' ')[1]);
 					if(this.innerText.split(' ')[1] == "문의사항"){
 						location.href="ask.no";
 					} else{
@@ -346,7 +345,6 @@ a:hover{cursor:pointer;}
 						generalTypeValue.value = "ALL";
 					}
 					
-					//console.log(generalTypeValue.value);
 					searchForm.submit();
 				})
 			}

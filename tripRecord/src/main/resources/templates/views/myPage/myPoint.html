@@ -291,13 +291,6 @@
 	    const allCheckboxes = document.querySelectorAll('input[name="impUidList"]');
 	    const checkAll = document.querySelector('input[id="checkAll"]');
 	    checkAll.checked = allCheckboxes.length === document.querySelectorAll('input[name="impUidList"]:checked').length;
-
-	    // 출력
-	    console.log('impUid :', impUidList);
-	    console.log('merchantUid', merchantUidList);
-	    console.log('전체 포인트:', points);
-	    console.log('전체 결제 금액:', pays);
-	    console.log('결제 번호 : ', payNoList)
 	}
 
 	//선택시 합산 
@@ -322,7 +315,6 @@
 		      },
 		      success : (data)=>{
 		    	  if(data == 'success'){
-		    		  console.log(data)
 		    		  alert('환불 완료 되었습니다.')
 		    		  location.reload();
 		    	  }else if(data == 'fail'){

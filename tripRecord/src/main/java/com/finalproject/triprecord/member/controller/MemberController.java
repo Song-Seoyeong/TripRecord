@@ -60,10 +60,8 @@ public class MemberController {
 		Member m = new Member();
 		m.setMemberId(id);
 		m.setMemberPwd(pwd);
-		// System.out.println("로그인 서비스 갈거임");
 		Member loginUser = mService.login(m);
 		if (loginUser != null) {
-			// System.out.println("로그인가져옴");
 			if (bcrypt.matches(m.getMemberPwd(), loginUser.getMemberPwd())) {
 				session.setAttribute("loginUser", loginUser);
 
@@ -189,8 +187,6 @@ public class MemberController {
 		Date date = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 		
-		//System.out.println("들어갔어유");
-		//System.out.println(loginUser);
 		try {
 			gdService.logActivity(
 					format.format(date) + " [INFO] - " + loginUser + "님이 로그인하였습니다.");

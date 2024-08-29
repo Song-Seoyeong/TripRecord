@@ -80,7 +80,6 @@ public class GoogleDriveService {
         // 만료된 토큰을 갱신
         if (credential.getExpiresInSeconds() != null && credential.getExpiresInSeconds() <= 60) {
             credential.refreshToken();
-            System.out.println("Access token was refreshed.");
         } else {
             System.out.println("Access token is still valid.");
         }

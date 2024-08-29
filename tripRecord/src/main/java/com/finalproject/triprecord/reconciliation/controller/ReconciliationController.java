@@ -30,8 +30,6 @@ public class ReconciliationController {
 			
 			int upResult = rcService.updatePlannerPoint(requireCalcData);
 			int sResult = rcService.updateCalcStatus(requireCalcData);
-			//System.out.println("플래너 포인트 : " + upResult);
-			//System.out.println("정산 상태 : "+ sResult);
 			
 		}	
 	}
