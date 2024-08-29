@@ -606,6 +606,7 @@ public class AdminController {
 						aService.deleteImg(i);
 
 						gdService.deleteFile(i.getImageRename());
+						System.out.println("여기는 오나");
 					}
 				}
 			} catch (IOException e) {
