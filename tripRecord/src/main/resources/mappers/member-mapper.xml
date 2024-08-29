@@ -251,9 +251,11 @@
 		select *
 		from PLANNER
 		join MEMBER using(MEMBER_NO)
-		join LOCAL using(local_no)
+		join
+		LOCAL using(local_no)
 		left
-		join image on image_ref_no = member_no and image_ref_type = 'MEMBER'
+		join image on image_ref_no = member_no and
+		image_ref_type = 'MEMBER'
 		where MEMBER_NO = #{memberNo}
 	</select>
 
@@ -491,7 +493,7 @@
 		join schedule on (sche_no =
 		sc_no)
 		where req_pla_no = #{ pNo }
-		 order by  req_no desc
+		order by req_no desc
 	</select>
 
 	<!-- 로그인시 일정 날짜 체크 -->
@@ -687,6 +689,7 @@
 		from CALCULATE
 		where
 		PLANNER_NO = #{memberNo}
+		order by CONFIRM_DATE desc
 	</select>
 
 	<!-- 정산 수 세게 -->

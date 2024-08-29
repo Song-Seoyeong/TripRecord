@@ -239,11 +239,13 @@
 		    					console.log(data)
 		    					if(data == 'PLANNER'){
 		    						alert('플래너 요청이 되어 있는 상태입니다');
+		    						location.reload()
 		    					}else if(data == 'ADMIN'){
 		    						alert('관리자 요청이 되어 있는 상태입니다.');
+		    						location.reload()
 		    					}else{
 			    					alert('플래너 요청이 완료되었습니다');
-			    					window.location.reload();
+			    					location.href="home"
 		    					}
 		    				},
 		    				error : (data) =>{
@@ -262,10 +264,13 @@
 		    				success : (data) =>{ 
 		    					if(data == 'PLANNER'){
 		    						alert('플래너 요청이 되어 있는 상태입니다');
+		    						location.reload()
 		    					}else if(data == 'ADMIN'){
 		    						alert('관리자 요청이 되어 있는 상태입니다.');
+		    						location.reload()
 		    					}else{
 			    					alert('플래너 요청이 완료되었습니다');
+			    					location.href="home"
 		    					}
 		    				},
 		    				error : (data) =>{
