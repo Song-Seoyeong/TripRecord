@@ -64,8 +64,8 @@ body {
 
   /* 이미지 랩퍼 스타일 */
   .img_wrap {
-    width: 400px;
-    height: 100px;
+    width: 500px;
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -125,8 +125,8 @@ body {
 }
 
 .img-wrap{
-	width: 400px;
-	height: 100px;
+	width: 500px;
+	height: 130px;
 	display: flex;
 	flex-direction: column;
 }
@@ -209,15 +209,16 @@ select:focus {
 			<div class="img-wrap" style="flex-direction: column;">
 				<th:block th:if="${session.loginUser.grade == 'PLANNER'}">
 					<div class="popup-alert">
-						확인하지 않은 신청글이&nbsp;<span style="color: red;"></span>개 존재합니다.
+						여행 시작이 임박하고 일정이 미작성된 신청 내역이&nbsp;&nbsp;&nbsp;&nbsp;
+						<br><span style="color: red;"></span>개 존재합니다.
 					</div>
 					<div>
-						<a class="popup-link" href='request.mp'>신청 온 내역 확인하러 가기 >></a>
+						<a class="popup-link" href='request.mp'>신청 받은 내역 확인하러 가기 >></a>
 					</div>
 				</th:block>
 				<th:block th:if="${session.loginUser.grade == 'GENERAL'}">
 					<div class="popup-alert">
-						확인하지 않은 일정이&nbsp;<span style="color: red;"></span>개 존재합니다.
+						구매확정 하지 않은 일정이&nbsp;<span style="color: red;"></span>개 존재합니다.
 					</div>
 					<div>
 						<a class="popup-link" href='myPlan.mp'>신청한 내역 확인하러 가기 >></a>
@@ -226,7 +227,7 @@ select:focus {
 			</div>
 			<div class="btn_wrap">
 				<!-- 다시 로그인 전까지 안보기 -->
-				<button class="btn_today_close popup_btn" id="OK"><span >다음에 확인하기</span></button>
+				<button class="btn_today_close popup_btn" id="OK"><span >다음 로그인까지 보지 않기</span></button>
 				<!-- 그냥 닫기 --->
 				<button class="btn_close popup_btn" id="close">close</button>
 			</div>

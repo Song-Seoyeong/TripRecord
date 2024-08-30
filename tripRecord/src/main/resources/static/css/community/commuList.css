@@ -220,3 +220,8 @@ a:hover{cursor:pointer;}
   position: relative;
   width: 15px;
 }
+.bTitle{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
