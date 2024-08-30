@@ -7,8 +7,10 @@
 <link rel="shortcut icon" href="image/icon_case.ico" type="image/x-icon"/>
 <link rel="icon" href="image/icon_case.ico" type="image/x-icon"/>
 <style>
+tr>td{cursor:pointer;height:70px;}
 .disabled{cursor: not-allowed; pointer-events: none;}
 a:hover{cursor:pointer;}
+#text-test{vertical-align:middle;}
 </style>
 </head>
 <body>
@@ -163,60 +165,60 @@ a:hover{cursor:pointer;}
 				searchForm.submit();
 			});
 			
-			// pagination
-			const paginationUl = document.getElementById('pagination');
-			
 			const params = new URLSearchParams(window.location.search);
+			const generalType = params.get('generalType') || "";
 			const currentPage = parseInt(params.get('page')) || 1;
 			const totalItems = parseInt("[[${listCount}]]") || 1;
-			
-			
 			const totalPages = Math.ceil(totalItems / 10);
 			
-			function createPagination(currentPage, totalPages){
-				let buttons = '';
-				const startPage = Math.max(1, currentPage - 10);
-				const endPage = Math.min(totalPages, currentPage + 9);
-				
-				if(currentPage == 1){
-					buttons += '<li class="page-item disabled"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
-				}else{
-					buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage-1) + ')">&laquo;</a></li>';
-				}
-				if(startPage > 1){
-					buttons += '<li class="page-item"><a class="page-link" onclick="changePage(1)">1</a></li>';
-				}
-				
-				for (let i = startPage; i <= endPage; i++) {
-					if(currentPage == i){
-						buttons += '<li class="page-item"><a class="page-link" style="font-size:1.1em; color:rgb(150,202,240);" onclick="changePage('+i+')">'+i+'</a></li>';
-					}else{
-		                buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+i+')">'+i+'</a></li>';
-					}
-	            }
+			// 페이지 네이션 생성 부분
+			function createPagination(currentPage, totalPages) {
+			    let buttons = '';
+			     
+			    // 그룹당 페이지 수 (1~10, 11~20, ...)
+			    const pageGroupSize = 10;
+			    
+			    // 현재 페이지가 속한 그룹 계산
+			    const currentGroup = Math.ceil(currentPage / pageGroupSize);
+			     
+			    // 그룹의 첫 페이지와 마지막 페이지 계산
+			    const startPage = (currentGroup - 1) * pageGroupSize + 1;
+			    const endPage = Math.min(currentGroup * pageGroupSize, totalPages);
+			     
+			    // << 버튼 (이전 그룹)
+			    if (currentPage > 1) {
+			        buttons += '<li class="page-item"><a class="page-link" onclick="changePage(' + (startPage - 1) + ')">&laquo;</a></li>';
+			    } else {
+			        buttons += '<li class="page-item disabled"><a class="page-link">&laquo;</a></li>';
+			    }
 
-	            if (endPage < totalPages) {
-	            	buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+endPage+')">'+endPage+'</a></li>';
-	            }
-	            if(currentPage == totalPages){
-					buttons += '<li class="page-item disabled"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
-	            }else{
-					buttons += '<li class="page-item"><a class="page-link" onclick="changePage('+ (currentPage+1) + ')">&raquo;</a></li>';
-	            }
-	            return buttons;
-	        }
-			
-			
-			window.changePage = function(pageNumber){
-				console.log("체인지페이지");
+			    // 중간 페이지 버튼들
+			    for (let i = startPage; i <= endPage; i++) {
+			        if (currentPage == i) {
+			            buttons += '<li class="page-item"><a class="page-link" style="font-size:1.1em; color:rgb(150,202,240);" onclick="changePage(' + i + ')">' + i + '</a></li>';
+			        } else {
+			            buttons += '<li class="page-item"><a class="page-link" onclick="changePage(' + i + ')">' + i + '</a></li>';
+			        }
+			    }
+
+			    // >> 버튼 (다음 그룹)
+			    if (currentPage == totalPages) {
+			        buttons += '<li class="page-item disabled"><a class="page-link">&raquo;</a></li>';
+			    } else {
+			        buttons += '<li class="page-item"><a class="page-link" onclick="changePage(' + (currentPage + 1) + ')">&raquo;</a></li>';
+			    }
+		    	return buttons;
+			}
+
+			window.changePage = function(pageNumber) {
 				const pageInput = document.createElement('input');
-				pageInput.type="hidden";
-				pageInput.name = 'page';
-			 	pageInput.value = pageNumber;
-	            searchForm.appendChild(pageInput);
-	            searchForm.submit();
+			    pageInput.type = "hidden";
+			    pageInput.name = 'page';
+			    pageInput.value = pageNumber;
+			    searchForm.appendChild(pageInput);
+			    searchForm.submit();
 			};
-			
+
 			paginationUl.innerHTML = createPagination(currentPage, totalPages);
 			
 			

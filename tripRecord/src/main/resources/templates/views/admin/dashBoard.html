@@ -156,7 +156,7 @@
 			const data = /*[[${datedata}]]*/null;
 			/* ]]> */
 			
-			
+			console.log(monthStats);
 			// 오늘 날짜를 불러오는 함수
 			const today = new Date();
 			
@@ -178,7 +178,9 @@
 			
 			// yyMM 형식으로 결제 금액을 조회하는 함수
 			const getPayMonthFormat = date => {
-				const year = (date.getFullYear() + "");
+				const year = ('0' + (date.getMonth() + 1)).slice(-2) <= ('0' + (new Date().getMonth() + 1)).slice(-2) ? (new Date().getFullYear() + "") : ((new Date().getFullYear() - 1) + "");
+				console.log('테스트 년도');
+				console.log(year);
 				const month = ('0' + (date.getMonth() + 1)).slice(-2);
 				
 				return year + month;
@@ -208,7 +210,14 @@
 			
 			// n달 전 날짜를 출력하는 코드
 			const getMonth = (date, months) => {
-				return new Date(new Date().setMonth(date.getMonth() - months));
+				const nowDate = new Date(new Date().setDate(12));
+				const subDate = new Date(new Date().setDate(12));
+				nowDate.setMonth(date.getMonth());
+				subDate.setMonth(months);
+				
+				const result = (new Date((nowDate) - (subDate)));
+				
+				return result;
 			}
 			
 			// 어제 날짜를 출력하는 코드
@@ -228,8 +237,14 @@
 			    const dataPoints = [];
 			    for (let i = 11; i >= 0; i--) {
 			        const date = getMonth(today, i);
+// 			        console.log('정산');
+// 			        console.log(date);
 			        months.push(getMonthFormat(date));
+// 			        console.log('포멧');
+// 			        console.log(getMonthFormat(date));
 			        dataPoints.push(getSafeMonthStats(date));
+// 			        console.log(getSafeMonthStats(date));
+			        console.log('-----------------------');
 			    }
 				
 				// eslint-disable-next-line no-unused-vars
