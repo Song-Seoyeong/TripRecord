@@ -28,6 +28,16 @@ body{
 	flex-wrap: wrap;
 }
 
+.plan-list{
+	margin: 10px auto 0 !important;
+	width: 93% !important;
+	max-height: 680px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: inherit;
+	flex-wrap: wrap;
+}
+
 .content-list::-webkit-scrollbar{
 	width: 5px;
 }

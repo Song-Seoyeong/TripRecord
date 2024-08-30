@@ -209,7 +209,7 @@
 		join member on(board_writer_no = member_no)
 		join question on(board_no = question_no)
 		left join general_ask on(board_no = general_no)
-		order by board_create_date
+		order by board_no
 		desc
 	</select>
 

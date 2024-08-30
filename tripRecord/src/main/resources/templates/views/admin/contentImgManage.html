@@ -15,19 +15,21 @@
 	<div th:replace="~{common/adminHeader :: header}"></div>
 	<div class="container-box" style="margin: 0; padding: 0px; width: 100%;">
 		<div class="board-list">	
-			<ul class="board-list-ul">
-				<li><a href="dashBoard.ad">대시보드</a></li>
-				<li><a href="memberManage.ad">회원 관리</a></li>
-				<li><a href="questManage.ad">문의사항 관리</a></li>
-				<li><a href="gradeManage.ad">등급 관리</a></li>
-				<li><a href="noticeManage.ad">공지사항 관리</a></li>
-				<li><a href="pointManage.ad">포인트 관리</a></li>
-				<li><a href="boardManage.ad">게시판 관리</a></li>
-				<li><a href="hashTagManage.ad">해시태그 관리</a></li>
-				<li class="select-board"><a href="contentImgManage.ad">사진 관리</a></li>
-				<li><a href="planManage.ad">일정 관리</a></li>
-				<li><a href="otherManage.ad">기타 관리</a></li>
-			</ul>
+			<div class="board-list-ul-content">
+				<ul class="board-list-ul">
+					<li><a href="dashBoard.ad">대시보드</a></li>
+					<li><a href="memberManage.ad">회원 관리</a></li>
+					<li><a href="questManage.ad">문의사항 관리</a></li>
+					<li><a href="gradeManage.ad">등급 관리</a></li>
+					<li><a href="noticeManage.ad">공지사항 관리</a></li>
+					<li><a href="pointManage.ad">포인트 관리</a></li>
+					<li><a href="boardManage.ad">게시판 관리</a></li>
+					<li><a href="hashTagManage.ad">해시태그 관리</a></li>
+					<li class="select-board"><a href="contentImgManage.ad">사진 관리</a></li>
+					<li><a href="planManage.ad">일정 관리</a></li>
+					<li><a href="otherManage.ad">기타 관리</a></li>
+				</ul>
+			</div>
 			<div class="out-adminPage">
 				<a class="out-text" href="/home"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open" viewBox="0 0 16 16">
   <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"/>
@@ -120,7 +122,7 @@
 						<div class="title-div">
 							<span class="title-text">일정 대표 사진</span>
 						</div>
-						<div class="content-list">
+						<div class="plan-list">
 							<div class="display-inline-block">
 								<div class="card margin-right" style="width: 14rem;" th:unless="${i == null}">
 									<div style="height: 200px; width: 100%;">

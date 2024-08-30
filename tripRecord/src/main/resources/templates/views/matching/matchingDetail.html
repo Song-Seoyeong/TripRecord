@@ -128,7 +128,7 @@
 									<input type="hidden" name="rNo" th:value="${r.reviewNo}">
 								</td>
 								<td th:if="${r.imageRename != null }">
-									<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|" width="75px" height="75px">
+									<img class="rounded-circle m-3" th:src="|https://drive.google.com/thumbnail?id=${r.imageRename}&sz=w1000|" width="75px" height="75px" style="object-fit: cover;">
 								</td>
 								<td th:if="${r.imageRename == null }">
 		         					<img class="rounded-circle m-3" src="image/noProfile.png"  width="75px" height="75px" alt="프로필">
