@@ -15,10 +15,17 @@
 	<!--마이페이지 어퍼바-->
 	<div th:replace="~{common/myPageUpperBar :: myPageUpperBar}"></div>
 	<!-- 사이드바 -->
-	<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div> 
+	<div style="height: 120px;">
+		<div id="sidebar">
+			<div th:replace="~{common/myPlanSideBar :: myPlanSideBar}"></div>
+		</div>
+	</div>
 	
 	
 	<div class="flex-container" id='firstDiv'>
+		<span class="secondSidebar"><a class="nav-link"
+				href="myPlan.mp">여행 플랜 신청 리스트</a></span> <span class="secondSidebar"><a
+				class="nav-link" href="myTripNote.mp">내 여행 노트</a></span>
 		<form id='reqForm'>
 			<!-- 여행지 참고 사항 출력창 -->
 			<div id='schContent'>
@@ -275,10 +282,8 @@
 		const dayPlan = document.getElementsByClassName("dayPlan");
 		if(rearSchedule != null){
 			const firstDiv = document.getElementById('firstDiv');
-			if(dayPlan.length < 6){
+			if(dayPlan.length > 0){
 				firstDiv.classList.add('marginDiv1');
-			}else if(dayPlan.length >= 6){
-				firstDiv.classList.add('marginDiv2');
 			}
 		}
 		
