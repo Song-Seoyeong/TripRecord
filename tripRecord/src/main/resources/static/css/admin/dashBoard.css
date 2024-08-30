@@ -7,7 +7,6 @@ body{
 .container-top{
 	margin-top: 30px;
 	margin-left: 55px;
-	min-width: 1450px;
 	min-height: 380px;
 }
 
@@ -15,6 +14,7 @@ body{
 	width: 40%;
 	height: 90%;
 	align-items: center;
+	min-width: 628px;
 }
 
 .enter-box{
@@ -38,7 +38,9 @@ body{
 .user-container{
 	width: 15%;
 	height: 250px;
+	min-width: 235px;
 }
+
 
 .content-user{
 	width: 95%;
@@ -48,20 +50,21 @@ body{
 .container-bottom{
 	margin-top: 10px;
 	margin-left: 55px;
-	min-width: 1450px;
 	min-height: 340px;
 }
 
 .contents-container{
-	margin-left: 100px;
+	margin-left: 30px;
 	align-items: flex-center;
 	width: 25%;
+	min-width: 390px;
 }
 
 .money-container{
 	width: 60%;
 	margin-left: 100px;
 	height: 330px;
+	min-width: 940px;
 }
 
 .money-box{
@@ -112,8 +115,9 @@ body{
 }
 
 .sum-quest{
-	margin-left: 80px;
+	margin-left: 30px;
 	width: 15%;
+	min-width: 234px;
 }
 
 .quest-table{

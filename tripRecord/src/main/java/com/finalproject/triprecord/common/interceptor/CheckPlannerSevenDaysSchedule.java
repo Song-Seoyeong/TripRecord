@@ -32,10 +32,10 @@ public class CheckPlannerSevenDaysSchedule implements HandlerInterceptor{
 		
 		HttpSession session = request.getSession();
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		
+		Integer result = null;
 		if(loginUser != null && !loginUser.getGrade().equals("ADMIN")) { // 플래너이거나 일반회원이면
 			
-			int result = mService.checkSevenSchedule(loginUser); // 로그인 유저가 작성한 글의 갯수
+			result = mService.checkSevenSchedule(loginUser); // 로그인 유저가 작성한 글의 갯수
 			
 			if(result>0) { // 알림창을 띄울 것임
 				
