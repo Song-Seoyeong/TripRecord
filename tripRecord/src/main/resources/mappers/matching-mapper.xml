@@ -102,6 +102,7 @@
 		join member using(member_no)
 		left join image on image_ref_no = member_no and image_ref_type = 'MEMBER'
 		where rev_ref_type = 'PLANNER' and review_status='Y' and rev_ref_no = #{ pNo }
+		order by review_no desc
 	</select>
 	
 	<insert id="insertReview" useGeneratedKeys="true">

@@ -158,7 +158,7 @@
 	        	<ul class="pagination" th:with="loc=${ loc }">
 	        		 <!-- 이전 버튼 -->
 		            <li class="page-item">
-		            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" aria-label="Previous">
+		            	<a class="page-link" th:classappend="${pi.currentPage == 1} ? 'disabled'" aria-label="Previous" style='color:black;'>
 		            		<span aria-hidden="true">&laquo;</span>
 		              	</a>
 		            </li>
@@ -166,12 +166,12 @@
 		             <!-- 페이지 넘버링 버튼  -->
 		            	
 					<li class="page-item" th:each="p : ${ #numbers.sequence(pi.startPage, pi.endPage) }">
-						<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : ''" class="page-link">[[${ p }]]</a>
+						<a th:style="${ pi.currentPage == p } ? 'font-weight:bold; font-size:1.1em; color:#96caf0;' : 'color:black;'" class="page-link">[[${ p }]]</a>
 					</li>
 		           
 		             <!-- 다음 버튼  -->
 		            <li class="page-item">
-		            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" aria-label="Next">
+		            	<a class="page-link" th:classappend="${pi.currentPage == pi.endPage} ? 'disabled'" aria-label="Next" style='color:black;'>
 		            		<span aria-hidden="true">&raquo;</span>
 		            	</a>
 		            </li>
