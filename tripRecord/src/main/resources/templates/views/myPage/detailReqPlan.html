@@ -104,7 +104,9 @@
 					</div>
 					<div th:if='${rs.memo != null}' style='margin-top: 20px;'>
 						<b>플래너가 주는 추가 정보&#128221;</b>
-						[[${rs.memo}]]
+						<div style='white-space:pre-wrap;'>
+[[${rs.memo}]]
+						</div>
 					</div>
 				</div>
 				<div id='schedule' th:if='${rs.reqStatus == 3}'>
