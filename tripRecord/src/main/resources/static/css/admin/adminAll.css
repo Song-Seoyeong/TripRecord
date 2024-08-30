@@ -126,12 +126,13 @@ td{
 	display: flex;
    	flex-direction: column;
   	justify-content: space-between;
-  	min-height: 862.77px;
+  	height: 53.531rem;
 }
 
 .board-list-ul{
 	list-style-type: none;
 	width: 70%;
+	height: 89%;
 }
 
 .board-list-ul>li{
@@ -146,6 +147,10 @@ td{
 	text-decoration: none;
 }
 
+.board-list-ul-content{
+	height: 95%;
+}
+
 .select-board{
 	font-size: 25px;
 	font-weight: bold;
@@ -158,7 +163,8 @@ td{
 }
 
 .out-adminPage{
-	margin-bottom: 20px;
+	margin-bottom: 5px;
+	height: 5%;
 }
 
 .out-text{
