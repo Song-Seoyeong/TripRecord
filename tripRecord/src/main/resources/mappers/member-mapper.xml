@@ -294,6 +294,7 @@
 		where MEMBER_NO =
 		#{memberNo} and REVIEW_STATUS = 'Y' and REV_REF_TYPE =
 		'PLACE'
+		order by review_no desc
 	</select>
 
 	<!-- 본인이 쓴 전체 후기(장소) -->
@@ -304,6 +305,7 @@
 		where MEMBER_NO = #{memberNo}
 		and REVIEW_STATUS = 'Y' and REV_REF_TYPE =
 		'PLACE'
+		order by review_no desc
 	</select>
 
 	<!-- 본인이 쓴 전체 후기(플래너) -->
@@ -590,6 +592,7 @@
 		select *
 		from REVIEW
 		where MEMBER_NO = #{memberNo} and REVIEW_STATUS = 'Y'
+		order by review_no desc
 	</select>
 
 	<!-- 플래너 해쉬태그 불러오기 -->
