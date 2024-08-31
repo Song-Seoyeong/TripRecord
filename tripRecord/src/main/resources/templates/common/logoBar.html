@@ -202,7 +202,7 @@ select:focus {
 
 
 
-	<div class="main_popup" id="plannerModal" th:if="${session.loginUser != null}">
+	<div class="main_popup" id="plannerModal" th:if="${session.loginUser != null && session.loginUser.grade != 'ADMIN'}">
 		<div class="layer_cont">
 			<div class="img-wrap" style="flex-direction: column;">
 				<th:block th:if="${session.loginUser.grade == 'PLANNER'}">
