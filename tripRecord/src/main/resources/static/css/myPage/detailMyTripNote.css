@@ -183,7 +183,7 @@
 
 /* 수정하려고 할 때 labels */
 .edit-labels{
-	height: 67px;
+	min-height: 67px;
 }
 
 /* 수정하려고 할 때 inputs */

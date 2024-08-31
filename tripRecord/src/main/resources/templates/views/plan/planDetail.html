@@ -196,7 +196,6 @@
 		        	labelDiv.style.background = '#E9F5FE';
 		        	labelDiv.classList.add('edit-labels');
 		        	let imagesDiv = labelDiv.nextElementSibling;
-		        	console.log(imagesDiv);
 		        	imagesDiv.classList.add('edit-images');
 		        	imagesDiv.innerHTML = '<img class="bi-pencil" src="image/pencilIcon.png" width="16px" height="16px"/><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash trash-icon" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/></svg>';
 		        } else if(e.target.classList.contains('bi-pencil')) {
@@ -477,61 +476,61 @@
 				});
 			});
 
-// 			수정 저장하기
-			document.getElementById('completeButton').addEventListener('click', function(){
-				detailForm.style.display = 'block';
-				editForm.style.display = 'none';
+// // 			수정 저장하기
+// 			document.getElementById('completeButton').addEventListener('click', function(){
+// 				detailForm.style.display = 'block';
+// 				editForm.style.display = 'none';
 				
-				let newStartDate = $("#sdate").val();
-				let newEndDate = $("#edate").val();
-				let newSpot = $('#selectSpotHidden option:checked').text();
+// 				let newStartDate = $("#sdate").val();
+// 				let newEndDate = $("#edate").val();
+// 				let newSpot = $('#selectSpotHidden option:checked').text();
 				
-				$('#startDate-span').text(newStartDate);
-				$('#endDate-span').text(newEndDate);
-				$('#spot-span').text(newSpot);
+// 				$('#startDate-span').text(newStartDate);
+// 				$('#endDate-span').text(newEndDate);
+// 				$('#spot-span').text(newSpot);
 				
-				$.ajax({
-					url: 'updateValue.pl',
-					method: 'POST',
-					data: { 
-						startDate:newStartDate,
-						endDate:newEndDate,
-						spot:newSpot
-					},
-					success: function(map) {
-						let p = map.p;
-						let dates = map.dates;
+// 				$.ajax({
+// 					url: 'updateValue.pl',
+// 					method: 'POST',
+// 					data: { 
+// 						startDate:newStartDate,
+// 						endDate:newEndDate,
+// 						spot:newSpot
+// 					},
+// 					success: function(map) {
+// 						let p = map.p;
+// 						let dates = map.dates;
 						
-						$('#planAll').empty();
-						$.each(dates, function(key, value) {
-							// n일차 + 날짜
-							let dayTextHtml = '<div class="dayText">' + key + '일차</div>';
-							let dateHtml = '<div class="date">' + value + '</div>';
+// 						$('#planAll').empty();
+// 						$.each(dates, function(key, value) {
+// 							// n일차 + 날짜
+// 							let dayTextHtml = '<div class="dayText">' + key + '일차</div>';
+// 							let dateHtml = '<div class="date">' + value + '</div>';
 						
-							// input 입력창
-							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
+// 							// input 입력창
+// 							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
 						
-							// 1개의 계획 + 라인 + 원
-							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
+// 							// 1개의 계획 + 라인 + 원
+// 							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
 						
-							// 버튼
-							let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
+// 							// 버튼
+// 							let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
 							
-							// planDiv 안에 1개 계획 넣기
-							let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
+// 							// planDiv 안에 1개 계획 넣기
+// 							let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
 						
-							// 1일차를 감싸는 계획 div
-							let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
+// 							// 1일차를 감싸는 계획 div
+// 							let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
 						
-							$('#planAll').append(newDayPlan);
-						});
-					},
-					error: data => console.log(data)
-				})
+// 							$('#planAll').append(newDayPlan);
+// 						});
+// 					},
+// 					error: data => console.log(data)
+// 				})
 				
 				
-				$('#spot').val(newSpot);
-			})
+// 				$('#spot').val(newSpot);
+// 			})
 			
 // 			수정 취소
 			document.getElementById('cancelButton').addEventListener('click', () => {
@@ -604,6 +603,62 @@
 				})
 			}
 		}
+		
+//			수정 저장하기
+		document.getElementById('completeButton').addEventListener('click', function(){
+			detailForm.style.display = 'block';
+			editForm.style.display = 'none';
+			
+			let newStartDate = $("#sdate").val();
+			let newEndDate = $("#edate").val();
+			let newSpot = $('#selectSpotHidden option:checked').text();
+			
+			$('#startDate-span').text(newStartDate);
+			$('#endDate-span').text(newEndDate);
+			$('#spot-span').text(newSpot);
+			
+			$.ajax({
+				url: 'updateValue.pl',
+				method: 'POST',
+				data: { 
+					startDate:newStartDate,
+					endDate:newEndDate,
+					spot:newSpot
+				},
+				success: function(map) {
+					let p = map.p;
+					let dates = map.dates;
+					
+					$('#planAll').empty();
+					$.each(dates, function(key, value) {
+						// n일차 + 날짜
+						let dayTextHtml = '<div class="dayText">' + key + '일차</div>';
+						let dateHtml = '<div class="date">' + value + '</div>';
+					
+						// input 입력창
+						let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
+					
+						// 1개의 계획 + 라인 + 원
+						let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
+					
+						// 버튼
+						let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
+						
+						// planDiv 안에 1개 계획 넣기
+						let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
+					
+						// 1일차를 감싸는 계획 div
+						let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
+					
+						$('#planAll').append(newDayPlan);
+					});
+				},
+				error: data => console.log(data)
+			})
+			
+			
+			$('#spot').val(newSpot);
+		})
 	</script>
 </body>
 </html>
