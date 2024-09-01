@@ -20,6 +20,11 @@ form{
 	margin-top: 30px;
 }
 
+/* 일정 전체 감싸는 div */
+.plan-contain{
+	width: 903px;
+}
+
 /* 저장 버튼을 누르지 않으면 사라지는 일정 안내 */
 #inforDiv{
 	margin-top: 15px;
@@ -106,7 +111,7 @@ form{
 	justify-content: flex-start;
 	margin-top: 20px;
 	flex-wrap: wrap;
-	width: 80%;
+	max-width: 900px;
 }
 
 /* 한 날짜당 계획 */

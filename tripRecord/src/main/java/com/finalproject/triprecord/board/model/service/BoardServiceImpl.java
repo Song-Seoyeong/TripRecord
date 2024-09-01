@@ -212,5 +212,10 @@ public class BoardServiceImpl implements BoardService{
 		return bMapper.getProfileImageList();
 	}
 
+	@Override
+	public void updateGeneralBoard(Board b) {
+		bMapper.updateGeneralBoard(b);
+	}
+
 
 }

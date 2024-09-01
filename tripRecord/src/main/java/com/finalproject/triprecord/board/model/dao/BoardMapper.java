@@ -88,4 +88,6 @@ public interface BoardMapper {
 
 	//plus
 	ArrayList<Image> getProfileImageList();
+
+	void updateGeneralBoard(Board b);
 }

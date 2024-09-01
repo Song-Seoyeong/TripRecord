@@ -125,6 +125,7 @@ public class BoardController {
 		Board b = bService.selectBoard(bNo, 0);
 		ArrayList<Image> iList = bService.selectImage(bNo);
 		
+		
 		if(b != null) {
 			model.addAttribute("b", b);
 			model.addAttribute("iList", iList);
@@ -238,6 +239,7 @@ public class BoardController {
 		
 		
 		int result = bService.updateBoard(b);
+		bService.updateGeneralBoard(b);
 		
 		ArrayList<Image> list = new ArrayList<Image>();
 		ArrayList<String> deleteImg = new ArrayList<String>();

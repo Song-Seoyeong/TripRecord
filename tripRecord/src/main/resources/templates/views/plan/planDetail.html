@@ -79,7 +79,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="contain-div">
+		<div class="contain-div plan-contain">
 			<div id="inforDiv" class="clE"> &#128205; 저장 버튼을 누르지 않은 일정은 사라집니다 </div>
 			<div id="planAll" class="grid clE">
 				<div class="dayPlan g-col-6 g-col-md-4" th:each="date : ${dates}">
@@ -137,35 +137,33 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 	<script th:inline="javascript">
 		window.onload = () => {
-			document.querySelectorAll('.placeAddButton').forEach(function(addButton) {
-				addButton.addEventListener('click', function(e){
-					let planDiv = e.target.parentElement.previousElementSibling;
-
-					const newOnePlan = document.createElement('div');
-					newOnePlan.classList.add('one-plan');
-					
-					const planSpans = document.createElement('div');
-					planSpans.classList.add('plan-spans');
-					planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
-					
-					let ii = 1;
-					const planInputs = document.createElement('div');
-					planInputs.classList.add('plan-inputs');
-					planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" name="place" placeholder="장소 입력창"></div><div><input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창"></div>';
-					ii++;
-					
-					const planImages = document.createElement('div');
-					planImages.classList.add('plan-images');
-					planImages.innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>'
-					+ ' <img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
-					
-					newOnePlan.appendChild(planSpans);
-					newOnePlan.appendChild(planInputs);
-					newOnePlan.appendChild(planImages);
-					
-					planDiv.appendChild(newOnePlan);
-				});
-			});
+			function placeAdd(e){
+				let planDiv = e.target.parentElement.previousElementSibling;
+	
+				const newOnePlan = document.createElement('div');
+				newOnePlan.classList.add('one-plan');
+				
+				const planSpans = document.createElement('div');
+				planSpans.classList.add('plan-spans');
+				planSpans.innerHTML = '<span class="line"><span class="round"></span></span>';
+				
+				let ii = 1;
+				const planInputs = document.createElement('div');
+				planInputs.classList.add('plan-inputs');
+				planInputs.innerHTML = '<div><input type="text" class="plan-text placeInput" name="place" placeholder="장소 입력창"></div><div><input type="time" name="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" name="memo" class="plan-text memoInput" placeholder="메모 입력창"></div>';
+				ii++;
+				
+				const planImages = document.createElement('div');
+				planImages.classList.add('plan-images');
+				planImages.innerHTML = '<img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/>'
+				+ ' <img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/>';
+				
+				newOnePlan.appendChild(planSpans);
+				newOnePlan.appendChild(planInputs);
+				newOnePlan.appendChild(planImages);
+				
+				planDiv.appendChild(newOnePlan);
+			}
 			
 			let index = 0;
 			let labelDiv = '';
@@ -174,7 +172,10 @@
 			let originalPlace, originalTime, originalMemo;
 			
 			document.getElementById('planAll').addEventListener('click', function(e){
-				if(e.target.classList.contains('check-icon')){
+				if(e.target.classList.contains('placeAddButton')){
+					placeAdd(e);
+				}
+				else if(e.target.classList.contains('check-icon')){
 					checkIcon(e);
 				} else if (e.target.classList.contains('trash-icon')) {
 					trashIcon(e)
@@ -476,61 +477,61 @@
 				});
 			});
 
-// // 			수정 저장하기
-// 			document.getElementById('completeButton').addEventListener('click', function(){
-// 				detailForm.style.display = 'block';
-// 				editForm.style.display = 'none';
+// 			수정 저장하기
+			document.getElementById('completeButton').addEventListener('click', function(){
+				detailForm.style.display = 'block';
+				editForm.style.display = 'none';
 				
-// 				let newStartDate = $("#sdate").val();
-// 				let newEndDate = $("#edate").val();
-// 				let newSpot = $('#selectSpotHidden option:checked').text();
+				let newStartDate = $("#sdate").val();
+				let newEndDate = $("#edate").val();
+				let newSpot = $('#selectSpotHidden option:checked').text();
 				
-// 				$('#startDate-span').text(newStartDate);
-// 				$('#endDate-span').text(newEndDate);
-// 				$('#spot-span').text(newSpot);
+				$('#startDate-span').text(newStartDate);
+				$('#endDate-span').text(newEndDate);
+				$('#spot-span').text(newSpot);
 				
-// 				$.ajax({
-// 					url: 'updateValue.pl',
-// 					method: 'POST',
-// 					data: { 
-// 						startDate:newStartDate,
-// 						endDate:newEndDate,
-// 						spot:newSpot
-// 					},
-// 					success: function(map) {
-// 						let p = map.p;
-// 						let dates = map.dates;
+				$.ajax({
+					url: 'updateValue.pl',
+					method: 'POST',
+					data: { 
+						startDate:newStartDate,
+						endDate:newEndDate,
+						spot:newSpot
+					},
+					success: function(map) {
+						let p = map.p;
+						let dates = map.dates;
 						
-// 						$('#planAll').empty();
-// 						$.each(dates, function(key, value) {
-// 							// n일차 + 날짜
-// 							let dayTextHtml = '<div class="dayText">' + key + '일차</div>';
-// 							let dateHtml = '<div class="date">' + value + '</div>';
+						$('#planAll').empty();
+						$.each(dates, function(key, value) {
+							// n일차 + 날짜
+							let dayTextHtml = '<div class="dayText">' + key + '일차</div>';
+							let dateHtml = '<div class="date">' + value + '</div>';
 						
-// 							// input 입력창
-// 							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
+							// input 입력창
+							let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
 						
-// 							// 1개의 계획 + 라인 + 원
-// 							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
+							// 1개의 계획 + 라인 + 원
+							let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
 						
-// 							// 버튼
-// 							let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
+							// 버튼
+							let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
 							
-// 							// planDiv 안에 1개 계획 넣기
-// 							let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
+							// planDiv 안에 1개 계획 넣기
+							let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
 						
-// 							// 1일차를 감싸는 계획 div
-// 							let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
+							// 1일차를 감싸는 계획 div
+							let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
 						
-// 							$('#planAll').append(newDayPlan);
-// 						});
-// 					},
-// 					error: data => console.log(data)
-// 				})
+							$('#planAll').append(newDayPlan);
+						});
+					},
+					error: data => console.log(data)
+				})
 				
 				
-// 				$('#spot').val(newSpot);
-// 			})
+				$('#spot').val(newSpot);
+			})
 			
 // 			수정 취소
 			document.getElementById('cancelButton').addEventListener('click', () => {
@@ -553,43 +554,44 @@
 			document.getElementById('saveButton').addEventListener('click', () => {
 				document.getElementById('hashtag').value = togetherVal + ',' + hashtagVal;
 				
-				let i = 0;				
 				const dayPlans = document.querySelectorAll('#planAll .dayPlan');
-				const rInput = document.getElementById('reserve');
+				const rInput = document.getElementById('reserve');		
+				let inputCheck = document.querySelectorAll('.placeInput');
 				
-				const inputCheck = document.querySelectorAll('.placeInput');
-				for(input of inputCheck){
+				let check = 0;
+				for(const input of inputCheck){
 					if(input.style.display != 'none'){
 						alert('여행 계획을 완성해 주세요');
+						check++;
 						break;
+					} 
+				}
+				if(check == 0){
+					for(const dayPlan of dayPlans){
+						let dayText = dayPlan.children[0].value; // n일차
+						let day = dayPlan.children[2].value; // 날짜
+						
+						let onePlans = dayPlan.getElementsByClassName('one-plan');
+						
+						let count = onePlans.length; // 그날 계획 몇 개?
+						let checks = dayPlan.getElementsByClassName('inp-cbx');
+						
+						let cInput = document.getElementById("count");
+						for(let j = 0; j < checks.length; j++){
+							if(checks[j].checked){
+								rInput.value += 'Y' + '/';
+							} else {
+								rInput.value += 'N' + '/';
+							}
+							
+							if(j + 1 == count){
+								cInput.value += count + ';';
+							}
+							document.getElementById('planCreate').submit();
+						}
 					}
 				}
-				
-				dayPlans.forEach(function(dayPlan){
-					let dayText = dayPlan.children[0].value; // n일차
-					let day = dayPlan.children[2].value; // 날짜
 					
-					let onePlans = dayPlan.getElementsByClassName('one-plan');
-					let count = onePlans.length; // 그날 계획 몇 개?
-
-					let checks = dayPlan.getElementsByClassName('inp-cbx');
-					
-					let cInput = document.getElementById("count");
-					for(let j = 0; j < count; j++){
-						if(checks[j].checked){
-							rInput.value += 'Y' + '/';
-						} else {
-							rInput.value += 'N' + '/';
-						}
-						
-						if(j + 1 == count){
-							cInput.value += count + ';';
-						}
-					}
-					
-				})
-				
-				document.getElementById('planCreate').submit();
 			});
 			
 			// 추천장소 카드 클릭
@@ -603,62 +605,6 @@
 				})
 			}
 		}
-		
-//			수정 저장하기
-		document.getElementById('completeButton').addEventListener('click', function(){
-			detailForm.style.display = 'block';
-			editForm.style.display = 'none';
-			
-			let newStartDate = $("#sdate").val();
-			let newEndDate = $("#edate").val();
-			let newSpot = $('#selectSpotHidden option:checked').text();
-			
-			$('#startDate-span').text(newStartDate);
-			$('#endDate-span').text(newEndDate);
-			$('#spot-span').text(newSpot);
-			
-			$.ajax({
-				url: 'updateValue.pl',
-				method: 'POST',
-				data: { 
-					startDate:newStartDate,
-					endDate:newEndDate,
-					spot:newSpot
-				},
-				success: function(map) {
-					let p = map.p;
-					let dates = map.dates;
-					
-					$('#planAll').empty();
-					$.each(dates, function(key, value) {
-						// n일차 + 날짜
-						let dayTextHtml = '<div class="dayText">' + key + '일차</div>';
-						let dateHtml = '<div class="date">' + value + '</div>';
-					
-						// input 입력창
-						let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
-					
-						// 1개의 계획 + 라인 + 원
-						let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
-					
-						// 버튼
-						let buttonsHtml = '<div class="addButton-div"> <button class="placeAddButton editB" type="button">장소 추가</button> </div>';
-						
-						// planDiv 안에 1개 계획 넣기
-						let planDivHtml = '<div class="planDiv">' + onePlanHtml + '</div>';
-					
-						// 1일차를 감싸는 계획 div
-						let newDayPlan = '<div class="dayPlan"> ' + dayTextHtml + dateHtml + planDivHtml + buttonsHtml + ' </div>';
-					
-						$('#planAll').append(newDayPlan);
-					});
-				},
-				error: data => console.log(data)
-			})
-			
-			
-			$('#spot').val(newSpot);
-		})
 	</script>
 </body>
 </html>
