@@ -85,6 +85,8 @@ public interface BoardService {
 	//추가
 	ArrayList<Image> getProfileImageList();
 
+	void updateGeneralBoard(Board b);
+
 
 
 }

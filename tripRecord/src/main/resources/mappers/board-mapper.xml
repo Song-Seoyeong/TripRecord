@@ -266,4 +266,10 @@
 		where image_ref_type = 'MEMBER'
 	</select>
 	
+	<update id="updateGeneralBoard">
+		update general_bo
+		set local_no = #{localName}, general_type = #{generalType}
+		where general_no = #{boardNo}
+	</update>
+	
 </mapper>

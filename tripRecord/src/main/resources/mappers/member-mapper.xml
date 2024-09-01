@@ -688,12 +688,12 @@
 
 	<!-- 정산 리스트 불러오기 -->
 	<select id="getCalcList" resultType="Calculate">
-		select *
-		from CALCULATE
-		where
-		PLANNER_NO = #{memberNo}
-		order by CONFIRM_DATE desc
-	</select>
+      select *
+      from CALCULATE
+      where
+      PLANNER_NO = #{memberNo}
+      order by CALCULATE_NO desc
+   </select>
 
 	<!-- 정산 수 세게 -->
 	<select id="calcListCount" resultType="_int">

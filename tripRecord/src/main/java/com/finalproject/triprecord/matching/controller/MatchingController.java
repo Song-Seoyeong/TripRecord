@@ -411,31 +411,36 @@ public class MatchingController {
 		int insertResult = 0;
 		int delResult = 0;
 		
-		try {
-			// 이미지 삭제
-			if(delImgs != null && !delImgs.isEmpty()) {
-				for(String del : delImgs) {
-					if(!del.equals("none")) {
-						deleteImg.add(del);
-						// 구글 드라이브에서 삭제
+		// 이미지 삭제
+		if(delImgs != null && !delImgs.isEmpty()) {
+			for(String del : delImgs) {
+				if(!del.equals("none")) {
+					deleteImg.add(del);
+					// 구글 드라이브에서 삭제
+					try {
 						gdService.deleteFile(del);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
-				if(!deleteImg.isEmpty()) {
-					delResult = matService.deleteReviewImage(deleteImg);
-				}
 			}
+			if(!deleteImg.isEmpty()) {
+				delResult = matService.deleteReviewImage(deleteImg);
+			}
+		}
+		
+		
+		// 이미지 추가
+		ArrayList<Image> list = new ArrayList<Image>();
+		for(int i = 0; i < files.size(); i++) {
+			MultipartFile upload = files.get(i);
 			
-			
-			// 이미지 추가
-			ArrayList<Image> list = new ArrayList<Image>();
-			for(int i = 0; i < files.size(); i++) {
-				MultipartFile upload = files.get(i);
-				
-				//if(!upload.getOriginalFilename().equals("")) {
-				if(upload != null && !upload.isEmpty()) {
-		            String fileId;
-		            
+			//if(!upload.getOriginalFilename().equals("")) {
+			if(upload != null && !upload.isEmpty()) {
+	            String fileId;
+	            
+				try {
 					fileId = gdService.uploadFile(upload.getInputStream(), upload.getOriginalFilename());
 					Image Img = new Image();
 					Img.setImageOriginName(upload.getOriginalFilename());
@@ -446,23 +451,28 @@ public class MatchingController {
 					Img.setImageRefNo(review.getReviewNo());
 					
 					list.add(Img);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
+		}
+		
+		if(!list.isEmpty()) {
+			insertResult = matService.insertReviewImage(list);
 			
-			if(!list.isEmpty()) {
-				insertResult = matService.insertReviewImage(list);
-				
-				if(insertResult < 0) {
-					for(Image i : list) {
+			if(insertResult < 0) {
+				for(Image i : list) {
+					try {
 						gdService.deleteFile(i.getImageRename());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-		
+			
 		if(result + delResult == 1 + deleteImg.size()) {
 			ra.addAttribute("pNo", pNo);
 			ra.addAttribute("page", 1);

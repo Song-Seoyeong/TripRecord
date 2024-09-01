@@ -139,13 +139,7 @@ a:hover{cursor:pointer;}
 			            			<td th:if="${a.generalType == 'PLANNER'}">플래너</td>
 			            			<td th:if="${a.generalType == 'ELSE'}">기타</td>
 			            			<td>[[${ a.boardTitle }]]</td>
-			            			<td style="display:flex; align-items:center;height:70px;">
-			            				<th:block th:each=" p : ${profImgs}">
-				            				<div class="profileImg" th:if="${a.boardWriterNo == p.imageRefNo}">
-				            					<img th:src='|https://drive.google.com/thumbnail?id=${p.imageRename}&sz=w1000|'/>
-				            				</div>
-			            				</th:block>
-			            				[[${ a.nickname }]]
+			            			<td style="height:70px;">익명[[${a.boardWriterNo}]]
 			            			</td>
 			            			<td>[[${ a.boardModifyDate }]]</td>
 									<td>
@@ -224,7 +218,6 @@ a:hover{cursor:pointer;}
 			// 페이지 네이션 생성 부분
 			function createPagination(currentPage, totalPages) {
 			    let buttons = '';
-			     
 			    // 그룹당 페이지 수 (1~10, 11~20, ...)
 			    const pageGroupSize = 10;
 			    
@@ -423,24 +416,6 @@ a:hover{cursor:pointer;}
 				}); 
 			}
 			
-			//작성자 옆 프로필 이미지
-			const tbody = document.querySelector('tbody');
-			const trsss = tbody.children;
-			for(const trImg of trsss){
-				if(trImg.children[3].children[0] == null){
-					const imgDiv = document.createElement('div');
-					imgDiv.classList.add('profileImg');
-					
-					let nickname = trImg.children[3].innerText;
-					trImg.children[3].innerText = '';
-					const img = document.createElement('img');
-					img.src = 'image/noProfile.png';
-					imgDiv.append(img);
-					
-					trImg.children[3].append(imgDiv);
-					trImg.children[3].append(nickname);
-				}
-			}
 			
 			
 		}
