@@ -76,7 +76,6 @@ public class PlaceRestController {
 			// JSON 문자열을 Map으로 변환
 	        ObjectMapper mapper = new ObjectMapper();
 	        
-	        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
             jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
             
         } catch (IOException e) {
@@ -141,7 +140,6 @@ public class PlaceRestController {
 		// JSON 문자열을 Map으로 변환
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> jsonMap = null;
-        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
         try {
             jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
         } catch (IOException e) {
@@ -197,7 +195,6 @@ public class PlaceRestController {
 		// JSON 문자열을 Map으로 변환
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> jsonMap = null;
-        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
         try {
             jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
         } catch (IOException e) {
@@ -248,7 +245,6 @@ public class PlaceRestController {
 		// JSON 문자열을 Map으로 변환
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> jsonMap = null;
-        //PageInfo pi = Pagination.getPageInfo(page, 12, 12);
         try {
             jsonMap = mapper.readValue(sb.toString(), new TypeReference<Map<String, Object>>() {});
         } catch (IOException e) {
