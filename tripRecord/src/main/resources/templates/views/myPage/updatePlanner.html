@@ -81,141 +81,149 @@
 		style="text-align: center; margin-left: auto;">
 		<div style="height: 120px;"></div>
 		<!-- 지역 선택-->
-		<div class="location row" style="justify-content: center;">
-			<div class="col-1">
-				<p style="float: right; font-size: 25px; font-weight: 700;">활동지역</p>
+		<div style="width: 95%; margin: 0 auto">
+			<div class="location row" style="justify-content: center;">
+				<div class="col-1">
+					<p style="float: right; font-size: 25px; font-weight: 700;">활동지역</p>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<select id="local"
+						style="width: 400px; height: 40px; border-radius: 8px;">
+						<option value="0">지역을 선택해주세요</option>
+						<option value="1">서울</option>
+						<option value="6">부산</option>
+						<option value="4">대구</option>
+						<option value="2">인천</option>
+						<option value="5">광주</option>
+						<option value="3">대전</option>
+						<option value="7">울산</option>
+						<option value="8">세종</option>
+						<option value="31">경기</option>
+						<option value="32">강원</option>
+						<option value="33">충북</option>
+						<option value="34">충남</option>
+						<option value="37">전북</option>
+						<option value="38">전남</option>
+						<option value="35">경북</option>
+						<option value="36">경남</option>
+						<option value="39">제주</option>
+					</select>
+				</div>
 			</div>
-			<div class="col-1"></div>
-			<div class="col-3">
-				<select id="local"
-					style="width: 400px; height: 40px; border-radius: 8px;">
-					<option value="0">지역을 선택해주세요</option>
-					<option value="1">서울</option>
-					<option value="6">부산</option>
-					<option value="4">대구</option>
-					<option value="2">인천</option>
-					<option value="5">광주</option>
-					<option value="3">대전</option>
-					<option value="7">울산</option>
-					<option value="8">세종</option>
-					<option value="31">경기</option>
-					<option value="32">강원</option>
-					<option value="33">충북</option>
-					<option value="34">충남</option>
-					<option value="37">전북</option>
-					<option value="38">전남</option>
-					<option value="35">경북</option>
-					<option value="36">경남</option>
-					<option value="39">제주</option>
-				</select>
+			<div style="height: 20px;"></div>
+			<!-- 프로필 소개글 -->
+			<div class="row" style="justify-content: center;">
+				<div class="col-1">
+					<p
+						style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
+						프로필<br>소개글
+					</p>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<textarea id="introProfile"
+						style="width: 400px; height: 100px; resize: none"
+						placeholder="소개글을 작성해주세요">[[${planner.sIntroContent}]]</textarea>
+				</div>
 			</div>
-		</div>
-		<div style="height: 20px;"></div>
-		<!-- 프로필 소개글 -->
-		<div class="row" style="justify-content: center;">
-			<div class="col-1">
-				<p style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
-					프로필<br>소개글
-				</p>
+			<div style="height: 20px;"></div>
+			<!-- 상품 소개글 -->
+			<div class="row" style="justify-content: center;">
+				<div class="col-1">
+					<p
+						style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
+						상세<br>소개글
+					</p>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<textarea id="introContent"
+						style="width: 400px; height: 200px; resize: none"
+						placeholder="소개글을 작성해주세요">[[${planner.introContent}]]</textarea>
+				</div>
 			</div>
-			<div class="col-1"></div>
-			<div class="col-3">
-				<textarea id="introProfile"	style="width: 400px; height: 100px; resize: none"placeholder="소개글을 작성해주세요">[[${planner.sIntroContent}]]</textarea>
-			</div>
-		</div>
-		<div style="height: 20px;"></div>
-		<!-- 상품 소개글 -->
-		<div class="row" style="justify-content: center;">
-			<div class="col-1">
-				<p style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">
-					상세<br>소개글
-				</p>
-			</div>
-			<div class="col-1"></div>
-			<div class="col-3">
-				<textarea id="introContent" style="width: 400px; height: 200px; resize: none" placeholder="소개글을 작성해주세요">[[${planner.introContent}]]</textarea>
-			</div>
-		</div>
-		<div style="height: 20px;"></div>
+			<div style="height: 20px;"></div>
 
-		<!-- 은행 -->
-		<div class="bankAccount row" style="justify-content: center;">
-			<div class="col-1">
-				<p
-					style="float: right; font-size: 25px; font-weight: 700; vertical-align: top;">계좌</p>
+			<!-- 은행 -->
+			<div class="bankAccount row" style="justify-content: center;">
+				<div class="col-1">
+					<p
+						style="float: right; font-size: 25px; font-weight: 700; vertical-align: top;">계좌</p>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<div class='d-flex' style="justify-content: center;">
+						<select id='bank' class="form-select">
+							<option value="국민은행">국민은행</option>
+							<option value="기업은행">기업은행</option>
+							<option value="농협">농협</option>
+							<option value="우리은행">우리은행</option>
+							<option value="대구은행">대구은행</option>
+							<option value="외환은행">외환은행</option>
+							<option value="제일은행">SC제일은행</option>
+							<option value="부산은행">부산은행</option>
+							<option value="새마을금고">새마을금고</option>
+							<option value="한국씨티은행">한국씨티은행</option>
+							<option value="광주은행">광주은행</option>
+							<option value="경남은행">경남은행</option>
+							<option value="수협">수협</option>
+							<option value="신협">신협</option>
+							<option value="전북은행">전북은행</option>
+							<option value="제주은행">제주은행</option>
+							<option value="산림조합">산림조합</option>
+							<option value="우체국">우체국</option>
+							<option value="하나은행">하나은행</option>
+							<option value="신한은행">신한은행</option>
+						</select> <input id="account" type="text" placeholder="(-)제외하고 입력"
+							th:value="${planner.account}">
+					</div>
+				</div>
 			</div>
-			<div class="col-1"></div>
-			<div class="col-3">
-				<div class='d-flex' style="justify-content: center;">
-					<select id='bank' class="form-select">
-						<option value="국민은행">국민은행</option>
-						<option value="기업은행">기업은행</option>
-						<option value="농협">농협</option>
-						<option value="우리은행">우리은행</option>
-						<option value="대구은행">대구은행</option>
-						<option value="외환은행">외환은행</option>
-						<option value="제일은행">SC제일은행</option>
-						<option value="부산은행">부산은행</option>
-						<option value="새마을금고">새마을금고</option>
-						<option value="한국씨티은행">한국씨티은행</option>
-						<option value="광주은행">광주은행</option>
-						<option value="경남은행">경남은행</option>
-						<option value="수협">수협</option>
-						<option value="신협">신협</option>
-						<option value="전북은행">전북은행</option>
-						<option value="제주은행">제주은행</option>
-						<option value="산림조합">산림조합</option>
-						<option value="우체국">우체국</option>
-						<option value="하나은행">하나은행</option>
-						<option value="신한은행">신한은행</option>
-					</select> <input id="account" type="text" placeholder="(-)제외하고 입력" th:value="${planner.account}">
+			<div style="height: 40px;"></div>
+
+			<!-- 사진 -->
+			<div class="profileImage row" style="justify-content: center;">
+				<div class="col-1">
+					<p
+						style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">소개글
+						사진</p>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<div style="display: inline-block;">
+						<input id="updateIntroImg" class="form-control" type="file"
+							accept='image/*'>
+					</div>
+				</div>
+			</div>
+			<div style="height: 40px;"></div>
+			<!-- 현재 사진 -->
+			<div class="profileImage row" style="justify-content: center;">
+				<div class="col-1">
+					<p
+						style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">현재
+						사진</p>
+				</div>
+				<div class="col-1"></div>
+				<div class="col-3">
+					<div style="display: inline-block;">
+						<th:block th:if="${plannerIntroImage} != 'noImg'">
+							<img id="curIntroImg" class="m-5" width="200px"
+								th:src="|https://drive.google.com/thumbnail?id=${plannerIntroImage}|" />
+							<br />
+						</th:block>
+						<th:block th:if="${plannerIntroImage} == 'noImg'">
+							<img id="curIntroImg" class="m-5" width="200px"
+								src="image/noimage.png" />
+							<input type="hidden" value="none">
+							<br />
+						</th:block>
+						<span id="curImgDeleteText">삭제</span>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div style="height: 40px;"></div>
-
-		<!-- 사진 -->
-		<div class="profileImage row" style="justify-content: center;">
-			<div class="col-1">
-				<p
-					style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">소개글
-					사진</p>
-			</div>
-			<div class="col-1"></div>
-			<div class="col-3">
-				<div style="display: inline-block;">
-					<input id="updateIntroImg" class="form-control" type="file"
-						accept='image/*'>
-				</div>
-			</div>
-		</div>
-		<div style="height: 40px;"></div>
-		<!-- 현재 사진 -->
-		<div class="profileImage row" style="justify-content: center;">
-			<div class="col-1">
-				<p
-					style="float: right; font-size: 25px; font-weight: 700; display: inline-block; vertical-align: top;">현재
-					사진</p>
-			</div>
-			<div class="col-1"></div>
-			<div class="col-3">
-				<div style="display: inline-block;">
-					<th:block th:if="${plannerIntroImage} != 'noImg'">
-						<img id="curIntroImg" class="m-5" width="200px"
-							th:src="|https://drive.google.com/thumbnail?id=${plannerIntroImage}|" />
-						<br />
-					</th:block>
-					<th:block th:if="${plannerIntroImage} == 'noImg'">
-						<img id="curIntroImg" class="m-5" width="200px"
-							src="image/noimage.png" />
-						<input type="hidden" value="none">
-						<br />
-					</th:block>
-					<span id="curImgDeleteText">삭제</span>
-				</div>
-			</div>
-		</div>
-
 		<!-- 해쉬태그 -->
 		<div class="contain-div" id="select-contain-div">
 			<p class="middle-title">해시태그(선택)</p>
@@ -226,8 +234,8 @@
 						<div class="checkbox-wrapper-4 checkbox-parent-div"
 							th:each="p : ${list}" th:if="${p.tagType == 'PERSON'}">
 							<input class="inp-cbx checkbox check_input" th:id="${p.tagNo}"
-								type="checkbox" th:value="${p.tagNo}" name="together">
-							<label class="cbx" th:for="${p.tagNo}"> <span> <svg
+								type="checkbox" th:value="${p.tagNo}" name="together"> <label
+								class="cbx" th:for="${p.tagNo}"> <span> <svg
 										style="width: 12px; height: 10px;"></svg></span> <span>#
 									[[${p.tagName}]]</span>
 							</label>
@@ -239,8 +247,8 @@
 						<div class="checkbox-wrapper-4 checkbox-parent-div"
 							th:each="p : ${list}" th:if="${p.tagType == 'GENERAL'}">
 							<input class="inp-cbx checkbox check_input" th:id="${p.tagNo}"
-								type="checkbox" th:value="${p.tagNo}" name="hashtag">
-							<label class="cbx" th:for="${p.tagNo}"> <span> <svg
+								type="checkbox" th:value="${p.tagNo}" name="hashtag"> <label
+								class="cbx" th:for="${p.tagNo}"> <span> <svg
 										style="width: 12px; height: 10px;"></svg></span> <span>#
 									[[${p.tagName}]]</span>
 							</label>
