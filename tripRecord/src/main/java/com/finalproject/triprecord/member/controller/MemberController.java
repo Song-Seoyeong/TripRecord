@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.finalproject.triprecord.common.model.service.GoogleDriveService;
 import com.finalproject.triprecord.member.model.service.MemberService;
@@ -35,7 +36,10 @@ public class MemberController {
 	private GoogleDriveService gdService;
 
 	@GetMapping("loginView.me")
-	public String loginView() {
+	public String loginView(@RequestParam(value="success",required=false) String success, Model model) {
+		if(success != null) {
+			model.addAttribute("success", success);
+		}
 		return "login";
 	}
 
@@ -106,7 +110,7 @@ public class MemberController {
 
 	@PostMapping("enrollMember.me")
 	public String enrollMember(@ModelAttribute Member m, @RequestParam("memEmail") String frontEmail,
-			@RequestParam("domain") String backEmail) {
+			@RequestParam("domain") String backEmail, RedirectAttributes ra) {
 		String email = null;
 		if (!frontEmail.equals("")) {
 			email = frontEmail + "@" + backEmail;
@@ -117,6 +121,7 @@ public class MemberController {
 
 		int result = mService.enrollMember(m);
 		if (result > 0) {
+			ra.addAttribute("success", "success");
 			return "redirect:loginView.me";
 		} else {
 			return "에러페이지";
@@ -125,7 +130,7 @@ public class MemberController {
 
 	@PostMapping("enrollPlanner.me")
 	public String enrollPlanner(@ModelAttribute Member m, @ModelAttribute Planner p,
-			@RequestParam("memEmail") String frontEmail, @RequestParam("domain") String backEmail) {
+			@RequestParam("memEmail") String frontEmail, @RequestParam("domain") String backEmail, RedirectAttributes ra) {
 
 		String email = null;
 		if (!frontEmail.equals("")) {
@@ -141,6 +146,7 @@ public class MemberController {
 			p.setMemberNo(mem.getMemberNo()); // 로그인 정보에서 memberNo 가져오기
 			int result2 = mService.enrollPlanner(p); // 플래너 추가정보 입력하기
 			if (result2 > 0) {
+				ra.addAttribute("success", "success");
 				return "redirect:loginView.me";
 			} else {
 				return "에러페이지";
