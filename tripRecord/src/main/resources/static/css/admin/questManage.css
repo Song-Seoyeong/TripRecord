@@ -31,6 +31,7 @@ select:focus {
 .list-table{
 	max-height: 650px;
 	margin-bottom: 20px;
+	min-width: 620px;
 }
 
 .detail-quest{
