@@ -167,8 +167,7 @@
 	</select>
 
 	<update id="updateGrade">
-		update member set grade = 'GENERAL' where member_no =
-		#{mNo}
+		update member set grade = 'GENERAL' where member_no = #{mNo}
 	</update>
 
 	<delete id="deleteGrade">
@@ -259,10 +258,7 @@
 	</select>
 
 	<select id="selectMemberList" resultType="Member">
-		select * from member
-		<if test="rowBounds == null">
-			where status = 'Y' order by member_no asc
-		</if>
+		select * from member order by member_no asc
 	</select>
 
 	<update id="changeMemberStatus">

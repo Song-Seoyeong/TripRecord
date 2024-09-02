@@ -50,12 +50,14 @@
 							<div class="button-div display-inline-block">
 								<button type="button" class="btn btn-outline-secondary content-add" id="content-add">작성하기</button>
 							</div>
-							<div class="search-div-keyword display-inline-block">
-								<div class="input-group mb-3">
-								  	<input type="text" class="form-control box-shadow-no search-input" id="keyword" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
-								  	<button class="btn btn-outline-secondary search-box box-shadow-non" type="button" id="search">검색</button>
+							<form action="noticeManage.ad">
+								<div class="search-div-keyword display-inline-block">
+									<div class="input-group mb-3">
+									  	<input type="text" class="form-control box-shadow-no search-input" id="keyword" name="keyword" th:value="${search}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="검색어 입력">
+									  	<button class="btn btn-outline-secondary search-box box-shadow-non" type="button" id="search">검색</button>
+									</div>
 								</div>
-							</div>
+							</form>
 						</div>
 						<div class="notice-table rounded-2 list-table">
 							<table class="table-user table table-hover">
@@ -400,7 +402,7 @@
 			const keyword = document.getElementById('keyword');
 			search.addEventListener('click', function(){
 				if(keyword.value != ''){
-					location.href="noticeManage.ad?search=" + keyword.value;				
+					location.href="noticeManage.ad?keyword=" + keyword.value;				
 				}
 			});
 		

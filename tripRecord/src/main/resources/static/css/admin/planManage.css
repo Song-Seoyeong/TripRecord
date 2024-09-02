@@ -17,6 +17,10 @@
 	height: 590px;
 }
 
+.one-plan{
+	height: 128px;
+}
+
 .list-table{
 	max-height: 620px;
 	min-width: 540px;
@@ -87,8 +91,8 @@
     flex-direction: column;
     margin-left: 25px;
     margin-right: 25px;
-    margin-top: 20px;
-    margin-bottom: 60px;
+    margin-top: 30px;
+    margin-bottom: 20px;
     width: 250px;
     align-items: stretch; /* 자식 요소들이 동일한 높이를 가지도록 */
     padding-left: 65px;
