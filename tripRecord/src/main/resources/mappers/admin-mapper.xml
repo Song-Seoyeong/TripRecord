@@ -228,7 +228,8 @@
 		join member on(board_writer_no = member_no)
 		join question on(board_no = question_no)
 		where board_type = 'QUESTION' and
-		question_success = #{questionSuccess}
+		question_success = #{questionSuccess} and
+		board_status = 'N'
 	</select>
 
 	<select id="selectQuestion" resultType="Question">
