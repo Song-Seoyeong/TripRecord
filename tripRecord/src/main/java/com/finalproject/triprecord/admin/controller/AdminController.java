@@ -283,7 +283,7 @@ public class AdminController {
 		return "gradeManage";
 	}
 
-	// 일반 등급으로 전환
+	/** 일반 등급으로 전환*/
 	@GetMapping("updateGrade.ad")
 	public String updateGrade(@RequestParam("mNo") int mNo) {
 		int result = aService.updateGrade(mNo);
@@ -352,7 +352,7 @@ public class AdminController {
 	/** 공지사항 */
 	// 공지사항 관리 페이지 이동, 검색 페이지 이동
 	@GetMapping("noticeManage.ad")
-	public String noticeManageView(@RequestParam(value = "search", required = false) String search,
+	public String noticeManageView(@RequestParam(value = "keyword", required = false) String search,
 			@RequestParam(value = "page", defaultValue = "1") int currentPage, HttpServletRequest request,
 			Model model) {
 		int listCount = aService.getNoticeListCount(search);
@@ -502,7 +502,7 @@ public class AdminController {
 	/** 게시글 */
 	// 게시글 관리 페이지 이동, 검색
 	@GetMapping("boardManage.ad")
-	public String boardManageView(@RequestParam(value = "search", required = false) String search,
+	public String boardManageView(@RequestParam(value = "keyword", required = false) String search,
 			@RequestParam(value = "page", defaultValue = "1") int currentPage, Model model,
 			HttpServletRequest request) {
 		int totalCount = aService.getTotalCount();

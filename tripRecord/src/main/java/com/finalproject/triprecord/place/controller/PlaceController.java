@@ -50,7 +50,7 @@ public class PlaceController {
 			model.addAttribute("areaCode", areacode);
 			model.addAttribute("contentTypeId", contenttypeid);
 			return "recommendPlace";
-		}else {
+		} else {
 			throw new PlaceException("추천장소 이동 중 에러 발생");
 		}
 	}
@@ -99,7 +99,7 @@ public class PlaceController {
 		if(checkPlace > 0){
 			p = pService.selectPlace(ckPla);
 			list = pService.selectReviewList(contentid);
-		}else {
+		} else {
 			int result = pService.insertPlace(ckPla);
 			if(result > 0) {
 				p.setLocalNo(areacode);
@@ -107,7 +107,7 @@ public class PlaceController {
 				p.setPlaceCount(1);
 				p.setPlaceStar(0);
 				p.setPlaceName(name);
-			}else {
+			} else {
 				throw new PlaceException("장소 조회 중 에러 발생");
 			}
 		}
@@ -353,7 +353,6 @@ public class PlaceController {
 		for(int i = 0; i < files.size(); i++) {
 			MultipartFile upload = files.get(i);
 			
-			//if(!upload.getOriginalFilename().equals("")) {
 			if(upload != null && !upload.isEmpty()) {
 	            String fileId;
 	            
