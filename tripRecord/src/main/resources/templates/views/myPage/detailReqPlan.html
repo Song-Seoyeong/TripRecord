@@ -127,7 +127,9 @@
 				<input type='hidden' th:value='${rCount}' id='rCount'>
 				<button type='button' th:if='${rs.reqStatus == 2}' id="submit_button">구매확정</button>
 				<button type='button' th:if='${rs.reqStatus == 1}' id="cancle_button">신청 취소</button>
-				<button type='button' th:if='${rs.reqStatus == 3 || rs.reqStatus == 4}' id="review_button" onclick="review()">후기 작성</button>
+				<th:block th:if='${rs.reqStatus == 3 || rs.reqStatus == 4}' >
+					<button type='button' id="review_button" onclick="review()" th:text='${rCount == 0? "후기 작성":"후기 완료"}'></button>
+				</th:block>
 				<button type='button' id="back_button" onclick="back()">뒤로 가기</button>
 			</div>
 			
