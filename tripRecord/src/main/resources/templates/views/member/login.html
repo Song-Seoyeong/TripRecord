@@ -93,31 +93,11 @@
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			const success = new URLSearchParams(window.location.search);
+			const memSuccess = success.get("success") || ''; 
+			if(memSuccess == 'success'){
+				alert("회원가입에 성공하였습니다.");
+			}
 			
 			
 		}
