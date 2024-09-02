@@ -3,6 +3,7 @@ package com.finalproject.triprecord.plan.controller;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -164,6 +165,7 @@ public class PlanController {
 				pl.setMemo(memo[i]);
 			}
 			
+			
 			pl.setReserve(reserve[i]); // Y, N 들어감
 			
 			if(coCount == coNum[dNum]) { 
@@ -172,8 +174,10 @@ public class PlanController {
 				// coCount 는 날짜 하루마다 초기화됨
 				coCount = 0;
 				dNum++;
+				
 			}
 			pl.setDay(day[dNum]);
+			
 			
 			plList.add(pl);
 		}
@@ -194,19 +198,22 @@ public class PlanController {
 			tagList.add(h);
 		}
 		
-		// 처음 일정 작성하는 거면 기특하다구 포인트 줘야 됨
-		int num = plService.scheduleCount(loginUser.getMemberNo());
-		if(num == 0) {
-			plService.updatePoint(loginUser.getMemberNo()); // db 로그인 업데이트
-			loginUser.setMemberPoint(loginUser.getMemberPoint() + 1000);
-			
-			Member m = new Member();
-			m.setMemberId(loginUser.getMemberId());
-			m.setMemberPwd(loginUser.getMemberPwd());
-			mService.login(m);
-		}
-		
 		int result = plService.savePlanInsert(s, plList, tagList); // serviceImpl 주의
+		
+		if(result > 0) {
+			int num = plService.scheduleCount(loginUser.getMemberNo());
+			
+			// 처음 일정 작성하는 거면 기특하다구 포인트 줘야 됨
+			if(num == 1) {
+				plService.updatePoint(loginUser.getMemberNo()); // db 로그인 업데이트
+				loginUser.setMemberPoint(loginUser.getMemberPoint() + 1000);
+				
+				Member m = new Member();
+				m.setMemberId(loginUser.getMemberId());
+				m.setMemberPwd(loginUser.getMemberPwd());
+				mService.login(m);
+			}
+		}
 		
 		if(result > 0) {
 			return "redirect:myTripNote.mp";
@@ -356,12 +363,4 @@ public class PlanController {
 		int result = plService.detailDeletePlan(plNo);
 		return result > 0 ? "1" : "0";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }

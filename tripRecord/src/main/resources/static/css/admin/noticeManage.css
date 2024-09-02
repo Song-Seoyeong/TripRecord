@@ -54,6 +54,7 @@
 .list-table{
 	max-height:600px;
 	margin-bottom: 20px;
+	min-width: 634px;
 }
 
 .search-input:focus{

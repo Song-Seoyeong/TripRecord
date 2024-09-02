@@ -509,7 +509,7 @@
                      let dateHtml = '<div class="date">' + value + '</div><input type="hidden" name="day" value="' + value + '"/>';
                      
                      // input 입력창
-                     let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" maxlength="42" placeholder="메모 입력창"></div></div>';
+                     let planInputsHtml = '<div class="plan-inputs"><div><input type="text" class="plan-text placeInput" maxlength="20" name="place" placeholder="장소 입력창"></div><div><input type="time" class="plan-text timeInput" name="time" placeholder="시간 입력창"></div><div><input type="text" class="plan-text memoInput" name="memo" maxlength="42" placeholder="메모 입력창"></div></div>';
                   
                      // 1개의 계획 + 라인 + 원
                      let onePlanHtml = '<div class="one-plan"><div class="plan-spans"><span class="line"><span class="round"></span></span></div> ' + planInputsHtml + '<div class="plan-images"><img class="planInputIcon check-icon" style="width: 16px; height: 17px;" src="image/Check.png"/><img class="planInputIcon trash-icon" style="width: 18px; height: 17px;" src="image/Trash.png"/></div></div>';
@@ -589,10 +589,8 @@
                   }
                   
                })
-               console.log(count);
-               console.log(document.getElementById('count').value);
-               
             } 
+            
             if(check == 0){
                document.getElementById('planCreate').submit();
             }

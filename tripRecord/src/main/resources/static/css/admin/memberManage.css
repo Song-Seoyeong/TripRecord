@@ -18,6 +18,7 @@
 .list-user{
 	margin-left: 80px;
 	width: 70%;
+	min-width: 1110px;
 }
 
 .list-table{
