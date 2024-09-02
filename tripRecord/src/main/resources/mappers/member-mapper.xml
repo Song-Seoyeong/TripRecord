@@ -567,7 +567,6 @@
 		<if test="memo != null">
 			, memo = #{memo}
 		</if>
-		, confirm_date = sysdate
 		where req_no = #{reqNo}
 	</update>
 
