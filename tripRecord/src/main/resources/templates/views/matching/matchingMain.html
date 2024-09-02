@@ -83,7 +83,7 @@
 					         		<td class="fs-4" width="200px">[[${planner.Nickname}]]</td>
 					         		<td width="150px">[[${planner.localName}]]</td>
 					         		<td width="300px">
-					         			<div class="sIntro"><p style="white-space:pre-wrap;">[[${planner.sIntroContent}]]</p></div>
+					         			<div class="sIntro" style="white-space:pre-wrap;">[[${planner.sIntroContent}]]</div>
 					         		</td>
 					         		<td class="fs-5 text-start px-5" width="200px">
 					         			❤️ [[${likes[planner.memberNo]}]]<br/>
@@ -144,9 +144,7 @@ window.onload = () => {
 	for(const planner of plannerList){
 		planner.addEventListener('click', function(){
 			const pNo = planner.children[0].children[0].children[0].innerText;
-			/*<![CDATA[*/
-			location.href="selectPlanner.ma?pNo="+ pNo + "&page=" + /*[[${pi.currentPage}]]*/1;
-			/*]]>*/
+			location.href="selectPlanner.ma?pNo="+ pNo + "&page=1";
 		});
 	}
 }
