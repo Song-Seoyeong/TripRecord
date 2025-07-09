@@ -183,8 +183,6 @@
 			// yyMM 형식으로 결제 금액을 조회하는 함수
 			const getPayMonthFormat = date => {
 				const year = ('0' + (date.getMonth() + 1)).slice(-2) <= ('0' + (new Date().getMonth() + 1)).slice(-2) ? (new Date().getFullYear() + "") : ((new Date().getFullYear() - 1) + "");
-				console.log('테스트 년도');
-				console.log(year);
 				const month = ('0' + (date.getMonth() + 1)).slice(-2);
 				
 				return year + month;
